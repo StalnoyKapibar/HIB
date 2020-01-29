@@ -1,10 +1,10 @@
-package web.dao;
+package tst.pp08.dao;
 
 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
-import web.model.User;
+import tst.pp08.model.User;
 
 import java.util.List;
 

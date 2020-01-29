@@ -1,6 +1,6 @@
-package web.service;
+package tst.pp08.service;
 
-import web.model.Role;
+import tst.pp08.model.Role;
 
 import java.util.List;
 

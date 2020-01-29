@@ -1,9 +1,10 @@
-package web.service;
+package tst.pp08.service;
 
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
-import web.model.User;
+import tst.pp08.model.User;
+
 import java.util.List;
 
 

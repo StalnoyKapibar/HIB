@@ -1,6 +1,7 @@
-package web.dao;
+package tst.pp08.dao;
 
-import web.model.Role;
+import tst.pp08.model.Role;
+
 
 import java.util.List;
 

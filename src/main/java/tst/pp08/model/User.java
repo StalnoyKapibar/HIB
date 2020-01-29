@@ -1,4 +1,4 @@
-package web.model;
+package tst.pp08.model;
 
 import com.sun.istack.NotNull;
 import org.springframework.security.core.GrantedAuthority;

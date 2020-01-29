@@ -1,10 +1,10 @@
-package web.dao;
+package tst.pp08.dao;
 
 
 import com.sun.istack.NotNull;
 import org.hibernate.Transaction;
 import org.springframework.transaction.annotation.Transactional;
-import web.model.User;
+import tst.pp08.model.User;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

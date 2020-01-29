@@ -1,4 +1,4 @@
-package web.config;
+package tst.pp08.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -12,8 +12,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import web.config.handler.LoginSuccessHandler;
-import web.service.UserService;
+import tst.pp08.config.handler.LoginSuccessHandler;
+import tst.pp08.service.UserService;
 
 @Configuration
 @EnableWebSecurity
@@ -63,7 +63,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // делаем страницу регистрации недоступной для авторизированных пользователей
                 .authorizeRequests()
 
-                .antMatchers("/login").permitAll()
+                .antMatchers("/login", "/","/admin/add").permitAll()
 
 
                 //страницы аутентификаци доступна всем

@@ -1,4 +1,4 @@
-package web.service;
+package tst.pp08.service;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,9 +8,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import web.dao.UserDao;
-import web.model.Role;
-import web.model.User;
+import tst.pp08.dao.UserDao;
+import tst.pp08.model.User;
+
 
 import java.util.*;
 

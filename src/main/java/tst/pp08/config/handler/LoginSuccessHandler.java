@@ -1,4 +1,4 @@
-package web.config.handler;
+package tst.pp08.config.handler;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;

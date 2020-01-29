@@ -1,4 +1,4 @@
-package web.controller;
+package tst.pp08.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -6,11 +6,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-import web.model.Role;
-import web.model.User;
-import web.service.RoleService;
-import web.service.UserService;
+import tst.pp08.model.Role;
+import tst.pp08.model.User;
+import tst.pp08.service.RoleService;
+import tst.pp08.service.UserService;
 
 import javax.servlet.http.HttpSession;
 import java.util.*;

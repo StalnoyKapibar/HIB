@@ -1,9 +1,10 @@
-package web.service;
+package tst.pp08.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import web.dao.RoleDao;
-import web.model.Role;
+import tst.pp08.dao.RoleDao;
+import tst.pp08.model.Role;
+
 
 import java.util.List;
 
