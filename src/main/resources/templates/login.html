@@ -12,8 +12,6 @@
 <!-- /login?error=true -->
 
 
-
-
 <h3>Enter user name and password:</h3>
 <form name='f' th:action="@{/login}" method='POST'>
     <table>
@@ -21,27 +19,18 @@
             <td>User:</td>
             <td><input type='text' name='username' value=''></td>
         </tr>
+
         <tr>
             <td>Password:</td>
-            <td><input type='password' name='password' /></td>
+            <td><input type='password' name='password'/></td>
         </tr>
+
         <tr>
-            <td>Remember Me?</td>
-            <td><input type="checkbox" name="remember-me" /></td>
-        </tr>
-        <tr>
-            <td><input name="submit" type="submit" value="submit" /></td>
+            <td><input name="submit" type="submit" value="submit"/></td>
         </tr>
     </table>
 </form>
 
-<br>
-Username/pass:
-<ul>
-    <li>dbuser1/123</li>
-    <li>dbadmin1/123</li>
-</ul>
 
 </body>
-
 </html>

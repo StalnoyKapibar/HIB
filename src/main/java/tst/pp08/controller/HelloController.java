@@ -5,7 +5,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import tst.pp08.model.Role;
 import tst.pp08.model.User;
 import tst.pp08.service.RoleService;
@@ -54,33 +56,49 @@ public class HelloController {
 
 
     @RequestMapping(value = "admin/add", method = RequestMethod.GET)
-    public String printAdd(ModelMap model, HttpSession session) {
-        model.addAttribute("message", session.getAttribute("message"));
+    public String printAdd(Model model) {
+        //  model.addAttribute("message", session.getAttribute("message"));
         model.addAttribute("roleList", roleService.getAllRoles());
+
         return "registration";
     }
 
-    @RequestMapping(value = "admin/add", method = RequestMethod.POST)
-    public String printAddPost(User user, String roleId, HttpSession httpSession) {
+
+    @PostMapping("admin/add")
+    public String printAddPost(User user, String roleId) {
 
         Role role = roleService.getRoleById(Integer.parseInt(roleId));
         user.setRole(Collections.singleton(role));
         if (userService.add(user)) {
-            httpSession.setAttribute("message", "ok");
+            //      httpSession.setAttribute("message", "ok");
+            //  modelAndView.setViewName("ok");
+            //  model.addAttribute("message", "ok");
         } else {
-            httpSession.setAttribute("message", "логин занят");
+            //   httpSession.setAttribute("message", "логин занят");
+            //     modelAndView.setViewName("error");
+            //  model.addAttribute("message", "login stop");
         }
 
 
-        return "redirect:/admin/add";
+        return "redirect:/admin";
 
     }
 
+/*
     @PostMapping("admin/role")
     public String addRole(@RequestParam String roleName) {
         roleService.add(new Role(roleName));
         return "redirect:/admin/add";
+    } */
+
+
+    @RequestMapping(value = "admin/role", method = RequestMethod.POST)
+    public String printRole(String roleName) {
+        roleService.add(new Role(roleName));
+        return "redirect:/admin/add";
+
     }
+
 
     @RequestMapping(value = "admin/edit", method = RequestMethod.GET)
     public String printEdit(Model model, User user) {

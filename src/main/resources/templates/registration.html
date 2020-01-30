@@ -1,10 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Create</title>
 </head>
 <body>
-$END$
+
+<block th:utext="${message}"></block>
+
+<form name='f' th:action="@{/admin/add}" method='POST'>
+    <table>
+        <tr>
+            <td>User:</td>
+            <td><input type='text' name='username'></td>
+        </tr>
+        <tr>
+            <td>Password:</td>
+            <td><input type='password' name='password'/></td>
+        </tr>
+        <tr>
+            <td>Роль:</td>
+
+            <td>
+            <select name="roleId">
+                <th:block th:each="role: ${roleList}">
+                    <option th:value="${role.id}" th:text="${role.role}"></option>
+                </th:block>
+            </select>
+            </td>
+
+        </tr>
+        <tr>
+            <td><input name="submit" type="submit" value="submit"/></td>
+        </tr>
+    </table>
+</form>
+
+
+Создание формы
+<form th:action="@{/admin/role}" method="post">
+    <input type="text" name="roleName" size="30">
+    <input type="submit" value="ОK"/>
+</form>
+
+
+<th:authorize access="isAuthenticated()">
+    <h4><a href="/logout">Выйти</a></h4>
+</th:authorize>
 </body>
 </html>
