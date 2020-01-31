@@ -103,12 +103,15 @@ public class HelloController {
     @RequestMapping(value = "admin/edit", method = RequestMethod.GET)
     public String printEdit(Model model, User user) {
         model.addAttribute("user", user);
+        model.addAttribute("roleList", roleService.getAllRoles());
         return "edit";
 
     }
 
     @RequestMapping(value = "admin/edit", method = RequestMethod.POST)
-    public String printEditPost(User user) {
+    public String printEditPost(User user, String roleId) {
+        Role role = roleService.getRoleById(Integer.parseInt(roleId));
+        user.setRole(Collections.singleton(role));
         userService.update(user);
         return "redirect:/admin";
 
