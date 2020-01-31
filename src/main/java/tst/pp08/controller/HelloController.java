@@ -45,6 +45,8 @@ public class HelloController {
     }*/
 
 
+
+
     @RequestMapping(value = "user", method = RequestMethod.GET)
     public String printUser(ModelMap model, Authentication authentication) {
         String name = authentication.getName();
