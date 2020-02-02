@@ -144,12 +144,20 @@
 
                             <div class="form-group">
                                 <label for="exampleInputRole">Role</label>
-                                <input type="text" class="form-control" id="exampleInputRole" placeholder="Role">
+
+                                <select class="form-control" id="exampleInputRole">
+                                    <th:block th:each="role: ${roleList}">
+                                        <option th:value="${role.id}" th:text="${role.role}"></option>
+                                    </th:block>
+                                </select>
+
+
+
                             </div>
 
                             <button type="submit" class="btn btn-primary custom-centered">Add new user</button>
                         </form>
-                        ...
+
 
                     </div>
                 </div>

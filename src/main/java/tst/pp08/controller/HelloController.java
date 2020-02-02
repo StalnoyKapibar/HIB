@@ -29,6 +29,7 @@ public class HelloController {
     public String printWelcome(ModelMap model) {
         List<User> messages = userService.getUser();
         model.addAttribute("messages", messages);
+        model.addAttribute("roleList", roleService.getAllRoles());
         return "hello";
     }
 
