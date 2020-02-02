@@ -1,32 +1,89 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<html lang="en">
+<html lang="en" xmlns:th="">
 <head>
+
+
     <meta charset="UTF-8">
-    <title>User</title>
+    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+
 </head>
 <body>
-<table border="1" cellspacing="0" cellpadding="2">
-    <tr>
-        <td>ID</td>
-        <td>Username</td>
-        <td>Password</td>
-        <td>Role</td>
-    </tr>
 
-    <tr>
 
-        <td th:utext="${messages.id}"></td>
-        <td th:utext="${messages.username}"></td>
-        <td th:utext="${messages.password}"></td>
-        <td th:utext="${role}"></td>
+<nav class="navbar navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">PP09</a>
+    <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+            <th:authorize access="isAuthenticated()">
+                <a class="nav-link" href="/logout">Logout</a>
+            </th:authorize>
+        </li>
+    </ul>
+</nav>
 
-    </tr>
-</table>
+<div class="row">
+    <div class="col-2">
+        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            <a class="nav-link" id="v-pills-home-tab" data-toggle="pill" href="/admin" th:href="@{/admin}" role="tab"
+               aria-controls="v-pills-home" aria-selected="false">Admin</a>
+            <a class="nav-link active" id="v-pills-profile-tab" data-toggle="pill" href="/user" th:href="@{/user}"
+               role="tab" aria-controls="v-pills-profile" aria-selected="true">User</a>
+        </div>
 
-<th:authorize access="isAuthenticated()">
-    <h4><a href="/logout">Выйти</a></h4>
-</th:authorize>
+    </div>
+
+
+    <div class="col-9 mt-3">
+        <div class="tab-content" id="v-pills-tabContent">
+            <div class="tab-pane fade show active" id="v-pills-profile" role="tabpanel"
+                 aria-labelledby="v-pills-profile-tab">
+                <h1>User page</h1>
+                <div class="tab-content tab - border" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                        <div class="table">
+                            <ul class="list-group">
+                                <li class="list-group-item list-group-item-light">User</li>
+                            </ul>
+
+
+                            <table class="table table-striped ">
+                                <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Role</th>
+                                    <th scope="col">Login</th>
+                                    <th scope="col">Password</th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td th:utext="${messages.id}"></td>
+                                    <td th:utext="${role}"></td>
+                                    <td th:utext="${messages.username}"></td>
+                                    <td th:utext="${messages.password}"></td>
+
+                                </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                    </div>
+                    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">...
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
 
 </body>
 </html>

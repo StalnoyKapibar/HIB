@@ -53,7 +53,7 @@ public class HelloController {
         User user = userService.findByUsername(name);
         model.addAttribute("messages", user);
         model.addAttribute("role", user.getRole().iterator().next().getRole());
-        return "user";
+        return "User";
     }
 
 

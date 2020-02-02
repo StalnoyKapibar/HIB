@@ -1,55 +1,174 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="">
 <head>
+
+
     <meta charset="UTF-8">
-    <title>Admin</title>
+    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+
+    <style type="text/css">
+        .custom-centered{
+            text-align: center;
+            margin:0 auto;
+            width:300px;
+        }
+    </style>
+
 </head>
 <body>
 
-<a th:href="@{/admin/add}">Создать</a>
 
-<br><a th:href="@{/user}">Юзер</a>
+<nav class="navbar  navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">PP09</a>
+    <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+            <th:authorize access="isAuthenticated()">
+                <a class="nav-link" href="/logout">Logout</a>
+            </th:authorize>
+        </li>
+    </ul>
+</nav>
 
-<form name='f' th:action="@{/admin/add}" method='POST'>
+<div class="row">
+    <div class="col-2">
+        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab"
+               aria-controls="v-pills-home" aria-selected="true">Admin</a>
+            <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab"
+               aria-controls="v-pills-profile" aria-selected="false">User</a>
 
-    <table border="1" cellspacing="0" cellpadding="2">
-        <tr>
-            <td>ID</td>
-            <td>Login</td>
-            <td>Password</td>
-            <td>Role</td>
-            <td>Edit</td>
-            <td>Delete</td>
-        </tr>
+        </div>
+    </div>
+    <div class="col-9">
+        <div class="tab-content" id="v-pills-tabContent">
+            <div class="tab-pane fade show active mt-3" id="v-pills-home" role="tabpanel"
+                 aria-labelledby="v-pills-home-tab">
 
+                <h1>Admin panel</h1>
 
-        <th:block th:each="msg : ${messages}">
-            <tr>
+                <nav>
+                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home"
+                           role="tab" aria-controls="nav-home" aria-selected="true">Users table</a>
 
-                <td th:utext="${msg.id}"></td>
-                <td th:utext="${msg.username}"></td>
-                <td th:utext="${msg.password}"></td>
-                <td>
-                    <th:block th:each="roleee : ${msg.role}">
-                        <th:block th:utext="${roleee.role}"></th:block>
-                    </th:block>
-                </td>
-
-                <td><a th:href="@{'/admin/edit?username=' + ${msg.username} + '&id=' + ${msg.id}}">Изменить</a></td>
-                <td>
-                    <a th:href="@{'/admin/del?username=' + ${msg.username} + '&id=' + ${msg.id} + '&password=' + ${msg.password}}">Удалить</a>
-                </td>
-            </tr>
-
-        </th:block>
+                        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile"
+                           role="tab" aria-controls="nav-profile" aria-selected="false">New user</a>
 
 
-    </table>
-</form>
+                    </div>
+                </nav>
 
-<th:authorize access="isAuthenticated()">
-    <h4><a href="/logout">Выйти</a></h4>
-</th:authorize>
 
+
+
+
+                <div class="tab-content tab - border" id="nav-tabContent">
+
+
+
+                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                        <div class="table">
+                            <ul class="list-group">
+                                <li class="list-group-item list-group-item-light">All users</li>
+                            </ul>
+
+
+                            <table class="table table-striped ">
+                                <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Role</th>
+                                    <th scope="col">Login</th>
+                                    <th scope="col">Password</th>
+                                    <th scope="col">Edit</th>
+                                    <th scope="col">Delete</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <th:block th:each="msg : ${messages}">
+                                <tr>
+
+
+
+                                    <td th:utext="${msg.id}"></td>
+                                    <td>
+                                        <th:block th:each="roleee : ${msg.role}">
+                                            <th:block th:utext="${roleee.role}"></th:block>
+                                        </th:block>
+                                    </td>
+                                    <td th:utext="${msg.username}"></td>
+                                    <td th:utext="${msg.password}"></td>
+
+                                    <td>
+                                        <a class="btn btn-primary btn-warning"  th:href="@{'/admin/edit?username=' + ${msg.username} + '&id=' + ${msg.id}}" role="button">Изменить</a>
+                                    </td>
+
+
+                                    <td>
+                                        <a class="btn btn-primary btn-danger"  th:href="@{'/admin/del?username=' + ${msg.username} + '&id=' + ${msg.id} + '&password=' + ${msg.password}}" role="button">Удалить</a>
+
+                                    </td>
+
+
+                                </tr>
+
+
+                                </th:block>
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                    </div>
+
+
+
+                    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                        <ul class="list-group">
+                            <li class="list-group-item list-group-item-light">Add new user</li>
+                        </ul>
+
+                        <form role="form" class="custom-centered">
+
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Username</label>
+                                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Username">
+
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Password</label>
+                                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="exampleInputRole">Role</label>
+                                <input type="text" class="form-control" id="exampleInputRole" placeholder="Role">
+                            </div>
+
+                            <button type="submit" class="btn btn-primary custom-centered">Add new user</button>
+                        </form>
+                        ...
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" th:action="@{/user}"  aria-labelledby="v-pills-profile-tab">ююю
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
 </html>
