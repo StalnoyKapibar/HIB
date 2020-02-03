@@ -57,14 +57,14 @@ public class HelloController {
         return "User";
     }
 
-
+/*
     @RequestMapping(value = "admin/add", method = RequestMethod.GET)
     public String printAdd(Model model) {
         //  model.addAttribute("message", session.getAttribute("message"));
         model.addAttribute("roleList", roleService.getAllRoles());
 
         return "registration";
-    }
+    }*/
 
 
     @PostMapping("admin/add")
@@ -94,27 +94,28 @@ public class HelloController {
         return "redirect:/admin/add";
     } */
 
-
+/*
     @RequestMapping(value = "admin/role", method = RequestMethod.POST)
     public String printRole(String roleName) {
         roleService.add(new Role(roleName));
         return "redirect:/admin/add";
 
-    }
+    }*/
 
-
+/*
     @RequestMapping(value = "admin/edit", method = RequestMethod.GET)
     public String printEdit(Model model, User user) {
         model.addAttribute("user", user);
         model.addAttribute("roleList", roleService.getAllRoles());
         return "edit";
 
-    }
+    }*/
 
     @RequestMapping(value = "admin/edit", method = RequestMethod.POST)
     public String printEditPost(User user, String roleId) {
         Role role = roleService.getRoleById(Integer.parseInt(roleId));
         user.setRole(Collections.singleton(role));
+     //   userService.delete(user.getId());
         userService.update(user);
         return "redirect:/admin";
 

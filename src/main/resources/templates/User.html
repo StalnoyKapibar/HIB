@@ -25,12 +25,14 @@
 
 <div class="row">
     <div class="col-2">
-        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-            <a class="nav-link" id="v-pills-home-tab" data-toggle="pill" href="/admin" th:href="@{/admin}" role="tab"
-               aria-controls="v-pills-home" aria-selected="false">Admin</a>
-            <a class="nav-link active" id="v-pills-profile-tab" data-toggle="pill" href="/user" th:href="@{/user}"
-               role="tab" aria-controls="v-pills-profile" aria-selected="true">User</a>
-        </div>
+        <ul class="nav nav-pills flex-column">
+            <li class="nav-item">
+                <a th:href="@{/admin}" class="nav-link">Admin</a>
+            </li>
+            <li class="nav-item">
+                <a th:href="@{/user}" class="nav-link active">User</a>
+            </li>
+        </ul>
 
     </div>
 
@@ -40,7 +42,7 @@
             <div class="tab-pane fade show active" id="v-pills-profile" role="tabpanel"
                  aria-labelledby="v-pills-profile-tab">
                 <h1>User page</h1>
-                <div class="tab-content tab - border" id="nav-tabContent">
+                <div class="tab-content tab - border mt-3" id="nav-tabContent">
                     <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                         <div class="table">
                             <ul class="list-group">
@@ -73,8 +75,7 @@
 
 
                     </div>
-                    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">...
-                    </div>
+
                 </div>
 
 
