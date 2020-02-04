@@ -143,19 +143,33 @@
                                                                            placeholder="Password">
                                                                 </div>
 
+
+
                                                                 <div class="form-group">
-                                                                    <label for="exampleInputRole1">Role</label>
+                                                                    <label for="exampleInput11">Role</label>
+                                                                    <div class="border">
+                                                                        <div class="form-check-inline"
 
-                                                                    <select name="roleId" class="form-control"
-                                                                            id="exampleInputRole1">
-                                                                        <th:block th:each="role: ${roleList}">
-                                                                            <option th:value="${role.id}"
-                                                                                    th:text="${role.role}"></option>
-                                                                        </th:block>
-                                                                    </select>
+                                                                             th:each="role : ${roleList}">
+                                                                            <label class="font-weight-bold form-check-label" >
+                                                                                <input type="checkbox"
 
-
+                                                                                       class="form-check-input"
+                                                                                       name="roleId"
+                                                                                       th:value="${role.getId()}">
+                                                                                <span class="text-uppercase"
+                                                                                      th:text="${role.getRole()}"
+                                                                                      id="exampleInput11"></span>
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
+
+
+
+
+
+
 
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-secondary"
@@ -223,17 +237,24 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="exampleInputRole">Role</label>
+                                <label for="exampleInput">Role</label>
+                                <div class="border">
+                                <div class="form-check-inline"
 
-                                <select name="roleId" class="form-control" id="exampleInputRole">
-                                    <th:block th:each="role: ${roleList}">
-                                        <option th:value="${role.id}" th:text="${role.role}"></option>
-                                    </th:block>
-                                </select>
+                                     th:each="role : ${roleList}">
+                                    <label class="font-weight-bold form-check-label" >
+                                        <input type="checkbox"
 
-
+                                               class="form-check-input"
+                                               name="roleId"
+                                               th:value="${role.getId()}">
+                                        <span class="text-uppercase"
+                                              th:text="${role.getRole()}"
+                                              id="exampleInput"></span>
+                                    </label>
+                                </div>
                             </div>
-
+                            </div>
                             <button type="submit" class="btn btn-primary custom-centered" href="#">Add new user</button>
                         </form>
 

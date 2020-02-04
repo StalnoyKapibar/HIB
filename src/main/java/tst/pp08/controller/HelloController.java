@@ -15,10 +15,14 @@ import tst.pp08.service.UserService;
 
 import javax.servlet.http.HttpSession;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Controller
 public class HelloController {
 
+
+    private List<Role> allRoles0;
     @Autowired
     private UserService userService;
     @Autowired
@@ -26,10 +30,11 @@ public class HelloController {
 
 
     @RequestMapping(value = "admin", method = RequestMethod.GET)
-    public String printWelcome(ModelMap model) {
+    public String printWelcome(Model model) {
+        allRoles0 = roleService.getAllRoles();
         List<User> messages = userService.getUser();
         model.addAttribute("messages", messages);
-        model.addAttribute("roleList", roleService.getAllRoles());
+        model.addAttribute("roleList", allRoles0);
         return "hello";
     }
 
@@ -46,10 +51,8 @@ public class HelloController {
     }*/
 
 
-
-
     @RequestMapping(value = "user", method = RequestMethod.GET)
-    public String printUser(ModelMap model, Authentication authentication) {
+    public String printUser(Model model, Authentication authentication) {
         String name = authentication.getName();
         User user = userService.findByUsername(name);
         model.addAttribute("messages", user);
@@ -68,19 +71,29 @@ public class HelloController {
 
 
     @PostMapping("admin/add")
-    public String printAddPost(User user, String roleId) {
+    public String printAddPost(User user, String[] roleId) {
 
-        Role role = roleService.getRoleById(Integer.parseInt(roleId));
-        user.setRole(Collections.singleton(role));
-        if (userService.add(user)) {
-            //      httpSession.setAttribute("message", "ok");
-            //  modelAndView.setViewName("ok");
-            //  model.addAttribute("message", "ok");
-        } else {
-            //   httpSession.setAttribute("message", "логин занят");
-            //     modelAndView.setViewName("error");
-            //  model.addAttribute("message", "login stop");
+        List<Role> allRoles = new ArrayList<>(allRoles0);
+        List<Role> existAllRoles = new ArrayList<>();
+        for (Role rolll : allRoles) {
+            int qqq = 0;
+
+            for (int i = 0; i < roleId.length; i++) {
+                qqq = Integer.parseInt(roleId[i]);
+                int dig = rolll.getId();
+                if (dig == qqq) {
+                    existAllRoles.add(rolll);
+
+                }
+
+            }
         }
+
+
+        // Stream.of(roleId).map(Role::new).collect(Collectors.toList());
+        allRoles.retainAll(existAllRoles);
+        user.setRole(new HashSet<>(allRoles));
+        userService.add(user);
 
 
         return "redirect:/admin";
@@ -112,10 +125,31 @@ public class HelloController {
     }*/
 
     @RequestMapping(value = "admin/edit", method = RequestMethod.POST)
-    public String printEditPost(User user, String roleId) {
-        Role role = roleService.getRoleById(Integer.parseInt(roleId));
-        user.setRole(Collections.singleton(role));
-     //   userService.delete(user.getId());
+    public String printEditPost(User user, String[] roleId) {
+        List<Role> allRoles = new ArrayList<>(allRoles0);
+        List<Role> existAllRoles = new ArrayList<>();
+        for (Role rolll : allRoles) {
+            int qqq = 0;
+
+            for (int i = 0; i < roleId.length; i++) {
+                qqq = Integer.parseInt(roleId[i]);
+                int dig = rolll.getId();
+                if (dig == qqq) {
+                    existAllRoles.add(rolll);
+
+                }
+
+            }
+        }
+
+
+        // Stream.of(roleId).map(Role::new).collect(Collectors.toList());
+        allRoles.retainAll(existAllRoles);
+        user.setRole(new HashSet<>(allRoles));
+
+        //List<Role> role = roleService.getRoleById(roleId);
+        //   user.setRole(Collections.singleton(role));
+        //   userService.delete(user.getId());
         userService.update(user);
         return "redirect:/admin";
 

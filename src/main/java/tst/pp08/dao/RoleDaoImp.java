@@ -13,6 +13,8 @@ import java.util.List;
 @Transactional
 public class RoleDaoImp implements RoleDao {
 
+    private RoleDao roleDao;
+
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -32,4 +34,6 @@ public class RoleDaoImp implements RoleDao {
     public Role getRoleById(int id) {
         return entityManager.find(Role.class, id);
     }
+
+
 }
