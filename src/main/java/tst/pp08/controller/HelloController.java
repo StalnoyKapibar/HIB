@@ -1,5 +1,6 @@
 package tst.pp08.controller;
 
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,7 @@ import tst.pp08.model.User;
 import tst.pp08.service.RoleService;
 import tst.pp08.service.UserService;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -30,11 +32,12 @@ public class HelloController {
 
 
     @RequestMapping(value = "admin", method = RequestMethod.GET)
-    public String printWelcome(Model model) {
+    public String printWelcome(Model model, HttpServletResponse response) {
         allRoles0 = roleService.getAllRoles();
         List<User> messages = userService.getUser();
         model.addAttribute("messages", messages);
         model.addAttribute("roleList", allRoles0);
+
         return "hello";
     }
 
@@ -70,7 +73,7 @@ public class HelloController {
     }*/
 
 
-    @PostMapping("admin/add")
+  /*  @PostMapping("admin/add")
     public String printAddPost(User user, String[] roleId) {
 
         List<Role> allRoles = new ArrayList<>(allRoles0);
@@ -98,7 +101,7 @@ public class HelloController {
 
         return "redirect:/admin";
 
-    }
+    }*/
 
 /*
     @PostMapping("admin/role")

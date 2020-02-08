@@ -63,13 +63,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // делаем страницу регистрации недоступной для авторизированных пользователей
                 .authorizeRequests()
 
-                .antMatchers("/login", "/css/signin.css", "/css/sig.css").permitAll()
+                .antMatchers("/login", "/css/signin.css", "/css/sig.css", "/admin", "/admin/*", "/user").permitAll();
 
                 //страницы аутентификаци доступна всем
 
                 // защищенные URL
-                .antMatchers("/user").access("hasAnyAuthority('user', 'admin')")
-                .antMatchers("/admin", "/admin/*").access("hasAnyAuthority('admin')").anyRequest().authenticated();
+              //  .antMatchers("/user").access("hasAnyAuthority('user', 'admin')")
+           //     .antMatchers().access("hasAnyAuthority('admin')").anyRequest().authenticated();
         //   .antMatchers("/user").hasAnyAuthority("user", "admin");
     }
 

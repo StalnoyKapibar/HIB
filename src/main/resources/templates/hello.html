@@ -10,7 +10,7 @@
 
     <link rel="stylesheet" type="text/css" href="css/sig.css">
 </head>
-<body>
+<body onload="startProgress();">
 
 
 <nav class="navbar  navbar-dark bg-dark">
@@ -144,14 +144,13 @@
                                                                 </div>
 
 
-
                                                                 <div class="form-group">
                                                                     <label for="exampleInput11">Role</label>
                                                                     <div class="border">
                                                                         <div class="form-check-inline"
 
                                                                              th:each="role : ${roleList}">
-                                                                            <label class="font-weight-bold form-check-label" >
+                                                                            <label class="font-weight-bold form-check-label">
                                                                                 <input type="checkbox"
 
                                                                                        class="form-check-input"
@@ -164,11 +163,6 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-
-
-
-
-
 
 
                                                                 <div class="modal-footer">
@@ -216,46 +210,105 @@
 
                     </div>
 
+                    <script type="text/javascript">
+                        function startProgress() {
+
+                            $.ajax({
+
+                                url: '/admin/alcoves',
+                                datatype: 'json',
+                                type: "post",
+                                contentType: "application/json",
+                                data: JSON.stringify({}),
+                                success: function (data) {
+                                    let b = document.getElementById("exampleInput");
+                                    data.forEach(e => b.innerHTML += "<span>" + e.role + "</span>");
+
+                                    let bc = document.getElementById("id");
+                                    data.forEach(ec => bc.innerHTML += "<span>" + ec.role + "</span>");
+
+
+                                   // $(data).each(function (i, user));
+
+                                 /*   for (let item of data) {
+                                        $("#id").text(item.id);
+                                        $("#exampleInput").text(item.role);
+                                    }*/
+                                }
+                            });
+                        }
+                    </script>
+
 
                     <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                         <ul class="list-group">
                             <li class="list-group-item list-group-item-light">Add new user</li>
                         </ul>
 
-                        <form role="form" class="custom-centered" th:action="@{/admin/add}" method='POST'>
+                        <form role="form" class="custom-centered">
 
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Username</label>
-                                <input type="text" class="form-control" name='username' id="exampleInputEmail1"
+                                <label for="username">Username</label>
+                                <input type="text" class="form-control" name="username" id="username"
                                        aria-describedby="emailHelp" placeholder="Enter Username">
 
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputPassword1">Password</label>
-                                <input type="password" class="form-control" name='password' id="exampleInputPassword1"
-                                       placeholder="Password">
+                                <label for="password">Password</label>
+                                <input type="password" class="form-control" name="password" id="password"
+                                       placeholder="Enter Password">
                             </div>
 
                             <div class="form-group">
                                 <label for="exampleInput">Role</label>
                                 <div class="border">
-                                <div class="form-check-inline"
+                                    <div class="form-check-inline">
 
-                                     th:each="role : ${roleList}">
-                                    <label class="font-weight-bold form-check-label" >
-                                        <input type="checkbox"
+                                        <label class="font-weight-bold form-check-label">
+                                            <input type="checkbox"
+                                                   class="form-check-input"
+                                                   name="roleId"
+                                                   id="id"
 
-                                               class="form-check-input"
-                                               name="roleId"
-                                               th:value="${role.getId()}">
-                                        <span class="text-uppercase"
-                                              th:text="${role.getRole()}"
-                                              id="exampleInput"></span>
-                                    </label>
+
+                                            >
+                                            <span class="text-uppercase"
+
+                                                  id="exampleInput"></span>
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
-                            </div>
-                            <button type="submit" class="btn btn-primary custom-centered" href="#">Add new user</button>
+                            <button type="submit" onclick="myFunction()" class="btn btn-primary custom-centered">Add new
+                                user
+                            </button>
+
+
+                            <script type="text/javascript">
+                                function myFunction() {
+
+                                    //function which send ajax request to the server
+                                    var username = $('#username').val();
+                                    var password = $('#password').val();
+                                    $.ajax({
+
+                                        url: '/admin/add',
+                                        datatype: 'json',
+                                        type: "post",
+                                        contentType: "application/json",
+                                        data: JSON.stringify({
+                                            username: username,
+                                            password: password
+                                        }),
+                                        success: function (data) {
+                                            console.log(data);
+                                            $("#paragraph").text(data.message);
+                                        }
+                                    });
+                                }
+                            </script>
+
+
                         </form>
 
 
@@ -269,6 +322,7 @@
     </div>
 </div>
 
+
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
@@ -278,5 +332,10 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
+
+<script
+        src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+
+</script>
 </body>
 </html>
