@@ -221,11 +221,14 @@
                                 contentType: "application/json",
                                 data: JSON.stringify({}),
                                 success: function (data) {
-                                    let b = document.getElementById("exampleInput");
+                                    $("#border").append("<div class='headline'><input type='text' placeholder='Заголовок' class='head'></div>");
+                                  
+                                  /*
+                                    let b = document.getElementById("border");
                                     data.forEach(e => b.innerHTML += "<span>" + e.role + "</span>");
 
                                     let bc = document.getElementById("id");
-                                    data.forEach(ec => bc.innerHTML += "<span>" + ec.role + "</span>");
+                                    data.forEach(ec => bc.innerHTML += "<span>" + ec.role + "</span>"); */
 
 
                                    // $(data).each(function (i, user));
@@ -261,22 +264,11 @@
 
                             <div class="form-group">
                                 <label for="exampleInput">Role</label>
-                                <div class="border">
-                                    <div class="form-check-inline">
-
-                                        <label class="font-weight-bold form-check-label">
-                                            <input type="checkbox"
-                                                   class="form-check-input"
-                                                   name="roleId"
-                                                   id="id"
+                                <div class="border" id = "border">
 
 
-                                            >
-                                            <span class="text-uppercase"
 
-                                                  id="exampleInput"></span>
-                                        </label>
-                                    </div>
+
                                 </div>
                             </div>
                             <button type="submit" onclick="myFunction()" class="btn btn-primary custom-centered">Add new
