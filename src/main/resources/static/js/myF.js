@@ -6,48 +6,33 @@
         var password = $('#password').val();
         var a=$('input:checked'); //выбираем все отмеченные checkbox
         var out=[]; //выходной массив
-        var List = new Set();
+        var List = new Array();
         for (var x=0; x<a.length;x++){ //перебераем все объекты
             out.push(a[x].value); //добавляем значения в выходной массив
         }
-        $.ajax({
-            url: '/admin/alcoves',
-            datatype: 'json',
-            type: "post",
-            contentType: "application/json",
-            data: JSON.stringify({}),
-            success: function (allRoles0) {
+        var array = getTemp();
 
-                for (let item of allRoles0) {
-                    List.add(item);
-                    var qqq = 0;
-                    for (let item00 of out) {
-                        qqq = item00;
-                        var dig = item.id;
-                        if (dig == qqq) {
-                            List.add(item);
 
-                        }
 
-                    }
+        for (let item of array) {
+
+            var qqq = 0;
+            for (let item00 of out) {
+                qqq = item00;
+                var dig = item.id;
+                if (dig == qqq) {
+                    List.push(item);
 
                 }
 
-
-
-
             }
-        });
 
+        }
+        List.filter(x => array.includes(x))
 
-
-
-
+        var roles = new Set(List);
 
         alert(out);
-        //   $obj = toObject($out);
-
-
 
         $.ajax({
 
@@ -55,11 +40,10 @@
             datatype: 'json',
             type: "post",
             contentType: "application/json",
-            charset: "utf-8",
             data: JSON.stringify({
                 username: username,
                 password: password,
-                roles: List
+                roles: roles,
             }),
             success: function (data) {
 

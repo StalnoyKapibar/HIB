@@ -24,7 +24,7 @@ import java.util.stream.Stream;
 public class HelloController {
 
 
-    private List<Role> allRoles0;
+    public static List<Role> allRoles0;
     @Autowired
     private UserService userService;
     @Autowired
@@ -32,7 +32,7 @@ public class HelloController {
 
 
     @RequestMapping(value = "admin", method = RequestMethod.GET)
-    public String printWelcome(Model model, HttpServletResponse response) {
+    public String printWelcome(Model model) {
         allRoles0 = roleService.getAllRoles();
         List<User> messages = userService.getUser();
         model.addAttribute("messages", messages);
@@ -65,7 +65,7 @@ public class HelloController {
 
 /*
     @RequestMapping(value = "admin/add", method = RequestMethod.GET)
-    public String printAdd(Model model) {
+    public String printAdd() {
         //  model.addAttribute("message", session.getAttribute("message"));
         model.addAttribute("roleList", roleService.getAllRoles());
 
@@ -76,7 +76,7 @@ public class HelloController {
   /*  @PostMapping("admin/add")
     public String printAddPost(User user, String[] roleId) {
 
-        List<Role> allRoles = new ArrayList<>(allRoles0);
+
         List<Role> existAllRoles = new ArrayList<>();
         for (Role rolll : allRoles) {
             int qqq = 0;
@@ -127,36 +127,36 @@ public class HelloController {
 
     }*/
 
-    @RequestMapping(value = "admin/edit", method = RequestMethod.POST)
-    public String printEditPost(User user, String[] roleId) {
-        List<Role> allRoles = new ArrayList<>(allRoles0);
-        List<Role> existAllRoles = new ArrayList<>();
-        for (Role rolll : allRoles) {
-            int qqq = 0;
-
-            for (int i = 0; i < roleId.length; i++) {
-                qqq = Integer.parseInt(roleId[i]);
-                int dig = rolll.getId();
-                if (dig == qqq) {
-                    existAllRoles.add(rolll);
-
-                }
-
-            }
-        }
-
-
-        // Stream.of(roleId).map(Role::new).collect(Collectors.toList());
-        allRoles.retainAll(existAllRoles);
-        user.setRole(new HashSet<>(allRoles));
-
-        //List<Role> role = roleService.getRoleById(roleId);
-        //   user.setRole(Collections.singleton(role));
-        //   userService.delete(user.getId());
-        userService.update(user);
-        return "redirect:/admin";
-
-    }
+//    @RequestMapping(value = "admin/edit", method = RequestMethod.POST)
+//    public String printEditPost(User user, String[] roleId) {
+//        List<Role> allRoles = new ArrayList<>(allRoles0);
+//        List<Role> existAllRoles = new ArrayList<>();
+//        for (Role rolll : allRoles) {
+//            int qqq = 0;
+//
+//            for (int i = 0; i < roleId.length; i++) {
+//                qqq = Integer.parseInt(roleId[i]);
+//                int dig = rolll.getId();
+//                if (dig == qqq) {
+//                    existAllRoles.add(rolll);
+//
+//                }
+//
+//            }
+//        }
+//
+//
+//        // Stream.of(roleId).map(Role::new).collect(Collectors.toList());
+//        allRoles.retainAll(existAllRoles);
+//        user.setRole(new HashSet<>(allRoles));
+//
+//        //List<Role> role = roleService.getRoleById(roleId);
+//        //   user.setRole(Collections.singleton(role));
+//        //   userService.delete(user.getId());
+//        userService.update(user);
+//        return "redirect:/admin";
+//
+//    }
 
     @RequestMapping(value = "admin/del", method = RequestMethod.GET)
     public String printDel(User user) {
