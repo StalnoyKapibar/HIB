@@ -1,1 +1,8 @@
-{ "properties": [ ] }
+{
+  "properties": [
+    {
+      "name": "hibernate.hbm2ddl.auto",
+      "type": "java.lang.String",
+      "description": "Description for hibernate.hbm2ddl.auto."
+  }
+] }

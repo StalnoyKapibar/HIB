@@ -5,12 +5,14 @@
 
     <meta charset="UTF-8">
     <title>Title</title>
+
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 
 
     <link rel="stylesheet" type="text/css" href="css/sig.css">
 </head>
-<body onload="startProgress();">
+<body onload="startProgress(); getuser();" >
 
 
 <nav class="navbar  navbar-dark bg-dark">
@@ -65,145 +67,26 @@
                             </ul>
 
 
-                            <table class="table table-striped ">
+
+                            <table class="table table-striped" id = "extra">
                                 <thead>
                                 <tr>
                                     <th scope="col">ID</th>
                                     <th scope="col">Role</th>
-                                    <th scope="col">Login</th>
+                                    <th scope="col">Username</th>
                                     <th scope="col">Password</th>
                                     <th scope="col">Edit</th>
                                     <th scope="col">Delete</th>
                                 </tr>
                                 </thead>
-                                <tbody>
-                                <th:block th:each="msg : ${messages}">
-                                    <tr>
 
 
-                                        <td th:utext="${msg.id}"></td>
-                                        <td>
-                                            <th:block th:each="roleee : ${msg.role}">
-                                                <th:block th:utext="${roleee.role}"></th:block>
-                                            </th:block>
-                                        </td>
-                                        <td th:utext="${msg.username}"></td>
-                                        <td th:utext="${msg.password}"></td>
-
-                                        <td>
-
-                                            <button type="button" class="btn btn-primary" data-toggle="modal"
-                                                    th:data-target="'#'+'a'+${msg.id}">
-                                                Edit
-                                            </button>
-
-                                            <div class="modal fade" th:id="'a'+${msg.id}" tabindex="-1" role="dialog"
-                                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModalLabel">Edit
-                                                                <th:block
-                                                                        th:text="'username: '+${msg.username}"></th:block>
-                                                            </h5>
-                                                            <button type="button" class="close" data-dismiss="modal"
-                                                                    aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body">
 
 
-                                                            <form role="form" class="custom-centered"
-                                                                  th:action="@{/admin/edit}" method='POST'>
-
-                                                                <div class="form-group">
-                                                                    <label for="exampleInputId">Id</label>
-                                                                    <input type="text" class="form-control" name='id'
-                                                                           th:value="${msg.id}" id="exampleInputId"
-                                                                           aria-describedby="emailHelp" placeholder="Id"
-                                                                           readonly>
-
-                                                                </div>
-
-                                                                <div class="form-group">
-                                                                    <label for="exampleInputEmail11">Username</label>
-                                                                    <input type="text" class="form-control"
-                                                                           name='username' th:value="${msg.username}"
-                                                                           id="exampleInputEmail11"
-                                                                           aria-describedby="emailHelp"
-                                                                           placeholder="Enter Username">
-
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="exampleInputPassword11">Password</label>
-                                                                    <input type="password" class="form-control"
-                                                                           name='password' th:value="${msg.password}"
-                                                                           id="exampleInputPassword11"
-                                                                           placeholder="Password">
-                                                                </div>
 
 
-                                                                <div class="form-group">
-                                                                    <label for="exampleInput11">Role</label>
-                                                                    <div class="border">
-                                                                        <div class="form-check-inline"
-
-                                                                             th:each="role : ${roleList}">
-                                                                            <label class="font-weight-bold form-check-label">
-                                                                                <input type="checkbox"
-
-                                                                                       class="form-check-input"
-                                                                                       name="roleId"
-                                                                                       th:value="${role.getId()}">
-                                                                                <span class="text-uppercase"
-                                                                                      th:text="${role.getRole()}"
-                                                                                      id="exampleInput11"></span>
-                                                                            </label>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
 
 
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-secondary"
-                                                                            data-dismiss="modal">Close
-                                                                    </button>
-                                                                    <button type="submit" class="btn btn-primary"
-                                                                            role="button">Save changes
-                                                                    </button>
-                                                                </div>
-                                                            </form>
-
-
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-                                        </td>
-
-                                        <!-- Button trigger modal -->
-
-
-                                        <!-- Modal -->
-
-
-                                        <td>
-                                            <a class="btn btn-primary btn-danger"
-                                               th:href="@{'/admin/del?username=' + ${msg.username} + '&id=' + ${msg.id} + '&password=' + ${msg.password}}"
-                                               role="button">Удалить</a>
-
-                                        </td>
-
-
-                                    </tr>
-
-
-                                </th:block>
-                                </tbody>
                             </table>
                         </div>
 
@@ -233,7 +116,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="exampleInput">Role</label>
+                                <label for="exampleInput">Roles</label>
                                 <div class="border" id = "border">
 
                                 </div>
@@ -269,15 +152,12 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-<script
-        src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
-
-</script>
-<script src="js/myF.js"></script>
-<script src="js/getTemp.js"></script>
 
 <script src="js/s.js"></script>
+<script src="js/myF.js"></script>
+<script src="js/getuser.js"></script>
 
 
 </body>

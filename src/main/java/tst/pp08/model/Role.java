@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -24,7 +25,7 @@ public class Role implements GrantedAuthority {
 
 
     @ManyToMany(mappedBy = "roles")
-    private Set<User> users;
+    private List<User> users;
 
 
     public Role() {
@@ -57,4 +58,6 @@ public class Role implements GrantedAuthority {
     public String getAuthority() {
         return role;
     }
+
+
 }

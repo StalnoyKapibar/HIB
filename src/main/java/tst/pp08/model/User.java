@@ -1,14 +1,12 @@
 package tst.pp08.model;
 
-import com.sun.istack.NotNull;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 
 @Entity
@@ -30,13 +28,13 @@ public class User implements UserDetails {
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-    private Set<Role> roles;
+    private List<Role> roles;
 
-    public Set<Role> getRole() {
+    public List<Role> getRoles() {
         return roles;
     }
 
-    public void setRole(Set<Role> roles) {
+    public void setRoles(List<Role> roles) {
 
         this.roles = roles;
     }
@@ -46,12 +44,9 @@ public class User implements UserDetails {
 
     }
 
-    public User(int id, String username, String password) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
 
-    }
+
+
 
 
 
@@ -96,7 +91,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return getRole();
+        return getRoles();
     }
 
     public String getPassword() {
@@ -107,6 +102,13 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-
+    public String getRoleToString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Role role : this.roles) {
+            stringBuilder.append(role.getRole()).append(",");
+        }
+        stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+        return stringBuilder.toString();
+    }
 }
 
