@@ -22,7 +22,7 @@ function getuser() {
                     "                                    <tr>" +
 
 
-                    "                                        <td text='" + user.id + "'>" + user.id + "</td>" +
+                    "                                        <td  value='"+user.id+"' >" + user.id + "</td >" +
                     "                                        <td text='" + roles0 + "'>" + roles0 + "</td>" +
 
 
@@ -31,19 +31,19 @@ function getuser() {
                     "\n" +
                     "                                        <td>\n" +
                     "\n" +
-                    "                                            <button type=\"button\" class=\"btn btn-primary\" data-toggle=\"modal\"\n" +
-                    "                                                    th:data-target=\"'#'+'a'+${msg.id}\">\n" +
-                    "                                                Edit\n" +
+                    "                                            <button type='button'  onclick='getrolesbyid()'  class=\"btn btn-primary\" data-toggle=\"modal\"\n" +
+                    "                                                    data-target=" + "#" + "a" + user.id  + ">" +
+                    "                                                Edit" +
                     "                                            </button>\n" +
                     "\n" +
-                    "                                            <div class=\"modal fade\" th:id=\"'a'+${msg.id}\" tabindex=\"-1\" role=\"dialog\"\n" +
+                    "                                            <div class=\"modal fade\"  id=" + "a" +  user.id  + " tabindex=\"-1\" role=\"dialog\"\n" +
                     "                                                 aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">\n" +
                     "                                                <div class=\"modal-dialog\" role=\"document\">\n" +
                     "                                                    <div class=\"modal-content\">\n" +
                     "                                                        <div class=\"modal-header\">\n" +
                     "                                                            <h5 class=\"modal-title\" id=\"exampleModalLabel\">Edit\n" +
-                    "                                                                <th:block\n" +
-                    "                                                                        th:text=\"'username: '+${msg.username}\"></th:block>\n" +
+                    "  " + user.username + ""+
+
                     "                                                            </h5>\n" +
                     "                                                            <button type=\"button\" class=\"close\" data-dismiss=\"modal\"\n" +
                     "                                                                    aria-label=\"Close\">\n" +
@@ -59,7 +59,7 @@ function getuser() {
                     "                                                                <div class=\"form-group\">\n" +
                     "                                                                    <label for=\"exampleInputId\">Id</label>\n" +
                     "                                                                    <input type=\"text\" class=\"form-control\" name='id'\n" +
-                    "                                                                           th:value=\"${msg.id}\" id=\"exampleInputId\"\n" +
+                    "                                                                           value='" + user.id + "' id=\"exampleInputId\"\n" +
                     "                                                                           aria-describedby=\"emailHelp\" placeholder=\"Id\"\n" +
                     "                                                                           readonly>\n" +
                     "\n" +
@@ -68,7 +68,7 @@ function getuser() {
                     "                                                                <div class=\"form-group\">\n" +
                     "                                                                    <label for=\"exampleInputEmail11\">Username</label>\n" +
                     "                                                                    <input type=\"text\" class=\"form-control\"\n" +
-                    "                                                                           name='username' th:value=\"${msg.username}\"\n" +
+                    "                                                                           name='username' value='" + user.username + "'" +
                     "                                                                           id=\"exampleInputEmail11\"\n" +
                     "                                                                           aria-describedby=\"emailHelp\"\n" +
                     "                                                                           placeholder=\"Enter Username\">\n" +
@@ -77,7 +77,7 @@ function getuser() {
                     "                                                                <div class=\"form-group\">\n" +
                     "                                                                    <label for=\"exampleInputPassword11\">Password</label>\n" +
                     "                                                                    <input type=\"password\" class=\"form-control\"\n" +
-                    "                                                                           name='password' th:value=\"${msg.password}\"\n" +
+                    "                                                                           name='password' value='" + user.password + "'" +
                     "                                                                           id=\"exampleInputPassword11\"\n" +
                     "                                                                           placeholder=\"Password\">\n" +
                     "                                                                </div>\n" +
@@ -85,21 +85,12 @@ function getuser() {
                     "\n" +
                     "                                                                <div class=\"form-group\">\n" +
                     "                                                                    <label for=\"exampleInput11\">Role</label>\n" +
-                    "                                                                    <div class=\"border\">\n" +
-                    "                                                                        <div class=\"form-check-inline\"\n" +
-                    "\n" +
-                    "                                                                             th:each=\"role : ${roleList}\">\n" +
-                    "                                                                            <label class=\"font-weight-bold form-check-label\">\n" +
-                    "                                                                                <input type=\"checkbox\"\n" +
-                    "\n" +
-                    "                                                                                       class=\"form-check-input\"\n" +
-                    "                                                                                       name=\"roleId\"\n" +
-                    "                                                                                       th:value=\"${role.getId()}\">\n" +
-                    "                                                                                <span class=\"text-uppercase\"\n" +
-                    "                                                                                      th:text=\"${role.getRole()}\"\n" +
-                    "                                                                                      id=\"exampleInput11\"></span>\n" +
-                    "                                                                            </label>\n" +
-                    "                                                                        </div>\n" +
+                    "                                                                    <div class=\"border\" id='rolesafterboredr'>\n" +
+
+
+
+
+
                     "                                                                    </div>\n" +
                     "                                                                </div>\n" +
                     "\n" +
