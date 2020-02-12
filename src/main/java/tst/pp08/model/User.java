@@ -102,13 +102,13 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public String getRoleToString() {
-        StringBuilder stringBuilder = new StringBuilder();
-        for (Role role : this.roles) {
-            stringBuilder.append(role.getRole()).append(",");
-        }
-        stringBuilder.deleteCharAt(stringBuilder.length() - 1);
-        return stringBuilder.toString();
-    }
+//    public String getRoleToString() {
+//        StringBuilder stringBuilder = new StringBuilder();
+//        for (Role role : this.roles) {
+//            stringBuilder.append(role.getRole()).append(",");
+//        }
+//        stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+//        return stringBuilder.toString();
+//    }
 }
 

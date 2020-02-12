@@ -53,9 +53,9 @@ public class New_Controller {
     }
 
     @GetMapping("/admin/getrolebyid/{id}")
-    public List<Role> getRoleById(@PathVariable int id) {
+    public User getRoleById(@PathVariable int id) {
+        return userService.getById(id);
 
-        return (List<Role>) roleService.getRoleById(id);
     }
 
 
