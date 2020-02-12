@@ -58,6 +58,16 @@ public class New_Controller {
 
     }
 
+    @PostMapping("/admin/update")
+
+    public String addUpdate(@RequestBody User user) {
+
+        userService.add(user);
+
+
+        return "redirect:/admin";
+    }
+
 
 
 }

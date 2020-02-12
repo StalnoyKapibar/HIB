@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="">
+<html lang="en" >
 <head>
 
 
@@ -19,9 +19,9 @@
     <a class="navbar-brand" href="#">PP09</a>
     <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-            <th:authorize access="isAuthenticated()">
-                <a class="nav-link" href="/logout">Logout</a>
-            </th:authorize>
+<!--            <th:authorize access="isAuthenticated()">-->
+<!--                <a class="nav-link" href="/logout">Logout</a>-->
+<!--            </th:authorize>-->
         </li>
     </ul>
 </nav>
@@ -30,10 +30,10 @@
     <div class="col-2">
         <ul class="nav nav-pills flex-column">
             <li class="nav-item">
-                <a th:href="@{/admin}" class="nav-link active">Admin</a>
+<!--                <a th:href="@{/admin}" class="nav-link active">Admin</a>-->
             </li>
             <li class="nav-item">
-                <a th:href="@{/user}" class="nav-link">User</a>
+<!--            //    <a th:href="@{/user}" class="nav-link">User</a>-->
             </li>
         </ul>
     </div>
@@ -162,8 +162,8 @@
 
                     <div class="form-group">
                         <label for="exampleInputId">Id</label>
-                        <input type="text" class="form-control" name='id'
-                               value='' id="exampleInputId"
+                        <input type="text" class="form-control"
+                               id="exampleInputId"
                                aria-describedby="emailHelp" placeholder="Id"
                                readonly>
 
@@ -172,7 +172,6 @@
                     <div class="form-group">
                         <label for="exampleInputEmail11">Username</label>
                         <input type="text" class="form-control"
-                               name='username' value=''
                                id="exampleInputEmail11"
                                aria-describedby="emailHelp"
                                placeholder="Enter Username">
@@ -181,7 +180,6 @@
                     <div class="form-group">
                         <label for="exampleInputPassword11">Password</label>
                         <input type="password" class="form-control"
-                               name='password' value="msg.password"
                                id="exampleInputPassword11"
                                placeholder="Password">
                     </div>
@@ -207,7 +205,7 @@
                         <button type="button" onclick="asdqwe()"  class="btn btn-secondary"
                                  data-dismiss="modal">Close
                         </button>
-                        <button type="submit" class="btn btn-primary"
+                        <button type="submit" onclick="sendUpdateUser()" class="btn btn-primary"
                                 role="button">Save changes
                         </button>
                     </div>
@@ -247,8 +245,8 @@
 <script src="js/s.js"></script>
 <script src="js/myF.js"></script>
 <script src="js/getuser.js"></script>
-
 <script src="js/getmodal.js"></script>
+<script src="js/sendUpdateUser.js"></script>
 
 
 
