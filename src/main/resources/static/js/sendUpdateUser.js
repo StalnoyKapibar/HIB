@@ -30,10 +30,5 @@ function sendUpdateUser() {
     });
 
 
-
-
-
-
-
     asdqwe();
 }

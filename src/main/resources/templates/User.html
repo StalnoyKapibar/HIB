@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="">
+<html lang="en" >
 <head>
 
 
@@ -9,16 +9,16 @@
 
 
 </head>
-<body>
+<body onload="userss();">
 
 
 <nav class="navbar navbar-dark bg-dark">
     <a class="navbar-brand" href="#">PP09</a>
     <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-            <th:authorize access="isAuthenticated()">
+            <authorize access="isAuthenticated()">
                 <a class="nav-link" href="/logout">Logout</a>
-            </th:authorize>
+            </authorize>
         </li>
     </ul>
 </nav>
@@ -27,10 +27,10 @@
     <div class="col-2">
         <ul class="nav nav-pills flex-column">
             <li class="nav-item">
-                <a th:href="@{/admin}" class="nav-link">Admin</a>
+                <a href="/admin" class="nav-link">Admin</a>
             </li>
             <li class="nav-item">
-                <a th:href="@{/user}" class="nav-link active">User</a>
+                <a href="/user" class="nav-link active">User</a>
             </li>
         </ul>
 
@@ -55,19 +55,17 @@
                                 <tr>
                                     <th scope="col">ID</th>
                                     <th scope="col">Role</th>
-                                    <th scope="col">Login</th>
+                                    <th scope="col">Username</th>
                                     <th scope="col">Password</th>
 
                                 </tr>
                                 </thead>
-                                <tbody>
-                                <tr>
-                                    <td th:utext="${messages.id}"></td>
-                                    <td th:utext="${role}"></td>
-                                    <td th:utext="${messages.username}"></td>
-                                    <td th:utext="${messages.password}"></td>
+                                <tbody id = "tbody1">
 
-                                </tr>
+
+
+
+
 
                                 </tbody>
                             </table>
@@ -86,5 +84,17 @@
 </div>
 
 
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="js/userss.js"></script>
 </body>
 </html>

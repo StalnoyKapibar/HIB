@@ -3,6 +3,7 @@ package tst.pp08.controller;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import tst.pp08.model.Role;
 import tst.pp08.model.User;
@@ -21,19 +22,17 @@ import java.util.Set;
 public class New_Controller {
 
 
-
     @Autowired
     private UserService userService;
     @Autowired
     private RoleService roleService;
 
 
-
     @PostMapping("/admin/add")
 
     public String addUser(@RequestBody User user) {
 
-            userService.add(user);
+        userService.add(user);
 
 
         return "redirect:/admin";
@@ -61,12 +60,28 @@ public class New_Controller {
     @PostMapping("/admin/update")
 
     public String addUpdate(@RequestBody User user) {
-
-        userService.add(user);
-
-
+        userService.update(user);
         return "redirect:/admin";
     }
+
+
+    @PostMapping("/admin/del")
+
+    public String addDel(@RequestBody User user) {
+        userService.delete(user.getId());
+        return "redirect:/admin";
+    }
+
+
+    @PostMapping("/admin/userss")
+
+    public User getUserss(Authentication authentication) {
+        String name = authentication.getName();
+        User user = userService.findByUsername(name);
+        return user;
+    }
+
+
 
 
 

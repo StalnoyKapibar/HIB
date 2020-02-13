@@ -30,33 +30,25 @@ function getuser() {
 
                     "                                        <td text='" + user.username + "'>" + user.username + "</td>" +
                     "                                        <td text='" + user.password + "'>" + user.password + "</td>" +
-                    "\n" +
-                    "                                        <td>\n" +
-                    "\n" +
-                    "                                            <button type='button'  onclick='getmodal("+user.id+")'  class=\"btn btn-primary\" data-toggle=\"modal\"" +
+
+                    "                                        <td>" +
+                    "                                            <button type='button'  onclick='getmodal(" + user.id + ")'  class='btn btn-primary' data-toggle='modal'" +
                     "                                                    data-target='#asdddd'>" +
                     "                                                Edit" +
-                    "                                            </button>\n" +
-                    "\n" +
+                    "                                            </button>" +
 
-                    "\n" +
                     "                                        </td>" +
 
+                    "                                        <td>" +
 
-                    "\n" +
-                    "\n" +
-                    "                                        <td>\n" +
-                    "                                            <a class=\"btn btn-primary btn-danger\"\n" +
-                    "                                               th:href=\"@{'/admin/del?username=' + ${msg.username} + '&id=' + ${msg.id} + '&password=' + ${msg.password}}\"\n" +
-                    "                                               role=\"button\">Удалить</a>\n" +
-                    "\n" +
-                    "                                        </td>\n" +
-                    "\n" +
-                    "\n" +
-                    "                                    </tr>\n" +
-                    "\n" +
-                    "\n" +
-                    "                                </block>\n" +
+                    " <button type='button'  onclick='deluser(" + user.id + ")'  class='btn btn-primary btn-danger'> " +
+                    "                                    Удалить" +
+                    "                                            </button>" +
+                    "                                        </td>" +
+
+                    "                                    </tr>" +
+
+                    "                                </block>" +
                     "                                </tbody>");
 
             }

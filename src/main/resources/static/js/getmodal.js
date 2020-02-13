@@ -1,4 +1,22 @@
 function getmodal(userId) {
+var temp;
+
+    $.ajax({
+
+        url: '/admin/alcoves',
+        datatype: 'json',
+        type: "post",
+        contentType: "application/json",
+        success: function (data) {
+            temp = data;
+        }
+
+    });
+
+
+
+
+
 
 
     $.ajax({
@@ -15,7 +33,7 @@ function getmodal(userId) {
 
 
 
-            for (let item1 of data.roles) {
+            for (let item1 of temp) {
 
 
 

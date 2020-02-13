@@ -24,7 +24,7 @@ import java.util.stream.Stream;
 public class HelloController {
 
 
-    public static List<Role> allRoles0;
+
     @Autowired
     private UserService userService;
     @Autowired
@@ -32,11 +32,7 @@ public class HelloController {
 
 
     @RequestMapping(value = "admin", method = RequestMethod.GET)
-    public String printWelcome(Model model) {
-        allRoles0 = roleService.getAllRoles();
-        List<User> messages = userService.getUser();
-        model.addAttribute("messages", messages);
-        model.addAttribute("roleList", allRoles0);
+    public String printWelcome() {
 
         return "hello";
     }
@@ -55,11 +51,8 @@ public class HelloController {
 
 
     @RequestMapping(value = "user", method = RequestMethod.GET)
-    public String printUser(Model model, Authentication authentication) {
-        String name = authentication.getName();
-        User user = userService.findByUsername(name);
-        model.addAttribute("messages", user);
-        model.addAttribute("role", user.getRoles().iterator().next().getRole());
+    public String printUser() {
+
         return "User";
     }
 
@@ -158,12 +151,7 @@ public class HelloController {
 //
 //    }
 
-    @RequestMapping(value = "admin/del", method = RequestMethod.GET)
-    public String printDel(User user) {
-        userService.delete(user.getId());
-        return "redirect:/admin";
 
-    }
 
 
 }

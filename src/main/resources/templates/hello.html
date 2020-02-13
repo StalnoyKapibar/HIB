@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
 
 
@@ -12,16 +12,16 @@
 
     <link rel="stylesheet" type="text/css" href="css/sig.css">
 </head>
-<body onload="startProgress(); getuser();" >
+<body onload="startProgress(); getuser();">
 
 
 <nav class="navbar  navbar-dark bg-dark">
     <a class="navbar-brand" href="#">PP09</a>
     <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-<!--            <th:authorize access="isAuthenticated()">-->
-<!--                <a class="nav-link" href="/logout">Logout</a>-->
-<!--            </th:authorize>-->
+            <authorize access="isAuthenticated()">
+                <a class="nav-link" href="/logout">Logout</a>
+            </authorize>
         </li>
     </ul>
 </nav>
@@ -30,10 +30,10 @@
     <div class="col-2">
         <ul class="nav nav-pills flex-column">
             <li class="nav-item">
-<!--                <a th:href="@{/admin}" class="nav-link active">Admin</a>-->
+                <a href="/admin" class="nav-link active">Admin</a>
             </li>
             <li class="nav-item">
-<!--            //    <a th:href="@{/user}" class="nav-link">User</a>-->
+                <a href="/user" class="nav-link">User</a>
             </li>
         </ul>
     </div>
@@ -67,8 +67,7 @@
                             </ul>
 
 
-
-                            <table class="table table-striped" id = "extra">
+                            <table class="table table-striped" id="extra">
                                 <thead>
                                 <tr>
                                     <th scope="col">ID</th>
@@ -79,21 +78,10 @@
                                     <th scope="col">Delete</th>
                                 </tr>
                                 </thead>
-
-
-
-
-
-
-
-
                             </table>
                         </div>
 
-
                     </div>
-
-
 
 
                     <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
@@ -101,32 +89,29 @@
                             <li class="list-group-item list-group-item-light">Add new user</li>
                         </ul>
 
-                        <form role="form" class="custom-centered" id="newUserForm" >
+                        <form role="form" class="custom-centered" id="newUserForm">
 
                             <div class="form-group">
                                 <label for="username">Username</label>
-                                <input type="text" class="form-control"  id="username"
+                                <input type="text" class="form-control" id="username"
                                        aria-describedby="emailHelp" placeholder="Enter Username">
 
                             </div>
                             <div class="form-group">
                                 <label for="password">Password</label>
-                                <input type="password" class="form-control"  id="password"
+                                <input type="password" class="form-control" id="password"
                                        placeholder="Enter Password">
                             </div>
 
                             <div class="form-group">
                                 <label for="exampleInput">Roles</label>
-                                <div class="border" id = "border">
+                                <div class="border" id="border">
 
                                 </div>
                             </div>
                             <button type="submit" onclick="myFunction()" class="btn btn-primary custom-centered">Add new
                                 user
                             </button>
-
-
-
 
 
                         </form>
@@ -152,7 +137,7 @@
                 </h5>
                 <button type="button" onclick="asdqwe()" class="close" data-dismiss="modal"
                         aria-label="Close">
-                    <span aria-hidden="true" >&times;</span>
+                    <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
@@ -185,25 +170,18 @@
                     </div>
 
 
-
                     <div class="form-group">
                         <label for="exampleInput11">Role</label>
-                        <div class="border" id ="border1">
-
+                        <div class="border" id="border1">
 
 
                         </div>
                     </div>
 
 
-
-
-
-
-
                     <div class="modal-footer">
-                        <button type="button" onclick="asdqwe()"  class="btn btn-secondary"
-                                 data-dismiss="modal">Close
+                        <button type="button" onclick="asdqwe()" class="btn btn-secondary"
+                                data-dismiss="modal">Close
                         </button>
                         <button type="submit" onclick="sendUpdateUser()" class="btn btn-primary"
                                 role="button">Save changes
@@ -217,17 +195,6 @@
         </div>
     </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
 
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -247,7 +214,7 @@
 <script src="js/getuser.js"></script>
 <script src="js/getmodal.js"></script>
 <script src="js/sendUpdateUser.js"></script>
-
+<script src="js/deluser.js"></script>
 
 
 </body>
