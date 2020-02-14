@@ -128,7 +128,7 @@
 </div>
 
 <div class="modal fade" id="asdddd" tabindex="-1" role="dialog"
-     aria-labelledby="exampleModalLabel" aria-hidden="true">
+     aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false"> ///
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -183,8 +183,8 @@
                         <button type="button" onclick="asdqwe()" class="btn btn-secondary"
                                 data-dismiss="modal">Close
                         </button>
-                        <button type="submit" onclick="sendUpdateUser()" class="btn btn-primary"
-                                role="button">Save changes
+                        <button type="button" onclick="return sendUpdateUser()" class="btn btn-primary"
+                                data-dismiss="modal">Save changes
                         </button>
                     </div>
                 </form>
@@ -215,6 +215,7 @@
 <script src="js/getmodal.js"></script>
 <script src="js/sendUpdateUser.js"></script>
 <script src="js/deluser.js"></script>
+
 
 
 </body>

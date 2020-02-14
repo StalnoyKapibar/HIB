@@ -21,15 +21,15 @@ function getuser() {
 
                 $("#extra").append("<tbody>" +
                     "                                <block>" +
-                    "                                    <tr>" +
+                    "                                    <tr id='" + user.id + "'>" +
 
 
-                    "                                        <td id='asdd'>" + user.id + "</td>" +
-                    "                                        <td text='" + roles0 + "'>" + roles0 + "</td>" +
+                    "                                        <td id='" + user.id + "'>" + user.id + "</td>" +
+                    "                                        <td id='r" + user.id + "'>" + roles0 + "</td>" +
 
 
-                    "                                        <td text='" + user.username + "'>" + user.username + "</td>" +
-                    "                                        <td text='" + user.password + "'>" + user.password + "</td>" +
+                    "                                        <td id='u" + user.id + "'>" + user.username + "</td>" +
+                    "                                        <td id='p" + user.id + "'>" + user.password + "</td>" +
 
                     "                                        <td>" +
                     "                                            <button type='button'  onclick='getmodal(" + user.id + ")'  class='btn btn-primary' data-toggle='modal'" +

@@ -16,5 +16,13 @@ function deluser(id) {
 
 
     });
-    window.location.reload();
+
+
+
+    var elem=document.getElementById(id);
+    elem.parentNode.removeChild(elem);
+
+
+// удалить строку из html
+    // при update изменять строку
 }

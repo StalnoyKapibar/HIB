@@ -64,13 +64,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/login", "/css/*", "/js/*" ).permitAll()
 
-             //   .antMatchers("/login", "/css/signin.css", "/css/sig.css", "/admin", "/admin/*", "/user", "/js/myF.js", "/js/s.js", "/js/getTemp.js", "/js/getuser.js", "/js/getmodal.js", "/js/asdqwe.js" ).permitAll();
+              //  .antMatchers("/login", "/css/signin.css", "/css/sig.css", "/admin", "/admin/*", "/user", "/js/myF.js", "/js/s.js", "/js/getTemp.js", "/js/getuser.js", "/js/getmodal.js", "/js/asdqwe.js" ).permitAll();
 
                 //страницы аутентификаци доступна всем
 
                 // защищенные URL
                 .antMatchers("/user").access("hasAnyAuthority('user', 'admin')")
-               .antMatchers("/admin").access("hasAnyAuthority('admin')").anyRequest().authenticated();
+              .antMatchers("/admin").access("hasAnyAuthority('admin')").anyRequest().authenticated();
         //   .antMatchers("/user").hasAnyAuthority("user", "admin");
     }
 

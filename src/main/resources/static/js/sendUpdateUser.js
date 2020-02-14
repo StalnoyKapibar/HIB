@@ -25,10 +25,49 @@ function sendUpdateUser() {
         datatype: 'json',
         type: 'post',
         contentType: "application/json; charset=utf-8",
-        data: user
+        data: user,
+
 
     });
 
+    var roles0 = '';
+    for (let tmp of roles) {
+
+        roles0 += " " + tmp.role;
+    }
+
+    // document.getElementById(id).innerHTML = "                                        <td id='" + id + "'>" + id + "</td>" +
+    //     "                                                            <td>" + roles0 + "</td>" +
+    //
+    //
+    //     "                                                            <td>" + username + "</td>"+
+    //     "                                                            <td>" + password + "</td>"+
+    //
+    //     "                                                            <td>" +
+    //     "                                                                <button type='button'  onclick='getmodal(" + id + ")'  class='btn btn-primary' data-toggle='modal'" +
+    //     "                                                                        data-target='#asdddd'>" +
+    //     "                                                                    Edit " +
+    //     "                                                                </button> " +
+    //
+    //     "                                                            </td> " +
+    //
+    //     "                                                            <td> " +
+    //
+    //     "                     <button type='button'  onclick='deluser(" + id + ")'  class='btn btn-primary btn-danger'>"+
+    //     "                                                        Удалить "+
+    //     "                                                                </button>" +
+    //     "                                                            </td>";
+    document.getElementById('r'+id).innerText = roles0;
+    document.getElementById('u'+id).innerText = username;
+    document.getElementById('p'+id).innerText = password;
 
     asdqwe();
+
+
+
+
+    // var elem=document.getElementById(id);
+    // elem.parentNode.removeChild(elem);
+
+
 }

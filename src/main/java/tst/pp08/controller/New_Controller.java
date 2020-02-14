@@ -58,23 +58,23 @@ public class New_Controller {
     }
 
     @PostMapping("/admin/update")
+    public void addUpdate(@RequestBody User user) {
+       userService.update(user);
 
-    public String addUpdate(@RequestBody User user) {
-        userService.update(user);
-        return "redirect:/admin";
+
+
+
     }
 
 
     @PostMapping("/admin/del")
-
-    public String addDel(@RequestBody User user) {
+    public void addDel(@RequestBody User user) {
         userService.delete(user.getId());
-        return "redirect:/admin";
+
     }
 
 
     @PostMapping("/admin/userss")
-
     public User getUserss(Authentication authentication) {
         String name = authentication.getName();
         User user = userService.findByUsername(name);
