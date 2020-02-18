@@ -25,10 +25,6 @@ public class HelloController {
 
 
 
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private RoleService roleService;
 
 
     @RequestMapping(value = "admin", method = RequestMethod.GET)

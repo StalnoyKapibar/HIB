@@ -1,22 +1,22 @@
 package tst.pp08.controller;
 
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import com.sun.deploy.net.HttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import sun.net.www.http.HttpClient;
 import tst.pp08.model.Role;
 import tst.pp08.model.User;
 import tst.pp08.service.RoleService;
 import tst.pp08.service.UserService;
 
 
-import javax.persistence.criteria.CriteriaBuilder;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.LinkedList;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
-import java.util.Set;
+
 
 @RestController
 public class New_Controller {
@@ -29,13 +29,18 @@ public class New_Controller {
 
 
     @PostMapping("/admin/add")
-
-    public String addUser(@RequestBody User user) {
+    public String addUser(@RequestBody User user) throws InterruptedException, IOException {
 
         userService.add(user);
-
-
+       // Thread.sleep(10000);
+      //  response.sendRedirect("/admin");
         return "redirect:/admin";
+
+
+
+
+
+
     }
 
     @PostMapping("/admin/alcoves")

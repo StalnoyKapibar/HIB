@@ -2,7 +2,8 @@ package tst.pp08.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tst.pp08.dao.RoleDao;
+import org.springframework.web.client.RestTemplate;
+
 import tst.pp08.model.Role;
 
 
@@ -12,26 +13,32 @@ import java.util.List;
 @Service
 public class RoleServiceImp implements RoleService {
 
+
     @Autowired
-    private RoleDao roleDao;
+    private RestTemplate restTemplate;
+
+
 
 
     @Override
     public void add(Role role) {
-        roleDao.add(role);
+        final String uri = "http://localhost:8081/server/addrole";
+        restTemplate.postForObject(uri, role, String.class);
+
+
     }
 
     @Override
     public List<Role> getAllRoles() {
-        return roleDao.getAllRoles();
+        final String uri = "http://localhost:8081/server/allroles";
+        return restTemplate.getForObject(uri, List.class);
     }
 
     @Override
     public Role getRoleById(int id) {
-        return roleDao.getRoleById(id);
+        final String uri = "http://localhost:8081/server/getrolebyid";
+        return restTemplate.postForObject(uri, id, Role.class);
     }
-
-
 
 
 }

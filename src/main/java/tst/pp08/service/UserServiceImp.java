@@ -3,22 +3,22 @@ package tst.pp08.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import tst.pp08.dao.UserDao;
+import org.springframework.web.client.RestTemplate;
+
 import tst.pp08.model.User;
 
 
 import java.util.*;
 
+
 @Service
 public class UserServiceImp implements UserService {
 
+
     @Autowired
-    private UserDao userDao;
+    private RestTemplate restTemplate;
 
 
     //   @Autowired
@@ -27,48 +27,62 @@ public class UserServiceImp implements UserService {
     @Override
 
     public boolean add(User user) {
-        if (userDao.findByUsername(user.getUsername()) == null) {
+        final String uri = "http://localhost:8081/server/add";
 
-            userDao.add(user);
+        if (findByUsername(user.getUsername()) == null) {
+
+            restTemplate.postForObject(uri, user, String.class);
+
             return true;
         }
-        return false;
 
+
+        else return false;
     }
 
     @Override
     public List<User> getUser() {
-        return userDao.getUser();
+
+        final String uri = "http://localhost:8081/server/getuser";
+        return restTemplate.getForObject(uri, List.class);
     }
 
     @Override
     public void update(User user) {
 
-
-            userDao.update(user);
+        final String uri = "http://localhost:8081/server/update";
+        restTemplate.postForObject(uri, user, String.class);
 
 
     }
 
     @Override
     public void delete(int id) {
-        userDao.delete(id);
+        final String uri = "http://localhost:8081/server/del";
+        restTemplate.postForObject(uri, id, String.class);
     }
 
     @Override
     public User findByUsername(String username) {
-        return userDao.findByUsername(username);
+        final String uri0 = "http://localhost:8081/server/findbyusername";
+        return restTemplate.postForObject(uri0, username, User.class);
     }
 
     @Override
     public User getById(int id) {
-        return userDao.getUserById(id);
+
+        final String uri0 = "http://localhost:8081/server/getbyid";
+        return restTemplate.postForObject(uri0, id, User.class);
+
+
     }
 
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userDao.findByUsername(username);
+
+
+        User user = findByUsername(username);
 
         if (user == null) {
             throw new UsernameNotFoundException("User not found");
