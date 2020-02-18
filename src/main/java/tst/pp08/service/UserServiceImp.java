@@ -27,17 +27,10 @@ public class UserServiceImp implements UserService {
     @Override
 
     public boolean add(User user) {
+
         final String uri = "http://localhost:8081/server/add";
-
-        if (findByUsername(user.getUsername()) == null) {
-
-            restTemplate.postForObject(uri, user, String.class);
-
-            return true;
-        }
-
-
-        else return false;
+        restTemplate.postForObject(uri, user, String.class);
+        return true;
     }
 
     @Override
@@ -52,7 +45,6 @@ public class UserServiceImp implements UserService {
 
         final String uri = "http://localhost:8081/server/update";
         restTemplate.postForObject(uri, user, String.class);
-
 
     }
 
@@ -81,9 +73,7 @@ public class UserServiceImp implements UserService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-
         User user = findByUsername(username);
-
         if (user == null) {
             throw new UsernameNotFoundException("User not found");
         }

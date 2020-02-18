@@ -1,16 +1,15 @@
-package tst.pp08.dao;
+package com.example.server.dao;
 
 
-import com.sun.istack.NotNull;
-import org.hibernate.Transaction;
+
+import com.example.server.model.User;
 import org.springframework.transaction.annotation.Transactional;
-import tst.pp08.model.User;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
 import java.util.List;
+
 
 @Repository
 @Transactional

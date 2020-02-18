@@ -1,4 +1,4 @@
-package tst.pp08.model;
+package com.example.server.model;
 
 
 import org.springframework.security.core.GrantedAuthority;

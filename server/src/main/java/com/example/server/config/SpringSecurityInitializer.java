@@ -1,4 +1,4 @@
-package tst.pp08.config;
+package com.example.server.config;
 
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 

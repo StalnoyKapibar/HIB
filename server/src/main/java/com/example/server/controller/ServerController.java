@@ -1,5 +1,9 @@
-package tst.pp08.controller;
+package com.example.server.controller;
 
+import com.example.server.dao.RoleDao;
+import com.example.server.dao.UserDao;
+import com.example.server.model.Role;
+import com.example.server.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -7,10 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import tst.pp08.dao.RoleDao;
-import tst.pp08.dao.UserDao;
-import tst.pp08.model.Role;
-import tst.pp08.model.User;
+
 
 import java.util.List;
 

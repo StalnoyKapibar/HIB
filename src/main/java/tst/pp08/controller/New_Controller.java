@@ -32,14 +32,8 @@ public class New_Controller {
     public String addUser(@RequestBody User user) throws InterruptedException, IOException {
 
         userService.add(user);
-       // Thread.sleep(10000);
-      //  response.sendRedirect("/admin");
+
         return "redirect:/admin";
-
-
-
-
-
 
     }
 
