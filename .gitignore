@@ -4,7 +4,7 @@ target/
 .mvn/
 mvnw.cmd
 mvnw
-gitignore
+.gitignore
 #!.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**
 !**/src/test/**
