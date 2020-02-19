@@ -1,6 +1,9 @@
 HELP.md
 target/
 .mvn/
+mvnw.cmd
+mvnw
+.gitignore
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**
 !**/src/test/**
