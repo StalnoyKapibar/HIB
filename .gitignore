@@ -4,7 +4,7 @@ target/
 .mvn/
 mvnw.cmd
 mvnw
-.gitignore
+
 #!.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**
 !**/src/test/**
@@ -17,7 +17,7 @@ mvnw
 .settings
 .springBeans
 .sts4-cache
-.gitignore
+
 
 ### IntelliJ IDEA ###
 .idea
