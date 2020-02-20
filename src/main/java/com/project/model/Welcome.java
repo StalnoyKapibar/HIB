@@ -22,10 +22,10 @@ public class Welcome {
 
 
     @OneToOne (fetch = FetchType.EAGER)
-    @JoinTable(name = "welcome_localestring",
+    @JoinTable(name = "welcome_body",
             joinColumns = @JoinColumn(name = "welcome_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "localestring_id", referencedColumnName = "id"))
-    private LocaleString localeString;
+            inverseJoinColumns = @JoinColumn(name = "body_id", referencedColumnName = "id"))
+    private LocaleString body;
 
 
 

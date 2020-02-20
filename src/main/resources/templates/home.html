@@ -43,51 +43,24 @@
 
 
 
-
-<!--<nav class="navbar  navbar-dark bg-dark">-->
-
-
-
-<!--    <a class="navbar-brand" href="#">HIB</a>-->
-<!--    <ul class="navbar-nav ml-auto col-10">-->
-
-<!--        <li class="nav-item active">-->
-<!--            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>-->
-<!--        </li>-->
-
-<!--        -->
-
-
-
-<!--        <li class="nav-item">-->
-<!--            <authorize access="isAuthenticated()">-->
-<!--                <a class="nav-link" href="/logout">Logout</a>-->
-<!--            </authorize>-->
-<!--        </li>-->
-<!--    </ul>-->
-<!--</nav>-->
-
-
-
-
-
-
-
-
-
 <div class="row">
     <div class="col-2">
         <ul class="nav nav-pills flex-column">
             <li class="nav-item">
-                <a href="/home" class="nav-link active">HIB</a>
-            </li>
-            <li class="nav-item">
-                <a href="/example" class="nav-link">Example</a>
-            </li>
 
-            <li class="nav-item">
-                <a href="/example0" class="nav-link">Example0</a>
-            </li>
+
+
+                <div class="dropdown">
+                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Выпадающая ссылка
+                    </a>
+
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                </div>
 
 
         </ul>
@@ -99,17 +72,6 @@
 
                 <h1>HIB</h1>
 
-                <nav>
-                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home"
-                           role="tab" aria-controls="nav-home" aria-selected="true">Example</a>
-
-<!--                        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile"-->
-<!--                           role="tab" aria-controls="nav-profile" aria-selected="false">New user</a>-->
-
-
-                    </div>
-                </nav>
 
 
                 <div class="tab-content tab - border" id="nav-tabContent">
@@ -122,63 +84,9 @@
                         </p>
 
 
-<!--                        <div class="table">-->
-<!--                            <ul class="list-group">-->
-<!--                                <li class="list-group-item list-group-item-light">All users</li>-->
-<!--                            </ul>-->
-
-
-<!--                            <table class="table table-striped" id="extra">-->
-<!--                                <thead>-->
-<!--                                <tr>-->
-<!--                                    <th scope="col">ID</th>-->
-<!--                                    <th scope="col">Role</th>-->
-<!--                                    <th scope="col">Username</th>-->
-<!--                                    <th scope="col">Password</th>-->
-<!--                                    <th scope="col">Edit</th>-->
-<!--                                    <th scope="col">Delete</th>-->
-<!--                                </tr>-->
-<!--                                </thead>-->
-<!--                            </table>-->
-<!--                        </div>-->
 
                     </div>
 
-
-<!--                    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">-->
-<!--                        <ul class="list-group">-->
-<!--                            <li class="list-group-item list-group-item-light">Add new user</li>-->
-<!--                        </ul>-->
-
-<!--                        <form role="form" class="custom-centered" id="newUserForm">-->
-
-<!--                            <div class="form-group">-->
-<!--                                <label for="username">Username</label>-->
-<!--                                <input type="text" class="form-control" id="username"-->
-<!--                                       aria-describedby="emailHelp" placeholder="Enter Username">-->
-
-<!--                            </div>-->
-<!--                            <div class="form-group">-->
-<!--                                <label for="password">Password</label>-->
-<!--                                <input type="password" class="form-control" id="password"-->
-<!--                                       placeholder="Enter Password">-->
-<!--                            </div>-->
-
-<!--                            <div class="form-group">-->
-<!--                                <label for="exampleInput">Roles</label>-->
-<!--                                <div class="border" id="border">-->
-
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <button type="submit"  class="btn btn-primary custom-centered">Add new-->
-<!--                                user-->
-<!--                            </button>-->
-
-
-<!--                        </form>-->
-
-
-<!--                    </div>-->
                 </div>
 
             </div>
@@ -188,74 +96,7 @@
     </div>
 </div>
 
-<!--<div class="modal fade" id="asdddd" tabindex="-1" role="dialog"-->
-<!--     aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false"> ///-->
-<!--    <div class="modal-dialog" role="document">-->
-<!--        <div class="modal-content">-->
-<!--            <div class="modal-header">-->
-<!--                <h5 class="modal-title" id="exampleModalLabel">Edit-->
-<!--                    username-->
-<!--                </h5>-->
-<!--                <button type="button" onclick="asdqwe()" class="close" data-dismiss="modal"-->
-<!--                        aria-label="Close">-->
-<!--                    <span aria-hidden="true">&times;</span>-->
-<!--                </button>-->
-<!--            </div>-->
-<!--            <div class="modal-body">-->
 
-
-<!--                <form role="form" class="custom-centered">-->
-
-<!--                    <div class="form-group">-->
-<!--                        <label for="exampleInputId">Id</label>-->
-<!--                        <input type="text" class="form-control"-->
-<!--                               id="exampleInputId"-->
-<!--                               aria-describedby="emailHelp" placeholder="Id"-->
-<!--                               readonly>-->
-
-<!--                    </div>-->
-
-<!--                    <div class="form-group">-->
-<!--                        <label for="exampleInputEmail11">Username</label>-->
-<!--                        <input type="text" class="form-control"-->
-<!--                               id="exampleInputEmail11"-->
-<!--                               aria-describedby="emailHelp"-->
-<!--                               placeholder="Enter Username">-->
-
-<!--                    </div>-->
-<!--                    <div class="form-group">-->
-<!--                        <label for="exampleInputPassword11">Password</label>-->
-<!--                        <input type="password" class="form-control"-->
-<!--                               id="exampleInputPassword11"-->
-<!--                               placeholder="Password">-->
-<!--                    </div>-->
-
-
-<!--                    <div class="form-group">-->
-<!--                        <label for="exampleInput11">Role</label>-->
-<!--                        <div class="border" id="border1">-->
-
-
-<!--                        </div>-->
-<!--                    </div>-->
-
-
-<!--                    <div class="modal-footer">-->
-<!--                        <button type="button"  class="btn btn-secondary"-->
-<!--                                data-dismiss="modal">Close-->
-<!--                        </button>-->
-<!--                        <button type="button"  class="btn btn-primary"-->
-<!--                                data-dismiss="modal">Save changes-->
-<!--                        </button>-->
-<!--                    </div>-->
-<!--                </form>-->
-
-
-<!--            </div>-->
-
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
 
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

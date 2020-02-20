@@ -16,7 +16,7 @@ public class WelcomeServiceImp implements WelcomeService {
 
     @Override
     public Welcome getWelcome() {
-        return welcomeDAO.getWelcome();
+        return welcomeDAO.getWelcome("ru");
     }
 
     @Override

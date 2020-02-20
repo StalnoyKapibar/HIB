@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 
+
+
 @RestController
 public class NewController {
 
@@ -14,7 +16,7 @@ public class NewController {
     private WelcomeService welcomeService;
 
 
-    @GetMapping("/welcome")
+    @PostMapping("/welcome")
     public Welcome getWelcome() {
         return welcomeService.getWelcome();
 

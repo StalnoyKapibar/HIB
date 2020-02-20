@@ -1,6 +1,7 @@
-function asd() {
-let tmp;
+async function asd() {
+    let tmp;
     // let response = await fetch('/welcome');
+    // let dd = JSON.stringify(response);
 
 
     $.ajax({
@@ -14,7 +15,6 @@ let tmp;
         }
 
     });
-
 
 
 }
