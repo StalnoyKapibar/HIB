@@ -12,6 +12,7 @@ public class UserController {
     @GetMapping("/lng/{lng}")
     public ResponseEntity chooseLanguage(@PathVariable("lng") String lng) throws JsonProcessingException {
         //логика (отправляем locale на service), получаем ответ, отправляем на страницу
+
         String WindowLocaleDTO = "something here";
         return ResponseEntity.status(HttpStatus.OK).body(new ObjectMapper().writeValueAsString(WindowLocaleDTO));
     }
