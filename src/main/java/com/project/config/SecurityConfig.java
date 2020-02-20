@@ -20,19 +20,12 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-//    @Autowired
-//    private UserService userService;
 
- /*   @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }*/
 
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-      //  auth.inMemoryAuthentication().withUser("admin").password("{noop}password").roles("USER");
-//        auth.userDetailsService(userService);
+
     }
 
     @Override
@@ -65,14 +58,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/home", "/css/*", "/js/*" ).permitAll();
 
-            //   .antMatchers("/login", "/index", "/css/signin.css", "/css/sig.css", "/admin", "/admin/*", "/user", "/js/myF.js", "/js/s.js", "/js/getTemp.js", "/js/getuser.js", "/js/getmodal.js", "/js/asdqwe.js" ).permitAll();
-
-                //страницы аутентификаци доступна всем
-
-                // защищенные URL
-//                .antMatchers("/user").access("hasAnyAuthority('user', 'admin')")
-//              .antMatchers("/admin").access("hasAnyAuthority('admin')").anyRequest().authenticated();
-        //   .antMatchers("/user").hasAnyAuthority("user", "admin");
     }
 
     @Bean
