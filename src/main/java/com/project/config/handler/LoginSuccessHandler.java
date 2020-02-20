@@ -1,4 +1,4 @@
-package tst.pp08.config.handler;
+package com.project.config.handler;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -21,14 +21,14 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
         Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
 
-        if (roles.contains("admin")) {
-            httpServletResponse.sendRedirect("/admin");
-        }
-
-        else if (roles.contains("user")) {
-            httpServletResponse.sendRedirect("/user");
-        }
-        else httpServletResponse.sendRedirect("/login");
+//        if (roles.contains("admin")) {
+//            httpServletResponse.sendRedirect("/admin");
+//        }
+//
+//        else if (roles.contains("user")) {
+//            httpServletResponse.sendRedirect("/user");
+//        }
+//        else httpServletResponse.sendRedirect("/login");
 
     }
 }

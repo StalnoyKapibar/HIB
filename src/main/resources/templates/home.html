@@ -16,13 +16,20 @@
 
 
 <nav class="navbar  navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">PP09</a>
-    <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-            <authorize access="isAuthenticated()">
-                <a class="nav-link" href="/logout">Logout</a>
-            </authorize>
+
+
+
+    <a class="navbar-brand" href="#">HIB</a>
+    <ul class="navbar-nav">
+
+        <li class="nav-item active">
+            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
         </li>
+<!--        <li class="nav-item">-->
+<!--            <authorize access="isAuthenticated()">-->
+<!--                <a class="nav-link" href="/logout">Logout</a>-->
+<!--            </authorize>-->
+<!--        </li>-->
     </ul>
 </nav>
 
@@ -30,11 +37,17 @@
     <div class="col-2">
         <ul class="nav nav-pills flex-column">
             <li class="nav-item">
-                <a href="/admin" class="nav-link active">Admin</a>
+                <a href="/home" class="nav-link active">HIB</a>
             </li>
             <li class="nav-item">
-                <a href="/user" class="nav-link">User</a>
+                <a href="/example" class="nav-link">Example</a>
             </li>
+
+            <li class="nav-item">
+                <a href="/example0" class="nav-link">Example0</a>
+            </li>
+
+
         </ul>
     </div>
     <div class="col-9">
@@ -42,15 +55,15 @@
             <div class="tab-pane fade show active mt-3" id="v-pills-home" role="tabpanel"
                  aria-labelledby="v-pills-home-tab">
 
-                <h1>Admin panel</h1>
+                <h1>HIB</h1>
 
                 <nav>
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
                         <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home"
-                           role="tab" aria-controls="nav-home" aria-selected="true">Users table</a>
+                           role="tab" aria-controls="nav-home" aria-selected="true">Example</a>
 
-                        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile"
-                           role="tab" aria-controls="nav-profile" aria-selected="false">New user</a>
+<!--                        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile"-->
+<!--                           role="tab" aria-controls="nav-profile" aria-selected="false">New user</a>-->
 
 
                     </div>
@@ -61,63 +74,81 @@
 
 
                     <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                        <div class="table">
-                            <ul class="list-group">
-                                <li class="list-group-item list-group-item-light">All users</li>
-                            </ul>
+
+                        <p class="text-left">
 
 
-                            <table class="table table-striped" id="extra">
-                                <thead>
-                                <tr>
-                                    <th scope="col">ID</th>
-                                    <th scope="col">Role</th>
-                                    <th scope="col">Username</th>
-                                    <th scope="col">Password</th>
-                                    <th scope="col">Edit</th>
-                                    <th scope="col">Delete</th>
-                                </tr>
-                                </thead>
-                            </table>
-                        </div>
 
-                    </div>
+                        Добро пожаловать в Интернет-магазин Dimitris Retsas. Книжный магазин My ​​Antique работает в Монастираки с 1987 года (Афины, Афины 6). Электронный книжный магазин (www.retsasbooks.gr) работает с этого года. Он будет постепенно обогащаться с целью заполнить свои полки к концу года. Как и в книжном магазине, и здесь бремя ложится на старые, редкие и малоизвестные издания преимущественно греческих книг, уделяя особое внимание качеству их состояния. Основными областями деятельности являются история, краеведение, фольклор, ранние издания греческой литературы, иллюстрированные издания, избранные книги во многих других областях, театральные программы, системы показателей и т. Д.Я также буду принимать заказы на труднодоступные названия. Я буду рад служить вам.
+
+                        Заранее благодарим за сотрудничество
+                        Афины, июнь 2011 г.
+                        Димитрис Ретсас
+
+                        Примечание. Если вы хотите получать книги сайта из магазина, вы должны сообщить мне об этом накануне по телефону или электронной почте, чтобы доставить их из магазина в книжный магазин.
+
+                        Димитрис Рецас Антикварный книжный магазин. Астигос 6, Монастираки, Афины 10555.
+                        Тел .: 210 3251405, 210 6232373, мобильный: 6982715347
+                        </p>
 
 
-                    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                        <ul class="list-group">
-                            <li class="list-group-item list-group-item-light">Add new user</li>
-                        </ul>
-
-                        <form role="form" class="custom-centered" id="newUserForm">
-
-                            <div class="form-group">
-                                <label for="username">Username</label>
-                                <input type="text" class="form-control" id="username"
-                                       aria-describedby="emailHelp" placeholder="Enter Username">
-
-                            </div>
-                            <div class="form-group">
-                                <label for="password">Password</label>
-                                <input type="password" class="form-control" id="password"
-                                       placeholder="Enter Password">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="exampleInput">Roles</label>
-                                <div class="border" id="border">
-
-                                </div>
-                            </div>
-                            <button type="submit"  class="btn btn-primary custom-centered">Add new
-                                user
-                            </button>
+<!--                        <div class="table">-->
+<!--                            <ul class="list-group">-->
+<!--                                <li class="list-group-item list-group-item-light">All users</li>-->
+<!--                            </ul>-->
 
 
-                        </form>
-
+<!--                            <table class="table table-striped" id="extra">-->
+<!--                                <thead>-->
+<!--                                <tr>-->
+<!--                                    <th scope="col">ID</th>-->
+<!--                                    <th scope="col">Role</th>-->
+<!--                                    <th scope="col">Username</th>-->
+<!--                                    <th scope="col">Password</th>-->
+<!--                                    <th scope="col">Edit</th>-->
+<!--                                    <th scope="col">Delete</th>-->
+<!--                                </tr>-->
+<!--                                </thead>-->
+<!--                            </table>-->
+<!--                        </div>-->
 
                     </div>
+
+
+<!--                    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">-->
+<!--                        <ul class="list-group">-->
+<!--                            <li class="list-group-item list-group-item-light">Add new user</li>-->
+<!--                        </ul>-->
+
+<!--                        <form role="form" class="custom-centered" id="newUserForm">-->
+
+<!--                            <div class="form-group">-->
+<!--                                <label for="username">Username</label>-->
+<!--                                <input type="text" class="form-control" id="username"-->
+<!--                                       aria-describedby="emailHelp" placeholder="Enter Username">-->
+
+<!--                            </div>-->
+<!--                            <div class="form-group">-->
+<!--                                <label for="password">Password</label>-->
+<!--                                <input type="password" class="form-control" id="password"-->
+<!--                                       placeholder="Enter Password">-->
+<!--                            </div>-->
+
+<!--                            <div class="form-group">-->
+<!--                                <label for="exampleInput">Roles</label>-->
+<!--                                <div class="border" id="border">-->
+
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <button type="submit"  class="btn btn-primary custom-centered">Add new-->
+<!--                                user-->
+<!--                            </button>-->
+
+
+<!--                        </form>-->
+
+
+<!--                    </div>-->
                 </div>
 
             </div>
@@ -127,74 +158,74 @@
     </div>
 </div>
 
-<div class="modal fade" id="asdddd" tabindex="-1" role="dialog"
-     aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false"> ///
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Edit
-                    username
-                </h5>
-                <button type="button" onclick="asdqwe()" class="close" data-dismiss="modal"
-                        aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
+<!--<div class="modal fade" id="asdddd" tabindex="-1" role="dialog"-->
+<!--     aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false"> ///-->
+<!--    <div class="modal-dialog" role="document">-->
+<!--        <div class="modal-content">-->
+<!--            <div class="modal-header">-->
+<!--                <h5 class="modal-title" id="exampleModalLabel">Edit-->
+<!--                    username-->
+<!--                </h5>-->
+<!--                <button type="button" onclick="asdqwe()" class="close" data-dismiss="modal"-->
+<!--                        aria-label="Close">-->
+<!--                    <span aria-hidden="true">&times;</span>-->
+<!--                </button>-->
+<!--            </div>-->
+<!--            <div class="modal-body">-->
 
 
-                <form role="form" class="custom-centered">
+<!--                <form role="form" class="custom-centered">-->
 
-                    <div class="form-group">
-                        <label for="exampleInputId">Id</label>
-                        <input type="text" class="form-control"
-                               id="exampleInputId"
-                               aria-describedby="emailHelp" placeholder="Id"
-                               readonly>
+<!--                    <div class="form-group">-->
+<!--                        <label for="exampleInputId">Id</label>-->
+<!--                        <input type="text" class="form-control"-->
+<!--                               id="exampleInputId"-->
+<!--                               aria-describedby="emailHelp" placeholder="Id"-->
+<!--                               readonly>-->
 
-                    </div>
+<!--                    </div>-->
 
-                    <div class="form-group">
-                        <label for="exampleInputEmail11">Username</label>
-                        <input type="text" class="form-control"
-                               id="exampleInputEmail11"
-                               aria-describedby="emailHelp"
-                               placeholder="Enter Username">
+<!--                    <div class="form-group">-->
+<!--                        <label for="exampleInputEmail11">Username</label>-->
+<!--                        <input type="text" class="form-control"-->
+<!--                               id="exampleInputEmail11"-->
+<!--                               aria-describedby="emailHelp"-->
+<!--                               placeholder="Enter Username">-->
 
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword11">Password</label>
-                        <input type="password" class="form-control"
-                               id="exampleInputPassword11"
-                               placeholder="Password">
-                    </div>
-
-
-                    <div class="form-group">
-                        <label for="exampleInput11">Role</label>
-                        <div class="border" id="border1">
+<!--                    </div>-->
+<!--                    <div class="form-group">-->
+<!--                        <label for="exampleInputPassword11">Password</label>-->
+<!--                        <input type="password" class="form-control"-->
+<!--                               id="exampleInputPassword11"-->
+<!--                               placeholder="Password">-->
+<!--                    </div>-->
 
 
-                        </div>
-                    </div>
+<!--                    <div class="form-group">-->
+<!--                        <label for="exampleInput11">Role</label>-->
+<!--                        <div class="border" id="border1">-->
 
 
-                    <div class="modal-footer">
-                        <button type="button"  class="btn btn-secondary"
-                                data-dismiss="modal">Close
-                        </button>
-                        <button type="button"  class="btn btn-primary"
-                                data-dismiss="modal">Save changes
-                        </button>
-                    </div>
-                </form>
+<!--                        </div>-->
+<!--                    </div>-->
 
 
-            </div>
+<!--                    <div class="modal-footer">-->
+<!--                        <button type="button"  class="btn btn-secondary"-->
+<!--                                data-dismiss="modal">Close-->
+<!--                        </button>-->
+<!--                        <button type="button"  class="btn btn-primary"-->
+<!--                                data-dismiss="modal">Save changes-->
+<!--                        </button>-->
+<!--                    </div>-->
+<!--                </form>-->
 
-        </div>
-    </div>
-</div>
+
+<!--            </div>-->
+
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
 
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

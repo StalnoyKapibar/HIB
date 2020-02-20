@@ -5,6 +5,8 @@ import lombok.*;
 
 import javax.persistence.*;
 
+
+@NoArgsConstructor
 @Data
 @Entity
 @Table(name = "localString")
@@ -47,9 +49,7 @@ public class LocaleString {
     private String cs;
 
 
-    public LocaleString(){
 
-    }
 
 
 

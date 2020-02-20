@@ -1,5 +1,6 @@
-package tst.pp08.config;
+package com.project.config;
 
+import com.project.config.handler.LoginSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,15 +13,15 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import tst.pp08.config.handler.LoginSuccessHandler;
-import tst.pp08.service.UserService;
+
+
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private UserService userService;
+//    @Autowired
+//    private UserService userService;
 
  /*   @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -31,7 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
       //  auth.inMemoryAuthentication().withUser("admin").password("{noop}password").roles("USER");
-        auth.userDetailsService(userService);
+//        auth.userDetailsService(userService);
     }
 
     @Override
@@ -62,15 +63,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 // делаем страницу регистрации недоступной для авторизированных пользователей
                 .authorizeRequests()
-                .antMatchers("/login", "/css/*", "/js/*" ).permitAll()
+                .antMatchers("/home", "/css/*", "/js/*" ).permitAll();
 
-              //  .antMatchers("/login", "/css/signin.css", "/css/sig.css", "/admin", "/admin/*", "/user", "/js/myF.js", "/js/s.js", "/js/getTemp.js", "/js/getuser.js", "/js/getmodal.js", "/js/asdqwe.js" ).permitAll();
+            //   .antMatchers("/login", "/index", "/css/signin.css", "/css/sig.css", "/admin", "/admin/*", "/user", "/js/myF.js", "/js/s.js", "/js/getTemp.js", "/js/getuser.js", "/js/getmodal.js", "/js/asdqwe.js" ).permitAll();
 
                 //страницы аутентификаци доступна всем
 
                 // защищенные URL
-                .antMatchers("/user").access("hasAnyAuthority('user', 'admin')")
-              .antMatchers("/admin").access("hasAnyAuthority('admin')").anyRequest().authenticated();
+//                .antMatchers("/user").access("hasAnyAuthority('user', 'admin')")
+//              .antMatchers("/admin").access("hasAnyAuthority('admin')").anyRequest().authenticated();
         //   .antMatchers("/user").hasAnyAuthority("user", "admin");
     }
 
