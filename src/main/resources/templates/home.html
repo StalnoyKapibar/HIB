@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
@@ -21,19 +21,15 @@
         </div>
         <div class="col-sm-1 col-md-1 col-lg-1 dropdown show">
             <a class="btn btn-secondary dropdown-toggle" href="#"
-               role="button" id="dropdownMenuLink" data-toggle="dropdown"
-               aria-haspopup="true" aria-expanded="false">RU</a>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" id="ddMenu">
-                <a class="dropdown-item">EN</a>
-                <a class="dropdown-item">RU</a>
-                <a class="dropdown-item">DE</a>
-                <a class="dropdown-item">FR</a>
-                <a class="dropdown-item">CS</a>
+               role="button" id="dd_menu_link" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false"
+               th:attr="data-current-lang=${#httpSession.getAttribute('LANG')}"></a>
+            <div class="dropdown-menu" aria-labelledby="dd_menu_link" id="dd_menu">
             </div>
         </div>
     </nav>
 </header>
-<div class="container-fluid text-center text-md-center">
+<div class="container-fluid text-center text-md-center" id="main_container">
 </div>
 <script src="../static/js/main.js"></script>
 </body>
