@@ -18,5 +18,5 @@ $('#ddMenu').on('click', 'a', async function (eventOnInnerTag) {
 
             //логика обработки ответа, релоад страницы
             $('#dropdownMenuLink').text(eventOnInnerTag.target.text);
-    });
+        });
 });

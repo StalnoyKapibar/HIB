@@ -8,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 @EnableWebMvc
 public class WebConfiguration implements WebMvcConfigurer {
-    private static final String[] CLASSPATH_RESOURCE_LOCATIONS = {"classpath:/static/","classpath:*"};
+    private static final String[] CLASSPATH_RESOURCE_LOCATIONS = {"classpath:/static/", "classpath:*"};
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {

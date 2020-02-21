@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class UserController {
 
-    @GetMapping("/lang/{lng}")
-    public ResponseEntity chooseLanguage(@PathVariable("lng") String lng) throws JsonProcessingException {
+    @GetMapping("/lang/{lang}")
+    public ResponseEntity chooseLanguage(@PathVariable("lang") String lang) throws JsonProcessingException {
 
         //логика (отправляем locale на service), получаем ответ, отправляем на страницу
         String response = "dataString";
