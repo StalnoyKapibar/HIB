@@ -21,4 +21,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 
             return "footer";
         }
+
+
+
+        @GetMapping("/inter")
+        public String getInternationalPage() {
+            return "inter";
+        }
     }
