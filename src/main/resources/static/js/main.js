@@ -15,6 +15,8 @@ $('#ddMenu').on('click', 'a', async function (eventOnInnerTag) {
         .then(status)
         .then(json)
         .then(function (data) {
+
+            //логика обработки ответа, релоад страницы
             $('#dropdownMenuLink').text(eventOnInnerTag.target.text);
     });
 });
