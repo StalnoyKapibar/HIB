@@ -1,10 +1,21 @@
-$('#dd_menu').on('click', 'a', async function (event_on_inner_tag) {
-    var response = await fetch("/lng/" + event_on_inner_tag.target.text);
-    if(response.ok){
-        $('#dropdownMenuLink').text(event_on_inner_tag.target.text);
-
-        //reload страницы после обработки данных
-    }else {
-        console.log('ERROR' + response);
+function status(response) {
+    if (response.status >= 200 && response.status < 300) {
+        return Promise.resolve(response)
+    } else {
+        return Promise.reject(new Error(response.statusText))
     }
+}
+
+function json(response) {
+    return response.json()
+}
+
+
+$('#ddMenu').on('click', 'a', async function (eventOnInnerTag) {
+    await fetch("/lng/" + eventOnInnerTag.target.text)
+        .then(status)
+        .then(json)
+        .then(function (data) {
+            $('#dropdownMenuLink').text(eventOnInnerTag.target.text);
+    });
 });

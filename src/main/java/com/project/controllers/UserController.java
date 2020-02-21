@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class UserController {
 
-    @GetMapping("/lng/{lng}")
+    @GetMapping("/lang/{lng}")
     public ResponseEntity chooseLanguage(@PathVariable("lng") String lng) throws JsonProcessingException {
+
         //логика (отправляем locale на service), получаем ответ, отправляем на страницу
 
-        String WindowLocaleDTO = "something here";
-        return ResponseEntity.status(HttpStatus.OK).body(new ObjectMapper().writeValueAsString(WindowLocaleDTO));
+        return ResponseEntity.status(HttpStatus.OK).body(new ObjectMapper().writeValueAsString(null));
     }
 }
