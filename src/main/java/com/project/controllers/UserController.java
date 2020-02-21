@@ -13,7 +13,8 @@ public class UserController {
     public ResponseEntity chooseLanguage(@PathVariable("lang") String lang) throws JsonProcessingException {
 
         //логика (отправляем locale на service), получаем ответ, отправляем на страницу
-        String response = "dataString";
-        return ResponseEntity.status(HttpStatus.OK).body(new ObjectMapper().writeValueAsString(response));
+        //String response = "dataString";
+
+        return ResponseEntity.status(HttpStatus.OK).body(new ObjectMapper().writeValueAsString(new String("somevalue")));
     }
 }
