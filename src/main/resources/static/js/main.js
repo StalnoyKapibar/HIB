@@ -10,9 +10,8 @@ function json(response) {
     return response.json()
 }
 
-
 $('#ddMenu').on('click', 'a', async function (eventOnInnerTag) {
-    await fetch("/lng/" + eventOnInnerTag.target.text)
+    await fetch("/lang/" + eventOnInnerTag.target.text)
         .then(status)
         .then(json)
         .then(function (data) {
