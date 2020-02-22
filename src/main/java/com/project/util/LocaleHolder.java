@@ -6,25 +6,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class LocalStringColumns {
-    private static LocalStringColumns instance;
+public class LocaleHolder {
     private Class localeStringClass = LocaleString.class;
     private List<String> fields = new ArrayList<>();
 
-    private LocalStringColumns() {
+    public LocaleHolder() {
         Arrays.stream(localeStringClass.getDeclaredFields())
-                .filter(n -> !n.getType().equals(Long.class))
+                .filter(n -> n.getType().equals(String.class) & (n.getName().length() == 2))
                 .forEach(n -> fields.add(n.getName()));
-    }
-
-    public static LocalStringColumns getInstance() {
-        if (instance == null) {
-            instance = new LocalStringColumns();
-        }
-        return instance;
     }
 
     public List<String> getFields() {
         return fields;
     }
+
 }

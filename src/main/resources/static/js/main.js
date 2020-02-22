@@ -7,7 +7,7 @@ $('#dd_menu').on('click', 'a', async function (eventOnInnerTag) {
     const selectedLang = eventOnInnerTag.target.text
     await fetch("/lang/" + selectedLang)
         .then(status)
-        .then(json)
+        .then(text)
         .then(function (data) {
             currentLang = selectedLang;
             //some logic to processing data and reload page with chosen lang
@@ -24,13 +24,11 @@ async function getLanguage() {
             if (currentLang == '') {
                 currentLang = $('#dd_menu_link').data('currentLang');
             }
-            $('#dd_menu_link').text(currentLang);
-
             for (language in listOfLanguage) {
                 if (currentLang == (listOfLanguage[language])) {
                     continue;
                 }
-                html += `<a class="dropdown-item" href="/home?ln=${listOfLanguage[language]}">${listOfLanguage[language]}</a>`;
+                html += `<a class="dropdown-item">${listOfLanguage[language]}</a>`;
             }
             $('#dd_menu').html(html);
             $('#dd_menu_link').text(currentLang);
@@ -48,5 +46,8 @@ function status(response) {
 
 function json(response) {
     return response.json()
+}
 
+function text(response) {
+    return response.text()
 }
