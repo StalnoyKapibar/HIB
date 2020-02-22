@@ -1,20 +1,31 @@
-async function asd() {
-    let tmp;
-    // let response = await fetch('/welcome');
-    // let dd = JSON.stringify(response);
+function asd() {
+    var a = document.getElementById("exampleFormControlSelect1").value;
+
+    document.getElementById("start0").innerText = '';
+
+    ru0(a);
+
+}
 
 
-    $.ajax({
+async function ru0(x) {
 
-        url: '/welcome',
-        datatype: 'json',
-        type: "post",
-        contentType: "application/json",
-        success: function (data) {
-            temp = data;
+    let response = await fetch("/welcome", {
+        method: 'POST', // или 'PUT'
+        body: x, // данные могут быть 'строкой' или {объектом}!
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
         }
 
+
     });
+
+
+    var tmp = response.headers.get("qwe");
+
+
+    $("#start0").append(tmp);
 
 
 }

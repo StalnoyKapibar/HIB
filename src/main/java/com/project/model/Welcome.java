@@ -25,7 +25,10 @@ public class Welcome {
     @JoinTable(name = "welcome_body",
             joinColumns = @JoinColumn(name = "welcome_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "body_id", referencedColumnName = "id"))
+
     private LocaleString body;
+
+
 
 
 

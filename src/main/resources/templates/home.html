@@ -12,12 +12,13 @@
 
     <link rel="stylesheet" type="text/css" href="css/sig.css">
 </head>
-<body>
+<body onload="ru0('ru')">
 
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="#">HIB</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
 
@@ -42,16 +43,15 @@
 </nav>
 
 
-
 <div class="row">
     <div class="col-2">
         <ul class="nav nav-pills flex-column">
             <li class="nav-item">
 
 
-
                 <div class="dropdown">
-                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Выпадающая ссылка
                     </a>
 
@@ -73,16 +73,31 @@
                 <h1>HIB</h1>
 
 
-
                 <div class="tab-content tab - border" id="nav-tabContent">
 
 
                     <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
 
-                        <p class="text-left">
-                            тут будет текст
-                        </p>
 
+                        <form>
+                            <div class="form-group">
+                                <label for="exampleFormControlSelect1">Выбор языка</label>
+                                <select class="form-control" id="exampleFormControlSelect1" onchange="asd()">
+                                    <option>ru</option>
+                                    <option>en</option>
+                                    <option>de</option>
+                                    <option>fr</option>
+                                    <option>it</option>
+                                    <option>cs</option>
+                                </select>
+
+                            </div>
+                        </form>
+
+                        <p class="text-left" id="start0">
+
+
+                        </p>
 
 
                     </div>
@@ -97,8 +112,6 @@
 </div>
 
 
-
-
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
@@ -111,7 +124,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 
-
+<script src="js/asd.js"></script>
 
 
 </body>

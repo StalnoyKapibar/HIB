@@ -5,7 +5,7 @@ import com.project.model.Welcome;
 
 public interface WelcomeService {
 
-    Welcome getWelcome();
+    String getWelcome(String locale);
     void setWelcome(Welcome welcome);
 
 }

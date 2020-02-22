@@ -14,18 +14,19 @@ import javax.persistence.*;
 @Repository
 @Transactional
 public class WelcomeDAOImp implements WelcomeDAO {
+
     @PersistenceContext
     private EntityManager entityManager;
 
-    public static void main(String[] args) {
-        new WelcomeDAOImp().getWelcome("ru");
-    }
+//    public static void main(String[] args) {
+//        new WelcomeDAOImp().getWelcome("ru");
+//    }
 
     @Override
-    public Welcome getWelcome(String locale) {
+    public String getWelcome(String locale) {
 
         String temp = "Select w.body.LOC  FROM Welcome w".replaceAll("LOC", locale);
-        return (Welcome) entityManager.createQuery(temp).getSingleResult();
+        return (String) entityManager.createQuery(temp).getSingleResult();
     }
 
     @Override

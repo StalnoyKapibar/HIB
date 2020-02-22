@@ -1,12 +1,15 @@
 package com.project.controller;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.model.Welcome;
 import com.project.service.WelcomeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-
 
 
 @RestController
@@ -17,8 +20,14 @@ public class NewController {
 
 
     @PostMapping("/welcome")
-    public Welcome getWelcome() {
-        return welcomeService.getWelcome();
+    public ResponseEntity<String> getWelcome(@RequestBody String locale) throws JsonProcessingException {
+        String d = welcomeService.getWelcome(locale);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("qwe", d);
+
+        return new ResponseEntity<String>(headers, HttpStatus.OK);
+
 
     }
 
@@ -27,7 +36,6 @@ public class NewController {
         welcomeService.setWelcome(welcome);
 
     }
-
 
 
 }
