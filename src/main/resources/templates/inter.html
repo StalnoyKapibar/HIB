@@ -7,14 +7,17 @@
     <script src="internationalization.js"></script>
 </head>
 <body>
-<h1 th:text="#{greeting}"></h1>
+<h1 th:text="#{main1}"></h1>
 
 <br /><br />
+
+
 <span th:text="#{lang.change}"></span>:
 <select id="locales">
     <option value=""></option>
     <option value="en" th:text="#{lang.eng}"></option>
     <option value="fr" th:text="#{lang.fr}"></option>
 </select>
+
 </body>
 </html>
