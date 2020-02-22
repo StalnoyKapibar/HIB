@@ -21,10 +21,10 @@ public class WelcomeLocaleController {
 
     @PostMapping("/welcome")
     public ResponseEntity<String> getWelcome(@RequestBody String locale){
-        String d = welcomeService.getWelcome(locale);
+        String loc = welcomeService.getWelcome(locale);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add("qwe", d);
+        headers.add("locale", loc);
 
         return new ResponseEntity<String>(headers, HttpStatus.OK);
 

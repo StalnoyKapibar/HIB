@@ -22,7 +22,7 @@ async function defaultLocale(x) {
     });
 
 
-    var tmp = response.headers.get("qwe");
+    var tmp = response.headers.get("locale");
 
 
     $("#start0").append(tmp);
