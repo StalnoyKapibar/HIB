@@ -1,15 +1,12 @@
 function changeLocale() {
     var a = document.getElementById("exampleFormControlSelect1").value;
-
     document.getElementById("start0").innerText = '';
-
     defaultLocale(a);
-
 }
 
+$(document).ready(defaultLocale('ru'));
 
 async function defaultLocale(x) {
-
     let response = await fetch("/welcome", {
         method: 'POST',
         body: x,
@@ -17,15 +14,6 @@ async function defaultLocale(x) {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         }
-
-
     });
-
-
-    var tmp = response.headers.get("locale");
-
-
-    $("#start0").append(tmp);
-
-
+    // $("#start0").append(tmp);
 }

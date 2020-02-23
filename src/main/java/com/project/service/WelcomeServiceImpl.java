@@ -1,28 +1,24 @@
 package com.project.service;
 
-
 import com.project.dao.WelcomeDAO;
 import com.project.model.Welcome;
+import com.project.model.WelcomeLocaleDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class WelcomeServiceImp implements WelcomeService {
-
+public class WelcomeServiceImpl implements WelcomeService {
 
     @Autowired
     private WelcomeDAO welcomeDAO;
 
-
     @Override
-    public String getWelcome(String locale) {
-        return welcomeDAO.getWelcome(locale);
+    public WelcomeLocaleDTO getWelcomeLocaleString(String locale) {
+        return welcomeDAO.getWelcomeLocaleDTO(locale);
     }
 
     @Override
-    public void setWelcome(Welcome welcome) {
-        welcomeDAO.setWelcome(welcome);
+    public void editWelcome(Welcome welcome) {
+        welcomeDAO.editWelcome(welcome);
     }
-
-
 }

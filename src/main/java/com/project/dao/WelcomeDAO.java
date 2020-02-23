@@ -1,14 +1,11 @@
 package com.project.dao;
 
 import com.project.model.Welcome;
+import com.project.model.WelcomeLocaleDTO;
 
 public interface WelcomeDAO {
-
-    String getWelcome(String locale);
-
-    void setWelcome(Welcome welcome);
-
-
+    WelcomeLocaleDTO getWelcomeLocaleDTO(String locale);
+    void editWelcome(Welcome welcome);
 }
 
 

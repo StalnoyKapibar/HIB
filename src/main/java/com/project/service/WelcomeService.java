@@ -1,11 +1,9 @@
 package com.project.service;
 
-
 import com.project.model.Welcome;
+import com.project.model.WelcomeLocaleDTO;
 
 public interface WelcomeService {
-
-    String getWelcome(String locale);
-    void setWelcome(Welcome welcome);
-
+    WelcomeLocaleDTO getWelcomeLocaleString(String locale);
+    void editWelcome(Welcome welcome);
 }

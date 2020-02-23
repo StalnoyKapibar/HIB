@@ -1,19 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-
-
     <meta charset="UTF-8">
     <title>Title</title>
-
-
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-
-
     <link rel="stylesheet" type="text/css" href="css/sig.css">
 </head>
-<body onload="defaultLocale('ru')">
-
+<body>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="#">HIB</a>
@@ -30,7 +23,6 @@
             <li class="nav-item">
                 <a class="nav-link" href="#">Link</a>
             </li>
-
             <li class="nav-item">
                 <a class="nav-link disabled" href="#">Disabled</a>
             </li>
@@ -47,38 +39,26 @@
     <div class="col-2">
         <ul class="nav nav-pills flex-column">
             <li class="nav-item">
-
-
                 <div class="dropdown">
                     <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Выпадающая ссылка
                     </a>
-
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                         <a class="dropdown-item" href="#">Action</a>
                         <a class="dropdown-item" href="#">Another action</a>
                         <a class="dropdown-item" href="#">Something else here</a>
                     </div>
                 </div>
-
-
         </ul>
     </div>
     <div class="col-9">
         <div class="tab-content" id="v-pills-tabContent">
             <div class="tab-pane fade show active mt-3" id="v-pills-home" role="tabpanel"
                  aria-labelledby="v-pills-home-tab">
-
                 <h1>HIB</h1>
-
-
                 <div class="tab-content tab - border" id="nav-tabContent">
-
-
                     <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-
-
                         <form>
                             <div class="form-group">
                                 <label for="exampleFormControlSelect1">Выбор языка</label>
@@ -90,27 +70,18 @@
                                     <option>it</option>
                                     <option>cs</option>
                                 </select>
-
                             </div>
                         </form>
-
                         <p class="text-left" id="start0">
 
 
                         </p>
-
-
                     </div>
-
                 </div>
-
             </div>
-
-
         </div>
     </div>
 </div>
-
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -122,10 +93,7 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
-
 <script src="js/first.js"></script>
-
 
 </body>
 </html>

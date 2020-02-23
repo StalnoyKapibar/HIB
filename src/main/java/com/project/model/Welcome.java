@@ -1,6 +1,5 @@
 package com.project.model;
 
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -19,12 +18,9 @@ public class Welcome {
     @Column(name = "name")
     private String name;
 
-
-
-    @OneToOne (fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinTable(name = "welcome_body",
-            joinColumns = @JoinColumn(name = "welcome_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "body_id", referencedColumnName = "id"))
+            joinColumns = @JoinColumn(name = "welcome_id", referencedColumnName = "id"))
 
     private LocaleString body;
 
