@@ -1,23 +1,36 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="ISO-8859-1" />
+    <meta  http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Home</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="internationalization.js"></script>
+    <link rel="stylesheet" th:href="@{webjars/bootstrap/4.2.1/css/bootstrap.min.css}"/>
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/sticky-footer/">
+    <link href="stylesheet2.css" rel="stylesheet">
 </head>
 <body>
 <h1 th:text="#{main1}"></h1>
 
-<br /><br />
 
 
-<span th:text="#{lang.change}"></span>:
-<select id="locales">
-    <option value=""></option>
-    <option value="en" th:text="#{lang.eng}"></option>
-    <option value="fr" th:text="#{lang.fr}"></option>
-</select>
+
+
+
+
+<div class="footer"><div class="footer_menu">
+        <a href="index.php" th:text="#{main1}"></a>
+        |<a href="index.php?instance=profile" th:text="#{instruction}"></a>
+        |<a href="index.php?instance=ordering" th:text="#{order}"></a>
+        |<a href="index.php?instance=authors" th:text="#{authors}"></a>
+        |<a href="index.php?instance=links" th:text="#{links}"></a>
+        |<a href="index.php?instance=contact" th:text="#{contacts}"></a>
+</div>
+    <div class="footer_text">Σχεδίαση - <a target="_blank" href="http://lefterisk.com">Κατασκευή Ιστοσελίδων</a>
+        Λευτέρης Κόκκωνας</div>
+</div>
+
+
 
 </body>
 </html>

@@ -31,6 +31,17 @@ public class webConfig implements WebMvcConfigurer {
     }
 
 
+    @Bean
+    public ResourceBundleMessageSource messageSource() {
+
+        ResourceBundleMessageSource source = new ResourceBundleMessageSource();
+        source.setBasenames("messages");
+        source.setUseCodeAsDefaultMessage(true);
+
+        return source;
+    }
+
+
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
