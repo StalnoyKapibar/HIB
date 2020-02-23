@@ -2,7 +2,6 @@ package com.project.model;
 
 import lombok.*;
 
-import javax.persistence.Entity;
 
 @NoArgsConstructor
 @AllArgsConstructor

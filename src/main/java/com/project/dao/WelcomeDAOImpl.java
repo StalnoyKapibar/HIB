@@ -18,11 +18,14 @@ public class WelcomeDAOImpl implements WelcomeDAO {
 
     @Override
     public WelcomeLocaleDTO getWelcomeLocaleDTO(String locale) {
+
         String temp = "Select w.body.LOC  FROM Welcome w".replaceAll("LOC", locale);
         String loc = (String) entityManager.createQuery(temp).getSingleResult();
-        WelcomeLocaleDTO welcomeLocaleDTO = modelMapper.map(loc, WelcomeLocaleDTO.class);
-        welcomeLocaleDTO.setNameLocale(loc);
-        return welcomeLocaleDTO;
+        WelcomeLocaleDTO welcomeLocaleDTO0 = new WelcomeLocaleDTO(loc); // вот так собрать??
+
+       /* WelcomeLocaleDTO welcomeLocaleDTO = modelMapper.map(loc, WelcomeLocaleDTO.class);
+        welcomeLocaleDTO.setNameLocale(loc); */     //или вот так?
+        return null;
     }
 
     @Override
