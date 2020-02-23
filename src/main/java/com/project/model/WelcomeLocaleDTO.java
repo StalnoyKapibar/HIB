@@ -4,18 +4,9 @@ import lombok.*;
 
 import javax.persistence.Entity;
 
-
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
 public class WelcomeLocaleDTO {
-
     private String nameLocale;
-
-
-
-    public WelcomeLocaleDTO(String nameLocale) {
-        this.nameLocale = nameLocale;
-    }
-    public WelcomeLocaleDTO() {
-
-    }
 }
