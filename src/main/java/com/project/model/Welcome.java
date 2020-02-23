@@ -23,9 +23,4 @@ public class Welcome {
             joinColumns = @JoinColumn(name = "welcome_id", referencedColumnName = "id"))
 
     private LocaleString body;
-
-
-
-
-
 }
