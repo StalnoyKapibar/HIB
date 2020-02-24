@@ -14,10 +14,9 @@ public class WelcomeDAOImpl implements WelcomeDAO {
 
     @Override
     public WelcomeLocaleDTO getWelcomeLocaleDTOByLocale(String locale) {
-        String temp = "Select w.body.LOC  FROM Welcome w".replaceAll("LOC", locale);
-        String loc = (String) entityManager.createQuery(temp).getSingleResult();
-        WelcomeLocaleDTO welcomeLocaleDTO0 = new WelcomeLocaleDTO(locale, loc);
-        return welcomeLocaleDTO0;
+        String temp = "Select new com.project.model.WelcomeLocaleDTO('LOC', w.body.LOC) FROM Welcome w".replaceAll("LOC", locale);
+        WelcomeLocaleDTO loc = entityManager.createQuery(temp, WelcomeLocaleDTO.class).getSingleResult();
+        return loc;
     }
 
     @Override
