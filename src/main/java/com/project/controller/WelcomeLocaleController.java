@@ -16,7 +16,7 @@ public class WelcomeLocaleController {
     @Autowired
     private WelcomeService welcomeService;
 
-    @GetMapping("/welcome")
+    @PostMapping("/welcome")
     public WelcomeLocaleDTO getWelcomeLocaleDTOByLocale(@RequestBody String locale) {
         return welcomeService.getWelcomeLocaleDTOByLocale(locale);
     }
