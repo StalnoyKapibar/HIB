@@ -8,8 +8,8 @@ html {
     position: absolute;
     bottom: 0;
     width: 100%;
-    height: 60px; /* Set the fixed height of the footer here */
-    line-height: 60px; /* Vertically center the text there */
+    height: 35px; /* Set the fixed height of the footer here */
+    line-height: 35px; /* Vertically center the text there */
 
 }
 
@@ -20,7 +20,7 @@ body {
     font-size:12px;
 
 
-    margin-bottom: 60px; /* Margin bottom by footer height */
+    margin-bottom: 35px; /* Margin bottom by footer height */
 }
 
 
