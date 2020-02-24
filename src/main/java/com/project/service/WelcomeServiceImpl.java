@@ -13,8 +13,8 @@ public class WelcomeServiceImpl implements WelcomeService {
     private WelcomeDAO welcomeDAO;
 
     @Override
-    public WelcomeLocaleDTO getWelcomeLocaleString(String locale) {
-        return welcomeDAO.getWelcomeLocaleDTO(locale);
+    public WelcomeLocaleDTO getWelcomeLocaleDTOByLocale(String locale) {
+        return welcomeDAO.getWelcomeLocaleDTOByLocale(locale);
     }
 
     @Override
