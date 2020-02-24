@@ -17,9 +17,8 @@ public class WelcomeLocaleController {
     private WelcomeService welcomeService;
 
     @PostMapping("/welcome")
-    public ResponseEntity getWelcomeLocaleDTOByLocale(@RequestBody String locale, HttpServletRequest httpServletRequest) {
+    public ResponseEntity getWelcomeLocaleDTOByLocale(@RequestBody String locale) {
         WelcomeLocaleDTO welcomeLocaleDTO = welcomeService.getWelcomeLocaleDTOByLocale(locale);
-        httpServletRequest.getSession().setAttribute("welcomeLocaleDTO", welcomeLocaleDTO);
         return new ResponseEntity(HttpStatus.OK);
     }
 
