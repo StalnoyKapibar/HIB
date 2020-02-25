@@ -1,0 +1,11 @@
+<application>
+  <component name="FileTypeManager" version="17">
+    <extensionMap>
+      <mapping pattern="userFileUpload" type="HTML" />
+      <mapping pattern="temp2" type="HTML" />
+      <mapping pattern="SecurityConfig" type="JAVA" />
+      <mapping ext="rar" type="JAVA" />
+      <mapping ext="property" type="Properties" />
+    </extensionMap>
+  </component>
+</application>
