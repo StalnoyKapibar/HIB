@@ -13,6 +13,6 @@ public class OldController {
 
     @RequestMapping(value = "home", method = RequestMethod.GET)
     public String printIndex() {
-        return "home";
+        return "index";
     }
 }
