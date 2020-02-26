@@ -1,4 +1,4 @@
-package com.project.springConfig;
+package com.project.config;
 
 import java.util.Locale;
 
@@ -13,10 +13,10 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 @Configuration
-@ComponentScan(basePackages = "com.project.springConfig")
+@ComponentScan(basePackages = "com.project.config")
 public class webConfig implements WebMvcConfigurer {
 
-    @Bean
+   /* @Bean
     public LocaleResolver localeResolver() {
         SessionLocaleResolver slr = new SessionLocaleResolver();
         slr.setDefaultLocale(Locale.US);
@@ -26,10 +26,10 @@ public class webConfig implements WebMvcConfigurer {
     @Bean
     public LocaleChangeInterceptor localeChangeInterceptor() {
         LocaleChangeInterceptor lci = new LocaleChangeInterceptor();
-        lci.setParamName("lang");
+        lci.setParamName("LANG");
         return lci;
     }
-
+*/
 
     @Bean
     public ResourceBundleMessageSource messageSource() {
@@ -43,9 +43,9 @@ public class webConfig implements WebMvcConfigurer {
     }
 
 
-
+/*
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(localeChangeInterceptor());
-    }
+    }*/
 }

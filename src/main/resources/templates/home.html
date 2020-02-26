@@ -12,6 +12,12 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
             crossorigin="anonymous"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="internationalization.js"></script>
+    <link rel="stylesheet" th:href="@{webjars/bootstrap/4.2.1/css/bootstrap.min.css}"/>
+    <link href="stylesheet2.css" rel="stylesheet">
+
 </head>
 <body>
 <header class="container-fluid">
@@ -31,6 +37,22 @@
 </header>
 <div class="container-fluid text-center text-md-center" id="main_container">
 </div>
+
+
+<h1 th:text="#{main1}"></h1>
+
+<div class="footer"><div class="footer_menu">
+    <a href="index.php" th:text="#{main1}"></a>
+    |<a href="index.php?instance=profile" th:text="#{instruction}"></a>
+    |<a href="index.php?instance=ordering" th:text="#{order}"></a>
+    |<a href="index.php?instance=authors" th:text="#{authors}"></a>
+    |<a href="index.php?instance=links" th:text="#{links}"></a>
+    |<a href="index.php?instance=contact" th:text="#{contacts}"></a>
+</div>
+    <div class="footer_text" ><a th:text="#{madeby}"></a></div>
+</div>
+
+
 <script src="../static/js/main.js"></script>
 </body>
 </html>
