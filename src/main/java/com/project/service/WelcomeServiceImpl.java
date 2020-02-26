@@ -4,6 +4,7 @@ import com.project.dao.WelcomeDAO;
 import com.project.model.Welcome;
 import com.project.model.WelcomeLocaleDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.annotation.ReadOnlyProperty;
 import org.springframework.stereotype.Service;
 
 @Service

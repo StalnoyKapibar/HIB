@@ -24,7 +24,6 @@ public class ViewController {
 
     @GetMapping("/admin")
     public String getEditWelcome() {
-
         return "admin";
     }
 }
