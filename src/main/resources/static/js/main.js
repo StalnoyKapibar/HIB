@@ -10,6 +10,7 @@ $('#dd_menu').on('click', 'a', async function (eventOnInnerTag) {
         .then(text)
         .then(function (data) {
             currentLang = selectedLang;
+            window.location.replace('home?LANG=' + currentLang);
             //some logic to processing data and reload page with chosen lang
             getLanguage();
         });
@@ -32,7 +33,11 @@ async function getLanguage() {
             }
             $('#dd_menu').html(html);
             $('#dd_menu_link').text(currentLang);
+
+
         })
+
+
 }
 
 function status(response) {
