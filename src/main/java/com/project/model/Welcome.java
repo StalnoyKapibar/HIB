@@ -18,7 +18,7 @@ public class Welcome {
     @Column(name = "name")
     private String name;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "welcome_body",
             joinColumns = @JoinColumn(name = "welcome_id", referencedColumnName = "id"))
 
