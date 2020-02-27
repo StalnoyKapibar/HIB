@@ -25,6 +25,7 @@ public class WelcomeLocaleController {
 
     @PostMapping("/welcome/edit")
     public void editWelcome(@RequestBody Welcome welcome) {
+        
         welcomeService.editWelcome(welcome);
     }
 }
