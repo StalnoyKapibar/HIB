@@ -9,7 +9,7 @@
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">HIB</a>
+    <a class="navbar-brand" href="#">HIB Admin panel</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -35,26 +35,23 @@
 </nav>
 <div class="row">
     <div class="col-2">
-        <ul class="nav nav-pills flex-column">
-            <li class="nav-item">
-                <div class="dropdown">
-                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Выпадающая ссылка
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                </div>
-        </ul>
+        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab"
+               aria-controls="v-pills-home" aria-selected="false">Edit Welcome</a>
+            <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab"
+               aria-controls="v-pills-profile" aria-selected="true">Books</a>
+            <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab"
+               aria-controls="v-pills-messages" aria-selected="false">Messages</a>
+            <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab"
+               aria-controls="v-pills-settings" aria-selected="false">Settings</a>
+        </div>
     </div>
+
     <div class="col-9">
         <div class="tab-content" id="v-pills-tabContent">
             <div class="tab-pane fade show active mt-3" id="v-pills-home" role="tabpanel"
                  aria-labelledby="v-pills-home-tab">
-                <h1>Admin panel</h1>
+                <h1>Edit Welcome</h1>
                 <nav>
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
                         <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home"
@@ -74,11 +71,68 @@
                     </div>
                     <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                         <ul class="list-group">
-                            <li class="list-group-item list-group-item-light">....</li>
+                            <li class="list-group-item list-group-item-light">.паро</li>
                         </ul>
+
                     </div>
                 </div>
             </div>
+
+            <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+
+                <nav>
+                    <div class="nav nav-tabs" id="nav-tab1" role="tablist">
+                        <a class="nav-item nav-link active" id="nav-home-tab1" data-toggle="tab" href="#nav-home1"
+                           role="tab" aria-controls="nav-home" aria-selected="true">AllBooks</a>
+                        <a class="nav-item nav-link" id="nav-profile-tab1" onclick="addPage()" data-toggle="tab"
+                           href="#nav-profile1"
+                           role="tab" aria-controls="nav-profile" aria-selected="false">Add Book</a>
+                    </div>
+                </nav>
+                <div class="tab-content tab - border" id="nav-tabContent1">
+                    <div class="tab-pane fade show active" id="nav-home1" role="tabpanel"
+                         aria-labelledby="nav-home-tab">
+                        <div class="table">
+                            <ul class="list-group">
+                                <li class="list-group-item list-group-item-light">All Books</li>
+                            </ul>
+
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination"  id="pagination00">
+
+                                </ul>
+                            </nav>
+
+                            <table class="table table-striped">
+                                <thead>
+                                <tr id="table0">
+
+                                </tr>
+                                </thead>
+                                <tbody id="extra">
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="nav-profile1" role="tabpanel" aria-labelledby="nav-profile-tab1">
+                        <ul class="list-group">
+                            <li class="list-group-item list-group-item-light">Add new Book</li>
+                        </ul>
+
+                        <form role="form" id="newBookForm">
+
+
+                        </form>
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
         </div>
     </div>
 </div>
