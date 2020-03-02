@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 public class BeanConfiguration {
 
     @Bean("localeHolder")
-    public LocaleHolder getLocaleHolder(){
+    public LocaleHolder getLocaleHolder() {
         return new LocaleHolder();
     }
 }
