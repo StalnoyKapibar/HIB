@@ -35,29 +35,19 @@ public  class BookDAOImpl implements BookDAO {
 
     @Override
     public void addBook(BookDTO bookDTO) {
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
         Book book = new Book();
         book.setAuthorLocale(bookDTO.getAuthor());
         book.setNameLocale(bookDTO.getName());
-        em.persist(book);
-        em.getTransaction().commit();
+        entityManager.persist(book);
     }
 
     @Override
     public void delBookById(long id) {
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-        em.createQuery("DELETE FROM Book WHERE id=" + id).executeUpdate();;
-        em.getTransaction().commit();
+        entityManager.remove(getUserById(id));
     }
 
     @Override
     public Book getUserById(long id) {
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-        Book book = em.find(Book.class, id);
-        em.getTransaction().commit();
-        return book;
+       return entityManager.find(Book.class, id);
     }
 }
