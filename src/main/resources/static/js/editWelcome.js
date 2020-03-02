@@ -3,6 +3,8 @@ var nameVarOfLocaleString;
 var nameObjectOfLocaleString;
 var nameObjectOfLocaleStringWithId;
 var varBookDTO;
+var tmpEditBookId;
+var arrAllBooksByNumberPage;
 
 
 $(document).ready(getVarBookDTO(), getAllLocales(), pageBook(0));
@@ -81,6 +83,7 @@ async function pageBook(x) {
         .then(status)
         .then(json)
         .then(function (resp_tmp) {
+            arrAllBooksByNumberPage = resp_tmp.content;
             var htmlTempPager = '';
             for (var i = 0; i < resp_tmp.totalPages; i++) {
                 var z = 1 + i;
@@ -104,22 +107,15 @@ async function pageBook(x) {
 
             var html = '';
 
-
             for (let tmp_html of resp_tmp.content) {
                 html += "                                    <tr id='" + tmp_html.id + "'>" +
                     "                                        <td id='" + tmp_html.id + "'>" + tmp_html.id + "</td>";
-
-                for (var tmpObj of nameObjectOfLocaleString) {
-
-
-                    let aaa = "tmp_html."+  [tmpObj] + ".ru";
-
-
-                    html += `<td id='n" + tmp_html.id + "'>${tmp_html.name.ru}</td>`;
-
-
+                for (key in tmp_html) {
+                    if (key !== "id") {
+                        var ad = tmp_html[key].ru;
+                        html += "<td id='n" + tmp_html.id + "'>" + ad + "</td>";
+                    }
                 }
-
                 html += "                                        <td>" +
                     "                                            <button type='button' onclick='buildEditBook(" + tmp_html.id + ")'  data-toggle='modal'" +
                     "                                                                        data-target='#asdddd'  class='btn btn-primary'> " +
@@ -191,11 +187,20 @@ function delBook(x) {
 
 
 function buildEditBook(x) {
-
+    tmpEditBookId = x;
     var html = '';
     for (let tmpNameObject of nameObjectOfLocaleString) {
 
-        html += "<h5>" + tmpNameObject + "</h5>"
+        html += "<h5>" + tmpNameObject + "</h5>";
+        html += "<div class='form-group'>" +
+            "                                <label for='" + tmpNameObject + "" + "id" + "'>" + tmpNameObject + "  " + "id" + "</label>" +
+            "                                <input type='text' class='form-control' id='" + tmpNameObject + "" + "id" + "' " +
+            "                                       placeholder='" + tmpNameObject + " " + "id" + "'>" +
+            "                            </div>";
+
+
+
+
         for (let tmpNameVar of nameVarOfLocaleString) {
             html += "<div class='form-group'>" +
                 "                                <label for='" + tmpNameObject + "" + tmpNameVar + "'>" + tmpNameObject + "  " + tmpNameVar + "</label>" +
@@ -204,9 +209,30 @@ function buildEditBook(x) {
                 "                            </div>";
         }
     }
-
     $('#editBookForm').html(html + "<button type='submit'  class='btn btn-primary custom-centered'>Edit Book" +
         "                            </button>");
 
+
+    for (var rt of arrAllBooksByNumberPage) {
+        if (rt.id === tmpEditBookId) {
+            var tmpArr = rt;
+        }
+    }
+
+
+    for (key in tmpArr) {
+
+        if (key !== "id") {
+
+        for (key0 of nameVarOfLocaleString) {
+
+            if (key0 !== "id") {
+                document.getElementById(key+key0).value = tmpArr[key][key0];
+            }
+
+        } }
+
+
+    }
 
 }

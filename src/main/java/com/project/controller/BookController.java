@@ -24,7 +24,6 @@ public class BookController {
     @Autowired
     private BookService bookService;
 
-
     @GetMapping("/admin/pageable/{page1}")
     public Page<BookDTO> getWelcomeLocaleDTOByLocale(@PathVariable("page1") int page1) {
         Pageable pageable0 = PageRequest.of(page1, 10, Sort.by(
