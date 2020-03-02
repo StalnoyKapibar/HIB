@@ -25,6 +25,7 @@ async function getAllLocales() {
         .then(json)
         .then(function (resp) {
             tmp = resp;
+            nameVarOfLocaleString = tmp;
             var html = '';
             for (let tmp_html of tmp) {
                 html += "<label for = '" + tmp_html + "'>" + tmp_html + "</label>" +
@@ -102,15 +103,26 @@ async function pageBook(x) {
             $('#table0').html(htmlTable);
 
             var html = '';
+
+
             for (let tmp_html of resp_tmp.content) {
-                html +=
-                    "                                    <tr id='" + tmp_html.id + "'>" +
-                    "                                        <td id='" + tmp_html.id + "'>" + tmp_html.id + "</td>" +
-                    "                                        <td id='n" + tmp_html.id + "'>" + tmp_html.name.ru + "</td>" +
-                    "                                        <td id='a" + tmp_html.id + "'>" + tmp_html.author.ru + "</td>" +
-                    "                                        <td>" +
-                    "                                            <button type='button'  onclick='editBook(" + tmp_html.id + ")'  class='btn btn-primary' data-toggle='modal'" +
-                    "                                                    data-target='#asdddd'>" +
+                html += "                                    <tr id='" + tmp_html.id + "'>" +
+                    "                                        <td id='" + tmp_html.id + "'>" + tmp_html.id + "</td>";
+
+                for (var tmpObj of nameObjectOfLocaleString) {
+
+
+                    let aaa = "tmp_html."+  [tmpObj] + ".ru";
+
+
+                    html += `<td id='n" + tmp_html.id + "'>${tmp_html.name.ru}</td>`;
+
+
+                }
+
+                html += "                                        <td>" +
+                    "                                            <button type='button' onclick='buildEditBook(" + tmp_html.id + ")'  data-toggle='modal'" +
+                    "                                                                        data-target='#asdddd'  class='btn btn-primary'> " +
                     "                                                Edit" +
                     "                                            </button>" +
                     "                                        </td>" +
@@ -127,7 +139,7 @@ async function pageBook(x) {
 }
 
 function addPage() {
-    nameVarOfLocaleString = tmp;
+
 
     var html = '';
     for (let tmpNameObject of nameObjectOfLocaleString) {
@@ -173,4 +185,28 @@ async function addBookReq(x) {
 
 function delBook(x) {
     fetch("admin/del/" + x);
+    var elem = document.getElementById(x);
+    elem.parentNode.removeChild(elem);
+}
+
+
+function buildEditBook(x) {
+
+    var html = '';
+    for (let tmpNameObject of nameObjectOfLocaleString) {
+
+        html += "<h5>" + tmpNameObject + "</h5>"
+        for (let tmpNameVar of nameVarOfLocaleString) {
+            html += "<div class='form-group'>" +
+                "                                <label for='" + tmpNameObject + "" + tmpNameVar + "'>" + tmpNameObject + "  " + tmpNameVar + "</label>" +
+                "                                <input type='text' class='form-control' id='" + tmpNameObject + "" + tmpNameVar + "' " +
+                "                                       placeholder='" + tmpNameObject + " " + tmpNameVar + "'>" +
+                "                            </div>";
+        }
+    }
+
+    $('#editBookForm').html(html + "<button type='submit'  class='btn btn-primary custom-centered'>Edit Book" +
+        "                            </button>");
+
+
 }

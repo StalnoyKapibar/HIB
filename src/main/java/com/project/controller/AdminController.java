@@ -6,7 +6,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class AdminController {
     @GetMapping("/admin")
-    public String getEditWelcome() {
+    public String getAdminPage() {
         return "admin";
     }
+
+    @GetMapping("/edit")
+    public String getAdminEditPage() {
+        return "edit";
+    }
+
+
 }

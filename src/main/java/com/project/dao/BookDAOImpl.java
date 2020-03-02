@@ -46,12 +46,18 @@ public  class BookDAOImpl implements BookDAO {
 
     @Override
     public void delBookById(long id) {
-
-        entityManager.remove(getUserById(id));
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        em.createQuery("DELETE FROM Book WHERE id=" + id).executeUpdate();;
+        em.getTransaction().commit();
     }
 
     @Override
     public Book getUserById(long id) {
-        return entityManager.find(Book.class, id);
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        Book book = em.find(Book.class, id);
+        em.getTransaction().commit();
+        return book;
     }
 }
