@@ -10,6 +10,6 @@ public interface BookService {
     List<BookDTO> getAllBookDTO();
     void addBook(BookDTO bookDTO);
     Page<BookDTO> findAll(Pageable pageable);
-    void delBook(long id);
+    void deleteBookById(long id);
     void updateBook(BookDTO bookDTO);
 }

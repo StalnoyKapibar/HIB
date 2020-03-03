@@ -30,14 +30,13 @@ async function getAllLocales() {
             nameVarOfLocaleStringWithId.unshift("id");
             nameVarOfLocaleString = nameVarOfLocaleStringWithId.filter(t => t !== "id");
             var html = '';
-            for (let tmp_html of tmp) {
-                html += "<label for = '" + tmp_html + "'>" + tmp_html + "</label>" +
-                    "<input type='text' class='form-control' id='" + tmp_html + "' " +
-                    "aria-describedby='emailHelp'>";
+            for (let tmp_html of nameVarOfLocaleString) {
+                html += `<label for = ${tmp_html}>${tmp_html}</label>` +
+                    `<input type='text' class='form-control' id='${tmp_html}' ` +
+                    `aria-describedby='emailHelp'>`;
             }
 
-            $('#form_id').html(html + "<button type='submit' onclick='funcStart()' class='btn btn-primary'>Submit" +
-                "                                    </button>");
+            $('#form_id').html(html + `<button type='submit' onclick='funcStart()' class='btn btn-primary'>Submit</button>`);
         })
 }
 
@@ -89,7 +88,7 @@ async function pageBook(x) {
             var htmlTempPager = '';
             for (var i = 0; i < resp_tmp.totalPages; i++) {
                 var z = 1 + i;
-                htmlTempPager += "<li class='page-item'><a class='page-link' onclick='pageBook(" + i + ")' href='#'>" + z + "</a></li>";
+                htmlTempPager += `<li class='page-item'><a class='page-link' onclick='pageBook(${i})' href='#'>${z}</a></li>`;
             }
             $('#pagination00').html(htmlTempPager);
             buildChangeLang();
@@ -98,33 +97,33 @@ async function pageBook(x) {
             nameObjectOfLocaleString = nameObjectOfLocaleStringWithId.filter(t => t !== "id");
             var htmlTable = '';
             for (let dd of nameObjectOfLocaleStringWithId) {
-                htmlTable += "<th scope='col'>" + dd + " " + idChangeLang + "</th>";
+                htmlTable += `<th scope='col'>${dd} ${idChangeLang}</th>`;
             }
-            htmlTable += "<th scope='col'>Edit</th>" +
-                "<th scope='col'>Delete</th>";
+            htmlTable += `<th scope='col'>Edit</th>` +
+                `<th scope='col'>Delete</th>`;
             $('#table0').html(htmlTable);
             var html = '';
             for (let tmp_html of resp_tmp.content) {
-                html += "                                    <tr id='" + tmp_html.id + "'>" +
-                    "                                        <td id='" + tmp_html.id + "'>" + tmp_html.id + "</td>";
+                html += `<tr id=${tmp_html.id}>` +
+                    `<td id=${tmp_html.id}>${tmp_html.id}</td>`;
                 for (key in tmp_html) {
                     if (key !== "id") {
                         var ad = tmp_html[key][idChangeLang];
-                        html += "<td id='n" + tmp_html.id + "'>" + ad + "</td>";
+                        html += `<td id='n${tmp_html.id}'>${ad}</td>`;
                     }
                 }
-                html += "                                        <td>" +
-                    "                                            <button type='button' onclick='buildEditBook(" + tmp_html.id + ")'  data-toggle='modal'" +
-                    "                                                                        data-target='#asdddd'  class='btn btn-primary'> " +
-                    "                                                Edit" +
-                    "                                            </button>" +
-                    "                                        </td>" +
-                    "                                        <td>" +
-                    " <button type='button'  onclick='delBook(" + tmp_html.id + ")'  class='btn btn-primary btn-danger'> " +
-                    "                                    Удалить" +
-                    "                                            </button>" +
-                    "                                        </td>" +
-                    "                                    </tr>";
+                html += `<td>` +
+                    `<button type='button' onclick='buildEditBook(${tmp_html.id})'  data-toggle='modal'` +
+                    `data-target='#asdddd'  class='btn btn-primary'> ` +
+                    `Edit` +
+                    `</button>` +
+                    `</td>` +
+                    `<td>` +
+                    `<button type='button'  onclick='delBook(${tmp_html.id})'  class='btn btn-primary btn-danger'> ` +
+                    `Удалить` +
+                    `</button>` +
+                    `</td>` +
+                    `</tr>`;
             }
             $('#extra').html(html);
         });
@@ -134,18 +133,18 @@ async function pageBook(x) {
 function addPage() {
     var html = '';
     for (let tmpNameObject of nameObjectOfLocaleString) {
-        html += "<h5>" + tmpNameObject + "</h5>"
+        html += `<h5>` + tmpNameObject + `</h5>`
         for (let tmpNameVar of nameVarOfLocaleString) {
-            html += "<div class='form-group'>" +
-                "                                <label for='" + tmpNameObject + "" + tmpNameVar + "'>" + tmpNameObject + "  " + tmpNameVar + "</label>" +
-                "                                <input type='text' class='form-control' id='" + "a" + tmpNameObject + "" + tmpNameVar + "' " +
-                "                                       placeholder='" + tmpNameObject + " " + tmpNameVar + "'>" +
-                "                            </div>";
+            html += `<div class='form-group'>` +
+                `<label for=${tmpNameObject}${tmpNameVar}>${tmpNameObject} ${tmpNameVar}</label>` +
+                `<input type='text' class='form-control' id='a${tmpNameObject}${tmpNameVar}'` +
+                `placeholder='${tmpNameObject} ${tmpNameVar}'>` +
+                `</div>`;
         }
     }
-    $('#newBookForm').html(html + "<button type='submit' onclick='addBook()' class='btn btn-primary custom-centered'>Add new" +
-        "                                Book" +
-        "                            </button>");
+    $('#newBookForm').html(html + `<button type='submit' onclick='addBook()' class='btn btn-primary custom-centered'>` +
+        `Add new Book` +
+        `</button>`);
 }
 
 function addBook() {
@@ -182,25 +181,26 @@ function buildEditBook(xx) {
     tmpEditBookId = xx;
     var html1 = '';
     for (let tmpNameObject of nameObjectOfLocaleString) {
-        html1 += "<h5>" + tmpNameObject + "</h5>";
+        html1 += `<h5>${tmpNameObject}</h5>`;
         for (let tmpNameVar of nameVarOfLocaleStringWithId) {
             if (tmpNameVar === "id") {
-                html1 += "<div class='form-group'>" +
-                    "                                <label for='" + tmpNameObject + "" + tmpNameVar + "'>" + tmpNameObject + "  " + tmpNameVar + "</label>" +
-                    "                                <input type='text' class='form-control' id='" + tmpNameObject + "" + tmpNameVar + "' " +
-                    "                                       placeholder='" + tmpNameObject + " " + tmpNameVar + "' readonly>" +
-                    "                            </div>";
+                html1 += `<div class='form-group'>` +
+                    `<label for='${tmpNameObject}${tmpNameVar}'>${tmpNameObject} ${tmpNameVar}</label>` +
+                    `<input type='text' class='form-control' id='${tmpNameObject}${tmpNameVar}' ` +
+                    `placeholder='${tmpNameObject} ${tmpNameVar}' readonly>` +
+                    `</div>`;
             } else {
-                html1 += "<div class='form-group'>" +
-                    "                                <label for='" + tmpNameObject + "" + tmpNameVar + "'>" + tmpNameObject + "  " + tmpNameVar + "</label>" +
-                    "                                <input type='text' class='form-control' id='" + tmpNameObject + "" + tmpNameVar + "' " +
-                    "                                       placeholder='" + tmpNameObject + " " + tmpNameVar + "'>" +
-                    "                            </div>";
+                html1 += `<div class='form-group'>` +
+                    `<label for='${tmpNameObject}${tmpNameVar}'>${tmpNameObject} ${tmpNameVar}</label>` +
+                    `<input type='text' class='form-control' id='${tmpNameObject}${tmpNameVar}' ` +
+                    `placeholder='${tmpNameObject} ${tmpNameVar}'>` +
+                    `</div>`;
             }
         }
     }
-    html1 += "<button type='submit' onclick='sendUpdateBook()' data-dismiss='modal' class='btn btn-primary custom-centered'>Edit Book" +
-        "                            </button>";
+    html1 += `<button type='submit' onclick='sendUpdateBook()' data-dismiss='modal' class='btn btn-primary custom-centered'>` +
+        `Edit Book` +
+        `</button>`;
     $('#editBookForm').html(html1);
     for (var rt of arrAllBooksByNumberPage) {
         if (rt.id === tmpEditBookId) {
@@ -246,7 +246,7 @@ function buildChangeLang() {
     var htmllang = '';
     for (var i = 0; i < nameVarOfLocaleString.length; i++) {
         var gh = nameVarOfLocaleString[i];
-        htmllang += "<button type='button' class='btn btn-secondary' onclick='chanLang(" + i + ")'>" + gh + "</button>";
+        htmllang += `<button type='button' class='btn btn-secondary' onclick='chanLang(${i})'>${gh}</button>`;
     }
     $('#chlang1').html(htmllang);
 }

@@ -42,7 +42,7 @@ public  class BookDAOImpl implements BookDAO {
     }
 
     @Override
-    public void delBookById(long id) {
+    public void deleteBookById(long id) {
         entityManager.remove(getUserById(id));
     }
 

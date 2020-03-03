@@ -50,7 +50,7 @@ public class BookController {
 
     @GetMapping("/admin/del/{x}")
     public void delBook(@PathVariable("x") long x) {
-        bookService.delBook(x);
+        bookService.deleteBookById(x);
     }
 
     @PostMapping("/admin/edit")

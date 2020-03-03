@@ -37,8 +37,8 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void delBook(long id) {
-        bookDAO.delBookById(id);
+    public void deleteBookById(long id) {
+        bookDAO.deleteBookById(id);
     }
 
     @Override
