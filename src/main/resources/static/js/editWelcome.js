@@ -88,7 +88,7 @@ async function pageBook(x) {
             var htmlTempPager = '';
             for (var i = 0; i < resp_tmp.totalPages; i++) {
                 var z = 1 + i;
-                htmlTempPager += `<li class='page-item'><a class='page-link' onclick='pageBook(${i})' href='#'>${z}</a></li>`;
+                htmlTempPager += `<li class='page-item'><a class='page-link' onclick='pageBook(${i})'>${z}</a></li>`;
             }
             $('#pagination00').html(htmlTempPager);
             buildChangeLang();
