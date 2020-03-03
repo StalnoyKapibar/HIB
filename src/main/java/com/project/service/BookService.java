@@ -12,4 +12,5 @@ public interface BookService {
     Page<BookDTO> findAll(Pageable pageable);
     void deleteBookById(long id);
     void updateBook(BookDTO bookDTO);
+    List<BookDTO> get20BookDTO();
 }

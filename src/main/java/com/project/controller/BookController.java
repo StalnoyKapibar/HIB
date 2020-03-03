@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -58,11 +59,9 @@ public class BookController {
         bookService.updateBook(bookDTO);
     }
 
-    @GetMapping("/admin/pageable20")
-    public Page<BookDTO> getWelcomeLocaleDTOByLocaleSize20() {
-        Pageable pageable0 = PageRequest.of(0, 20, Sort.by(
-                Sort.Order.asc("id")));
-        Page<BookDTO> page = bookService.findAll(pageable0);
+    @GetMapping("/admin/get20BookDTO")
+    public List<BookDTO> getWelcomeLocaleDTOByLocaleSize20() {
+        List<BookDTO> page = bookService.get20BookDTO();
         return page;
     }
 }

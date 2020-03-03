@@ -45,4 +45,9 @@ public class BookServiceImpl implements BookService {
     public void updateBook(BookDTO bookDTO) {
         bookDAO.updateBook(bookDTO);
     }
+
+    @Override
+    public List<BookDTO> get20BookDTO() {
+        return bookDAO.get20BookDTO();
+    }
 }

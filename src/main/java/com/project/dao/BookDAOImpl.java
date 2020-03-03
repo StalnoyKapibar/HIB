@@ -18,7 +18,7 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Repository
-public  class BookDAOImpl implements BookDAO {
+public class BookDAOImpl implements BookDAO {
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -48,7 +48,7 @@ public  class BookDAOImpl implements BookDAO {
 
     @Override
     public Book getUserById(long id) {
-       return entityManager.find(Book.class, id);
+        return entityManager.find(Book.class, id);
     }
 
     @Override
@@ -58,5 +58,12 @@ public  class BookDAOImpl implements BookDAO {
         book.setNameLocale(bookDTO.getName());
         book.setAuthorLocale(bookDTO.getAuthor());
         entityManager.merge(book);
+    }
+
+    @Override
+    public List<BookDTO> get20BookDTO() {
+        String query = "SELECT new com.project.model.BookDTO(b.id, b.nameLocale, b.authorLocale) FROM Book b ORDER BY RAND()";
+        List<BookDTO> listBookDTO = entityManager.createQuery(query, BookDTO.class).setMaxResults(20).getResultList();
+        return listBookDTO;
     }
 }

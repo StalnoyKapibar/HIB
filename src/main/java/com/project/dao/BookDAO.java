@@ -13,4 +13,5 @@ public interface BookDAO {
     void deleteBookById(long id);
     Book getUserById(long id);
     void updateBook(BookDTO bookDTO);
+    List<BookDTO> get20BookDTO();
 }
