@@ -11,4 +11,5 @@ public interface BookService {
     void addBook(BookDTO bookDTO);
     Page<BookDTO> findAll(Pageable pageable);
     void delBook(long id);
+    void updateBook(BookDTO bookDTO);
 }

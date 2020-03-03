@@ -50,4 +50,13 @@ public  class BookDAOImpl implements BookDAO {
     public Book getUserById(long id) {
        return entityManager.find(Book.class, id);
     }
+
+    @Override
+    public void updateBook(BookDTO bookDTO) {
+        Book book = new Book();
+        book.setId(bookDTO.getId());
+        book.setNameLocale(bookDTO.getName());
+        book.setAuthorLocale(bookDTO.getAuthor());
+        entityManager.merge(book);
+    }
 }

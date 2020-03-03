@@ -19,5 +19,4 @@ public class VarBookDTO {
     public List<String> getFields() {
         return fields;
     }
-
 }

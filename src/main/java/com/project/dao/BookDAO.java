@@ -12,4 +12,5 @@ public interface BookDAO {
     void addBook(BookDTO bookDTO);
     void delBookById(long id);
     Book getUserById(long id);
+    void updateBook(BookDTO bookDTO);
 }

@@ -40,4 +40,9 @@ public class BookServiceImpl implements BookService {
     public void delBook(long id) {
         bookDAO.delBookById(id);
     }
+
+    @Override
+    public void updateBook(BookDTO bookDTO) {
+        bookDAO.updateBook(bookDTO);
+    }
 }

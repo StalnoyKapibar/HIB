@@ -53,4 +53,16 @@ public class BookController {
         bookService.delBook(x);
     }
 
+    @PostMapping("/admin/edit")
+    public void editBook(@RequestBody BookDTO bookDTO) {
+        bookService.updateBook(bookDTO);
+    }
+
+    @GetMapping("/admin/pageable20")
+    public Page<BookDTO> getWelcomeLocaleDTOByLocaleSize20() {
+        Pageable pageable0 = PageRequest.of(0, 20, Sort.by(
+                Sort.Order.asc("id")));
+        Page<BookDTO> page = bookService.findAll(pageable0);
+        return page;
+    }
 }
