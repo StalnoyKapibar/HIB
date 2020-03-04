@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class BookDTO {
+public class BookDTO20 {
     private long id;
-    private LocaleString name;
-    private LocaleString author;
+    private String nameAuthorDTOLocale;
+    private String nameBookDTOLocale;
 }
