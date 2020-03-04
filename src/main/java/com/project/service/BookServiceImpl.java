@@ -3,6 +3,7 @@ package com.project.service;
 import com.project.dao.BookDAO;
 import com.project.dao.BookDTORepository;
 import com.project.model.BookDTO;
+import com.project.model.BookDTO20;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -47,7 +48,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<BookDTO> get20BookDTO() {
-        return bookDAO.get20BookDTO();
+    public List<BookDTO20> get20BookDTO(String locale) {
+        return bookDAO.get20BookDTO(locale);
     }
 }

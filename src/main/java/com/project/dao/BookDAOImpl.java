@@ -2,6 +2,7 @@ package com.project.dao;
 
 import com.project.model.Book;
 import com.project.model.BookDTO;
+import com.project.model.BookDTO20;
 import org.hibernate.Query;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,9 +62,10 @@ public class BookDAOImpl implements BookDAO {
     }
 
     @Override
-    public List<BookDTO> get20BookDTO() {
-        String query = "SELECT new com.project.model.BookDTO(b.id, b.nameLocale, b.authorLocale) FROM Book b ORDER BY RAND()";
-        List<BookDTO> listBookDTO = entityManager.createQuery(query, BookDTO.class).setMaxResults(20).getResultList();
+    public List<BookDTO20> get20BookDTO(String locale) {
+        String query = "SELECT new com.project.model.BookDTO20(b.id, b.nameLocale.LOC, b.authorLocale.LOC) FROM Book b ORDER BY RAND()"
+                .replaceAll("LOC", locale);
+        List<BookDTO20> listBookDTO = entityManager.createQuery(query, BookDTO20.class).setMaxResults(20).getResultList();
         return listBookDTO;
     }
 }

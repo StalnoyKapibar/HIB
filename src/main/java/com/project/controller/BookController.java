@@ -1,6 +1,7 @@
 package com.project.controller;
 
 import com.project.model.BookDTO;
+import com.project.model.BookDTO20;
 import com.project.model.WelcomeLocaleDTO;
 import com.project.service.BookService;
 import com.project.util.VarBookDTO;
@@ -59,9 +60,9 @@ public class BookController {
         bookService.updateBook(bookDTO);
     }
 
-    @GetMapping("/admin/get20BookDTO")
-    public List<BookDTO> getWelcomeLocaleDTOByLocaleSize20() {
-        List<BookDTO> page = bookService.get20BookDTO();
+    @GetMapping("/admin/get20BookDTO/{locale}")
+    public List<BookDTO20> getWelcomeLocaleDTOByLocaleSize20(@PathVariable("locale") String locale) {
+        List<BookDTO20> page = bookService.get20BookDTO(locale);
         return page;
     }
 }
