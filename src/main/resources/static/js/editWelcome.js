@@ -217,7 +217,7 @@ function buildEditBook(xx) {
             for (key0 of nameVarOfLocaleStringWithId) {
                 document.getElementById(key + key0).value = tmpArr[key][key0];
                 if (idChangeLang === key0) {
-                    document.getElementById('ss' + key).innerText = tmpArr[key][key0];
+                    document.getElementById('ss' + key).innerText = key + ' ' + key0 + ': ' + tmpArr[key][key0];
                 }
             }
         }
