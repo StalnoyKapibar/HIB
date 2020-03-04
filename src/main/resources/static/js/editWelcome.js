@@ -120,7 +120,7 @@ async function pageBook(x) {
                     `</td>` +
                     `<td>` +
                     `<button type='button'  onclick='delBook(${tmp_html.id})'  class='btn btn-primary btn-danger'> ` +
-                    `Удалить` +
+                    `Delete` +
                     `</button>` +
                     `</td>` +
                     `</tr>`;
@@ -181,7 +181,10 @@ function buildEditBook(xx) {
     tmpEditBookId = xx;
     var html1 = '';
     for (let tmpNameObject of nameObjectOfLocaleString) {
-        html1 += `<h5>${tmpNameObject}</h5>`;
+        html1 += `<div class="container">` +
+            `<h5 id="ss${tmpNameObject}"></h5>` +
+            `<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#${tmpNameObject}">open ${tmpNameObject}</button>` +
+            `<div id="${tmpNameObject}" class="collapse">`;
         for (let tmpNameVar of nameVarOfLocaleStringWithId) {
             if (tmpNameVar === "id") {
                 html1 += `<div class='form-group'>` +
@@ -197,6 +200,8 @@ function buildEditBook(xx) {
                     `</div>`;
             }
         }
+        html1 += `</div>` +
+            `</div>`;
     }
     html1 += `<button type='submit' onclick='sendUpdateBook()' data-dismiss='modal' class='btn btn-primary custom-centered'>` +
         `Edit Book` +
@@ -211,6 +216,9 @@ function buildEditBook(xx) {
         if (key !== "id") {
             for (key0 of nameVarOfLocaleStringWithId) {
                 document.getElementById(key + key0).value = tmpArr[key][key0];
+                if (idChangeLang === key0) {
+                    document.getElementById('ss' + key).innerText = tmpArr[key][key0];
+                }
             }
         }
     }
