@@ -1,0 +1,115 @@
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+}
+
+.container {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+/* navbar - header*/
+.navbar {
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, .3);
+}
+
+.header-title-big {
+    font-family: 'Pacifico';
+    font-size: 30px;
+    text-shadow: 1px 0px 0px black;
+}
+
+.header-title-little {
+    font-family: 'Pacifico';
+    text-shadow: 1px 0px 0px black;
+}
+
+.btn-info::after {
+    background-color: #5a6268;
+}
+
+.lang-image {
+    margin-bottom: 4px;
+}
+
+.page-content {
+    margin-top: 100px;
+}
+
+.btn-header {
+    margin-right: 20px;
+}
+
+.btn-header:hover {
+    box-shadow: 0 0 0 2px rgba(79, 170, 237, 1);
+}
+
+/*for sidebar*/
+
+#sidebar-wrapper {
+    min-height: 100vh;
+    margin-left: -15rem;
+    -webkit-transition: margin .25s ease-out;
+    -moz-transition: margin .25s ease-out;
+    -o-transition: margin .25s ease-out;
+    transition: margin .25s ease-out;
+}
+
+#sidebar-wrapper .sidebar-heading {
+    padding: 0.875rem 1.25rem;
+    font-size: 1.2rem;
+}
+
+#sidebar-wrapper .list-group {
+    width: 15rem;
+}
+
+#page-content-wrapper {
+    min-width: 100vw;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+    margin-left: 0;
+}
+
+/* change wrapper sidebar after resize*/
+@media screen and (max-width: 700px) {
+    #wrapper {
+        position: absolute;
+        z-index: 9;
+        margin-left: -15rem;
+    }
+
+    #wrapper.toggled {
+        height: 100%;
+        margin-left: 0;
+    }
+
+    #page-content-wrapper {
+        min-width: 0;
+        width: 100%;
+    }
+}
+
+.sidebar-margin {
+    margin-top: 54px;
+}
+
+/* footer */
+.footer .footer_link{
+    margin-right: 10px;
+    font-family: Pacifico;
+    color: black;
+    text-decoration: none;
+}
+
+a.footer_link:hover{
+    transition: 0.3s;
+    color: rgba(79, 170, 237, 1);
+}
+
+#made_by {
+    font-size: 0.6rem;
+    font-weight: 900;
+}

@@ -1,0 +1,50 @@
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 35px; /* Set the fixed height of the footer here */
+    line-height: 35px; /* Vertically center the text there */
+
+}
+
+
+body {
+
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:12px;
+
+
+    margin-bottom: 35px; /* Margin bottom by footer height */
+}
+
+
+
+
+/************************************************************************************
+ * Style: General
+ ************************************************************************************/
+
+
+
+/************************************************************************************
+ * Style: Whiteit
+ ************************************************************************************/
+
+/*Pagination*/
+
+/*Site CSS*/
+.footer{ background:#333; height:90px;}
+
+.footer_menu{ color:WHITE; font-size:16px; text-align:center;}
+.footer_menu a{ color:#CCC; text-decoration:none; font-size:12px; display:inline-block; margin:9px; font-weight:bold;}
+.footer_menu a:hover{ text-decoration:underline;}
+.footer_text{background:#333;  color: #CCC;  font-size:10px; font-weight:bold; line-height:30px; text-align:center;}
+.footer_text a{ color:#CCC; text-decoration:none;}
+.footer_text a:hover{ text-decoration:underline;}
+
