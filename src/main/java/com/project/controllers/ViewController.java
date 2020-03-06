@@ -17,9 +17,4 @@ public class ViewController {
         }
         return "home";
     }
-
-    @GetMapping("/admin")
-    public String getEditWelcome() {
-        return "admin";
-    }
 }
