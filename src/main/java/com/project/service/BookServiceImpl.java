@@ -42,6 +42,8 @@ public class BookServiceImpl implements BookService {
         bookDAO.deleteBookById(id);
     }
 
+    public BookDTO getBookByIdLocale(long id){return bookDAO.getBookByIdLocale(id);}
+
     @Override
     public void updateBook(BookDTO bookDTO) {
         bookDAO.updateBook(bookDTO);

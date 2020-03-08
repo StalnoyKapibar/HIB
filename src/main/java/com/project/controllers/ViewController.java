@@ -17,4 +17,13 @@ public class ViewController {
         }
         return "home";
     }
+
+
+    @GetMapping("/page")
+    public String getPage(HttpServletRequest request) {
+        if (request.getSession(false) == null) {
+            request.getSession(true).setAttribute("LANG", "ru");
+        }
+        return "page";
+    }
 }

@@ -9,6 +9,15 @@ import javax.persistence.*;
 @Table(name = "localString")
 public class LocaleString {
 
+    public LocaleString(String ru, String en, String fr, String it, String de, String cs) {
+        this.ru = ru;
+        this.en = en;
+        this.fr = fr;
+        this.it = it;
+        this.de = de;
+        this.cs = cs;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

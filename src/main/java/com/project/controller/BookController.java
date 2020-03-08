@@ -1,8 +1,6 @@
 package com.project.controller;
 
-import com.project.model.BookDTO;
-import com.project.model.BookDTO20;
-import com.project.model.WelcomeLocaleDTO;
+import com.project.model.*;
 import com.project.service.BookService;
 import com.project.util.VarBookDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,11 +43,11 @@ public class BookController {
         bookService.addBook(bookDTO);
     }
 
-    @GetMapping("/getVarBookDTO")
+  /*  @GetMapping("/getVarBookDTO")
     @Autowired
     public List<String> getVarBookDTO(VarBookDTO varBookDTO) {
         return varBookDTO.getFields();
-    }
+    }*/
 
     @GetMapping("/admin/del/{x}")
     public void delBook(@PathVariable("x") long x) {
@@ -64,5 +63,16 @@ public class BookController {
     public List<BookDTO20> getWelcomeLocaleDTOByLocaleSize20(@PathVariable("locale") String locale) {
         List<BookDTO20> page = bookService.get20BookDTO(locale);
         return page;
+    }
+
+    @GetMapping("/page/id/{x}")
+    public ResponseEntity<BookDTO> getBook(@PathVariable("x") long x ) {
+      //  BookDTO bookDTO1 = new BookDTO(x, new LocaleString("Робинзон Крузо", "Robinson Cruso","","","",""), new LocaleString("Даниель Дефо", "Daniel Defo","","","",""));
+     //   bookService.addBook(bookDTO1);
+        BookDTO bookDTO = bookService.getBookByIdLocale(x);
+        return ResponseEntity.ok(bookDTO);
+
+
+
     }
 }

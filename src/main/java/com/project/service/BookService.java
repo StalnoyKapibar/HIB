@@ -14,4 +14,5 @@ public interface BookService {
     void deleteBookById(long id);
     void updateBook(BookDTO bookDTO);
     List<BookDTO20> get20BookDTO(String locale);
+    BookDTO getBookByIdLocale(long id);
 }

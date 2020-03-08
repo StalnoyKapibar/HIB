@@ -6,7 +6,45 @@ $(document).ready(function () {
     }
     getLanguage();
     setLocaleFields();
+    setPageFields();
 });
+
+
+function setPageFields() {
+    fetch("/page/id/3")
+        .then(status)
+        .then(json)
+        .then(function (jsn) {
+            var jsn1 =  JSON.stringify(jsn);
+            let v= [];
+
+            function traverse(o) {
+                var i;
+                for (var k in o) {
+                    i = o[k];
+                    if (typeof i === 'string') {
+                        if (k===currentLang)
+                            v.push(i)
+                          //  console.log(v);
+
+                    } else if (typeof i === 'object') {
+                        traverse(i);
+                    }
+                }
+            }
+            traverse(jsn);
+
+
+
+            $('#book-name').text(v[0]);
+            $('#book-author').text(v[1]);
+            $('#book-name1').text(v[0]);
+        })
+
+        }
+
+
+
 
 function setLocaleFields() {
     fetch("/properties/" + currentLang)
@@ -34,7 +72,7 @@ $('#dd_menu').on('click', 'a', function (eventOnInnerTag) {
         .then(text)
         .then(function (data) {
             currentLang = selectedLang;
-            window.location.replace('home?LANG=' + currentLang);
+            window.location.replace('page?LANG=' + currentLang);
             //TODO some logic to processing data and reload page with chosen lang
             getLanguage();
             getLocaleFields();
