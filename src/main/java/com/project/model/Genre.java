@@ -20,6 +20,5 @@ public class Genre {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "genre_locale",
             joinColumns = @JoinColumn(name = "genre_id", referencedColumnName = "id"))
-
     private LocaleString genreLocale;
 }
