@@ -12,11 +12,9 @@ import java.util.List;
 public class GenreDtoServiceImpl implements GenreDtoService {
 
     private GenreDtoDao genreDtoDao;
-    //private LocaleHolder localeHolder;
 
     public GenreDtoServiceImpl(GenreDtoDao genreDtoDao) {
         this.genreDtoDao = genreDtoDao;
-        //this.localeHolder = localeHolder;
     }
 
     @Override

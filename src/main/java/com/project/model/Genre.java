@@ -21,5 +21,5 @@ public class Genre {
     @JoinTable(name = "genre_locale",
             joinColumns = @JoinColumn(name = "genre_id", referencedColumnName = "id"))
 
-    private LocaleString locale;
+    private LocaleString genreLocale;
 }

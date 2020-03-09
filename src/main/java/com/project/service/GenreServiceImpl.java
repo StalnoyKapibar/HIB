@@ -28,8 +28,7 @@ public class GenreServiceImpl implements GenreService {
 
     @Override
     public void deleteGenreById(long id) {
-        genreDao.deleteById(id);
-        //genreDao.deleteGenreById(id);
+        genreDao.deleteGenreById(id);
     }
 
     @Override
@@ -40,13 +39,13 @@ public class GenreServiceImpl implements GenreService {
             genreDao.saveAndFlush(
                     new Genre(
                             newId,
-                            genreDao.findById(oldId).orElse(null).getLocale()
+                            genreDao.findById(oldId).orElse(null).getGenreLocale()
                     )
             );
             genreDao.saveAndFlush(
                     new Genre(
                             oldId,
-                            temp.getLocale()
+                            temp.getGenreLocale()
                     )
             );
         } catch (ResourceNotFoundException | NullPointerException e) {
