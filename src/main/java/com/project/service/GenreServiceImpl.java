@@ -3,6 +3,7 @@ package com.project.service;
 import com.project.dao.GenreDao;
 import com.project.exception.ResourceNotFoundException;
 import com.project.model.Genre;
+import com.project.model.LocaleString;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,21 +34,17 @@ public class GenreServiceImpl implements GenreService {
 
     @Override
     public boolean changingGenreOrderById(long oldId, long newId) {
-        Genre temp;
+        Genre gTemp1, gTemp2;
+        LocaleString lTemp1, lTemp2;
         try {
-            temp = genreDao.findById(newId).orElseThrow(() -> new ResourceNotFoundException(oldId));
-            genreDao.saveAndFlush(
-                    new Genre(
-                            newId,
-                            genreDao.findById(oldId).orElse(null).getGenreLocale()
-                    )
-            );
-            genreDao.saveAndFlush(
-                    new Genre(
-                            oldId,
-                            temp.getGenreLocale()
-                    )
-            );
+            gTemp1 = genreDao.findById(newId).orElseThrow(() -> new ResourceNotFoundException(newId));
+            gTemp2 = genreDao.findById(oldId).orElseThrow(() -> new ResourceNotFoundException(oldId));
+
+            lTemp1 = gTemp1.getGenreLocale();
+            lTemp2 = gTemp2.getGenreLocale();
+
+            gTemp1.setGenreLocale(lTemp2);
+            gTemp2.setGenreLocale(lTemp1);
         } catch (ResourceNotFoundException | NullPointerException e) {
             e.printStackTrace();
         }
