@@ -2,7 +2,7 @@ package com.project.service;
 
 import com.project.dao.GenreDtoDao;
 import com.project.model.GenreDto;
-import com.project.util.LocaleHolder;
+//import com.project.util.LocaleHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
@@ -12,11 +12,11 @@ import java.util.List;
 public class GenreDtoServiceImpl implements GenreDtoService {
 
     private GenreDtoDao genreDtoDao;
-    private LocaleHolder localeHolder;
+    //private LocaleHolder localeHolder;
 
-    public GenreDtoServiceImpl(GenreDtoDao genreDtoDao, LocaleHolder localeHolder) {
+    public GenreDtoServiceImpl(GenreDtoDao genreDtoDao) {
         this.genreDtoDao = genreDtoDao;
-        this.localeHolder = localeHolder;
+        //this.localeHolder = localeHolder;
     }
 
     @Override

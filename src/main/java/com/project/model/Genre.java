@@ -14,10 +14,12 @@ import javax.persistence.*;
 public class Genre {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @MapsId
-    @JoinColumn(name = "id")
-    private LocaleString body;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "genre_locale",
+            joinColumns = @JoinColumn(name = "genre_id", referencedColumnName = "id"))
+
+    private LocaleString locale;
 }

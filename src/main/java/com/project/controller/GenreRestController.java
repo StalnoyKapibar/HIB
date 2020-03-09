@@ -64,7 +64,7 @@ public class GenreRestController {
 
     @PutMapping("/genre/{id}")
     public void editGenreById(@RequestBody Genre genre, @PathVariable Long id, HttpServletResponse response) {
-        Long editedId = genreService.addGenre(new Genre(id, genre.getBody()));
+        Long editedId = genreService.addGenre(new Genre(id, genre.getLocale()));
         if (editedId != null) {
             response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         } else {
