@@ -18,7 +18,18 @@ function setPageFields() {
             var jsn1 =  JSON.stringify(jsn);
             let v= [];
 
-            function traverse(o) {
+            const myMap = new Map();
+            for (let [key, value] of Object.entries(jsn)) {
+                    for (let [key1, value1] of Object.entries(value)){
+                        if (key1 === currentLang) {
+                            myMap.set(key, value1);
+                          //  console.log(myMap);
+                        }
+                    }
+            }
+
+
+        /*    function traverse(o) {
                 var i;
                 for (var k in o) {
                     i = o[k];
@@ -32,13 +43,20 @@ function setPageFields() {
                     }
                 }
             }
-            traverse(jsn);
+            traverse(jsn);*/
+
+
+            /* $('#book-name').text(v[0]);
+                $('#book-author').text(v[1]);
+                $('#book-name1').text(v[0]);*/
+
+
+            $('#book-name').text(myMap.get("name"));
+            $('#book-author').text(myMap.get("author"));
+            $('#book-name1').text(myMap.get("name"));
 
 
 
-            $('#book-name').text(v[0]);
-            $('#book-author').text(v[1]);
-            $('#book-name1').text(v[0]);
         })
 
         }
