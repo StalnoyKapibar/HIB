@@ -30,4 +30,7 @@ public class LocaleString {
 
     @Column(name = "cs")
     private String cs;
+
+    @Column(name = "gr")
+    private String gr;
 }

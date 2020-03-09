@@ -30,13 +30,14 @@ public class WelcomeDAOImpl implements WelcomeDAO {
     public void editWelcome(Welcome welcome) {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
-        em.createQuery("update LocaleString set ru =:ru, cs =:cs, de =:de, en =: en, fr =: fr, it =: it")
+        em.createQuery("update LocaleString set ru =:ru, cs =:cs, de =:de, en =: en, fr =: fr, it =: it, gr =: gr")
                 .setParameter("ru", welcome.getBody().getRu())
                 .setParameter("cs", welcome.getBody().getCs())
                 .setParameter("de", welcome.getBody().getDe())
                 .setParameter("en", welcome.getBody().getEn())
                 .setParameter("fr", welcome.getBody().getFr())
                 .setParameter("it", welcome.getBody().getIt())
+                .setParameter("gr", welcome.getBody().getGr())
                 .executeUpdate();
         em.getTransaction().commit();
     }

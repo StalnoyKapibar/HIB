@@ -62,6 +62,8 @@ function getLanguage() {
                 return 'Français';
             case 'cs' :
                 return 'Český';
+            case 'gr' :
+                return 'Ελληνικά';
         }
         return "undef";
     }
