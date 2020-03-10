@@ -44,11 +44,11 @@ public class BookController {
         bookService.addBook(bookDTO);
     }
 
-//    @GetMapping("/getVarBookDTO")
-//    @Autowired
-//    public List<String> getVarBookDTO(VarBookDTO varBookDTO) {
-//        return varBookDTO.getFields();
-//    }
+    @GetMapping("/getVarBookDTO")
+    @Autowired
+    public List<String> getVarBookDTO(VarBookDTO varBookDTO) {
+        return varBookDTO.getFields();
+    }
 
     @GetMapping("/admin/del/{x}")
     public void delBook(@PathVariable("x") long x) {

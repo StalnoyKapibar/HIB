@@ -44,12 +44,23 @@ public class BookDAOImpl implements BookDAO {
 
     @Override
     public void deleteBookById(long id) {
-        entityManager.remove(getUserById(id));
+        entityManager.remove(getBookById(id));
     }
 
     @Override
-    public Book getUserById(long id) {
+    public Book getBookById(long id) {
         return entityManager.find(Book.class, id);
+    }
+
+    @Override
+    public BookDTO getBookByIdLocale(long id) {
+
+
+        String query = ("SELECT new com.project.model.BookDTO(b.id, b.nameLocale," +
+                " b.authorLocale) FROM Book b where b.id="+id);
+
+
+        return entityManager.createQuery(query, BookDTO.class).getSingleResult();
     }
 
     @Override
