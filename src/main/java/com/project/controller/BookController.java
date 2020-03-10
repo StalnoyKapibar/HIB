@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -65,4 +66,15 @@ public class BookController {
         List<BookDTO20> page = bookService.get20BookDTO(locale);
         return page;
     }
-}
+
+
+    @GetMapping("/page/id/{x}")
+    public ResponseEntity<BookDTO> getBook(@PathVariable("x") long x ) {
+        //  BookDTO bookDTO1 = new BookDTO(x, new LocaleString("Робинзон Крузо", "Robinson Cruso","","","",""), new LocaleString("Даниель Дефо", "Daniel Defo","","","",""));
+        //   bookService.addBook(bookDTO1);
+        BookDTO bookDTO = bookService.getBookByIdLocale(x);
+        return ResponseEntity.ok(bookDTO);
+    }
+
+
+    }
