@@ -18,9 +18,11 @@ import java.util.Locale;
 public class WebConfiguration implements WebMvcConfigurer {
     private static final String[] CLASSPATH_RESOURCE_LOCATIONS = {"classpath:/static/", "classpath:*"};
 
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**").addResourceLocations(CLASSPATH_RESOURCE_LOCATIONS);
+        registry.addResourceHandler("/images/**").addResourceLocations("file:img/tmp/");
     }
 
     @Bean

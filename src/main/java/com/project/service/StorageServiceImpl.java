@@ -21,7 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class StorageServiceImpl implements StorageService {
 
-    private final Path path = Paths.get("src\\main\\resources\\static\\images\\tempimage");
+    private final Path path = Paths.get("img/tmp/");
 
     @Override
     public void saveImage(MultipartFile file) {

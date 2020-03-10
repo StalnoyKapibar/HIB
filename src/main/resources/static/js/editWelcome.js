@@ -9,7 +9,8 @@ let nameVarOfLocaleStringWithId;
 var idPageable;
 var idChangeLang = "en";
 let arrNameImageNew = [];
-let pathImageDefault = '../static/images/tempimage/';
+let pathImageDefault = 'images/';
+var nameImageCover;
 
 $(document).ready(getVarBookDTO(), getAllLocales(), pageBook(0));
 
@@ -252,13 +253,14 @@ function uploadImageNew() {
     const fileField = document.getElementById("exampleFormFile");
     arrNameImageNew.push(fileField.files[0].name);
     formData.append('file', fileField.files[0]);
-fetch('/admin/upload', {
+    fetch('/admin/upload', {
         method: 'POST',
-        body: formData })
+        body: formData
+    })
         .then(status)
         .then(json)
         .then(function (resp) {
-buildCarousel();
+            buildCarousel();
         });
 }
 
@@ -269,68 +271,67 @@ $("#exampleFormFile").change(function () {
 });
 
 function buildCarousel() {
+    var countForActive = 0;
     var tmpHtmlForCarousel = '';
     var tmpHtmlForCarouselIndicators = '';
     for (var i = 0; i < arrNameImageNew.length; i++) {
-        if (i === 0) {
-            tmpHtmlForCarouselIndicators +=
-                `<li data-target='#carouselExampleCaptions' data-slide-to=${i} class='active'>` + `</li>`;
-            tmpHtmlForCarousel +=
-                `<div class='carousel-item active'>` +
-                `<img id='g${i}' src='' class='d-block w-100' alt='...'>` +
-                `<div class='carousel-caption d-none d-md-block'>` +
-                `<h5>First slide label</h5>` +
-                `<p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>` +
-                `</div>` +
-                `</div>`;
-        } else {
-            tmpHtmlForCarouselIndicators += `<li data-target='#carouselExampleCaptions' data-slide-to=${i}></li>`;
-            tmpHtmlForCarousel += ` <div class="carousel-item">` + `<img id='g${i}' src='' class='d-block w-100' alt="...">` +
-                `<div class='carousel-caption d-none d-md-block'>` +
-                `<h5>Second slide label</h5>` +
-                `<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>` +
-                `</div>`;
+
+
+
+        if (arrNameImageNew[i] !== '') {
+            countForActive++;
+
+            if (countForActive === 1) {
+                tmpHtmlForCarouselIndicators +=
+                    `<li id="qw${i}" data-target='#carouselExampleCaptions' data-slide-to=${i} class='active'>` + `</li>`;
+                tmpHtmlForCarousel +=
+                    `<div id="qw${i}" class='carousel-item active'>` +
+                    `<img src=${pathImageDefault}${arrNameImageNew[i]} class='d-block w-100' alt='...'>` +
+                    `<div class='carousel-caption d-none d-md-block'>` +
+                    `<button type="button" onclick="setImageCover(${i})" class="btn btn-success">Change image cover</button>` +
+                    `<p><button type="button" onclick="deleteTmpImage(${i})" class="btn btn-danger m-3">Delete</button><p>` +
+                    `</div>` +
+                    `</div>`;
+            } else {
+                tmpHtmlForCarouselIndicators +=
+                    `<li id="qw${i}" data-target='#carouselExampleCaptions' data-slide-to=${i}></li>`;
+                tmpHtmlForCarousel +=
+                    ` <div id="qw${i}" class="carousel-item">` +
+                    `<img src=${pathImageDefault}${arrNameImageNew[i]} class='d-block w-100' alt="...">` +
+                    `<div class='carousel-caption d-none d-md-block'>` +
+                    `<button type="button" onclick="setImageCover(${i})" class="btn btn-success">Change image cover</button>` +
+                    `<p><button type="button" onclick="deleteTmpImage(${i})" class="btn btn-danger m-3">Delete</button><p>` +
+                    `</div>` +
+                    `</div>`;
+            }
         }
 
 
+
+
+
+
     }
 
-    var html00 = `<ol class='carousel-indicators'>${tmpHtmlForCarouselIndicators}</ol>` +
-        `<div class="carousel-inner">${tmpHtmlForCarousel}</div>` +
-        `<a class='carousel-control-prev' href='#carouselExampleCaptions' role='button' data-slide='prev'>` +
-        `<span class='carousel-control-prev-icon' aria-hidden='true'></span>` +
-        `<span class='sr-only'>Previous</span>` +
-        `</a>` +
-        `<a class='carousel-control-next' href='#carouselExampleCaptions' role='button' data-slide='next'>` +
-        `<span class='carousel-control-next-icon' aria-hidden='true'></span>` +
-        `<span class='sr-only'>Next</span>` +
-        `</a>`;
-
-    $('#carouselExampleCaptions').html(html00);
-
-    setPathImage();
+    $('#test0').html(tmpHtmlForCarouselIndicators);
+    $('#test1').html(tmpHtmlForCarousel);
 }
 
-function setPathImage() {
-    for (var i = 0; i < arrNameImageNew.length; i++) {
-        var a = pathImageDefault + arrNameImageNew[i];
-        document.getElementById('g' + i).src = "../static/icons/search.svg";
-    }
-
+function setImageCover(x) {
+    nameImageCover = arrNameImageNew[x];
+    alert(nameImageCover);
 }
 
-function downloadImage(x) {
-
-
-
-    fetch('/admin/download', {
+function deleteTmpImage(x) {
+    var delTmp = arrNameImageNew[x];
+    arrNameImageNew[x] = '';
+  buildCarousel();
+    fetch('/admin/deleteImage', {
         method: 'POST',
-        body: x })
-        .then(status)
-        .then(formData)
-        .then(function (resp) {
-            return resp;
-        });
-
+        body: delTmp
+    })
 }
+
+
+
 
