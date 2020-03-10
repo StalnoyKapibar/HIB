@@ -9,4 +9,9 @@ public class AdminController {
     public String getAdminPage() {
         return "admin";
     }
+
+    @GetMapping("/edit")
+    public String getEditPage() {
+        return "editPageBook";
+    }
 }

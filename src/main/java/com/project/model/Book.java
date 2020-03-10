@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,6 +17,9 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(name = "cover_image")
+    String coverImage;
+
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "name_of_book_locale",
             joinColumns = @JoinColumn(name = "name_id", referencedColumnName = "id"))
@@ -25,4 +29,9 @@ public class Book {
     @JoinTable(name = "author_locale",
             joinColumns = @JoinColumn(name = "author_id", referencedColumnName = "id"))
     private LocaleString authorLocale;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "book_image",
+            joinColumns = @JoinColumn(name = "image_id", referencedColumnName = "id"))
+    private List<Image> listImage;
 }

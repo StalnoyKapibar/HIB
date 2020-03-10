@@ -2,6 +2,7 @@ package com.project.service;
 
 import com.project.dao.BookDAO;
 import com.project.dao.BookDTORepository;
+import com.project.model.Book;
 import com.project.model.BookDTO;
 import com.project.model.BookDTO20;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,5 +51,10 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<BookDTO20> get20BookDTO(String locale) {
         return bookDAO.get20BookDTO(locale);
+    }
+
+    @Override
+    public BookDTO getBookDTOById(long id) {
+        return bookDAO.getBookDTOById(id);
     }
 }

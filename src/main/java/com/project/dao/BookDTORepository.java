@@ -9,6 +9,6 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface BookDTORepository extends CrudRepository<Book, Long> {
 
-    @Query(value = "Select new com.project.model.BookDTO(b.id, b.nameLocale, b.authorLocale) FROM Book b")
+    @Query(value = "Select new com.project.model.BookDTO(b.id, b.nameLocale, b.authorLocale, b.coverImage) FROM Book b")
     Page<BookDTO> findAll(Pageable pageable);
 }

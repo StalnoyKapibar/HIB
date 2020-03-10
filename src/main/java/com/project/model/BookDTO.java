@@ -11,4 +11,5 @@ public class BookDTO {
     private long id;
     private LocaleString name;
     private LocaleString author;
+    private String coverImage;
 }

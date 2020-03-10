@@ -29,7 +29,7 @@ public class BookDAOImpl implements BookDAO {
 
     @Override
     public List<BookDTO> getAllBookDTO() {
-        String temp = "Select new com.project.model.BookDTO(b.id, b.nameLocale, b.authorLocale) FROM Book b";
+        String temp = "Select new com.project.model.BookDTO(b.id, b.nameLocale, b.authorLocale, b.coverImage) FROM Book b";
         List<BookDTO> listBookDTO = entityManager.createQuery(temp, BookDTO.class).getResultList();
         return listBookDTO;
     }
@@ -44,11 +44,11 @@ public class BookDAOImpl implements BookDAO {
 
     @Override
     public void deleteBookById(long id) {
-        entityManager.remove(getUserById(id));
+        entityManager.remove(getBookById(id));
     }
 
     @Override
-    public Book getUserById(long id) {
+    public Book getBookById(long id) {
         return entityManager.find(Book.class, id);
     }
 
@@ -63,9 +63,16 @@ public class BookDAOImpl implements BookDAO {
 
     @Override
     public List<BookDTO20> get20BookDTO(String locale) {
-        String query = "SELECT new com.project.model.BookDTO20(b.id, b.nameLocale.LOC, b.authorLocale.LOC) FROM Book b ORDER BY RAND()"
+        String query = "SELECT new com.project.model.BookDTO20(b.id, b.nameLocale.LOC, b.authorLocale.LOC, b.fileName) FROM Book b ORDER BY RAND()"
                 .replaceAll("LOC", locale);
         List<BookDTO20> listBookDTO = entityManager.createQuery(query, BookDTO20.class).setMaxResults(20).getResultList();
         return listBookDTO;
+    }
+
+    @Override
+    public BookDTO getBookDTOById(long id) {
+        String temp = "Select new com.project.model.BookDTO(b.id, b.nameLocale, b.authorLocale, b.fileName) FROM Book b where b.id =: id";
+        BookDTO bookDTO = entityManager.createQuery(temp, BookDTO.class).setParameter("id", id).getSingleResult();
+        return bookDTO;
     }
 }

@@ -11,6 +11,7 @@ public class VarBookDTO {
 
     public VarBookDTO() {
         Arrays.stream(localeStringClass.getDeclaredFields())
+                .filter(n -> !(n.getName().equals("coverImage")))
                 .forEach(n -> fields.add(n.getName()));
     }
 

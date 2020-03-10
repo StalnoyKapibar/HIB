@@ -8,6 +8,8 @@ var arrAllBooksByNumberPage;
 let nameVarOfLocaleStringWithId;
 var idPageable;
 var idChangeLang = "en";
+let arrNameImageNew = [];
+let pathImageDefault = '../static/images/tempimage/';
 
 $(document).ready(getVarBookDTO(), getAllLocales(), pageBook(0));
 
@@ -78,6 +80,10 @@ function text(response) {
     return response.text()
 }
 
+function formData(response) {
+    return response.formData()
+}
+
 async function pageBook(x) {
     idPageable = x;
     await fetch("/admin/pageable/" + x)
@@ -99,7 +105,8 @@ async function pageBook(x) {
             for (let dd of nameObjectOfLocaleStringWithId) {
                 htmlTable += `<th scope='col'>${dd} ${idChangeLang}</th>`;
             }
-            htmlTable += `<th scope='col'>Edit</th>` +
+            htmlTable +=
+                `<th scope='col'>Edit</th>` +
                 `<th scope='col'>Delete</th>`;
             $('#table0').html(htmlTable);
             var html = '';
@@ -108,18 +115,21 @@ async function pageBook(x) {
                     `<td id=${tmp_html.id}>${tmp_html.id}</td>`;
                 for (key in tmp_html) {
                     if (key !== "id") {
-                        var ad = tmp_html[key][idChangeLang];
-                        html += `<td id='n${tmp_html.id}'>${ad}</td>`;
+                        if (key !== "coverImage") {
+                            var ad = tmp_html[key][idChangeLang];
+                            html += `<td id='n${tmp_html.id}'>${ad}</td>`;
+                        }
                     }
                 }
-                html += `<td>` +
+                html +=
+                    `<td>` +
                     `<button type='button' onclick='buildEditBook(${tmp_html.id})'  data-toggle='modal'` +
                     `data-target='#asdddd'  class='btn btn-primary'> ` +
                     `Edit` +
                     `</button>` +
                     `</td>` +
                     `<td>` +
-                    `<button type='button'  onclick='delBook(${tmp_html.id})'  class='btn btn-primary btn-danger'> ` +
+                    `<button type='button'  onclick='delBook(${tmp_html.id})'  class='btn btn-primary btn-danger'>` +
                     `Delete` +
                     `</button>` +
                     `</td>` +
@@ -133,7 +143,7 @@ async function pageBook(x) {
 function addPage() {
     var html = '';
     for (let tmpNameObject of nameObjectOfLocaleString) {
-        html += `<h5>` + tmpNameObject + `</h5>`
+        html += `<h5>` + tmpNameObject + `</h5>`;
         for (let tmpNameVar of nameVarOfLocaleString) {
             html += `<div class='form-group'>` +
                 `<label for=${tmpNameObject}${tmpNameVar}>${tmpNameObject} ${tmpNameVar}</label>` +
@@ -142,9 +152,7 @@ function addPage() {
                 `</div>`;
         }
     }
-    $('#newBookForm').html(html + `<button type='submit' onclick='addBook()' class='btn btn-primary custom-centered'>` +
-        `Add new Book` +
-        `</button>`);
+    $('#newBookForm').html(html);
 }
 
 function addBook() {
@@ -186,24 +194,16 @@ function buildEditBook(xx) {
             `<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#${tmpNameObject}">open ${tmpNameObject}</button>` +
             `<div id="${tmpNameObject}" class="collapse">`;
         for (let tmpNameVar of nameVarOfLocaleStringWithId) {
-            if (tmpNameVar === "id") {
-                html1 += `<div class='form-group'>` +
-                    `<label for='${tmpNameObject}${tmpNameVar}'>${tmpNameObject} ${tmpNameVar}</label>` +
-                    `<input type='text' class='form-control' id='${tmpNameObject}${tmpNameVar}' ` +
-                    `placeholder='${tmpNameObject} ${tmpNameVar}' readonly>` +
-                    `</div>`;
-            } else {
-                html1 += `<div class='form-group'>` +
-                    `<label for='${tmpNameObject}${tmpNameVar}'>${tmpNameObject} ${tmpNameVar}</label>` +
-                    `<input type='text' class='form-control' id='${tmpNameObject}${tmpNameVar}' ` +
-                    `placeholder='${tmpNameObject} ${tmpNameVar}'>` +
-                    `</div>`;
-            }
+            html1 += `<div class='form-group'>` +
+                `<label for='${tmpNameObject}${tmpNameVar}'>${tmpNameObject} ${tmpNameVar}</label>` +
+                `<input type='text' class='form-control' id='${tmpNameObject}${tmpNameVar}' ` +
+                `placeholder='${tmpNameObject} ${tmpNameVar}' readonly>` +
+                `</div>`;
         }
         html1 += `</div>` +
             `</div>`;
     }
-    html1 += `<button type='submit' onclick='sendUpdateBook()' data-dismiss='modal' class='btn btn-primary custom-centered'>` +
+    html1 += `<button type='submit' onclick='openEdit()' data-dismiss='modal' class='btn btn-primary custom-centered m-3'>` +
         `Edit Book` +
         `</button>`;
     $('#editBookForm').html(html1);
@@ -215,39 +215,17 @@ function buildEditBook(xx) {
     for (key in tmpArr) {
         if (key !== "id") {
             for (key0 of nameVarOfLocaleStringWithId) {
-                document.getElementById(key + key0).value = tmpArr[key][key0];
-                if (idChangeLang === key0) {
-                    document.getElementById('ss' + key).innerText = key + ' ' + key0 + ': ' + tmpArr[key][key0];
+                if (key !== "coverImage") {
+                    document.getElementById(key + key0).value = tmpArr[key][key0];
+
+                    if (idChangeLang === key0) {
+                        document.getElementById('ss' + key).innerText = key + ' ' + key0 + ': ' + tmpArr[key][key0];
+                    }
+
                 }
             }
         }
     }
-}
-
-function sendUpdateBook() {
-    var add = {};
-    add['id'] = tmpEditBookId;
-    for (let tmp of nameObjectOfLocaleString) {
-        var asd = {};
-        for (let tmpValue of nameVarOfLocaleStringWithId) {
-            asd[tmpValue] = $('#' + tmp + tmpValue).val();
-        }
-        add[tmp] = asd;
-    }
-    var body02 = JSON.stringify(add);
-    sendUpdateBookReq(body02);
-}
-
-async function sendUpdateBookReq(x) {
-    await fetch("/admin/edit", {
-        method: 'POST',
-        body: x,
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        }
-    });
-    await pageBook(idPageable);
 }
 
 function buildChangeLang() {
@@ -263,3 +241,96 @@ function chanLang(x) {
     idChangeLang = nameVarOfLocaleString[x];
     pageBook(idPageable);
 }
+
+function openEdit() {
+    localStorage.setItem('tmpEditBookId', tmpEditBookId);
+    window.open('/edit', '_blank');
+}
+
+function uploadImageNew() {
+    const formData = new FormData();
+    const fileField = document.getElementById("exampleFormFile");
+    arrNameImageNew.push(fileField.files[0].name);
+    formData.append('file', fileField.files[0]);
+fetch('/admin/upload', {
+        method: 'POST',
+        body: formData })
+        .then(status)
+        .then(json)
+        .then(function (resp) {
+buildCarousel();
+        });
+}
+
+$("#exampleFormFile").change(function () {
+    uploadImageNew();
+
+
+});
+
+function buildCarousel() {
+    var tmpHtmlForCarousel = '';
+    var tmpHtmlForCarouselIndicators = '';
+    for (var i = 0; i < arrNameImageNew.length; i++) {
+        if (i === 0) {
+            tmpHtmlForCarouselIndicators +=
+                `<li data-target='#carouselExampleCaptions' data-slide-to=${i} class='active'>` + `</li>`;
+            tmpHtmlForCarousel +=
+                `<div class='carousel-item active'>` +
+                `<img id='g${i}' src='' class='d-block w-100' alt='...'>` +
+                `<div class='carousel-caption d-none d-md-block'>` +
+                `<h5>First slide label</h5>` +
+                `<p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>` +
+                `</div>` +
+                `</div>`;
+        } else {
+            tmpHtmlForCarouselIndicators += `<li data-target='#carouselExampleCaptions' data-slide-to=${i}></li>`;
+            tmpHtmlForCarousel += ` <div class="carousel-item">` + `<img id='g${i}' src='' class='d-block w-100' alt="...">` +
+                `<div class='carousel-caption d-none d-md-block'>` +
+                `<h5>Second slide label</h5>` +
+                `<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>` +
+                `</div>`;
+        }
+
+
+    }
+
+    var html00 = `<ol class='carousel-indicators'>${tmpHtmlForCarouselIndicators}</ol>` +
+        `<div class="carousel-inner">${tmpHtmlForCarousel}</div>` +
+        `<a class='carousel-control-prev' href='#carouselExampleCaptions' role='button' data-slide='prev'>` +
+        `<span class='carousel-control-prev-icon' aria-hidden='true'></span>` +
+        `<span class='sr-only'>Previous</span>` +
+        `</a>` +
+        `<a class='carousel-control-next' href='#carouselExampleCaptions' role='button' data-slide='next'>` +
+        `<span class='carousel-control-next-icon' aria-hidden='true'></span>` +
+        `<span class='sr-only'>Next</span>` +
+        `</a>`;
+
+    $('#carouselExampleCaptions').html(html00);
+
+    setPathImage();
+}
+
+function setPathImage() {
+    for (var i = 0; i < arrNameImageNew.length; i++) {
+        var a = pathImageDefault + arrNameImageNew[i];
+        document.getElementById('g' + i).src = "../static/icons/search.svg";
+    }
+
+}
+
+function downloadImage(x) {
+
+
+
+    fetch('/admin/download', {
+        method: 'POST',
+        body: x })
+        .then(status)
+        .then(formData)
+        .then(function (resp) {
+            return resp;
+        });
+
+}
+
