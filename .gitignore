@@ -25,7 +25,7 @@ mvnw
 *.iml
 *.ipr
 
-
+application.properties
 
 
 ### NetBeans ###
