@@ -29,4 +29,6 @@ public interface StorageService {
 
 	void cutImagesFromTmpPaperToNewPaperByLastIdBook(String namePaper);
 
+	void clearPaperTmp();
+
 }

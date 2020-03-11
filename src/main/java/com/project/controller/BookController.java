@@ -56,7 +56,7 @@ public class BookController {
     public void addBook(@RequestBody BookNewDTO bookNewDTO) {
         bookService.addBook(bookNewDTO);
         String lastId = bookService.getLastIdOfBook();
-      //  storageService.createNewPaperForImages(lastId);
+        storageService.createNewPaperForImages(lastId);
         storageService.cutImagesFromTmpPaperToNewPaperByLastIdBook(lastId);
 
     }

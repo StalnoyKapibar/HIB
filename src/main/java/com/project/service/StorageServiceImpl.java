@@ -1,5 +1,6 @@
 package com.project.service;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -54,9 +55,7 @@ public class StorageServiceImpl implements StorageService {
     public Resource loadAsResource(String filename) {
         try {
             Path file = load(filename);
-
             file.toFile();
-
             Resource resource = new UrlResource(file.toUri());
             if (resource.exists() || resource.isReadable()) {
                 return resource;
@@ -101,13 +100,24 @@ public class StorageServiceImpl implements StorageService {
     @Override
     public void cutImagesFromTmpPaperToNewPaperByLastIdBook(String namePaper) {
         try {
-            Files.copy(Paths.get("img/tmp"), Paths.get("img/" + namePaper));
+            File folder = new File("img/tmp");
+            File[] listOfFiles = folder.listFiles();
+            Path destDir = Paths.get("img/" + namePaper);
+            if (listOfFiles != null)
+                for (File file : listOfFiles) {
+                    Files.copy(file.toPath(), destDir.resolve(file.getName()), StandardCopyOption.REPLACE_EXISTING);
+                }
         } catch (IOException e) {
             e.printStackTrace();
         }
-       // deleteAll();
+        clearPaperTmp();
     }
 
+    @Override
+    public void clearPaperTmp() {
+        for (File myFile : new File(String.valueOf(path)).listFiles())
+            if (myFile.isFile()) myFile.delete();
+    }
 
     @Override
     public void init() {
