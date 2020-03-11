@@ -9,8 +9,8 @@ let nameVarOfLocaleStringWithId;
 var idPageable;
 var idChangeLang = "en";
 let arrNameImageNew = [];
-let pathImageDefault = 'images/';
-var nameImageCover;
+let pathImageDefault = 'images/tmp/';
+var nameImageCover = '';
 
 $(document).ready(getVarBookDTO(), getAllLocales(), pageBook(0));
 
@@ -165,6 +165,19 @@ function addBook() {
         }
         add[tmp] = asd;
     }
+     add['coverImage'] = nameImageCover;
+     var arrImageTmp = arrNameImageNew.filter(t => t !== "");
+var arrImageFin = [];
+
+        for (var tmp of arrImageTmp) {
+            arrImageFin.push(JSON.parse('{"nameImage":"' + tmp + '"}'));
+        }
+  //  roles.push(JSON.parse('{"id":"' + selectRoles1[i].id + '", "role":"' + selectRoles1[i].value + '"}'));
+
+
+      add['imageList'] = arrImageFin;
+
+
     var body02 = JSON.stringify(add);
     addBookReq(body02);
 }

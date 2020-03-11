@@ -25,7 +25,7 @@ public class StorageServiceImpl implements StorageService {
 
     @Override
     public void saveImage(MultipartFile file) {
-		String filename = StringUtils.cleanPath(file.getOriginalFilename());
+        String filename = StringUtils.cleanPath(file.getOriginalFilename());
         try (InputStream inputStream = file.getInputStream()) {
             Files.copy(inputStream, this.path.resolve(file.getOriginalFilename()),
                     StandardCopyOption.REPLACE_EXISTING);
@@ -80,14 +80,33 @@ public class StorageServiceImpl implements StorageService {
         return String.valueOf(new Random().nextLong() + ".jpg");
     }
 
-	@Override
-    public void deleteImageByFileName(String fileName){
-		try {
-			Files.delete(Paths.get(path + "\\" + fileName));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+    @Override
+    public void deleteImageByFileName(String fileName) {
+        try {
+            Files.delete(Paths.get(path + "\\" + fileName));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void createNewPaperForImages(String namePaper) {
+        try {
+            Files.createDirectory(Paths.get("img/" + namePaper));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void cutImagesFromTmpPaperToNewPaperByLastIdBook(String namePaper) {
+        try {
+            Files.copy(Paths.get("img/tmp"), Paths.get("img/" + namePaper));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+       // deleteAll();
+    }
 
 
     @Override
@@ -95,7 +114,7 @@ public class StorageServiceImpl implements StorageService {
         try {
             Files.createDirectories(path);
         } catch (IOException e) {
-            throw new StorageException("Could not initialize storage", e);
+            e.printStackTrace();
         }
     }
 }

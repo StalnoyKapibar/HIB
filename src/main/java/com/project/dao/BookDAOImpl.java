@@ -3,6 +3,7 @@ package com.project.dao;
 import com.project.model.Book;
 import com.project.model.BookDTO;
 import com.project.model.BookDTO20;
+import com.project.model.BookNewDTO;
 import org.hibernate.Query;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +25,6 @@ public class BookDAOImpl implements BookDAO {
     @PersistenceContext
     private EntityManager entityManager;
 
-    @Autowired
-    private EntityManagerFactory emf;
-
     @Override
     public List<BookDTO> getAllBookDTO() {
         String temp = "Select new com.project.model.BookDTO(b.id, b.nameLocale, b.authorLocale, b.coverImage) FROM Book b";
@@ -35,10 +33,12 @@ public class BookDAOImpl implements BookDAO {
     }
 
     @Override
-    public void addBook(BookDTO bookDTO) {
+    public void addBook(BookNewDTO bookNewDTO) {
         Book book = new Book();
-        book.setAuthorLocale(bookDTO.getAuthor());
-        book.setNameLocale(bookDTO.getName());
+        book.setAuthorLocale(bookNewDTO.getAuthor());
+        book.setNameLocale(bookNewDTO.getName());
+        book.setCoverImage(bookNewDTO.getCoverImage());
+        book.setListImage(bookNewDTO.getImageList());
         entityManager.persist(book);
     }
 
@@ -74,5 +74,11 @@ public class BookDAOImpl implements BookDAO {
         String temp = "Select new com.project.model.BookDTO(b.id, b.nameLocale, b.authorLocale, b.fileName) FROM Book b where b.id =: id";
         BookDTO bookDTO = entityManager.createQuery(temp, BookDTO.class).setParameter("id", id).getSingleResult();
         return bookDTO;
+    }
+
+    @Override
+    public String getLastIdOfBook() {
+        String temp = "SELECT max(b.id) FROM Book b";
+        return entityManager.createQuery(temp).getSingleResult().toString();
     }
 }

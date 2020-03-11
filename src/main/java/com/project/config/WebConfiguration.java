@@ -22,7 +22,7 @@ public class WebConfiguration implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**").addResourceLocations(CLASSPATH_RESOURCE_LOCATIONS);
-        registry.addResourceHandler("/images/**").addResourceLocations("file:img/tmp/");
+        registry.addResourceHandler("/images/**").addResourceLocations("file:img/");
     }
 
     @Bean

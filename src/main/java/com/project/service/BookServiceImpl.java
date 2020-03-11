@@ -5,6 +5,7 @@ import com.project.dao.BookDTORepository;
 import com.project.model.Book;
 import com.project.model.BookDTO;
 import com.project.model.BookDTO20;
+import com.project.model.BookNewDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,8 +30,8 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void addBook(BookDTO bookDTO) {
-        bookDAO.addBook(bookDTO);
+    public void addBook(BookNewDTO bookNewDTO) {
+        bookDAO.addBook(bookNewDTO);
     }
 
     @Override
@@ -56,5 +57,10 @@ public class BookServiceImpl implements BookService {
     @Override
     public BookDTO getBookDTOById(long id) {
         return bookDAO.getBookDTOById(id);
+    }
+
+    @Override
+    public String getLastIdOfBook() {
+        return bookDAO.getLastIdOfBook();
     }
 }

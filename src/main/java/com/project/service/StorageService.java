@@ -25,4 +25,8 @@ public interface StorageService {
 
 	void deleteImageByFileName(String fileName) throws IOException;
 
+	void createNewPaperForImages(String namePaper);
+
+	void cutImagesFromTmpPaperToNewPaperByLastIdBook(String namePaper);
+
 }

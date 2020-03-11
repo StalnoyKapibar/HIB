@@ -1,18 +1,20 @@
 package com.project.util;
 
 import com.project.model.BookDTO;
+import com.project.model.BookNewDTO;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class VarBookDTO {
-    private Class localeStringClass = BookDTO.class;
+public class VarBookNewDTO {
+    private Class localeStringClass = BookNewDTO.class;
     private List<String> fields = new ArrayList<>();
 
-    public VarBookDTO() {
+    public VarBookNewDTO() {
         Arrays.stream(localeStringClass.getDeclaredFields())
                 .filter(n -> !(n.getName().equals("coverImage")))
-
+                .filter(n -> !(n.getName().equals("imageList")))
                 .forEach(n -> fields.add(n.getName()));
     }
 
