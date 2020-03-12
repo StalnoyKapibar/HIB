@@ -14,6 +14,6 @@ public interface BookDAO {
     Book getBookById(long id);
     void updateBook(BookDTO bookDTO);
     List<BookDTO20> get20BookDTO(String locale);
-    BookDTO getBookDTOById(long id);
+    BookNewDTO getBookDTOById(long id);
     String getLastIdOfBook();
 }

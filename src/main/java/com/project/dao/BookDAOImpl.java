@@ -70,9 +70,9 @@ public class BookDAOImpl implements BookDAO {
     }
 
     @Override
-    public BookDTO getBookDTOById(long id) {
-        String temp = "Select new com.project.model.BookDTO(b.id, b.nameLocale, b.authorLocale, b.fileName) FROM Book b where b.id =: id";
-        BookDTO bookDTO = entityManager.createQuery(temp, BookDTO.class).setParameter("id", id).getSingleResult();
+    public BookNewDTO getBookDTOById(long id) {
+        String temp = "Select new com.project.model.BookNewDTO(b.id, b.nameLocale, b.authorLocale, b.coverImage, b.listImage) FROM Book b where b.id =: id";
+        BookNewDTO bookDTO = entityManager.createQuery(temp, BookNewDTO.class).setParameter("id", id).getSingleResult();
         return bookDTO;
     }
 

@@ -35,7 +35,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Page<BookDTO> findAll(Pageable pageable) {
+    public Page<BookNewDTO> findAll(Pageable pageable) {
         return bookDTORepository.findAll(pageable);
     }
 
@@ -55,7 +55,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookDTO getBookDTOById(long id) {
+    public BookNewDTO getBookDTOById(long id) {
         return bookDAO.getBookDTOById(id);
     }
 

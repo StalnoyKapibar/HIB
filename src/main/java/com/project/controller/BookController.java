@@ -34,16 +34,16 @@ public class BookController {
     private StorageService storageService;
 
     @GetMapping("/getBookDTOById/{id}")
-    public BookDTO getBookDTOById(@PathVariable("id") long id) {
-        BookDTO bookDTO = bookService.getBookDTOById(id);
+    public BookNewDTO getBookDTOById(@PathVariable("id") long id) {
+        BookNewDTO bookDTO = bookService.getBookDTOById(id);
         return bookDTO;
     }
 
     @GetMapping("/admin/pageable/{page1}")
-    public Page<BookDTO> getWelcomeLocaleDTOByLocale(@PathVariable("page1") int page1) {
+    public Page<BookNewDTO> getWelcomeLocaleDTOByLocale(@PathVariable("page1") int page1) {
         Pageable pageable0 = PageRequest.of(page1, 10, Sort.by(
                 Sort.Order.asc("id")));
-        Page<BookDTO> page = bookService.findAll(pageable0);
+        Page<BookNewDTO> page = bookService.findAll(pageable0);
         return page;
     }
 

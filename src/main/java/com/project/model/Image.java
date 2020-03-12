@@ -13,10 +13,12 @@ import javax.persistence.*;
 @Entity
 @Table(name = "image")
 public class Image {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "nameImage")
-    String nameImage;
+    @Column(name = "name_image")
+    private String nameImage;
+
 }
