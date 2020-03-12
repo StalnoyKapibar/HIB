@@ -19,8 +19,5 @@ public class Welcome {
     private String name;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//    @JoinTable(name = "welcome_body",
-//            joinColumns = @JoinColumn(name = "welcome_id", referencedColumnName = "id"))
-
     private LocaleString body;
 }
