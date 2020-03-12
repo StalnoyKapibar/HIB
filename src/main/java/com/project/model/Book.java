@@ -7,12 +7,10 @@ import javax.persistence.*;
 
 
 @NoArgsConstructor
-
 @Data
 @Entity
 @Table(name = "book")
 public class Book {
-
 
     public Book(LocaleString nameLocale, LocaleString authorLocale) {
         this.nameLocale = nameLocale;

@@ -18,7 +18,6 @@ public class ViewController {
         return "home";
     }
 
-
     @GetMapping("/page")
     public String getPage(HttpServletRequest request) {
         if (request.getSession(false) == null) {

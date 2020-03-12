@@ -1,6 +1,8 @@
 package com.project.model;
 
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 @NoArgsConstructor
@@ -9,13 +11,14 @@ import javax.persistence.*;
 @Table(name = "localString")
 public class LocaleString {
 
-    public LocaleString(String ru, String en, String fr, String it, String de, String cs) {
+    public LocaleString(String ru, String en, String fr, String it, String de, String cs, String gr) {
         this.ru = ru;
         this.en = en;
         this.fr = fr;
         this.it = it;
         this.de = de;
         this.cs = cs;
+        this.gr = gr;
     }
 
     @Id

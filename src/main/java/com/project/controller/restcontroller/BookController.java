@@ -3,7 +3,7 @@ package com.project.controller.restcontroller;
 import com.project.model.BookDTO;
 import com.project.model.BookDTO20;
 import com.project.service.BookService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -12,11 +12,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@AllArgsConstructor
 @RestController
 public class BookController {
 
-    @Autowired
     private BookService bookService;
 
     @GetMapping("/admin/pageable/{page1}")
@@ -58,7 +57,6 @@ public class BookController {
         List<BookDTO20> page = bookService.get20BookDTO(locale);
         return page;
     }
-
 
     @GetMapping("/page/id/{x}")
     public ResponseEntity<BookDTO> getBook(@PathVariable("x") long x ) {

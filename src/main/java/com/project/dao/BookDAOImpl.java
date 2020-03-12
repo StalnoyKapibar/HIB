@@ -3,19 +3,10 @@ package com.project.dao;
 import com.project.model.Book;
 import com.project.model.BookDTO;
 import com.project.model.BookDTO20;
-import org.hibernate.Query;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Repository
@@ -23,9 +14,6 @@ public class BookDAOImpl implements BookDAO {
 
     @PersistenceContext
     private EntityManager entityManager;
-
-    @Autowired
-    private EntityManagerFactory emf;
 
     @Override
     public List<BookDTO> getAllBookDTO() {
@@ -54,12 +42,8 @@ public class BookDAOImpl implements BookDAO {
 
     @Override
     public BookDTO getBookByIdLocale(long id) {
-
-
         String query = ("SELECT new com.project.model.BookDTO(b.id, b.nameLocale," +
-                " b.authorLocale) FROM Book b where b.id="+id);
-
-
+                " b.authorLocale) FROM Book b where b.id=" + id);
         return entityManager.createQuery(query, BookDTO.class).getSingleResult();
     }
 
