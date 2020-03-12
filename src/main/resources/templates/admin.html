@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/sig.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">HIB Admin panel</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto col-8">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#">Disabled</a>
+            </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </div>
+</nav>
+<div class="row">
+    <div class="col-2">
+        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            <a class="nav-link " id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab"
+               aria-controls="v-pills-home" aria-selected="false">Edit Welcome</a>
+            <a class="nav-link active" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab"
+               aria-controls="v-pills-profile" aria-selected="true">Books</a>
+            <a class="nav-link " id="v-pills-genres-tab" data-toggle="pill" href="#v-pills-genres" role="tab"
+               aria-controls="v-pills-genres" aria-selected="false">Genres</a>
+        </div>
+    </div>
+    <div class="col-9">
+        <div class="tab-content" id="v-pills-tabContent">
+            <div class="tab-pane fade mt-3" id="v-pills-home" role="tabpanel"
+                 aria-labelledby="v-pills-home-tab">
+                <h1>Edit Welcome</h1>
+                <nav>
+                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home"
+                           role="tab" aria-controls="nav-home" aria-selected="true">Edit welcome</a>
+                        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile"
+                           role="tab" aria-controls="nav-profile" aria-selected="false">empty</a>
+                    </div>
+                </nav>
+                <div class="tab-content tab - border" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+
+                        <div class="form-group">
+                            <form id="form_id">
+                            </form>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade " id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                        <ul class="list-group">
+                            <li class="list-group-item list-group-item-light">.паро</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade  show active" id="v-pills-profile" role="tabpanel"
+                 aria-labelledby="v-pills-profile-tab">
+                <nav>
+                    <div class="nav nav-tabs" id="nav-tab1" role="tablist">
+                        <a class="nav-item nav-link active" id="nav-home-tab1" data-toggle="tab" href="#nav-home1"
+                           role="tab" aria-controls="nav-home" aria-selected="true">AllBooks</a>
+                        <a class="nav-item nav-link" id="nav-profile-tab1" onclick="addPage()" data-toggle="tab"
+                           href="#nav-profile1"
+                           role="tab" aria-controls="nav-profile" aria-selected="false">Add Book</a>
+                    </div>
+                </nav>
+                <div class="tab-content tab - border" id="nav-tabContent1">
+                    <div class="tab-pane fade show active" id="nav-home1" role="tabpanel"
+                         aria-labelledby="nav-home-tab">
+                        <div class="table">
+                            <ul class="list-group">
+                                <li class="list-group-item list-group-item-light">All Books</li>
+                            </ul>
+                            <div class="btn-group" id="chlang1">
+                            </div>
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination" id="pagination00">
+                                </ul>
+                            </nav>
+                            <table class="table table-striped">
+                                <thead>
+                                <tr id="table0">
+                                </tr>
+                                </thead>
+                                <tbody id="extra">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="nav-profile1" role="tabpanel" aria-labelledby="nav-profile-tab1">
+                        <ul class="list-group">
+                            <li class="list-group-item list-group-item-light">Add new Book</li>
+                        </ul>
+                        <form role="form" id="newBookForm">
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade mt-3" id="v-pills-genres" role="tabpanel"
+                 aria-labelledby="v-pills-genres-tab">
+                <nav>
+                    <div class="nav nav-tabs" id="nav-tab2" role="tablist">
+                        <a class="nav-item nav-link active" id="nav-home-tab2" data-toggle="tab" href="#nav-home2"
+                           role="tab" aria-controls="nav-home" aria-selected="true">Genres list</a>
+                        <a class="nav-item nav-link" id="nav-profile-tab2" data-toggle="tab" href="#nav-profile2"
+                           role="tab" aria-controls="nav-profile" aria-selected="false">Add new genre</a>
+                    </div>
+                </nav>
+                <div class="tab-content tab - border" id="nav-tabContent2">
+                    <div class="tab-pane fade show active" id="nav-home2" role="tabpanel" aria-labelledby="nav-home-tab2">
+                        <p>test1</p>
+                    </div>
+                    <div class="tab-pane fade " id="nav-profile2" role="tabpanel" aria-labelledby="nav-profile-tab2">
+                        <p>test2</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="asdddd" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit Book</h5>
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form role="form" class="custom-centered" id="editBookForm">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+<script src="js/editWelcome.js"></script>
+</body>
+</html>

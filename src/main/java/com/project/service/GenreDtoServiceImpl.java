@@ -18,12 +18,12 @@ public class GenreDtoServiceImpl implements GenreDtoService {
     }
 
     @Override
-    public GenreDto getGenreDtoById(long id) {
-        return genreDtoDao.getGenreDtoById(id, "ru");
+    public GenreDto getGenreDtoById(long id, String locale) {
+        return genreDtoDao.getGenreDtoById(id, locale);
     }
 
     @Override
-    public List<GenreDto> getAllGenreDto() {
-        return genreDtoDao.getAllGenreDto("ru");
+    public List<GenreDto> getAllGenreDto(String locale) {
+        return genreDtoDao.getAllGenreDto(locale);
     }
 }

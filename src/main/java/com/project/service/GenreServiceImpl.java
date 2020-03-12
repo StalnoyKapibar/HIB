@@ -45,7 +45,7 @@ public class GenreServiceImpl implements GenreService {
 
             gTemp1.setGenreLocale(lTemp2);
             gTemp2.setGenreLocale(lTemp1);
-        } catch (ResourceNotFoundException | NullPointerException e) {
+        } catch (ResourceNotFoundException e) {
             e.printStackTrace();
         }
         return true;

@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
+    <link href="../static/fonts/font.css" rel="stylesheet">
+    <script src="../static/js/jquery.min.js"></script>
+    <script src="../static/js/popper.min.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+
+<div class="d-flex">
+    <div class="sidebar" id="wrapper">
+        <div class="bg-light border-right sidebar-margin" id="sidebar-wrapper">
+            <div class="sidebar-heading mt-auto text-center">Category</div>
+            <div class="list-group list-group-flush">
+                <a href="#" class="list-group-item list-group-item-action bg-light">Item_1</a>
+                <a href="#" class="list-group-item list-group-item-action bg-light">Item_2</a>
+                <a href="#" class="list-group-item list-group-item-action bg-light">Item_3</a>
+                <a href="#" class="list-group-item list-group-item-action bg-light">Item_4</a>
+                <a href="#" class="list-group-item list-group-item-action bg-light">Item_5</a>
+            </div>
+        </div>
+    </div>
+    <header>
+        <nav class="navbar navbar-light bg-light  navbar-expand-md  fixed-top">
+            <a class="navbar-brand header-title-big d-lg-block d-none">History in Books</a>
+            <a class="navbar-brand header-title-little d-lg-none d-md-block">HIB</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+                    aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <button class="btn pl-2 btn-header" id="link_main_header" th:href="@{/home}">Main</button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="btn pl-2 btn-header" id="link_books_header">Books</button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="btn pl-2 btn-header" id="menu-toggle">Category</button>
+                    </li>
+                </ul>
+                <div class="dropdown mr-2 mb-2 mt-2">
+                    <a class="btn dropdown-toggle border" href="#" role="button" id="dd_menu_link"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                       th:attr="data-current-lang=${#httpSession.getAttribute('LANG')}">
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dd_menu_link" id="dd_menu">
+                    </div>
+                </div>
+                <form class="form-inline">
+                    <div class="input-group">
+                        <input type="text" class="form-control border" placeholder="" aria-label=""
+                               aria-describedby="basic-addon1">
+                        <div class="input-group-append">
+                            <button class="btn border" type="button">
+                                <img src="../static/icons/search.svg" alt="" height="16" width="16"></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </nav>
+    </header>
+
+    <!--    page container    -->
+
+    <div class="container page-content">
+        <h2>Hi, there</h2>
+        <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur dignissimos dolore dolorem,
+            eligendi
+            eos error facilis nemo praesentium quam qui quia quo ratione recusandae rem rerum sit ullam vel
+            voluptatem.
+        </div>
+        <div>A accusantium aperiam at beatae cumque debitis delectus doloremque et harum in molestias nam nemo non
+            odio
+            pariatur, perspiciatis, porro quam, quia rem sint sit tenetur unde vitae! Optio, suscipit.
+        </div>
+        <div>Commodi eius et fuga, harum ipsa itaque modi nesciunt omnis quasi rem rerum sequi tempora tenetur,
+            voluptas
+            voluptates. Alias amet animi beatae dicta esse incidunt maxime nisi nobis nostrum rerum.
+        </div>
+        <div>Consectetur consequuntur ea earum labore minus officia quis similique suscipit voluptate. Doloremque
+            quam
+            quia quisquam ratione! Aliquid dignissimos, error et eveniet maxime molestiae, non odio porro repellat
+            sed
+            similique temporibus!
+        </div>
+        <hr>
+
+        <!--        for cards        -->
+        <div>
+            <h2>You can read this</h2>
+            <br>
+        </div>
+        <div class="card-group">
+            <div class="card">
+                <img class="card-img-top" src="../static/images/example.svg" alt="Card image cap">
+                <div class="card-body">
+                    <h4 class="card-title">Book 1</h4>
+                    <p class="card-text">
+                        Some quick example text to build on the card title
+                        and make up the bulk of the card's content.
+                    </p>
+                    <a href="#!" class="btn btn-primary">Click to read more</a>
+                </div>
+            </div>
+            <div class="card">
+                <img class="card-img-top" src="../static/images/example.svg" alt="Card image cap">
+                <div class="card-body">
+                    <h4 class="card-title">Book 2</h4>
+                    <p class="card-text">
+                        Some quick example text to build on the card title
+                        and make up the bulk of the card's content.
+                    </p>
+                    <a href="#!" class="btn btn-primary">Click to read more</a>
+                </div>
+            </div>
+            <div class="card">
+                <img class="card-img-top" src="../static/images/example.svg" alt="Card image cap">
+                <div class="card-body">
+                    <h4 class="card-title">Book 3</h4>
+                    <p class="card-text">
+                        Some quick example text to build on the card title
+                        and make up the bulk of the card's content.
+                    </p>
+                    <a href="#!" class="btn btn-primary">Click to read more</a>
+                </div>
+            </div>
+            <div class="card">
+                <img class="card-img-top" src="../static/images/example.svg" alt="Card image cap">
+                <div class="card-body">
+                    <h4 class="card-title">Book 4</h4>
+                    <p class="card-text">
+                        Some quick example text to build on the card title
+                        and make up the bulk of the card's content.
+                    </p>
+                    <a href="#!" class="btn btn-primary">Click to read more</a>
+                </div>
+            </div>
+        </div>
+        <br>
+        <!--        footer       -->
+        <div class="footer pt-3 p-0 container-fluid text-center">
+            <div class="footer_menu">
+                <a href="#" class="footer_link p-2" id="link_main_footer">Main</a>
+                <a href="#" class="footer_link p-2" id="link_instruction">Instruction</a>
+                <a href="#" class="footer_link p-2" id="link_order">Order</a>
+                <a href="#" class="footer_link p-2" id="link_authors">Authors</a>
+                <a href="#" class="footer_link p-2" id="links">Links</a>
+                <a href="#" class="footer_link p-2" id="link_contacts">Contacts</a>
+            </div>
+            <div class="footer_made_by pt-2"><a id="made_by">Created by JavaMentor® Team</a></div>
+        </div>
+    </div>
+</div>
+</div>
+<script src="../static/js/main.js"></script>
+</body>
+</html>

@@ -5,6 +5,8 @@ import com.project.model.GenreDto;
 import com.project.service.GenreDtoService;
 import com.project.service.GenreService;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
@@ -20,8 +22,8 @@ public class GenreRestController {
     }
 
     @GetMapping("/genres")
-    public List<GenreDto> getAllGenres(HttpServletResponse response) {
-        List<GenreDto> genres = genreDtoService.getAllGenreDto();
+    public List<GenreDto> getAllGenres(HttpServletResponse response, HttpServletRequest request) {
+        List<GenreDto> genres = genreDtoService.getAllGenreDto((String) request.getSession().getAttribute("LANG"));
         if (genres != null) {
             response.setStatus(HttpServletResponse.SC_OK);
         } else {
@@ -31,8 +33,8 @@ public class GenreRestController {
     }
 
     @GetMapping("/genre/{id}")
-    public GenreDto getGenreById(@PathVariable Long id, HttpServletResponse response) {
-        GenreDto genre = genreDtoService.getGenreDtoById(id);
+    public GenreDto getGenreById(@PathVariable Long id, HttpServletResponse response, HttpServletRequest request) {
+        GenreDto genre = genreDtoService.getGenreDtoById(id, (String) request.getSession().getAttribute("LANG"));
         if (genre != null) {
             response.setStatus(HttpServletResponse.SC_OK);
         } else {

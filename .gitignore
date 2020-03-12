@@ -36,4 +36,3 @@ build/
 
 ### VS Code ###
 .vscode/
-/src/main/java/com/project/security/SecurityConfig.java
