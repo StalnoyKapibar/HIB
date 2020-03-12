@@ -1,18 +1,13 @@
-package com.project.controller;
+package com.project.controller.restcontroller;
 
 import com.project.model.BookDTO;
-import com.project.model.LocaleString;
 import com.project.model.Welcome;
 import com.project.model.WelcomeLocaleDTO;
 import com.project.service.BookService;
 import com.project.service.WelcomeService;
-import com.project.util.LocaleHolder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
