@@ -1,7 +1,6 @@
 package com.project.model;
 
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -20,8 +19,5 @@ public class Welcome {
     private String name;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name = "welcome_body",
-            joinColumns = @JoinColumn(name = "welcome_id", referencedColumnName = "id"))
-
     private LocaleString body;
 }

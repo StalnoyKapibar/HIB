@@ -2,22 +2,16 @@ package com.project.dao;
 
 import com.project.model.Welcome;
 import com.project.model.WelcomeLocaleDTO;
-import org.hibernate.Transaction;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.annotation.ReadOnlyProperty;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 @Repository
 public class WelcomeDAOImpl implements WelcomeDAO {
 
     @PersistenceContext
     private EntityManager entityManager;
-
-    @Autowired
-    private EntityManagerFactory emf;
 
     @Override
     public WelcomeLocaleDTO getWelcomeLocaleDTOByLocale(String locale) {
@@ -28,9 +22,7 @@ public class WelcomeDAOImpl implements WelcomeDAO {
 
     @Override
     public void editWelcome(Welcome welcome) {
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-        em.createQuery("update LocaleString set ru =:ru, cs =:cs, de =:de, en =: en, fr =: fr, it =: it, gr =: gr")
+        entityManager.createQuery("update LocaleString set ru =:ru, cs =:cs, de =:de, en =: en, fr =: fr, it =: it, gr =: gr")
                 .setParameter("ru", welcome.getBody().getRu())
                 .setParameter("cs", welcome.getBody().getCs())
                 .setParameter("de", welcome.getBody().getDe())
@@ -39,6 +31,5 @@ public class WelcomeDAOImpl implements WelcomeDAO {
                 .setParameter("it", welcome.getBody().getIt())
                 .setParameter("gr", welcome.getBody().getGr())
                 .executeUpdate();
-        em.getTransaction().commit();
     }
 }

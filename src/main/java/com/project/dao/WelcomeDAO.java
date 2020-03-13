@@ -5,6 +5,7 @@ import com.project.model.WelcomeLocaleDTO;
 
 public interface WelcomeDAO {
     WelcomeLocaleDTO getWelcomeLocaleDTOByLocale(String locale);
+
     void editWelcome(Welcome welcome);
 }
 
