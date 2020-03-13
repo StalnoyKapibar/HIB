@@ -4,7 +4,7 @@ import com.project.dao.BookDAO;
 import com.project.dao.BookDTORepository;
 import com.project.model.BookDTO;
 import com.project.model.BookDTO20;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -14,12 +14,11 @@ import java.util.List;
 
 @Service
 @Transactional
+@AllArgsConstructor
 public class BookServiceImpl implements BookService {
 
-    @Autowired
     private BookDAO bookDAO;
 
-    @Autowired
     private BookDTORepository bookDTORepository;
 
     @Override
@@ -42,7 +41,9 @@ public class BookServiceImpl implements BookService {
         bookDAO.deleteBookById(id);
     }
 
-    public BookDTO getBookByIdLocale(long id){return bookDAO.getBookByIdLocale(id);}
+    public BookDTO getBookByIdLocale(long id) {
+        return bookDAO.getBookByIdLocale(id);
+    }
 
     @Override
     public void updateBook(BookDTO bookDTO) {
