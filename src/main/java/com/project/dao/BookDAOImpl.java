@@ -42,9 +42,8 @@ public class BookDAOImpl implements BookDAO {
 
     @Override
     public BookDTO getBookByIdLocale(long id) {
-        String query = ("SELECT new com.project.model.BookDTO(b.id, b.nameLocale," +
-                " b.authorLocale) FROM Book b where b.id=" + id);
-        return entityManager.createQuery(query, BookDTO.class).getSingleResult();
+        return entityManager.createQuery("SELECT new com.project.model.BookDTO(b.id, b.nameLocale," +
+                " b.authorLocale) FROM Book b where b.id=:id", BookDTO.class).setParameter("id", id).getSingleResult();
     }
 
     @Override
