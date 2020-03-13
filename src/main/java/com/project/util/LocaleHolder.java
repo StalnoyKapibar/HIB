@@ -7,11 +7,10 @@ import java.util.Arrays;
 import java.util.List;
 
 public class LocaleHolder {
-    private Class localeStringClass = LocaleString.class;
     private List<String> fields = new ArrayList<>();
 
     public LocaleHolder() {
-        Arrays.stream(localeStringClass.getDeclaredFields())
+        Arrays.stream(LocaleString.class.getDeclaredFields())
                 .filter(n -> n.getType().equals(String.class) & (n.getName().length() == 2))
                 .forEach(n -> fields.add(n.getName()));
     }

@@ -2,6 +2,7 @@ package com.project.controller.restcontroller;
 
 import com.project.model.BookDTO;
 import com.project.model.BookDTO20;
+import com.project.model.BookNewDTO;
 import com.project.service.BookService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,10 +20,10 @@ public class BookController {
     private BookService bookService;
 
     @GetMapping("/admin/pageable/{page1}")
-    public Page<BookDTO> getWelcomeLocaleDTOByLocale(@PathVariable("page1") int page1) {
+    public Page<BookNewDTO> getWelcomeLocaleDTOByLocale(@PathVariable("page1") int page1) {
         Pageable pageable0 = PageRequest.of(page1, 10, Sort.by(
                 Sort.Order.asc("id")));
-        Page<BookDTO> page = bookService.findAll(pageable0);
+        Page<BookNewDTO> page = bookService.findAll(pageable0);
         return page;
     }
 

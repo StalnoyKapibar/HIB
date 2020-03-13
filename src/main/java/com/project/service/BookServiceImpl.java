@@ -4,6 +4,7 @@ import com.project.dao.BookDAO;
 import com.project.dao.BookDTORepository;
 import com.project.model.BookDTO;
 import com.project.model.BookDTO20;
+import com.project.model.BookNewDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,7 +33,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Page<BookDTO> findAll(Pageable pageable) {
+    public Page<BookNewDTO> findAll(Pageable pageable) {
         return bookDTORepository.findAll(pageable);
     }
 

@@ -2,6 +2,7 @@ package com.project.service;
 
 import com.project.model.BookDTO;
 import com.project.model.BookDTO20;
+import com.project.model.BookNewDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -12,7 +13,7 @@ public interface BookService {
 
     void addBook(BookDTO bookDTO);
 
-    Page<BookDTO> findAll(Pageable pageable);
+    Page<BookNewDTO> findAll(Pageable pageable);
 
     void deleteBookById(long id);
 
