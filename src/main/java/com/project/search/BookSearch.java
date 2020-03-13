@@ -31,7 +31,8 @@ public class BookSearch {
         FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
 
         QueryBuilder queryBuilder = fullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(LocaleString.class).get();
-        Query query = queryBuilder.keyword().onFields("ru", "en", "fr", "it", "de", "cs", "gr").matching(req).createQuery();
+        Query query = queryBuilder.keyword().fuzzy().withEditDistanceUpTo(2).withPrefixLength(0)
+                .onFields("ru", "en", "fr", "it", "de", "cs", "gr").matching(req).createQuery();
 
         FullTextQuery jpaQuery = fullTextEntityManager.createFullTextQuery(query, LocaleString.class);
         List<LocaleString> results = jpaQuery.getResultList();
