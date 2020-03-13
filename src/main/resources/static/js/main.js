@@ -108,6 +108,27 @@ function json(response) {
 function text(response) {
     return response.text()
 }
+$(document).ready(function() {
+    $.ajax({
+        url: "/get",
+        method: 'GET',
+    }).then(function(data) {
+
+        $('#cardcolumns').empty();
+        $.each(data, function(index) {
+            let local = $('#dd_menu_link').attr("data-current-lang");
+            let div = $('<div class="card"/>');
+            div.append('<img class="card-img-top" src="../static/images/book_example.jpg" alt="Card image cap">');
+            let divBody = $('<div class="card-body" ></div>');
+            divBody.append('<h4 class="card-title">'+data[index].name[local]+'</h4>');
+            divBody.append('<p class="card-text">'+data[index].author[local]+'</p>');
+            divBody.append('<br>')
+            divBody.append('<a href="#!" class="btn btn-primary" style="position:absolute;bottom:0">Click to read more</a>');
+            div.append(divBody);
+            div.appendTo('#cardcolumns');
+        });
+    });
+});
 
 
 
