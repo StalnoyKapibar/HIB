@@ -2,6 +2,7 @@ package com.project.controller.restcontroller;
 
 import com.project.model.BookDTO;
 import com.project.model.BookDTO20;
+import com.project.search.BookSearch;
 import com.project.service.BookService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -12,11 +13,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 @AllArgsConstructor
 @RestController
 public class BookController {
 
     private BookService bookService;
+    private BookSearch bookSearch;
 
     @GetMapping("/admin/pageable/{page1}")
     public Page<BookDTO> getWelcomeLocaleDTOByLocale(@PathVariable("page1") int page1) {
@@ -59,12 +62,16 @@ public class BookController {
     }
 
     @GetMapping("/page/id/{x}")
-    public ResponseEntity<BookDTO> getBook(@PathVariable("x") long x ) {
+    public ResponseEntity<BookDTO> getBook(@PathVariable("x") long x) {
         //  BookDTO bookDTO1 = new BookDTO(x, new LocaleString("Робинзон Крузо", "Robinson Cruso","","","",""), new LocaleString("Даниель Дефо", "Daniel Defo","","","",""));
         //   bookService.addBook(bookDTO1);
         BookDTO bookDTO = bookService.getBookByIdLocale(x);
         return ResponseEntity.ok(bookDTO);
     }
 
-
+    @GetMapping("/search")
+    public List<BookDTO> search(){
+        return bookSearch.search("en");
     }
+
+}
