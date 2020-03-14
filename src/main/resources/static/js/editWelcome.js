@@ -81,10 +81,6 @@ function text(response) {
     return response.text()
 }
 
-function formData(response) {
-    return response.formData()
-}
-
 async function pageBook(x) {
     idPageable = x;
     await fetch("/admin/pageable/" + x)
@@ -117,8 +113,10 @@ async function pageBook(x) {
                 for (key in tmp_html) {
                     if (key !== "id") {
                         if (key !== "coverImage") {
-                            var ad = tmp_html[key][idChangeLang];
-                            html += `<td id='n${tmp_html.id}'>${ad}</td>`;
+                            if (key !== "imageList") {
+                                var ad = tmp_html[key][idChangeLang];
+                                html += `<td id='n${tmp_html.id}'>${ad}</td>`;
+                            }
                         }
                     }
                 }
@@ -153,7 +151,10 @@ function addPage() {
                 `</div>`;
         }
     }
-    $('#newBookForm').html(html);
+    $('#newBookForm').html(html + `<h4>Cover Image</h4>` +
+        `<div class='car' style='width: 18rem;'>` +
+        `<img id='myImage' src =''  class='card-img-top' alt='...'> ` +
+        `</div>`);
 }
 
 function addBook() {
@@ -165,19 +166,14 @@ function addBook() {
         }
         add[tmp] = asd;
     }
-     add['coverImage'] = nameImageCover;
-     var arrImageTmp = arrNameImageNew.filter(t => t !== "");
-var arrImageFin = [];
+    add['coverImage'] = nameImageCover;
+    var arrImageTmp = arrNameImageNew.filter(t => t !== "");
+    var arrImageFin = [];
 
-        for (var tmp of arrImageTmp) {
-            arrImageFin.push(JSON.parse('{"nameImage":"' + tmp + '"}'));
-        }
-  //  roles.push(JSON.parse('{"id":"' + selectRoles1[i].id + '", "role":"' + selectRoles1[i].value + '"}'));
-
-
-      add['imageList'] = arrImageFin;
-
-
+    for (var tmp of arrImageTmp) {
+        arrImageFin.push(JSON.parse('{"nameImage":"' + tmp + '"}'));
+    }
+    add['imageList'] = arrImageFin;
     var body02 = JSON.stringify(add);
     addBookReq(body02);
 }
@@ -191,6 +187,8 @@ async function addBookReq(x) {
             'Accept': 'application/json'
         }
     });
+    resetForms();
+    pageBook(idPageable);
 }
 
 function delBook(x) {
@@ -235,7 +233,6 @@ function buildEditBook(xx) {
                     if (idChangeLang === key0) {
                         document.getElementById('ss' + key).innerText = key + ' ' + key0 + ': ' + tmpArr[key][key0];
                     }
-
                 }
             }
         }
@@ -279,8 +276,6 @@ function uploadImageNew() {
 
 $("#exampleFormFile").change(function () {
     uploadImageNew();
-
-
 });
 
 function buildCarousel() {
@@ -288,12 +283,8 @@ function buildCarousel() {
     var tmpHtmlForCarousel = '';
     var tmpHtmlForCarouselIndicators = '';
     for (var i = 0; i < arrNameImageNew.length; i++) {
-
-
-
         if (arrNameImageNew[i] !== '') {
             countForActive++;
-
             if (countForActive === 1) {
                 tmpHtmlForCarouselIndicators +=
                     `<li id="qw${i}" data-target='#carouselExampleCaptions' data-slide-to=${i} class='active'>` + `</li>`;
@@ -318,12 +309,6 @@ function buildCarousel() {
                     `</div>`;
             }
         }
-
-
-
-
-
-
     }
 
     $('#test0').html(tmpHtmlForCarouselIndicators);
@@ -332,19 +317,30 @@ function buildCarousel() {
 
 function setImageCover(x) {
     nameImageCover = arrNameImageNew[x];
-    alert(nameImageCover);
+    showImage(pathImageDefault+nameImageCover);
 }
 
 function deleteTmpImage(x) {
     var delTmp = arrNameImageNew[x];
     arrNameImageNew[x] = '';
-  buildCarousel();
+    buildCarousel();
     fetch('/admin/deleteImage', {
         method: 'POST',
         body: delTmp
-    })
+    }).then(r => showImage(pathImageDefault+nameImageCover));
+
 }
 
+function resetForms() {
+    document.getElementById('newBookForm').reset();
+    $("#exampleFormFile").val('');
+    $("#carouselExampleCaptions").html('');
+    nameImageCover = '';
+}
+
+function showImage(x) {
+    document.getElementById('myImage').src = x;
+}
 
 
 

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -15,14 +16,14 @@ public class BookNewDTO {
     private LocaleString name;
     private LocaleString author;
     private String coverImage;
-    private List<Image> imageList;
+    private List<Image> imageList = new ArrayList<>();
 
-    public BookNewDTO(long id, LocaleString name, LocaleString author, String coverImage, Collection<Image> imageList) {
+    public BookNewDTO(long id, LocaleString name, LocaleString author, String coverImage, Image imageList1) {
         this.id = id;
         this.name = name;
         this.author = author;
         this.coverImage = coverImage;
-        this.imageList = (List<Image>) imageList;
+       this.imageList.add(imageList1);
     }
 
 }

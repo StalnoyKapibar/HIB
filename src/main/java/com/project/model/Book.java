@@ -29,7 +29,8 @@ public class Book {
     @Column(name = "cover_image")
     private String coverImage;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     @JoinColumn(name = "book_id", referencedColumnName = "id")
     private List<Image> listImage;
+
 }

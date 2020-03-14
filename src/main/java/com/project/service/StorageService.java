@@ -23,12 +23,16 @@ public interface StorageService {
 
 	String getRandomFileNameString();
 
-	void deleteImageByFileName(String fileName) throws IOException;
+	void deleteImageByFileName(String fileName);
 
 	void createNewPaperForImages(String namePaper);
 
 	void cutImagesFromTmpPaperToNewPaperByLastIdBook(String namePaper);
 
 	void clearPaperTmp();
+
+	void deleteImageByFileNameByEditPage(String fileName);
+
+	void saveImageByEditBook(MultipartFile file, String numberPaper);
 
 }

@@ -1,8 +1,6 @@
 package com.project.service;
 
 import com.project.dao.BookDAO;
-import com.project.dao.BookDTORepository;
-import com.project.model.Book;
 import com.project.model.BookDTO;
 import com.project.model.BookDTO20;
 import com.project.model.BookNewDTO;
@@ -21,9 +19,6 @@ public class BookServiceImpl implements BookService {
     @Autowired
     private BookDAO bookDAO;
 
-    @Autowired
-    private BookDTORepository bookDTORepository;
-
     @Override
     public List<BookDTO> getAllBookDTO() {
         return bookDAO.getAllBookDTO();
@@ -35,8 +30,8 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Page<BookNewDTO> findAll(Pageable pageable) {
-        return bookDTORepository.findAll(pageable);
+    public Page<BookDTO> getPageBookDTOByPageable(Pageable pageable) {
+        return bookDAO.getPageBookDTOByPageable(pageable);
     }
 
     @Override
@@ -55,7 +50,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookNewDTO getBookDTOById(long id) {
+    public BookDTO getBookDTOById(long id) {
         return bookDAO.getBookDTOById(id);
     }
 

@@ -82,7 +82,7 @@ public class StorageServiceImpl implements StorageService {
     @Override
     public void deleteImageByFileName(String fileName) {
         try {
-            Files.delete(Paths.get(path + "\\" + fileName));
+            Files.delete(Paths.get(path + "/" + fileName));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -117,6 +117,26 @@ public class StorageServiceImpl implements StorageService {
     public void clearPaperTmp() {
         for (File myFile : new File(String.valueOf(path)).listFiles())
             if (myFile.isFile()) myFile.delete();
+    }
+
+    @Override
+    public void deleteImageByFileNameByEditPage(String fileName) {
+        try {
+            Files.delete(Paths.get(  "img/" + fileName));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void saveImageByEditBook(MultipartFile file, String numberPaper) {
+        String filename = StringUtils.cleanPath(file.getOriginalFilename());
+        try (InputStream inputStream = file.getInputStream()) {
+            Files.copy(inputStream, Paths.get("img/" + numberPaper + "/").resolve(file.getOriginalFilename()),
+                    StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            throw new StorageException("Failed to store file " + filename, e);
+        }
     }
 
     @Override

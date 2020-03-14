@@ -12,10 +12,10 @@ import java.util.List;
 public interface BookService {
     List<BookDTO> getAllBookDTO();
     void addBook(BookNewDTO bookNewDTO);
-    Page<BookNewDTO> findAll(Pageable pageable);
+    Page<BookDTO> getPageBookDTOByPageable(Pageable pageable);
     void deleteBookById(long id);
     void updateBook(BookDTO bookDTO);
     List<BookDTO20> get20BookDTO(String locale);
-    BookNewDTO getBookDTOById(long id);
+    BookDTO getBookDTOById(long id);
     String getLastIdOfBook();
 }

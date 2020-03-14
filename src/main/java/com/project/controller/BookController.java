@@ -6,13 +6,12 @@ import com.project.model.BookNewDTO;
 import com.project.service.BookService;
 import com.project.service.StorageService;
 import com.project.util.VarBookDTO;
-import com.project.util.VarBookNewDTO;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 
-import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -34,16 +32,16 @@ public class BookController {
     private StorageService storageService;
 
     @GetMapping("/getBookDTOById/{id}")
-    public BookNewDTO getBookDTOById(@PathVariable("id") long id) {
-        BookNewDTO bookDTO = bookService.getBookDTOById(id);
+    public BookDTO getBookDTOById(@PathVariable("id") long id){
+        BookDTO bookDTO = bookService.getBookDTOById(id);
         return bookDTO;
     }
 
     @GetMapping("/admin/pageable/{page1}")
-    public Page<BookNewDTO> getWelcomeLocaleDTOByLocale(@PathVariable("page1") int page1) {
+    public Page<BookDTO> getWelcomeLocaleDTOByLocale(@PathVariable("page1") int page1) {
         Pageable pageable0 = PageRequest.of(page1, 10, Sort.by(
                 Sort.Order.asc("id")));
-        Page<BookNewDTO> page = bookService.findAll(pageable0);
+        Page<BookDTO> page = bookService.getPageBookDTOByPageable(pageable0);
         return page;
     }
 
@@ -58,13 +56,12 @@ public class BookController {
         String lastId = bookService.getLastIdOfBook();
         storageService.createNewPaperForImages(lastId);
         storageService.cutImagesFromTmpPaperToNewPaperByLastIdBook(lastId);
-
     }
 
     @GetMapping("/getVarBookDTO")
     @Autowired
-    public List<String> getVarBookNewDTO(VarBookNewDTO varBookNewDTO) {
-        return varBookNewDTO.getFields();
+    public List<String> getVarBookDTO(VarBookDTO varBookDTO) {
+        return varBookDTO.getFields();
     }
 
     @GetMapping("/admin/del/{x}")
@@ -96,9 +93,19 @@ public class BookController {
                 "attachment; filename=" + file.getFilename()).body(file);
     }
 
-    @SneakyThrows
     @PostMapping("/admin/deleteImage")
     public void deleteImageByFileName(@RequestBody String x) {
-       storageService.deleteImageByFileName(x);
+        storageService.deleteImageByFileName(x);
+    }
+
+    @PostMapping("/admin/deleteImageByEditPage")
+    public void deleteImageByFileNameByEditPage(@RequestBody String x) {
+        storageService.deleteImageByFileNameByEditPage(x);
+    }
+
+    @PostMapping("/admin/uploadByEditPage")
+    public HttpStatus fileUploadByEditPage(@RequestBody MultipartFile file, String x) {
+        storageService.saveImageByEditBook(file, x);
+        return HttpStatus.OK;
     }
 }
