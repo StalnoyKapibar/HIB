@@ -1,6 +1,7 @@
-package com.project.controller;
+package com.project.controller.restcontroller;
 
 import com.project.translate.HibTranslatorImp;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -9,10 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 
+@AllArgsConstructor
 @RestController
 public class TranslateController {
-    @Autowired
-    HibTranslatorImp translator;
+
+    private HibTranslatorImp translator;
 
     @PostMapping("/translate")
     public byte[] translateText(@RequestBody String text, HttpServletRequest request) throws UnsupportedEncodingException {

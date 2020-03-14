@@ -9,8 +9,8 @@ import com.google.gson.JsonParser;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.Properties;
 
 @Component
 public class HibTranslatorImp implements HibTranslator {
@@ -20,7 +20,7 @@ public class HibTranslatorImp implements HibTranslator {
         if (out.length > 10000) {
             return "Error. Text too long";
         }
-        String key = "trnsl.1.1.20200312T132919Z.e262f762bcb7338b.9202e12baf24a9ea91653fa62515d3b51d31590a";
+        String key = getKey();
         String baseUrl = "https://translate.yandex.net/api/v1.5/tr.json/translate";
         String finalUrl = baseUrl + "?lang=" + lang + "&key=" + key;
         try {
@@ -48,4 +48,17 @@ public class HibTranslatorImp implements HibTranslator {
             return "Error";
         }
     }
+
+   private String getKey() {
+       Properties properties = new Properties();
+       String propFileName = "yandexTranslate.property";
+       InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+       try {
+           properties.load(inputStream);
+           return properties.getProperty("key");
+       } catch (IOException ex) {
+           ex.printStackTrace();
+       }
+       return null;
+   }
 }

@@ -11,12 +11,9 @@ import java.io.IOException;
 
 @Controller
 public class ViewController {
-    @Autowired
-    HibTranslatorImp translateText;
+
     @GetMapping("/home")
     public String getHomePage(HttpServletRequest request) throws IOException {
-        HttpSession session;
-        System.out.println(translateText.translate("Hello world","ru"));
         if (request.getSession(false) == null) {
             request.getSession(true).setAttribute("LANG", "ru");
         }
