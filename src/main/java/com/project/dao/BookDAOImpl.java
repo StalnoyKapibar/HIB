@@ -22,7 +22,6 @@ public class BookDAOImpl implements BookDAO {
     @PersistenceContext
     private EntityManager entityManager;
 
-
     @Override
     public String getQuantityRowBookInDb() {
         return entityManager.createQuery("SELECT COUNT (1) FROM Book").getSingleResult().toString();
@@ -100,7 +99,6 @@ public class BookDAOImpl implements BookDAO {
 
     @Override
     public Page<BookDTO> getPageBookDTOByPageable(Pageable pageable) {
-
         int numberPage = pageable.getPageNumber() + 1;
         int limitBookDTOOnPage = pageable.getPageSize();
         int maxNumberId = numberPage * limitBookDTOOnPage;
@@ -136,7 +134,6 @@ public class BookDAOImpl implements BookDAO {
 
             @Override
             public void forEach(Consumer<? super BookDTO> action) {
-
             }
 
             @Override
