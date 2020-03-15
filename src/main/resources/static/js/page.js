@@ -15,16 +15,29 @@ $(document).ready(function () {
 function setImages() {
     fetch("/sid/id/86")
         .then((response) => {
-            response.arrayBuffer().then((buffer) => {
-                var base64Flag = 'data:image/jpeg;base64,';
-                var imageStr = arrayBufferToBase64(buffer);
+            document.getElementById("myImg").src = "images/86/qwe.jpg";
+            return response.json();
 
-           //     alert(imageStr);
+        })
 
-         // $('#myImg').src=base64Flag + imageStr;
-         //      document.querySelector('img').src = base64Flag + imageStr;
-                document.getElementById("myImg").src = base64Flag + imageStr;
+        .then((response) => {
+            var ss = JSON.stringify(response)
+            console.log(ss);
+            let arr = Array.from(response);
+            alert(arr);
+           arr.forEach(r=> {
+                r.arrayBuffer().then((buffer) => {
+                    var base64Flag = 'data:image/jpeg;base64,';
+                    var imageStr = arrayBufferToBase64(buffer);
 
+                    //     alert(imageStr);
+
+                    // $('#myImg').src=base64Flag + imageStr;
+                    //      document.querySelector('img').src = base64Flag + imageStr;
+                    document.getElementById("myImg").src = base64Flag + imageStr;
+                    document.getElementById("myImg").src = "images/86/qwe.jpg";
+
+                });
             });
         });
 

@@ -7,6 +7,7 @@ import com.project.model.LocaleString;
 import com.project.service.BookService;
 import lombok.AllArgsConstructor;
 import lombok.var;
+import org.apache.commons.io.IOUtils;
 import org.hibernate.engine.jdbc.StreamUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
@@ -30,6 +31,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -90,13 +92,20 @@ public class BookController {
     }
 
     @RequestMapping(value = "/sid/id/{x}", method = RequestMethod.GET)
-    public void getImage(HttpServletResponse response, @PathVariable("x") long x) throws IOException {
+    public ResponseEntity<List<byte[]>> getImage(HttpServletResponse response, @PathVariable("x") long x) throws IOException {
 
-
+        List<byte[]> resources = new ArrayList<>();
         //var imgFile = new ClassPathResource("static/images/book_example.jpg");
-        Resource resourceFile = loadAsResource("qwe.jpg", x);
+       InputStream resourceFile = loadAsResource("qwe.jpg", x).getInputStream();
+
        // response.setContentType(MediaType.IMAGE_JPEG_VALUE);
-        StreamUtils.copy(resourceFile.getInputStream(), response.getOutputStream());
+      //  StreamUtils.copy(resourceFile.getInputStream(), out.getOutputStream());
+       resources.add(IOUtils.toByteArray(resourceFile));
+      //  resources.add(IOUtils.toByteArray(resourceFile));
+
+      //  resources.add("sdfs");
+      //  resources.add("Sdfasdf");
+        return ResponseEntity.ok(resources);
     }
 
 
