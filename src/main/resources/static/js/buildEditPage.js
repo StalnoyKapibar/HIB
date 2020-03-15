@@ -9,7 +9,6 @@ let nameImage;
 let listImages;
 let nameImageCover = '';
 
-
 $(document).ready(getVarBookDTO());
 
 function status(response) {
@@ -104,7 +103,6 @@ async function sendUpdateBookReq(x) {
             'Accept': 'application/json'
         }
     });
-    //await pageBook(idPageable);
 }
 
 function getVarBookDTO() {
@@ -170,28 +168,29 @@ function buildCarousel() {
             }
         }
     }
-
     $('#test0').html(tmpHtmlForCarouselIndicators);
     $('#test1').html(tmpHtmlForCarousel);
 }
 
 function setImageCover(x) {
     nameImageCover = listImages[x].nameImage;
-    alert(nameImageCover);
     showImage(pathImageFinWithoutImage + nameImageCover);
 }
 
 function deleteTmpImage(x) {
     var delTmp = idd + '/' + listImages[x].nameImage;
+    var tmpForShowImage = listImages[x].nameImage;
     listImages.splice(x, 1);
 
     buildCarousel();
     fetch('/admin/deleteImageByEditPage', {
         method: 'POST',
         body: delTmp
-
+    }).then(r => {
+        if (tmpForShowImage === nameImageCover) {
+            showImage('');
+        }
     });
-    showImage(pathImageFinWithoutImage + nameImageCover);
 }
 
 $("#exampleFormControlFile1").change(function () {
@@ -201,7 +200,7 @@ $("#exampleFormControlFile1").change(function () {
 function uploadImageNew() {
     const formData = new FormData();
     const fileField = document.getElementById("exampleFormControlFile1");
-    listImages.push(JSON.parse('{"id":"'+''+'", "nameImage":"' + fileField.files[0].name + '"}'));
+    listImages.push(JSON.parse('{"id":"' + '' + '", "nameImage":"' + fileField.files[0].name + '"}'));
     formData.append('file', fileField.files[0]);
     formData.append('x', idd);
     fetch('/admin/uploadByEditPage', {

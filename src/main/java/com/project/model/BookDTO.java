@@ -17,12 +17,4 @@ public class BookDTO {
     private LocaleString author;
     private String coverImage;
     private List<Image> imageList;
-
-//    public BookDTO(long id, LocaleString name, LocaleString author, String coverImage, Image imageList1) {
-//        this.id = id;
-//        this.name = name;
-//        this.author = author;
-//        this.coverImage = coverImage;
-//        this.imageList.add(imageList1);
-//    }
 }

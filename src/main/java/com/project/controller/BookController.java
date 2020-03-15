@@ -2,11 +2,9 @@ package com.project.controller;
 
 import com.project.model.BookDTO;
 import com.project.model.BookDTO20;
-import com.project.model.BookNewDTO;
 import com.project.service.BookService;
 import com.project.service.StorageService;
 import com.project.util.VarBookDTO;
-import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
@@ -51,8 +49,8 @@ public class BookController {
     }
 
     @PostMapping("/admin/add")
-    public void addBook(@RequestBody BookNewDTO bookNewDTO) {
-        bookService.addBook(bookNewDTO);
+    public void addBook(@RequestBody BookDTO bookDTO) {
+        bookService.addBook(bookDTO);
         String lastId = bookService.getLastIdOfBook();
         storageService.createNewPaperForImages(lastId);
         storageService.cutImagesFromTmpPaperToNewPaperByLastIdBook(lastId);

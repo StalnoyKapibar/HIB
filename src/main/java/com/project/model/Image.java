@@ -20,5 +20,4 @@ public class Image {
 
     @Column(name = "name_image")
     private String nameImage;
-
 }

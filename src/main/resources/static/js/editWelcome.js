@@ -38,7 +38,6 @@ async function getAllLocales() {
                     `<input type='text' class='form-control' id='${tmp_html}' ` +
                     `aria-describedby='emailHelp'>`;
             }
-
             $('#form_id').html(html + `<button type='submit' onclick='funcStart()' class='btn btn-primary'>Submit</button>`);
         })
 }
@@ -317,7 +316,7 @@ function buildCarousel() {
 
 function setImageCover(x) {
     nameImageCover = arrNameImageNew[x];
-    showImage(pathImageDefault+nameImageCover);
+    showImage(pathImageDefault + nameImageCover);
 }
 
 function deleteTmpImage(x) {
@@ -327,8 +326,11 @@ function deleteTmpImage(x) {
     fetch('/admin/deleteImage', {
         method: 'POST',
         body: delTmp
-    }).then(r => showImage(pathImageDefault+nameImageCover));
-
+    }).then(r => {
+        if (delTmp === nameImageCover) {
+            showImage(pathImageDefault + nameImageCover)
+        }
+    });
 }
 
 function resetForms() {
@@ -336,6 +338,7 @@ function resetForms() {
     $("#exampleFormFile").val('');
     $("#carouselExampleCaptions").html('');
     nameImageCover = '';
+    showImage('');
 }
 
 function showImage(x) {

@@ -62,7 +62,6 @@ public class StorageServiceImpl implements StorageService {
             } else {
                 throw new StorageFileNotFoundException(
                         "Could not read file: " + filename + "");
-
             }
         } catch (MalformedURLException e) {
             throw new StorageFileNotFoundException("Could not read file: " + filename, e);
@@ -122,7 +121,7 @@ public class StorageServiceImpl implements StorageService {
     @Override
     public void deleteImageByFileNameByEditPage(String fileName) {
         try {
-            Files.delete(Paths.get(  "img/" + fileName));
+            Files.delete(Paths.get("img/" + fileName));
         } catch (IOException e) {
             e.printStackTrace();
         }

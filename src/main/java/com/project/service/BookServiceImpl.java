@@ -3,7 +3,6 @@ package com.project.service;
 import com.project.dao.BookDAO;
 import com.project.model.BookDTO;
 import com.project.model.BookDTO20;
-import com.project.model.BookNewDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,8 +24,8 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void addBook(BookNewDTO bookNewDTO) {
-        bookDAO.addBook(bookNewDTO);
+    public void addBook(BookDTO bookDTO) {
+        bookDAO.addBook(bookDTO);
     }
 
     @Override

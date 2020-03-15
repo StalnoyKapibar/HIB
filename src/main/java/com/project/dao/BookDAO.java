@@ -3,7 +3,6 @@ package com.project.dao;
 import com.project.model.Book;
 import com.project.model.BookDTO;
 import com.project.model.BookDTO20;
-import com.project.model.BookNewDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -11,7 +10,7 @@ import java.util.List;
 
 public interface BookDAO {
     List<BookDTO> getAllBookDTO();
-    void addBook(BookNewDTO bookNewDTO);
+    void addBook(BookDTO bookDTO);
     void deleteBookById(long id);
     Book getBookById(long id);
     void updateBook(BookDTO bookDTO);

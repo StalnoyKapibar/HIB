@@ -1,21 +1,14 @@
 package com.project.dao;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.model.Book;
 import com.project.model.BookDTO;
 import com.project.model.BookDTO20;
-import com.project.model.BookNewDTO;
-import org.hibernate.Query;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.data.util.Streamable;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -48,12 +41,12 @@ public class BookDAOImpl implements BookDAO {
     }
 
     @Override
-    public void addBook(BookNewDTO bookNewDTO) {
+    public void addBook(BookDTO bookDTO) {
         Book book = new Book();
-        book.setAuthorLocale(bookNewDTO.getAuthor());
-        book.setNameLocale(bookNewDTO.getName());
-        book.setCoverImage(bookNewDTO.getCoverImage());
-        book.setListImage(bookNewDTO.getImageList());
+        book.setAuthorLocale(bookDTO.getAuthor());
+        book.setNameLocale(bookDTO.getName());
+        book.setCoverImage(bookDTO.getCoverImage());
+        book.setListImage(bookDTO.getImageList());
         entityManager.persist(book);
     }
 
@@ -89,8 +82,6 @@ public class BookDAOImpl implements BookDAO {
 
     @Override
     public BookDTO getBookDTOById(long id) {
-//        String temp = "Select new com.project.model.BookNewDTO(b.id, b.nameLocale, b.authorLocale, b.coverImage, b.listImage) FROM Book b where b.id =: id";
-//        BookDTO bookDTO = entityManager.createQuery(temp, BookDTO.class).setParameter("id", id).getSingleResult();
         Book book = getBookById(id);
         BookDTO bookDTO = new BookDTO();
         bookDTO.setId(book.getId());
@@ -117,29 +108,15 @@ public class BookDAOImpl implements BookDAO {
         String sortTypeTmp = String.valueOf(pageable.getSort());
         String sortingObject = sortTypeTmp.split(":")[0];
         String typeOfSorting = sortTypeTmp.split(" ")[1];
-
-//        String temp = "Select new com.project.model.BookDTO(b.id, b.nameLocale, b.authorLocale, b.coverImage, zz) " +
-//                "FROM Book b " +
-//                "JOIN b.listImage zz " +
-//                ("WHERE b.id >= min and b.id <= max " +
-//                        "ORDER BY sortingObject typeOfSorting")
-//                        .replaceAll("min", String.valueOf(minNumberId))
-//                        .replaceAll("max", String.valueOf(maxNumberId))
-//                        .replaceAll("sortingObject", "b." + sortingObject)
-//                        .replaceAll("typeOfSorting", typeOfSorting);
-
         String temp = "Select b " +
                 "FROM Book b ORDER BY sortingObject typeOfSorting"
                         .replaceAll("sortingObject", sortingObject)
                         .replaceAll("typeOfSorting", typeOfSorting);
-
         List<Book> list = entityManager.createQuery(temp, Book.class)
                 .setFirstResult(minNumberId)
                 .setMaxResults(maxNumberId)
                 .getResultList();
-
         List<BookDTO> bookDTOList = new ArrayList<>();
-
         for (Book book : list) {
             BookDTO bookDTO = new BookDTO();
             bookDTO.setId(book.getId());
@@ -312,7 +289,6 @@ public class BookDAOImpl implements BookDAO {
                 return null;
             }
         };
-
         return page0;
     }
 }

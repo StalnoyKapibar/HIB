@@ -14,6 +14,7 @@ import java.util.List;
 @Entity
 @Table(name = "book")
 public class Book {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -32,5 +33,4 @@ public class Book {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     @JoinColumn(name = "book_id", referencedColumnName = "id")
     private List<Image> listImage;
-
 }
