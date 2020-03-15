@@ -90,7 +90,7 @@ async function pageBook(x) {
             var htmlTempPager = '';
             for (var i = 0; i < resp_tmp.totalPages; i++) {
                 var z = 1 + i;
-                htmlTempPager += `<li class='page-item'><a class='page-link' onclick='pageBook(${i})'>${z}</a></li>`;
+                htmlTempPager += `<li class='page-item'><a class='page-link' href='#' onclick='pageBook(${i})'>${z}</a></li>`;
             }
             $('#pagination00').html(htmlTempPager);
             buildChangeLang();
@@ -110,13 +110,9 @@ async function pageBook(x) {
                 html += `<tr id=${tmp_html.id}>` +
                     `<td id=${tmp_html.id}>${tmp_html.id}</td>`;
                 for (key in tmp_html) {
-                    if (key !== "id") {
-                        if (key !== "coverImage") {
-                            if (key !== "imageList") {
+                    if (key !== "id" && key !== "coverImage" && key !== "imageList") {
                                 var ad = tmp_html[key][idChangeLang];
                                 html += `<td id='n${tmp_html.id}'>${ad}</td>`;
-                            }
-                        }
                     }
                 }
                 html +=
@@ -224,14 +220,11 @@ function buildEditBook(xx) {
         }
     }
     for (key in tmpArr) {
-        if (key !== "id") {
+        if (key !== "id" && key !== "coverImage" && key !== "imageList") {
             for (key0 of nameVarOfLocaleStringWithId) {
-                if (key !== "coverImage") {
-                    document.getElementById(key + key0).value = tmpArr[key][key0];
-
-                    if (idChangeLang === key0) {
-                        document.getElementById('ss' + key).innerText = key + ' ' + key0 + ': ' + tmpArr[key][key0];
-                    }
+                document.getElementById(key + key0).value = tmpArr[key][key0];
+                if (idChangeLang === key0) {
+                    document.getElementById('ss' + key).innerText = key + ' ' + key0 + ': ' + tmpArr[key][key0];
                 }
             }
         }

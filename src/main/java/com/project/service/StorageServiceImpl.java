@@ -11,7 +11,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.Random;
 import java.util.stream.Stream;
 
-import lombok.SneakyThrows;
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -135,6 +135,15 @@ public class StorageServiceImpl implements StorageService {
                     StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             throw new StorageException("Failed to store file " + filename, e);
+        }
+    }
+
+    @Override
+    public void deletePaperById(long number) {
+        try {
+            FileUtils.deleteDirectory(new File(String.valueOf(Paths.get("img/" + number))));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

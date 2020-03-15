@@ -30,7 +30,7 @@ public class BookController {
     private StorageService storageService;
 
     @GetMapping("/getBookDTOById/{id}")
-    public BookDTO getBookDTOById(@PathVariable("id") long id){
+    public BookDTO getBookDTOById(@PathVariable("id") long id) {
         BookDTO bookDTO = bookService.getBookDTOById(id);
         return bookDTO;
     }
@@ -64,6 +64,7 @@ public class BookController {
 
     @GetMapping("/admin/del/{x}")
     public void delBook(@PathVariable("x") long x) {
+        storageService.deletePaperById(x);
         bookService.deleteBookById(x);
     }
 
@@ -85,7 +86,7 @@ public class BookController {
     }
 
     @PostMapping("/admin/download")
-    public ResponseEntity<Resource> downloadFile (@RequestBody String x){
+    public ResponseEntity<Resource> downloadFile(@RequestBody String x) {
         Resource file = storageService.loadAsResource(x);
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
                 "attachment; filename=" + file.getFilename()).body(file);
