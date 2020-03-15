@@ -25,6 +25,8 @@ function setLocaleFields() {
             $('#menu-toggle').text(localeFields['category']);
             $('#headpost').text(localeFields['headpost']);
             bottom = localeFields['bookbotom'];
+            $('#modalClose').text(localeFields['close']);
+            $('#buttonBookPage').text(localeFields['pageofBook']);
         })
 }
 
@@ -111,31 +113,33 @@ function text(response) {
     return response.text()
 }
 $(document).ready(function() {
-    $.ajax({
-        url: "/admin/get20BookDTO/"+currentLang,
-        method: 'GET',
-    }).then(function(data) {
-        $('#cardcolumns').empty();
-        $.each(data, function(index) {
-            let div = $('<div class="card"/>');
-            div.append('<img class="card-img-top" src="../static/images/book_example.jpg" alt="Card image cap">');
-            let divBody = $('<div class="card-body" ></div>');
-            divBody.append('<h4 class="card-title" style="overflow: auto; height:70px">'+data[index].nameAuthorDTOLocale+'</h4>');
-            divBody.append('<p class="card-text">'+data[index].nameBookDTOLocale+'</p>');
-            divBody.append('<br>');
-            divBody.append('<a id="bookbotom"class="btn btn-primary" data-toggle="modal" data-target="#myModal" style="position:absolute;bottom:0; color:white; " data-book-index="'+index+'">'+bottom+'</a>');
-            div.append(divBody);
-            div.appendTo('#cardcolumns');
-        });
-        $("#myModal").on('show.bs.modal', function(e) {
+    setTimeout(function() {
+        $.ajax({
+            url: "/admin/get20BookDTO/"+currentLang,
+            method: 'GET',
+        }).then(function(data) {
+            $('#cardcolumns').empty();
+            $.each(data, function(index) {
+                let div = $('<div class="card"/>');
+                div.append('<img class="card-img-top" src="../static/images/book_example.jpg" alt="Card image cap">');
+                let divBody = $('<div class="card-body" ></div>');
+                divBody.append('<h4 class="card-title" style="overflow: auto; height:70px">'+data[index].nameAuthorDTOLocale+'</h4>');
+                divBody.append('<p class="card-text">'+data[index].nameBookDTOLocale+'</p>');
+                divBody.append('<br>');
+                divBody.append('<a id="bookbotom"class="btn btn-primary" data-toggle="modal" data-target="#myModal" style="position:absolute;bottom:0; color:white; " data-book-index="'+index+'">'+bottom+'</a>');
+                div.append(divBody);
+                div.appendTo('#cardcolumns');
+            });
+            $("#myModal").on('show.bs.modal', function(e) {
                 let index = $(e.relatedTarget).data('book-index');
                 $('#modalHeader').empty();
                 $('#author').empty();
                 $('#modalHeader').append(data[index].nameAuthorDTOLocale);
-                $('#author').append('Автор: ' + data[index].nameBookDTOLocale);
-                $('#buttonOnBook').attr("action", data[index].id);
+                $('#author').append(data[index].nameBookDTOLocale);
+                $('#buttonOnBook').attr("action",'/page/'+ data[index].id);
             });
         });
+    }, 10);
     });
 
 
