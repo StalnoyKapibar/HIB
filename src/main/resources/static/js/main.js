@@ -132,7 +132,8 @@ $(document).ready(function() {
                 $('#modalHeader').empty();
                 $('#author').empty();
                 $('#modalHeader').append(data[index].nameAuthorDTOLocale);
-                $('#author').append('Автор: ' + data[index].nameBookDTOLocale)
+                $('#author').append('Автор: ' + data[index].nameBookDTOLocale);
+                $('#buttonOnBook').attr("action", data[index].id);
             });
         });
     });
