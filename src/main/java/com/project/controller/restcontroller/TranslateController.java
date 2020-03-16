@@ -2,7 +2,6 @@ package com.project.controller.restcontroller;
 
 import com.project.translate.HibTranslatorImp;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,7 +22,7 @@ public class TranslateController {
         }
         String lang = (String) request.getSession().getAttribute("LANG");
         if (lang == null) {
-            lang = "ru";
+            lang = "en";
         }
         return translator.translate(text, lang).getBytes("UTF-8");
     }

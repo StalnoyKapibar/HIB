@@ -1,5 +1,9 @@
 package com.project.translate;
 
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import com.google.gson.JsonArray;
@@ -10,18 +14,22 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.Properties;
 
 @Component
 public class HibTranslatorImp implements HibTranslator {
+
+    @Value("${key}")
+    private String key;
+
+    @Value("${baseUrl}")
+    private String baseUrl;
+
     @Override
     public String translate(String text, String lang) {
         byte out[] = ("text=" + text).getBytes();
         if (out.length > 10000) {
             return "Error. Text too long";
         }
-        String key = getKey();
-        String baseUrl = "https://translate.yandex.net/api/v1.5/tr.json/translate";
         String finalUrl = baseUrl + "?lang=" + lang + "&key=" + key;
         try {
             URL url = new URL(finalUrl);
@@ -42,23 +50,9 @@ public class HibTranslatorImp implements HibTranslator {
             } else {
                 return "Error. Site response non 200";
             }
-
         } catch (IOException e) {
             e.printStackTrace();
             return "Error";
         }
     }
-
-   private String getKey() {
-       Properties properties = new Properties();
-       String propFileName = "yandexTranslate.property";
-       InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
-       try {
-           properties.load(inputStream);
-           return properties.getProperty("key");
-       } catch (IOException ex) {
-           ex.printStackTrace();
-       }
-       return null;
-   }
 }

@@ -15,7 +15,7 @@ public class ViewController {
     @GetMapping("/home")
     public String getHomePage(HttpServletRequest request) throws IOException {
         if (request.getSession(false) == null) {
-            request.getSession(true).setAttribute("LANG", "ru");
+            request.getSession(true).setAttribute("LANG", "en");
         }
         return "home";
     }
@@ -23,7 +23,7 @@ public class ViewController {
     @GetMapping("/page")
     public String getPage(HttpServletRequest request) {
         if (request.getSession(false) == null) {
-            request.getSession(true).setAttribute("LANG", "ru");
+            request.getSession(true).setAttribute("LANG", "en");
         }
         return "page";
     }
