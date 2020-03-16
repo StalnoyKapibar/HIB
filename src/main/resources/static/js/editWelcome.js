@@ -86,7 +86,7 @@ async function pageBook(x) {
         .then(status)
         .then(json)
         .then(function (resp_tmp) {
-            arrAllBooksByNumberPage = resp_tmp.content;
+            arrAllBooksByNumberPage = resp_tmp.listBookDTO;
             var htmlTempPager = '';
             for (var i = 0; i < resp_tmp.totalPages; i++) {
                 var z = 1 + i;
@@ -106,7 +106,7 @@ async function pageBook(x) {
                 `<th scope='col'>Delete</th>`;
             $('#table0').html(htmlTable);
             var html = '';
-            for (let tmp_html of resp_tmp.content) {
+            for (let tmp_html of resp_tmp.listBookDTO) {
                 html += `<tr id=${tmp_html.id}>` +
                     `<td id=${tmp_html.id}>${tmp_html.id}</td>`;
                 for (key in tmp_html) {

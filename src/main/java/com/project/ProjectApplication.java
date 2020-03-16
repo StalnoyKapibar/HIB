@@ -9,6 +9,9 @@ import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Locale;
 
 @SpringBootApplication
@@ -21,7 +24,11 @@ public class ProjectApplication {
     CommandLineRunner init(StorageService storageService) {
         return (args) -> {
             storageService.deleteAll();
-            storageService.init();
+            try {
+                Files.createDirectories(Paths.get("img/tmp/"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         };
     }
 }

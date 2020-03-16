@@ -8,8 +8,6 @@ import java.util.stream.Stream;
 
 public interface StorageService {
 
-	void init();
-
 	void saveImage(MultipartFile file);
 
 	Stream<Path> loadAll();

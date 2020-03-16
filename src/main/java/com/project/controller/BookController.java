@@ -2,6 +2,7 @@ package com.project.controller;
 
 import com.project.model.BookDTO;
 import com.project.model.BookDTO20;
+import com.project.model.PageableBookDTO;
 import com.project.service.BookService;
 import com.project.service.StorageService;
 import com.project.util.VarBookDTO;
@@ -36,11 +37,11 @@ public class BookController {
     }
 
     @GetMapping("/admin/pageable/{page1}")
-    public Page<BookDTO> getWelcomeLocaleDTOByLocale(@PathVariable("page1") int page1) {
+    public PageableBookDTO getWelcomeLocaleDTOByLocale(@PathVariable("page1") int page1) {
         Pageable pageable0 = PageRequest.of(page1, 10, Sort.by(
                 Sort.Order.asc("id")));
-        Page<BookDTO> page = bookService.getPageBookDTOByPageable(pageable0);
-        return page;
+        PageableBookDTO pageableBookDTO = bookService.getPageBookDTOByPageable(pageable0);
+        return pageableBookDTO;
     }
 
     @GetMapping("/getPageBooks")

@@ -149,13 +149,4 @@ public class StorageServiceImpl implements StorageService {
             e.printStackTrace();
         }
     }
-
-    @Override
-    public void init() {
-        try {
-            Files.createDirectories(path);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }
