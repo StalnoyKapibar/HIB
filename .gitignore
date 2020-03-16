@@ -4,6 +4,7 @@ target/
 .mvn/
 mvnw.cmd
 mvnw
+img/
 
 #!.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**

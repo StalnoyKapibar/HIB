@@ -114,8 +114,11 @@ public class StorageServiceImpl implements StorageService {
 
     @Override
     public void clearPaperTmp() {
-        for (File myFile : new File(String.valueOf(path)).listFiles())
-            if (myFile.isFile()) myFile.delete();
+        for (File myFile : new File(String.valueOf(path)).listFiles()) {
+            if (myFile.isFile()) {
+                myFile.delete();
+            }
+        }
     }
 
     @Override

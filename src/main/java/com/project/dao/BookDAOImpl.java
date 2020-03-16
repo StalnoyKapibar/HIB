@@ -28,11 +28,6 @@ public class BookDAOImpl implements BookDAO {
     }
 
     @Override
-    public Page<BookDTO> createPage() {
-        return null;
-    }
-
-    @Override
     public List<BookDTO> getAllBookDTO() {
         String temp = "Select new com.project.model.BookDTO(b.id, b.nameLocale, b.authorLocale, b.coverImage) FROM Book b";
         List<BookDTO> listBookDTO = entityManager.createQuery(temp, BookDTO.class).getResultList();

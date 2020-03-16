@@ -19,5 +19,4 @@ public interface BookDAO {
     String getLastIdOfBook();
     Page<BookDTO> getPageBookDTOByPageable(Pageable pageable);
     String getQuantityRowBookInDb();
-    Page<BookDTO> createPage();
 }
