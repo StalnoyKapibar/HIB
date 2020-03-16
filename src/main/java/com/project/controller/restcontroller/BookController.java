@@ -95,8 +95,8 @@ public class BookController {
     public ResponseEntity<List<byte[]>> getImage(HttpServletResponse response, @PathVariable("x") long x) throws IOException {
 
         List<byte[]> resources = new ArrayList<>();
-        //var imgFile = new ClassPathResource("static/images/book_example.jpg");
-       InputStream resourceFile = loadAsResource("qwe.jpg", x).getInputStream();
+        //var imgFile = new ClassPathResource("static/images/cover.jpg");
+       InputStream resourceFile = loadAsResource("2.jpg", x).getInputStream();
 
        // response.setContentType(MediaType.IMAGE_JPEG_VALUE);
       //  StreamUtils.copy(resourceFile.getInputStream(), out.getOutputStream());

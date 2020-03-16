@@ -113,3 +113,39 @@ a.footer_link:hover{
     font-size: 0.6rem;
     font-weight: 900;
 }
+
+
+ol.carousel-indicators {
+    position: absolute;
+    bottom: 5px;
+    margin: 0;
+    left: 0;
+    right: 0;
+    width: auto;
+}
+
+ol.carousel-indicators li,
+ol.carousel-indicators li.active {
+    width: 1rem;
+    height: 1rem;
+    margin: 0;
+    border-radius: 50%;
+    border: 0;
+    background: transparent;
+}
+
+ol.carousel-indicators li {
+    background: rgba(255,255,255,0.39);
+    margin-left: .5rem;
+    margin-right: .5rem;
+}
+
+ol.carousel-indicators li.active {
+    background: yellow;
+}
+
+.fit-image{
+    width: 100%;
+    object-fit: cover;
+     /* only if you want fixed height */
+}

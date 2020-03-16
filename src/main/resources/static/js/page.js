@@ -1,4 +1,5 @@
 var currentLang = '';
+var idBook = 7;
 
 $(document).ready(function () {
     if (currentLang == '') {
@@ -13,88 +14,18 @@ $(document).ready(function () {
 
 
 function setImages() {
-    fetch("/sid/id/86")
-        .then((response) => {
-            document.getElementById("myImg").src = "images/86/qwe.jpg";
-            return response.json();
 
-        })
-
-        .then((response) => {
-            var ss = JSON.stringify(response)
-            console.log(ss);
-            let arr = Array.from(response);
-            alert(arr);
-           arr.forEach(r=> {
-                r.arrayBuffer().then((buffer) => {
-                    var base64Flag = 'data:image/jpeg;base64,';
-                    var imageStr = arrayBufferToBase64(buffer);
-
-                    //     alert(imageStr);
-
-                    // $('#myImg').src=base64Flag + imageStr;
-                    //      document.querySelector('img').src = base64Flag + imageStr;
-                    document.getElementById("myImg").src = base64Flag + imageStr;
-                    document.getElementById("myImg").src = "images/86/qwe.jpg";
-
-                });
-            });
-        });
-
-
-
-
-
+    document.getElementById("coverImg").src = "images/"+idBook+"/cover.jpg";
+    document.getElementById("carouselImg1").src = "images/"+idBook+"/1.jpg";
+    document.getElementById("carouselImg2").src = "images/"+idBook+"/2.jpg";
+    document.getElementById("carouselImg3").src = "images/"+idBook+"/2.jpg";
 
 }
-
-
-            function arrayBufferToBase64(buffer) {
-                var binary = '';
-                var bytes = [].slice.call(new Uint8Array(buffer));
-
-                bytes.forEach((b) => binary += String.fromCharCode(b));
-
-                return window.btoa(binary);
-            };
-
-
-
-
-function base64Encode(str) {
-    var CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-    var out = "", i = 0, len = str.length, c1, c2, c3;
-    while (i < len) {
-        c1 = str.charCodeAt(i++) & 0xff;
-        if (i == len) {
-            out += CHARS.charAt(c1 >> 2);
-            out += CHARS.charAt((c1 & 0x3) << 4);
-            out += "==";
-            break;
-        }
-        c2 = str.charCodeAt(i++);
-        if (i == len) {
-            out += CHARS.charAt(c1 >> 2);
-            out += CHARS.charAt(((c1 & 0x3)<< 4) | ((c2 & 0xF0) >> 4));
-            out += CHARS.charAt((c2 & 0xF) << 2);
-            out += "=";
-            break;
-        }
-        c3 = str.charCodeAt(i++);
-        out += CHARS.charAt(c1 >> 2);
-        out += CHARS.charAt(((c1 & 0x3) << 4) | ((c2 & 0xF0) >> 4));
-        out += CHARS.charAt(((c2 & 0xF) << 2) | ((c3 & 0xC0) >> 6));
-        out += CHARS.charAt(c3 & 0x3F);
-    }
-    return out;
-}
-
-
 
 
 
 function setPageFields() {
-    fetch("/page/id/7")
+    fetch("/page/id/"+idBook)
         .then(status)
         .then(json)
         .then(function (jsn) {
