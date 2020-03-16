@@ -1,10 +1,10 @@
 HELP.md
+img/
 target/
 .mvn
 .mvn/
 mvnw.cmd
 mvnw
-img/
 
 #!.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**
