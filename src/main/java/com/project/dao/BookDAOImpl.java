@@ -3,6 +3,7 @@ package com.project.dao;
 import com.project.model.Book;
 import com.project.model.BookDTO;
 import com.project.model.BookDTO20;
+import com.project.model.LocaleString;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -44,6 +45,12 @@ public class BookDAOImpl implements BookDAO {
     public BookDTO getBookByIdLocale(long id) {
         return entityManager.createQuery("SELECT new com.project.model.BookDTO(b.id, b.nameLocale," +
                 " b.authorLocale) FROM Book b where b.id=:id", BookDTO.class).setParameter("id", id).getSingleResult();
+    }
+
+    @Override
+    public BookDTO getBookByLocaleName(LocaleString locale) {
+        return entityManager.createQuery("SELECT new com.project.model.BookDTO(b.id, b.nameLocale," +
+                " b.authorLocale) FROM Book b where b.nameLocale=:name or b.authorLocale=:name " , BookDTO.class).setParameter("name", locale).getSingleResult();
     }
 
     @Override

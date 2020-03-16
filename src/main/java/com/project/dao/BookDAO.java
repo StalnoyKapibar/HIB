@@ -3,6 +3,7 @@ package com.project.dao;
 import com.project.model.Book;
 import com.project.model.BookDTO;
 import com.project.model.BookDTO20;
+import com.project.model.LocaleString;
 
 import java.util.List;
 
@@ -20,4 +21,6 @@ public interface BookDAO {
     void updateBook(BookDTO bookDTO);
 
     List<BookDTO20> get20BookDTO(String locale);
+
+    BookDTO getBookByLocaleName(LocaleString locale);
 }

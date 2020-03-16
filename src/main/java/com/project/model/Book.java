@@ -2,6 +2,8 @@ package com.project.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.IndexedEmbedded;
 
 import javax.persistence.*;
 

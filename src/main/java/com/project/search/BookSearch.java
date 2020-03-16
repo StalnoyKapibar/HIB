@@ -3,6 +3,7 @@ package com.project.search;
 import com.project.dao.BookDAO;
 import com.project.model.BookDTO;
 import com.project.model.LocaleString;
+import com.project.service.BookService;
 import org.apache.lucene.search.Query;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.FullTextQuery;
@@ -25,13 +26,13 @@ public class BookSearch {
     private EntityManager entityManager;
 
     @Autowired
-    private BookDAO bookDAO;
+    private BookService bookService;
 
     public List<BookDTO> search(String req) {
         FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
 
         QueryBuilder queryBuilder = fullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(LocaleString.class).get();
-        Query query = queryBuilder.keyword().fuzzy().withEditDistanceUpTo(2).withPrefixLength(0)
+        Query query = queryBuilder.keyword().fuzzy().withEditDistanceUpTo(1).withPrefixLength(0)
                 .onFields("ru", "en", "fr", "it", "de", "cs", "gr").matching(req).createQuery();
 
         FullTextQuery jpaQuery = fullTextEntityManager.createFullTextQuery(query, LocaleString.class);
@@ -39,9 +40,8 @@ public class BookSearch {
         List<BookDTO> result = new ArrayList<>();
 
         for (LocaleString localeString : results) {
-            result.add(bookDAO.getBookByIdLocale(localeString.getId()));
+            result.add(bookService.getBookByLocaleName(localeString));
         }
-
         return result;
     }
 }

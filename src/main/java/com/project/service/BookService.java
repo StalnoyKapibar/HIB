@@ -2,6 +2,7 @@ package com.project.service;
 
 import com.project.model.BookDTO;
 import com.project.model.BookDTO20;
+import com.project.model.LocaleString;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -21,4 +22,7 @@ public interface BookService {
     List<BookDTO20> get20BookDTO(String locale);
 
     BookDTO getBookByIdLocale(long id);
+
+    BookDTO getBookByLocaleName(LocaleString locale);
+
 }
