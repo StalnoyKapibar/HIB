@@ -2,7 +2,7 @@ let idd;
 let nameObjectOfLocaleString;
 let tmpArr;
 let nameVarOfLocaleStringWithId;
-let pathImageDefault = 'images/';
+let pathImageDefault = 'images/book';
 let pathImageFin;
 let pathImageFinWithoutImage;
 let nameImage;
@@ -202,7 +202,7 @@ function uploadImageNew() {
     const fileField = document.getElementById("exampleFormControlFile1");
     listImages.push(JSON.parse('{"id":"' + '' + '", "nameImage":"' + fileField.files[0].name + '"}'));
     formData.append('file', fileField.files[0]);
-    formData.append('x', idd);
+    formData.append('idPaperForSaveImages', idd);
     fetch('/admin/uploadByEditPage', {
         method: 'POST',
         body: formData

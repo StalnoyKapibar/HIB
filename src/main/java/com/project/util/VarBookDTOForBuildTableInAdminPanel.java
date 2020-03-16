@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class VarBookDTO {
+public class VarBookDTOForBuildTableInAdminPanel {
     private Class localeStringClass = BookDTO.class;
     private List<String> fields = new ArrayList<>();
 
-    public VarBookDTO() {
+    public VarBookDTOForBuildTableInAdminPanel() {
         Arrays.stream(localeStringClass.getDeclaredFields())
                 .filter(n -> !(n.getName().equals("coverImage")))
                 .filter(n -> !(n.getName().equals("imageList")))

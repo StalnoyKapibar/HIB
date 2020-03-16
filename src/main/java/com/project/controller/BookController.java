@@ -5,7 +5,8 @@ import com.project.model.BookDTO20;
 import com.project.model.PageableBookDTO;
 import com.project.service.BookService;
 import com.project.service.StorageService;
-import com.project.util.VarBookDTO;
+
+import com.project.util.VarBookDTOForBuildTableInAdminPanel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
@@ -59,14 +60,14 @@ public class BookController {
 
     @GetMapping("/getVarBookDTO")
     @Autowired
-    public List<String> getVarBookDTO(VarBookDTO varBookDTO) {
-        return varBookDTO.getFields();
+    public List<String> getVarBookDTOForBuildTableInAdminPanel(VarBookDTOForBuildTableInAdminPanel varBookDTOForBuildTableInAdminPanel) {
+        return varBookDTOForBuildTableInAdminPanel.getFields();
     }
 
-    @GetMapping("/admin/del/{x}")
-    public void delBook(@PathVariable("x") long x) {
-        storageService.deletePaperById(x);
-        bookService.deleteBookById(x);
+    @GetMapping("/admin/del/{idForDeleteBook}")
+    public void delBook(@PathVariable("idForDeleteBook") long idForDeleteBook) {
+        storageService.deletePaperById(idForDeleteBook);
+        bookService.deleteBookById(idForDeleteBook);
     }
 
     @PostMapping("/admin/edit")
@@ -87,25 +88,25 @@ public class BookController {
     }
 
     @PostMapping("/admin/download")
-    public ResponseEntity<Resource> downloadFile(@RequestBody String x) {
-        Resource file = storageService.loadAsResource(x);
+    public ResponseEntity<Resource> downloadFile(@RequestBody String nameImageDownloaded) {
+        Resource file = storageService.loadAsResource(nameImageDownloaded);
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
                 "attachment; filename=" + file.getFilename()).body(file);
     }
 
     @PostMapping("/admin/deleteImage")
-    public void deleteImageByFileName(@RequestBody String x) {
-        storageService.deleteImageByFileName(x);
+    public void deleteImageByFileName(@RequestBody String nameDeleteImage) {
+        storageService.deleteImageByFileName(nameDeleteImage);
     }
 
     @PostMapping("/admin/deleteImageByEditPage")
-    public void deleteImageByFileNameByEditPage(@RequestBody String x) {
-        storageService.deleteImageByFileNameByEditPage(x);
+    public void deleteImageByFileNameByEditPage(@RequestBody String nameDeleteImageByEditPage) {
+        storageService.deleteImageByFileNameByEditPage(nameDeleteImageByEditPage);
     }
 
     @PostMapping("/admin/uploadByEditPage")
-    public HttpStatus fileUploadByEditPage(@RequestBody MultipartFile file, String x) {
-        storageService.saveImageByEditBook(file, x);
+    public HttpStatus fileUploadByEditPage(@RequestBody MultipartFile file, String idPaperForSaveImages) {
+        storageService.saveImageByEditBook(file, idPaperForSaveImages);
         return HttpStatus.OK;
     }
 }

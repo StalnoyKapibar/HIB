@@ -90,7 +90,7 @@ public class StorageServiceImpl implements StorageService {
     @Override
     public void createNewPaperForImages(String namePaper) {
         try {
-            Files.createDirectory(Paths.get("img/" + namePaper));
+            Files.createDirectory(Paths.get("img/book" + namePaper));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -101,7 +101,7 @@ public class StorageServiceImpl implements StorageService {
         try {
             File folder = new File("img/tmp");
             File[] listOfFiles = folder.listFiles();
-            Path destDir = Paths.get("img/" + namePaper);
+            Path destDir = Paths.get("img/book" + namePaper);
             if (listOfFiles != null)
                 for (File file : listOfFiles) {
                     Files.copy(file.toPath(), destDir.resolve(file.getName()), StandardCopyOption.REPLACE_EXISTING);
@@ -124,7 +124,7 @@ public class StorageServiceImpl implements StorageService {
     @Override
     public void deleteImageByFileNameByEditPage(String fileName) {
         try {
-            Files.delete(Paths.get("img/" + fileName));
+            Files.delete(Paths.get("img/book" + fileName));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -134,7 +134,7 @@ public class StorageServiceImpl implements StorageService {
     public void saveImageByEditBook(MultipartFile file, String numberPaper) {
         String filename = StringUtils.cleanPath(file.getOriginalFilename());
         try (InputStream inputStream = file.getInputStream()) {
-            Files.copy(inputStream, Paths.get("img/" + numberPaper + "/").resolve(file.getOriginalFilename()),
+            Files.copy(inputStream, Paths.get("img/book" + numberPaper + "/").resolve(file.getOriginalFilename()),
                     StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             throw new StorageException("Failed to store file " + filename, e);
