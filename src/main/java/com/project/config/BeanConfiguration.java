@@ -12,9 +12,4 @@ public class BeanConfiguration {
     public LocaleHolder getLocaleHolder() {
         return new LocaleHolder();
     }
-
-    @Bean("BookDTOWithFieldsForTable")
-    public BookDTOWithFieldsForTable getVarBookDTO() {
-        return new BookDTOWithFieldsForTable();
-    }
 }
