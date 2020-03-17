@@ -3,6 +3,7 @@ package com.project.search;
 import com.project.model.BookDTO;
 import com.project.model.LocaleString;
 import com.project.service.BookService;
+import lombok.AllArgsConstructor;
 import org.apache.lucene.search.Query;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.FullTextQuery;
@@ -19,12 +20,12 @@ import java.util.List;
 
 @Repository
 @Transactional
+@AllArgsConstructor
 public class BookSearch {
 
     @PersistenceContext
     private EntityManager entityManager;
 
-    @Autowired
     private BookService bookService;
 
     public List<BookDTO> search(String req) {
