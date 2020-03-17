@@ -2,6 +2,7 @@ package com.project.config;
 
 import com.project.config.initializer.TestDataInit;
 import com.project.util.LocaleHolder;
+import com.project.util.BookDTOWithFieldsForTable;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
