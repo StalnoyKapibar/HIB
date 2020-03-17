@@ -4,6 +4,7 @@ import com.project.dao.BookDAO;
 import com.project.model.BookDTO;
 import com.project.model.BookDTO20;
 import com.project.model.PageableBookDTO;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,7 +15,7 @@ import java.util.List;
 
 @Service
 @Transactional
-@AllArgsConstructor
+
 public class BookServiceImpl implements BookService {
 
     @Autowired

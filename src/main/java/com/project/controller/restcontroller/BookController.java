@@ -5,10 +5,10 @@ import com.project.model.BookDTO20;
 import com.project.model.PageableBookDTO;
 import com.project.service.BookService;
 import com.project.service.StorageService;
+import com.project.util.BookDTOWithFieldsForTable;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Pageable;
@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 import java.util.List;
+
 @AllArgsConstructor
 @RestController
 public class BookController {
@@ -81,7 +82,7 @@ public class BookController {
     }
 
     @GetMapping("/page/id/{x}")
-    public ResponseEntity<BookDTO> getBook(@PathVariable("x") long x ) {
+    public ResponseEntity<BookDTO> getBook(@PathVariable("x") long x) {
         //  BookDTO bookDTO1 = new BookDTO(x, new LocaleString("Робинзон Крузо", "Robinson Cruso","","","",""), new LocaleString("Даниель Дефо", "Daniel Defo","","","",""));
         //   bookService.addBook(bookDTO1);
         BookDTO bookDTO = bookService.getBookByIdLocale(x);

@@ -23,8 +23,12 @@ public interface BookDAO {
     void updateBook(BookDTO bookDTO);
 
     List<BookDTO20> get20BookDTO(String locale);
+
     BookDTO getBookDTOById(long id);
+
     String getLastIdOfBook();
+
     PageableBookDTO getPageBookDTOByPageable(Pageable pageable);
+
     String getQuantityBook();
 }
