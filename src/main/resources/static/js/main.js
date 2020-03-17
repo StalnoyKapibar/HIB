@@ -155,17 +155,21 @@ function showSizeCart() {
         }
     });
 }
+
 $(document).ready(function () {
-    $("body").on('click','.btn-success', function () {
+    $("body").on('click', '.btn-success', function () {
         let id = $(this).attr("data-id");
         addToCart(id);
-        showSizeCart();
+        setTimeout(function () {
+            showSizeCart();
+        }, 20)
+
     })
 })
 
 function addToCart(id) {
     $.post({
-        url: "/cart/"+id
+        url: "/cart/" + id
     })
 
 }
