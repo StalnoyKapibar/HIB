@@ -109,4 +109,11 @@ public class BookController {
         storageService.saveImageByEditBook(file, idPaperForSaveImages);
         return HttpStatus.OK;
     }
+
+    @GetMapping("/admin/doesFolderTmpExist")
+    public void doesFolderTmpExist() {
+        if (!storageService.doesFolderTmpExist()) {
+            storageService.createTmpFolderForImages();
+        }
+    }
 }

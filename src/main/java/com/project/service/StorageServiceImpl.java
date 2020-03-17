@@ -158,4 +158,14 @@ public class StorageServiceImpl implements StorageService {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public boolean doesFolderTmpExist() {
+        if (Files.exists(path)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 }

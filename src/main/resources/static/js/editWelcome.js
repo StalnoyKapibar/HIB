@@ -135,6 +135,7 @@ async function pageBook(x) {
 }
 
 function addPage() {
+    doesFolderTmpExist();
     var html = '';
     for (let tmpNameObject of nameObjectOfLocaleString) {
         html += `<h5>` + tmpNameObject + `</h5>`;
@@ -336,6 +337,10 @@ function resetForms() {
 
 function showImage(x) {
     document.getElementById('myImage').src = x;
+}
+
+function doesFolderTmpExist() {
+    fetch("admin/doesFolderTmpExist");
 }
 
 
