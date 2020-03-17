@@ -57,7 +57,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookDTO getBookByLocaleName(LocaleString locale) {
-        return bookDAO.getBookByLocaleName(locale);
+    public BookDTO getBookBySearchRequest(LocaleString locale) {
+        return bookDAO.getBookBySearchRequest(locale);
     }
 }

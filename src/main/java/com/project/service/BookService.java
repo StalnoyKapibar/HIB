@@ -23,6 +23,6 @@ public interface BookService {
 
     BookDTO getBookByIdLocale(long id);
 
-    BookDTO getBookByLocaleName(LocaleString locale);
+    BookDTO getBookBySearchRequest(LocaleString locale);
 
 }

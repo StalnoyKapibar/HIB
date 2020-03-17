@@ -1,6 +1,5 @@
 package com.project.search;
 
-import com.project.dao.BookDAO;
 import com.project.model.BookDTO;
 import com.project.model.LocaleString;
 import com.project.service.BookService;
@@ -40,7 +39,7 @@ public class BookSearch {
         List<BookDTO> result = new ArrayList<>();
 
         for (LocaleString localeString : results) {
-            result.add(bookService.getBookByLocaleName(localeString));
+            result.add(bookService.getBookBySearchRequest(localeString));
         }
         return result;
     }

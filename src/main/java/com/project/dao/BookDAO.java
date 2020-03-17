@@ -22,5 +22,5 @@ public interface BookDAO {
 
     List<BookDTO20> get20BookDTO(String locale);
 
-    BookDTO getBookByLocaleName(LocaleString locale);
+    BookDTO getBookBySearchRequest(LocaleString locale);
 }
