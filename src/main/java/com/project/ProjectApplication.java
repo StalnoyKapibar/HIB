@@ -16,19 +16,7 @@ import java.util.Locale;
 
 @SpringBootApplication
 public class ProjectApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(ProjectApplication.class, args);
-    }
-    @Bean
-    CommandLineRunner run(StorageService storageService) {
-        return (args) -> {
-            storageService.deleteAll();
-            try {
-                Files.createDirectories(Paths.get("img/tmp/"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        };
     }
 }

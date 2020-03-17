@@ -144,7 +144,16 @@ public class StorageServiceImpl implements StorageService {
     @Override
     public void deletePaperById(long number) {
         try {
-            FileUtils.deleteDirectory(new File(String.valueOf(Paths.get("img/" + number))));
+            FileUtils.deleteDirectory(new File(String.valueOf(Paths.get("img/book" + number))));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void createTmpFolderForImages() {
+        try {
+            Files.createDirectories(path);
         } catch (IOException e) {
             e.printStackTrace();
         }

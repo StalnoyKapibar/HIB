@@ -34,4 +34,5 @@ public interface StorageService {
 
 	void deletePaperById(long number);
 
+	void createTmpFolderForImages();
 }
