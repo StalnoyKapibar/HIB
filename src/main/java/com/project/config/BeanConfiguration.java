@@ -1,7 +1,7 @@
 package com.project.config;
 
 import com.project.util.LocaleHolder;
-import com.project.util.VarBookDTOForBuildTableInAdminPanel;
+import com.project.util.BookDTOWithFieldsForTable;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,8 +13,8 @@ public class BeanConfiguration {
         return new LocaleHolder();
     }
 
-    @Bean("varBookDTO")
-    public VarBookDTOForBuildTableInAdminPanel getVarBookDTO() {
-        return new VarBookDTOForBuildTableInAdminPanel();
+    @Bean("BookDTOWithFieldsForTable")
+    public BookDTOWithFieldsForTable getVarBookDTO() {
+        return new BookDTOWithFieldsForTable();
     }
 }

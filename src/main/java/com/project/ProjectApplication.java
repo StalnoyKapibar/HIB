@@ -21,7 +21,7 @@ public class ProjectApplication {
         SpringApplication.run(ProjectApplication.class, args);
     }
     @Bean
-    CommandLineRunner init(StorageService storageService) {
+    CommandLineRunner run(StorageService storageService) {
         return (args) -> {
             storageService.deleteAll();
             try {

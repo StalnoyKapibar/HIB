@@ -6,7 +6,7 @@ import com.project.model.PageableBookDTO;
 import com.project.service.BookService;
 import com.project.service.StorageService;
 
-import com.project.util.VarBookDTOForBuildTableInAdminPanel;
+import com.project.util.BookDTOWithFieldsForTable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
@@ -60,8 +60,8 @@ public class BookController {
 
     @GetMapping("/getVarBookDTO")
     @Autowired
-    public List<String> getVarBookDTOForBuildTableInAdminPanel(VarBookDTOForBuildTableInAdminPanel varBookDTOForBuildTableInAdminPanel) {
-        return varBookDTOForBuildTableInAdminPanel.getFields();
+    public List<String> getVarBookDTOForBuildTableInAdminPanel(BookDTOWithFieldsForTable bookDTOWithFieldsForTable) {
+        return bookDTOWithFieldsForTable.getFields();
     }
 
     @GetMapping("/admin/del/{idForDeleteBook}")
