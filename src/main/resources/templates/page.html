@@ -39,10 +39,10 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <button class="btn pl-2 btn-header" id="link_main_header" th:href="@{/home}">Main</button>
+                        <button class="btn pl-2 btn-header" id="link_main_header" th:href="@{/home}" onclick="document.location='/home'" >Main</button>
                     </li>
                     <li class="nav-item">
-                        <button class="btn pl-2 btn-header" id="link_books_header">Books</button>
+                        <button class="btn pl-2 btn-header" id="link_books_header" >Books</button>
                     </li>
                     <li class="nav-item">
                         <button class="btn pl-2 btn-header" id="menu-toggle">Category</button>
@@ -81,7 +81,7 @@
 
         <!--        for cards        -->
         <div>
-            <h2>You can read this</h2>
+            <h2 id="headpost">You can read this</h2>
             <br>
         </div>
             <div class="row">
@@ -121,6 +121,7 @@
     </div>
 </div>
 </div>
+<a id="bookid" th:value="${book}" hidden></a>
 <script src="../static/js/page.js"></script>
 </body>
 </html>

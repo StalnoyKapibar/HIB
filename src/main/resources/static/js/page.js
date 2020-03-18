@@ -11,7 +11,7 @@ $(document).ready(function () {
 
 
 function setPageFields() {
-    fetch("/page/id/3")
+    fetch("/page/id/"+$("#bookid").attr("value"))
         .then(status)
         .then(json)
         .then(function (jsn) {
@@ -79,6 +79,7 @@ function setLocaleFields() {
             $('#link_main_header').text(localeFields['main']);
             $('#link_books_header').text(localeFields['books']);
             $('#menu-toggle').text(localeFields['category']);
+            $('#headpost').text(localeFields['headpost']);
         })
 }
 
@@ -90,7 +91,7 @@ $('#dd_menu').on('click', 'a', function (eventOnInnerTag) {
         .then(text)
         .then(function (data) {
             currentLang = selectedLang;
-            window.location.replace('page?LANG=' + currentLang);
+            window.location.replace($("#bookid").attr("value")+'?LANG=' + currentLang);
             //TODO some logic to processing data and reload page with chosen lang
             getLanguage();
             getLocaleFields();

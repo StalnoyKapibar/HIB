@@ -29,7 +29,7 @@ public class WelcomeLocaleController {
     }
 
     @GetMapping("/get")
-    public void getAllAd() {
-        List<BookDTO> list = bookService.getAllBookDTO();
+    public List<BookDTO> getAllAd() {
+        return bookService.getAllBookDTO();
     }
 }
