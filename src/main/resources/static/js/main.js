@@ -121,7 +121,7 @@ $(document).ready(function() {
             $('#cardcolumns').empty();
             $.each(data, function(index) {
                 let div = $('<div class="card"/>');
-                div.append('<img class="card-img-top" src="../static/images/book_example.jpg" alt="Card image cap">');
+                div.append('<img class="card-img-top" src="images/book'+data[index].id+'/'+data[index].coverImage+'" alt="Card image cap">');
                 let divBody = $('<div class="card-body" ></div>');
                 divBody.append('<h4 class="card-title" style="overflow: auto; height:70px">'+data[index].nameAuthorDTOLocale+'</h4>');
                 divBody.append('<p class="card-text">'+data[index].nameBookDTOLocale+'</p>');
