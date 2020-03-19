@@ -28,6 +28,7 @@ public class TestDataInit {
         File img = new File("img");
         File[] contentImg = img.listFiles();
         for (File file : contentImg) {
+            if (!file.getName().equals(".gitignore"))
             deleteDir(file);
         }
         Path destDir = Paths.get("img");
