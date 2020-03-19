@@ -31,7 +31,6 @@ public class Book {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private LocaleString authorLocale;
 
-    @Column(name = "cover_image")
     private String coverImage;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
