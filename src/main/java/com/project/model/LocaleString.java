@@ -6,7 +6,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name = "localString")
+@Table(name = "localestring")
 public class LocaleString {
 
     @Id

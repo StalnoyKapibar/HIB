@@ -5,6 +5,18 @@
     <title>Title</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/sig.css">
+    <script
+            src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+    <script src="js/genre.js"></script>
+    <script src="https://kit.fontawesome.com/b92332e3f1.js" crossorigin="anonymous"></script>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -137,7 +149,7 @@
                                 <td><strong>cs</strong></td>
                             </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="genrestable">
                             </tbody>
                             <div class="modal fade" id="edit-item" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                                 <div class="modal-dialog" role="document">
@@ -194,7 +206,35 @@
                         </table>
                     </div>
                     <div class="tab-pane fade " id="nav-profile2" role="tabpanel" aria-labelledby="nav-profile-tab2">
-                        <p>test2</p>
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label for="addGenreRu">Russian</label>
+                                <input type="text" class="form-control" id="addGenreRu" placeholder="ru"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="addGenreEn">English</label>
+                                <input type="text" class="form-control" id="addGenreEn" placeholder="en"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="addGenreFr">French</label>
+                                <input type="text" class="form-control" id="addGenreFr" placeholder="fr"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="addGenreIt">Italian</label>
+                                <input type="text" class="form-control" id="addGenreIt" placeholder="it"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="addGenreDe">German</label>
+                                <input type="text" class="form-control" id="addGenreDe" placeholder="de"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="addGenreCs">Czech</label>
+                                <input type="text" class="form-control" id="addGenreCs" placeholder="cs"/>
+                            </div>
+                            <div class="form-group">
+                                <div class="btn btn-success add-btn" onclick="addGenre()">Add new genre</div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -219,15 +259,5 @@
         </div>
     </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
-<script src="js/editWelcome.js"></script>
 </body>
 </html>
