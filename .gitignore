@@ -11,7 +11,7 @@ mvnw
 !**/src/main/**
 !**/src/test/**
 
-!**/img/**
+!img/**
 ### STS ###
 .apt_generated
 .classpath
