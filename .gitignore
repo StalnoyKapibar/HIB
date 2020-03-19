@@ -25,9 +25,10 @@ mvnw
 *.iws
 *.iml
 *.ipr
+application.properties
 
 
-src\main\resources\application.properties
+src/main/resources/application.properties
 
 
 ### NetBeans ###
