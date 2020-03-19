@@ -13,7 +13,26 @@ function getGenres() {
     });
 }
 
+function buildRows(data) {
+    var	rows = '';
+    data.forEach(function(entry) {
 
+        rows = rows + '<tr>';
+        rows = rows + '<td>'+entry.id+'</td>';
+        rows = rows + '<td>'+entry.userName+'</td>';
+        rows = rows + '<td>'+entry.accountNonExpired+'</td>';
+        rows = rows + '<td>'+entry.accountNonLocked+'</td>';
+        rows = rows + '<td>'+entry.credentialsNonExpired+'</td>';
+        rows = rows + '<td>'+entry.enabled+'</td>';
+        rows = rows + '<td>'+roles+'</td>';
+        rows = rows + '<td data-id="'+entry.id+'">';
+        rows = rows + '<button data-toggle="modal" data-target="#edit-item" class="btn btn-primary edit-item">Edit</button> ';
+        rows = rows + '<button class="btn btn-danger remove-item">Delete</button>';
+        rows = rows + '</td>';
+        rows = rows + '</tr>';
+    });
+    $("tbody").html(rows);
+}
 
 
 
@@ -42,32 +61,6 @@ function presetRoles(roles) {
             });
         }
     });
-}
-
-function buildRows(data) {
-    var	rows = '';
-    var roles;
-    data.forEach(function(entry) {
-        roles = '[ ';
-        entry.roles.forEach( function(role) {
-            roles = roles + role.type + ' ';
-        });
-        roles = roles + ']';
-        rows = rows + '<tr>';
-        rows = rows + '<td>'+entry.id+'</td>';
-        rows = rows + '<td>'+entry.userName+'</td>';
-        rows = rows + '<td>'+entry.accountNonExpired+'</td>';
-        rows = rows + '<td>'+entry.accountNonLocked+'</td>';
-        rows = rows + '<td>'+entry.credentialsNonExpired+'</td>';
-        rows = rows + '<td>'+entry.enabled+'</td>';
-        rows = rows + '<td>'+roles+'</td>';
-        rows = rows + '<td data-id="'+entry.id+'">';
-        rows = rows + '<button data-toggle="modal" data-target="#edit-item" class="btn btn-primary edit-item">Edit</button> ';
-        rows = rows + '<button class="btn btn-danger remove-item">Delete</button>';
-        rows = rows + '</td>';
-        rows = rows + '</tr>';
-    });
-    $("tbody").html(rows);
 }
 
 $("body").on("click", ".remove-item", function() {

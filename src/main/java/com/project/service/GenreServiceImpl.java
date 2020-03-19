@@ -7,6 +7,8 @@ import com.project.model.LocaleString;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service("genreService")
 @Transactional
 public class GenreServiceImpl implements GenreService {
@@ -20,6 +22,11 @@ public class GenreServiceImpl implements GenreService {
     @Override
     public Genre getGenreById(long id) {
         return genreDao.findById(id).orElse(null);
+    }
+
+    @Override
+    public List<Genre> getAllGenres() {
+        return genreDao.findAll();
     }
 
     @Override

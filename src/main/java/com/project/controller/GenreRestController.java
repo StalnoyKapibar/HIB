@@ -21,9 +21,9 @@ public class GenreRestController {
         this.genreDtoService = genreDtoService;
     }
 
-    @GetMapping("/genres")
-    public List<GenreDto> getAllGenres(HttpServletResponse response, HttpServletRequest request) {
-        List<GenreDto> genres = genreDtoService.getAllGenreDto((String) request.getSession().getAttribute("LANG"));
+    @GetMapping("/genresdto")
+    public List<GenreDto> getAllGenresDto(HttpServletResponse response, HttpServletRequest request) {
+        List<GenreDto> genres = genreDtoService.getAllGenreDto ((String) request.getSession().getAttribute("LANG"));
         if (genres != null) {
             response.setStatus(HttpServletResponse.SC_OK);
         } else {
@@ -32,7 +32,7 @@ public class GenreRestController {
         return genres;
     }
 
-    @GetMapping("/genre/{id}")
+    @GetMapping("/genredto/{id}")
     public GenreDto getGenreById(@PathVariable Long id, HttpServletResponse response, HttpServletRequest request) {
         GenreDto genre = genreDtoService.getGenreDtoById(id, (String) request.getSession().getAttribute("LANG"));
         if (genre != null) {
@@ -41,6 +41,17 @@ public class GenreRestController {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
         }
         return genre;
+    }
+
+    @GetMapping("/genres")
+    public List<Genre> getAllGenres(HttpServletResponse response) {
+        List<Genre> genres = genreService.getAllGenres();
+        if (genres != null) {
+            response.setStatus(HttpServletResponse.SC_OK);
+        } else {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        }
+        return genres;
     }
 
     @PostMapping("/genre")

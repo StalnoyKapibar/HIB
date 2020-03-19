@@ -125,7 +125,73 @@
                 </nav>
                 <div class="tab-content tab - border" id="nav-tabContent2">
                     <div class="tab-pane fade show active" id="nav-home2" role="tabpanel" aria-labelledby="nav-home-tab2">
-                        <p>test1</p>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <td><strong>ID</strong></td>
+                                <td><strong>ru</strong></td>
+                                <td><strong>en</strong></td>
+                                <td><strong>fr</strong></td>
+                                <td><strong>it</strong></td>
+                                <td><strong>de</strong></td>
+                                <td><strong>cs</strong></td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                            <div class="modal fade" id="edit-item" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title" id="text"></h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form id="edit-form" class="form-horizontal">
+                                                <div class="form-group">
+                                                    <label for="editId">ID</label>
+                                                    <input type="text" class="form-control" id="editId" name="editId" disabled="true"/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="editUserName">Login</label>
+                                                    <input type="text" class="form-control" id="editUserName" name="editUserName" disabled="true"/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="editPassword">Password</label>
+                                                    <input type="password" class="form-control" id="editPassword" name="editPassword"/>
+                                                </div>
+                                                <label class="checkbox-inline">
+                                                    <input type="checkbox" id="editAccNonExp" name="editAccNonExp">AccNonExp
+                                                </label>
+                                                <label class="checkbox-inline">
+                                                    <input type="checkbox" id="editAccNonLoc" name="editAccNonLoc">AccNonLoc
+                                                </label>
+                                                <label class="checkbox-inline">
+                                                    <input type="checkbox" id="editCredNonExp" name="editCredNonExp">CredNonExp
+                                                </label>
+                                                <label class="checkbox-inline">
+                                                    <input type="checkbox" id="editEnabled" name="editEnabled">Enabled
+                                                </label>
+                                                <div class="form-group">
+                                                    <label for="editSelect">Roles</label>
+                                                    <select class="form-control" name="editSelect" id="editSelect" multiple="true">
+                                                        <option th:each="role : ${rolelist}"
+                                                                th:value="${role.id}"
+                                                                th:text="${role.type}"></option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="btn btn-success" id="edit-btn">Submit</div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </table>
                     </div>
                     <div class="tab-pane fade " id="nav-profile2" role="tabpanel" aria-labelledby="nav-profile-tab2">
                         <p>test2</p>
