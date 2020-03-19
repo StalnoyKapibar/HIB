@@ -7,6 +7,7 @@ $(document).ready(function () {
     getLanguage();
     setLocaleFields();
     showSizeCart();
+    getCart();
 });
 
 function setLocaleFields() {
@@ -24,7 +25,7 @@ function setLocaleFields() {
             $('#link_main_header').text(localeFields['main']);
             $('#link_books_header').text(localeFields['books']);
             $('#menu-toggle').text(localeFields['category']);
-            $('#headpost').text(localeFields['headpost']);
+      //      $('#headpost').text(localeFields['headpost']);
             bottom = localeFields['bookbotom'];
             $('#modalClose').text(localeFields['close']);
             $('#buttonBookPage').text(localeFields['pageofBook']);
@@ -113,37 +114,37 @@ function json(response) {
 function text(response) {
     return response.text()
 }
-$(document).ready(function() {
-    setTimeout(function() {
-        $.ajax({
-            url: "/admin/get20BookDTO/"+currentLang,
-            method: 'GET',
-        }).then(function(data) {
-            $('#cardcolumns').empty();
-            $.each(data, function(index) {
-                let div = $('<div class="card"/>');
-                div.append('<img class="card-img-top" src="images/book'+data[index].id+'/'+data[index].coverImage+'" alt="Card image cap">');
-                let divBody = $('<div class="card-body" ></div>');
-                divBody.append('<h4 class="card-title" style="overflow: auto; height:100px">'+data[index].nameAuthorDTOLocale+'</h4>');
-                divBody.append('<p class="card-text">'+data[index].nameBookDTOLocale+'</p>');
-                divBody.append('<br>');
-                divBody.append('<div style="position: absolute; bottom: 5px"><button id="bottomInCart"type="button" class="btn btn-success btn-sm  mr-1"  data-id="' + data[index].id + '">В корзину</button>' +
-                    '<button type="button" id="bookbotom"class="btn btn-primary btn-sm mr-1"  data-toggle="modal" data-target="#myModal"  data-book-index="' + index + '">' + bottom + '</button></div>');
-                div.append(divBody);
-                div.appendTo('#cardcolumns');
-            });
-            $("#myModal").on('show.bs.modal', function(e) {
-                let index = $(e.relatedTarget).data('book-index');
-                $('#modalHeader').empty();
-                $('#modalBody').empty();
-                $('#modalHeader').append(data[index].nameAuthorDTOLocale);
-                $('#modalBody').append('<p>'+data[index].nameBookDTOLocale+'</p>');
-                $('#modalBody').append('<img class="card-img-top" src="images/book'+data[index].id+'/'+data[index].coverImage+'" alt="Card image cap">')
-                $('#buttonOnBook').attr("action",'/page/'+ data[index].id);
-            });
-        });
-    }, 10);
-    });
+// $(document).ready(function() {
+//     setTimeout(function() {
+//         $.ajax({
+//             url: "/admin/get20BookDTO/"+currentLang,
+//             method: 'GET',
+//         }).then(function(data) {
+//             $('#cardcolumns').empty();
+//             $.each(data, function(index) {
+//                 let div = $('<div class="card"/>');
+//                 div.append('<img class="card-img-top" src="images/book'+data[index].id+'/'+data[index].coverImage+'" alt="Card image cap">');
+//                 let divBody = $('<div class="card-body" ></div>');
+//                 divBody.append('<h4 class="card-title" style="overflow: auto; height:100px">'+data[index].nameAuthorDTOLocale+'</h4>');
+//                 divBody.append('<p class="card-text">'+data[index].nameBookDTOLocale+'</p>');
+//                 divBody.append('<br>');
+//                 divBody.append('<div style="position: absolute; bottom: 5px"><button id="bottomInCart"type="button" class="btn btn-success btn-sm  mr-1"  data-id="' + data[index].id + '">В корзину</button>' +
+//                     '<button type="button" id="bookbotom"class="btn btn-primary btn-sm mr-1"  data-toggle="modal" data-target="#myModal"  data-book-index="' + index + '">' + bottom + '</button></div>');
+//                 div.append(divBody);
+//                 div.appendTo('#cardcolumns');
+//             });
+//             $("#myModal").on('show.bs.modal', function(e) {
+//                 let index = $(e.relatedTarget).data('book-index');
+//                 $('#modalHeader').empty();
+//                 $('#modalBody').empty();
+//                 $('#modalHeader').append(data[index].nameAuthorDTOLocale);
+//                 $('#modalBody').append('<p>'+data[index].nameBookDTOLocale+'</p>');
+//                 $('#modalBody').append('<img class="card-img-top" src="images/book'+data[index].id+'/'+data[index].coverImage+'" alt="Card image cap">')
+//                 $('#buttonOnBook').attr("action",'/page/'+ data[index].id);
+//             });
+//         });
+//     }, 10);
+// });
 
 function showSizeCart() {
     $.get("/cart/size").then(function (data) {
@@ -156,22 +157,50 @@ function showSizeCart() {
     });
 }
 
-$(document).ready(function () {
-    $("body").on('click', '.btn-success', function () {
-        let id = $(this).attr("data-id");
-        addToCart(id);
-        setTimeout(function () {
-            showSizeCart();
-        }, 20)
-
-    })
-})
-
-function addToCart(id) {
-    $.post({
-        url: "/cart/" + id
-    })
-
+function getCart() {
+    $.ajax({
+        url: "/cart",
+        method: 'GET',
+    }).then(function(data) {
+        $('#newTab').empty();
+        $.each(data, function(value, key) {
+            let row = $('<tr id="trr"/>');
+            let cell = $('<td width="10"></td>');
+            row.append(cell);
+            cell = '<td>'+data.key.coverImage+'</td><td>'+data.key.author.ru+'|'+data.key.name.ru+'</td><td>'+Цена+'</td><td>'+value+'</td>';
+            row.append(cell);
+            cell = $('<td/>');
+            cell.html('<button class="btn btn-info" data-toggle="modal" data-target="#myModal"   style="background-color: #41b7d9" data-user-id="">' +
+                'Edit' +
+                '</button>');
+            row.append(cell);
+            cell = $('<td/>');
+            cell.html('<button class="btn btn-info delete"  style="background-color: orangered" data-id="">' +
+                'Delete' +
+                '</button>');
+            row.append(cell);
+            row.appendTo('#newTab')
+        });
+        $("#newTab").append('<tr height="30"/>')
+    });
 }
+
+// $(document).ready(function () {
+//     $("body").on('click', '.btn-success', function () {
+//         let id = $(this).attr("data-id");
+//         addToCart(id);
+//         setTimeout(function () {
+//             showSizeCart();
+//         }, 20)
+//
+//     })
+// })
+//
+// function addToCart(id) {
+//     $.post({
+//         url: "/cart/" + id
+//     })
+//
+// }
 
 
