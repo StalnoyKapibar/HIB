@@ -15,9 +15,9 @@ public class BeanConfiguration {
     public LocaleHolder getLocaleHolder() {
         return new LocaleHolder();
     }
-//    @Bean(initMethod = "init")
-//    @PostConstruct
-//    public TestDataInit initTestData() {
-//        return new TestDataInit();
-//    }
+    @Bean(initMethod = "init")
+    @PostConstruct
+    public TestDataInit initTestData() {
+        return new TestDataInit();
+    }
 }
