@@ -1,0 +1,42 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <script src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<body>
+
+<form>
+    <div class="form-group">
+        <label for="transText">Enter Text</label>
+        <input type="text" class="form-control" id="transText"><br>
+        <script src="../static/js/translate.js"></script>
+        <button type="button" onclick="sendTextToTranslate()" class="btn btn-primary">Translate</button>
+    </div>
+</form>
+<p class="text-center">
+    <textarea id="translatedText" class="form-control"></textarea>
+</p>
+<br><br>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+        integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+        crossorigin="anonymous"></script>
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+</body>
+</html>

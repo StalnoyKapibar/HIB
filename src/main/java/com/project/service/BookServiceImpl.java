@@ -1,10 +1,11 @@
 package com.project.service;
 
 import com.project.dao.BookDAO;
-import com.project.dao.BookDTORepository;
 import com.project.model.BookDTO;
 import com.project.model.BookDTO20;
+import com.project.model.PageableBookDTO;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -14,12 +15,11 @@ import java.util.List;
 
 @Service
 @Transactional
-@AllArgsConstructor
+
 public class BookServiceImpl implements BookService {
 
+    @Autowired
     private BookDAO bookDAO;
-
-    private BookDTORepository bookDTORepository;
 
     @Override
     public List<BookDTO> getAllBookDTO() {
@@ -32,8 +32,8 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Page<BookDTO> findAll(Pageable pageable) {
-        return bookDTORepository.findAll(pageable);
+    public PageableBookDTO getPageBookDTOByPageable(Pageable pageable) {
+        return bookDAO.getPageBookDTOByPageable(pageable);
     }
 
     @Override
@@ -53,5 +53,15 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<BookDTO20> get20BookDTO(String locale) {
         return bookDAO.get20BookDTO(locale);
+    }
+
+    @Override
+    public BookDTO getBookDTOById(long id) {
+        return bookDAO.getBookDTOById(id);
+    }
+
+    @Override
+    public String getLastIdOfBook() {
+        return bookDAO.getLastIdOfBook();
     }
 }
