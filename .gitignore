@@ -28,10 +28,6 @@ mvnw
 *.ipr
 application.properties
 
-
-
-
-
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
