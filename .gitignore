@@ -1,6 +1,6 @@
 HELP.md
-img/
 target/
+img/
 .mvn
 .mvn/
 mvnw.cmd
@@ -25,10 +25,6 @@ mvnw
 *.iws
 *.iml
 *.ipr
-
-
-src\main\resources\application.properties
-
 
 ### NetBeans ###
 /nbproject/private/
