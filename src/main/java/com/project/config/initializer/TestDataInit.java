@@ -25,10 +25,16 @@ public class TestDataInit {
     private int bookId;
 
     public void init() {
+        if (!Files.exists(Paths.get("img"))) {
+            try {
+                Files.createDirectories(Paths.get("img"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         File img = new File("img");
         File[] contentImg = img.listFiles();
         for (File file : contentImg) {
-            if (!file.getName().equals(".gitignore"))
             deleteDir(file);
         }
         Path destDir = Paths.get("img");
