@@ -140,17 +140,85 @@ function addPage() {
     for (let tmpNameObject of nameObjectOfLocaleString) {
         html += `<h5>` + tmpNameObject + `</h5>`;
         for (let tmpNameVar of nameVarOfLocaleString) {
-            html += `<div class='form-group'>` +
+            html +=
+                `<div class='form-group'>` +
+                `<div class="row">`+
                 `<label for=${tmpNameObject}${tmpNameVar}>${tmpNameObject} ${tmpNameVar}</label>` +
-                `<input type='text' class='form-control' id='a${tmpNameObject}${tmpNameVar}'` +
+                `<div class="col">`+
+                `<input type="radio" name="rb${tmpNameObject}" id="rb${tmpNameObject}${tmpNameVar}" value="${tmpNameVar}" autocomplete="off"> Перевести с этого языка`+
+                `</div>`+
+                `<div class="col">`+
+                `<input type='text' class='form-control' id='inp${tmpNameObject}${tmpNameVar}'` +
                 `placeholder='${tmpNameObject} ${tmpNameVar}'>` +
+                `</div>`+
+                `<div class="col">`+
+                `<input type="checkbox" checked name="cb${tmpNameObject}" value="${tmpNameVar}" autocomplete="off"> На этот` +
+                `</div>`+
+                `</div>`+
                 `</div>`;
         }
+        html+=`<button type="button" onclick="translateText('${tmpNameObject}')" class="btn btn-primary">Translate</button>`;
     }
     $('#newBookForm').html(html + `<h4>Cover Image</h4>` +
         `<div class='car' style='width: 18rem;'>` +
         `<img id='myImage' src =''  class='card-img-top' alt='...'> ` +
         `</div>`);
+}
+
+function findRadioButton(name) {
+    let inp = document.getElementsByName(name);
+    for (let i = 0; i < inp.length; i++) {
+        if (inp[i].type == "radio" && inp[i].checked) {
+            return  inp[i].value;
+        }
+    }
+}
+
+function findCheckBox(name, unnecessaryLanguage) {
+    let inp = document.getElementsByName(name);
+    let checkboxesChecked = [];
+    for (let i = 0; i < inp.length; i++) {
+        if(inp[i].type == "checkbox" && inp[i].checked && inp[i].value != unnecessaryLanguage){
+            checkboxesChecked.push(inp[i].value);
+        }
+    }
+    return checkboxesChecked;
+}
+
+function translateText(label) {
+    let checkedRadioButton = findRadioButton('rb'+label);
+    let checkedCheckBox = findCheckBox('cb'+label, checkedRadioButton);
+    let text = $("#inp"+label+checkedRadioButton).val();
+    if (checkedRadioButton==null){
+        alert("Check Lang from");
+        return;
+    }
+    if(text == ''){
+        alert("Enter text")
+        return;
+    }
+    if (checkedCheckBox.length == 0){
+        alert("Check Lang to");
+        return;
+    }
+    let j = {
+        langFrom: checkedRadioButton,
+        arrLangTo: checkedCheckBox,
+        text: text
+    };
+    let prop = JSON.stringify(j);
+    $.ajax({
+        type: "POST",
+        url: "/translate/list",
+        data: prop,
+        contentType: 'application/json',
+        success: function (data) {
+            for (let key in data) {
+                let inp = $("#inp"+label+key);
+                inp.val(data[key]);
+            }
+        }
+    })
 }
 
 function addBook() {
@@ -342,6 +410,5 @@ function showImage(x) {
 function doesFolderTmpExist() {
     fetch("admin/doesFolderTmpExist");
 }
-
 
 

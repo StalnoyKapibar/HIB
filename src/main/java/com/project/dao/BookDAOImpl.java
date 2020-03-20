@@ -4,18 +4,13 @@ import com.project.model.Book;
 import com.project.model.BookDTO;
 import com.project.model.BookDTO20;
 import com.project.model.PageableBookDTO;
-import org.springframework.data.domain.*;
-import org.springframework.data.util.Streamable;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.*;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
-import java.util.stream.Stream;
+import java.util.ArrayList;
+import java.util.List;
 
 @Repository
 public class BookDAOImpl implements BookDAO {
