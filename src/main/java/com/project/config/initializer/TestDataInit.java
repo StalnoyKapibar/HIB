@@ -148,7 +148,6 @@ public class TestDataInit {
         bookDTO.setImageList(imagesList);
         bookService.addBook(bookDTO);
     }
-
 }
 
 
