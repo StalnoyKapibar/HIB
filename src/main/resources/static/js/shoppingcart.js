@@ -40,8 +40,7 @@ $('#dd_menu').on('click', 'a', function (eventOnInnerTag) {
         .then(text)
         .then(function (data) {
             currentLang = selectedLang;
-            window.location.replace('home?LANG=' + currentLang);
-            //TODO some logic to processing data and reload page with chosen lang
+            window.location.replace('shoppingcart?LANG=' + currentLang);
             getLanguage();
             getLocaleFields();
         });

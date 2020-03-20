@@ -49,8 +49,31 @@
                         <button class="btn pl-2 btn-header" id="menu-toggle">Category</button>
                     </li>
                 </ul>
-                <ul class="nav-shop mr-2 mb-2 mt-2">
-                   <button class="btn" onclick="document.location='/shoppingcart'"><i class="ti-shopping-cart"></i><span class="nav-shop__circle" id="bucketIn"></span></button>
+                <ul class="dropdown mr-2 mb-2 mt-2" id="showCart">
+                    <!--                    onclick="document.location='/shoppingcart'"-->
+                    <button class="btn btn-lg" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false"><i
+                            class="ti-shopping-cart"></i><span id="bucketIn"
+                                                               class="nav-shop-circle"></span>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton"
+                         style="overflow: auto; max-height: 300px; width: 500px">
+                        <div id="shoppingCartDrop">
+                            <div class="dropdown-item-text">бла бла</div>
+                            <div class="dropdown-divider"></div>
+                            <div class="dropdown-item-text">бла бла</div>
+                            <div class="dropdown-divider"></div>
+                            <div class="dropdown-item-text">бла бла</div>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item-text">
+                            <button type="button" class="btn btn-success btn-sm mr-5  " data-toggle="dropdown">Продолжить покупки
+                            </button>
+                            <button type="button" class="btn btn-primary btn-sm float-right"
+                                    onclick="document.location='/shoppingcart'">Заказать сейчас
+                            </button>
+                        </a>
+                    </div>
                 </ul>
                 <div class="dropdown mr-2 mb-2 mt-2">
                     <a class="btn dropdown-toggle border" href="#" role="button" id="dd_menu_link"
@@ -132,7 +155,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div id="modalBody"class="modal-body">
+            <div id="modalBody" class="modal-body">
                 <table>
                     <table class="table table-borderless table-sm bg-white">
                         <tbody>
@@ -142,11 +165,11 @@
 
             </div>
             <div class="modal-footer">
-                <button id="modalClose"type="button" class="btn btn-ifno" data-dismiss="modal"
+                <button id="modalClose" type="button" class="btn btn-ifno" data-dismiss="modal"
                         style="background-color: #f5f5f5">Закрыть
                 </button>
-                <form id="buttonOnBook"action="" method="get">
-                    <button id="buttonBookPage"class="btn btn-ifno btn-dark" style="background-color: #5a6268"
+                <form id="buttonOnBook" action="" method="get">
+                    <button id="buttonBookPage" class="btn btn-ifno btn-dark" style="background-color: #5a6268"
                     >Страница книги
                     </button>
                 </form>

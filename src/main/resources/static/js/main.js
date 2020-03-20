@@ -173,5 +173,22 @@ function addToCart(id) {
     })
 
 }
+function getCart() {
+    $.ajax({
+        url: "/cart",
+        method: 'GET',
+    }).then(function(data) {
+        $('#shoppingCartDrop').empty();
+        $.each(data, function () {
+            console.log(data);
+        })
 
+
+    });
+}
+$(document).ready(function () {
+    $("#showCart").on('show.bs.dropdown',function () {
+        getCart();
+    })
+})
 
