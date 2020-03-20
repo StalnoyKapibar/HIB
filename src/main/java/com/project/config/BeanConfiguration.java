@@ -5,6 +5,7 @@ import com.project.util.LocaleHolder;
 import com.project.util.BookDTOWithFieldsForTable;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
@@ -19,9 +20,8 @@ public class BeanConfiguration {
         return new LocaleHolder();
     }
 
-    @Bean
-    @PostConstruct
-    public void checkAndCreateImg() {
+    @Bean("checkAndCreateImg")
+        public void checkAndCreateImg() {
         if (!Files.exists(Paths.get("img"))) {
             try {
                 Files.createDirectories(Paths.get("img"));
@@ -32,6 +32,7 @@ public class BeanConfiguration {
     }
 
     @Bean(initMethod = "init")
+    @DependsOn("checkAndCreateImg")
     @PostConstruct
     public TestDataInit initTestData() {
         return new TestDataInit();
