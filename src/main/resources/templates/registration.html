@@ -1,4 +1,4 @@
-<!doctype>
+<!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
@@ -15,7 +15,7 @@
     <script src="../static/js/jquery.min.js"></script>
     <script src="../static/js/popper.min.js"></script>
     <script src="../static/js/bootstrap.min.js"></script>
-    <title>History in Books</title>
+    <title>Registration</title>
 </head>
 <body>
 
@@ -77,7 +77,7 @@
                     <div sec:authorize="isAuthenticated() != true">
                         <form action="#" class="m-0 ml-sm-0">
                             <button type="button" class="btn btn-header border m-0" data-toggle="modal"
-                                    data-target="#signModal" id="signModalBtn">
+                                    data-target="#signModal">
                                 <span id="signin_btn_text">Sign In</span>
                             </button>
                         </form>
@@ -97,36 +97,48 @@
     <!--    page container    -->
 
     <div class="container page-content">
-        <h2>Hi, there</h2>
-        <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur dignissimos dolore dolorem,
-            eligendi
-            eos error facilis nemo praesentium quam qui quia quo ratione recusandae rem rerum sit ullam vel
-            voluptatem.
-        </div>
-        <div>A accusantium aperiam at beatae cumque debitis delectus doloremque et harum in molestias nam nemo non
-            odio
-            pariatur, perspiciatis, porro quam, quia rem sint sit tenetur unde vitae! Optio, suscipit.
-        </div>
-        <div>Commodi eius et fuga, harum ipsa itaque modi nesciunt omnis quasi rem rerum sequi tempora tenetur,
-            voluptas
-            voluptates. Alias amet animi beatae dicta esse incidunt maxime nisi nobis nostrum rerum.
-        </div>
-        <div>Consectetur consequuntur ea earum labore minus officia quis similique suscipit voluptate. Doloremque
-            quam
-            quia quisquam ratione! Aliquid dignissimos, error et eveniet maxime molestiae, non odio porro repellat
-            sed
-            similique temporibus!
-        </div>
-        <hr>
+        <div class="container mt-0 col-sm-12 col-lg-6 col-md-8 rounded-pill">
+            <div class="col-12 shadow form-border-radius">
+                <div class="modal-header">
+                    <h4 class="my-2">Create new profile</h4>
+                </div>
 
-        <!--        for cards        -->
-        <div>
-            <h2 id="headpost">You can read this</h2>
-            <br>
+                <div class="col-12">
+                    <form th:action="@{/registration}" th:object="${user}" method="post" name="registration-form">
+                        <div class="form-group mt-3">
+                            <label for="loginInputField">Login</label>
+                            <input type="text" class="form-control" id="loginInputField" name="login"
+                                   placeholder="Login" required th:field="*{login}">
+                        </div>
+                        <div class="form-group">
+                            <label for="emailInputField">Email</label>
+                            <input type="email" class="form-control" id="emailInputField" name="email"
+                                   placeholder="Email" required th:field="*{email}">
+                        </div>
+                        <div class="form-group">
+                            <label for="passInputField">Password</label>
+                            <input type="password" class="form-control" id="passInputField" name="password"
+                                   placeholder="Password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="conformPassInputField">Conform password</label>
+                            <input type="password" class="form-control" id="conformPassInputField"
+                                   name="conformPassword" placeholder="Conform password" required>
+                        </div>
+                        <button type="submit" id="hiddenSingUpButton" hidden>HiddenSingUpButton</button>
+                    </form>
+                </div>
+                <div class="row px-4">
+                    <h5 class="col-12 p-3 rounded text-center alert-danger" th:if="${errorMessage.isHasError()}"
+                        th:text="${errorMessage.getMessage()}" id="errorMessage"></h5>
+                </div>
+                <div class="modal-footer text-right">
+                    <button type="button" class="btn btn-primary col-12 mb-4 mx-0" id="singUpButton">Sign up</button>
+                </div>
+            </div>
         </div>
-        <div class="row row-cols-1 row-cols-md-4" id="cardcolumns">
-        </div>
-        <br>
+
+
         <!--        footer       -->
         <div class="container-fluid text-center footer pt-3 p-0 ">
             <div class="footer_menu">
@@ -141,77 +153,35 @@
         </div>
     </div>
 </div>
-<div id="myModal" class="modal fade" tabindex="-1" role="dialog"
-     aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered " role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id='modalHeader'>
-                </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div id="modalBody"class="modal-body">
-                <table>
-                    <table class="table table-borderless table-sm bg-white">
-                        <tbody>
-                        </tbody>
-                    </table>
-                </table>
-
-            </div>
-            <div class="modal-footer">
-                <button id="modalClose"type="button" class="btn btn-ifno" data-dismiss="modal"
-                        style="background-color: #f5f5f5">Закрыть
-                </button>
-                <form id="buttonOnBook"action="" method="get">
-                    <button id="buttonBookPage"class="btn btn-ifno btn-dark" style="background-color: #5a6268"
-                    >Страница книги
-                    </button>
-                </form>
-
-            </div>
-
-        </div>
-    </div>
-</div>
 
 <!--modal window for sing in-->
 
 <div class="modal fade" id="signModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header mx-3">
-                <h5 class="header-title-sign-in mb-0" id="exampleModalLabel">Sign in</h5>
+        <div class="modal-content modal-">
+            <div class="modal-header">
+                <h5 class="header-title-sign-in text-center" id="exampleModalLabel">Sign in</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body mx-lg-2 mx-sm-1">
-                <form action="/login" th:action="@{/login}" role="form" method="post" id="form-login" name="form-login">
+                <form>
                     <div class="form-group">
                         <label for="loginInput">Login</label>
-                        <input type="text" class="form-control" id="loginInput" name="username" placeholder="Login"
-                               required>
+                        <input type="text" class="form-control" id="loginInput" placeholder="Login">
                     </div>
                     <div class="form-group">
                         <label for="passwordInput">Password</label>
-                        <input type="password" class="form-control" id="passwordInput" name="password"
-                               placeholder="Password" required>
+                        <input type="password" class="form-control" id="passwordInput" placeholder="Password">
                     </div>
-                    <div class="custom-control custom-checkbox mb-2">
-                        <input type="checkbox" class="custom-control-input" id="checkboxRememberMe">
-                        <label class="custom-control-label" for="checkboxRememberMe">Remember me</label>
-                    </div>
-                    <button type="submit" hidden id="hidden_submit_btn">HiddenButtonToSubmitLoginForm</button>
                 </form>
-                <div class="row px-3">
-                    <!--/*@thymesVar id="getMessage" type="com.project.model.FormLoginErrorMessageDTO"*/-->
-                    <h5 class="col-12 p-3 rounded text-center alert-danger" th:if="${errorMessage.isHasError()}"
-                        th:text="${errorMessage.getMessage()}" id="errorMessage"></h5>
+                <div class="custom-control custom-checkbox mb-2">
+                    <input type="checkbox" class="custom-control-input" id="checkboxRememberMe">
+                    <label class="custom-control-label" for="checkboxRememberMe">Remember me</label>
                 </div>
+
                 <div class="row">
                     <div class="col-lg-6 col-sm-12 pr-lg-1 mt-1">
                         <a class="btn btn-block btn-social btn-google text-white">
@@ -225,16 +195,13 @@
                     </div>
                 </div>
                 <div>
-                    <form action="/registration">
-                        <button type="submit" class="btn btn-header border col-12 mt-3">Register new profile</button>
-                    </form>
+                    <button class="btn btn-header border col-12 mt-3">Register new account</button>
                 </div>
             </div>
-            <div class="modal-footer mx-3">
+            <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="sign_in_btn">Sign in</button>
+                <button type="button" class="btn btn-primary">Sign in</button>
             </div>
-
         </div>
     </div>
 </div>

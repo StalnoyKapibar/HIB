@@ -20,6 +20,12 @@ html, body {
     text-shadow: 1px 0px 0px black;
 }
 
+.header-title-sign-in{
+    font-family: 'Pacifico';
+    font-size: 20px;
+    text-shadow: 1px 0px 0px black;
+}
+
 .header-title-little {
     font-family: 'Pacifico';
     text-shadow: 1px 0px 0px black;
@@ -73,7 +79,7 @@ html, body {
     margin-left: 0;
 }
 
-/* change wrapper sidebar after resize*/
+
 @media screen and (max-width: 700px) {
     #wrapper {
         position: absolute;
@@ -112,4 +118,13 @@ a.footer_link:hover{
 #made_by {
     font-size: 0.6rem;
     font-weight: 900;
+}
+
+#errorMessage{
+    font-size: 0.91rem;
+}
+
+/*form registration*/
+.form-border-radius{
+    border-radius: 40px;
 }

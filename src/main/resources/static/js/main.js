@@ -6,6 +6,38 @@ $(document).ready(function () {
     }
     getLanguage();
     setLocaleFields();
+    openModalLoginWindowOnFailure();
+});
+
+$('#dd_menu').on('click', 'a', function (eventOnInnerTag) {
+    eventOnInnerTag.preventDefault();
+    const selectedLang = $(eventOnInnerTag.target).attr('id');
+    fetch("/lang/" + selectedLang)
+        .then(status)
+        .then(text)
+        .then(function (data) {
+            currentLang = selectedLang;
+            //TODO some logic to processing data and reload page with chosen lang
+            getLanguage();
+        });
+    document.location.reload();
+});
+
+$("#menu-toggle").on('click', function (e) {
+    e.preventDefault();
+    $("#wrapper").toggleClass("toggled");
+});
+
+$(document).on('click', "#sign_in_btn", function (e) {
+    $("#hidden_submit_btn").click();
+});
+
+$(document).on('click', "#singUpButton", function (e) {
+    $('#hiddenSingUpButton').click();
+});
+
+$(document).on('click', "#link_main_header", function (e) {
+    document.location.href = '/home';
 });
 
 function setLocaleFields() {
@@ -29,27 +61,6 @@ function setLocaleFields() {
             $('#buttonBookPage').text(localeFields['pageofBook']);
         })
 }
-
-$('#dd_menu').on('click', 'a', function (eventOnInnerTag) {
-    eventOnInnerTag.preventDefault();
-    const selectedLang = $(eventOnInnerTag.target).attr('id');
-    fetch("/lang/" + selectedLang)
-        .then(status)
-        .then(text)
-        .then(function (data) {
-            currentLang = selectedLang;
-            window.location.replace('home?LANG=' + currentLang);
-            //TODO some logic to processing data and reload page with chosen lang
-            getLanguage();
-            getLocaleFields();
-        });
-    location.reload();
-});
-
-$("#menu-toggle").click(function (e) {
-    e.preventDefault();
-    $("#wrapper").toggleClass("toggled");
-});
 
 function getLanguage() {
     function getFullNameOfLanguage(language) {
@@ -86,15 +97,28 @@ function getLanguage() {
                 currentLangFull = getFullNameOfLanguage(listOfLanguage[language]);
                 html += `<a class="dropdown-item lang" id="${listOfLanguage[language]}">
                             <img src="../static/icons/${listOfLanguage[language]}.png" 
-                                alt="" height="16" width="16" class="lang-image"> - ${currentLangFull}
+                                alt="" height="20" width="18" class="lang-image"> - ${currentLangFull}
                          </a>`;
             }
             $('#dd_menu').html(html);
             $('#dd_menu_link').text(currentLang);
             $('#dd_menu_link').empty();
             $('#dd_menu_link').append(`<img src="../static/icons/${currentLang}.png"
-                                alt="" height="16" width="16" class="lang-image">`);
+                                alt="" height="20" width="18" class="lang-image">`);
         })
+}
+
+function openModalLoginWindowOnFailure() {
+    if (getURLVariable().get('failure') != null) {
+        //TODO: this part just for hide bad view of path. In commercial level we must change protocol and hostname
+        var domainAddress = window.location.protocol + '//' + window.location.hostname + ':8080/home?login=failure';
+        history.pushState(null, null, domainAddress);
+        $('#signModalBtn').click();
+    }
+}
+
+function getURLVariable() {
+    return new URLSearchParams(document.location.search);
 }
 
 function status(response) {
@@ -142,6 +166,7 @@ $(document).ready(function() {
         });
     }, 10);
     });
+
 
 
 

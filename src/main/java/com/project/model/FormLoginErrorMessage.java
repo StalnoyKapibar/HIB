@@ -5,18 +5,22 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@NoArgsConstructor
 @Data
-@Table(name = "welcome")
-public class Welcome {
-
+@Entity
+@NoArgsConstructor
+@Table(name = "form_error_message")
+public class FormLoginErrorMessage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
-    @Column(name = "name")
-    private String name;
+    @Column
+    private String field;
+
+    @Column
+    private String reason;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private LocaleString body;
+
 }

@@ -1,4 +1,4 @@
-package com.project.service;
+package com.project.exceptions;
 
 public class StorageException extends RuntimeException {
 
