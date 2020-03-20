@@ -25,13 +25,6 @@ public class TestDataInit {
     private int bookId;
 
     public void init() {
-        if (!Files.exists(Paths.get("img"))) {
-            try {
-                Files.createDirectories(Paths.get("img"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
         File img = new File("img");
         File[] contentImg = img.listFiles();
         for (File file : contentImg) {
@@ -155,4 +148,7 @@ public class TestDataInit {
         bookDTO.setImageList(imagesList);
         bookService.addBook(bookDTO);
     }
+
 }
+
+
