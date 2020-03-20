@@ -17,7 +17,7 @@ public class ShoppingCartController {
 
     @GetMapping("/cart/size")
     public int getCartSize(HttpSession session) {
-        Map<BookDTO, Integer> cartList = (Map<BookDTO, Integer>) session.getAttribute("shoppingcart");
+        Map<Long, Integer> cartList = (Map<Long, Integer>) session.getAttribute("shoppingcart");
         if (cartList != null) {
             return cartList.size();
         } else {
@@ -25,18 +25,30 @@ public class ShoppingCartController {
         }
     }
 
-    @GetMapping("/cart")
-    public Map<BookDTO, Integer> getShoppingCart(HttpSession session) {
-        return (Map<BookDTO, Integer>) session.getAttribute("shoppingcart");
+    //    @GetMapping("/cartbook")
+//    public Set<BookDTO> getBookShoppingCart(HttpSession session) {
+//        Map<BookDTO, Integer> cart = (Map<BookDTO, Integer>) session.getAttribute("shoppingcart");
+//        Set<BookDTO> book = cart.keySet();
+//        return book;
+//    }
+//    @GetMapping("/cartcount")
+//    public Collection<Integer> getCountBookShoppingCart(HttpSession session) {
+//        Map<BookDTO, Integer> cart = (Map<BookDTO, Integer>) session.getAttribute("shoppingcart");
+//        Collection<Integer> count = cart.values();
+//        return count;
+//    }
+    @GetMapping(value = "/cart")
+    public Map<Long, Integer> getShoppingCart(HttpSession session) {
+        return (Map<Long, Integer>) session.getAttribute("shoppingcart");
     }
 
     @PostMapping("/cart/{id}")
     public void addToCart(@PathVariable Long id, HttpSession session) {
-        Map<BookDTO, Integer> cartList = (Map<BookDTO, Integer>) session.getAttribute("shoppingcart");
+        Map<Long, Integer> cartList = (Map<Long, Integer>) session.getAttribute("shoppingcart");
         if (cartList == null) {
-            cartList = new HashMap<BookDTO, Integer>();
+            cartList = new HashMap<Long, Integer>();
         }
-        cartList.merge(bookService.getBookDTOById(id),1,(oldVal,newVal)->oldVal+newVal);
+        cartList.merge(id, 1, (oldVal, newVal) -> oldVal + newVal);
         session.setAttribute("shoppingcart", cartList);
     }
 
