@@ -58,6 +58,3 @@ public class WebConfiguration implements WebMvcConfigurer {
         registry.addInterceptor(localeChangeInterceptor());
     }
 }
-
-
-

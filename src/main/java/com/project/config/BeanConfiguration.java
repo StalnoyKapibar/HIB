@@ -7,6 +7,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PostConstruct;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 @Configuration
 public class BeanConfiguration {
@@ -15,6 +18,19 @@ public class BeanConfiguration {
     public LocaleHolder getLocaleHolder() {
         return new LocaleHolder();
     }
+
+    @Bean
+    @PostConstruct
+    public void checkAndCreateImg() {
+        if (!Files.exists(Paths.get("img"))) {
+            try {
+                Files.createDirectories(Paths.get("img"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     @Bean(initMethod = "init")
     @PostConstruct
     public TestDataInit initTestData() {
