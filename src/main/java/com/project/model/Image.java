@@ -18,6 +18,5 @@ public class Image {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "name_image")
     private String nameImage;
 }
