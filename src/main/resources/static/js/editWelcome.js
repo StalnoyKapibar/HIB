@@ -8,6 +8,9 @@ var arrAllBooksByNumberPage;
 let nameVarOfLocaleStringWithId;
 var idPageable;
 var idChangeLang = "en";
+let arrNameImageNew = [];
+let pathImageDefault = 'images/tmp/';
+var nameImageCover = '';
 
 $(document).ready(getVarBookDTO(), getAllLocales(), pageBook(0));
 
@@ -35,7 +38,6 @@ async function getAllLocales() {
                     `<input type='text' class='form-control' id='${tmp_html}' ` +
                     `aria-describedby='emailHelp'>`;
             }
-
             $('#form_id').html(html + `<button type='submit' onclick='funcStart()' class='btn btn-primary'>Submit</button>`);
         })
 }
@@ -84,11 +86,11 @@ async function pageBook(x) {
         .then(status)
         .then(json)
         .then(function (resp_tmp) {
-            arrAllBooksByNumberPage = resp_tmp.content;
+            arrAllBooksByNumberPage = resp_tmp.listBookDTO;
             var htmlTempPager = '';
             for (var i = 0; i < resp_tmp.totalPages; i++) {
                 var z = 1 + i;
-                htmlTempPager += `<li class='page-item'><a class='page-link' onclick='pageBook(${i})'>${z}</a></li>`;
+                htmlTempPager += `<li class='page-item'><a class='page-link' href='#' onclick='pageBook(${i})'>${z}</a></li>`;
             }
             $('#pagination00').html(htmlTempPager);
             buildChangeLang();
@@ -99,28 +101,30 @@ async function pageBook(x) {
             for (let dd of nameObjectOfLocaleStringWithId) {
                 htmlTable += `<th scope='col'>${dd} ${idChangeLang}</th>`;
             }
-            htmlTable += `<th scope='col'>Edit</th>` +
+            htmlTable +=
+                `<th scope='col'>Edit</th>` +
                 `<th scope='col'>Delete</th>`;
             $('#table0').html(htmlTable);
             var html = '';
-            for (let tmp_html of resp_tmp.content) {
+            for (let tmp_html of resp_tmp.listBookDTO) {
                 html += `<tr id=${tmp_html.id}>` +
                     `<td id=${tmp_html.id}>${tmp_html.id}</td>`;
                 for (key in tmp_html) {
-                    if (key !== "id") {
+                    if (key !== "id" && key !== "coverImage" && key !== "imageList") {
                         var ad = tmp_html[key][idChangeLang];
                         html += `<td id='n${tmp_html.id}'>${ad}</td>`;
                     }
                 }
-                html += `<td>` +
+                html +=
+                    `<td>` +
                     `<button type='button' onclick='buildEditBook(${tmp_html.id})'  data-toggle='modal'` +
                     `data-target='#asdddd'  class='btn btn-primary'> ` +
                     `Edit` +
                     `</button>` +
                     `</td>` +
                     `<td>` +
-                    `<button type='button'  onclick='delBook(${tmp_html.id})'  class='btn btn-primary btn-danger'> ` +
-                    `Удалить` +
+                    `<button type='button'  onclick='delBook(${tmp_html.id})'  class='btn btn-primary btn-danger'>` +
+                    `Delete` +
                     `</button>` +
                     `</td>` +
                     `</tr>`;
@@ -131,20 +135,33 @@ async function pageBook(x) {
 }
 
 function addPage() {
+    doesFolderTmpExist();
     var html = '';
     for (let tmpNameObject of nameObjectOfLocaleString) {
-        html += `<h5>` + tmpNameObject + `</h5>`
+        html += `<div class='col mb-4'>` +
+            `<div class='card'>` +
+            `<div class='card-body'>` +
+            `<h5 class='card-title'>` + tmpNameObject + `</h5>` +
+            `<p class='card-text'>`;
         for (let tmpNameVar of nameVarOfLocaleString) {
-            html += `<div class='form-group'>` +
+            html +=
+                `<div class='form-group'>` +
                 `<label for=${tmpNameObject}${tmpNameVar}>${tmpNameObject} ${tmpNameVar}</label>` +
-                `<input type='text' class='form-control' id='a${tmpNameObject}${tmpNameVar}'` +
-                `placeholder='${tmpNameObject} ${tmpNameVar}'>` +
-                `</div>`;
+                `<textarea class='form-control' id='a${tmpNameObject}${tmpNameVar}'` +
+                `placeholder='${tmpNameObject} ${tmpNameVar}' rows='3'>` +
+                `</textarea>` +
+                `</div>` +
+                `</p>`;
         }
+        html += `</div>` +
+            `</div>` +
+            `</div>`;
     }
-    $('#newBookForm').html(html + `<button type='submit' onclick='addBook()' class='btn btn-primary custom-centered'>` +
-        `Add new Book` +
-        `</button>`);
+    $('#stolId').html(html);
+    $('#coverImage0').html(`<h4>Cover Image</h4>` +
+        `<div class='car' style='width: 18rem;'>` +
+        `<img id='myImage' src =''  class='card-img-top' alt='...'> ` +
+        `</div>`);
 }
 
 function addBook() {
@@ -156,6 +173,14 @@ function addBook() {
         }
         add[tmp] = asd;
     }
+    add['coverImage'] = nameImageCover;
+    var arrImageTmp = arrNameImageNew.filter(t => t !== "");
+    var arrImageFin = [];
+
+    for (var tmp of arrImageTmp) {
+        arrImageFin.push(JSON.parse('{"nameImage":"' + tmp + '"}'));
+    }
+    add['imageList'] = arrImageFin;
     var body02 = JSON.stringify(add);
     addBookReq(body02);
 }
@@ -169,6 +194,8 @@ async function addBookReq(x) {
             'Accept': 'application/json'
         }
     });
+    resetForms();
+    pageBook(idPageable);
 }
 
 function delBook(x) {
@@ -178,27 +205,38 @@ function delBook(x) {
 }
 
 function buildEditBook(xx) {
+    document.getElementById('exampleModalLabel').innerText = 'Edit Book ' + idChangeLang;
     tmpEditBookId = xx;
     var html1 = '';
     for (let tmpNameObject of nameObjectOfLocaleString) {
-        html1 += `<h5>${tmpNameObject}</h5>`;
+        html1 += `<div class="container-fluid">` +
+            `<div class="row">` +
+            `<div class="col-auto mr-auto pt-2">` +
+            `<h5>${tmpNameObject}</h5>` +
+            `</div>` +
+            `<div class="col-auto mb-2">` +
+            `<button type="button" class="btn btn-info" id='as${tmpNameObject}' onclick="changeText('${tmpNameObject}')" data-toggle="collapse" data-target="#${tmpNameObject}">show ${tmpNameObject}</button>` +
+            `</div>` +
+            `</div>` +
+            `<div class='form-group'>` +
+            `<input type='text' class='form-control' id='${tmpNameObject}${idChangeLang}' ` +
+            `placeholder='${tmpNameObject} ${idChangeLang}' readonly>` +
+            `</div>` +
+            `<div id="${tmpNameObject}" class="collapse">`;
         for (let tmpNameVar of nameVarOfLocaleStringWithId) {
-            if (tmpNameVar === "id") {
+            if (tmpNameVar !== 'id' && tmpNameVar !== idChangeLang) {
                 html1 += `<div class='form-group'>` +
-                    `<label for='${tmpNameObject}${tmpNameVar}'>${tmpNameObject} ${tmpNameVar}</label>` +
+                    `<label for='${tmpNameObject}${tmpNameVar}'>${tmpNameObject}</label>` +
                     `<input type='text' class='form-control' id='${tmpNameObject}${tmpNameVar}' ` +
                     `placeholder='${tmpNameObject} ${tmpNameVar}' readonly>` +
                     `</div>`;
-            } else {
-                html1 += `<div class='form-group'>` +
-                    `<label for='${tmpNameObject}${tmpNameVar}'>${tmpNameObject} ${tmpNameVar}</label>` +
-                    `<input type='text' class='form-control' id='${tmpNameObject}${tmpNameVar}' ` +
-                    `placeholder='${tmpNameObject} ${tmpNameVar}'>` +
-                    `</div>`;
             }
         }
+        html1 += `</div>` +
+            `</div>` +
+            `<hr noshade  size="3">`;
     }
-    html1 += `<button type='submit' onclick='sendUpdateBook()' data-dismiss='modal' class='btn btn-primary custom-centered'>` +
+    html1 += `<button type='submit' onclick='openEdit()' data-dismiss='modal' class='btn btn-primary custom-centered m-3'>` +
         `Edit Book` +
         `</button>`;
     $('#editBookForm').html(html1);
@@ -208,38 +246,15 @@ function buildEditBook(xx) {
         }
     }
     for (key in tmpArr) {
-        if (key !== "id") {
+        if (key !== "id" && key !== "coverImage" && key !== "imageList") {
             for (key0 of nameVarOfLocaleStringWithId) {
-                document.getElementById(key + key0).value = tmpArr[key][key0];
+                if (key0 !== 'id') {
+                    document.getElementById(key + key0).value = tmpArr[key][key0];
+
+                }
             }
         }
     }
-}
-
-function sendUpdateBook() {
-    var add = {};
-    add['id'] = tmpEditBookId;
-    for (let tmp of nameObjectOfLocaleString) {
-        var asd = {};
-        for (let tmpValue of nameVarOfLocaleStringWithId) {
-            asd[tmpValue] = $('#' + tmp + tmpValue).val();
-        }
-        add[tmp] = asd;
-    }
-    var body02 = JSON.stringify(add);
-    sendUpdateBookReq(body02);
-}
-
-async function sendUpdateBookReq(x) {
-    await fetch("/admin/edit", {
-        method: 'POST',
-        body: x,
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        }
-    });
-    await pageBook(idPageable);
 }
 
 function buildChangeLang() {
@@ -255,3 +270,114 @@ function chanLang(x) {
     idChangeLang = nameVarOfLocaleString[x];
     pageBook(idPageable);
 }
+
+function openEdit() {
+    localStorage.setItem('tmpEditBookId', tmpEditBookId);
+    window.open('/edit', '_blank');
+}
+
+function uploadImageNew() {
+    const formData = new FormData();
+    const fileField = document.getElementById("exampleFormFile");
+    arrNameImageNew.push(fileField.files[0].name);
+    formData.append('file', fileField.files[0]);
+    fetch('/admin/upload', {
+        method: 'POST',
+        body: formData
+    })
+        .then(status)
+        .then(json)
+        .then(function (resp) {
+            buildCarousel();
+        });
+}
+
+$("#exampleFormFile").change(function () {
+    uploadImageNew();
+});
+
+function buildCarousel() {
+    var countForActive = 0;
+    var tmpHtmlForCarousel = '';
+    var tmpHtmlForCarouselIndicators = '';
+    for (var i = 0; i < arrNameImageNew.length; i++) {
+        if (arrNameImageNew[i] !== '') {
+            countForActive++;
+            if (countForActive === 1) {
+                tmpHtmlForCarouselIndicators +=
+                    `<li id="qw${i}" data-target='#carouselExampleCaptions' data-slide-to=${i} class='active'>` + `</li>`;
+                tmpHtmlForCarousel +=
+                    `<div id="qw${i}" class='carousel-item active'>` +
+                    `<img src=${pathImageDefault}${arrNameImageNew[i]} class='d-block w-100' alt='...'>` +
+                    `<div class='carousel-caption d-none d-md-block'>` +
+                    `<button type="button" onclick="setImageCover(${i})" class="btn btn-success">Change image cover</button>` +
+                    `<p><button type="button" onclick="deleteTmpImage(${i})" class="btn btn-danger m-3">Delete</button><p>` +
+                    `</div>` +
+                    `</div>`;
+            } else {
+                tmpHtmlForCarouselIndicators +=
+                    `<li id="qw${i}" data-target='#carouselExampleCaptions' data-slide-to=${i}></li>`;
+                tmpHtmlForCarousel +=
+                    ` <div id="qw${i}" class="carousel-item">` +
+                    `<img src=${pathImageDefault}${arrNameImageNew[i]} class='d-block w-100' alt="...">` +
+                    `<div class='carousel-caption d-none d-md-block'>` +
+                    `<button type="button" onclick="setImageCover(${i})" class="btn btn-success">Change image cover</button>` +
+                    `<p><button type="button" onclick="deleteTmpImage(${i})" class="btn btn-danger m-3">Delete</button><p>` +
+                    `</div>` +
+                    `</div>`;
+            }
+        }
+    }
+
+    $('#test0').html(tmpHtmlForCarouselIndicators);
+    $('#test1').html(tmpHtmlForCarousel);
+}
+
+function setImageCover(x) {
+    nameImageCover = arrNameImageNew[x];
+    showImage(pathImageDefault + nameImageCover);
+}
+
+function deleteTmpImage(x) {
+    var delTmp = arrNameImageNew[x];
+    arrNameImageNew[x] = '';
+    buildCarousel();
+    fetch('/admin/deleteImage', {
+        method: 'POST',
+        body: delTmp
+    }).then(r => {
+        if (delTmp === nameImageCover) {
+            showImage(pathImageDefault + nameImageCover)
+        }
+    });
+}
+
+function resetForms() {
+    document.getElementById('newBookForm').reset();
+    $("#exampleFormFile").val('');
+    $("#test0").html('');
+    $("#test1").html('');
+    arrNameImageNew = [];
+    nameImageCover = '';
+    showImage('');
+}
+
+function showImage(x) {
+    document.getElementById('myImage').src = x;
+}
+
+function doesFolderTmpExist() {
+    fetch("admin/doesFolderTmpExist");
+}
+
+function changeText(x) {
+    var asd = 'as' + x;
+    $('#' + x).on('show.bs.collapse', function () {
+        document.getElementById(asd).innerText = 'hide ' + x;
+    });
+
+    $('#' + x).on('hide.bs.collapse', function () {
+        document.getElementById(asd).innerText = 'show ' + x;
+    });
+}
+

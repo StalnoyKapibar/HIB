@@ -11,4 +11,5 @@ public class BookDTO20 {
     private long id;
     private String nameAuthorDTOLocale;
     private String nameBookDTOLocale;
+    private String coverImage;
 }

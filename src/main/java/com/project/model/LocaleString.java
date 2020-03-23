@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Data
 @Entity
 @Indexed
-@Table(name = "localString")
+@Table(name = "local_string")
 public class LocaleString {
 
     public LocaleString(String ru, String en, String fr, String it, String de, String cs, String gr) {

@@ -8,62 +8,17 @@ $(document).ready(function () {
     setLocaleFields();
     setPageFields();
 });
-
-
 function setPageFields() {
-    fetch("/page/id/3")
-        .then(status)
-        .then(json)
-        .then(function (jsn) {
-            var jsn1 =  JSON.stringify(jsn);
-            let v= [];
-
-            const myMap = new Map();
-            for (let [key, value] of Object.entries(jsn)) {
-                    for (let [key1, value1] of Object.entries(value)){
-                        if (key1 === currentLang) {
-                            myMap.set(key, value1);
-                          //  console.log(myMap);
-                        }
-                    }
-            }
-
-
-        /*    function traverse(o) {
-                var i;
-                for (var k in o) {
-                    i = o[k];
-                    if (typeof i === 'string') {
-                        if (k===currentLang)
-                            v.push(i)
-                          //  console.log(v);
-
-                    } else if (typeof i === 'object') {
-                        traverse(i);
-                    }
-                }
-            }
-            traverse(jsn);*/
-
-
-            /* $('#book-name').text(v[0]);
-                $('#book-author').text(v[1]);
-                $('#book-name1').text(v[0]);*/
-
-
-            $('#book-name').text(myMap.get("name"));
-            $('#book-author').text(myMap.get("author"));
-            $('#book-name1').text(myMap.get("name"));
-
-
-
+     $.ajax({
+        url: "/page/id/" + $("#bookid").attr("value"),
+        method: 'GET',
+    }).then(function(data) {
+            $('#book-name').text(data.name[currentLang]);
+            $('#book-author').text(data.author[currentLang]);
+            $('#book-name1').text(data.name[currentLang]);
+            $('#bookImg').attr('src', "../images/book"+data.id+'/'+data.coverImage);
         })
-
-        }
-
-
-
-
+}
 function setLocaleFields() {
     fetch("/properties/" + currentLang)
         .then(status)
@@ -79,6 +34,7 @@ function setLocaleFields() {
             $('#link_main_header').text(localeFields['main']);
             $('#link_books_header').text(localeFields['books']);
             $('#menu-toggle').text(localeFields['category']);
+            $('#headpost').text(localeFields['headpost']);
         })
 }
 
@@ -90,7 +46,7 @@ $('#dd_menu').on('click', 'a', function (eventOnInnerTag) {
         .then(text)
         .then(function (data) {
             currentLang = selectedLang;
-            window.location.replace('page?LANG=' + currentLang);
+            window.location.replace($("#bookid").attr("value") + '?LANG=' + currentLang);
             //TODO some logic to processing data and reload page with chosen lang
             getLanguage();
             getLocaleFields();
@@ -154,11 +110,9 @@ function status(response) {
         return Promise.reject(new Error(response.statusText))
     }
 }
-
 function json(response) {
     return response.json()
 }
-
 function text(response) {
     return response.text()
 }
