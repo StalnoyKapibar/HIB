@@ -1,9 +1,6 @@
 package com.project.translate;
 
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import com.google.gson.JsonArray;
@@ -46,7 +43,7 @@ public class HibTranslatorImp implements HibTranslator {
                         new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8)).getAsJsonObject();
                 JsonArray jarr = jobj.get("text").getAsJsonArray();
                 String transText = jarr.get(0).getAsString();
-                return transText.substring(0, transText.length() - 1);
+                return transText;
             } else {
                 return "Error. Site response non 200";
             }
@@ -54,5 +51,17 @@ public class HibTranslatorImp implements HibTranslator {
             e.printStackTrace();
             return "Error";
         }
+    }
+
+    @Override
+    public String translate(String langFrom, String langTo, String text) {
+        //в яндексе греческий записан как el
+        if (langFrom.equals("gr")){
+            langFrom = "el";
+        }
+        if (langTo.equals("gr")){
+            langTo = "el";
+        }
+        return translate(text, langFrom+"-"+langTo);
     }
 }
