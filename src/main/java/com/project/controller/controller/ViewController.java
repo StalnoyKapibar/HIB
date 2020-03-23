@@ -15,19 +15,13 @@ import java.io.IOException;
 public class ViewController {
 
     @GetMapping("/home")
-    public String getHomePage(HttpServletRequest request) throws IOException {
-        if (request.getSession(false) == null) {
-            request.getSession(true).setAttribute("LANG", "en");
-        }
+    public String getHomePage(){
         return "home";
     }
 
     @GetMapping("/page/{id}")
-    public ModelAndView getPage(@PathVariable("id") long id, HttpServletRequest request, ModelAndView modelAndView) {
+    public ModelAndView getPage(@PathVariable("id") long id, ModelAndView modelAndView) {
         modelAndView.addObject("book", id);
-        if (request.getSession(false) == null) {
-            request.getSession(true).setAttribute("LANG", "en");
-        }
         modelAndView.setViewName("page");
         return modelAndView;
     }
