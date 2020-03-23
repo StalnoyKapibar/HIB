@@ -9,7 +9,7 @@ $(document).ready(function () {
     setLocaleFields();
     setTimeout(function() {
         $.ajax({
-            url: "/admin/get20BookDTO/"+currentLang,
+            url: "/user/get20BookDTO/"+currentLang,
             method: 'GET',
         }).then(function(data) {
             $('#cardcolumns').empty();
