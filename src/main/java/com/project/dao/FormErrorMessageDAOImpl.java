@@ -1,5 +1,6 @@
 package com.project.dao;
 
+import com.project.model.FormLoginErrorMessage;
 import com.project.model.FormLoginErrorMessageDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -21,5 +22,10 @@ public class FormErrorMessageDAOImpl implements FormErrorMessageDAO {
                 .setParameter("field", field)
                 .setParameter("reason", reason).getSingleResult();
         return singleResult;
+    }
+
+    @Override
+    public void save(FormLoginErrorMessage errorMessage) {
+        entityManager.persist(errorMessage);
     }
 }

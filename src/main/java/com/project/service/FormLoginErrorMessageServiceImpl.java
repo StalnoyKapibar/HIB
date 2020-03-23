@@ -1,6 +1,7 @@
 package com.project.service;
 
 import com.project.dao.FormErrorMessageDAOImpl;
+import com.project.model.FormLoginErrorMessage;
 import com.project.model.FormLoginErrorMessageDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -45,6 +46,11 @@ public class FormLoginErrorMessageServiceImpl implements FormLoginErrorMessageSe
     @Override
     public FormLoginErrorMessageDTO getErrorMessageOnBadCredential() {
         return errorMessageDAO.getErrorMessage("auth", "BadCredential", getCurrentLocale());
+    }
+
+    @Override
+    public void saveErrorMessage(FormLoginErrorMessage errorMessage) {
+        errorMessageDAO.save(errorMessage);
     }
 
     @Override

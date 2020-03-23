@@ -5,6 +5,6 @@ import org.springframework.context.annotation.PropertySource;
 
 @Configuration
 @PropertySource(value = "yandexTranslate.property")
-public class AppConfig {
+public class AppConfiguration {
 
 }

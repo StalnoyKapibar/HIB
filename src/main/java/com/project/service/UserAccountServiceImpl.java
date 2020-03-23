@@ -44,6 +44,6 @@ public class UserAccountServiceImpl implements UserAccountService {
 
     @Override
     public UserAccount save(UserAccount user) {
-        return new UserAccount();
+        return userAccountDao.save(user);
     }
 }

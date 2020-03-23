@@ -1,5 +1,6 @@
 package com.project.service;
 
+import com.project.model.FormLoginErrorMessage;
 import com.project.model.FormLoginErrorMessageDTO;
 import org.springframework.validation.BindingResult;
 
@@ -15,4 +16,6 @@ public interface FormLoginErrorMessageService {
     FormLoginErrorMessageDTO getErrorMessageOnNoValuePresent();
 
     FormLoginErrorMessageDTO getErrorMessageOnBadCredential();
+
+    void saveErrorMessage(FormLoginErrorMessage errorMessage);
 }

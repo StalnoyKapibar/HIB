@@ -1,6 +1,8 @@
 package com.project.config;
 
+import com.project.config.initializer.ErrorMessageDataInit;
 import com.project.config.initializer.TestDataInit;
+import com.project.config.initializer.TestUserAccounts;
 import com.project.service.UserDetailServiceImpl;
 import com.project.util.LocaleHolder;
 import org.springframework.context.annotation.Bean;
@@ -37,6 +39,18 @@ public class BeanConfiguration {
     @PostConstruct
     public TestDataInit initTestData() {
         return new TestDataInit();
+    }
+
+    @Bean(initMethod = "init")
+    @PostConstruct
+    public TestUserAccounts initTestUserAccount(){
+        return new TestUserAccounts();
+    }
+
+    @Bean(initMethod = "init")
+    @PostConstruct
+    public ErrorMessageDataInit initMessageData(){
+        return new ErrorMessageDataInit();
     }
 
     @Bean("userDetailsService")
