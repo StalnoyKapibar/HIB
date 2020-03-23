@@ -6,6 +6,7 @@ $(document).ready(function () {
     }
     getLanguage();
     setLocaleFields();
+    buildPageByCurrentLang();
 });
 
 function setLocaleFields() {
@@ -30,9 +31,8 @@ function setLocaleFields() {
         })
 }
 
-$('#dd_menu').on('click', 'a', function (eventOnInnerTag) {
-    eventOnInnerTag.preventDefault();
-    const selectedLang = $(eventOnInnerTag.target).attr('id');
+function buildLangPanel(x) {
+    let selectedLang = x;
     fetch("/lang/" + selectedLang)
         .then(status)
         .then(text)
@@ -40,11 +40,8 @@ $('#dd_menu').on('click', 'a', function (eventOnInnerTag) {
             currentLang = selectedLang;
             window.location.replace('home?LANG=' + currentLang);
             //TODO some logic to processing data and reload page with chosen lang
-            getLanguage();
-            getLocaleFields();
         });
-    location.reload();
-});
+}
 
 $("#menu-toggle").click(function (e) {
     e.preventDefault();
@@ -78,13 +75,12 @@ function getLanguage() {
         .then(function (listOfLanguage) {
             var currentLangFull = '';
             var html = '';
-
             for (language in listOfLanguage) {
                 if (currentLang == (listOfLanguage[language])) {
                     continue;
                 }
                 currentLangFull = getFullNameOfLanguage(listOfLanguage[language]);
-                html += `<a class="dropdown-item lang" id="${listOfLanguage[language]}">
+                html += `<a class="dropdown-item lang" onclick="buildLangPanel('${listOfLanguage[language]}')" id="${listOfLanguage[language]}">
                             <img src="../static/icons/${listOfLanguage[language]}.png" 
                                 alt="" height="16" width="16" class="lang-image"> - ${currentLangFull}
                          </a>`;
@@ -92,7 +88,7 @@ function getLanguage() {
             $('#dd_menu').html(html);
             $('#dd_menu_link').text(currentLang);
             $('#dd_menu_link').empty();
-            $('#dd_menu_link').append(`<img src="../static/icons/${currentLang}.png"
+            $('#dd_menu_link').html(`<img src="../static/icons/${currentLang}.png"
                                 alt="" height="16" width="16" class="lang-image">`);
         })
 }
@@ -112,36 +108,35 @@ function json(response) {
 function text(response) {
     return response.text()
 }
-$(document).ready(function() {
-    setTimeout(function() {
-        $.ajax({
-            url: "/admin/get20BookDTO/"+currentLang,
-            method: 'GET',
-        }).then(function(data) {
-            $('#cardcolumns').empty();
-            $.each(data, function(index) {
-                let div = $('<div class="card"/>');
-                div.append('<img class="card-img-top" src="images/book'+data[index].id+'/'+data[index].coverImage+'" alt="Card image cap">');
-                let divBody = $('<div class="card-body" ></div>');
-                divBody.append('<h4 class="card-title" style="overflow: auto; height:100px">'+data[index].nameAuthorDTOLocale+'</h4>');
-                divBody.append('<p class="card-text">'+data[index].nameBookDTOLocale+'</p>');
-                divBody.append('<br>');
-                divBody.append('<a id="bookbotom"class="btn btn-primary" data-toggle="modal" data-target="#myModal" style="position:absolute;bottom:0; color:white; " data-book-index="'+index+'">'+bottom+'</a>');
-                div.append(divBody);
-                div.appendTo('#cardcolumns');
-            });
-            $("#myModal").on('show.bs.modal', function(e) {
-                let index = $(e.relatedTarget).data('book-index');
-                $('#modalHeader').empty();
-                $('#modalBody').empty();
-                $('#modalHeader').append(data[index].nameAuthorDTOLocale);
-                $('#modalBody').append('<p>'+data[index].nameBookDTOLocale+'</p>');
-                $('#modalBody').append('<img class="card-img-top" src="images/book'+data[index].id+'/'+data[index].coverImage+'" alt="Card image cap">')
-                $('#buttonOnBook').attr("action",'/page/'+ data[index].id);
-            });
+
+function buildPageByCurrentLang() {
+    $.ajax({
+        url: "/admin/get20BookDTO/" + currentLang,
+        method: 'GET',
+    }).then(function (data) {
+        $('#cardcolumns').empty();
+        $.each(data, function (index) {
+            let div = $('<div class="card"/>');
+            div.append('<img class="card-img-top" src="images/book' + data[index].id + '/' + data[index].coverImage + '" alt="Card image cap">');
+            let divBody = $('<div class="card-body" ></div>');
+            divBody.append('<h4 class="card-title" style="overflow: auto; height:100px">' + data[index].nameAuthorDTOLocale + '</h4>');
+            divBody.append('<p class="card-text">' + data[index].nameBookDTOLocale + '</p>');
+            divBody.append('<br>');
+            divBody.append('<a id="bookbotom"class="btn btn-primary" data-toggle="modal" data-target="#myModal" style="position:absolute;bottom:0; color:#39ff3b; " data-book-index="' + index + '">' + bottom + '</a>');
+            div.append(divBody);
+            div.appendTo('#cardcolumns');
         });
-    }, 10);
+        $("#myModal").on('show.bs.modal', function (e) {
+            let index = $(e.relatedTarget).data('book-index');
+            $('#modalHeader').empty();
+            $('#modalBody').empty();
+            $('#modalHeader').append(data[index].nameAuthorDTOLocale);
+            $('#modalBody').append('<p>' + data[index].nameBookDTOLocale + '</p>');
+            $('#modalBody').append('<img class="card-img-top" src="images/book' + data[index].id + '/' + data[index].coverImage + '" alt="Card image cap">')
+            $('#buttonOnBook').attr("action", '/page/' + data[index].id);
+        });
     });
+}
 
 
 
