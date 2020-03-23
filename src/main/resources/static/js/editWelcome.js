@@ -145,14 +145,14 @@ function addPage() {
                 `<div class="row">`+
                 `<label for=${tmpNameObject}${tmpNameVar}>${tmpNameObject} ${tmpNameVar}</label>` +
                 `<div class="col">`+
-                `<input type="radio" name="rb${tmpNameObject}" id="rb${tmpNameObject}${tmpNameVar}" value="${tmpNameVar}" autocomplete="off"> Перевести с этого языка`+
+                `<input type="radio" name="rb${tmpNameObject}" id="rb${tmpNameObject}${tmpNameVar}" value="${tmpNameVar}" autocomplete="off"> Translate from this language`+
                 `</div>`+
                 `<div class="col">`+
                 `<input type='text' class='form-control' id='inp${tmpNameObject}${tmpNameVar}'` +
                 `placeholder='${tmpNameObject} ${tmpNameVar}'>` +
                 `</div>`+
                 `<div class="col">`+
-                `<input type="checkbox" checked name="cb${tmpNameObject}" value="${tmpNameVar}" autocomplete="off"> На этот` +
+                `<input type="checkbox" checked name="cb${tmpNameObject}" value="${tmpNameVar}" autocomplete="off"> Into this language` +
                 `</div>`+
                 `</div>`+
                 `</div>`;
