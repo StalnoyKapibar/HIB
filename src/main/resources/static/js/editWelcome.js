@@ -111,8 +111,14 @@ async function pageBook(x) {
                     `<td id=${tmp_html.id}>${tmp_html.id}</td>`;
                 for (key in tmp_html) {
                     if (key !== "id" && key !== "coverImage" && key !== "imageList") {
-                                var ad = tmp_html[key][idChangeLang];
-                                html += `<td id='n${tmp_html.id}'>${ad}</td>`;
+                        if (key === "price") {
+                            var ad = tmp_html[key];
+                            html += `<td id='n${tmp_html.id}'>${ad}</td>`;
+                        }
+                        else {
+                            var ad = tmp_html[key][idChangeLang];
+                            html += `<td id='n${tmp_html.id}'>${ad}</td>`;
+                        }
                     }
                 }
                 html +=
