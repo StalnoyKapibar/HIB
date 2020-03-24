@@ -1,21 +1,22 @@
 var currentLang = '';
 var bottom = '';
 
-$(document).ready(function () {
-    if (currentLang == '') {
-        currentLang = $('#dd_menu_link').data('currentLang');
-    }
-    getLanguage();
-    setLocaleFields();
-    buildPageByCurrentLang();
-    openModalLoginWindowOnFailure();
-});
+function getHomePage(){
+    document.location.href="/home";
+}
 
-$("#menu-toggle").click(function (e) {
-    e.preventDefault();
-    $("#wrapper").toggleClass("toggled");
-});
+function getAdminPage() {
+    document.location.href="/admin";
 
+}
+
+function sendSignInForm() {
+    $('#hidden_submit_btn').click();
+}
+
+function sendSingUpForm() {
+    $('#hiddenSingUpBtn').click();
+}
 
 function setLocaleFields() {
     fetch("/properties/" + currentLang)
@@ -96,6 +97,11 @@ function getLanguage() {
         })
 }
 
+function getURLVariable() {
+    return new URLSearchParams(document.location.search);
+}
+
+// function for open modal window in case bad authentication and show information message
 function openModalLoginWindowOnFailure() {
     if (getURLVariable().get('failure') != null) {
         //TODO: this part just for hide bad view of path. In commercial level we must change protocol and hostname
@@ -105,63 +111,15 @@ function openModalLoginWindowOnFailure() {
     }
 }
 
-function getURLVariable() {
-    return new URLSearchParams(document.location.search);
-}
-
-function status(response) {
-    if (response.status >= 200 && response.status < 300) {
-        return Promise.resolve(response)
-    } else {
-        return Promise.reject(new Error(response.statusText))
-    }
-}
-
-function json(response) {
-    return response.json()
-}
-
-function text(response) {
-    return response.text()
-}
-
-function buildPageByCurrentLang() {
-    $.ajax({
-        url: "/user/get20BookDTO/" + currentLang,
-        method: 'GET',
-    }).then(function (data) {
-        $('#cardcolumns').empty();
-        $.each(data, function (index) {
-            let div = $('<div class="card my-1"/>');
-            div.append('<img class="card-img-top" src="images/book' + data[index].id + '/' + data[index].coverImage + '" alt="Card image cap">');
-            let divBody = $('<div class="card-body" ></div>');
-            divBody.append('<h4 class="card-title" style="overflow: auto; height:100px">' + data[index].nameAuthorDTOLocale + '</h4>');
-            divBody.append('<p class="card-text">' + data[index].nameBookDTOLocale + '</p>');
-            divBody.append('<br>');
-            divBody.append('<a id="bookbotom"class="btn btn-primary my-2" data-toggle="modal" data-target="#myModal" style="position:absolute;bottom:0; color:#39ff3b; " data-book-index="' + index + '">' + bottom + '</a>');
-            div.append(divBody);
-            div.appendTo('#cardcolumns');
-        });
-        $("#myModal").on('show.bs.modal', function (e) {
-            let index = $(e.relatedTarget).data('book-index');
-            $('#modalHeader').empty();
-            $('#modalBody').empty();
-            $('#modalHeader').append(data[index].nameAuthorDTOLocale);
-            $('#modalBody').append('<p>' + data[index].nameBookDTOLocale + '</p>');
-            $('#modalBody').append('<img class="card-img-top" src="images/book' + data[index].id + '/' + data[index].coverImage + '" alt="Card image cap">')
-            $('#buttonOnBook').attr("action", '/page/' + data[index].id);
-        });
-    });
-}
-
-
-jQuery(function($){
+//function to hide components when event of mouse click is not on they area
+$(function($){
     $(document).mouseup(function (e){
         // for sidebar. If we click outside this area, sidebar must be hide
 
         var wrapper = $("#wrapper");
-        if (!wrapper.is(e.target) & wrapper.has(e.target).length === 0 & wrapper.hasClass('toggled')) {
-            $("#wrapper").toggleClass("toggled");
+        var btnMenuToggle = $('#menu-toggle');
+        if (btnMenuToggle.is(e.target) || !wrapper.is(e.target) & wrapper.has(e.target).length === 0 & wrapper.hasClass('toggled')) {
+            wrapper.toggleClass("toggled");
         }
 
         //for navbar. If we click outside this area, when navbar is show, it must be hide
@@ -179,3 +137,19 @@ $('#menu-toggle').click(function (e) {
         $('#toggleBtn').click();
     }
 });
+
+function status(response) {
+    if (response.status >= 200 && response.status < 300) {
+        return Promise.resolve(response)
+    } else {
+        return Promise.reject(new Error(response.statusText))
+    }
+}
+
+function json(response) {
+    return response.json()
+}
+
+function text(response) {
+    return response.text()
+}

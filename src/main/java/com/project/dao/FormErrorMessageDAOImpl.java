@@ -2,15 +2,15 @@ package com.project.dao;
 
 import com.project.model.FormLoginErrorMessage;
 import com.project.model.FormLoginErrorMessageDTO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 @Repository
 public class FormErrorMessageDAOImpl implements FormErrorMessageDAO {
 
-    @Autowired
+    @PersistenceContext
     EntityManager entityManager;
 
     @Override

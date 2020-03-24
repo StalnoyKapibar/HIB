@@ -17,7 +17,7 @@ public class ErrorMessageDataInit {
         errorMessage1.setReason("Size");
         errorMessage1.setBody(new LocaleString(
                 "Логин должен содержать от 5 до 32 символов",
-                "The field must contain between 5 and 32 characters",
+                "The login must contain between 5 and 32 characters",
                 "Le champ doit contenir entre 5 et 32 caractères",
                 "Il campo deve contenere da 5 a 32 caratteri",
                 "Das Feld muss zwischen 5 und 32 Zeichen lang sein",

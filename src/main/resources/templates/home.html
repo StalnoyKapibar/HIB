@@ -43,16 +43,16 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <button class="btn pl-2 btn-header" id="link_main_header">Main</button>
+                        <button class="btn pl-2 btn-header" id="link_main_header" onclick="getHomePage()">Main</button>
                     </li>
                     <li class="nav-item">
                         <button class="btn pl-2 btn-header" id="link_books_header">Books</button>
                     </li>
-                    <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-                        <button class="btn pl-2 btn-header" id="link_admin_page">Admin</button>
-                    </li>
                     <li class="nav-item">
                         <button class="btn pl-2 btn-header" id="menu-toggle">Category</button>
+                    </li>
+                    <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+                        <button class="btn pl-2 btn-header" id="link_admin_page" onclick="getAdminPage()">Admin</button>
                     </li>
                 </ul>
                 <div class="dropdown mr-2 mb-2 mt-2">
@@ -232,12 +232,13 @@
             </div>
             <div class="modal-footer mx-3">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="sign_in_btn">Sign in</button>
+                <button type="button" class="btn btn-primary" id="sign_in_btn" onclick="sendSignInForm()">Sign in</button>
             </div>
 
         </div>
     </div>
 </div>
-<script src="../static/js/main.js"></script>
+<script src="../static/js/common-function.js"></script>
+<script src="../static/js/home.js"></script>
 </body>
 </html>

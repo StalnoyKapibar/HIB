@@ -8,6 +8,7 @@ import java.util.Optional;
 
 @Repository
 public interface UserRoleDao extends CrudRepository<UserRole, Long> {
+
     @Override
     Optional<UserRole> findById(Long aLong);
 
