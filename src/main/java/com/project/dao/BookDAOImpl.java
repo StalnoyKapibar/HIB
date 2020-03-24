@@ -25,7 +25,7 @@ public class BookDAOImpl implements BookDAO {
 
     @Override
     public List<BookDTO> getAllBookDTO() {
-        String temp = "Select new com.project.model.BookDTO(b.id, b.nameLocale, b.authorLocale, b.coverImage, b.listImage) FROM Book b";
+        String temp = "Select new com.project.model.BookDTO(b.id, b.nameLocale, b.authorLocale, b.coverImage, b.price, b.listImage) FROM Book b";
         List<BookDTO> listBookDTO = entityManager.createQuery(temp, BookDTO.class).getResultList();
         return listBookDTO;
     }
@@ -118,6 +118,7 @@ public class BookDAOImpl implements BookDAO {
             bookDTO.setName(book.getNameLocale());
             bookDTO.setAuthor(book.getAuthorLocale());
             bookDTO.setCoverImage(book.getCoverImage());
+            bookDTO.setPrice(book.getPrice());
             bookDTO.setImageList(book.getListImage());
             bookDTOList.add(bookDTO);
         }
