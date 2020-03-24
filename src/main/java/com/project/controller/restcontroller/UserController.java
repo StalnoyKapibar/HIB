@@ -8,11 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
+import java.io.*;
 import java.util.Properties;
 
 @RestController
@@ -33,14 +29,9 @@ public class UserController {
 
     @GetMapping(value = "/properties/{lang}")
     public ResponseEntity getPropertyFile(@PathVariable("lang") String lang) throws IOException {
-        URL path = this.getClass().getClassLoader().getResource("static/messages_" + lang + ".properties");
+        InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("static/messages_" + lang + ".properties");
         Properties properties = new Properties();
-        try {
-            properties.load(new InputStreamReader(new FileInputStream(new File(path.getPath())), "UTF-8"));
-        } catch (NullPointerException | IOException e) {
-            URL defaultPath = this.getClass().getClassLoader().getResource("static/messages_en.properties");
-            properties.load(new InputStreamReader(new FileInputStream(new File(defaultPath.getPath())), "UTF-8"));
-        }
+        properties.load(new InputStreamReader(inputStream, "UTF-8"));
         return ResponseEntity.status(HttpStatus.OK).body(properties);
     }
 }
