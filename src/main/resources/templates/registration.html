@@ -10,12 +10,12 @@
     <link rel="stylesheet" href="../static/css/style.css">
     <link rel="stylesheet" href="../static/css/bootstrap.min.css">
     <link rel="stylesheet" href="../static/css/bootstrap-social.css"/>
-    <link href="../static/fonts/font-awesome.css" rel="stylesheet">
     <link href="../static/fonts/font.css" rel="stylesheet">
+    <link href="../static/fonts/font-awesome.css" rel="stylesheet">
     <script src="../static/js/jquery.min.js"></script>
     <script src="../static/js/popper.min.js"></script>
     <script src="../static/js/bootstrap.min.js"></script>
-    <title>Document</title>
+    <title>Registration</title>
 </head>
 <body>
 
@@ -53,9 +53,6 @@
                     <li class="nav-item">
                         <button class="btn pl-2 btn-header" id="menu-toggle">Category</button>
                     </li>
-                    <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-                        <button class="btn pl-2 btn-header" id="link_admin_page" onclick="getAdminPage()">Admin</button>
-                    </li>
                 </ul>
                 <div class="dropdown mr-2 mb-2 mt-2">
                     <a class="btn dropdown-toggle border" href="#" role="button" id="dd_menu_link"
@@ -79,7 +76,7 @@
                     <div sec:authorize="isAuthenticated() != true">
                         <form action="#" class="m-0 ml-sm-0">
                             <button type="button" class="btn btn-header border m-0" data-toggle="modal"
-                                    data-target="#signModal" id="signModalBtn">
+                                    data-target="#signModal">
                                 <span id="signin_btn_text">Sign In</span>
                             </button>
                         </form>
@@ -99,36 +96,52 @@
     <!--    page container    -->
 
     <div class="container page-content">
-        <h2 id="book-name">m </h2>
+        <div class="container mt-0 col-sm-12 col-lg-6 col-md-8 rounded-pill">
+            <div class="col-12 shadow form-border-radius">
+                <div class="modal-header">
+                    <h4 class="my-2">Create new profile</h4>
+                </div>
 
-        <div id="book-author">Author
-        </div>
-        <hr>
-
-        <!--        for cards        -->
-        <div>
-            <h2 id="headpost">You can read this</h2>
-            <br>
-        </div>
-        <div class="row">
-            <div class="col-6">
-                <img id="bookImg" src="" alt="Card image cap">
-
-                <div class="card-body">
-                    <h4 class="card-title" id="book-name1">NAME OF BOOK</h4>
-
-                    <a href="#!" class="btn btn-primary">Click to buy</a>
+                <div class="col-12">
+                    <form th:action="@{/registration}" th:object="${user}" method="post" name="registration-form">
+                        <div class="form-group mt-3">
+                            <label for="loginInputField">Login</label>
+                            <input type="text" class="form-control" id="loginInputField" name="login"
+                                   placeholder="Login" required th:field="*{login}">
+                        </div>
+                        <div class="form-group">
+                            <label for="emailInputField">Email</label>
+                            <input type="email" class="form-control" id="emailInputField" name="email"
+                                   placeholder="Email" required th:field="*{email}">
+                        </div>
+                        <div class="form-group">
+                            <label for="passInputField">Password</label>
+                            <input type="password" class="form-control" id="passInputField" name="password"
+                                   placeholder="Password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="conformPassInputField">Conform password</label>
+                            <input type="password" class="form-control" id="conformPassInputField"
+                                   name="conformPassword" placeholder="Conform password" required>
+                        </div>
+                        <button type="submit" id="hiddenSingUpBtn" hidden>HiddenSingUpButton</button>
+                    </form>
+                </div>
+                <div class="row px-4">
+                    <h5 class="col-12 p-3 rounded text-center alert-danger" th:if="${errorMessage.isHasError()}"
+                        th:text="${errorMessage.getMessage()}" id="errorMessage"></h5>
+                </div>
+                <div class="modal-footer text-right">
+                    <button type="button" class="btn btn-primary col-12 mb-4 mx-0" id="singUpButton"
+                            onclick="sendSingUpForm()">Sign up
+                    </button>
                 </div>
             </div>
-            <div class="card-col-4">
-                <p class="card-text">
-                    Some description.
-                </p>
-            </div>
         </div>
-        <br>
+
+
         <!--        footer       -->
-        <div class="footer pt-3 p-0 container-fluid text-center">
+        <div class="container-fluid text-center footer pt-3 p-0 ">
             <div class="footer_menu">
                 <a href="#" class="footer_link p-2" id="link_main_footer">Main</a>
                 <a href="#" class="footer_link p-2" id="link_instruction">Instruction</a>
@@ -141,7 +154,8 @@
         </div>
     </div>
 </div>
-<a id="bookid" th:value="${book}" hidden></a>
+
+<!--modal window for sing in-->
 
 <div class="modal fade" id="signModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      aria-hidden="true">
@@ -171,11 +185,6 @@
                     </div>
                     <button type="submit" hidden id="hidden_submit_btn">HiddenButtonToSubmitLoginForm</button>
                 </form>
-                <div class="row px-3" th:if="${errorMessage}!=null">
-                    <!--/*@thymesVar id="getMessage" type="com.project.model.FormLoginErrorMessageDTO"*/-->
-                    <h5 class="col-12 p-3 rounded text-center alert-danger" th:if="${errorMessage.isHasError()}"
-                        th:text="${errorMessage.getMessage()}" id="errorMessage"></h5>
-                </div>
                 <div class="row">
                     <div class="col-lg-6 col-sm-12 pr-lg-1 mt-1">
                         <a class="btn btn-block btn-social btn-google text-white">
@@ -188,22 +197,18 @@
                         </a>
                     </div>
                 </div>
-                <div>
-                    <form action="/registration">
-                        <button type="submit" class="btn btn-header border col-12 mt-3">Register new profile</button>
-                    </form>
-                </div>
             </div>
             <div class="modal-footer mx-3">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" id="sign_in_btn" onclick="sendSignInForm()">Sign in
                 </button>
             </div>
+
         </div>
     </div>
 </div>
 
 <script src="../static/js/common-function.js"></script>
-<script src="../static/js/page.js"></script>
+<script src="../static/js/registration.js"></script>
 </body>
 </html>
