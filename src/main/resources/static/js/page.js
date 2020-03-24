@@ -132,14 +132,12 @@ function buildCarousel() {
     var tmpHtmlForCarousel = '';
     tmpHtmlForCarouselIndicators +=
         `<li id="qw${idCoverImage}" data-target='#carouselImagePage' data-slide-to=${idCoverImage} class='active'>` + `</li>`;
-
     tmpHtmlForCarousel +=
         `<div id="qw${idCoverImage}" class='carousel-item active'>` +
         `<img src=${pathImageDefault}${objectBook.id}/${objectBook.coverImage} class='d-block w-100' alt='...'>` +
         `<div class='carousel-caption d-none d-md-block'>` +
         `</div>` +
         `</div>`;
-
     for (var i = 0; i < objectBook.imageList.length; i++) {
         if (i !== idCoverImage) {
             tmpHtmlForCarouselIndicators +=
@@ -148,7 +146,6 @@ function buildCarousel() {
                 ` <div id="qw${i}" class="carousel-item">` +
                 `<img src=${pathImageDefault}${objectBook.id}/${objectBook.imageList[i].nameImage} class='d-block w-100' alt="...">` +
                 `<div class='carousel-caption d-none d-md-block'>` +
-
                 `</div>` +
                 `</div>`;
         }
@@ -171,7 +168,6 @@ function buildCarousel() {
     $('#CardImageOrCarousel').html(htmlBodyCarousel);
     $('#testActive').html(tmpHtmlForCarouselIndicators);
     $('#testBody').html(tmpHtmlForCarousel);
-
 }
 
 function buildCardImageOrCarousel() {
