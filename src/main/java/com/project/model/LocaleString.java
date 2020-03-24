@@ -4,6 +4,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
+import java.util.Map;
 
 @NoArgsConstructor
 @Data
@@ -19,6 +21,16 @@ public class LocaleString {
         this.de = de;
         this.cs = cs;
         this.gr = gr;
+    }
+
+    public LocaleString(Map<String, String> languages) {
+        this.ru = languages.get("ru");
+        this.en = languages.get("en");
+        this.fr = languages.get("fr");
+        this.it = languages.get("it");
+        this.de = languages.get("de");
+        this.cs = languages.get("cs");
+        this.gr = languages.get("gr");
     }
 
     @Id

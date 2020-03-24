@@ -140,18 +140,32 @@ function addPage() {
     for (let tmpNameObject of nameObjectOfLocaleString) {
         html += `<h5>` + tmpNameObject + `</h5>`;
         for (let tmpNameVar of nameVarOfLocaleString) {
-            html += `<div class='form-group'>` +
+            html +=
+                `<div class='form-group'>` +
+                `<div class="row">`+
                 `<label for=${tmpNameObject}${tmpNameVar}>${tmpNameObject} ${tmpNameVar}</label>` +
-                `<input type='text' class='form-control' id='a${tmpNameObject}${tmpNameVar}'` +
+                `<div class="col">`+
+                `<input type="radio" name="rb${tmpNameObject}" id="rb${tmpNameObject}${tmpNameVar}" value="${tmpNameVar}" autocomplete="off"> Translate from this language`+
+                `</div>`+
+                `<div class="col">`+
+                `<input type='text' class='form-control' id='inp${tmpNameObject}${tmpNameVar}'` +
                 `placeholder='${tmpNameObject} ${tmpNameVar}'>` +
+                `</div>`+
+                `<div class="col">`+
+                `<input type="checkbox" checked name="cb${tmpNameObject}" value="${tmpNameVar}" autocomplete="off"> Into this language` +
+                `</div>`+
+                `</div>`+
                 `</div>`;
         }
+        html+=`<button type="button" onclick="translateText('${tmpNameObject}')" class="btn btn-primary">Translate</button>`;
     }
     $('#newBookForm').html(html + `<h4>Cover Image</h4>` +
         `<div class='car' style='width: 18rem;'>` +
         `<img id='myImage' src =''  class='card-img-top' alt='...'> ` +
         `</div>`);
 }
+
+
 
 function addBook() {
     var add = {};
@@ -342,6 +356,5 @@ function showImage(x) {
 function doesFolderTmpExist() {
     fetch("admin/doesFolderTmpExist");
 }
-
 
 
