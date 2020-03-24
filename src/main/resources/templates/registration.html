@@ -43,7 +43,9 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <button class="btn pl-2 btn-header" id="link_main_header" onclick="getHomePage()">Main</button>
+                        <button class="btn pl-2 btn-header" id="link_main_header"
+                                onclick="document.location.href='/home'">Main
+                        </button>
                     </li>
                     <li class="nav-item">
                         <button class="btn pl-2 btn-header" id="link_books_header">Books</button>
@@ -130,7 +132,9 @@
                         th:text="${errorMessage.getMessage()}" id="errorMessage"></h5>
                 </div>
                 <div class="modal-footer text-right">
-                    <button type="button" class="btn btn-primary col-12 mb-4 mx-0" id="singUpButton" onclick="sendSingUpForm()">Sign up</button>
+                    <button type="button" class="btn btn-primary col-12 mb-4 mx-0" id="singUpButton"
+                            onclick="sendSingUpForm()">Sign up
+                    </button>
                 </div>
             </div>
         </div>
@@ -196,7 +200,8 @@
             </div>
             <div class="modal-footer mx-3">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="sign_in_btn" onclick="sendSignInForm()">Sign in</button>
+                <button type="button" class="btn btn-primary" id="sign_in_btn" onclick="sendSignInForm()">Sign in
+                </button>
             </div>
 
         </div>

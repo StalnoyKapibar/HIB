@@ -1,15 +1,6 @@
 var currentLang = '';
 var bottom = '';
 
-function getHomePage(){
-    document.location.href="/home";
-}
-
-function getAdminPage() {
-    document.location.href="/admin";
-
-}
-
 function sendSignInForm() {
     $('#hidden_submit_btn').click();
 }
@@ -40,6 +31,7 @@ function setLocaleFields() {
         })
 }
 
+//function for chose language
 function buildLangPanel(x) {
     let selectedLang = x;
     fetch("/lang/" + selectedLang)
@@ -47,8 +39,8 @@ function buildLangPanel(x) {
         .then(text)
         .then(function (data) {
             currentLang = selectedLang;
-            window.location.replace('home?LANG=' + currentLang);
             //TODO some logic to processing data and reload page with chosen lang
+            window.location.reload();
         });
 }
 
@@ -112,8 +104,8 @@ function openModalLoginWindowOnFailure() {
 }
 
 //function to hide components when event of mouse click is not on they area
-$(function($){
-    $(document).mouseup(function (e){
+$(function ($) {
+    $(document).mouseup(function (e) {
         // for sidebar. If we click outside this area, sidebar must be hide
 
         var wrapper = $("#wrapper");
@@ -124,7 +116,7 @@ $(function($){
 
         //for navbar. If we click outside this area, when navbar is show, it must be hide
         var navbar = $('#navbarCollapse');
-        if(!navbar.is(e.target) & navbar.has(e.target).length === 0 & navbar.hasClass('show')){
+        if (!navbar.is(e.target) & navbar.has(e.target).length === 0 & navbar.hasClass('show')) {
             $('#toggleBtn').click();
         }
     });
@@ -133,7 +125,7 @@ $(function($){
 // For smooth closing of header in mobile view when we click 'Category'
 $('#menu-toggle').click(function (e) {
     var navbar = $('#navbarCollapse');
-    if(navbar.hasClass('show')){
+    if (navbar.hasClass('show')) {
         $('#toggleBtn').click();
     }
 });

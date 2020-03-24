@@ -54,7 +54,7 @@ html, body {
 /*for sidebar*/
 
 #sidebar-wrapper {
-    min-height: 100vh;
+    min-height: 100%;
     margin-left: -15rem;
     -webkit-transition: margin .25s ease-out;
     -moz-transition: margin .25s ease-out;

@@ -43,7 +43,7 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <button class="btn pl-2 btn-header" id="link_main_header" onclick="getHomePage()">Main</button>
+                        <button class="btn pl-2 btn-header" id="link_main_header" onclick="document.location.href='/home'">Main</button>
                     </li>
                     <li class="nav-item">
                         <button class="btn pl-2 btn-header" id="link_books_header">Books</button>
@@ -52,7 +52,7 @@
                         <button class="btn pl-2 btn-header" id="menu-toggle">Category</button>
                     </li>
                     <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-                        <button class="btn pl-2 btn-header" id="link_admin_page" onclick="getAdminPage()">Admin</button>
+                        <button class="btn pl-2 btn-header" id="link_admin_page"  onclick="document.location.href='/admin'">Admin</button>
                     </li>
                 </ul>
                 <div class="dropdown mr-2 mb-2 mt-2">
@@ -152,7 +152,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div id="modalBody"class="modal-body">
+            <div id="modalBody" class="modal-body">
                 <table>
                     <table class="table table-borderless table-sm bg-white">
                         <tbody>
@@ -162,11 +162,11 @@
 
             </div>
             <div class="modal-footer">
-                <button id="modalClose"type="button" class="btn btn-ifno" data-dismiss="modal"
+                <button id="modalClose" type="button" class="btn btn-ifno" data-dismiss="modal"
                         style="background-color: #f5f5f5">Закрыть
                 </button>
-                <form id="buttonOnBook"action="" method="get">
-                    <button id="buttonBookPage"class="btn btn-ifno btn-dark" style="background-color: #5a6268"
+                <form id="buttonOnBook" action="" method="get">
+                    <button id="buttonBookPage" class="btn btn-ifno btn-dark" style="background-color: #5a6268"
                     >Страница книги
                     </button>
                 </form>
@@ -232,12 +232,13 @@
             </div>
             <div class="modal-footer mx-3">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="sign_in_btn" onclick="sendSignInForm()">Sign in</button>
+                <button type="button" class="btn btn-primary" id="sign_in_btn" onclick="sendSignInForm()">Sign in
+                </button>
             </div>
-
         </div>
     </div>
 </div>
+
 <script src="../static/js/common-function.js"></script>
 <script src="../static/js/home.js"></script>
 </body>

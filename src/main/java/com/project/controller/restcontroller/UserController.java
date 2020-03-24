@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.Properties;
 
 @RestController
@@ -30,13 +31,16 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(localeHolder.getFields());
     }
 
-    @GetMapping("/properties/{lang}")
+    @GetMapping(value = "/properties/{lang}")
     public ResponseEntity getPropertyFile(@PathVariable("lang") String lang) throws IOException {
-        String path = this.getClass().getClassLoader().getResource("static/messages_" + lang + ".properties").getPath();
+        URL path = this.getClass().getClassLoader().getResource("static/messages_" + lang + ".properties");
         Properties properties = new Properties();
-        properties.load(new InputStreamReader(new FileInputStream(new File(path)), "UTF-8"));
+        try {
+            properties.load(new InputStreamReader(new FileInputStream(new File(path.getPath())), "UTF-8"));
+        } catch (NullPointerException | IOException e) {
+            URL defaultPath = this.getClass().getClassLoader().getResource("static/messages_en.properties");
+            properties.load(new InputStreamReader(new FileInputStream(new File(defaultPath.getPath())), "UTF-8"));
+        }
         return ResponseEntity.status(HttpStatus.OK).body(properties);
     }
-
-
 }

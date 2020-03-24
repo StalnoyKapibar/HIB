@@ -6,10 +6,7 @@ import com.project.service.UserAccountService;
 import com.project.service.UserRoleService;
 import org.apache.commons.collections4.SetUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import java.util.HashSet;
 
 public class TestUserAccounts {
 
