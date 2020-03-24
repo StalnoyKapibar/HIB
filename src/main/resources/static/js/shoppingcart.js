@@ -126,6 +126,7 @@ function showSizeCart() {
 }
 
 function getCart() {
+    let totalPrice = 0;
     $.ajax({
         url: "/cart",
         method: 'GET',
@@ -133,20 +134,33 @@ function getCart() {
         $('#newTab').empty();
         $.each(data, function (key, value) {
             let book = getBookDTO(key);
+            totalPrice += book.price * value;
             let row = $('<tr id="trr"/>');
             let cell = $('<td width="10"></td>');
             row.append(cell);
-            cell = '<td class="align-middle"><img src="../images/book' + book.id + '/' + book.coverImage + '" style="max-width: 60px"></td>'+
-            '<td class="align-middle">' + book.name[currentLang] + ' | ' + book.author[currentLang] + '</td>' +
-                '<td class="align-middle ">'+book.price*value+'</td>' +
-                '<td class="align-middle ">' + value + '</td>'+
-                '<td class="align-middle" ><button class="btn btn-info delete"  style="background-color: orangered" data-id="'+ book.id +'">' + 'Delete' + '</button></td>';
+            cell = '<td class="align-middle"><img src="../images/book' + book.id + '/' + book.coverImage + '" style="max-width: 60px"></td>' +
+                '<td class="align-middle">' + book.name[currentLang] + ' | ' + book.author[currentLang] + '</td>' +
+                '<td class="align-middle ">' + book.price * value + '</td>' +
+                '<td class="align-middle"><div class="product-quantity" > <input type="number" value="' + value + '" min="1" style="width: 45px" data-id="' + book.id + '"></div></td>' +
+                '<td class="align-middle" ><button class="btn btn-info delete"  style="background-color: orangered" data-id="' + book.id + '">' + 'Delete' + '</button></td>';
             row.append(cell);
-            cell = $('<td/>');
-            row.append(cell);
-            row.appendTo('#newTab')
+            // cell = $('<td/>');
+            // row.append(cell);
+            row.appendTo('#newTab');
         });
+        $('#totalPrice').text('Итого: ' + totalPrice)
     });
+}
+
+
+
+function updateQuantity(quatity, id) {
+$.ajax({
+    url: "/cart",
+    type: "PUT",
+    data: {id: id, quatity: quatity},
+    success: getCart()
+})
 }
 
 function getBookDTO(id) {
@@ -161,8 +175,9 @@ function getBookDTO(id) {
     });
     return res;
 }
+
 $(document).ready(function () {
-       $("body").on('click', '.delete', function () {
+    $("body").on('click', '.delete', function () {
         let id = $(this).attr("data-id");
         $.ajax({
             url: '/cart/' + id,
@@ -173,6 +188,11 @@ $(document).ready(function () {
                 getCart();
             },
         })
-    })
-})
+    });
+    $("body").on('change', '.product-quantity input', function () {
+        let id = $(this).attr("data-id");
+        let quantity = $(this).attr("value")
+        updateQuantity(quantity,id)
+    });
+});
 

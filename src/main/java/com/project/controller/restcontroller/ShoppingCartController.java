@@ -1,6 +1,5 @@
 package com.project.controller.restcontroller;
 
-import com.project.model.BookDTO;
 import com.project.service.BookService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -41,10 +40,16 @@ public class ShoppingCartController {
 
     @DeleteMapping("/cart/{id}")
     public void deletFromCart(@PathVariable Long id, HttpSession session) {
-        Map<BookDTO, Integer> cartList = (Map<BookDTO, Integer>) session.getAttribute("shoppingcart");
+        Map<Long, Integer> cartList = (Map<Long, Integer>) session.getAttribute("shoppingcart");
         if (cartList != null) {
             cartList.remove(id);
         }
+        session.setAttribute("shoppingcart", cartList);
+    }
+    @PutMapping("/cart")
+    public void editCart(@RequestParam("id") String string, HttpSession session){
+        Map<Long, Integer> cartList = (Map<Long, Integer>) session.getAttribute("shoppingcart");
+      //  cartList.replace(id,quatity);
         session.setAttribute("shoppingcart", cartList);
     }
 
