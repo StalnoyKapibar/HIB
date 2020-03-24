@@ -17,5 +17,6 @@ public class BookDTO {
     private LocaleString name;
     private LocaleString author;
     private String coverImage;
+    private Integer price;
     private List<Image> imageList;
 }

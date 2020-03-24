@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.List;
 
 
@@ -33,6 +32,8 @@ public class Book {
 
     @Column(name = "cover_image")
     private String coverImage;
+
+    private Integer price;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Image> listImage;

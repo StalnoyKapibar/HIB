@@ -24,19 +24,6 @@ public class ShoppingCartController {
             return 0;
         }
     }
-
-    //    @GetMapping("/cartbook")
-//    public Set<BookDTO> getBookShoppingCart(HttpSession session) {
-//        Map<BookDTO, Integer> cart = (Map<BookDTO, Integer>) session.getAttribute("shoppingcart");
-//        Set<BookDTO> book = cart.keySet();
-//        return book;
-//    }
-//    @GetMapping("/cartcount")
-//    public Collection<Integer> getCountBookShoppingCart(HttpSession session) {
-//        Map<BookDTO, Integer> cart = (Map<BookDTO, Integer>) session.getAttribute("shoppingcart");
-//        Collection<Integer> count = cart.values();
-//        return count;
-//    }
     @GetMapping(value = "/cart")
     public Map<Long, Integer> getShoppingCart(HttpSession session) {
         return (Map<Long, Integer>) session.getAttribute("shoppingcart");
@@ -56,8 +43,9 @@ public class ShoppingCartController {
     public void deletFromCart(@PathVariable Long id, HttpSession session) {
         Map<BookDTO, Integer> cartList = (Map<BookDTO, Integer>) session.getAttribute("shoppingcart");
         if (cartList != null) {
-            cartList.remove(bookService.getBookDTOById(id));
+            cartList.remove(id);
         }
+        session.setAttribute("shoppingcart", cartList);
     }
 
 }

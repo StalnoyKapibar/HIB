@@ -37,6 +37,7 @@ public class BookDAOImpl implements BookDAO {
         book.setNameLocale(bookDTO.getName());
         book.setCoverImage(bookDTO.getCoverImage());
         book.setListImage(bookDTO.getImageList());
+        book.setPrice(bookDTO.getPrice());
         entityManager.persist(book);
     }
 
@@ -68,7 +69,7 @@ public class BookDAOImpl implements BookDAO {
 
     @Override
     public List<BookDTO20> get20BookDTO(String locale) {
-        String query = ("SELECT new com.project.model.BookDTO20(b.id, b.nameLocale.LOC, b.authorLocale.LOC, b.coverImage)" +
+        String query = ("SELECT new com.project.model.BookDTO20(b.id, b.nameLocale.LOC, b.authorLocale.LOC, b.price, b.coverImage)" +
                 "FROM Book b ORDER BY RAND()")
                 .replaceAll("LOC", locale);
         List<BookDTO20> listBookDTO = entityManager.createQuery(query, BookDTO20.class).setMaxResults(20).getResultList();
@@ -84,6 +85,7 @@ public class BookDAOImpl implements BookDAO {
         bookDTO.setAuthor(book.getAuthorLocale());
         bookDTO.setCoverImage(book.getCoverImage());
         bookDTO.setImageList(book.getListImage());
+        bookDTO.setPrice(book.getPrice());
         return bookDTO;
     }
 
