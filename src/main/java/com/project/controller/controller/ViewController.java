@@ -26,21 +26,13 @@ public class ViewController {
     UserAccountService userAccountService;
 
     @GetMapping("/home")
-    public ModelAndView getHomePage(HttpServletRequest request) {
-        ModelAndView view = new ModelAndView("home");
-        if (request.getSession(false) == null) {
-            request.getSession(true).setAttribute("LANG", "en");
-        }
-        view.getModelMap().addAttribute("errorMessage", new FormLoginErrorMessageDTO(false, ""));
-        return view;
+    public String getHomePage(){
+        return "home";
     }
 
     @GetMapping("/page/{id}")
-    public ModelAndView getPage(@PathVariable("id") long id, HttpServletRequest request, ModelAndView modelAndView) {
+    public ModelAndView getPage(@PathVariable("id") long id, ModelAndView modelAndView) {
         modelAndView.addObject("book", id);
-        if (request.getSession(false) == null) {
-            request.getSession(true).setAttribute("LANG", "en");
-        }
         modelAndView.setViewName("page");
         return modelAndView;
     }

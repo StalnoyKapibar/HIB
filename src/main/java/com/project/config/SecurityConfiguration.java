@@ -1,5 +1,6 @@
 package com.project.config;
 
+import com.project.filter.FilterSession;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 
@@ -25,13 +27,15 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @AllArgsConstructor
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-   private UserDetailsService userDetailsService;
+    private UserDetailsService userDetailsService;
 
-   private AuthenticationSuccessHandler loginSuccessHandler;
+    private AuthenticationSuccessHandler loginSuccessHandler;
 
-   private AuthenticationFailureHandler loginFailureHandler;
+    private AuthenticationFailureHandler loginFailureHandler;
 
-   private AccessDeniedHandler accessDeniedHandler;
+    private AccessDeniedHandler accessDeniedHandler;
+
+    private FilterSession filterSession;
 
     @Bean("passwordEncoder")
     public PasswordEncoder passwordEncoder() {
@@ -45,26 +49,30 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
+        http.addFilterBefore(filterSession, BasicAuthenticationFilter.class);
+
         http
                 .csrf()
-                    .disable()
+                .disable()
                 .authorizeRequests()
-                    .antMatchers("/admin", "/admin/**").hasAnyRole("ADMIN")
-                    .antMatchers("/**").permitAll()
-                    .anyRequest().authenticated()
+                .antMatchers("/admin", "/admin/**").hasAnyRole("ADMIN")
+                .antMatchers("/**").permitAll()
+                .anyRequest().authenticated()
                 .and()
-                    .formLogin()
-                    .loginPage("/home")
-                    .loginProcessingUrl("/login")
-                    .successHandler(loginSuccessHandler)
-                    .failureHandler(loginFailureHandler)
-                    .permitAll()
+                .formLogin()
+                .loginPage("/home")
+                .loginProcessingUrl("/login")
+                .successHandler(loginSuccessHandler)
+                .failureHandler(loginFailureHandler)
+                .permitAll()
                 .and()
-                    .logout()
-                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                    .logoutSuccessUrl("/home?logout")
-                    .permitAll()
+                .logout()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/home?logout")
+                .deleteCookies("JSESSIONID")
+                .permitAll()
                 .and()
-                    .exceptionHandling().accessDeniedHandler(accessDeniedHandler);
+                .exceptionHandling().accessDeniedHandler(accessDeniedHandler);
     }
 }

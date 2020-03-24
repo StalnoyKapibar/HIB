@@ -37,7 +37,7 @@
             <a class="navbar-brand header-title-big d-lg-block d-none">History in Books</a>
             <a class="navbar-brand header-title-little d-lg-none d-md-block">HIB</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
-                    aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                    aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" id="toggleBtn">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -207,7 +207,7 @@
                     </div>
                     <button type="submit" hidden id="hidden_submit_btn">HiddenButtonToSubmitLoginForm</button>
                 </form>
-                <div class="row px-3">
+                <div class="row px-3" th:if="${errorMessage}!=null">
                     <!--/*@thymesVar id="getMessage" type="com.project.model.FormLoginErrorMessageDTO"*/-->
                     <h5 class="col-12 p-3 rounded text-center alert-danger" th:if="${errorMessage.isHasError()}"
                         th:text="${errorMessage.getMessage()}" id="errorMessage"></h5>

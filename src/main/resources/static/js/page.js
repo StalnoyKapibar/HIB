@@ -38,9 +38,8 @@ function setLocaleFields() {
         })
 }
 
-$('#dd_menu').on('click', 'a', function (eventOnInnerTag) {
-    eventOnInnerTag.preventDefault();
-    const selectedLang = $(eventOnInnerTag.target).attr('id');
+function buildLangPanel0(x) {
+    let selectedLang = x;
     fetch("/lang/" + selectedLang)
         .then(status)
         .then(text)
@@ -48,11 +47,8 @@ $('#dd_menu').on('click', 'a', function (eventOnInnerTag) {
             currentLang = selectedLang;
             window.location.replace($("#bookid").attr("value") + '?LANG=' + currentLang);
             //TODO some logic to processing data and reload page with chosen lang
-            getLanguage();
-            getLocaleFields();
         });
-    location.reload();
-});
+}
 
 $("#menu-toggle").click(function (e) {
     e.preventDefault();
@@ -79,20 +75,18 @@ function getLanguage() {
         }
         return "undef";
     }
-
     fetch("/lang")
         .then(status)
         .then(json)
         .then(function (listOfLanguage) {
             var currentLangFull = '';
             var html = '';
-
             for (language in listOfLanguage) {
                 if (currentLang == (listOfLanguage[language])) {
                     continue;
                 }
                 currentLangFull = getFullNameOfLanguage(listOfLanguage[language]);
-                html += `<a class="dropdown-item lang" id="${listOfLanguage[language]}">
+                html += `<a class="dropdown-item lang" onclick="buildLangPanel0('${listOfLanguage[language]}')" id="${listOfLanguage[language]}">
                             <img src="../static/icons/${listOfLanguage[language]}.png" 
                                 alt="" height="16" width="16" class="lang-image"> - ${currentLangFull}
                          </a>`;
@@ -112,12 +106,11 @@ function status(response) {
         return Promise.reject(new Error(response.statusText))
     }
 }
+
 function json(response) {
     return response.json()
 }
+
 function text(response) {
     return response.text()
 }
-
-
-
