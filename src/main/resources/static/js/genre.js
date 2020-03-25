@@ -1,12 +1,15 @@
+let genresDto;
+
 $(document).ready(function() {
-    getGenres();
+    getGenresDto();
 });
 
-async function getGenres() {
-    await fetch("/genres")
+async function getGenresDto() {
+    await fetch("/genresDto")
         .then(status)
         .then(json)
         .then(function(resp) {
+            genresDto = resp;
             buildRows(resp);
         })
 }
@@ -60,6 +63,7 @@ async function addGenre() {
         body: JSON.stringify(
             {
                 'id': null,
+                'number': $("#addGenreNum").val(),
                 'genreLocale': {
                     'id': null,
                     'ru': $("#addGenreRu").val(),
@@ -67,7 +71,8 @@ async function addGenre() {
                     'fr': $("#addGenreFr").val(),
                     'it': $("#addGenreIt").val(),
                     'de': $("#addGenreDe").val(),
-                    'cs': $("#addGenreCs").val()
+                    'cs': $("#addGenreCs").val(),
+                    'gr': $("#addGenreGr").val()
                 }
             }
         ),

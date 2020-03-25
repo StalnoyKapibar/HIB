@@ -17,8 +17,8 @@ public class Genre {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "serialNumber")
-    private long serialNumber;
+    @Column(name = "number")
+    private long number;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "genre_locale",
