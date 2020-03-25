@@ -1,11 +1,14 @@
 package com.project.config;
 
+import com.project.config.initializer.ErrorMessageDataInit;
 import com.project.config.initializer.TestDataInit;
+import com.project.config.initializer.TestUserAccounts;
+import com.project.service.UserDetailServiceImpl;
 import com.project.util.LocaleHolder;
-import com.project.util.BookDTOWithFieldsForTable;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
@@ -36,5 +39,21 @@ public class BeanConfiguration {
     @PostConstruct
     public TestDataInit initTestData() {
         return new TestDataInit();
+    }
+
+    @Bean(initMethod = "init")
+    @PostConstruct
+    public TestUserAccounts initTestUserAccount(){
+        return new TestUserAccounts();
+    }
+
+    @Bean(initMethod = "init")
+    @PostConstruct
+    public ErrorMessageDataInit initMessageData(){
+        return new ErrorMessageDataInit();
+    }
+
+    @Bean("userDetailsService")
+    public UserDetailsService getUserDetailsService(){ return new UserDetailServiceImpl();
     }
 }

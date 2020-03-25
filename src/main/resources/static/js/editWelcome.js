@@ -178,7 +178,7 @@ function addBook() {
     for (let tmp of nameObjectOfLocaleString) {
         var asd = {};
         for (let tmpValue of nameVarOfLocaleString) {
-            asd[tmpValue] = $('#' + "a" + tmp + tmpValue).val();
+            asd[tmpValue] = $('#' + "inp" + tmp + tmpValue).val();
         }
         add[tmp] = asd;
     }
