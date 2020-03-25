@@ -124,14 +124,14 @@ function showSizeCart() {
         }
     });
 }
-
+let totalPrice = 0;
 function getCart() {
-    let totalPrice = 0;
     $.ajax({
         url: "/cart",
         method: 'GET',
     }).then(function (data) {
         $('#newTab').empty();
+        totalPrice = 0;
         $.each(data, function (key, value) {
             let book = getBookDTO(key);
             totalPrice += book.price * value;
@@ -140,12 +140,10 @@ function getCart() {
             row.append(cell);
             cell = '<td class="align-middle"><img src="../images/book' + book.id + '/' + book.coverImage + '" style="max-width: 60px"></td>' +
                 '<td class="align-middle">' + book.name[currentLang] + ' | ' + book.author[currentLang] + '</td>' +
-                '<td class="align-middle ">' + book.price * value + '</td>' +
-                '<td class="align-middle"><div class="product-quantity" > <input type="number" value="' + value + '" min="1" style="width: 45px" data-id="' + book.id + '"></div></td>' +
+                '<td class="align-middle" id="book'+book.id+'">' + book.price + '</td>' +
+                '<td class="align-middle"><div class="product-quantity" > <input id="value'+book.id+'" type="number" value="' + value + '" min="1" style="width: 45px" data-id="' + book.id + '" data-value="'+value+'"></div></td>' +
                 '<td class="align-middle" ><button class="btn btn-info delete"  style="background-color: orangered" data-id="' + book.id + '">' + 'Delete' + '</button></td>';
             row.append(cell);
-            // cell = $('<td/>');
-            // row.append(cell);
             row.appendTo('#newTab');
         });
         $('#totalPrice').text('Итого: ' + totalPrice)
@@ -159,7 +157,13 @@ $.ajax({
     url: "/cart",
     type: "POST",
     data: {id: id, quatity: quatity},
-    success: getCart()
+    success: function () {
+        let oldVal = $('#value'+id).attr('data-value');
+        $('#value'+id).attr('data-value',quatity);
+        let price = $('#book'+id).text();
+        totalPrice = totalPrice + price*(quatity-oldVal);
+        $('#totalPrice').text('Итого: ' + totalPrice);
+    }
 })
 }
 
