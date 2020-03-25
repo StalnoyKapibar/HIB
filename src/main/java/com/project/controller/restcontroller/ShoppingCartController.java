@@ -46,10 +46,10 @@ public class ShoppingCartController {
         }
         session.setAttribute("shoppingcart", cartList);
     }
-    @PutMapping("/cart")
-    public void editCart(@RequestParam("id") String string, HttpSession session){
+    @PostMapping(value = "/cart", params = {"id","quatity"})
+    public void editCart(@RequestParam("id") Long id, @RequestParam("quatity") Integer quatity, HttpSession session){
         Map<Long, Integer> cartList = (Map<Long, Integer>) session.getAttribute("shoppingcart");
-      //  cartList.replace(id,quatity);
+        cartList.replace(id,quatity);
         session.setAttribute("shoppingcart", cartList);
     }
 

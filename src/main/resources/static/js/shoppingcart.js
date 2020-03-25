@@ -157,7 +157,7 @@ function getCart() {
 function updateQuantity(quatity, id) {
 $.ajax({
     url: "/cart",
-    type: "PUT",
+    type: "POST",
     data: {id: id, quatity: quatity},
     success: getCart()
 })
@@ -191,7 +191,7 @@ $(document).ready(function () {
     });
     $("body").on('change', '.product-quantity input', function () {
         let id = $(this).attr("data-id");
-        let quantity = $(this).attr("value")
+        let quantity = $(this).val();
         updateQuantity(quantity,id)
     });
 });
