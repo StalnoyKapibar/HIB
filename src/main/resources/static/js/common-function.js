@@ -1,6 +1,7 @@
 var currentLang = '';
 var bottom = '';
-
+var addToshoppingCart = '';
+var deleteBottom = '';
 function sendSignInForm() {
     $('#hidden_submit_btn').click();
 }
@@ -26,8 +27,14 @@ function setLocaleFields() {
             $('#menu-toggle').text(localeFields['category']);
             $('#headpost').text(localeFields['headpost']);
             bottom = localeFields['bookbotom'];
+            addToshoppingCart = localeFields['addToshoppingCart']
+            deleteBottom = localeFields['deleteBottom']
             $('#modalClose').text(localeFields['close']);
             $('#buttonBookPage').text(localeFields['pageofBook']);
+            $('#dropdownclose').text(localeFields['dropdownclose']);
+            $('#toshoppingcart').text(localeFields['toshoppingcart']);
+            $('#bottomInCart').text(localeFields['addToshoppingCart']);
+
         })
 }
 

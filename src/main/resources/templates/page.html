@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="../static/css/bootstrap-social.css"/>
     <link href="../static/fonts/font-awesome.css" rel="stylesheet">
     <link href="../static/fonts/font.css" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/themify-icons.css">
     <script src="../static/js/jquery.min.js"></script>
     <script src="../static/js/popper.min.js"></script>
     <script src="../static/js/bootstrap.min.js"></script>
@@ -56,6 +57,25 @@
                     <li class="nav-item" sec:authorize="hasRole('ADMIN')">
                         <button class="btn pl-2 btn-header" id="link_admin_page" onclick="getAdminPage()">Admin</button>
                     </li>
+                </ul>
+                <ul class="dropdown mr-2 mb-2 mt-2" id="showCart">
+                    <button class="btn btn-lg" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false"><i
+                            class="ti-shopping-cart"></i><span id="bucketIn"
+                                                               class="nav-shop-circle"></span>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                        <div id="shoppingCartDrop" style="overflow: auto; max-height: 300px; width: 600px">
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item-text">
+                            <button type="button" class="btn btn-success btn-sm mr-5  " data-toggle="dropdown" id="dropdownclose">Продолжить покупки
+                            </button>
+                            <button type="button" class="btn btn-primary btn-sm float-right"
+                                    onclick="document.location='/shoppingcart'" id="toshoppingcart">Заказать сейчас
+                            </button>
+                        </a>
+                    </div>
                 </ul>
                 <div class="dropdown mr-2 mb-2 mt-2">
                     <a class="btn dropdown-toggle border" href="#" role="button" id="dd_menu_link"
@@ -117,7 +137,7 @@
                 <div class="card-body">
                     <h4 class="card-title" id="book-name1">NAME OF BOOK</h4>
 
-                    <a href="#!" class="btn btn-primary">Click to buy</a>
+                    <button id="bottomInCart"type="button" class="btn btn-success btn-sm  mr-1"  data-id=""></button>
                 </div>
             </div>
             <div class="card-col-4">
