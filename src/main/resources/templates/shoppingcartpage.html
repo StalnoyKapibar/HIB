@@ -98,16 +98,16 @@
     <!--    page container    -->
 
     <div class="container page-content">
-        <h2>Корзина</h2>
+        <h2 id="headershoppingcart">Корзина</h2>
         <table class="table table-striped table-sm bg-white">
             <thead>
             <tr height="50">
                 <th width="10"></th>
                 <th></th>
-                <th>Книга  |  Автор</th>
-                <th>Цена</th>
-                <th>Кол-во</th>
-                <th>Убрать</th>
+                <th id = "book_author">Книга  |  Автор</th>
+                <th id="price">Цена</th>
+                <th id="quantity">Кол-во</th>
+                <th id="delete">Убрать</th>
             </tr>
             </thead>
             <tbody id='newTab'>
@@ -118,8 +118,16 @@
                 <th></th>
                 <th></th>
                 <th></th>
+                <th id="totalPrice"></th>
+                <th><a id="sum"></a></th>
+            </tr>
+            <tr style="height: 15px">
+                <th width="10"></th>
                 <th></th>
-                <th id="totalPrice">Итого: </th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th><button id="chechout" type="button" class="btn btn-primary">Checkout</button> </th>
             </tr>
             </tbody>
         </table>

@@ -34,6 +34,13 @@ function setLocaleFields() {
             $('#dropdownclose').text(localeFields['dropdownclose']);
             $('#toshoppingcart').text(localeFields['toshoppingcart']);
             $('#bottomInCart').text(localeFields['addToshoppingCart']);
+            $('#delete').text(localeFields['deleteBottom']);
+            $('#quantity').text(localeFields['quantity']);
+            $('#price').text(localeFields['price']);
+            $('#book_author').text(localeFields['book_author']);
+            $('#totalPrice').text(localeFields['totalprice']);
+            $('#headershoppingcart').text(localeFields['headershoppingcart']);
+            $('#chechout').text(localeFields['chechout']);
 
         })
 }

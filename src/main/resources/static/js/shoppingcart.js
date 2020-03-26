@@ -10,6 +10,7 @@ $(document).ready(function () {
 });
 let totalPrice = 0;
 function getCart() {
+    setTimeout(function () {
     $.ajax({
         url: "/cart",
         method: 'GET',
@@ -26,12 +27,13 @@ function getCart() {
                 '<td class="align-middle">' + book.name[currentLang] + ' | ' + book.author[currentLang] + '</td>' +
                 '<td class="align-middle" id="book'+book.id+'">' + book.price + '</td>' +
                 '<td class="align-middle"><div class="product-quantity" > <input id="value'+book.id+'" type="number" value="' + value + '" min="1" style="width: 45px" data-id="' + book.id + '" data-value="'+value+'"></div></td>' +
-                '<td class="align-middle" ><button class="btn btn-info delete"  style="background-color: orangered" data-id="' + book.id + '">' + 'Delete' + '</button></td>';
+                '<td class="align-middle" ><button class="btn btn-info delete"  style="background-color: orangered" data-id="' + book.id + '">' + deleteBottom + '</button></td>';
             row.append(cell);
             row.appendTo('#newTab');
         });
-        $('#totalPrice').text('Итого: ' + totalPrice)
+        $('#sum').text(totalPrice);
     });
+    }, 10);
 }
 
 
@@ -46,7 +48,7 @@ $.ajax({
         $('#value'+id).attr('data-value',quatity);
         let price = $('#book'+id).text();
         totalPrice = totalPrice + price*(quatity-oldVal);
-        $('#totalPrice').text('Итого: ' + totalPrice);
+        $('#sum').text(totalPrice);
     }
 })
 }
