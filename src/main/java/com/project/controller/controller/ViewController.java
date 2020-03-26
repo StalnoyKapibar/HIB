@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,5 +36,15 @@ public class ViewController {
     @GetMapping("/translate")
     public String getTranslatePage() {
         return "translate";
+    }
+
+    @GetMapping("/search")
+    public ModelAndView getSearchResultPage(@RequestParam("request") String req, HttpServletRequest request, ModelAndView modelAndView){
+        modelAndView.addObject("request", req);
+        if (request.getSession(false) == null) {
+            request.getSession(true).setAttribute("LANG", "en");
+        }
+        modelAndView.setViewName("search");
+        return modelAndView;
     }
 }
