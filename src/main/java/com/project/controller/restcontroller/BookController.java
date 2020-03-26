@@ -76,7 +76,7 @@ public class BookController {
         bookService.updateBook(bookDTO);
     }
 
-    @GetMapping("/admin/get20BookDTO/{locale}")
+    @GetMapping("/user/get20BookDTO/{locale}")
     public List<BookDTO20> getWelcomeLocaleDTOByLocaleSize20(@PathVariable("locale") String locale) {
         List<BookDTO20> page = bookService.get20BookDTO(locale);
         return page;

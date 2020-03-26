@@ -19,5 +19,4 @@ public class LocaleHolder {
     public List<String> getFields() {
         return fields;
     }
-
 }

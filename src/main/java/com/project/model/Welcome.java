@@ -7,7 +7,6 @@ import javax.persistence.*;
 
 @NoArgsConstructor
 @Data
-@Entity
 @Table(name = "welcome")
 public class Welcome {
 

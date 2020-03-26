@@ -8,7 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 @Repository
-public class WelcomeDAOImpl implements WelcomeDAO {
+public class    WelcomeDAOImpl implements WelcomeDAO {
 
     @PersistenceContext
     private EntityManager entityManager;
