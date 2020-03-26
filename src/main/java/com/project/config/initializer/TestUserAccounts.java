@@ -4,9 +4,12 @@ import com.project.model.UserAccount;
 import com.project.model.UserRole;
 import com.project.service.UserAccountService;
 import com.project.service.UserRoleService;
-import org.apache.commons.collections4.SetUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TestUserAccounts {
 
@@ -26,22 +29,37 @@ public class TestUserAccounts {
         saveUserRole(userRole);
         saveUserRole(adminRole);
 
-        // Admin user. (username = "admin", password = "11")
+        List<UserRole> authorities = new ArrayList<>();
+        authorities.add(adminRole);
+        authorities.add(userRole);
+
+        // Admin user. (username = "admin", password = "admin") ROLES:ADMIN,USER
 
         UserAccount account1 = new UserAccount();
         account1.setLogin("admin");
-        account1.setPassword(encoder.encode("11"));
-        account1.setEmail("robolitan12@gmail.com");
-        account1.setRoles(SetUtils.hashSet(new UserRole(2l, "ROLE_ADMIN")));
+        account1.setPassword(encoder.encode("admin"));
+        account1.setEmail("admin@gmail.com");
+        account1.setFirstName("admin");
+        account1.setLastName("admin");
+        account1.setRegDate(Instant.now().getEpochSecond());
+        account1.setProvider("local");
+        account1.setLocale("ru");
+        account1.setAuthorities(authorities);
         saveUserAccount(account1);
 
-        // Simple user. (username = "user", password = "11")
-
+        authorities.clear();
+        // Simple user. (username = "user", password = "user") ROLE:USER
+        authorities.add(userRole);
         UserAccount account2 = new UserAccount();
         account2.setLogin("user");
-        account2.setPassword(encoder.encode("11"));
-        account2.setEmail("robo@gmail.com");
-        account2.setRoles(SetUtils.hashSet(new UserRole(1l, "ROLE_USER")));
+        account2.setPassword(encoder.encode("user"));
+        account2.setEmail("user@gmail.com");
+        account2.setFirstName("user");
+        account2.setLastName("user");
+        account2.setRegDate(Instant.now().getEpochSecond());
+        account2.setProvider("local");
+        account2.setLocale("it");
+        account2.setAuthorities(authorities);
         saveUserAccount(account2);
     }
 

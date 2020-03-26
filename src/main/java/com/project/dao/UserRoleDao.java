@@ -1,19 +1,14 @@
 package com.project.dao;
 
 import com.project.model.UserRole;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+import java.util.List;
+
 
 @Repository
-public interface UserRoleDao extends CrudRepository<UserRole, Long> {
-
-    @Override
-    Optional<UserRole> findById(Long aLong);
-
-    @Override
-    <S extends UserRole> S save(S entity);
-
-    Optional<UserRole> findByName(String name);
+public interface UserRoleDao extends JpaRepository<UserRole, Long> {
+    UserRole findUserRoleByRoleName(String roleName);
+    List<UserRole> findByRoleName(String roleName);
 }
