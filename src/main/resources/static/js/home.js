@@ -16,45 +16,48 @@ $(document).ready(function () {
 
 function buildPageByCurrentLang() {
     setTimeout(function () {
-        $.ajax({
-            url: "/user/get20BookDTO/" + currentLang,
-            method: 'GET',
-        }).then(function (data) {
-            $('#cardcolumns').empty();
-            $.each(data, function (index) {
-                let div = $('<div class="card"/>');
-                div.append('<img class="card-img-top" src="images/book' + data[index].id + '/' + data[index].coverImage + '" alt="Card image cap">');
-                let divBody = $('<div class="card-body" ></div>');
-                divBody.append('<h4 class="card-title" style="overflow: auto; height:100px">' + data[index].nameAuthorDTOLocale + '</h4>');
-                divBody.append('<p class="card-text">' + data[index].nameBookDTOLocale + '</p>');
-                divBody.append('<br>');
-                divBody.append('<div style="position: absolute; bottom: 5px"><button id="bottomInCart"type="button" class="btn btn-success btn-sm  mr-1"  data-id="' + data[index].id + '">' + addToshoppingCart + '</button>' +
-                    '<button type="button" id="bookbotom"class="btn btn-primary btn-sm mr-1"  data-toggle="modal" data-target="#myModal"  data-book-index="' + index + '">' + bottom + '</button></div>');
-                div.append(divBody);
-                div.appendTo('#cardcolumns');
+        fetch("/user/get20BookDTO/" + currentLang)
+            .then(status)
+            .then(json)
+            .then(function (data) {
+                $('#cardcolumns').empty();
+                $.each(data, function (index) {
+                    let div = $('<div class="card"/>');
+                    div.append('<img class="card-img-top" src="images/book' + data[index].id + '/' + data[index].coverImage + '" alt="Card image cap">');
+                    let divBody = $('<div class="card-body" ></div>');
+                    divBody.append('<h4 class="card-title" style="overflow: auto; height:100px">' + data[index].nameAuthorDTOLocale + '</h4>');
+                    divBody.append('<p class="card-text">' + data[index].nameBookDTOLocale + '</p>');
+                    divBody.append('<br>');
+                    divBody.append('<div style="position: absolute; bottom: 5px"><button id="bottomInCart"type="button" class="btn btn-success btn-sm  mr-1"  data-id="' + data[index].id + '">' + addToshoppingCart + '</button>' +
+                        '<button type="button" id="bookbotom"class="btn btn-primary btn-sm mr-1"  data-toggle="modal" data-target="#myModal"  data-book-index="' + index + '">' + bottom + '</button></div>');
+                    div.append(divBody);
+                    div.appendTo('#cardcolumns');
+                });
+                $("#myModal").on('show.bs.modal', function (e) {
+                    let index = $(e.relatedTarget).data('book-index');
+                    $('#modalHeader').empty();
+                    $('#modalBody').empty();
+                    $('#modalHeader').append(data[index].nameAuthorDTOLocale);
+                    $('#modalBody').append('<p>' + data[index].nameBookDTOLocale + '</p>');
+                    $('#modalBody').append('<img class="card-img-top" src="images/book' + data[index].id + '/' + data[index].coverImage + '" alt="Card image cap">')
+                    $('#buttonOnBook').attr("action", '/page/' + data[index].id);
+                });
             });
-            $("#myModal").on('show.bs.modal', function (e) {
-                let index = $(e.relatedTarget).data('book-index');
-                $('#modalHeader').empty();
-                $('#modalBody').empty();
-                $('#modalHeader').append(data[index].nameAuthorDTOLocale);
-                $('#modalBody').append('<p>' + data[index].nameBookDTOLocale + '</p>');
-                $('#modalBody').append('<img class="card-img-top" src="images/book' + data[index].id + '/' + data[index].coverImage + '" alt="Card image cap">')
-                $('#buttonOnBook').attr("action", '/page/' + data[index].id);
-            });
-        });
     }, 10);
 }
 
-function showSizeCart() {
-    $.get("/cart/size").then(function (data) {
-        if (data != 0) {
-            $("#bucketIn").empty();
-            $("#bucketIn").append(data)
-        } else {
-            $('#bucketIn').empty();
-        }
-    });
+async function showSizeCart() {
+    await fetch("/cart/size")
+        .then(status)
+        .then(json)
+        .then(function (data) {
+            if (data != 0) {
+                $("#bucketIn").empty();
+                $("#bucketIn").append(data)
+            } else {
+                $('#bucketIn').empty();
+            }
+        });
 }
 
 $(document).ready(function () {
@@ -69,43 +72,42 @@ $(document).ready(function () {
 })
 
 function addToCart(id) {
-    $.post({
-        url: "/cart/" + id
+    fetch("/cart/" + id, {
+        method: "POST"
     })
 }
 
-function getCart() {
-    $.get({
-        url: "/cart",
-    }).then(function (data) {
-        $("#shoppingCartDrop").empty();
-        let table = $('<div class="dropdown-item-text"><table class="table table-striped table-sm bg-white" />')
-        $.each(data, function (key, value) {
-            let book = getBookDTO(key);
-            table.append('<tr></td><td><img src="../images/book' + book.id + '/' + book.coverImage + '" style="max-width: 60px"></td>+' +
-                '<td style="width: 20px"></td>' +
-                '<td>' + book.name[currentLang] + ' | ' + book.author[currentLang] + '</td>' +
-                '<td style="width: 20px"></td>' +
-                '<td>' + value + '</td>' +
-                '<td style="width: 20px"></td>' +
-                '<td class="mr-1"><button class="btn btn-info delete"  style="background-color: orangered" data-id="' + book.id + '">' + deleteBottom + '</button></td>' +
-                '</tr>');
-            table.append('<tr style="height: 15px" />')
+async function getCart() {
+    await fetch("/cart")
+        .then(status)
+        .then(json)
+        .then(function (data) {
+            $("#shoppingCartDrop").empty();
+            let table = $('<div class="dropdown-item-text"><table class="table table-striped table-sm bg-white" />')
+            $.each(data, async function (key, value) {
+                let book = await getBookDTO(key);
+                table.append('<tr></td><td><img src="../images/book' + book.id + '/' + book.coverImage + '" style="max-width: 60px"></td>+' +
+                    '<td style="width: 20px"></td>' +
+                    '<td>' + book.name[currentLang] + ' | ' + book.author[currentLang] + '</td>' +
+                    '<td style="width: 20px"></td>' +
+                    '<td>' + value + '</td>' +
+                    '<td style="width: 20px"></td>' +
+                    '<td class="mr-1"><button class="btn btn-info delete"  style="background-color: orangered" data-id="' + book.id + '">' + deleteBottom + '</button></td>' +
+                    '</tr>');
+                table.append('<tr style="height: 15px" />')
+                $('#shoppingCartDrop').append(table);
+            })
         })
-        $('#shoppingCartDrop').append(table);
-    })
 }
 
-function getBookDTO(id) {
+async function getBookDTO(id) {
     let res;
-    $.ajax({
-        url: "/getBookDTOById/" + id,
-        async: false,
-        method: 'GET',
-        success: function (data) {
+    await fetch("/getBookDTOById/" + id)
+        .then(status)
+        .then(json)
+        .then(function (data) {
             res = data;
-        }
-    });
+        });
     return res;
 }
 
@@ -115,14 +117,11 @@ $(document).ready(function () {
     })
     $("body").on('click', '.delete', function () {
         let id = $(this).attr("data-id");
-        $.ajax({
-            url: '/cart/' + id,
-            type: 'DELETE',
-            data: id,
-            success: function () {
-                showSizeCart();
-            },
+        fetch('/cart/' + id, {
+            method: 'DELETE',
+        }).then(function () {
+            showSizeCart();
         })
-    })
+    });
 })
 

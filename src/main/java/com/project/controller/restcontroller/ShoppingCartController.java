@@ -23,6 +23,7 @@ public class ShoppingCartController {
             return 0;
         }
     }
+
     @GetMapping(value = "/cart")
     public Map<Long, Integer> getShoppingCart(HttpSession session) {
         return (Map<Long, Integer>) session.getAttribute("shoppingcart");
@@ -46,11 +47,11 @@ public class ShoppingCartController {
         }
         session.setAttribute("shoppingcart", cartList);
     }
-    @PostMapping(value = "/cart", params = {"id","quatity"})
-    public void editCart(@RequestParam("id") Long id, @RequestParam("quatity") Integer quatity, HttpSession session){
+
+    @PostMapping(value = "/cart", params = {"id", "quatity"})
+    public void editCart(@RequestParam("id") Long id, @RequestParam("quatity") Integer quatity, HttpSession session) {
         Map<Long, Integer> cartList = (Map<Long, Integer>) session.getAttribute("shoppingcart");
-        cartList.replace(id,quatity);
+        cartList.replace(id, quatity);
         session.setAttribute("shoppingcart", cartList);
     }
-
 }

@@ -14,10 +14,9 @@ $(document).ready(function () {
 });
 
 function setPageFields() {
-    $.ajax({
-        url: "/page/id/" + $("#bookid").attr("value"),
-        method: 'GET',
-    }).then(function (data) {
+    fetch("/page/id/" + $("#bookid").attr("value"))
+        .then(status)
+        .then(json).then(function (data) {
         objectBook = data;
         $('#book-name').text(data.name[currentLang]);
         $('#book-author').text(data.author[currentLang]);
@@ -86,16 +85,21 @@ function buildCardImageOrCarousel() {
 function buildCardImage() {
     $('#CardImageOrCarousel').html(`<img id='bookImg' src=${pathImageDefault}${objectBook.id}/${objectBook.coverImage} alt='Card image cap'>`);
 }
-function showSizeCart() {
-    $.get("/cart/size").then(function (data) {
-        if (data != 0) {
-            $("#bucketIn").empty();
-            $("#bucketIn").append(data)
-        } else {
-            $('#bucketIn').empty();
-        }
-    });
+
+async function showSizeCart() {
+    await fetch("/cart/size")
+        .then(status)
+        .then(json)
+        .then(function (data) {
+            if (data != 0) {
+                $("#bucketIn").empty();
+                $("#bucketIn").append(data)
+            } else {
+                $('#bucketIn').empty();
+            }
+        });
 }
+
 $(document).ready(function () {
     $("body").on('click', '.btn-success', function () {
         let id = $(this).attr("data-id");
@@ -108,42 +112,42 @@ $(document).ready(function () {
 })
 
 function addToCart(id) {
-    $.post({
-        url: "/cart/" + id
-    })
-}
-function getCart() {
-    $.get({
-        url: "/cart",
-    }).then(function (data) {
-        $("#shoppingCartDrop").empty();
-        let table = $('<div class="dropdown-item-text"><table class="table table-striped table-sm bg-white" />')
-        $.each(data, function (key, value) {
-            let book = getBookDTO(key);
-            table.append('<tr></td><td><img src="../images/book' + book.id + '/' + book.coverImage + '" style="max-width: 60px"></td>+' +
-                '<td style="width: 20px"></td>' +
-                '<td>' + book.name[currentLang] + ' | ' + book.author[currentLang] + '</td>' +
-                '<td style="width: 20px"></td>' +
-                '<td>' + value + '</td>' +
-                '<td style="width: 20px"></td>' +
-                '<td class="mr-1"><button class="btn btn-info delete"  style="background-color: orangered" data-id="' + book.id + '">' + deleteBottom + '</button></td>' +
-                '</tr>');
-            table.append('<tr style="height: 15px" />')
-        })
-        $('#shoppingCartDrop').append(table);
+    fetch("/cart/" + id, {
+        method: "POST"
     })
 }
 
-function getBookDTO(id) {
+async function getCart() {
+    await fetch("/cart")
+        .then(status)
+        .then(json)
+        .then(function (data) {
+            $("#shoppingCartDrop").empty();
+            let table = $('<div class="dropdown-item-text"><table class="table table-striped table-sm bg-white" />')
+            $.each(data, async function (key, value) {
+                let book = await getBookDTO(key);
+                table.append('<tr></td><td><img src="../images/book' + book.id + '/' + book.coverImage + '" style="max-width: 60px"></td>+' +
+                    '<td style="width: 20px"></td>' +
+                    '<td>' + book.name[currentLang] + ' | ' + book.author[currentLang] + '</td>' +
+                    '<td style="width: 20px"></td>' +
+                    '<td>' + value + '</td>' +
+                    '<td style="width: 20px"></td>' +
+                    '<td class="mr-1"><button class="btn btn-info delete"  style="background-color: orangered" data-id="' + book.id + '">' + deleteBottom + '</button></td>' +
+                    '</tr>');
+                table.append('<tr style="height: 15px" />')
+                $('#shoppingCartDrop').append(table);
+            })
+        })
+}
+
+async function getBookDTO(id) {
     let res;
-    $.ajax({
-        url: "/getBookDTOById/" + id,
-        async: false,
-        method: 'GET',
-        success: function (data) {
+    await fetch("/getBookDTOById/" + id)
+        .then(status)
+        .then(json)
+        .then(function (data) {
             res = data;
-        }
-    });
+        });
     return res;
 }
 
@@ -153,13 +157,10 @@ $(document).ready(function () {
     })
     $("body").on('click', '.delete', function () {
         let id = $(this).attr("data-id");
-        $.ajax({
-            url: '/cart/' + id,
-            type: 'DELETE',
-            data: id,
-            success: function () {
-                showSizeCart();
-            },
+        fetch('/cart/' + id, {
+            method: 'DELETE',
+        }).then(function () {
+            showSizeCart();
         })
-    })
+    });
 })

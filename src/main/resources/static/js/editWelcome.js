@@ -96,7 +96,7 @@ async function pageBook(x) {
             buildChangeLang();
             var htmlAddPage = varBookDTO;
             nameObjectOfLocaleStringWithId = Object.values(htmlAddPage);
-            nameObjectOfLocaleString = nameObjectOfLocaleStringWithId.filter(t => (t !== "id")&(t !== 'price'));
+            nameObjectOfLocaleString = nameObjectOfLocaleStringWithId.filter(t => (t !== "id") & (t !== 'price'));
             var htmlTable = '';
             for (let dd of nameObjectOfLocaleStringWithId) {
                 htmlTable += `<th scope='col'>${dd} ${idChangeLang}</th>`;
@@ -114,8 +114,7 @@ async function pageBook(x) {
                         if (key === "price") {
                             var ad = tmp_html[key];
                             html += `<td id='n${tmp_html.id}'>${ad}</td>`;
-                        }
-                        else {
+                        } else {
                             var ad = tmp_html[key][idChangeLang];
                             html += `<td id='n${tmp_html.id}'>${ad}</td>`;
                         }
@@ -148,29 +147,28 @@ function addPage() {
         for (let tmpNameVar of nameVarOfLocaleString) {
             html +=
                 `<div class='form-group mx-5'>` +
-                `<div class="row">`+
+                `<div class="row">` +
                 `<div class="col-0" for=${tmpNameObject}${tmpNameVar}>${tmpNameObject} ${tmpNameVar}</div>` +
-                `<div class="col-2 mr-1">`+
-                `<input type="radio" name="rb${tmpNameObject}" id="rb${tmpNameObject}${tmpNameVar}" value="${tmpNameVar}" autocomplete="off"> Translate from this language`+
-                `</div>`+
-                `<div class="col">`+
+                `<div class="col-2 mr-1">` +
+                `<input type="radio" name="rb${tmpNameObject}" id="rb${tmpNameObject}${tmpNameVar}" value="${tmpNameVar}" autocomplete="off"> Translate from this language` +
+                `</div>` +
+                `<div class="col">` +
                 `<input type='text' class='form-control' id='inp${tmpNameObject}${tmpNameVar}'` +
                 `placeholder='${tmpNameObject} ${tmpNameVar}'>` +
-                `</div>`+
-                `<div class="col">`+
+                `</div>` +
+                `<div class="col">` +
                 `<input type="checkbox" checked name="cb${tmpNameObject}" value="${tmpNameVar}" autocomplete="off"> Into this language` +
-                `</div>`+
-                `</div>`+
+                `</div>` +
+                `</div>` +
                 `</div>`;
         }
-        html+=`<button type="button" onclick="translateText('${tmpNameObject}')" class="btn btn-primary mx-3">Translate</button>`;
+        html += `<button type="button" onclick="translateText('${tmpNameObject}')" class="btn btn-primary mx-3">Translate</button>`;
     }
-    $('#newBookForm').html(html +'<h4>Price</h4><input type="text" class="form-control col-1" name="price" placeholder="price">'+ `<h4>Cover Image</h4>` +
+    $('#newBookForm').html(html + '<h4>Price</h4><input type="text" class="form-control col-1" name="price" placeholder="price">' + `<h4>Cover Image</h4>` +
         `<div class='car' style='width: 18rem;'>` +
         `<img id='myImage' src =''  class='card-img-top' alt='...'> ` +
         `</div>`);
 }
-
 
 
 function addBook() {
