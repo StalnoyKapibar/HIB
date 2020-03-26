@@ -18,7 +18,7 @@ public class FilterSession extends GenericFilterBean {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
-        if (httpServletRequest.getSession().getAttribute("LANG") == null) {
+        if (httpServletRequest.getSession(false).getAttribute("LANG") == null) {
             httpServletRequest.getSession().setAttribute("LANG", lang);
         }
         filterChain.doFilter(httpServletRequest, servletResponse);

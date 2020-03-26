@@ -18,7 +18,11 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Builder
-@Table(name = "users")
+@Table(name = "users",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "uk_user_account_login", columnNames = "login"),
+                @UniqueConstraint(name = "uk_user_account_email", columnNames = "email")}
+)
 public class UserAccount implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,6 +37,7 @@ public class UserAccount implements UserDetails {
     private long lastAuthDate;
     private String provider;
     private String locale;
+
     @ManyToMany(fetch=FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_name"))
     private List<UserRole> authorities = new ArrayList<>();

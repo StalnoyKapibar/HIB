@@ -16,7 +16,7 @@ public class LangController {
 
     @GetMapping("/lang/{lang}")
     public ResponseEntity setChosenLanguage(@PathVariable("lang") String lang, HttpServletRequest request) throws JsonProcessingException {
-        request.getSession().setAttribute("LANG", lang);
+        request.getSession(false).setAttribute("LANG", lang);
         //TODO: logic for processing chosen language
         return ResponseEntity.status(HttpStatus.OK).body("{'message':'empty'}" /* "some value instead" */);
     }
