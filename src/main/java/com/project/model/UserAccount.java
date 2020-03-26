@@ -24,10 +24,10 @@ public class UserAccount implements UserDetails {
     @Column(name = "user_id")
     private Long id;
 
-    @Column(name = "login")
+    @Column(name = "login", unique = true, length = 64)
     private String login;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true, length = 250)
     private String email;
 
     @Column(name = "password")

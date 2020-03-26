@@ -15,7 +15,7 @@
     <script src="../static/js/jquery.min.js"></script>
     <script src="../static/js/popper.min.js"></script>
     <script src="../static/js/bootstrap.min.js"></script>
-    <title>Document</title>
+    <title>History in Books</title>
 </head>
 <body>
 
@@ -33,9 +33,9 @@
         </div>
     </div>
     <header>
-        <nav class="navbar navbar-light bg-light  navbar-expand-md  fixed-top">
+        <nav class="navbar navbar-light bg-light navbar-expand-md fixed-top">
             <a class="navbar-brand header-title-big d-lg-block d-none">History in Books</a>
-            <a class="navbar-brand header-title-little d-lg-none d-md-block">HIB</a>
+            <a class="navbar-brand header-title-little d-lg-none d-md-block"  href="/home">HIB</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
                     aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" id="toggleBtn">
                 <span class="navbar-toggler-icon"></span>
@@ -54,7 +54,9 @@
                         <button class="btn pl-2 btn-header" id="menu-toggle">Category</button>
                     </li>
                     <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-                        <button class="btn pl-2 btn-header" id="link_admin_page" onclick="getAdminPage()">Admin</button>
+                        <button class="btn pl-2 btn-header" id="link_admin_page"
+                                onclick="document.location.href='/admin'">Admin
+                        </button>
                     </li>
                 </ul>
                 <div class="dropdown mr-2 mb-2 mt-2">
@@ -80,7 +82,7 @@
                         <form action="#" class="m-0 ml-sm-0">
                             <button type="button" class="btn btn-header border m-0" data-toggle="modal"
                                     data-target="#signModal" id="signModalBtn">
-                                <span id="signin_btn_text">Sign In</span>
+                                <span id="signInBtnText">Sign on</span>
                             </button>
                         </form>
                     </div>
@@ -140,34 +142,37 @@
             <div class="footer_made_by pt-2"><a id="made_by">Created by JavaMentor® Team</a></div>
         </div>
     </div>
+    <a id="bookid" th:value="${book}" hidden></a>
 </div>
-<a id="bookid" th:value="${book}" hidden></a>
+
+    <!--modal window for sing in-->
 
 <div class="modal fade" id="signModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header mx-3">
-                <h5 class="header-title-sign-in mb-0" id="exampleModalLabel">Sign in</h5>
+                <h5 class="header-title-sign-in mb-0" id="modalLabel">Sign in</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body mx-lg-2 mx-sm-1">
-                <form action="/login" th:action="@{/login}" role="form" method="post" id="form-login" name="form-login">
+                <form action="/login?page=page" role="form" method="post" id="form-login" name="form-login">
                     <div class="form-group">
-                        <label for="loginInput">Login</label>
+                        <label for="loginInput" id="labelLogin">Login</label>
                         <input type="text" class="form-control" id="loginInput" name="username" placeholder="Login"
                                required>
                     </div>
                     <div class="form-group">
-                        <label for="passwordInput">Password</label>
+                        <label for="passwordInput" id="labelPassword">Password</label>
                         <input type="password" class="form-control" id="passwordInput" name="password"
                                placeholder="Password" required>
                     </div>
                     <div class="custom-control custom-checkbox mb-2">
                         <input type="checkbox" class="custom-control-input" id="checkboxRememberMe">
-                        <label class="custom-control-label" for="checkboxRememberMe">Remember me</label>
+                        <label class="custom-control-label" for="checkboxRememberMe" id="labelRememberMe">Remember
+                            me</label>
                     </div>
                     <button type="submit" hidden id="hidden_submit_btn">HiddenButtonToSubmitLoginForm</button>
                 </form>
@@ -190,14 +195,15 @@
                 </div>
                 <div>
                     <form action="/registration">
-                        <button type="submit" class="btn btn-header border col-12 mt-3">Register new profile</button>
+                        <button type="submit" class="btn btn-header border col-12 mt-3" id="registerBtn">Register new
+                            profile
+                        </button>
                     </form>
                 </div>
             </div>
             <div class="modal-footer mx-3">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="sign_in_btn" onclick="sendSignInForm()">Sign in
-                </button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeBtn">Close</button>
+                <button type="button" class="btn btn-primary" id="signInBtn" onclick="sendSignInForm()">Sign in</button>
             </div>
         </div>
     </div>

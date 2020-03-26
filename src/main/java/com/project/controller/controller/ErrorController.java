@@ -39,8 +39,8 @@ public class ErrorController extends AbstractErrorController {
     }
 
     @ExceptionHandler(NoValuePresentException.class)
-    public ModelAndView noValuePresent() throws IOException {
-        ModelAndView view = new ModelAndView("home");
+    public ModelAndView noValuePresent(HttpServletRequest request) throws IOException {
+        ModelAndView view = new ModelAndView(request.getParameter("page"));
         view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessageOnNoValuePresent());
         return view;
     }

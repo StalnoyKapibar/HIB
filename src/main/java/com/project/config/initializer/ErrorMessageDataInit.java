@@ -16,13 +16,13 @@ public class ErrorMessageDataInit {
         errorMessage1.setField("login");
         errorMessage1.setReason("Size");
         errorMessage1.setBody(new LocaleString(
-                "Логин должен содержать от 5 до 32 символов",
-                "The login must contain between 5 and 32 characters",
-                "Le champ doit contenir entre 5 et 32 caractères",
-                "Il campo deve contenere da 5 a 32 caratteri",
-                "Das Feld muss zwischen 5 und 32 Zeichen lang sein",
-                "Pole musí obsahovat 5 až 32 znaků",
-                "Το πεδίο πρέπει να περιέχει από 5 έως 32 χαρακτήρες"));
+                "Логин должен содержать от 4 до 32 символов",
+                "The login must contain between 4 and 32 characters",
+                "Le champ doit contenir entre 4 et 32 caractères",
+                "Il campo deve contenere da 4 a 32 caratteri",
+                "Das Feld muss zwischen 4 und 32 Zeichen lang sein",
+                "Pole musí obsahovat 4 až 32 znaků",
+                "Το πεδίο πρέπει να περιέχει από 4 έως 32 χαρακτήρες"));
         addErrorMessage(errorMessage1);
         //2
         FormLoginErrorMessage errorMessage2 = new FormLoginErrorMessage();
@@ -68,13 +68,13 @@ public class ErrorMessageDataInit {
         errorMessage5.setField("password");
         errorMessage5.setReason("Size");
         errorMessage5.setBody(new LocaleString(
-                "Пароль должен быть в диапазоне от 8 до 64",
-                "The password must be between 8 and 64",
-                "Le mot de passe doit être compris entre 8 et 64",
-                "La password deve essere compresa tra 8 e 64",
-                "Das Kennwort muss zwischen 8 und 64 liegen",
-                "Heslo musí být v rozmezí 8 až 64",
-                "Ο κωδικός πρόσβασης πρέπει να είναι από 8 έως 64"));
+                "Пароль должен быть в диапазоне от 6 до 64",
+                "The password must be between 6 and 64",
+                "Le mot de passe doit être compris entre 6 et 64",
+                "La password deve essere compresa tra 6 e 64",
+                "Das Kennwort muss zwischen 6 und 64 liegen",
+                "Heslo musí být v rozmezí 6 až 64",
+                "Ο κωδικός πρόσβασης πρέπει να είναι από 6 έως 64"));
         addErrorMessage(errorMessage5);
         //6
         FormLoginErrorMessage errorMessage6 = new FormLoginErrorMessage();

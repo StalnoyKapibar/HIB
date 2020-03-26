@@ -1,8 +1,27 @@
-var currentLang = '';
 var bottom = '';
 
 function sendSignInForm() {
     $('#hidden_submit_btn').click();
+}
+
+$('#form-login').on('submit', function (e) {
+    var data = {};
+    data['username'] = $('#loginInput').val();
+    data['password'] = $('#passwordInput').val();
+    fetch("/login?url=" + document.location.pathname, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    }).then(status).then(window.location.reload);
+});
+
+function setCurrentLangFromSessionAttrLANG() {
+    if (currentLang == '') {
+        currentLang = $('#dd_menu_link').data('currentLang');
+    }
 }
 
 function sendSingUpForm() {
@@ -14,6 +33,7 @@ function setLocaleFields() {
         .then(status)
         .then(json)
         .then(function (localeFields) {
+            //  Footer
             $('#link_main_footer').text(localeFields['main1']);
             $('#link_instruction').text(localeFields['instruction']);
             $('#link_authors').text(localeFields['authors']);
@@ -21,14 +41,41 @@ function setLocaleFields() {
             $('#link_contacts').text(localeFields['contacts']);
             $('#links').text(localeFields['links']);
             $('#made_by').text(localeFields['madeby']);
+
+            //   Header
             $('#link_main_header').text(localeFields['main']);
             $('#link_books_header').text(localeFields['books']);
             $('#menu-toggle').text(localeFields['category']);
             $('#headpost').text(localeFields['headpost']);
+
+            //  Button card and card modal
             bottom = localeFields['bookbotom'];
             $('#modalClose').text(localeFields['close']);
             $('#buttonBookPage').text(localeFields['pageofBook']);
+
+            //    Sign in form
+            $('#modalLabel').text(localeFields['modalHeader']);
+            $('#labelLogin').text(localeFields['login']);
+            $('#labelPassword').text(localeFields['password']);
+            $('#labelRememberMe').text(localeFields['rememberMe']);
+            $('#registerBtn').text(localeFields['registerNewProfile']);
+            $('#closeBtn').text(localeFields['close']);
+            $('#signInBtn').text(localeFields['signIn']);
+            $('#signInBtnText').text(localeFields['signIn']);
+            $('#logoutButton').text(localeFields['logout']);
+
+            //  Registration form
+            $('#signUpHeader').text(localeFields['signUpHeader']);
+            $('#labelEmail').text(localeFields['email']);
+            $('#labelPasswordForm').text(localeFields['password']);
+            $('#labelLoginForm').text(localeFields['login']);
+            $('#labelConformPassword').text(localeFields['conformPassword']);
+            $('#signUpBtn').text(localeFields['signUp']);
         })
+}
+
+function setLocaleFieldForSignInModalWindow() {
+
 }
 
 //function for chose language
