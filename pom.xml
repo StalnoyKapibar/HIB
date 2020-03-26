@@ -91,12 +91,16 @@
             <artifactId>commons-collections4</artifactId>
             <version>4.4</version>
         </dependency>
-
         <!-- https://mvnrepository.com/artifact/com.google.cloud/google-cloud-storage -->
         <dependency>
             <groupId>com.google.cloud</groupId>
             <artifactId>google-cloud-storage</artifactId>
             <version>1.104.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-oauth2-client</artifactId>
         </dependency>
 
 

@@ -1,7 +1,10 @@
 package com.project.config;
 
+import com.project.config.handler.OAuthLoginSuccessHandler;
 import com.project.filter.FilterSession;
+import com.project.service.OAuthUserService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -27,9 +30,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private AuthenticationSuccessHandler loginSuccessHandler;
 
+    private OAuthLoginSuccessHandler oAuthLoginSuccessHandler;
+
     private AuthenticationFailureHandler loginFailureHandler;
 
     private AccessDeniedHandler accessDeniedHandler;
+
+    private OAuthUserService oAuthUserService;
 
     private FilterSession filterSession;
 
@@ -40,7 +47,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+        auth.userDetailsService(userDetailsService)
+                .passwordEncoder(passwordEncoder());
     }
 
     @Override
@@ -48,27 +56,39 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         http.addFilterBefore(filterSession, BasicAuthenticationFilter.class);
 
-        http
-                .csrf()
-                .disable()
-                .authorizeRequests()
-                .antMatchers("/admin", "/admin/**").hasAnyRole("ADMIN")
-                .antMatchers("/**").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .loginPage("/home")
+        //Страницы доступные для админа
+        http.authorizeRequests().antMatchers("/admin/**", "/admin")
+                .hasRole("ADMIN");
+        //Страницы доступные для юзеров
+        http.authorizeRequests().antMatchers("/user", "/logout")
+                .hasRole("USER");
+
+        http.formLogin()
+                .loginPage("/")
                 .loginProcessingUrl("/login")
                 .successHandler(loginSuccessHandler)
                 .failureHandler(loginFailureHandler)
-                .permitAll()
                 .and()
-                .logout()
+                //OAuth
+                .oauth2Login()
+                .successHandler(oAuthLoginSuccessHandler)
+                .authorizationEndpoint()
+                .baseUri("/oauth2/authorize")
+                .and()
+                .redirectionEndpoint()
+                .baseUri("/oauth2/callback/*")
+                .and()
+                .userInfoEndpoint()
+                .userService(oAuthUserService);
+
+        http.logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/home?logout")
-                .deleteCookies("JSESSIONID")
-                .permitAll()
-                .and()
-                .exceptionHandling().accessDeniedHandler(accessDeniedHandler);
+                .deleteCookies("JSESSIONID");
+
+        http.exceptionHandling()
+                .accessDeniedHandler(accessDeniedHandler);
+
+        http.csrf().disable();
     }
 }
