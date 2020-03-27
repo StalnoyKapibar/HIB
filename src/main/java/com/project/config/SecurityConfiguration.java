@@ -1,5 +1,6 @@
 package com.project.config;
 
+import com.project.config.handler.LogoutSuccessHandler;
 import com.project.config.handler.OAuthLoginSuccessHandler;
 import com.project.filter.FilterSession;
 import com.project.service.OAuthUserService;
@@ -39,6 +40,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private OAuthUserService oAuthUserService;
 
     private FilterSession filterSession;
+
+    private LogoutSuccessHandler logoutSuccessHandler;
 
     @Bean("passwordEncoder")
     public PasswordEncoder passwordEncoder() {
@@ -83,7 +86,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         http.logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/home?logout")
+                .logoutSuccessHandler(logoutSuccessHandler)
                 .deleteCookies("JSESSIONID");
 
         http.exceptionHandling()
