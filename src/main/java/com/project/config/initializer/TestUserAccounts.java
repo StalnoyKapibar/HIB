@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class TestUserAccounts {
 
@@ -43,7 +44,7 @@ public class TestUserAccounts {
         account1.setLastName("admin");
         account1.setRegDate(Instant.now().getEpochSecond());
         account1.setProvider("local");
-        account1.setLocale("ru");
+        account1.setEnabled(true);
         account1.setAuthorities(authorities);
         saveUserAccount(account1);
 
@@ -58,7 +59,7 @@ public class TestUserAccounts {
         account2.setLastName("user");
         account2.setRegDate(Instant.now().getEpochSecond());
         account2.setProvider("local");
-        account2.setLocale("it");
+        account2.setEnabled(true);
         account2.setAuthorities(authorities);
         saveUserAccount(account2);
     }

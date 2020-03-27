@@ -17,6 +17,7 @@ public class UserPrincipal implements UserDetails, OAuth2User {
     private String email;
     private String password;
     private String locale;
+    private boolean isEnabled = false;
     private Collection<? extends GrantedAuthority> authorities;
     private Map<String, Object> attributes;
 
@@ -75,7 +76,7 @@ public class UserPrincipal implements UserDetails, OAuth2User {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return isEnabled;
     }
 
     @Override
