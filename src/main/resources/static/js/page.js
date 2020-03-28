@@ -124,13 +124,13 @@ async function getCart() {
         .then(function (data) {
             $("#shoppingCartDrop").empty();
             let table = $('<div class="dropdown-item-text"><table class="table table-striped table-sm bg-white" />')
-            $.each(data, async function (key, value) {
-                let book = await getBookDTO(key);
+            $.each(data, function (index) {
+                let book = data[index].book;
                 table.append('<tr></td><td><img src="../images/book' + book.id + '/' + book.coverImage + '" style="max-width: 60px"></td>+' +
                     '<td style="width: 20px"></td>' +
                     '<td>' + book.name[currentLang] + ' | ' + book.author[currentLang] + '</td>' +
                     '<td style="width: 20px"></td>' +
-                    '<td>' + value + '</td>' +
+                    '<td>' + data[index].quantity + '</td>' +
                     '<td style="width: 20px"></td>' +
                     '<td class="mr-1"><button class="btn btn-info delete"  style="background-color: orangered" data-id="' + book.id + '">' + deleteBottom + '</button></td>' +
                     '</tr>');
@@ -138,17 +138,6 @@ async function getCart() {
                 $('#shoppingCartDrop').append(table);
             })
         })
-}
-
-async function getBookDTO(id) {
-    let res;
-    await fetch("/getBookDTOById/" + id)
-        .then(status)
-        .then(json)
-        .then(function (data) {
-            res = data;
-        });
-    return res;
 }
 
 $(document).ready(function () {

@@ -1,12 +1,14 @@
 package com.project.controller.restcontroller;
 
+import com.project.model.BookDTO;
+import com.project.model.CartItem;
+import com.project.model.ShoppingCart;
 import com.project.service.BookService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -16,42 +18,63 @@ public class ShoppingCartController {
 
     @GetMapping("/cart/size")
     public int getCartSize(HttpSession session) {
-        Map<Long, Integer> cartList = (Map<Long, Integer>) session.getAttribute("shoppingcart");
-        if (cartList != null) {
-            return cartList.size();
+        ShoppingCart shoppingCart = (ShoppingCart) session.getAttribute("shoppingcart");
+        if (shoppingCart != null) {
+            return shoppingCart.getCartItems().size();
         } else {
             return 0;
         }
     }
 
     @GetMapping(value = "/cart")
-    public Map<Long, Integer> getShoppingCart(HttpSession session) {
-        return (Map<Long, Integer>) session.getAttribute("shoppingcart");
+    public List<CartItem> getShoppingCart(HttpSession session) {
+        ShoppingCart shoppingCart = (ShoppingCart) session.getAttribute("shoppingcart");
+        return shoppingCart.getCartItems();
     }
 
     @PostMapping("/cart/{id}")
     public void addToCart(@PathVariable Long id, HttpSession session) {
-        Map<Long, Integer> cartList = (Map<Long, Integer>) session.getAttribute("shoppingcart");
-        if (cartList == null) {
-            cartList = new HashMap<Long, Integer>();
+        BookDTO bookDTO = bookService.getBookDTOById(id);
+        ShoppingCart shoppingCart = (ShoppingCart) session.getAttribute("shoppingcart");
+        if (shoppingCart == null) {
+            shoppingCart = new ShoppingCart();
         }
-        cartList.merge(id, 1, (oldVal, newVal) -> oldVal + newVal);
-        session.setAttribute("shoppingcart", cartList);
+        List<CartItem> cartItems = shoppingCart.getCartItems();
+        CartItem newCartItem = new CartItem(bookDTO, 1);
+        if (cartItems.contains(newCartItem)) {
+            for (CartItem cartItem : cartItems) {
+                if (cartItem.equals(newCartItem)) {
+                    newCartItem.setQuantity(cartItem.getQuantity() + 1);
+                    cartItems.remove(cartItem);
+                    break;
+                }
+            }
+            cartItems.add(newCartItem);
+        } else {
+            cartItems.add(newCartItem);
+        }
+        session.setAttribute("shoppingcart", shoppingCart);
     }
 
     @DeleteMapping("/cart/{id}")
     public void deletFromCart(@PathVariable Long id, HttpSession session) {
-        Map<Long, Integer> cartList = (Map<Long, Integer>) session.getAttribute("shoppingcart");
-        if (cartList != null) {
-            cartList.remove(id);
+        ShoppingCart shoppingCart = (ShoppingCart) session.getAttribute("shoppingcart");
+        if (shoppingCart != null) {
+            List<CartItem> cartItems = shoppingCart.getCartItems();
+            cartItems.remove(new CartItem(bookService.getBookDTOById(id), 0));
+            shoppingCart.setCartItems(cartItems);
         }
-        session.setAttribute("shoppingcart", cartList);
+        session.setAttribute("shoppingcart", shoppingCart);
     }
 
     @PostMapping(value = "/cart", params = {"id", "quatity"})
     public void editCart(@RequestParam("id") Long id, @RequestParam("quatity") Integer quatity, HttpSession session) {
-        Map<Long, Integer> cartList = (Map<Long, Integer>) session.getAttribute("shoppingcart");
-        cartList.replace(id, quatity);
-        session.setAttribute("shoppingcart", cartList);
+        ShoppingCart shoppingCart = (ShoppingCart) session.getAttribute("shoppingcart");
+        CartItem newCartItem = new CartItem(bookService.getBookDTOById(id), quatity);
+        List<CartItem> cartItems = shoppingCart.getCartItems();
+        cartItems.remove(newCartItem);
+        cartItems.add(newCartItem);
+        shoppingCart.setCartItems(cartItems);
+        session.setAttribute("shoppingcart", shoppingCart);
     }
 }

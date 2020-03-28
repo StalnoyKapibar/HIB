@@ -10,6 +10,34 @@ $(document).ready(function () {
 });
 let totalPrice = 0;
 
+// function getCart() {
+//     setTimeout(async function () {
+//         await fetch("/cart")
+//             .then(status)
+//             .then(json)
+//             .then(function (data) {
+//                 $('#newTab').empty();
+//                 totalPrice = 0;
+//                 $.each(data, async function (key, value) {
+//                     let book = await getBookDTO(key);
+//                     totalPrice += book.price * value;
+//                     let row = $('<tr id="trr"/>');
+//                     let cell = $('<td width="10"></td>');
+//                     row.append(cell);
+//                     cell = '<td class="align-middle"><img src="../images/book' + book.id + '/' + book.coverImage + '" style="max-width: 60px"></td>' +
+//                         '<td class="align-middle">' + book.name[currentLang] + ' | ' + book.author[currentLang] + '</td>' +
+//                         '<td class="align-middle" id="book' + book.id + '">' + book.price + '</td>' +
+//                         '<td class="align-middle"><div class="product-quantity" > <input id="value' + book.id + '" type="number" value="' + value + '" min="1" style="width: 45px" data-id="' + book.id + '" data-value="' + value + '"></div></td>' +
+//                         '<td class="align-middle" ><button class="btn btn-info delete"  style="background-color: orangered" data-id="' + book.id + '">' + deleteBottom + '</button></td>';
+//                     row.append(cell);
+//                     row.appendTo('#newTab');
+//                     $('#sum').text(totalPrice);
+//                 });
+//
+//             });
+//     }, 10);
+// }
+
 function getCart() {
     setTimeout(async function () {
         await fetch("/cart")
@@ -18,16 +46,16 @@ function getCart() {
             .then(function (data) {
                 $('#newTab').empty();
                 totalPrice = 0;
-                $.each(data, async function (key, value) {
-                    let book = await getBookDTO(key);
-                    totalPrice += book.price * value;
+                $.each(data, function (index) {
+                    let book = data[index].book;
+                    totalPrice += book.price * data[index].quantity;
                     let row = $('<tr id="trr"/>');
                     let cell = $('<td width="10"></td>');
                     row.append(cell);
                     cell = '<td class="align-middle"><img src="../images/book' + book.id + '/' + book.coverImage + '" style="max-width: 60px"></td>' +
                         '<td class="align-middle">' + book.name[currentLang] + ' | ' + book.author[currentLang] + '</td>' +
                         '<td class="align-middle" id="book' + book.id + '">' + book.price + '</td>' +
-                        '<td class="align-middle"><div class="product-quantity" > <input id="value' + book.id + '" type="number" value="' + value + '" min="1" style="width: 45px" data-id="' + book.id + '" data-value="' + value + '"></div></td>' +
+                        '<td class="align-middle"><div class="product-quantity" > <input id="value' + book.id + '" type="number" value="' + data[index].quantity + '" min="1" style="width: 45px" data-id="' + book.id + '" data-value="' + data[index].quantity + '"></div></td>' +
                         '<td class="align-middle" ><button class="btn btn-info delete"  style="background-color: orangered" data-id="' + book.id + '">' + deleteBottom + '</button></td>';
                     row.append(cell);
                     row.appendTo('#newTab');
