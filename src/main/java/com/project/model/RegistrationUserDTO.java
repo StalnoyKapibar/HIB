@@ -28,5 +28,16 @@ public class RegistrationUserDTO {
             message = "Пароль должен содержать числа, символы в верхнем и нижнем ригистрах, без пробела")
     private String password;
 
-    private String conformPassword;
+    private String confirmPassword;
+
+    private String firstName;
+
+    private String lastName;
+
+    private long regDate;
+
+    private long lastSeenDate;
+
+    private String provider;
+
 }

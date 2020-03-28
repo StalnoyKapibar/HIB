@@ -12,7 +12,7 @@ import java.io.*;
 import java.util.Properties;
 
 @RestController
-public class UserController {
+public class LangController {
 
     @GetMapping("/lang/{lang}")
     public ResponseEntity setChosenLanguage(@PathVariable("lang") String lang, HttpServletRequest request) throws JsonProcessingException {

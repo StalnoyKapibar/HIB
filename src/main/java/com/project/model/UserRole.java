@@ -11,19 +11,16 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "role")
+@Table(name = "roles")
 public class UserRole implements GrantedAuthority {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "role_id")
-    private Long id;
-
-    @Column(name = "name")
-    private String name;
+    private Long roleId;
+    @Column(name = "role_name")
+    private String roleName;
 
     @Override
     public String getAuthority() {
-        return name;
+        return roleName;
     }
 }

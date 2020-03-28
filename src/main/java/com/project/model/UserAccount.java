@@ -8,39 +8,43 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Set;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Builder
-@Table(name = "user_account")
+@Table(name = "users",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "uk_user_account_login", columnNames = "login"),
+                @UniqueConstraint(name = "uk_user_account_email", columnNames = "email")}
+)
 public class UserAccount implements UserDetails {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
-    private Long id;
-
-    @Column(name = "login", unique = true, length = 64)
+    private Long userId;
     private String login;
-
-    @Column(name = "email", unique = true, length = 250)
+    @Email
     private String email;
-
-    @Column(name = "password")
     private String password;
+    private String firstName;
+    private String lastName;
+    private long regDate;
+    private long lastAuthDate;
+    private String provider;
+    private String locale;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
-    @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "role_id"))
-    private Set<UserRole> roles;
+    @ManyToMany(fetch=FetchType.EAGER)
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_name"))
+    private List<UserRole> authorities = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
+        return authorities;
     }
 
     @Override

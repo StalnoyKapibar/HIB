@@ -8,16 +8,8 @@ import java.util.Optional;
 
 @Repository
 public interface UserAccountDao extends CrudRepository<UserAccount, Long> {
-
-    @Override
-    <S extends UserAccount> S save(S entity);
-
-    @Override
-    boolean existsById(Long aLong);
-
-    @Override
-    Optional<UserAccount> findById(Long aLong);
-
     Optional<UserAccount> findByLogin(String login);
+    Optional<UserAccount> findByEmail(String email);
 
+    UserAccount findByLoginOrEmail(String login, String email);
 }
