@@ -21,6 +21,11 @@ function setPageFields() {
         $('#book-name').text(data.name[currentLang]);
         $('#book-author').text(data.author[currentLang]);
         $('#book-name1').text(data.name[currentLang]);
+        $('#ask-question').attr("onClick",
+            `jivo_api.open(); jivo_api.sendMessage({Автор:'${data.author[currentLang]}',
+            Название: '${data.name[currentLang]}',
+            Ссылка:'${window.location}'},
+            'Здравствуйте, меня заинтересовала данная книга:'); return false;`);
         buildCardImageOrCarousel();
     })
 }
