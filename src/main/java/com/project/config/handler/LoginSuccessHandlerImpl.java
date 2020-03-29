@@ -25,15 +25,13 @@ public class LoginSuccessHandlerImpl implements AuthenticationSuccessHandler {
                                         HttpServletResponse response,
                                         Authentication authentication) throws IOException {
 
-        authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserAccount userAccount = (UserAccount) authentication.getPrincipal();
-        String locale = userAccount.getLocale();
-        request.getSession().setAttribute("LANG", locale);
+        request.getSession().setAttribute("LANG", ((UserAccount) authentication.getPrincipal()).getLocale());
 
         if (authentication.getAuthorities().contains(userRoleService.getUserRoleByName("ROLE_ADMIN"))) {
             response.sendRedirect("/admin");
         } else {
-            response.sendRedirect(request.getParameter("url"));
+            //redirect clear url without parameters
+            response.sendRedirect(request.getHeader("referer"));
         }
     }
 }

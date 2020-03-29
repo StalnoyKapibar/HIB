@@ -24,6 +24,18 @@ function setPageFields() {
     })
 }
 
+function buildCardImageOrCarousel() {
+    if (objectBook.imageList.length === 1) {
+        buildCardImage();
+    } else {
+        buildCarousel();
+    }
+}
+
+function buildCardImage() {
+    $('#CardImageOrCarousel').html(`<img id='bookImg' src=${pathImageDefault}${objectBook.id}/${objectBook.coverImage} alt='Card image cap'>`);
+}
+
 function buildCarousel() {
     for (var i = 0; i < objectBook.imageList.length; i++) {
         if (objectBook.imageList[i].nameImage === objectBook.coverImage) {
@@ -70,16 +82,4 @@ function buildCarousel() {
     $('#CardImageOrCarousel').html(htmlBodyCarousel);
     $('#testActive').html(tmpHtmlForCarouselIndicators);
     $('#testBody').html(tmpHtmlForCarousel);
-}
-
-function buildCardImageOrCarousel() {
-    if (objectBook.imageList.length === 1) {
-        buildCardImage();
-    } else {
-        buildCarousel();
-    }
-}
-
-function buildCardImage() {
-    $('#CardImageOrCarousel').html(`<img id='bookImg' src=${pathImageDefault}${objectBook.id}/${objectBook.coverImage} alt='Card image cap'>`);
 }

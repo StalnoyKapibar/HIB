@@ -2,7 +2,6 @@ package com.project.controller.controller;
 
 import com.project.model.FormLoginErrorMessageDTO;
 import com.project.model.RegistrationUserDTO;
-import com.project.model.UserAccount;
 import com.project.service.FormLoginErrorMessageService;
 import com.project.service.UserAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,14 +21,6 @@ public class UserController {
     @Autowired
     FormLoginErrorMessageService messageService;
 
-    @GetMapping("/registration")
-    public ModelAndView getRegistrationPage(RegistrationUserDTO user) {
-        ModelAndView view = new ModelAndView("registration");
-        view.getModelMap().addAttribute("user", new RegistrationUserDTO());
-        view.getModelMap().addAttribute("errorMessage", new FormLoginErrorMessageDTO(false, ""));
-        return view;
-    }
-
     @PostMapping(value = "/registration", consumes =
             {MediaType.APPLICATION_FORM_URLENCODED_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public ModelAndView createNewUserAccount(@Valid RegistrationUserDTO user, BindingResult result) {
@@ -37,11 +28,11 @@ public class UserController {
         view.getModelMap().addAttribute("user", user);
 
         if (result.hasErrors()) {
-            view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessage(result));
+            view.getModelMap().addAttribute("errorMessageRegistration", messageService.getErrorMessage(result));
             return view;
         }
         if (!user.getPassword().equals(user.getConfirmPassword())) {
-            view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessageOnPasswordsDoesNotMatch());
+            view.getModelMap().addAttribute("errorMessageRegistration", messageService.getErrorMessageOnPasswordsDoesNotMatch());
             return view;
         }
         try {
@@ -49,14 +40,13 @@ public class UserController {
                 userAccountService.save(user);
         } catch (DataIntegrityViolationException e) {
             if(e.getCause().getCause().getMessage().contains("login")){
-                view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessageOnLoginUIndex());
+                view.getModelMap().addAttribute("errorMessageRegistration", messageService.getErrorMessageOnLoginUIndex());
             }else {
-                view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessageOnEmailUIndex());
+                view.getModelMap().addAttribute("errorMessageRegistration", messageService.getErrorMessageOnEmailUIndex());
             }
             return view;
         }
         view.setViewName("redirect:/home");
         return view;
     }
-
 }

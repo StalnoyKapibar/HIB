@@ -4,20 +4,6 @@ function sendSignInForm() {
     $('#hidden_submit_btn').click();
 }
 
-$('#form-login').on('submit', function (e) {
-    var data = {};
-    data['username'] = $('#loginInput').val();
-    data['password'] = $('#passwordInput').val();
-    fetch("/login?url=" + document.location.pathname, {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    }).then(status).then(window.location.reload);
-});
-
 function setCurrentLangFromSessionAttrLANG() {
     if (currentLang == '') {
         currentLang = $('#dd_menu_link').data('currentLang');
@@ -59,23 +45,11 @@ function setLocaleFields() {
             $('#labelPassword').text(localeFields['password']);
             $('#labelRememberMe').text(localeFields['rememberMe']);
             $('#registerBtn').text(localeFields['registerNewProfile']);
-            $('#closeBtn').text(localeFields['close']);
+            $('#closeModalBtn').text(localeFields['close']);
             $('#signInBtn').text(localeFields['signIn']);
             $('#signInBtnText').text(localeFields['signIn']);
             $('#logoutButton').text(localeFields['logout']);
-
-            //  Registration form
-            $('#signUpHeader').text(localeFields['signUpHeader']);
-            $('#labelEmail').text(localeFields['email']);
-            $('#labelPasswordForm').text(localeFields['password']);
-            $('#labelLoginForm').text(localeFields['login']);
-            $('#labelConformPassword').text(localeFields['conformPassword']);
-            $('#signUpBtn').text(localeFields['signUp']);
         })
-}
-
-function setLocaleFieldForSignInModalWindow() {
-
 }
 
 //function for chose language
@@ -142,11 +116,25 @@ function getURLVariable() {
 
 // function for open modal window in case bad authentication and show information message
 function openModalLoginWindowOnFailure() {
-    if (getURLVariable().get('failure') != null) {
-        //TODO: this part just for hide bad view of path. In commercial level we must change protocol and hostname
-        var domainAddress = window.location.protocol + '//' + window.location.hostname + ':8080/home?login=failure';
-        history.pushState(null, null, domainAddress);
-        $('#signModalBtn').click();
+    if ($('#errorMessage').data('hasError')) {
+        //delete parametrs after showing problem
+        //open sign up modal window
+        $('#signModal').modal('show');
+    }
+}
+
+//just to delete an already displayed message
+$(document).on('hidden.bs.modal','#signModal', function () {
+    var errorMessage = $('#errorMessage');
+    if (errorMessage.data('hasError')) {
+        errorMessage.remove();
+    }
+});
+
+// For smooth closing of header in mobile view when we click 'Category'
+function checkSideBar() {
+    if ($('#navbarCollapse').hasClass('show')) {
+        $('#toggleBtn').click();
     }
 }
 
@@ -167,14 +155,6 @@ $(function ($) {
             $('#toggleBtn').click();
         }
     });
-});
-
-// For smooth closing of header in mobile view when we click 'Category'
-$('#menu-toggle').click(function (e) {
-    var navbar = $('#navbarCollapse');
-    if (navbar.hasClass('show')) {
-        $('#toggleBtn').click();
-    }
 });
 
 function status(response) {

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<!--head fragment-->
+<head th:fragment="head">
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/css/bootstrap-social.css"/>
+    <link href="../static/fonts/font.css" rel="stylesheet">
+    <link href="../static/fonts/font-awesome.css" rel="stylesheet">
+    <script src="../static/js/jquery.min.js"></script>
+    <script src="../static/js/popper.min.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
+</head>
+<body>
+<!--header fragment-->
+<header th:fragment="header">
+    <nav class="navbar navbar-light bg-light navbar-expand-md fixed-top">
+        <a class="navbar-brand header-title-big d-lg-block d-none">History in Books</a>
+        <a class="navbar-brand header-title-little d-lg-none d-md-block" href="/home">HIB</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" id="toggleBtn">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <button class="btn pl-2 btn-header" id="link_main_header"
+                            onclick="document.location.href='/home'">Main
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="btn pl-2 btn-header" id="link_books_header">Books</button>
+                </li>
+                <li class="nav-item">
+                    <button class="btn pl-2 btn-header" id="menu-toggle" onclick="checkSideBar()">Category</button>
+                </li>
+                <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+                    <button class="btn pl-2 btn-header" id="link_admin_page"
+                            onclick="document.location.href='/admin'">Admin
+                    </button>
+                </li>
+            </ul>
+            <div class="dropdown mr-2 mb-2 mt-2">
+                <a class="btn dropdown-toggle border" href="#" role="button" id="dd_menu_link"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                   th:attr="data-current-lang=${#httpSession.getAttribute('LANG')}">
+                </a>
+                <div class="dropdown-menu" aria-labelledby="dd_menu_link" id="dd_menu">
+                </div>
+            </div>
+            <form class="form-inline mr-lg-2 mb-2 mt-2 mr-md-2">
+                <div class="input-group">
+                    <input type="text" class="form-control border" placeholder="" aria-label=""
+                           aria-describedby="basic-addon1">
+                    <div class="input-group-append">
+                        <button class="btn border" type="button">
+                            <img src="../static/icons/search.svg" alt="" height="16" width="16"></button>
+                    </div>
+                </div>
+            </form>
+            <div>
+                <div sec:authorize="isAuthenticated() != true">
+                    <form action="#" class="m-0 ml-sm-0">
+                        <button type="button" class="btn btn-header border m-0" data-toggle="modal"
+                                data-target="#signModal" id="signModalBtn">
+                            <span id="signInBtnText">Sign on</span>
+                        </button>
+                    </form>
+                </div>
+                <div sec:authorize="isAuthenticated()">
+                    <form action="/logout" class="m-0 ml-sm-0">
+                        <button type="submit" class="btn btn-header border m-0" id="logoutButton">
+                            Logout
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<!--footer fragment-->
+<div th:fragment="footer" class="container-fluid text-center footer pt-3 p-0 ">
+    <div class="footer_menu">
+        <a href="#" class="footer_link p-2" id="link_main_footer">Main</a>
+        <a href="#" class="footer_link p-2" id="link_instruction">Instruction</a>
+        <a href="#" class="footer_link p-2" id="link_order">Order</a>
+        <a href="#" class="footer_link p-2" id="link_authors">Authors</a>
+        <a href="#" class="footer_link p-2" id="links">Links</a>
+        <a href="#" class="footer_link p-2" id="link_contacts">Contacts</a>
+    </div>
+    <div class="footer_made_by pt-2"><a id="made_by">Created by JavaMentor® Team</a></div>
+</div>
+
+<!--sign up modal window fragment-->
+<div th:fragment="modalSignUp" class="modal fade" id="signModal" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header mx-3">
+                <h5 class="header-title-sign-in mb-0" id="modalLabel">Sign in</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeModalBtnX">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body mx-lg-2 mx-sm-1">
+                <form action="/login" th:action="@{/login}" role="form" method="post" id="form-login" name="form-login">
+                    <div class="form-group">
+                        <label for="loginInput" id="labelLogin">Login</label>
+                        <input type="text" class="form-control" id="loginInput" name="username" placeholder="Login"
+                               autocomplete="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="passwordInput" id="labelPassword">Password</label>
+                        <input type="password" class="form-control" id="passwordInput" name="password"
+                               placeholder="Password" autocomplete="password" required>
+                    </div>
+                    <div class="custom-control custom-checkbox mb-2">
+                        <input type="checkbox" class="custom-control-input" id="checkboxRememberMe">
+                        <label class="custom-control-label" for="checkboxRememberMe" id="labelRememberMe">Remember
+                            me</label>
+                    </div>
+                    <button type="submit" hidden id="hidden_submit_btn">HiddenButtonToSubmitLoginForm</button>
+                </form>
+                <div class="row px-3" th:if="${errorMessage != null}">
+                    <h5 class="col-12 p-3 rounded text-center alert-danger"
+                        th:attr="data-has-error=${errorMessage.isHasError()}"
+                        th:text="${errorMessage.getMessage()}" id="errorMessage"></h5>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-sm-12 pr-lg-1 mt-1">
+                        <a th:href="@{/oauth2/authorize/google}" class="btn btn-block btn-social btn-google text-white">
+                            <span class="fa fa-google mr-2"></span>Sign up with Google
+                        </a>
+                    </div>
+                    <div class="col-lg-6 col-sm-12 pl-lg-1 mt-1">
+                        <a th:href="@{/oauth2/authorize/facebook}"
+                           class="btn btn-block btn-social btn-facebook text-white">
+                            <span class="fa fa-facebook-f"></span>Sign up with Facebook
+                        </a>
+                    </div>
+                </div>
+                <div th:remove="${#execInfo.getProcessedTemplateName() == 'registration'}? all : none">
+                    <form action="/registration">
+                        <button type="submit" class="btn btn-header border col-12 mt-3" id="registerBtn">Register new
+                            profile
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer mx-3">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeModalBtn">Close</button>
+                <button type="button" class="btn btn-primary" id="signInBtn" onclick="sendSignInForm()">Sign in</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
