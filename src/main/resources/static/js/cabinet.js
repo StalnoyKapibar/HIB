@@ -18,21 +18,16 @@ function setFieldsChangePersonalInformation() {
 }
 
 function savePersonalInformation() {
-    if (validMail()) {
-        let email = $('#fieldEmail').val();
-        let firstName = $('#fieldFirstName').val();
-        let lastName = $('#fieldLastName').val();
-        let tmp = {};
-        tmp['userId'] = AU.userId;
-        tmp['email'] = email;
-        tmp['firstName'] = firstName;
-        tmp['lastName'] = lastName;
-        let tmpSend = JSON.stringify(tmp);
-        savePersonalInformationRequest(tmpSend);
-    } else {
-        showError('Invalid email format!');
-        setTimeout(hideError, 5000);
-    }
+    let email = $('#fieldEmail').val();
+    let firstName = $('#fieldFirstName').val();
+    let lastName = $('#fieldLastName').val();
+    let tmp = {};
+    tmp['userId'] = AU.userId;
+    tmp['email'] = email;
+    tmp['firstName'] = firstName;
+    tmp['lastName'] = lastName;
+    let tmpSend = JSON.stringify(tmp);
+    savePersonalInformationRequest(tmpSend);
 }
 
 function savePersonalInformationRequest(x) {
@@ -50,8 +45,13 @@ function savePersonalInformationRequest(x) {
                 showError(' This email address is used by another user!');
                 setTimeout(hideError, 5000);
             } else {
-                showSuccess('Changes to personal information are successfully saved!');
-                setTimeout(hideSuccess, 2000);
+                if (resp === "synError") {
+                    showError('Invalid email format!');
+                    setTimeout(hideError, 5000);
+                } else {
+                    showSuccess('Changes to personal information are successfully saved!');
+                    setTimeout(hideSuccess, 2000);
+                }
             }
         });
 }
@@ -90,24 +90,11 @@ function hideSuccess() {
     $('#staticBackdrop').modal('hide');
 }
 
-function validMail() {
-    let re = /^[\w-\.]+@[\w-]+\.[a-z]{2,4}$/i;
-    let myMail = $('#fieldEmail').val();
-    return re.test(myMail);
-}
-
 function savePassword() {
     let password0 = $('#enterPassword').val();
     let password1 = $('#enterPasswordAgain').val();
     if (password0 === password1) {
-        if (!checkPassword()) {
-            showErrorPassword('The password must be between 8 and 64 and must contain numbers and characters in the upper and lower registers, without spaces!');
-            setTimeout(hideErrorPassword, 5000);
-        } else {
-            savePasswordReq(password0);
-            showSuccess('Password successfully saved!');
-            setTimeout(hideSuccess, 2000);
-        }
+        savePasswordReq(password0);
     } else {
         showErrorPassword('Passwords don\'t match!');
         setTimeout(hideErrorPassword, 5000);
@@ -123,15 +110,6 @@ function hideErrorPassword() {
     $('#collapsePassword').attr('class', 'collapse');
 }
 
-function checkPassword() {
-    let pswd = $('#enterPassword').val();
-    return pswd.match(/[A-z]/) &&
-        pswd.match(/[A-Z]/) &&
-        pswd.match(/[0-9]/) &&
-        !pswd.match(/ /) &&
-        (pswd.length >= 8 && pswd.length <= 64);
-}
-
 function savePasswordReq(x) {
     let tmp = {};
     tmp['userId'] = AU.userId;
@@ -144,5 +122,15 @@ function savePasswordReq(x) {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         }
-    });
+    }).then(status)
+        .then(text)
+        .then(function (resp) {
+            if (resp === "passError") {
+                showErrorPassword('The password must be between 8 and 64 and must contain numbers and characters in the upper and lower registers, without spaces!');
+                setTimeout(hideErrorPassword, 5000);
+            } else {
+                showSuccess('Password successfully saved!');
+                setTimeout(hideSuccess, 2000);
+            }
+        });
 }

@@ -12,6 +12,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.regex.Pattern;
+
 @RestController
 public class CabinetRController {
 
@@ -30,18 +32,29 @@ public class CabinetRController {
 
     @PostMapping("/cabinet/savePersonalInformation")
     public String savePersonalInformation(@RequestBody UserDTO userDTO) {
+        String reg = "^(.+)@([a-zA-Z]+)\\.([a-zA-Z]+)$";
         if (!userService.checkEmailFromOtherUsers(userDTO.getEmail(), userDTO.getUserId())) {
             return "error";
         } else {
-            userService.saveUserDTOPersonalInformation(userDTO);
-            return "ok";
+            if (Pattern.matches(reg, userDTO.getEmail())) {
+                userService.saveUserDTOPersonalInformation(userDTO);
+                return "ok";
+            } else {
+                return "synError";
+            }
         }
     }
 
     @PostMapping("/cabinet/savePassword")
-    public void savePassword(@RequestBody UserDTO userDTO) {
-        String tmpPasswordEncode = encoder.encode(userDTO.getPassword());
-        userDTO.setPassword(tmpPasswordEncode);
-        userService.saveUserDTOPassword(userDTO);
+    public String savePassword(@RequestBody UserDTO userDTO) {
+        String reg = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{6,}$";
+        if (Pattern.matches(reg, userDTO.getPassword()) && (userDTO.getPassword().length() >= 8 && userDTO.getPassword().length() <= 64)) {
+            String tmpPasswordEncode = encoder.encode(userDTO.getPassword());
+            userDTO.setPassword(tmpPasswordEncode);
+            userService.saveUserDTOPassword(userDTO);
+            return "passOk";
+        } else {
+            return "passError";
+        }
     }
 }
