@@ -90,7 +90,6 @@ public class BookController {
 
     @GetMapping("/searchResult")
     public List<BookDTO20> search(@RequestParam(value = "request") String req, @RequestParam(value = "LANG") String locale) {
-        System.out.println(locale);
         return bookSearch.search(req, locale);
     }
 

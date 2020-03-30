@@ -13,7 +13,12 @@ public class UserRoleServiceImpl implements UserRoleService {
 
     @Override
     public UserRole getUserRoleByName(String name) {
-        return userRoleDao.findByName(name).orElse(new UserRole(0l,"UNDEF"));
+        UserRole userRole = userRoleDao.findUserRoleByRoleName(name);
+        if (userRole == null) {
+            return new UserRole(0l, "UNDEF");
+        } else {
+            return userRole;
+        }
     }
 
     @Override

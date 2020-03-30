@@ -38,7 +38,6 @@ public class BookSearch {
 
         FullTextQuery jpaQuery = fullTextEntityManager.createFullTextQuery(query, LocaleString.class);
         List<LocaleString> results = jpaQuery.getResultList();
-        System.out.println(results);
         List<BookDTO20> result = new ArrayList<>();
 
         for (LocaleString localeString : results) {
