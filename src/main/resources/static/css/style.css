@@ -103,14 +103,23 @@ html, body {
 }
 
 /* footer */
-.footer .footer_link{
+.footer .footer_link {
     margin-right: 10px;
     font-family: Pacifico;
     color: black;
     text-decoration: none;
 }
 
-a.footer_link:hover{
+.nav-shop-circle {
+    font-size: 9px;
+    display: inline-block;
+    background: #b21f2d;
+    color: white;
+    padding: 0px 5px;
+    border-radius: 50%;
+}
+
+a.footer_link:hover {
     transition: 0.3s;
     color: rgba(79, 170, 237, 1);
 }

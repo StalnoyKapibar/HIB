@@ -9,11 +9,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class BookDTO20 {
+public class CartItemDTO {
+
+    private Long id;
+
     @EqualsAndHashCode.Include
-    private long id;
-    private String nameAuthorDTOLocale;
-    private String nameBookDTOLocale;
-    private Integer price;
-    private String coverImage;
+    private BookDTO book;
+
+    private Integer quantity;
+
+    public CartItemDTO(BookDTO book, Integer quantity) {
+        this.book = book;
+        this.quantity = quantity;
+    }
 }

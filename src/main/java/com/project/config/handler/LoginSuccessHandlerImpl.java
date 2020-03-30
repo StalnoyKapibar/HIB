@@ -1,6 +1,8 @@
 package com.project.config.handler;
 
+import com.project.model.ShoppingCartDTO;
 import com.project.model.UserAccount;
+import com.project.service.ShoppingCartService;
 import com.project.service.UserRoleService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Primary;
@@ -19,6 +21,7 @@ import java.io.IOException;
 public class LoginSuccessHandlerImpl implements AuthenticationSuccessHandler {
 
     private UserRoleService userRoleService;
+    private ShoppingCartService shoppingCart;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
@@ -27,6 +30,13 @@ public class LoginSuccessHandlerImpl implements AuthenticationSuccessHandler {
 
         authentication = SecurityContextHolder.getContext().getAuthentication();
         UserAccount userAccount = (UserAccount) authentication.getPrincipal();
+        ShoppingCartDTO cart = (ShoppingCartDTO) request.getSession().getAttribute("shoppingcart");
+        if (cart != null) {
+            ShoppingCartDTO mainCart = shoppingCart.getCartById(userAccount.getCart().getId());
+            mainCart.mergeCarts(cart);
+            shoppingCart.updateCart(mainCart);
+            request.getSession().removeAttribute("shoppingcart");
+        }
         String locale = userAccount.getLocale();
         request.getSession().setAttribute("LANG", locale);
 
