@@ -37,8 +37,10 @@ public class UserAccount implements UserDetails {
     private long lastAuthDate;
     private String provider;
     private String locale;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private ShoppingCart cart = new ShoppingCart();
 
-    @ManyToMany(fetch=FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_name"))
     private List<UserRole> authorities = new ArrayList<>();
 
