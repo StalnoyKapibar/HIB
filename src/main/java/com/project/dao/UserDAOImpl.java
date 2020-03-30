@@ -41,8 +41,7 @@ public class UserDAOImpl implements UserDAO {
                 .getResultList();
         if (userAccountList.size() > 0) {
             return false;
-        }
-        else {
+        } else {
             return true;
         }
     }
