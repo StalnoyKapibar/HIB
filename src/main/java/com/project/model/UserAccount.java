@@ -37,7 +37,7 @@ public class UserAccount implements UserDetails {
     private long lastAuthDate;
     private String provider;
     private String locale;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private ShoppingCart cart = new ShoppingCart();
 
     @ManyToMany(fetch = FetchType.EAGER)
