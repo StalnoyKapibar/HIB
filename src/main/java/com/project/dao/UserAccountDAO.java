@@ -4,6 +4,7 @@ import com.project.model.UserAccount;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -38,7 +39,7 @@ public class UserAccountDAO {
         return (UserAccount) entityManager.createNativeQuery(sql, UserAccount.class)
                 .setParameter("token", token).getSingleResult();
     }
-
+    @Transactional
     public void setLocaleAndAuthDate(String email, String locale, long lastAuthDate) {
         String sql= "UPDATE users SET last_auth_date =:lastAuthDate, locale =:locale WHERE email =:email";
         entityManager.createNativeQuery(sql)

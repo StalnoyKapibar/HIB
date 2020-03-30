@@ -1,7 +1,9 @@
 package com.project.config.handler;
 
+import com.project.dao.UserAccountDAO;
 import com.project.model.UserAccount;
 import com.project.model.UserPrincipal;
+import com.project.service.UserAccountService;
 import com.project.service.UserAccountServiceImpl;
 import com.project.service.UserRoleService;
 import lombok.AllArgsConstructor;
@@ -18,9 +20,10 @@ import java.time.Instant;
 
 @Component
 @Primary
+@AllArgsConstructor
 public class LoginSuccessHandlerImpl implements AuthenticationSuccessHandler {
 
-    UserAccountServiceImpl userAccountService;
+    UserAccountDAO userAccountDAO;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
@@ -28,7 +31,7 @@ public class LoginSuccessHandlerImpl implements AuthenticationSuccessHandler {
                                         Authentication authentication) throws IOException {
         UserAccount user = (UserAccount) authentication.getPrincipal();
         String locale = request.getSession().getAttribute("LANG").toString();
-        userAccountService.setLocaleAndAuthDate(user.getEmail(), locale, Instant.now().getEpochSecond());
+        userAccountDAO.setLocaleAndAuthDate(user.getEmail(), locale, Instant.now().getEpochSecond());
         response.sendRedirect(request.getHeader("referer"));
     }
 }

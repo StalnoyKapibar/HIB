@@ -1,7 +1,10 @@
 package com.project.config.handler;
 
+import com.project.dao.UserAccountDAO;
 import com.project.model.UserPrincipal;
+import com.project.service.UserAccountService;
 import com.project.service.UserAccountServiceImpl;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -13,9 +16,11 @@ import java.io.IOException;
 import java.time.Instant;
 
 @Component
+@AllArgsConstructor
 public class OAuthLoginSuccessHandler implements AuthenticationSuccessHandler {
 
-    UserAccountServiceImpl userAccountService;
+    UserAccountDAO userAccountDAO;
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
                                         HttpServletResponse response,
@@ -23,7 +28,7 @@ public class OAuthLoginSuccessHandler implements AuthenticationSuccessHandler {
 
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         String locale = request.getSession().getAttribute("LANG").toString();
-        userAccountService.setLocaleAndAuthDate(userPrincipal.getEmail(), locale, Instant.now().getEpochSecond());
+        userAccountDAO.setLocaleAndAuthDate(userPrincipal.getEmail(), locale, Instant.now().getEpochSecond());
         response.sendRedirect(request.getHeader("referer"));
     }
 

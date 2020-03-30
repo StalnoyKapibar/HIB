@@ -40,7 +40,7 @@ public class UserAccountServiceImpl implements UserAccountService {
     MailService mailService;
 
     Environment environment;
-
+    @Override
     public UserAccount findUserByToConfirmEmail(String token) {
         try {
             return userAccountDao.findUserByTokenToConfirmEmail(token);
@@ -66,7 +66,7 @@ public class UserAccountServiceImpl implements UserAccountService {
         sendEmailToConfirmAccount(userAccount);
         return userAccountDao.save(userAccount);
     }
-
+    @Override
     public void sendEmailToConfirmAccount(UserAccount user) {
         String senderFromProperty = environment.getProperty("spring.mail.username");
         SimpleMailMessage mailMessage = new SimpleMailMessage();
@@ -78,7 +78,7 @@ public class UserAccountServiceImpl implements UserAccountService {
                 + user.getTokenToConfirmEmail());
         mailService.sendEmail(mailMessage);
     }
-
+    @Override
     public void setLocaleAndAuthDate(String email, String locale, long lastAuthDate) {
         userAccountDao.setLocaleAndAuthDate(email, locale, lastAuthDate);
     }
