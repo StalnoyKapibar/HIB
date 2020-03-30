@@ -18,9 +18,6 @@ import java.util.regex.Pattern;
 public class CabinetRController {
 
     @Autowired
-    private PasswordEncoder encoder;
-
-    @Autowired
     private UserService userService;
 
     @GetMapping("/cabinet/getAU")
@@ -32,29 +29,11 @@ public class CabinetRController {
 
     @PostMapping("/cabinet/savePersonalInformation")
     public String savePersonalInformation(@RequestBody UserDTO userDTO) {
-        String reg = "^(.+)@([a-zA-Z]+)\\.([a-zA-Z]+)$";
-        if (!userService.checkEmailFromOtherUsers(userDTO.getEmail(), userDTO.getUserId())) {
-            return "error";
-        } else {
-            if (Pattern.matches(reg, userDTO.getEmail())) {
-                userService.saveUserDTOPersonalInformation(userDTO);
-                return "ok";
-            } else {
-                return "synError";
-            }
-        }
+        return userService.saveUserDTOPersonalInformation(userDTO);
     }
 
     @PostMapping("/cabinet/savePassword")
     public String savePassword(@RequestBody UserDTO userDTO) {
-        String reg = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{6,}$";
-        if (Pattern.matches(reg, userDTO.getPassword()) && (userDTO.getPassword().length() >= 8 && userDTO.getPassword().length() <= 64)) {
-            String tmpPasswordEncode = encoder.encode(userDTO.getPassword());
-            userDTO.setPassword(tmpPasswordEncode);
-            userService.saveUserDTOPassword(userDTO);
-            return "passOk";
-        } else {
-            return "passError";
-        }
+        return userService.saveUserDTOPassword(userDTO);
     }
 }
