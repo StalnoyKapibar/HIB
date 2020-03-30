@@ -13,11 +13,9 @@ import java.util.List;
 @Table(name = "book")
 public class Book {
 
-    public Book(LocaleString nameLocale, LocaleString authorLocale, String coverImage, List<Image> listImage) {
+    public Book(LocaleString nameLocale, LocaleString authorLocale) {
         this.nameLocale = nameLocale;
         this.authorLocale = authorLocale;
-        this.coverImage = coverImage;
-        this.listImage = listImage;
     }
 
     @Id
