@@ -60,7 +60,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/admin/**", "/admin")
                 .hasRole("ADMIN");
         //Страницы доступные для юзеров
-        http.authorizeRequests().antMatchers("/user", "/logout")
+        http.authorizeRequests().antMatchers("/user", "/logout", "/cabinet")
                 .hasRole("USER");
 
         http.formLogin()
