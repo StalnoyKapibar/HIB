@@ -14,7 +14,7 @@ import java.time.Instant;
 
 @Component
 public class OAuthLoginSuccessHandler implements AuthenticationSuccessHandler {
-    @Autowired
+
     UserAccountServiceImpl userAccountService;
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,

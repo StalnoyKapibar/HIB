@@ -17,10 +17,9 @@ import java.io.IOException;
 import java.time.Instant;
 
 @Component
-@AllArgsConstructor
 @Primary
 public class LoginSuccessHandlerImpl implements AuthenticationSuccessHandler {
-    @Autowired
+
     UserAccountServiceImpl userAccountService;
 
     @Override

@@ -10,33 +10,36 @@ import lombok.NoArgsConstructor;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.mapping.model.Property;
+import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import javax.servlet.http.HttpSession;
 import java.time.Instant;
+import java.util.Properties;
 import java.util.UUID;
 
 @Service
 @Transactional
 @AllArgsConstructor
-@NoArgsConstructor
 public class UserAccountServiceImpl implements UserAccountService {
-    @Autowired
+
     UserAccountDAO userAccountDao;
-    @Autowired
+
     UserRoleDao userRoleDao;
-    @Autowired
+
     PasswordEncoder encoder;
-    @Autowired
+
     HttpSession httpSession;
-    @Autowired
+
     MailService mailService;
 
-    @Value("${spring.mail.username}")
-    String senderFromProperty;
+    Environment environment;
 
     public UserAccount findUserByToConfirmEmail(String token) {
         try {
@@ -65,6 +68,7 @@ public class UserAccountServiceImpl implements UserAccountService {
     }
 
     public void sendEmailToConfirmAccount(UserAccount user) {
+        String senderFromProperty = environment.getProperty("spring.mail.username");
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(user.getEmail());
         mailMessage.setSubject("Привет");
