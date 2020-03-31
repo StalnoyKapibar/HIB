@@ -8,8 +8,13 @@ import java.util.Optional;
 
 public interface UserAccountService {
 
-    UserAccount save(UserAccount user);
+    UserAccount findUserByToConfirmEmail(String token);
 
     UserAccount save(RegistrationUserDTO user) throws ConstraintViolationException;
 
+    void sendEmailToConfirmAccount(UserAccount user);
+
+    void setLocaleAndAuthDate(String email, String locale, long lastAuthDate);
+
+    UserAccount save(UserAccount user);
 }

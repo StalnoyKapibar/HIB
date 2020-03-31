@@ -26,11 +26,6 @@ public class FacebookOauthUserInfo extends OAuth2UserInfo {
         return lastName;
     }
 
-    @Override
-    public String getLocale() {
-        return (String) attributes.get("locale");
-    }
-
     public String[] getName(String fullNameStr) {
         return fullNameStr.split(" ");
     }

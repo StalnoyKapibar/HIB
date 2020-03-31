@@ -1,24 +1,28 @@
 package com.project.service;
 
-import com.project.dao.UserAccountDao;
+import com.project.dao.UserAccountDAO;
 import com.project.oauth.OAuth2UserInfo;
 import com.project.oauth.OAuth2UserInfoFactory;
 import com.project.model.UserAccount;
 import com.project.model.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class OAuthUserService extends DefaultOAuth2UserService {
+
     @Autowired
-    UserAccountDao userAccountDao;
+    UserAccountDAO userAccountDao;
 
     public OAuthUserService() {
         super();
@@ -39,16 +43,14 @@ public class OAuthUserService extends DefaultOAuth2UserService {
         OAuth2UserInfo oAuth2UserInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(
                 oAuth2UserRequest.getClientRegistration()
                 .getRegistrationId(), oAuth2User.getAttributes());
-
-        Optional<UserAccount> userOptional = userAccountDao.findByEmail(oAuth2UserInfo.getEmail());
         UserAccount user;
-        if(userOptional.isPresent()) {
+        try {
+            Optional<UserAccount> userOptional = userAccountDao.findByEmail(oAuth2UserInfo.getEmail());
             user = userOptional.get();
             user = updateExistingUser(user, oAuth2UserInfo);
-        } else {
+        } catch (EmptyResultDataAccessException e) {
             user = registerNewUser(oAuth2UserRequest, oAuth2UserInfo);
         }
-
         return UserPrincipal.create(user, oAuth2User.getAttributes());
     }
 
@@ -58,9 +60,8 @@ public class OAuthUserService extends DefaultOAuth2UserService {
         user.setFirstName(oAuth2UserInfo.getFirstName());
         user.setLastName(oAuth2UserInfo.getLastName());
         user.setEmail(oAuth2UserInfo.getEmail());
-        user.setLastAuthDate(Instant.now().getEpochSecond());
         user.setRegDate(Instant.now().getEpochSecond());
-        user.setLocale(oAuth2UserInfo.getLocale());
+        user.setEnabled(true);
         return userAccountDao.save(user);
     }
 
@@ -68,8 +69,6 @@ public class OAuthUserService extends DefaultOAuth2UserService {
         existingUser.setEmail(oAuth2UserInfo.getEmail());
         existingUser.setFirstName(oAuth2UserInfo.getFirstName());
         existingUser.setLastName(oAuth2UserInfo.getLastName());
-        existingUser.setLastAuthDate(Instant.now().getEpochSecond());
-        existingUser.setLocale(oAuth2UserInfo.getLocale());
         return userAccountDao.save(existingUser);
     }
 
