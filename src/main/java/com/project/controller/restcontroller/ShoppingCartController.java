@@ -1,6 +1,8 @@
 package com.project.controller.restcontroller;
 
-import com.project.model.*;
+import com.project.model.BookDTO;
+import com.project.model.CartItemDTO;
+import com.project.model.ShoppingCartDTO;
 import com.project.service.BookService;
 import com.project.service.ShoppingCartService;
 import lombok.AllArgsConstructor;
@@ -19,20 +21,14 @@ public class ShoppingCartController {
 
     @GetMapping("/cart/size")
     public int getCartSize(HttpSession session, Authentication authentication) {
-        if (authentication != null) {
-            Long cartId = null;
-            if (authentication.getPrincipal().getClass().getSimpleName().equals("UserAccount")) {
-                UserAccount userAccount = (UserAccount) authentication.getPrincipal();
-                cartId = userAccount.getCart().getId();
-            }else {
-                UserPrincipal userAccount = (UserPrincipal) authentication.getPrincipal();
-                cartId = userAccount.getCart().getId();
-            }
+        Long cartId = (Long) session.getAttribute("cartId");
+        if (cartId != null) {
             session.setAttribute("cartId", cartId);
             return cartService.getCartById(cartId).getCartItems().size();
         } else {
             session.removeAttribute("cartId");
         }
+
         ShoppingCartDTO shoppingCart = (ShoppingCartDTO) session.getAttribute("shoppingcart");
         if (shoppingCart != null) {
             return shoppingCart.getCartItems().size();

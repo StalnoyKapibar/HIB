@@ -1,7 +1,6 @@
 package com.project.config.handler;
 
 import com.project.dao.UserAccountDAO;
-import com.project.model.ShoppingCartDTO;
 import com.project.model.UserPrincipal;
 import com.project.service.ShoppingCartService;
 import lombok.AllArgsConstructor;
@@ -27,13 +26,7 @@ public class OAuthLoginSuccessHandler implements AuthenticationSuccessHandler {
                                         Authentication authentication) throws IOException {
 
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-        ShoppingCartDTO cart = (ShoppingCartDTO) request.getSession().getAttribute("shoppingcart");
-        if (cart != null) {
-            ShoppingCartDTO mainCart = shoppingCart.getCartById(userPrincipal.getCart().getId());
-            mainCart.mergeCarts(cart);
-            shoppingCart.updateCart(mainCart);
-            request.getSession().removeAttribute("shoppingcart");
-        }
+        shoppingCart.mergeCarts(request,userPrincipal.getCart().getId());
         String locale = request.getSession().getAttribute("LANG").toString();
         userAccountDAO.setLocaleAndAuthDate(userPrincipal.getEmail(), locale, Instant.now().getEpochSecond());
         response.sendRedirect(request.getHeader("referer"));
