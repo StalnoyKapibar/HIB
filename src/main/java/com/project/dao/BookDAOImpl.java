@@ -3,6 +3,7 @@ package com.project.dao;
 import com.project.model.Book;
 import com.project.model.BookDTO;
 import com.project.model.BookDTO20;
+import com.project.model.LocaleString;
 import com.project.model.PageableBookDTO;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
@@ -55,6 +56,16 @@ public class BookDAOImpl implements BookDAO {
     public BookDTO getBookByIdLocale(long id) {
         return entityManager.createQuery("SELECT new com.project.model.BookDTO(b.id, b.nameLocale, b.authorLocale, b.coverImage, b.listImage) FROM Book b where b.id=:id", BookDTO.class).setParameter("id", id).getSingleResult();
     }
+
+    @Override
+    public BookDTO20 getBookBySearchRequest(LocaleString localeString, String locale) {
+        String query = ("SELECT new com.project.model.BookDTO20(b.id, b.nameLocale.LOC, b.authorLocale.LOC, b.price, b.coverImage)" +
+                "FROM Book b where b.nameLocale=:name or b.authorLocale=:name ")
+                .replaceAll("LOC", locale);
+        return entityManager.createQuery(query, BookDTO20.class).setParameter("name", localeString).getSingleResult();
+    }
+
+
 
     @Override
     public void updateBook(BookDTO bookDTO) {

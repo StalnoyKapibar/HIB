@@ -2,6 +2,7 @@ package com.project.controller.restcontroller;
 
 import com.project.model.BookDTO;
 import com.project.model.BookDTO20;
+import com.project.search.BookSearch;
 import com.project.model.PageableBookDTO;
 import com.project.service.BookService;
 import com.project.service.StorageService;
@@ -26,6 +27,7 @@ public class BookController {
 
     @Autowired
     private BookService bookService;
+    private BookSearch bookSearch;
 
     @Autowired
     private StorageService storageService;
@@ -85,6 +87,12 @@ public class BookController {
         BookDTO bookDTO = bookService.getBookDTOById(x);
         return ResponseEntity.ok(bookDTO);
     }
+
+    @GetMapping("/searchResult")
+    public List<BookDTO20> search(@RequestParam(value = "request") String req, @RequestParam(value = "LANG") String locale) {
+        return bookSearch.search(req, locale);
+    }
+
 
     @PostMapping("/admin/upload")
     public HttpStatus fileUpload(@RequestBody MultipartFile file) {
