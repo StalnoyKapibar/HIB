@@ -72,9 +72,7 @@ public class ShoppingCartController {
         Long cartId = (Long) session.getAttribute("cartId");
         if (cartId != null) {
             ShoppingCartDTO shoppingCartDTO = cartService.getCartById(cartId);
-            //shoppingCartDTO.deleteCartItem(id);
             cartService.deletCartItem(shoppingCartDTO.deleteCartItem(id));
-            //cartService.updateCart(shoppingCartDTO);
         } else {
             ShoppingCartDTO shoppingCart = (ShoppingCartDTO) session.getAttribute("shoppingcart");
             shoppingCart.deleteCartItem(id);
