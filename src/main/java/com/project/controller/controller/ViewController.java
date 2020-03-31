@@ -39,9 +39,4 @@ public class ViewController {
         modelAndView.setViewName("search");
         return modelAndView;
     }
-
-    @GetMapping("/shoppingcart")
-    public String getShoppingCartPage() {
-        return "shoppingcartpage";
-    }
 }
