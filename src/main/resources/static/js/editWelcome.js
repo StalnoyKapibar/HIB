@@ -96,7 +96,7 @@ async function pageBook(x) {
             buildChangeLang();
             var htmlAddPage = varBookDTO;
             nameObjectOfLocaleStringWithId = Object.values(htmlAddPage);
-            nameObjectOfLocaleString = nameObjectOfLocaleStringWithId.filter(t => t !== "id");
+            nameObjectOfLocaleString = nameObjectOfLocaleStringWithId.filter(t => (t !== "id") & (t !== 'price'));
             var htmlTable = '';
             for (let dd of nameObjectOfLocaleStringWithId) {
                 htmlTable += `<th scope='col'>${dd} ${idChangeLang}</th>`;
@@ -111,8 +111,13 @@ async function pageBook(x) {
                     `<td id=${tmp_html.id}>${tmp_html.id}</td>`;
                 for (key in tmp_html) {
                     if (key !== "id" && key !== "coverImage" && key !== "imageList") {
-                                var ad = tmp_html[key][idChangeLang];
-                                html += `<td id='n${tmp_html.id}'>${ad}</td>`;
+                        if (key === "price") {
+                            var ad = tmp_html[key];
+                            html += `<td id='n${tmp_html.id}'>${ad}</td>`;
+                        } else {
+                            var ad = tmp_html[key][idChangeLang];
+                            html += `<td id='n${tmp_html.id}'>${ad}</td>`;
+                        }
                     }
                 }
                 html +=
@@ -138,33 +143,32 @@ function addPage() {
     doesFolderTmpExist();
     var html = '';
     for (let tmpNameObject of nameObjectOfLocaleString) {
-        html += `<h5>` + tmpNameObject + `</h5>`;
+        html += `<h5 class="mx-3">` + tmpNameObject + `</h5>`;
         for (let tmpNameVar of nameVarOfLocaleString) {
             html +=
-                `<div class='form-group'>` +
-                `<div class="row">`+
-                `<label for=${tmpNameObject}${tmpNameVar}>${tmpNameObject} ${tmpNameVar}</label>` +
-                `<div class="col">`+
-                `<input type="radio" name="rb${tmpNameObject}" id="rb${tmpNameObject}${tmpNameVar}" value="${tmpNameVar}" autocomplete="off"> Translate from this language`+
-                `</div>`+
-                `<div class="col">`+
+                `<div class='form-group mx-5'>` +
+                `<div class="row">` +
+                `<div class="col-0" for=${tmpNameObject}${tmpNameVar}>${tmpNameObject} ${tmpNameVar}</div>` +
+                `<div class="col-2 mr-1">` +
+                `<input type="radio" name="rb${tmpNameObject}" id="rb${tmpNameObject}${tmpNameVar}" value="${tmpNameVar}" autocomplete="off"> Translate from this language` +
+                `</div>` +
+                `<div class="col">` +
                 `<input type='text' class='form-control' id='inp${tmpNameObject}${tmpNameVar}'` +
                 `placeholder='${tmpNameObject} ${tmpNameVar}'>` +
-                `</div>`+
-                `<div class="col">`+
+                `</div>` +
+                `<div class="col">` +
                 `<input type="checkbox" checked name="cb${tmpNameObject}" value="${tmpNameVar}" autocomplete="off"> Into this language` +
-                `</div>`+
-                `</div>`+
+                `</div>` +
+                `</div>` +
                 `</div>`;
         }
-        html+=`<button type="button" onclick="translateText('${tmpNameObject}')" class="btn btn-primary">Translate</button>`;
+        html += `<button type="button" onclick="translateText('${tmpNameObject}')" class="btn btn-primary mx-3">Translate</button>`;
     }
-    $('#newBookForm').html(html + `<h4>Cover Image</h4>` +
+    $('#newBookForm').html(html + '<h4>Price</h4><input type="text" class="form-control col-1" name="price" placeholder="price">' + `<h4>Cover Image</h4>` +
         `<div class='car' style='width: 18rem;'>` +
         `<img id='myImage' src =''  class='card-img-top' alt='...'> ` +
         `</div>`);
 }
-
 
 
 function addBook() {

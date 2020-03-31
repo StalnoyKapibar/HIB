@@ -32,4 +32,8 @@ public class ViewController {
         return "translate";
     }
 
+    @GetMapping("/shoppingcart")
+    public String getShoppingCartPage() {
+        return "shoppingcartpage";
+    }
 }
