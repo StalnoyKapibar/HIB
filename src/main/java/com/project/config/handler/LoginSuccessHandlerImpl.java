@@ -31,6 +31,6 @@ public class LoginSuccessHandlerImpl implements AuthenticationSuccessHandler {
         String locale = request.getSession().getAttribute("LANG").toString();
         userAccountDAO.setLocaleAndAuthDate(user.getEmail(), locale, Instant.now().getEpochSecond());
         response.sendRedirect(request.getHeader("referer"));
-        shoppingCart.mergeCarts(request,user.getCart().getId());
+        shoppingCart.mergeCarts(request, user.getCart().getId());
     }
 }
