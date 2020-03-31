@@ -1,9 +1,6 @@
 package com.project.controller.restcontroller;
 
-import com.project.model.BookDTO;
-import com.project.model.CartItemDTO;
-import com.project.model.ShoppingCartDTO;
-import com.project.model.UserAccount;
+import com.project.model.*;
 import com.project.service.BookService;
 import com.project.service.ShoppingCartService;
 import lombok.AllArgsConstructor;
@@ -23,9 +20,17 @@ public class ShoppingCartController {
     @GetMapping("/cart/size")
     public int getCartSize(HttpSession session, Authentication authentication) {
         if (authentication != null) {
-            UserAccount userAccount = (UserAccount) authentication.getPrincipal();
-            session.setAttribute("cartId", userAccount.getCart().getId());
-            return cartService.getCartById(userAccount.getCart().getId()).getCartItems().size();
+            Long cartId = null;
+            String userClass = authentication.getPrincipal().getClass().getSimpleName();
+            if (authentication.getPrincipal().getClass().getSimpleName().equals("UserAccount")) {
+                UserAccount userAccount = (UserAccount) authentication.getPrincipal();
+                cartId = userAccount.getCart().getId();
+            }else {
+                UserPrincipal userAccount = (UserPrincipal) authentication.getPrincipal();
+                cartId = userAccount.getCart().getId();
+            }
+            session.setAttribute("cartId", cartId);
+            return cartService.getCartById(cartId).getCartItems().size();
         } else {
             session.removeAttribute("cartId");
         }
@@ -68,8 +73,9 @@ public class ShoppingCartController {
         Long cartId = (Long) session.getAttribute("cartId");
         if (cartId != null) {
             ShoppingCartDTO shoppingCartDTO = cartService.getCartById(cartId);
-            shoppingCartDTO.deleteCartItem(id);
-            cartService.updateCart(shoppingCartDTO);
+            //shoppingCartDTO.deleteCartItem(id);
+            cartService.deletCartItem(shoppingCartDTO.deleteCartItem(id));
+            //cartService.updateCart(shoppingCartDTO);
         } else {
             ShoppingCartDTO shoppingCart = (ShoppingCartDTO) session.getAttribute("shoppingcart");
             shoppingCart.deleteCartItem(id);

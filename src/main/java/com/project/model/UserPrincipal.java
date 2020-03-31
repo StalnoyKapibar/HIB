@@ -19,13 +19,15 @@ public class UserPrincipal implements UserDetails, OAuth2User {
     private String locale;
     private Collection<? extends GrantedAuthority> authorities;
     private Map<String, Object> attributes;
+    private ShoppingCart cart = new ShoppingCart();
 
-    public UserPrincipal(Long id, String email, String password, String locale, Collection<? extends GrantedAuthority> authorities) {
+    public UserPrincipal(Long id, String email, String password, String locale, Collection<? extends GrantedAuthority> authorities, ShoppingCart shoppingCart) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.locale = locale;
         this.authorities = authorities;
+        this.cart = shoppingCart;
     }
 
     public static UserPrincipal create(UserAccount user) {
@@ -37,7 +39,8 @@ public class UserPrincipal implements UserDetails, OAuth2User {
                 user.getEmail(),
                 user.getPassword(),
                 user.getLocale(),
-                authorities
+                authorities,
+                user.getCart()
         );
     }
 

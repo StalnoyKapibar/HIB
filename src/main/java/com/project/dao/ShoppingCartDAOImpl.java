@@ -41,7 +41,11 @@ public class ShoppingCartDAOImpl implements ShoppingCartDAO {
         updateCart.setId(cart.getId());
         List<CartItem> items = new ArrayList<>();
         for (CartItemDTO cartItemDTO : cart.getCartItems()) {
-            items.add(new CartItem(bookDAO.getBookById(cartItemDTO.getBook().getId()), cartItemDTO.getQuantity()));
+            if (cartItemDTO.getId() != null) {
+                items.add(new CartItem(cartItemDTO.getId(), bookDAO.getBookById(cartItemDTO.getBook().getId()), cartItemDTO.getQuantity()));
+            } else {
+                items.add(new CartItem(bookDAO.getBookById(cartItemDTO.getBook().getId()), cartItemDTO.getQuantity()));
+            }
         }
         updateCart.setCartItems(items);
         entityManager.merge(updateCart);

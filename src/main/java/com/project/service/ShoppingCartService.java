@@ -6,4 +6,6 @@ public interface ShoppingCartService {
     ShoppingCartDTO getCartById(Long id);
 
     void updateCart(ShoppingCartDTO cart);
+
+    public void deletCartItem(Long id);
 }
