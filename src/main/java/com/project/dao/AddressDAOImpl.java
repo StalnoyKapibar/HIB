@@ -12,7 +12,7 @@ import javax.persistence.PersistenceContext;
 public class AddressDAOImpl implements AddressDAO {
 
     @PersistenceContext
-    EntityManager entityManager;
+    private EntityManager entityManager;
 
     @Override
     public void addAddress(AddressDTO addressDTO) {

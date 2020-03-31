@@ -14,12 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class AddressController {
 
-    @Autowired
-    AddressService addressService;
-
-    @Autowired
-    UserService userService;
-
     @Value("${googleKey}")
     private String key;
 
