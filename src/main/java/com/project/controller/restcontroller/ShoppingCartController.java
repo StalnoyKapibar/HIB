@@ -21,7 +21,6 @@ public class ShoppingCartController {
     public int getCartSize(HttpSession session, Authentication authentication) {
         if (authentication != null) {
             Long cartId = null;
-            String userClass = authentication.getPrincipal().getClass().getSimpleName();
             if (authentication.getPrincipal().getClass().getSimpleName().equals("UserAccount")) {
                 UserAccount userAccount = (UserAccount) authentication.getPrincipal();
                 cartId = userAccount.getCart().getId();
