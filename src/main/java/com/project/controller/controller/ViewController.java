@@ -17,7 +17,7 @@ public class ViewController {
     FormLoginErrorMessageService messageService;
 
     @GetMapping({"/home", "/"})
-    public String getHomePage(){
+    public String getHomePage() {
         return "home";
     }
 
