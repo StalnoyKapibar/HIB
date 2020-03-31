@@ -37,11 +37,11 @@ public class TestUserAccounts {
         // Admin user. (username = "admin", password = "admin") ROLES:ADMIN,USER
 
         UserAccount account1 = new UserAccount();
-        account1.setLogin("admin");
+        account1.setLogin("adminLogin");
         account1.setPassword(encoder.encode("admin"));
         account1.setEmail("admin@gmail.com");
-        account1.setFirstName("admin");
-        account1.setLastName("admin");
+        account1.setFirstName("adminFirstName");
+        account1.setLastName("adminLastName");
         account1.setRegDate(Instant.now().getEpochSecond());
         account1.setProvider("local");
         account1.setEnabled(true);
