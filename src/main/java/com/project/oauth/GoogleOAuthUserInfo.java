@@ -23,9 +23,4 @@ public class GoogleOAuthUserInfo extends OAuth2UserInfo {
         return (String) attributes.get("family_name");
     }
 
-    @Override
-    public String getLocale() {
-        return (String)attributes.get("locale");
-    }
-
 }

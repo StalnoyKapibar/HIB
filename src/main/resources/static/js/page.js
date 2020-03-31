@@ -10,17 +10,18 @@ $(document).ready(function () {
     getLanguage();
     setLocaleFields();
     setPageFields();
+    showSizeCart();
 });
 
 function setPageFields() {
-    $.ajax({
-        url: "/page/id/" + $("#bookid").attr("value"),
-        method: 'GET',
-    }).then(function (data) {
+    fetch("/page/id/" + $("#bookid").attr("value"))
+        .then(status)
+        .then(json).then(function (data) {
         objectBook = data;
         $('#book-name').text(data.name[currentLang]);
         $('#book-author').text(data.author[currentLang]);
         $('#book-name1').text(data.name[currentLang]);
+        $('#bottomInCart').attr('data-id', data.id);
         buildCardImageOrCarousel();
     })
 }
@@ -84,3 +85,71 @@ function buildCardImageOrCarousel() {
 function buildCardImage() {
     $('#CardImageOrCarousel').html(`<img id='bookImg' src=${pathImageDefault}${objectBook.id}/${objectBook.coverImage} alt='Card image cap'>`);
 }
+
+async function showSizeCart() {
+    await fetch("/cart/size")
+        .then(status)
+        .then(json)
+        .then(function (data) {
+            if (data != 0) {
+                $("#bucketIn").empty();
+                $("#bucketIn").append(data)
+            } else {
+                $('#bucketIn').empty();
+            }
+        });
+}
+
+$(document).ready(function () {
+    $("body").on('click', '.btn-success', function () {
+        let id = $(this).attr("data-id");
+        addToCart(id);
+        setTimeout(function () {
+            showSizeCart();
+        }, 20)
+
+    })
+})
+
+function addToCart(id) {
+    fetch("/cart/" + id, {
+        method: "POST"
+    })
+}
+
+async function getCart() {
+    await fetch("/cart")
+        .then(status)
+        .then(json)
+        .then(function (data) {
+            $("#shoppingCartDrop").empty();
+            let table = $('<div class="dropdown-item-text"><table class="table table-striped table-sm bg-white" />')
+            $.each(data, function (index) {
+                let book = data[index].book;
+                table.append('<tr></td><td><img src="../images/book' + book.id + '/' + book.coverImage + '" style="max-width: 60px"></td>+' +
+                    '<td style="width: 20px"></td>' +
+                    '<td>' + book.name[currentLang] + ' | ' + book.author[currentLang] + '</td>' +
+                    '<td style="width: 20px"></td>' +
+                    '<td>' + data[index].quantity + '</td>' +
+                    '<td style="width: 20px"></td>' +
+                    '<td class="mr-1"><button class="btn btn-info delete"  style="background-color: orangered" data-id="' + book.id + '">' + deleteBottom + '</button></td>' +
+                    '</tr>');
+                table.append('<tr style="height: 15px" />')
+                $('#shoppingCartDrop').append(table);
+            })
+        })
+}
+
+$(document).ready(function () {
+    $("#showCart").on('show.bs.dropdown', function () {
+        getCart();
+    })
+    $("body").on('click', '.delete', function () {
+        let id = $(this).attr("data-id");
+        fetch('/cart/' + id, {
+            method: 'DELETE',
+        }).then(function () {
+            showSizeCart();
+        })
+    });
+})

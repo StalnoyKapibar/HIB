@@ -26,7 +26,7 @@ public class BookDAOImpl implements BookDAO {
 
     @Override
     public List<BookDTO> getAllBookDTO() {
-        String temp = "Select new com.project.model.BookDTO(b.id, b.nameLocale, b.authorLocale, b.coverImage, b.listImage) FROM Book b";
+        String temp = "Select new com.project.model.BookDTO(b.id, b.nameLocale, b.authorLocale, b.coverImage, b.price, b.listImage) FROM Book b";
         List<BookDTO> listBookDTO = entityManager.createQuery(temp, BookDTO.class).getResultList();
         return listBookDTO;
     }
@@ -38,6 +38,7 @@ public class BookDAOImpl implements BookDAO {
         book.setNameLocale(bookDTO.getName());
         book.setCoverImage(bookDTO.getCoverImage());
         book.setListImage(bookDTO.getImageList());
+        book.setPrice(bookDTO.getPrice());
         entityManager.persist(book);
     }
 
@@ -58,7 +59,7 @@ public class BookDAOImpl implements BookDAO {
 
     @Override
     public BookDTO20 getBookBySearchRequest(LocaleString localeString, String locale) {
-        String query = ("SELECT new com.project.model.BookDTO20(b.id, b.nameLocale.LOC, b.authorLocale.LOC, b.coverImage)" +
+        String query = ("SELECT new com.project.model.BookDTO20(b.id, b.nameLocale.LOC, b.authorLocale.LOC, b.price, b.coverImage)" +
                 "FROM Book b where b.nameLocale=:name or b.authorLocale=:name ")
                 .replaceAll("LOC", locale);
         return entityManager.createQuery(query, BookDTO20.class).setParameter("name", localeString).getSingleResult();
@@ -79,7 +80,7 @@ public class BookDAOImpl implements BookDAO {
 
     @Override
     public List<BookDTO20> get20BookDTO(String locale) {
-        String query = ("SELECT new com.project.model.BookDTO20(b.id, b.nameLocale.LOC, b.authorLocale.LOC, b.coverImage)" +
+        String query = ("SELECT new com.project.model.BookDTO20(b.id, b.nameLocale.LOC, b.authorLocale.LOC, b.price, b.coverImage)" +
                 "FROM Book b ORDER BY RAND()")
                 .replaceAll("LOC", locale);
         List<BookDTO20> listBookDTO = entityManager.createQuery(query, BookDTO20.class).setMaxResults(20).getResultList();
@@ -95,6 +96,7 @@ public class BookDAOImpl implements BookDAO {
         bookDTO.setAuthor(book.getAuthorLocale());
         bookDTO.setCoverImage(book.getCoverImage());
         bookDTO.setImageList(book.getListImage());
+        bookDTO.setPrice(book.getPrice());
         return bookDTO;
     }
 
@@ -127,6 +129,7 @@ public class BookDAOImpl implements BookDAO {
             bookDTO.setName(book.getNameLocale());
             bookDTO.setAuthor(book.getAuthorLocale());
             bookDTO.setCoverImage(book.getCoverImage());
+            bookDTO.setPrice(book.getPrice());
             bookDTO.setImageList(book.getListImage());
             bookDTOList.add(bookDTO);
         }

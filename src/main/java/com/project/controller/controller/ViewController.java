@@ -17,7 +17,7 @@ public class ViewController {
     FormLoginErrorMessageService messageService;
 
     @GetMapping({"/home", "/"})
-    public String getHomePage(){
+    public String getHomePage() {
         return "home";
     }
 
@@ -33,11 +33,15 @@ public class ViewController {
         return "translate";
     }
 
-
     @GetMapping("/search")
-    public ModelAndView getSearchResultPage(@RequestParam("request") String req, ModelAndView modelAndView){
+    public ModelAndView getSearchResultPage(@RequestParam("request") String req, ModelAndView modelAndView) {
         modelAndView.addObject("request", req);
         modelAndView.setViewName("search");
         return modelAndView;
+    }
+
+    @GetMapping("/shoppingcart")
+    public String getShoppingCartPage() {
+        return "shoppingcartpage";
     }
 }

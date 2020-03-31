@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Personal account</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="css/cabinet.css">
+</head>
+<body>
+<nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">HIB - </a>
+    <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
+    <ul class="navbar-nav px-3">
+        <li class="nav-item text-nowrap">
+            <div sec:authorize="isAuthenticated()">
+                <form action="/logout" class="m-0 ml-sm-0">
+                    <button type="submit" class="btn btn-header border m-0" id="logoutButton">
+                        Logout
+                    </button>
+                </form>
+            </div>
+        </li>
+    </ul>
+</nav>
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+            <ul class="nav flex-column" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="MyProfile-tab" data-toggle="tab" href="#MyProfile" role="tab"
+                       aria-controls="MyProfile">
+                        <h5>My profile</h5>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="Orders-tab" data-toggle="tab" href="#Orders" role="tab"
+                       aria-controls="Orders">
+                        <h5> Orders</h5>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="setFieldsChangePersonalInformation()" id="SettingsProfile-tab"
+                       data-toggle="tab" href="#SettingsProfile" role="tab"
+                       aria-controls="SettingsProfile">
+                        <h5>Settings profile</h5>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="Basket-tab" data-toggle="tab" href="#Basket" role="tab"
+                       aria-controls="Basket">
+                        <h5> Basket</h5>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="MyProfile" role="tabpanel" aria-labelledby="MyProfile-tab">
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">My profile</h1>
+            </div>
+        </main>
+    </div>
+    <div class="tab-pane fade" id="Orders" role="tabpanel" aria-labelledby="Orders-tab">
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">Orders</h1>
+            </div>
+        </main>
+    </div>
+    <div class="tab-pane fade" id="SettingsProfile" role="tabpanel" aria-labelledby="SettingsProfile-tab">
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">Settings Profile</h1>
+            </div>
+            <ul class="nav nav-pills mb-3" id="Settings-tab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="PersonalInformation-tab" data-toggle="pill"
+                       href="#PersonalInformation" role="tab" aria-controls="PersonalInformation" aria-selected="true">Personal
+                        Information</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="PasswordChange-tab" data-toggle="pill" href="#PasswordChange" role="tab"
+                       aria-controls="PasswordChange" aria-selected="false">Password Change</a>
+                </li>
+            </ul>
+            <div class="tab-content" id="Settings-tabContent">
+                <div class="tab-pane fade show active" id="PersonalInformation" role="tabpanel"
+                     aria-labelledby="PersonalInformation-tab">
+                    <form>
+                        <div class="teswt112">
+                            <div class="form-group">
+                                <label for="fieldEmail">Email address</label>
+                                <input type="email" class="form-control" id="fieldEmail" aria-describedby="emailHelp">
+                            </div>
+                            <div class="collapse" id="collapseExample">
+                                <div class="alert alert-danger" role="alert" id="errorMessageEmail">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="fieldFirstName">First Name</label>
+                                <input type="text" class="form-control" id="fieldFirstName">
+                            </div>
+                            <div class="form-group">
+                                <label for="fieldLastName">Last Name</label>
+                                <input type="text" class="form-control" id="fieldLastName">
+                            </div>
+                        </div>
+                    </form>
+                    <button type="submit" onclick="savePersonalInformation()" class="btn btn-primary">Save</button>
+                </div>
+                <div class="tab-pane fade" id="PasswordChange" role="tabpanel" aria-labelledby="PasswordChange-tab">
+                    <form>
+                        <div class="teswt112">
+                            <div class="form-group">
+                                <label for="enterPassword">Enter password</label>
+                                <input type="password" class="form-control" id="enterPassword">
+                            </div>
+                            <div class="form-group">
+                                <label for="enterPasswordAgain">Enter password again</label>
+                                <input type="password" class="form-control" id="enterPasswordAgain">
+                            </div>
+                            <div class="collapse" id="collapsePassword">
+                                <div class="alert alert-danger" role="alert" id="errorMessagePassword">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <button type="submit" onclick="savePassword()" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </main>
+    </div>
+    <div class="tab-pane fade" id="Basket" role="tabpanel" aria-labelledby="Basket-tab">
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">Basket</h1>
+            </div>
+        </main>
+    </div>
+</div>
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-body">
+            <div class="alert alert-success" role="alert" id="idMessagesSuccess">
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+<script src="js/cabinet.js"></script>
+</body>
+</html>

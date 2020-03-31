@@ -1,10 +1,10 @@
 package com.project.config;
 
+import com.project.config.handler.LogoutSuccessHandler;
 import com.project.config.handler.OAuthLoginSuccessHandler;
 import com.project.filter.FilterSession;
 import com.project.service.OAuthUserService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -19,6 +19,7 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
 
 
 @Configuration
@@ -40,6 +41,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private FilterSession filterSession;
 
+    private LogoutSuccessHandler logoutSuccessHandler;
+
     @Bean("passwordEncoder")
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -60,7 +63,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/admin/**", "/admin")
                 .hasRole("ADMIN");
         //Страницы доступные для юзеров
-        http.authorizeRequests().antMatchers("/user", "/logout")
+        http.authorizeRequests().antMatchers("/user", "/logout", "/cabinet")
                 .hasRole("USER");
 
         http.formLogin()
@@ -83,7 +86,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         http.logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/home?logout")
+                .logoutSuccessHandler(logoutSuccessHandler)
                 .deleteCookies("JSESSIONID");
 
         http.exceptionHandling()

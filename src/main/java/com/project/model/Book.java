@@ -30,6 +30,8 @@ public class Book {
 
     private String coverImage;
 
+    private Integer price;
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Image> listImage;
 
