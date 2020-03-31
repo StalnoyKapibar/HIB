@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class TestUserAccounts {
 
@@ -26,8 +27,8 @@ public class TestUserAccounts {
         // two basic roles : ROLE_ADMIN & ROLE_USER
         UserRole userRole = new UserRole(1l, "ROLE_USER");
         UserRole adminRole = new UserRole(2l, "ROLE_ADMIN");
-        saveUserRole(userRole);
-        saveUserRole(adminRole);
+        userRoleService.save(userRole);
+        userRoleService.save(adminRole);
 
         List<UserRole> authorities = new ArrayList<>();
         authorities.add(adminRole);
@@ -43,9 +44,9 @@ public class TestUserAccounts {
         account1.setLastName("admin");
         account1.setRegDate(Instant.now().getEpochSecond());
         account1.setProvider("local");
-        account1.setLocale("ru");
+        account1.setEnabled(true);
         account1.setAuthorities(authorities);
-        saveUserAccount(account1);
+        userAccountService.save(account1);
 
         authorities.clear();
         // Simple user. (username = "user", password = "user") ROLE:USER
@@ -58,16 +59,9 @@ public class TestUserAccounts {
         account2.setLastName("user");
         account2.setRegDate(Instant.now().getEpochSecond());
         account2.setProvider("local");
-        account2.setLocale("it");
+        account2.setEnabled(true);
         account2.setAuthorities(authorities);
-        saveUserAccount(account2);
+        userAccountService.save(account2);
     }
 
-    private void saveUserAccount(UserAccount userAccount) {
-        userAccountService.save(userAccount);
-    }
-
-    private void saveUserRole(UserRole userRole) {
-        userRoleService.save(userRole);
-    }
 }

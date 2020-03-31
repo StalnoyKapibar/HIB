@@ -1,6 +1,6 @@
 package com.project.service;
 
-import com.project.dao.UserAccountDao;
+import com.project.dao.UserAccountDAO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 public class UserDetailServiceImpl implements UserDetailsService {
 
     @Autowired
-    UserAccountDao userAccountDao;
+    UserAccountDAO userAccountDao;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
