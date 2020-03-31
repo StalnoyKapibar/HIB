@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
@@ -26,8 +27,7 @@ import java.time.Instant;
 @AllArgsConstructor
 public class LoginSuccessHandlerImpl implements AuthenticationSuccessHandler {
 
-    UserAccountDAO userAccountDAO;
-    private UserRoleService userRoleService;
+    private UserAccountDAO userAccountDAO;
     private ShoppingCartService shoppingCart;
 
     @Override
@@ -40,11 +40,9 @@ public class LoginSuccessHandlerImpl implements AuthenticationSuccessHandler {
         userAccountDAO.setLocaleAndAuthDate(user.getEmail(), locale, Instant.now().getEpochSecond());
         response.sendRedirect(request.getHeader("referer"));
 
-        authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserAccount userAccount = (UserAccount) authentication.getPrincipal();
         ShoppingCartDTO cart = (ShoppingCartDTO) request.getSession().getAttribute("shoppingcart");
         if (cart != null) {
-            ShoppingCartDTO mainCart = shoppingCart.getCartById(userAccount.getCart().getId());
+            ShoppingCartDTO mainCart = shoppingCart.getCartById(user.getCart().getId());
             mainCart.mergeCarts(cart);
             shoppingCart.updateCart(mainCart);
             request.getSession().removeAttribute("shoppingcart");
