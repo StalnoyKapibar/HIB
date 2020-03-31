@@ -28,7 +28,6 @@ public class ShoppingCartController {
         } else {
             session.removeAttribute("cartId");
         }
-
         ShoppingCartDTO shoppingCart = (ShoppingCartDTO) session.getAttribute("shoppingcart");
         if (shoppingCart != null) {
             return shoppingCart.getCartItems().size();
