@@ -41,6 +41,10 @@ function setLocaleFields() {
             $('#totalPrice').text(localeFields['totalprice']);
             $('#headershoppingcart').text(localeFields['headershoppingcart']);
             $('#chechout').text(localeFields['chechout']);
+            $('#shoppingcart').text(localeFields['headershoppingcart']);
+            $('#myprofile').text(localeFields['myprofile']);
+            $('#oders').text(localeFields['oders']);
+            $('#settingprofile').text(localeFields['settingprofile']);
 
         })
 }

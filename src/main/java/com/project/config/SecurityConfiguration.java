@@ -1,10 +1,10 @@
 package com.project.config;
 
+import com.project.config.handler.LogoutSuccessHandler;
 import com.project.config.handler.OAuthLoginSuccessHandler;
 import com.project.filter.FilterSession;
 import com.project.service.OAuthUserService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -19,6 +19,7 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
 
 
 @Configuration
@@ -39,6 +40,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private OAuthUserService oAuthUserService;
 
     private FilterSession filterSession;
+
+    private LogoutSuccessHandler logoutSuccessHandler;
 
     @Bean("passwordEncoder")
     public PasswordEncoder passwordEncoder() {
@@ -83,7 +86,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         http.logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/home?logout")
+                .logoutSuccessHandler(logoutSuccessHandler)
                 .deleteCookies("JSESSIONID");
 
         http.exceptionHandling()

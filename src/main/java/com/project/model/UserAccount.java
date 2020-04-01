@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -18,11 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Builder
-@Table(name = "users",
-        uniqueConstraints = {
-                @UniqueConstraint(name = "uk_user_account_login", columnNames = "login"),
-                @UniqueConstraint(name = "uk_user_account_email", columnNames = "email")}
-)
+@Table(name = "users")
 public class UserAccount implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,8 +34,11 @@ public class UserAccount implements UserDetails {
     private long lastAuthDate;
     private String provider;
     private String locale;
+    private boolean isEnabled = false;
+    private String tokenToConfirmEmail;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private ShoppingCart cart = new ShoppingCart();
+
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_name"))
@@ -71,6 +71,6 @@ public class UserAccount implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return isEnabled;
     }
 }

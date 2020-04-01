@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 @AllArgsConstructor
 public class WelcomeServiceImpl implements WelcomeService {
 
-
     private WelcomeDAO welcomeDAO;
 
     @Override

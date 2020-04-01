@@ -20,7 +20,7 @@ public class ShoppingCartDTO {
         if (cartItems.contains(newCartItem)) {
             for (CartItemDTO oldCartItem : cartItems) {
                 if (oldCartItem.equals(newCartItem)) {
-                    oldCartItem.setQuantity(newCartItem.getQuantity() + 1);
+                    oldCartItem.setQuantity(oldCartItem.getQuantity() + 1);
                     break;
                 }
             }
@@ -29,9 +29,16 @@ public class ShoppingCartDTO {
         }
     }
 
-    public void deleteCartItem(Long id) {
-        cartItems.removeIf(cartItemDTO -> cartItemDTO.getBook().getId() == id);
+    public Long deleteCartItem(Long id) {
+        for (CartItemDTO cartItemDTO : cartItems) {
+            if (cartItemDTO.getBook().getId() == id) {
+                cartItems.remove(cartItemDTO);
+                return cartItemDTO.getId();
+            }
+        }
+        return null;
     }
+
 
     public void updateCartItem(Long id, Integer quantity) {
         for (CartItemDTO cartItemDTO : cartItems) {
@@ -40,9 +47,24 @@ public class ShoppingCartDTO {
             }
         }
     }
-    public void mergeCarts(ShoppingCartDTO shoppingCartDTO){
-        for (CartItemDTO cartItemDTO:shoppingCartDTO.cartItems){
-            addCartItem(cartItemDTO.getBook());
+
+    public void mergeCartItem(Long id, Integer quantity) {
+        for (CartItemDTO cartItemDTO : cartItems) {
+            if (cartItemDTO.getBook().getId() == id) {
+                cartItemDTO.setQuantity(quantity + cartItemDTO.getQuantity());
+            }
         }
+    }
+
+    public void mergeCarts(ShoppingCartDTO shoppingCartDTO) {
+        if (cartItems.size() != 0) {
+            for (CartItemDTO newcartItemDTO : shoppingCartDTO.cartItems) {
+                if (cartItems.contains(newcartItemDTO)) {
+                    mergeCartItem(newcartItemDTO.getBook().getId(), newcartItemDTO.getQuantity());
+                } else {
+                    cartItems.add(newcartItemDTO);
+                }
+            }
+        } else cartItems.addAll(shoppingCartDTO.getCartItems());
     }
 }

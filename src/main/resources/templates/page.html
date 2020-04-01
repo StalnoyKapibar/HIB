@@ -72,7 +72,7 @@
                             <button type="button" class="btn btn-success btn-sm mr-5  " data-toggle="dropdown" id="dropdownclose">Продолжить покупки
                             </button>
                             <button type="button" class="btn btn-primary btn-sm float-right"
-                                    onclick="document.location='/shoppingcart'" id="toshoppingcart">Заказать сейчас
+                                    onclick="document.location='/cabinet#cart'" id="toshoppingcart">Заказать сейчас
                             </button>
                         </a>
                     </div>
@@ -85,12 +85,12 @@
                     <div class="dropdown-menu" aria-labelledby="dd_menu_link" id="dd_menu">
                     </div>
                 </div>
-                <form class="form-inline mr-lg-2 mb-2 mt-2 mr-md-2">
+                <form class="form-inline mr-lg-2 mb-2 mt-2 mr-md-2" action="/search">
                     <div class="input-group">
                         <input type="text" class="form-control border" placeholder="" aria-label=""
-                               aria-describedby="basic-addon1">
+                               aria-describedby="basic-addon1" name="request">
                         <div class="input-group-append">
-                            <button class="btn border" type="button">
+                            <button class="btn border" type="submit">
                                 <img src="../static/icons/search.svg" alt="" height="16" width="16"></button>
                         </div>
                     </div>
@@ -198,12 +198,12 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-6 col-sm-12 pr-lg-1 mt-1">
-                        <a class="btn btn-block btn-social btn-google text-white">
+                        <a th:href="@{/oauth2/authorize/google}" class="btn btn-block btn-social btn-google text-white">
                             <span class="fa fa-google mr-2"></span>Sign up with Google
                         </a>
                     </div>
                     <div class="col-lg-6 col-sm-12 pl-lg-1 mt-1">
-                        <a class="btn btn-block btn-social btn-facebook text-white">
+                        <a th:href="@{/oauth2/authorize/facebook}" class="btn btn-block btn-social btn-facebook text-white">
                             <span class="fa fa-facebook-f"></span>Sign up with Facebook
                         </a>
                     </div>
