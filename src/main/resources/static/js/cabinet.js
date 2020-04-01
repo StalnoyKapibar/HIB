@@ -1,5 +1,10 @@
 let AU;
-
+$(document).ready(function () {
+    let tabhash = document.location.hash;
+    if (tabhash == '#cart') {
+        $('#myTab a[href="#Basket"]').tab('show');
+    }
+});
 $(document).ready(getAU());
 
 function getAU() {

@@ -18,7 +18,7 @@ public class CartItem {
     private Long id;
 
     @EqualsAndHashCode.Include
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Book book;
 
     private Integer quantity;
