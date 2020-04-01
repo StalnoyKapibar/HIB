@@ -16,6 +16,7 @@ public class AddAddressController {
     @PostMapping("/enterAddress")
     public String addAddress(@RequestBody AddressDTO addressDTO) {
         addressService.addAddress(addressDTO);
+        //TODO доделается после привязки к корзине
         return null;
     }
 }
