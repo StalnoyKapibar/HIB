@@ -144,70 +144,82 @@
                 <nav>
                     <div class="nav nav-tabs" id="nav-tab2" role="tablist">
                         <a class="nav-item nav-link active" id="nav-home-tab2" data-toggle="tab" href="#nav-home2"
-                           role="tab" aria-controls="nav-home" aria-selected="true">Genres list</a>
-                        <a class="nav-item nav-link" id="nav-profile-tab2" data-toggle="tab" href="#nav-profile2"
-                           role="tab" aria-controls="nav-profile" aria-selected="false">Add new genre</a>
+                           role="tab" aria-controls="nav-home" aria-selected="true">All genres</a>
+                        <a class="nav-item nav-link" onclick="setVacantNum()" id="nav-profile-tab2" data-toggle="tab" href="#nav-profile2"
+                           role="tab" aria-controls="nav-profile" aria-selected="false">Add genre</a>
                     </div>
                 </nav>
                 <div class="tab-content tab - border" id="nav-tabContent2">
                     <div class="tab-pane fade show active" id="nav-home2" role="tabpanel" aria-labelledby="nav-home-tab2">
+                        <ul class="list-group">
+                            <li class="list-group-item list-group-item-light">All genres</li>
+                        </ul>
+                        <div class="btn-group" id="chlang2">
+                        </div>
                         <table class="table">
                             <thead>
                             <tr>
                                 <td><strong>ID</strong></td>
-                                <td><strong>ru</strong></td>
-                                <td><strong>en</strong></td>
-                                <td><strong>fr</strong></td>
-                                <td><strong>it</strong></td>
-                                <td><strong>de</strong></td>
-                                <td><strong>cs</strong></td>
+                                <td><strong>Number</strong></td>
+                                <td><strong>Name</strong></td>
+                                <td><strong>Edit</strong></td>
+                                <td><strong>Delete</strong></td>
+                                <td><strong>Move up</strong></td>
+                                <td><strong>Move down</strong></td>
                             </tr>
                             </thead>
                             <tbody id="genrestable">
                             </tbody>
-                            <div class="modal fade" id="edit-item" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal fade" id="edit-genre" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                            <h4 class="modal-title" id="text"></h4>
                                         </div>
                                         <div class="modal-body">
                                             <form id="edit-form" class="form-horizontal">
                                                 <div class="form-group">
-                                                    <label for="editId">ID</label>
-                                                    <input type="text" class="form-control" id="editId" name="editId" disabled="true"/>
+                                                    <label for="editGenreId">ID</label>
+                                                    <input type="text" class="form-control" id="editGenreId" name="editGenreId" disabled="true"/>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="editUserName">Login</label>
-                                                    <input type="text" class="form-control" id="editUserName" name="editUserName" disabled="true"/>
+                                                    <label for="editGenreNumber">Number</label>
+                                                    <input type="text" class="form-control" id="editGenreNumber" name="editGenreNumber"/>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="editPassword">Password</label>
-                                                    <input type="password" class="form-control" id="editPassword" name="editPassword"/>
-                                                </div>
-                                                <label class="checkbox-inline">
-                                                    <input type="checkbox" id="editAccNonExp" name="editAccNonExp">AccNonExp
-                                                </label>
-                                                <label class="checkbox-inline">
-                                                    <input type="checkbox" id="editAccNonLoc" name="editAccNonLoc">AccNonLoc
-                                                </label>
-                                                <label class="checkbox-inline">
-                                                    <input type="checkbox" id="editCredNonExp" name="editCredNonExp">CredNonExp
-                                                </label>
-                                                <label class="checkbox-inline">
-                                                    <input type="checkbox" id="editEnabled" name="editEnabled">Enabled
-                                                </label>
-                                                <div class="form-group">
-                                                    <label for="editSelect">Roles</label>
-                                                    <select class="form-control" name="editSelect" id="editSelect" multiple="true">
-                                                        <option th:each="role : ${rolelist}"
-                                                                th:value="${role.id}"
-                                                                th:text="${role.type}"></option>
-                                                    </select>
+                                                    <label for="editGenreLocaleId">Locale ID</label>
+                                                    <input type="text" class="form-control" id="editGenreLocaleId" name="editGenreLocaleId" disabled="true"/>
                                                 </div>
                                                 <div class="form-group">
-                                                    <div class="btn btn-success" id="edit-btn">Submit</div>
+                                                    <label for="editGenreRu">Russian</label>
+                                                    <input type="text" class="form-control" id="editGenreRu" name="editGenreRu"/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="editGenreEn">English</label>
+                                                    <input type="text" class="form-control" id="editGenreEn" name="editGenreEn"/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="editGenreFr">French</label>
+                                                    <input type="text" class="form-control" id="editGenreFr" name="editGenreFr"/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="editGenreIt">Italian</label>
+                                                    <input type="text" class="form-control" id="editGenreIt" name="editGenreIt"/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="editGenreDe">German</label>
+                                                    <input type="text" class="form-control" id="editGenreDe" name="editGenreDe"/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="editGenreCs">Czech</label>
+                                                    <input type="text" class="form-control" id="editGenreCs" name="editGenreCs"/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="editGenreGr">Greek</label>
+                                                    <input type="text" class="form-control" id="editGenreGr" name="editGenreGr"/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="btn btn-success" onclick="editGenre()">Submit</div>
                                                 </div>
                                             </form>
                                         </div>
@@ -220,7 +232,14 @@
                         </table>
                     </div>
                     <div class="tab-pane fade " id="nav-profile2" role="tabpanel" aria-labelledby="nav-profile-tab2">
+                        <ul class="list-group">
+                            <li class="list-group-item list-group-item-light">Add new genre</li>
+                        </ul>
                         <form class="form-horizontal">
+                            <div class="form-group">
+                                <label for="addGenreNumber">Number</label>
+                                <input type="text" class="form-control" id="addGenreNumber" name="addGenreNumber" placeholder="number"/>
+                            </div>
                             <div class="form-group">
                                 <label for="addGenreRu">Russian</label>
                                 <input type="text" class="form-control" id="addGenreRu" placeholder="ru"/>
@@ -246,7 +265,11 @@
                                 <input type="text" class="form-control" id="addGenreCs" placeholder="cs"/>
                             </div>
                             <div class="form-group">
-                                <div class="btn btn-success add-btn" onclick="addGenre()">Add new genre</div>
+                                <label for="addGenreGr">Greek</label>
+                                <input type="text" class="form-control" id="addGenreGr" placeholder="gr"/>
+                            </div>
+                            <div class="form-group">
+                                <a class="btn btn-success" type="submit" onclick="addGenre()">Add new genre</a>
                             </div>
                         </form>
                     </div>

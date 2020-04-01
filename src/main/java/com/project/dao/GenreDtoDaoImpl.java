@@ -24,8 +24,8 @@ public class GenreDtoDaoImpl implements GenreDtoDao {
     }
 
     @Override
-    public Long getMaxNumber(String locale) {
-        String temp = "Select new com.project.model.GenreDto(g.id, g.number, g.genreLocale.lang) FROM Genre g WHERE g.number = (select max(number) from Genre)".replaceAll("lang", locale);
+    public Long getMaxNumber() {
+        String temp = "Select new com.project.model.GenreDto(g.id, g.number, g.genreLocale.en) FROM Genre g WHERE g.number = (select max(number) from Genre)";
         try {
             return entityManager.createQuery(temp, GenreDto.class).getSingleResult().getNumber();
         } catch (NoResultException e) {

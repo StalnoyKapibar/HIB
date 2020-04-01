@@ -33,8 +33,8 @@ public class GenreDtoServiceImpl implements GenreDtoService {
     }
 
     @Override
-    public Long getVacantNumber(String locale) {
-        Long maxNum = genreDtoDao.getMaxNumber(locale);
+    public Long getVacantNumber() {
+        Long maxNum = genreDtoDao.getMaxNumber();
         return maxNum == null ? 1L : maxNum + 1;
     }
 }

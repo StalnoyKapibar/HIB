@@ -23,29 +23,29 @@ public class GenreRestController {
 
     @GetMapping("/genresdto")
     public List<GenreDto> getAllGenresDto(HttpServletResponse response, HttpServletRequest request) {
-        List<GenreDto> genres = genreDtoService.getAllGenreDto("ru");//(String) request.getSession().getAttribute("LANG"));
-        if (genres != null) {
+        List<GenreDto> genresDto = genreDtoService.getAllGenreDto("ru");//(String) request.getSession().getAttribute("LANG"));
+        if (genresDto != null) {
             response.setStatus(HttpServletResponse.SC_OK);
         } else {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
         }
-        return genres;
+        return genresDto;
     }
 
     @GetMapping("/genredto/{id}")
-    public GenreDto getGenreById(@PathVariable Long id, HttpServletResponse response, HttpServletRequest request) {
-        GenreDto genre = genreDtoService.getGenreDtoById(id, "ru");//(String) request.getSession().getAttribute("LANG"));
-        if (genre != null) {
+    public GenreDto getGenreDtoById(@PathVariable Long id, HttpServletResponse response, HttpServletRequest request) {
+        GenreDto genreDto = genreDtoService.getGenreDtoById(id, "ru");//(String) request.getSession().getAttribute("LANG"));
+        if (genreDto != null) {
             response.setStatus(HttpServletResponse.SC_OK);
         } else {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
         }
-        return genre;
+        return genreDto;
     }
 
     @GetMapping("/vacantnum")
     public Long getVacantNumber(HttpServletResponse response, HttpServletRequest request) {
-        Long vacantNum = genreDtoService.getVacantNumber("ru");//(String) request.getSession().getAttribute("LANG"));
+        Long vacantNum = genreDtoService.getVacantNumber();
         if (vacantNum != null) {
             response.setStatus(HttpServletResponse.SC_OK);
         } else {
@@ -63,6 +63,17 @@ public class GenreRestController {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
         }
         return genres;
+    }
+
+    @GetMapping("/genre/{id}")
+    public Genre getGenreById(@PathVariable Long id, HttpServletResponse response, HttpServletRequest request) {
+        Genre genre = genreService.getGenreById(id);
+        if (genre != null) {
+            response.setStatus(HttpServletResponse.SC_OK);
+        } else {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        }
+        return genre;
     }
 
     @PostMapping("/genre")
