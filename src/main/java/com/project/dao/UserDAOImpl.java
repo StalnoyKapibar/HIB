@@ -2,6 +2,7 @@ package com.project.dao;
 
 import com.project.model.UserAccount;
 import com.project.model.UserDTO;
+import com.project.model.UserDTONewPassword;
 import org.hibernate.annotations.SQLUpdate;
 import org.springframework.stereotype.Repository;
 
@@ -47,10 +48,15 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public void saveUserDTOPassword(UserDTO userDTO) {
+    public void saveUserDTOPassword(UserDTONewPassword userDTONewPassword) {
         entityManager.createQuery("update UserAccount set password = :password where userId =:userId")
-                .setParameter("password", userDTO.getPassword())
-                .setParameter("userId", userDTO.getUserId())
+                .setParameter("password", userDTONewPassword.getNewPassword())
+                .setParameter("userId", userDTONewPassword.getUserId())
                 .executeUpdate();
+    }
+
+    @Override
+    public String getOldPassword(long id) {
+        return (String) entityManager.createQuery("SELECT ua.password FROM UserAccount ua where ua.userId=:userId").setParameter("userId", id).getSingleResult();
     }
 }
