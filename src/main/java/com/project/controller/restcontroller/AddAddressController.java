@@ -3,6 +3,8 @@ package com.project.controller.restcontroller;
 import com.project.model.AddressDTO;
 import com.project.service.AddressService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,9 +16,8 @@ public class AddAddressController {
     private AddressService addressService;
 
     @PostMapping("/enterAddress")
-    public String addAddress(@RequestBody AddressDTO addressDTO) {
+    public ResponseEntity.BodyBuilder addAddress(@RequestBody AddressDTO addressDTO) {
         addressService.addAddress(addressDTO);
-        //TODO доделается после привязки к корзине
-        return null;
+        return  ResponseEntity.status(HttpStatus.OK);
     }
 }
