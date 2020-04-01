@@ -1,0 +1,91 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html>
+<head>
+
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <style>
+        .container {
+            margin-top: 20px;
+        }
+    </style>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js" type="text/javascript" ></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" type="text/javascript" ></script>
+    <script src="../static/js/googleEnterAddress.js" type="text/javascript" ></script>
+
+</head>
+<body>
+
+<div class="container">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Address</h3>
+        </div>
+        <div class="panel-body">
+            <input id="autocomplete" th:disabled=*{disabledAutocomplete} placeholder="221B Baker Street, London, United Kingdom" onFocus="geolocate()" type="text" class="form-control">
+            <br>
+            <div id="address">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="control-label">Flat</label>
+                        <input class="form-control" id="flat">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="control-label">House</label>
+                        <input class="form-control" id="street_number" >
+                    </div>
+                    <div class="col-md-6">
+                        <label class="control-label">Street</label>
+                        <input class="form-control" id="route" >
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="control-label">City</label>
+                        <input class="form-control field" id="locality">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="control-label">State</label>
+                        <input class="form-control" id="administrative_area_level_1">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="control-label">Zip code</label>
+                        <input class="form-control" id="postal_code" >
+                    </div>
+                    <div class="col-md-6">
+                        <label class="control-label">Country</label>
+                        <input class="form-control" id="country" >
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="control-label">First name</label>
+                        <input class="form-control" id="firstName" th:attr="value=*{firstName}">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="control-label">Last name</label>
+                        <input class="form-control" id="lastName"  th:attr="value=*{lastName}">
+                    </div>
+                </div>
+                <br>
+                <button type="button" onclick="enterAddress()" class="btn btn-primary">Confirm address</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Note Add Your API Key Below -->
+<!-- The Form Will Not Work Without a Registered API Key -->
+<!-- https://developers.google.com/maps/documentation/javascript/get-api-key -->
+
+<script th:attr="src=*{key}" async defer></script>
+
+</body>
+</html>
