@@ -2,6 +2,7 @@ package com.project.service;
 
 import com.project.dao.UserDAO;
 import com.project.model.UserDTO;
+import com.project.model.UserDTONewPassword;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -45,13 +46,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String saveUserDTOPassword(UserDTO userDTO) {
+    public String saveUserDTOPassword(UserDTONewPassword userDTONewPassword) {
         String reg = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{6,}$";
-        if (Pattern.matches(reg, userDTO.getPassword()) && (userDTO.getPassword().length() >= 8 && userDTO.getPassword().length() <= 64)) {
-            String tmpPasswordEncode = encoder.encode(userDTO.getPassword());
-            userDTO.setPassword(tmpPasswordEncode);
-            userDAO.saveUserDTOPassword(userDTO);
-            return "passOk";
+        if (Pattern.matches(reg, userDTONewPassword.getNewPassword()) && (userDTONewPassword.getNewPassword().length() >= 8 && userDTONewPassword.getNewPassword().length() <= 64)) {
+            if (encoder.matches(userDTONewPassword.getOldPassword(), userDAO.getOldPassword(userDTONewPassword.getUserId()))) {
+                String newPass = encoder.encode(userDTONewPassword.getNewPassword());
+                userDTONewPassword.setNewPassword(newPass);
+                userDAO.saveUserDTOPassword(userDTONewPassword);
+                return "passOk";
+            } else {
+                return "wrongPassword";
+            }
         } else {
             return "passError";
         }
