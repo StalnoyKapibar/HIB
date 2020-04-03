@@ -18,30 +18,32 @@ public class UserAccountDAO {
     private EntityManager entityManager;
 
     public Optional<UserAccount> findByLogin(String login) {
-        String sql= "SELECT * FROM users WHERE login =:login";
+        String sql = "SELECT * FROM users WHERE login =:login";
         try {
-            UserAccount userAccount =  (UserAccount) entityManager.createNativeQuery(sql, UserAccount.class)
+            UserAccount userAccount = (UserAccount) entityManager.createNativeQuery(sql, UserAccount.class)
                     .setParameter("login", login).getSingleResult();
             return Optional.ofNullable(userAccount);
         } catch (NoResultException e) {
             throw new UsernameNotFoundException(login);
         }
     }
+
     public Optional<UserAccount> findByEmail(String email) throws EmptyResultDataAccessException {
-        String sql= "SELECT * FROM users WHERE email =:email";
-            UserAccount userAccount =  (UserAccount) entityManager.createNativeQuery(sql, UserAccount.class)
-                    .setParameter("email", email).getSingleResult();
-            return Optional.ofNullable(userAccount);
+        String sql = "SELECT * FROM users WHERE email =:email";
+        UserAccount userAccount = (UserAccount) entityManager.createNativeQuery(sql, UserAccount.class)
+                .setParameter("email", email).getSingleResult();
+        return Optional.ofNullable(userAccount);
     }
 
     public UserAccount findUserByTokenToConfirmEmail(String token) throws EmptyResultDataAccessException {
-        String sql= "SELECT * FROM users WHERE token_to_confirm_email =:token";
+        String sql = "SELECT * FROM users WHERE token_to_confirm_email =:token";
         return (UserAccount) entityManager.createNativeQuery(sql, UserAccount.class)
                 .setParameter("token", token).getSingleResult();
     }
+
     @Transactional
     public void setLocaleAndAuthDate(String email, String locale, long lastAuthDate) {
-        String sql= "UPDATE users SET last_auth_date =:lastAuthDate, locale =:locale WHERE email =:email";
+        String sql = "UPDATE users SET last_auth_date =:lastAuthDate, locale =:locale WHERE email =:email";
         entityManager.createNativeQuery(sql)
                 .setParameter("locale", locale)
                 .setParameter("lastAuthDate", lastAuthDate)
@@ -51,5 +53,9 @@ public class UserAccountDAO {
     public UserAccount save(UserAccount userAccount) {
         entityManager.persist(userAccount);
         return userAccount;
+    }
+
+    public UserAccount getUserById(Long id) {
+        return entityManager.find(UserAccount.class, id);
     }
 }

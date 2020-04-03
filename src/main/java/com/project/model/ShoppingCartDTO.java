@@ -58,13 +58,21 @@ public class ShoppingCartDTO {
 
     public void mergeCarts(ShoppingCartDTO shoppingCartDTO) {
         if (cartItems.size() != 0) {
-            for (CartItemDTO newcartItemDTO : shoppingCartDTO.cartItems) {
-                if (cartItems.contains(newcartItemDTO)) {
-                    mergeCartItem(newcartItemDTO.getBook().getId(), newcartItemDTO.getQuantity());
+            for (CartItemDTO newCartItemDTO : shoppingCartDTO.cartItems) {
+                if (cartItems.contains(newCartItemDTO)) {
+                    mergeCartItem(newCartItemDTO.getBook().getId(), newCartItemDTO.getQuantity());
                 } else {
-                    cartItems.add(newcartItemDTO);
+                    cartItems.add(newCartItemDTO);
                 }
             }
         } else cartItems.addAll(shoppingCartDTO.getCartItems());
+    }
+
+    public Integer getTotalCostItems() {
+        Integer cost = 0;
+        for (CartItemDTO cartItemDTO : cartItems) {
+            cost += cartItemDTO.getBook().getPrice() * cartItemDTO.getQuantity();
+        }
+        return cost;
     }
 }

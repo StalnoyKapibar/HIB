@@ -27,6 +27,7 @@ public class OAuthLoginSuccessHandler implements AuthenticationSuccessHandler {
 
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         shoppingCart.mergeCarts(request,userPrincipal.getCart().getId());
+        request.getSession().setAttribute("userId",userPrincipal.getId());
         String locale = request.getSession().getAttribute("LANG").toString();
         userAccountDAO.setLocaleAndAuthDate(userPrincipal.getEmail(), locale, Instant.now().getEpochSecond());
         response.sendRedirect(request.getHeader("referer"));

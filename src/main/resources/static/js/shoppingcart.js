@@ -81,4 +81,183 @@ function json(response) {
     return response.json()
 }
 
+var placeSearch, autocomplete;
+var componentForm = {
+    street_number: 'short_name',
+    route: 'long_name',
+    locality: 'long_name',
+    administrative_area_level_1: 'short_name',
+    country: 'long_name',
+    postal_code: 'short_name'
+};
+
+function initAutocomplete() {
+    // Create the autocomplete object, restricting the search to geographical
+    // location types.
+    autocomplete = new google.maps.places.Autocomplete(
+        /** @type {!HTMLInputElement} */(document.getElementById('autocomplete')),
+        {types: ['geocode']});
+
+    // When the user selects an address from the dropdown, populate the address
+    // fields in the form.
+    autocomplete.addListener('place_changed', fillInAddress);
+}
+
+function fillInAddress() {
+    // Get the place details from the autocomplete object.
+    var place = autocomplete.getPlace();
+
+    for (var component in componentForm) {
+        document.getElementById(component).value = '';
+        document.getElementById(component).disabled = false;
+    }
+
+    // Get each component of the address from the place details
+    // and fill the corresponding field on the form.
+    for (var i = 0; i < place.address_components.length; i++) {
+        var addressType = place.address_components[i].types[0];
+        if (componentForm[addressType]) {
+            var val = place.address_components[i][componentForm[addressType]];
+            document.getElementById(addressType).value = val;
+        }
+    }
+}
+
+// Bias the autocomplete object to the user's geographical location,
+// as supplied by the browser's 'navigator.geolocation' object.
+function geolocate() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            var geolocation = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
+            var circle = new google.maps.Circle({
+                center: geolocation,
+                radius: position.coords.accuracy
+            });
+            autocomplete.setBounds(circle.getBounds());
+        });
+    }
+}
+
+
+let order = '';
+
+function confirmPurchase() {
+    fetch('/order');
+    showShoppingCart();
+    getCart();
+}
+
+async function enterAddress() {
+    let data = enterData();
+    if (data != '') {
+        alert('enter ' + data + ' !');
+        return;
+    }
+    let address = {
+        flat: $("#flat").val(),
+        house: $("#street_number").val(),
+        street: $("#route").val(),
+        city: $("#locality").val(),
+        state: $("#administrative_area_level_1").val(),
+        postalCode: $("#postal_code").val(),
+        country: $("#country").val(),
+        firstName: $("#firstName").val(),
+        lastName: $("#lastName").val()
+    };
+    await fetch('/order/confirmaddress', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify(address)
+
+    }).then(status)
+        .then(json)
+        .then((data) => {
+            order = data;
+        });
+    showSummary();
+    showOrderSum();
+}
+
+function enterData() {
+    let data = '';
+    if ($("#street_number").val() == '') {
+        data = 'house';
+    }
+    if ($("#route").val() == '') {
+        data = 'street'
+    }
+    if ($("#locality").val() == '') {
+        data = 'city'
+    }
+    if ($("#administrative_area_level_1").val() == '') {
+        data = 'state'
+    }
+    if ($("#postal_code").val() == '') {
+        data = 'zip code'
+    }
+    if ($("#country").val() == '') {
+        data = 'country'
+    }
+    if ($("#firstName").val() == '') {
+        data = 'first name'
+    }
+    if ($("#lastName").val() == '') {
+        data = 'last name'
+    }
+    return data;
+}
+
+function showOrderSum() {
+    let items = order.items;
+    $('#orderTab').empty();
+    $.each(items, function (index) {
+        let book = items[index].book;
+        let row = $('<tr id="trr"/>');
+        let cell = $('<td width="10"></td>');
+        row.append(cell);
+        cell = '<td class="align-middle"><img src="../images/book' + book.id + '/' + book.coverImage + '" style="max-width: 60px"></td>' +
+            '<td class="align-middle">' + book.name[currentLang] + ' | ' + book.author[currentLang] + '</td>' +
+            '<td class="align-middle" id="book' + book.id + '">' + book.price + '</td>' +
+            '<td class="align-middle"><div class="product-quantity" >' + items[index].quantity + '</div></td>';
+        row.append(cell);
+        row.appendTo('#orderTab');
+    });
+    $('#subtotal').text(totalPrice);
+    $('#shippingcost').text(order.shippingCost);
+    $('#pricetotal').text((totalPrice + order.shippingCost));
+    $('#shippingaddress').empty();
+    let address = order.address;
+    let flat = '';
+    if (address.flat != "") {
+        flat = '-' + address.flat;
+    }
+    let shipping = $('<p>' + address.firstName + ' ' + address.lastName + '</p>' +
+        '<p>' + address.street + ' ' + address.house + flat + '</p>' +
+        '<p>' + address.postalCode + ' ' + address.city + ' ' + address.state + '</p>' +
+        '<p>' + address.country + '</p>');
+    shipping.appendTo('#shippingaddress');
+}
+
+async function showListOrders() {
+    await fetch("/order/getorders")
+        .then(status)
+        .then(json)
+        .then(function (data) {
+            $('#listorders').empty();
+            $.each(data, function (index) {
+                let row = $('<tr>');
+                let cell = $('<td width="10"></td>');
+                row.append(cell);
+                cell = '<td>' + data[index].id + '</td><td>' + data[index].data + '</td><td>'+(data[index].itemsCost+data[index].shippingCost)+'</td><td><a href="#">Show</a></td>'
+                row.append(cell);
+                row.appendTo('#listorders');
+            })
+        });
+}
+
 
