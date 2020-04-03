@@ -97,9 +97,11 @@ async function pageBook(x) {
             var htmlAddPage = varBookDTO;
             nameObjectOfLocaleStringWithId = Object.values(htmlAddPage);
             nameObjectOfLocaleString = nameObjectOfLocaleStringWithId.filter(t => t !== "id");
-            var htmlTable = '';
+            var htmlTable = `<th scope='col'>id ${idChangeLang}</th>`;
             for (let dd of nameObjectOfLocaleStringWithId) {
-                htmlTable += `<th scope='col'>${dd} ${idChangeLang}</th>`;
+                if (dd !== "desc" && dd !== "edition") {
+                    htmlTable += `<th scope='col'>${dd} ${idChangeLang}</th>`;
+                }
             }
             htmlTable +=
                 `<th scope='col'>Edit</th>` +
@@ -110,9 +112,12 @@ async function pageBook(x) {
                 html += `<tr id=${tmp_html.id}>` +
                     `<td id=${tmp_html.id}>${tmp_html.id}</td>`;
                 for (key in tmp_html) {
-                    if (key !== "id" && key !== "coverImage" && key !== "imageList") {
-                                var ad = tmp_html[key][idChangeLang];
-                                html += `<td id='n${tmp_html.id}'>${ad}</td>`;
+                    if (tmp_html[key]!==null) {
+                        if (key !== "id" && key !== "coverImage" && key !== "imageList" && key !== "desc" && key !== "edition"
+                            && key !== "yearOfEdition" && key !== "pages" && key !== "price") {
+                            var ad = tmp_html[key][idChangeLang];
+                            html += `<td id='n${tmp_html.id}'>${ad}</td>`;
+                        }
                     }
                 }
                 html +=
@@ -142,30 +147,54 @@ function addPage() {
         for (let tmpNameVar of nameVarOfLocaleString) {
             html +=
                 `<div class='form-group mx-5'>` +
-                `<div class="row">`+
+                `<div class="row">` +
                 `<div class="col-0" for=${tmpNameObject}${tmpNameVar}>${tmpNameObject} ${tmpNameVar}</div>` +
-                `<div class="col-2 mr-1">`+
-                `<input type="radio" name="rb${tmpNameObject}" id="rb${tmpNameObject}${tmpNameVar}" value="${tmpNameVar}" autocomplete="off"> Translate from this language`+
-                `</div>`+
-                `<div class="col">`+
+                `<div class="col-2 mr-1">` +
+                `<input type="radio" name="rb${tmpNameObject}" id="rb${tmpNameObject}${tmpNameVar}" value="${tmpNameVar}" autocomplete="off"> Translate from this language` +
+                `</div>` +
+                `<div class="col">` +
                 `<input type='text' class='form-control' id='inp${tmpNameObject}${tmpNameVar}'` +
                 `placeholder='${tmpNameObject} ${tmpNameVar}'>` +
-                `</div>`+
-                `<div class="col">`+
+                `</div>` +
+                `<div class="col">` +
                 `<input type="checkbox" checked name="cb${tmpNameObject}" value="${tmpNameVar}" autocomplete="off"> Into this language` +
-                `</div>`+
-                `</div>`+
+                `</div>` +
+                `</div>` +
                 `</div>`;
         }
-        html+=`<button type="button" onclick="translateText('${tmpNameObject}')" class="btn btn-primary mx-3">Translate</button>`;
+        html += `<button type="button" onclick="translateText('${tmpNameObject}')" class="btn btn-primary mx-3">Translate</button>`;
     }
     $('#newBookForm').html(html + `<h4>Cover Image</h4>` +
-        `<div class='car' style='width: 18rem;'>` +
-        `<img id='myImage' src =''  class='card-img-top' alt='...'> ` +
+        `<div class='car' id='divImage' style='width: 18rem;'>` +
+        `<img id='myImage' class='card-img-top' alt='...'> ` +
         `</div>`);
 }
 
+function loadBookFile() {
+    let file = $("#formBookFile").prop('files')[0];
+    fetch('/loadFile', {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: file
+    })
+        .then(json)
+        .then(function (resp) {
+            addValueToFields(resp);
+        });
+}
 
+function addValueToFields(book) {
+    for (let tmpNameObject of nameObjectOfLocaleString) {
+        for (let tmpNameVar of nameVarOfLocaleString) {
+            $("#inp" + tmpNameObject + tmpNameVar).val(book[tmpNameObject][tmpNameVar]);
+        }
+    }
+    // $("#divImage").empty();
+    // $("#divImage").append('<img class="card-img-top" src=' + book.coverImage + '" alt="Card image cap">');
+    $("#myImage").src = '/'+book.coverImage;
+}
 
 function addBook() {
     var add = {};
@@ -356,5 +385,3 @@ function showImage(x) {
 function doesFolderTmpExist() {
     fetch("admin/doesFolderTmpExist");
 }
-
-

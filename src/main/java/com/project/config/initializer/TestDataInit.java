@@ -1,5 +1,6 @@
 package com.project.config.initializer;
 
+import com.project.HIBParser.HibParser;
 import com.project.model.BookDTO;
 import com.project.model.Image;
 import com.project.model.LocaleString;
@@ -21,6 +22,9 @@ import java.util.List;
 public class TestDataInit {
     @Autowired
     BookService bookService;
+
+    @Autowired
+    HibParser parser;
 
     private int bookId;
 

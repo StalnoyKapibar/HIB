@@ -1,6 +1,7 @@
 package com.project.util;
 
 import com.project.model.BookDTO;
+import com.project.model.LocaleString;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
@@ -15,8 +16,7 @@ public class BookDTOWithFieldsForTable {
 
     public BookDTOWithFieldsForTable() {
         Arrays.stream(localeStringClass.getDeclaredFields())
-                .filter(n -> !(n.getName().equals("coverImage")))
-                .filter(n -> !(n.getName().equals("imageList")))
+                .filter(n -> n.getType().equals(LocaleString.class))
                 .forEach(n -> fields.add(n.getName()));
     }
 

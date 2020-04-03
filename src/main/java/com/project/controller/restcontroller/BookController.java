@@ -1,5 +1,6 @@
 package com.project.controller.restcontroller;
 
+import com.project.HIBParser.HibParser;
 import com.project.model.BookDTO;
 import com.project.model.BookDTO20;
 import com.project.search.BookSearch;
@@ -8,6 +9,7 @@ import com.project.service.BookService;
 import com.project.service.StorageService;
 import com.project.util.BookDTOWithFieldsForTable;
 import lombok.AllArgsConstructor;
+import org.jboss.logging.annotations.Pos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.PageRequest;
@@ -19,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.List;
 
 @AllArgsConstructor
@@ -28,9 +31,16 @@ public class BookController {
     @Autowired
     private BookService bookService;
     private BookSearch bookSearch;
+    private HibParser hibParser;
 
     @Autowired
     private StorageService storageService;
+
+    @PutMapping("/loadFile")
+    public BookDTO loadFile(@RequestBody String book){
+        BookDTO bookDTO = hibParser.getBookFromJSON(book);
+        return bookDTO;
+    }
 
     @GetMapping("/getBookDTOById/{id}")
     public BookDTO getBookDTOById(@PathVariable("id") long id) {
