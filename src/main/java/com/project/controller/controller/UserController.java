@@ -2,7 +2,6 @@ package com.project.controller.controller;
 
 import com.project.model.FormLoginErrorMessageDTO;
 import com.project.model.RegistrationUserDTO;
-import com.project.model.UserAccount;
 import com.project.service.FormLoginErrorMessageService;
 import com.project.service.UserAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,14 +12,21 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
+
 import javax.validation.Valid;
 
 @Controller
 public class UserController {
-    @Autowired
+    final
     UserAccountService userAccountService;
-    @Autowired
+    final
     FormLoginErrorMessageService messageService;
+
+    @Autowired
+    public UserController(UserAccountService userAccountService, FormLoginErrorMessageService messageService) {
+        this.userAccountService = userAccountService;
+        this.messageService = messageService;
+    }
 
     @GetMapping("/registration")
     public ModelAndView getRegistrationPage(RegistrationUserDTO user) {
