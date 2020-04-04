@@ -112,7 +112,7 @@ async function pageBook(x) {
                 html += `<tr id=${tmp_html.id}>` +
                     `<td id=${tmp_html.id}>${tmp_html.id}</td>`;
                 for (key in tmp_html) {
-                    if (tmp_html[key]!==null) {
+                    if (tmp_html[key] !== null) {
                         if (key !== "id" && key !== "coverImage" && key !== "imageList" && key !== "desc" && key !== "edition"
                             && key !== "yearOfEdition" && key !== "pages" && key !== "price") {
                             var ad = tmp_html[key][idChangeLang];
@@ -164,10 +164,22 @@ function addPage() {
         }
         html += `<button type="button" onclick="translateText('${tmpNameObject}')" class="btn btn-primary mx-3">Translate</button>`;
     }
-    $('#newBookForm').html(html + `<h4>Cover Image</h4>` +
+    $('#newBookForm').html(html +
+        `<h5> Year Of Edition </h5>` +
+        `<input type="text" id="yearOfEdition" placeholder="Year Of Edition"><br><br> ` +
+        `<h5> Pages </h5>` +
+        `<input type="number" id="pages" ><br><br> ` +
+        `<h5> Price </h5>` +
+        `<input type="number" id="price" ><br><br> ` +
+        `<h5> Original Language </h5>` +
+        `<input type="text" id="originalLanguage" placeholder="Original Language"><br><br> ` +
+        `<h4>Cover Image</h4>` +
         `<div class='car' id='divImage' style='width: 18rem;'>` +
         `<img id='myImage' class='card-img-top' alt='...'> ` +
-        `</div>`);
+        `</div>` +
+        `<div class='car' id='imageList' style='width: 18rem;'>` +
+        `</div><br><br>`
+    );
 }
 
 function loadBookFile() {
@@ -191,9 +203,19 @@ function addValueToFields(book) {
             $("#inp" + tmpNameObject + tmpNameVar).val(book[tmpNameObject][tmpNameVar]);
         }
     }
-    // $("#divImage").empty();
-    // $("#divImage").append('<img class="card-img-top" src=' + book.coverImage + '" alt="Card image cap">');
-    $("#myImage").src = '/'+book.coverImage;
+    $("#yearOfEdition").val(`${book.yearOfEdition}`);
+    $("#pages").val(`${book.pages}`);
+    $("#price").val(`${book.price}`);
+    $("#originalLanguage").val(`${book.originalLanguage}`);
+    $("#myImage").attr("src", `/images/book${book.id}/avatar.jpg`);
+    for (const imageListElement of book.imageList) {
+        let pathToImg = '/images/book' + book.id + '/' + imageListElement.nameImage;
+        if (!imageListElement.nameImage.includes('avatar')) {
+            $("#imageList").append(
+                `<img src=${pathToImg} class='card-img-top' alt='...'><br><br> `
+            )
+        }
+    }
 }
 
 function addBook() {

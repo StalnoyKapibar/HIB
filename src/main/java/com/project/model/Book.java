@@ -42,6 +42,8 @@ public class Book {
 
     private String coverImage;
 
+    private String originalLanguage;
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Image> listImage;
 

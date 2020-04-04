@@ -21,6 +21,7 @@ public class BookDTO {
     private String yearOfEdition;
     private Long pages;
     private Integer price;
+    private String originalLanguage;
     private String coverImage;
     private List<Image> imageList;
 
