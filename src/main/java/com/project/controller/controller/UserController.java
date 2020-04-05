@@ -3,29 +3,49 @@ package com.project.controller.controller;
 import com.project.model.FormLoginErrorMessageDTO;
 import com.project.model.RegistrationUserDTO;
 import com.project.service.FormLoginErrorMessageService;
+import com.project.service.ResetPasswordService;
 import com.project.service.UserAccountService;
+import org.apache.http.HttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 
 @Controller
 public class UserController {
-    final
-    UserAccountService userAccountService;
-    final
-    FormLoginErrorMessageService messageService;
 
     @Autowired
-    public UserController(UserAccountService userAccountService, FormLoginErrorMessageService messageService) {
-        this.userAccountService = userAccountService;
-        this.messageService = messageService;
+    private ResetPasswordService resetPasswordService;
+
+    @Autowired
+    UserAccountService userAccountService;
+
+    @Autowired
+    FormLoginErrorMessageService messageService;
+
+    @GetMapping("/resetPassword")
+    public String getResetPasswordPage() {
+        return "resetPassword";
+    }
+
+    @GetMapping("/resPass")
+    public String getPageResPass(@RequestParam(required = false, name = "token") String token) {
+        if (resetPasswordService.checkTokenResetPassword(token)) {
+            return "pageResPass";
+        } else {
+            throw new AccessDeniedException("403");
+        }
     }
 
     @GetMapping("/registration")
@@ -52,11 +72,11 @@ public class UserController {
         }
         try {
             //Нужна проверка на уникальность логина и пароля!!
-                userAccountService.save(user);
+            userAccountService.save(user);
         } catch (DataIntegrityViolationException e) {
-            if(e.getCause().getCause().getMessage().contains("login")){
+            if (e.getCause().getCause().getMessage().contains("login")) {
                 view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessageOnLoginUIndex());
-            }else {
+            } else {
                 view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessageOnEmailUIndex());
             }
             return view;
