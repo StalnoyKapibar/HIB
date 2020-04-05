@@ -70,10 +70,15 @@ $(document).on('click', '#submit-btn', async () => {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         }
+    }).then((response) => {
+        if (response.ok) {
+            showAlert(`Message for ${emailField.val()} successfully sent`, 'success')
+        } else {
+            showAlert(`Message for ${emailField.val()} not sent!`, 'danger');
+        }
     });
     theModal.modal('hide');
     await getFeedbackRequestTable();
-    await showAlert(`Message for ${emailField.val()} successfully sent`);
 });
 
 async function showInterestedBook(message) {
@@ -81,8 +86,7 @@ async function showInterestedBook(message) {
     if (message.includes("/page/")) {
         bookId = message.substr(message.indexOf("/page/") + 6, message.length);
         await fetch("/page/id/" + bookId)
-            .then(status)
-            .then(json).then(book => {
+            .then(json).then((book) => {
                 interestedBookTitle.html(`<span>${book.name['en']}</span>`);
                 interestedBookTitle.attr('href', "/page/" + bookId);
                 interestedBookImage.attr('src', `/images/book${book.id}/${book.coverImage}`);
@@ -91,9 +95,12 @@ async function showInterestedBook(message) {
     }
 }
 
-async function showAlert(message) {
-    let alert = `<div class="alert alert-success alert-dismissible" role="alert">
-                            <strong>Success!</strong> <span>${message}</span>
+async function showAlert(message, clazz) {
+    if (document.getElementById(alertContainer.attr('id')).children.length > 3) {
+        alertContainer.empty();
+    }
+    let alert = `<div class="alert alert-${clazz} alert-dismissible" role="alert">
+                            <strong>${clazz}!</strong> <span>${message}</span>
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>

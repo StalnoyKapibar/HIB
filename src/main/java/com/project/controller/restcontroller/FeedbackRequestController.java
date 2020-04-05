@@ -3,9 +3,11 @@ package com.project.controller.restcontroller;
 import com.project.mail.MailService;
 import com.project.model.FeedbackRequest;
 import com.project.service.FeedbackRequestService;
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -14,17 +16,14 @@ import org.springframework.web.util.HtmlUtils;
 import java.util.List;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/feedback-request")
+@PropertySource("classpath:application.properties")
 public class FeedbackRequestController {
     private final static Logger LOGGER = LoggerFactory.getLogger(FeedbackRequestController.class.getName());
     private final FeedbackRequestService feedbackRequestService;
     private final MailService mailService;
-
-    @Autowired
-    public FeedbackRequestController(FeedbackRequestService feedbackRequestService, MailService mailService) {
-        this.feedbackRequestService = feedbackRequestService;
-        this.mailService = mailService;
-    }
+    private final Environment env;
 
     @PostMapping
     public FeedbackRequest sendNewFeedBackRequest(@RequestBody FeedbackRequest feedbackRequest) {
@@ -43,12 +42,13 @@ public class FeedbackRequestController {
         return feedbackRequestService.save(feedbackRequest);
     }
 
+    @SuppressWarnings("all")
     @PostMapping("/reply/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public void send(@PathVariable Long id, @RequestBody SimpleMailMessage simpleMailMessage) {
         FeedbackRequest feedbackRequest = feedbackRequestService.getById(id);
         simpleMailMessage.setTo(feedbackRequest.getSenderEmail());
-        simpleMailMessage.setFrom("hibthebestproject@yandex.ru");
+        simpleMailMessage.setFrom(env.getProperty("spring.mail.username"));
         feedbackRequest.setReplied(true);
         feedbackRequestService.save(feedbackRequest);
         LOGGER.debug("POST request '/feedback-request/reply/{}' with {}", id, simpleMailMessage);
