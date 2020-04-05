@@ -1,0 +1,26 @@
+package com.project.model;
+
+import lombok.Data;
+
+import javax.persistence.*;
+
+@Entity
+@Data
+@Table(name = "feedback_request")
+public class FeedbackRequest {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "sender_name")
+    private String senderName;
+
+    @Column(name = "content")
+    private String content;
+
+    @Column(name = "sender_email")
+    private String senderEmail;
+
+    @Column(name = "replied")
+    private Boolean replied;
+}

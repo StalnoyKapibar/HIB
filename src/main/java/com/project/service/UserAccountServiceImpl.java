@@ -6,22 +6,16 @@ import com.project.mail.MailService;
 import com.project.model.RegistrationUserDTO;
 import com.project.model.UserAccount;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.hibernate.exception.ConstraintViolationException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.data.mapping.model.Property;
-import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import javax.servlet.http.HttpSession;
 import java.time.Instant;
-import java.util.Properties;
 import java.util.UUID;
 
 @Service
@@ -40,6 +34,7 @@ public class UserAccountServiceImpl implements UserAccountService {
     MailService mailService;
 
     Environment environment;
+
     @Override
     public UserAccount findUserByToConfirmEmail(String token) {
         try {
@@ -66,6 +61,7 @@ public class UserAccountServiceImpl implements UserAccountService {
         sendEmailToConfirmAccount(userAccount);
         return userAccountDao.save(userAccount);
     }
+
     @Override
     public void sendEmailToConfirmAccount(UserAccount user) {
         String senderFromProperty = environment.getProperty("spring.mail.username");
@@ -78,6 +74,7 @@ public class UserAccountServiceImpl implements UserAccountService {
                 + user.getTokenToConfirmEmail());
         mailService.sendEmail(mailMessage);
     }
+
     @Override
     public void setLocaleAndAuthDate(String email, String locale, long lastAuthDate) {
         userAccountDao.setLocaleAndAuthDate(email, locale, lastAuthDate);
