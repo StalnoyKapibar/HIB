@@ -31,9 +31,15 @@ public class FeedbackRequestController {
         LOGGER.debug("POST request '/feedback-request' with {}", feedbackRequest);
         feedbackRequest.setId(null);
         feedbackRequest.setReplied(false);
-        feedbackRequest.setSenderName(HtmlUtils.htmlEscape(feedbackRequest.getSenderName()));
-        feedbackRequest.setContent(HtmlUtils.htmlEscape(feedbackRequest.getContent()));
-        feedbackRequest.setSenderEmail(HtmlUtils.htmlEscape(feedbackRequest.getSenderEmail()));
+        feedbackRequest.setSenderName(HtmlUtils.htmlEscape(feedbackRequest
+                .getSenderName()
+                .replaceAll("'", "")));
+        feedbackRequest.setContent(HtmlUtils.htmlEscape(feedbackRequest
+                .getContent()
+                .replaceAll("'", "")));
+        feedbackRequest.setSenderEmail(HtmlUtils.htmlEscape(feedbackRequest
+                .getSenderEmail()
+                .replaceAll("'", "")));
         return feedbackRequestService.save(feedbackRequest);
     }
 

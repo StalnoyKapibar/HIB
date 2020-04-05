@@ -129,11 +129,12 @@ a.footer_link:hover {
     font-weight: 900;
 }
 
-#errorMessage{
+#errorMessage {
     font-size: 0.91rem;
 }
 
 /*form registration*/
-.form-border-radius{
+.form-border-radius {
     border-radius: 40px;
 }
+

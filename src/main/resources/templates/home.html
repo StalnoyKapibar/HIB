@@ -44,7 +44,9 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <button class="btn pl-2 btn-header" id="link_main_header" onclick="document.location.href='/home'">Main</button>
+                        <button class="btn pl-2 btn-header" id="link_main_header"
+                                onclick="document.location.href='/home'">Main
+                        </button>
                     </li>
                     <li class="nav-item">
                         <button class="btn pl-2 btn-header" id="link_books_header">Books</button>
@@ -53,7 +55,9 @@
                         <button class="btn pl-2 btn-header" id="menu-toggle">Category</button>
                     </li>
                     <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-                        <button class="btn pl-2 btn-header" id="link_admin_page"  onclick="document.location.href='/admin'">Admin</button>
+                        <button class="btn pl-2 btn-header" id="link_admin_page"
+                                onclick="document.location.href='/admin'">Admin
+                        </button>
                     </li>
                 </ul>
                 <ul class="dropdown mr-2 mb-2 mt-2" id="showCart">
@@ -63,12 +67,13 @@
                                                                class="nav-shop-circle"></span>
                     </button>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton"
-                         >
+                    >
                         <div id="shoppingCartDrop" style="overflow: auto; max-height: 300px; width: 600px">
                         </div>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item-text">
-                            <button type="button" class="btn btn-success btn-sm mr-5  " data-toggle="dropdown" id="dropdownclose">Продолжить покупки
+                            <button class="btn btn-success btn-sm mr-5  " data-toggle="dropdown" id="dropdownclose"
+                                    type="button">Продолжить покупки
                             </button>
                             <button type="button" class="btn btn-primary btn-sm float-right"
                                     onclick="document.location='/cabinet#cart'" id="toshoppingcart">Заказать сейчас
@@ -191,9 +196,7 @@
                     >Страница книги
                     </button>
                 </form>
-
             </div>
-
         </div>
     </div>
 </div>
@@ -240,7 +243,8 @@
                         </a>
                     </div>
                     <div class="col-lg-6 col-sm-12 pl-lg-1 mt-1">
-                        <a th:href="@{/oauth2/authorize/facebook}" class="btn btn-block btn-social btn-facebook text-white">
+                        <a class="btn btn-block btn-social btn-facebook text-white"
+                           th:href="@{/oauth2/authorize/facebook}">
                             <span class="fa fa-facebook-f"></span>Sign up with Facebook
                         </a>
                     </div>
@@ -260,7 +264,55 @@
     </div>
 </div>
 
-<script src="../static/js/common-function.js"></script>
-<script src="../static/js/home.js"></script>
+<div sec:authorize="!hasRole('ADMIN')">
+    <div class="container-fluid fixed-bottom">
+        <div class="row">
+            <div class="col-sm-2 offset-10">
+                <div class="text-center" id="feedback-request">
+                    <a class="btn btn-success col-12 contact-us" data-target="#feedback-modal" data-toggle="modal">To
+                        contact us</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="feedback-modal" role="dialog"
+         tabindex="-1">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title contact-us">Contact us</h5>
+                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label class="col-form-label" for="sender-name" id="enter-name">Your name: *</label>
+                            <input class="form-control" id="sender-name" required type="text">
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label" for="sender-email" id="enter-email">Your Email: *</label>
+                            <input class="form-control" id="sender-email" required type="email">
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label" for="sender-message" id="enter-message">Message: *</label>
+                            <textarea class="form-control" id="sender-message" required></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-dismiss="modal" id="closeModalBtn" type="button">Close
+                    </button>
+                    <button class="btn btn-primary" id="send-feedback-request" type="button">Send message</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/static/js/contactForm.js"></script>
+</div>
+
+<script src="/static/js/common-function.js"></script>
+<script src="/static/js/home.js"></script>
 </body>
 </html>

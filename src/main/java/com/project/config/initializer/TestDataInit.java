@@ -152,7 +152,7 @@ public class TestDataInit {
         FeedbackRequest feedbackRequest1 = new FeedbackRequest(0L, "Алексей", "Здравствуйте, меня заинтересовала книга http://localhost:8080/page/1", testEmail, false);
         FeedbackRequest feedbackRequest2 = new FeedbackRequest(0L, "Mike", "Здравствуйте, меня заинтересовала книга http://localhost:8080/page/2", testEmail, false);
         FeedbackRequest feedbackRequest3 = new FeedbackRequest(0L, "Emma", "Bonjour, je m intéresse au livre. http://localhost:8080/page/3", testEmail, false);
-        FeedbackRequest feedbackRequest4 = new FeedbackRequest(0L, "Julio", "Ciao, sono interessato al libro. http://localhost:8080/page/4", testEmail, false);
+        FeedbackRequest feedbackRequest4 = new FeedbackRequest(0L, "Julio", "Ciao, sono interessato al libro. http://localhost:8080/page/4", testEmail, true);
         FeedbackRequest feedbackRequest5 = new FeedbackRequest(0L, "Claus", "Hallo, ich interessiere mich für das Buch. http://localhost:8080/page/5", testEmail, false);
         FeedbackRequest feedbackRequest6 = new FeedbackRequest(0L, "Alexey", "Witam, jestem zainteresowana książką. http://localhost:8080/page/6", testEmail, false);
         FeedbackRequest feedbackRequest7 = new FeedbackRequest(0L, "Άννα", "Γεια σας, ενδιαφέρομαι για το βιβλίο. http://localhost:8080/page/7", testEmail, false);
