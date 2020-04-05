@@ -253,11 +253,15 @@ async function showListOrders() {
                 let row = $('<tr>');
                 let cell = $('<td width="10"></td>');
                 row.append(cell);
-                cell = '<td>' + data[index].id + '</td><td>' + data[index].data + '</td><td>'+(data[index].itemsCost+data[index].shippingCost)+'</td><td><a href="#">Show</a></td>'
+                cell = '<td>' + data[index].id + '</td><td>' + data[index].data + '</td><td>'+(data[index].itemsCost+data[index].shippingCost)+'</td><td><a href="#" >Show</a></td>'
                 row.append(cell);
                 row.appendTo('#listorders');
             })
         });
+}
+function showCarrentOrder(order) {
+    $('#listorders').empty();
+
 }
 
 
