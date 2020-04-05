@@ -9,44 +9,48 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.HtmlUtils;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/feedback-request")
-public class FeedbackController {
-    private final static Logger LOGGER = LoggerFactory.getLogger(FeedbackController.class.getName());
+public class FeedbackRequestController {
+    private final static Logger LOGGER = LoggerFactory.getLogger(FeedbackRequestController.class.getName());
     private final FeedbackRequestService feedbackRequestService;
     private final MailService mailService;
 
     @Autowired
-    public FeedbackController(FeedbackRequestService feedbackRequestService, MailService mailService) {
+    public FeedbackRequestController(FeedbackRequestService feedbackRequestService, MailService mailService) {
         this.feedbackRequestService = feedbackRequestService;
         this.mailService = mailService;
     }
 
-    @PostMapping()
+    @PostMapping
     public FeedbackRequest sendNewFeedBackRequest(@RequestBody FeedbackRequest feedbackRequest) {
-        LOGGER.info("POST request '/feedback-request' with {}", feedbackRequest);
+        LOGGER.debug("POST request '/feedback-request' with {}", feedbackRequest);
+        feedbackRequest.setId(null);
         feedbackRequest.setReplied(false);
+        feedbackRequest.setSenderName(HtmlUtils.htmlEscape(feedbackRequest.getSenderName()));
+        feedbackRequest.setContent(HtmlUtils.htmlEscape(feedbackRequest.getContent()));
+        feedbackRequest.setSenderEmail(HtmlUtils.htmlEscape(feedbackRequest.getSenderEmail()));
         return feedbackRequestService.save(feedbackRequest);
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @PostMapping("/reply")
-    public void send(@RequestBody SimpleMailMessage simpleMailMessage) {
-        LOGGER.info("POST request '/feedback-request/reply' with {}", simpleMailMessage);
+    @PostMapping("/reply/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public void send(@PathVariable Long id, @RequestBody SimpleMailMessage simpleMailMessage) {
+        FeedbackRequest feedbackRequest = feedbackRequestService.getById(id);
+        simpleMailMessage.setTo(feedbackRequest.getSenderEmail());
+        simpleMailMessage.setFrom("hibthebestproject@yandex.ru");
+        feedbackRequest.setReplied(true);
+        feedbackRequestService.save(feedbackRequest);
+        LOGGER.debug("POST request '/feedback-request/reply/{}' with {}", id, simpleMailMessage);
         mailService.sendEmail(simpleMailMessage);
     }
 
-    @GetMapping("/test")
-    public SimpleMailMessage test() {
-        return new SimpleMailMessage();
-    }
-
-
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public List<FeedbackRequest> getAll() {
         return feedbackRequestService.findAll();
     }

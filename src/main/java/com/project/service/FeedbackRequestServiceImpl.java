@@ -16,7 +16,7 @@ public class FeedbackRequestServiceImpl implements FeedbackRequestService {
 
     @Override
     public List<FeedbackRequest> findAll() {
-        return feedbackRequestDAO.findAll();
+        return feedbackRequestDAO.findAllByOrderByRepliedAsc();
     }
 
     @Override

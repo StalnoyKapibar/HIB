@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <script src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-    <title>Title</title>
+    <title>HIB Admin panel</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="css/sig.css">
@@ -129,6 +129,8 @@
             <div aria-labelledby="v-pills-feedback-tab" class="tab-pane fade mt-3" id="v-pills-feedback"
                  role="tabpanel">
                 <div class="card">
+                    <div id="alert-container">
+                    </div>
                     <div class="card-header">
                         Feedback requests
                     </div>
@@ -141,7 +143,6 @@
                                 <th>E-mail</th>
                                 <th>Content</th>
                                 <th>Reply</th>
-                                <th>Replied</th>
                             </tr>
                             </thead>
                             <tbody></tbody>
@@ -170,7 +171,7 @@
                                     <textarea class="form-control" disabled id="sender-message" type="email"></textarea>
                                 </div>
                             </form>
-                            <div class="container" id="interestedBook" style="display: none">
+                            <div class="container" id="interested-book" style="display: none">
                                 <label>Interested book:</label>
                                 <div class="row">
                                     <img alt="interested book" class="col-sm-3" height="150"
@@ -196,11 +197,13 @@
                                     <label class="col-form-label" for="reply-message-text">Reply Message:</label>
                                     <textarea class="form-control" id="reply-message-text"></textarea>
                                 </div>
+                                <input id="reply-id" type="hidden">
                             </form>
                         </div>
                         <div class="modal-footer">
                             <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
-                            <button class="btn btn-primary" id="submit-btn" onclick="" type="button">Send message
+                            <button class="btn btn-primary" id="submit-btn" onclick="" type="button">Send message to
+                                email
                             </button>
                         </div>
                     </div>

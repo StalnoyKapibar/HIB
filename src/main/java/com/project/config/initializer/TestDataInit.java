@@ -1,9 +1,11 @@
 package com.project.config.initializer;
 
 import com.project.model.BookDTO;
+import com.project.model.FeedbackRequest;
 import com.project.model.Image;
 import com.project.model.LocaleString;
 import com.project.service.BookService;
+import com.project.service.FeedbackRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.FileSystemUtils;
 
@@ -20,7 +22,10 @@ import java.util.List;
  */
 public class TestDataInit {
     @Autowired
-    BookService bookService;
+    private BookService bookService;
+
+    @Autowired
+    private FeedbackRequestService feedbackRequestService;
 
     private int bookId;
 
@@ -133,13 +138,33 @@ public class TestDataInit {
         BookDTO bookDTO19 = new BookDTO();
         bookDTO19.setAuthor(new LocaleString("Геннадий Кибардин", "Gennady Kibardin", "Gennady Kibardin", "Gennady Kibardin", "Gennady Kibardin", "Gennady Kibardin", "Γκενάντι Κιμπαρντίν"));
         bookDTO19.setName(new LocaleString("Быстрая ходьба лечит", "Brisk walking heals", "La marche rapide guérit", "La camminata veloce guarisce", "Zügiges Gehen heilt", "Rychle se léčí", "Το βιαστικό περπάτημα θεραπεύει"));
-        bookDTO19.setPrice((int)(Math.random()*1000));
+        bookDTO19.setPrice((int) (Math.random() * 1000));
         bookAddImgandAddBookToDb(bookDTO19);
         BookDTO bookDTO20 = new BookDTO();
         bookDTO20.setAuthor(new LocaleString("Стивен Кинг", "Stephen King", "Stephen King", "Stephen King", "Stephen King", "Stephen King", "Στέφανος βασιλιάς"));
         bookDTO20.setName(new LocaleString("Противостояние", "Confrontation", "Confrontation", "", "Konfrontation", "Konfrontace", "Αντιπαράθεση"));
-        bookDTO20.setPrice((int)(Math.random()*1000));
+        bookDTO20.setPrice((int) (Math.random() * 1000));
         bookAddImgandAddBookToDb(bookDTO20);
+
+        //Add test feedback requests
+        String testEmail = "test@hib.com";
+        FeedbackRequest feedbackRequest = new FeedbackRequest(0L, "Алексей", "Здравствуйте, у меня возник вопрос по оплате. Какие сервисы электронных платежей поддерживает ваш сайт? И могу  ли я заказать книгу в Сибирь?", testEmail, false);
+        FeedbackRequest feedbackRequest1 = new FeedbackRequest(0L, "Алексей", "Здравствуйте, меня заинтересовала книга http://localhost:8080/page/1", testEmail, false);
+        FeedbackRequest feedbackRequest2 = new FeedbackRequest(0L, "Mike", "Здравствуйте, меня заинтересовала книга http://localhost:8080/page/2", testEmail, false);
+        FeedbackRequest feedbackRequest3 = new FeedbackRequest(0L, "Emma", "Bonjour, je m intéresse au livre. http://localhost:8080/page/3", testEmail, false);
+        FeedbackRequest feedbackRequest4 = new FeedbackRequest(0L, "Julio", "Ciao, sono interessato al libro. http://localhost:8080/page/4", testEmail, false);
+        FeedbackRequest feedbackRequest5 = new FeedbackRequest(0L, "Claus", "Hallo, ich interessiere mich für das Buch. http://localhost:8080/page/5", testEmail, false);
+        FeedbackRequest feedbackRequest6 = new FeedbackRequest(0L, "Alexey", "Witam, jestem zainteresowana książką. http://localhost:8080/page/6", testEmail, false);
+        FeedbackRequest feedbackRequest7 = new FeedbackRequest(0L, "Άννα", "Γεια σας, ενδιαφέρομαι για το βιβλίο. http://localhost:8080/page/7", testEmail, false);
+
+        feedbackRequestService.save(feedbackRequest);
+        feedbackRequestService.save(feedbackRequest1);
+        feedbackRequestService.save(feedbackRequest2);
+        feedbackRequestService.save(feedbackRequest3);
+        feedbackRequestService.save(feedbackRequest4);
+        feedbackRequestService.save(feedbackRequest5);
+        feedbackRequestService.save(feedbackRequest6);
+        feedbackRequestService.save(feedbackRequest7);
     }
 
     private void deleteDir(File file) {
