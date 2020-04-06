@@ -29,6 +29,8 @@
             <a aria-controls="v-pills-profile" aria-selected="true" class="nav-link" data-toggle="pill"
                href="#v-pills-feedback"
                id="v-pills-feedback-tab" role="tab">Feedback Requests</a>
+            <a class="nav-link " id="v-pills-genres-tab" data-toggle="pill" href="#v-pills-genres" role="tab"
+               aria-controls="v-pills-genres" aria-selected="false">Genres</a>
         </div>
     </div>
     <div class="col-9">
@@ -209,6 +211,142 @@
                     </div>
                 </div>
             </div>
+            <div class="tab-pane fade mt-3" id="v-pills-genres" role="tabpanel"
+                 aria-labelledby="v-pills-genres-tab">
+                <nav>
+                    <div class="nav nav-tabs" id="nav-tab2" role="tablist">
+                        <a class="nav-item nav-link active" id="nav-home-tab2" data-toggle="tab" href="#nav-home2"
+                           role="tab" aria-controls="nav-home" aria-selected="true">All genres</a>
+                        <a class="nav-item nav-link" onclick="setVacantNum()" id="nav-profile-tab2" data-toggle="tab" href="#nav-profile2"
+                           role="tab" aria-controls="nav-profile" aria-selected="false">Add genre</a>
+                    </div>
+                </nav>
+                <div class="tab-content tab - border" id="nav-tabContent2">
+                    <div class="tab-pane fade show active" id="nav-home2" role="tabpanel" aria-labelledby="nav-home-tab2">
+                        <ul class="list-group">
+                            <li class="list-group-item list-group-item-light">All genres</li>
+                        </ul>
+                        <div class="btn-group" id="chlang2">
+                        </div>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <td><strong>ID</strong></td>
+                                <td><strong>Number</strong></td>
+                                <td><strong>Name</strong></td>
+                                <td><strong>Edit</strong></td>
+                                <td><strong>Delete</strong></td>
+                                <td><strong>Move up</strong></td>
+                                <td><strong>Move down</strong></td>
+                            </tr>
+                            </thead>
+                            <tbody id="genrestable">
+                            </tbody>
+                            <div class="modal fade" id="edit-genre" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form id="edit-form" class="form-horizontal">
+                                                <div class="form-group">
+                                                    <label for="editGenreId">ID</label>
+                                                    <input type="text" class="form-control" id="editGenreId" name="editGenreId" disabled="true"/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="editGenreNumber">Number</label>
+                                                    <input type="text" class="form-control" id="editGenreNumber" name="editGenreNumber"/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="editGenreLocaleId">Locale ID</label>
+                                                    <input type="text" class="form-control" id="editGenreLocaleId" name="editGenreLocaleId" disabled="true"/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="editGenreRu">Russian</label>
+                                                    <input type="text" class="form-control" id="editGenreRu" name="editGenreRu"/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="editGenreEn">English</label>
+                                                    <input type="text" class="form-control" id="editGenreEn" name="editGenreEn"/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="editGenreFr">French</label>
+                                                    <input type="text" class="form-control" id="editGenreFr" name="editGenreFr"/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="editGenreIt">Italian</label>
+                                                    <input type="text" class="form-control" id="editGenreIt" name="editGenreIt"/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="editGenreDe">German</label>
+                                                    <input type="text" class="form-control" id="editGenreDe" name="editGenreDe"/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="editGenreCs">Czech</label>
+                                                    <input type="text" class="form-control" id="editGenreCs" name="editGenreCs"/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="editGenreGr">Greek</label>
+                                                    <input type="text" class="form-control" id="editGenreGr" name="editGenreGr"/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="btn btn-success" onclick="editGenre()">Submit</div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </table>
+                    </div>
+                    <div class="tab-pane fade " id="nav-profile2" role="tabpanel" aria-labelledby="nav-profile-tab2">
+                        <ul class="list-group">
+                            <li class="list-group-item list-group-item-light">Add new genre</li>
+                        </ul>
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label for="addGenreNumber">Number</label>
+                                <input type="text" class="form-control" id="addGenreNumber" name="addGenreNumber" placeholder="number"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="addGenreRu">Russian</label>
+                                <input type="text" class="form-control" id="addGenreRu" placeholder="ru"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="addGenreEn">English</label>
+                                <input type="text" class="form-control" id="addGenreEn" placeholder="en"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="addGenreFr">French</label>
+                                <input type="text" class="form-control" id="addGenreFr" placeholder="fr"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="addGenreIt">Italian</label>
+                                <input type="text" class="form-control" id="addGenreIt" placeholder="it"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="addGenreDe">German</label>
+                                <input type="text" class="form-control" id="addGenreDe" placeholder="de"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="addGenreCs">Czech</label>
+                                <input type="text" class="form-control" id="addGenreCs" placeholder="cs"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="addGenreGr">Greek</label>
+                                <input type="text" class="form-control" id="addGenreGr" placeholder="gr"/>
+                            </div>
+                            <div class="form-group">
+                                <a class="btn btn-success" type="submit" onclick="addGenre()">Add new genre</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -243,5 +381,6 @@
 <script src="js/editWelcome.js"></script>
 <script src="js/translate.js"></script>
 <script src="js/admin/feedbackRequest.js"></script>
+<script src="js/genre.js"></script>
 </body>
 </html>

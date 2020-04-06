@@ -253,6 +253,7 @@ function buildChangeLang() {
         htmllang += `<button type='button' class='btn btn-secondary' onclick='chanLang(${i})'>${gh}</button>`;
     }
     $('#chlang1').html(htmllang);
+    $('#chlang2').html(htmllang);
 }
 
 function chanLang(x) {
