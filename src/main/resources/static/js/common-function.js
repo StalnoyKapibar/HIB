@@ -50,8 +50,9 @@ function setLocaleFields() {
             $('#enter-message').text(localeFields['enter-message']);
             $('.contact-us').text(localeFields['contact-us']);
             $('#ask-question').text(localeFields['ask-question']);
-            $('#closeModalBtn').text(localeFields['close']);
+            $('.closeModalBtn').text(localeFields['close']);
             $('#send-feedback-request').text(localeFields['send-feedback-request']);
+            $('#logout-modal-title').text(localeFields['logout']);
         })
 }
 
