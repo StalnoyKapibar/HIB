@@ -22,12 +22,14 @@ public class CabinetController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String firstName = ((UserAccount) authentication.getPrincipal()).getFirstName();
         String lastName = ((UserAccount) authentication.getPrincipal()).getLastName();
-        String url = "https://maps.googleapis.com/maps/api/js?key="
-                + key + "&libraries=places&callback=initAutocomplete";
+        if (showAddressAutocomplete) {
+            String url = "https://maps.googleapis.com/maps/api/js?key="
+                    + key + "&libraries=places&callback=initAutocomplete";
+            model.addAttribute("key", url);
+        }
         model.addAttribute("disabledAutocomplete", !showAddressAutocomplete);
         model.addAttribute("lastName", lastName);
         model.addAttribute("firstName", firstName);
-        model.addAttribute("key", url);
         return "cabinet";
     }
 }
