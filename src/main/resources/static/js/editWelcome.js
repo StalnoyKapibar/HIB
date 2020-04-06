@@ -24,7 +24,7 @@ async function getVarBookDTO() {
 }
 
 async function getAllLocales() {
-    await fetch("lang")
+    await fetch("/lang")
         .then(status)
         .then(json)
         .then(function (resp) {
