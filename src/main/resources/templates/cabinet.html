@@ -328,12 +328,12 @@
                             <th></th>
                             <th></th>
                             <th>
-                                <a>Subtotal</a>
-                                <p>Shipping cost</p>
+                                <a>Subtotal:</a>
+                                <p>Shipping cost:</p>
                             </th>
                             <th>
-                                <a id="subtotal">100</a>
-                                <p id="shippingcost">10</p>
+                                <a id="subtotal"></a>
+                                <p id="shippingcost"></p>
                             </th>
                         </tr>
                         <tr>
@@ -341,8 +341,8 @@
                             <th width="10"></th>
                             <th></th>
                             <th></th>
-                            <th>Total price</th>
-                            <th id="pricetotal">110</th>
+                            <th>Total price:</th>
+                            <th id="pricetotal"></th>
                         </tr>
                         </tr>
                         </tbody>
@@ -370,6 +370,75 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-body">
             <div class="alert alert-success" role="alert" id="idMessagesSuccess">
+            </div>
+        </div>
+    </div>
+</div>
+<div id="ordermodal" class="modal fade" tabindex="-1" role="dialog"
+     aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id='modalHeader'>Заказ номер 1
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div id="modalBody" class="modal-body">
+                <table class="table table-sm table-sm bg-white">
+                    <h5 class="align-content-center mt-2">YOUR PURCHASES</h5>
+                    <thead>
+                    <tr height="50">
+                        <th width="10"></th>
+                        <th></th>
+                        <th>Items</th>
+                        <th>Unit price</th>
+                        <th>Quantity</th>
+                    </tr>
+                    </thead>
+                    <tbody id='ordermodalbody'>
+                    </tbody>
+                    <tbody>
+                    <tr>
+                    </tr>
+                    <tr>
+                    <tr height="50">
+                        <th width="10"></th>
+                        <th></th>
+                        <th></th>
+                        <th>
+                            <a>Subtotal:</a>
+                            <p>Shipping cost:</p>
+                        </th>
+                        <th>
+                            <a id="subtotalordermodal"></a>
+                            <p id="shippingcostordermodal"></p>
+                        </th>
+                    </tr>
+                    <tr>
+                    <tr height="50">
+                        <th width="10"></th>
+                        <th></th>
+                        <th></th>
+                        <th>Total price:</th>
+                        <th id="pricetotalordermodal"></th>
+                    </tr>
+                    </tr>
+                    </tbody>
+                </table>
+                <h6 class="mt-1">Delivery address:</h6>
+                <div id="shippingaddressordermodal" style="line-height: 2.5px; font-size: large"></div>
+                </table>
+                <div class="mt-1"> <h6 >Order status:</h6>
+                    <p id="ordestatus"></p>
+                    <p id="ordertrack"></p></div>
+
+            </div>
+            <div class="modal-footer">
+                <button id="modalClose" type="button" class="btn btn-ifno" data-dismiss="modal"
+                        style="background-color: #f5f5f5">Close
+                </button>
             </div>
         </div>
     </div>

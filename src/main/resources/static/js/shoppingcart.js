@@ -243,24 +243,59 @@ function showOrderSum() {
     shipping.appendTo('#shippingaddress');
 }
 
+let listOders = '';
+
 async function showListOrders() {
     await fetch("/order/getorders")
         .then(status)
         .then(json)
         .then(function (data) {
             $('#listorders').empty();
+            listOders = data;
             $.each(data, function (index) {
                 let row = $('<tr>');
                 let cell = $('<td width="10"></td>');
                 row.append(cell);
-                cell = '<td>' + data[index].id + '</td><td>' + data[index].data + '</td><td>'+(data[index].itemsCost+data[index].shippingCost)+'</td><td><a href="#" >Show</a></td>'
+                cell = '<td>' + data[index].id + '</td><td>' + data[index].data + '</td><td>' + (data[index].itemsCost + data[index].shippingCost) + '</td><td><a href="#" data-toggle="modal" data-target="#ordermodal"  onclick="showCarrentOrder(' + index + ')">Show</a></td>'
                 row.append(cell);
                 row.appendTo('#listorders');
             })
         });
 }
-function showCarrentOrder(order) {
-    $('#listorders').empty();
+
+function showCarrentOrder(index) {
+    let order = listOders[index]
+    let items = order.items;
+    $('#ordermodalbody').empty();
+    $.each(items, function (index) {
+        let book = items[index].book;
+        let row = $('<tr id="trr"/>');
+        let cell = $('<td width="10"></td>');
+        row.append(cell);
+        cell = '<td class="align-middle"><img src="../images/book' + book.id + '/' + book.coverImage + '" style="max-width: 60px"></td>' +
+            '<td class="align-middle">' + book.name[currentLang] + ' | ' + book.author[currentLang] + '</td>' +
+            '<td class="align-middle" id="book' + book.id + '">' + book.price + '</td>' +
+            '<td class="align-middle"><div class="product-quantity" >' + items[index].quantity + '</div></td>';
+        row.append(cell);
+        row.appendTo('#ordermodalbody');
+    });
+    $('#modalHeader').text('Order No. '+order.id);
+    $('#ordestatus').text(order.status);
+    $('#ordertrack').text(order.trackingNumber);
+    $('#subtotalordermodal').text(order.itemsCost);
+    $('#shippingcostordermodal').text(order.shippingCost);
+    $('#pricetotalordermodal').text((order.itemsCost + order.shippingCost));
+    $('#shippingaddressordermodal').empty();
+    let address = order.address;
+    let flat = '';
+    if (address.flat != "") {
+        flat = '-' + address.flat;
+    }
+    let shipping = $('<p>' + address.firstName + ' ' + address.lastName + '</p>' +
+        '<p>' + address.street + ' ' + address.house + flat + '</p>' +
+        '<p>' + address.postalCode + ' ' + address.city + ' ' + address.state + '</p>' +
+        '<p>' + address.country + '</p>');
+    shipping.appendTo('#shippingaddressordermodal');
 
 }
 

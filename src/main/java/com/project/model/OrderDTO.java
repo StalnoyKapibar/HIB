@@ -40,6 +40,7 @@ public class OrderDTO {
                     cartItemDTO.getBook().getCoverImage(),
                     cartItemDTO.getBook().getPrice(),
                     cartItemDTO.getBook().getImageList(), null);
+            cartItems.add(new CartItem(cartItemDTO.getId(),book,cartItemDTO.getQuantity()));
         }
         order.setItems(cartItems);
         order.setAddress(new Address(address.getId(),

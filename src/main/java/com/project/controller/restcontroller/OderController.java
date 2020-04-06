@@ -36,7 +36,7 @@ public class OderController {
         order.setData(LocalDate.now().toString());
         order.setShippingCost(350);
         order.setItemsCost(shoppingCartDTO.getTotalCostItems());
-        order.setStatus("Не оплачено");
+        order.setStatus("Processing");
         httpSession.setAttribute("order", order);
         return order;
     }
