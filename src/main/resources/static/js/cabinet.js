@@ -5,6 +5,21 @@ $(document).ready(function () {
         $('#myTab a[href="#Basket"]').tab('show');
     }
 });
+
+function showAdresTab() {
+    if (totalPrice != 0) {
+        $('#cartTab a[href="#delivery"]').tab('show');
+    }
+}
+
+function showShoppingCart() {
+    $('#cartTab a[href="#home"]').tab('show');
+}
+
+function showSummary() {
+    $('#cartTab a[href="#Summary"]').tab('show');
+}
+
 $(document).ready(getAU());
 
 function getAU() {

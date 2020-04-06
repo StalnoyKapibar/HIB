@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Fragment</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light"
+     th:fragment="nav-bar">
+    <a class="navbar-brand" href="/home">HIB Admin Panel</a>
+    <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
+            class="navbar-toggler"
+            data-target="#navbarSupportedContent" data-toggle="collapse" type="button">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/home">Home<span class="sr-only"></span></a>
+            </li>
+        </ul>
+        <form action="/logout" class="form-inline my-2 my-lg-0" method="post">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Logout</button>
+        </form>
+    </div>
+</nav>
+
+<div aria-orientation="vertical"
+     class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" th:fragment="side-bar">
+    <a class="nav-link"
+       href="/admin/panel/edit-welcome"
+       th:classappend="${#httpServletRequest.getRequestURI() == '/admin/panel/edit-welcome' ? 'active' : ''}">Edit
+        Welcome</a>
+    <a class="nav-link"
+       href="/admin/panel/books"
+       th:classappend="${#httpServletRequest.getRequestURI() == '/admin/panel/books' ? 'active' : ''}">Books</a>
+    <a class="nav-link"
+       href="/admin/panel/feedback"
+       th:classappend="${#httpServletRequest.getRequestURI() == '/admin/panel/feedback' ? 'active' : ''}">Feedback
+        Requests</a>
+</div>
+</body>
+</html>

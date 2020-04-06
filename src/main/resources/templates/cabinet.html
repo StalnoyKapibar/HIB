@@ -45,17 +45,17 @@
 <div class="container-fluid">
     <div class="row">
         <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-            <ul class="nav flex-column" id="myTab" role="tablist">
+            <ul class="nav flex-column mt-2" id="myTab" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" id="MyProfile-tab" data-toggle="tab" href="#MyProfile" role="tab"
                        aria-controls="MyProfile">
-                        <h5 id="myprofile">My profile</h5>
+                        <h5 id="myprof">My profile</h5>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="Orders-tab" data-toggle="tab" href="#Orders" role="tab"
                        aria-controls="Orders">
-                        <h5 id="oders"> Orders</h5>
+                        <h5 id="oders" onclick="showListOrders()"> Orders</h5>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -68,7 +68,7 @@
                 <li class="nav-item">
                     <a class="nav-link" id="Basket-tab" data-toggle="tab" href="#Basket" role="tab"
                        aria-controls="Basket">
-                        <h5 id = "shoppingcart">Shopping cart</h5>
+                        <h5 id="shoppingcart">Shopping cart</h5>
                     </a>
                 </li>
             </ul>
@@ -85,8 +85,21 @@
     </div>
     <div class="tab-pane fade" id="Orders" role="tabpanel" aria-labelledby="Orders-tab">
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+            <h1 class="align-content-center mt-3">Orders</h1>
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2">Orders</h1>
+                <table class="table table-sm table-sm bg-white">
+                    <thead>
+                    <tr height="50">
+                        <th width="10"></th>
+                        <th>Order No.</th>
+                        <th>Date of order</th>
+                        <th>Amount</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody id="listorders">
+                    </tbody>
+                </table>
             </div>
         </main>
     </div>
@@ -161,41 +174,198 @@
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
             <p></p>
             <h1 class="h2" id="headershoppingcart">Shopping cart</h1>
-            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <table class="table table-striped table-sm bg-white">
-                    <thead>
-                    <tr height="50">
-                        <th width="10"></th>
-                        <th></th>
-                        <th id="book_author">Книга | Автор</th>
-                        <th id="price">Цена</th>
-                        <th id="quantity">Кол-во</th>
-                        <th id="delete">Убрать</th>
-                    </tr>
-                    </thead>
-                    <tbody id='newTab'>
-                    </tbody>
-                    <tbody>
-                    <tr>
-                        <th width="10"></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th id="totalPrice"></th>
-                        <th><a id="sum"></a></th>
-                    </tr>
-                    <tr style="height: 15px">
-                        <th width="10"></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th>
-                            <button id="chechout" type="button" class="btn btn-primary">Checkout</button>
-                        </th>
-                    </tr>
-                    </tbody>
-                </table>
+            <ul class="nav nav-tabs" id="cartTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="home-tab" href="#home" style="pointer-events: none">Your shopping
+                        cart</a>
+                </li>
+                <li class="nav-item">
+
+                    <a class="nav-link" id="deliveryaddress" href="#delivery" style="pointer-events: none">Delivery
+                        address</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="summary-tab" href="#Summary" style="pointer-events: none">Summary</a>
+                </li>
+            </ul>
+            <div class="tab-content" id="cartTabContent">
+                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                    <table class="table table-sm table-sm bg-white">
+                        <thead>
+                        <tr height="50">
+                            <th width="10"></th>
+                            <th></th>
+                            <th id="book_author">Книга | Автор</th>
+                            <th id="price">Цена</th>
+                            <th id="quantity">Кол-во</th>
+                            <th id="delete">Убрать</th>
+                        </tr>
+                        </thead>
+                        <tbody id='newTab'>
+                        </tbody>
+                        <tbody>
+                        <tr>
+                            <th width="10"></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <th width="10"></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th id="totalPrice"></th>
+                            <th><a id="sum"></a></th>
+                        </tr>
+
+                        <tr style="height: 15px">
+                            <th width="10"></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th>
+                                <button id="chechout" type="button" class="btn btn-primary" onclick="showAdresTab()">
+                                    Checkout
+                                </button>
+                            </th>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="delivery" role="tabpanel" aria-labelledby="delivery-tab">
+                    <div class="container mt-2">
+                        <div class="panel panel-primary">
+                            <div class="panel-body">
+                                <input id="autocomplete" th:disabled=*{disabledAutocomplete}
+                                       placeholder="221B Baker Street, London, United Kingdom" onFocus="geolocate()"
+                                       type="text" class="form-control col-sm-7">
+                                <br>
+                                <div id="address">
+                                    <div class="form-group row">
+                                        <label class="control-label col-sm-2 col-form-label">Country/Zip code</label>
+                                        <div class="col-md-3 pl-0 pr-1">
+                                            <input class="form-control" id="country" placeholder="Country">
+                                        </div>
+                                        <div class="col-md-2 pl-0">
+                                            <input class="form-control" id="postal_code" placeholder="Zip code">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="control-label col-sm-2 col-form-label">City/State</label>
+                                        <div class="col-sm-2 pl-0 pr-1">
+                                            <input class="form-control field" id="locality" placeholder="City">
+                                        </div>
+                                        <div class="col-sm-3 pl-0">
+                                            <input class="form-control" id="administrative_area_level_1"
+                                                   placeholder="State">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="control-label col-sm-2 col-form-label">Street</label>
+                                        <div class="col-md-4 pl-0">
+                                            <input class="form-control" id="route" placeholder="Street">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="control-label col-sm-2 col-form-label">House/Flat</label>
+                                        <div class="col-md-2 pl-0 pr-1">
+                                            <input class="form-control" id="street_number" placeholder="House">
+                                        </div>
+                                        <div class="col-md-2 pl-0">
+                                            <input class="form-control" id="flat" placeholder="Flat">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="control-label col-sm-2 col-form-label">First name</label>
+                                        <div class="col-md-4 pl-0">
+                                            <input class="form-control" id="firstName" th:attr="value=*{firstName}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="control-label col-sm-2 col-form-label">Last name</label>
+                                        <div class="col-md-4 pl-0">
+                                            <input class="form-control" id="lastName" th:attr="value=*{lastName}">
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="form-group row mb-2">
+                                        <div class="offset-mb-1">
+                                            <button type="button" class="btn btn-secondary btn-md"
+                                                    onclick="showShoppingCart()">Back
+                                            </button>
+                                        </div>
+                                        <div class="col-md-3 offset-md-4">
+                                            <button type="button" onclick="enterAddress()"
+                                                    class="btn btn-primary bt-lg">Confirm
+                                                address
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="tab-pane fade" id="Summary" role="tabpanel" aria-labelledby="Summary-tab">
+                    <table class="table table-sm table-sm bg-white">
+                        <h2 class="align-content-center mt-2">YOUR PURCHASES</h2>
+                        <thead>
+                        <tr height="50">
+                            <th width="10"></th>
+                            <th></th>
+                            <th>Items</th>
+                            <th>Unit price</th>
+                            <th>Quantity</th>
+                        </tr>
+                        </thead>
+                        <tbody id='orderTab'>
+                        </tbody>
+                        <tbody>
+                        <tr>
+                        </tr>
+                        <tr>
+                        <tr height="50">
+                            <th width="10"></th>
+                            <th></th>
+                            <th></th>
+                            <th>
+                                <a>Subtotal:</a>
+                                <p>Shipping cost:</p>
+                            </th>
+                            <th>
+                                <a id="subtotal"></a>
+                                <p id="shippingcost"></p>
+                            </th>
+                        </tr>
+                        <tr>
+                        <tr height="50">
+                            <th width="10"></th>
+                            <th></th>
+                            <th></th>
+                            <th>Total price:</th>
+                            <th id="pricetotal"></th>
+                        </tr>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <h4 class="mt-1">Delivery address:</h4>
+                    <div id="shippingaddress" style="line-height: 2.5px; font-size: large"></div>
+                    <div class="form-group row mt-5 ml-0">
+                        <div class="mb-1">
+                            <button type="button" class="btn btn-secondary btn-md" onclick="showAdresTab()">Back
+                            </button>
+                        </div>
+                        <div class="col-md-3 offset-md-4">
+                            <button type="button"
+                                    class="btn bt-lg" style="background-color: #b14c09; color: white"
+                                    onclick="confirmPurchase()">Buy Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </main>
     </div>
@@ -205,6 +375,75 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-body">
             <div class="alert alert-success" role="alert" id="idMessagesSuccess">
+            </div>
+        </div>
+    </div>
+</div>
+<div id="ordermodal" class="modal fade" tabindex="-1" role="dialog"
+     aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id='modalHeader'>Заказ номер 1
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div id="modalBody" class="modal-body">
+                <table class="table table-sm table-sm bg-white">
+                    <h5 class="align-content-center mt-2">YOUR PURCHASES</h5>
+                    <thead>
+                    <tr height="50">
+                        <th width="10"></th>
+                        <th></th>
+                        <th>Items</th>
+                        <th>Unit price</th>
+                        <th>Quantity</th>
+                    </tr>
+                    </thead>
+                    <tbody id='ordermodalbody'>
+                    </tbody>
+                    <tbody>
+                    <tr>
+                    </tr>
+                    <tr>
+                    <tr height="50">
+                        <th width="10"></th>
+                        <th></th>
+                        <th></th>
+                        <th>
+                            <a>Subtotal:</a>
+                            <p>Shipping cost:</p>
+                        </th>
+                        <th>
+                            <a id="subtotalordermodal"></a>
+                            <p id="shippingcostordermodal"></p>
+                        </th>
+                    </tr>
+                    <tr>
+                    <tr height="50">
+                        <th width="10"></th>
+                        <th></th>
+                        <th></th>
+                        <th>Total price:</th>
+                        <th id="pricetotalordermodal"></th>
+                    </tr>
+                    </tr>
+                    </tbody>
+                </table>
+                <h6 class="mt-1">Delivery address:</h6>
+                <div id="shippingaddressordermodal" style="line-height: 2.5px; font-size: large"></div>
+                </table>
+                <div class="mt-1"><h6>Order status:</h6>
+                    <p id="ordestatus"></p>
+                    <p id="ordertrack"></p></div>
+
+            </div>
+            <div class="modal-footer">
+                <button id="modalClose" type="button" class="btn btn-ifno" data-dismiss="modal"
+                        style="background-color: #f5f5f5">Close
+                </button>
             </div>
         </div>
     </div>
@@ -223,5 +462,6 @@
 <script src="js/cabinet.js"></script>
 <script src="../static/js/shoppingcart.js"></script>
 <script src="../static/js/common-function.js"></script>
+<script th:attr="src=*{key}" async defer></script>
 </body>
 </html>

@@ -4,8 +4,6 @@ import com.project.model.RegistrationUserDTO;
 import com.project.model.UserAccount;
 import org.hibernate.exception.ConstraintViolationException;
 
-import java.util.Optional;
-
 public interface UserAccountService {
 
     UserAccount findUserByToConfirmEmail(String token);
@@ -17,4 +15,6 @@ public interface UserAccountService {
     void setLocaleAndAuthDate(String email, String locale, long lastAuthDate);
 
     UserAccount save(UserAccount user);
+
+    UserAccount getUserById(Long id);
 }

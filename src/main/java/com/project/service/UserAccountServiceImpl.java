@@ -84,4 +84,9 @@ public class UserAccountServiceImpl implements UserAccountService {
     public UserAccount save(UserAccount user) {
         return userAccountDao.save(user);
     }
+
+    @Override
+    public UserAccount getUserById(Long id) {
+        return userAccountDao.getUserById(id);
+    }
 }
