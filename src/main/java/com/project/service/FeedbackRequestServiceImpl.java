@@ -8,12 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class FeedbackRequestServiceImpl implements FeedbackRequestService {
     private final FeedbackRequestDAO feedbackRequestDAO;
-
-    public FeedbackRequestServiceImpl(FeedbackRequestDAO feedbackRequestDAO) {
-        this.feedbackRequestDAO = feedbackRequestDAO;
-    }
 
     @Override
     public List<FeedbackRequest> findAll() {
