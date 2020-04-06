@@ -16,6 +16,37 @@ import java.util.List;
 @Repository
 public class BookDAOImpl implements BookDAO {
 
+    private BookDTO getBookDTOFromBook(Book book){
+        BookDTO bookDTO = new BookDTO();
+        bookDTO.setId(book.getId());
+        bookDTO.setName(book.getNameLocale());
+        bookDTO.setAuthor(book.getAuthorLocale());
+        bookDTO.setDesc(book.getDesc());
+        bookDTO.setEdition(book.getEdition());
+        bookDTO.setYearOfEdition(book.getYearOfEdition());
+        bookDTO.setPages(book.getPages());
+        bookDTO.setPrice(book.getPrice());
+        bookDTO.setCoverImage(book.getCoverImage());
+        bookDTO.setOriginalLanguage(book.getOriginalLanguage());
+        bookDTO.setImageList(book.getListImage());
+        return bookDTO;
+    }
+
+    private Book getBookFromBookDTO(BookDTO bookDTO){
+        Book book = new Book();
+        book.setAuthorLocale(bookDTO.getAuthor());
+        book.setNameLocale(bookDTO.getName());
+        book.setDesc(bookDTO.getDesc());
+        book.setEdition(bookDTO.getEdition());
+        book.setYearOfEdition(bookDTO.getYearOfEdition());
+        book.setPages(bookDTO.getPages());
+        book.setPrice(bookDTO.getPrice());
+        book.setCoverImage(bookDTO.getCoverImage());
+        book.setOriginalLanguage(bookDTO.getOriginalLanguage());
+        book.setListImage(bookDTO.getImageList());
+        return book;
+    }
+
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -33,13 +64,7 @@ public class BookDAOImpl implements BookDAO {
 
     @Override
     public void addBook(BookDTO bookDTO) {
-        Book book = new Book();
-        book.setAuthorLocale(bookDTO.getAuthor());
-        book.setNameLocale(bookDTO.getName());
-        book.setCoverImage(bookDTO.getCoverImage());
-        book.setListImage(bookDTO.getImageList());
-        book.setPrice(bookDTO.getPrice());
-        entityManager.persist(book);
+        entityManager.persist(getBookFromBookDTO(bookDTO));
     }
 
     @Override
@@ -69,13 +94,7 @@ public class BookDAOImpl implements BookDAO {
 
     @Override
     public void updateBook(BookDTO bookDTO) {
-        Book book = new Book();
-        book.setId(bookDTO.getId());
-        book.setNameLocale(bookDTO.getName());
-        book.setAuthorLocale(bookDTO.getAuthor());
-        book.setCoverImage(bookDTO.getCoverImage());
-        book.setListImage(bookDTO.getImageList());
-        entityManager.merge(book);
+        entityManager.merge(getBookFromBookDTO(bookDTO));
     }
 
     @Override
@@ -90,14 +109,7 @@ public class BookDAOImpl implements BookDAO {
     @Override
     public BookDTO getBookDTOById(long id) {
         Book book = getBookById(id);
-        BookDTO bookDTO = new BookDTO();
-        bookDTO.setId(book.getId());
-        bookDTO.setName(book.getNameLocale());
-        bookDTO.setAuthor(book.getAuthorLocale());
-        bookDTO.setCoverImage(book.getCoverImage());
-        bookDTO.setImageList(book.getListImage());
-        bookDTO.setPrice(book.getPrice());
-        return bookDTO;
+        return getBookDTOFromBook(book);
     }
 
     @Override
@@ -124,14 +136,7 @@ public class BookDAOImpl implements BookDAO {
                 .getResultList();
         List<BookDTO> bookDTOList = new ArrayList<>();
         for (Book book : list) {
-            BookDTO bookDTO = new BookDTO();
-            bookDTO.setId(book.getId());
-            bookDTO.setName(book.getNameLocale());
-            bookDTO.setAuthor(book.getAuthorLocale());
-            bookDTO.setCoverImage(book.getCoverImage());
-            bookDTO.setPrice(book.getPrice());
-            bookDTO.setImageList(book.getListImage());
-            bookDTOList.add(bookDTO);
+            bookDTOList.add(getBookDTOFromBook(book));
         }
         PageableBookDTO pageableBookDTO = new PageableBookDTO();
         pageableBookDTO.setListBookDTO(bookDTOList);

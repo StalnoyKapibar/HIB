@@ -38,8 +38,13 @@ public class OrderDTO {
             Book book = new Book(cartItemDTO.getBook().getId(),
                     cartItemDTO.getBook().getName(),
                     cartItemDTO.getBook().getAuthor(),
-                    cartItemDTO.getBook().getCoverImage(),
+                    cartItemDTO.getBook().getDesc(),
+                    cartItemDTO.getBook().getEdition(),
+                    cartItemDTO.getBook().getYearOfEdition(),
+                    cartItemDTO.getBook().getPages(),
                     cartItemDTO.getBook().getPrice(),
+                    cartItemDTO.getBook().getCoverImage(),
+                    cartItemDTO.getBook().getOriginalLanguage(),
                     cartItemDTO.getBook().getImageList(), null);
             cartItems.add(new CartItem(cartItemDTO.getId(), book, cartItemDTO.getQuantity()));
         }

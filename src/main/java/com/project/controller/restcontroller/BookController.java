@@ -42,6 +42,11 @@ public class BookController {
         return bookDTO;
     }
 
+    @PutMapping("/admin/addBook")
+    public HttpStatus addNewBook(@RequestBody BookDTO bookDTO){
+        bookService.addBook(bookDTO);
+        return HttpStatus.OK;
+    }
     @GetMapping("/getBookDTOById/{id}")
     public BookDTO getBookDTOById(@PathVariable("id") long id) {
         BookDTO bookDTO = bookService.getBookDTOById(id);

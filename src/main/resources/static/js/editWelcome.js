@@ -11,6 +11,7 @@ var idChangeLang = "en";
 let arrNameImageNew = [];
 let pathImageDefault = 'images/tmp/';
 var nameImageCover = '';
+let newBook;
 
 $(document).ready(getVarBookDTO(), getAllLocales(), pageBook(0));
 
@@ -176,9 +177,10 @@ function addPage() {
         `<h4>Cover Image</h4>` +
         `<div class='car' id='divImage' style='width: 18rem;'>` +
         `<img id='myImage' class='card-img-top' alt='...'> ` +
-        `</div>` +
+        `</div><br><br>` +
         `<div class='car' id='imageList' style='width: 18rem;'>` +
         `</div><br><br>`
+
     );
 }
 
@@ -198,6 +200,8 @@ function loadBookFile() {
 }
 
 function addValueToFields(book) {
+    $("#myImage").attr("src", ``);
+    $("#imageList").empty();
     for (let tmpNameObject of nameObjectOfLocaleString) {
         for (let tmpNameVar of nameVarOfLocaleString) {
             $("#inp" + tmpNameObject + tmpNameVar).val(book[tmpNameObject][tmpNameVar]);
@@ -216,8 +220,54 @@ function addValueToFields(book) {
             )
         }
     }
+    newBook = book;
 }
 
+function addNewBook() {
+    if (confirm("Add this book?")){
+        let book = {};
+        for (let tmpNameObject of nameObjectOfLocaleString) {
+            let bookFields = {};
+            for (let tmpNameVar of nameVarOfLocaleString) {
+                bookFields[tmpNameVar] = $("#inp" + tmpNameObject + tmpNameVar).val()
+            }
+            book[tmpNameObject] = bookFields;
+        }
+        book["yearOfEdition"] = $("#yearOfEdition").val();
+        book["pages"] = $("#pages").val();
+        book["price"] = $("#price").val();
+        book["originalLanguage"] = $("#originalLanguage").val();
+        book["coverImage"] = "avatar.jpg";
+        let listImage = [];
+        for (const imageListElement of newBook.imageList) {
+            listImage.push(imageListElement);
+        }
+        book["listImage"] = listImage;
+        fetch('/admin/addBook', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify(book)
+        });
+        clearFields();
+    }
+}
+
+function clearFields() {
+    newBook = null;
+    for (let tmpNameObject of nameObjectOfLocaleString) {
+        for (let tmpNameVar of nameVarOfLocaleString) {
+            $("#inp" + tmpNameObject + tmpNameVar).val('');
+        }
+    }
+    $("#yearOfEdition").val(``);
+    $("#pages").val(``);
+    $("#price").val(``);
+    $("#originalLanguage").val(``);
+    $("#myImage").attr("src", ``);
+    $("#imageList").empty();
+}
 function addBook() {
     var add = {};
     for (let tmp of nameObjectOfLocaleString) {
