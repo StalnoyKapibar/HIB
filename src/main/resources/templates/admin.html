@@ -1,37 +1,22 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <script src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-    <title>Title</title>
+    <title>HIB Admin panel</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="css/sig.css">
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">HIB Admin panel</a>
+    <a class="navbar-brand" href="/home">HIB Admin panel</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav ml-auto col-8">
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#">Disabled</a>
-            </li>
-        </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
     </div>
 </nav>
 <div class="row">
@@ -41,6 +26,9 @@
                aria-controls="v-pills-home" aria-selected="false">Edit Welcome</a>
             <a class="nav-link active" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab"
                aria-controls="v-pills-profile" aria-selected="true">Books</a>
+            <a aria-controls="v-pills-profile" aria-selected="true" class="nav-link" data-toggle="pill"
+               href="#v-pills-feedback"
+               id="v-pills-feedback-tab" role="tab">Feedback Requests</a>
         </div>
     </div>
     <div class="col-9">
@@ -138,6 +126,89 @@
                     </div>
                 </div>
             </div>
+            <div aria-labelledby="v-pills-feedback-tab" class="tab-pane fade mt-3" id="v-pills-feedback"
+                 role="tabpanel">
+                <div class="card">
+                    <div id="alert-container">
+                    </div>
+                    <div class="card-header">
+                        Feedback requests
+                    </div>
+                    <div class="card-body">
+                        <table class="table" id="feedback-request-table">
+                            <thead id="getFeedbackRequestTable">
+                            <tr>
+                                <th>ID</th>
+                                <th>Sender name</th>
+                                <th>E-mail</th>
+                                <th>Content</th>
+                                <th>Reply</th>
+                            </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="feedback-request-modal"
+                 role="dialog" tabindex="-1">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Reply</h5>
+                            <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="form-group">
+                                    <label class="col-form-label" for="sender-name">Recipient:</label>
+                                    <input class="form-control" disabled id="sender-name" type="email">
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-form-label" for="sender-message">Message:</label>
+                                    <textarea class="form-control" disabled id="sender-message" type="email"></textarea>
+                                </div>
+                            </form>
+                            <div class="container" id="interested-book" style="display: none">
+                                <label>Interested book:</label>
+                                <div class="row">
+                                    <img alt="interested book" class="col-sm-3" height="150"
+                                         id="interested-image"
+                                         src="https://upload.wikimedia.org/wikipedia/ru/6/6f/The_Witcher_3_-_Blood_and_Wine_Cover.jpg"
+                                         width="100">
+                                    <div class="col-sm-6">
+                                        <a href="" id="interested-title" target="_blank"></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <form id="reply-form">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="sender-email">E-mail:</label>
+                                    <input class="form-control" disabled id="sender-email" type="email">
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-form-label" for="reply-message-subject">Subject:</label>
+                                    <input class="form-control" id="reply-message-subject" type="text">
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-form-label" for="reply-message-text">Reply Message:</label>
+                                    <textarea class="form-control" id="reply-message-text"></textarea>
+                                </div>
+                                <input id="reply-id" type="hidden">
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+                            <button class="btn btn-primary" id="submit-btn" onclick="" type="button">Send message to
+                                email
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -171,5 +242,6 @@
         crossorigin="anonymous"></script>
 <script src="js/editWelcome.js"></script>
 <script src="js/translate.js"></script>
+<script src="js/admin/feedbackRequest.js"></script>
 </body>
 </html>

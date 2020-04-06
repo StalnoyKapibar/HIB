@@ -27,8 +27,8 @@ function setLocaleFields() {
             $('#menu-toggle').text(localeFields['category']);
             $('#headpost').text(localeFields['headpost']);
             bottom = localeFields['bookbotom'];
-            addToshoppingCart = localeFields['addToshoppingCart']
-            deleteBottom = localeFields['deleteBottom']
+            addToshoppingCart = localeFields['addToshoppingCart'];
+            deleteBottom = localeFields['deleteBottom'];
             $('#modalClose').text(localeFields['close']);
             $('#buttonBookPage').text(localeFields['pageofBook']);
             $('#dropdownclose').text(localeFields['dropdownclose']);
@@ -45,7 +45,13 @@ function setLocaleFields() {
             $('#myprofile').text(localeFields['myprofile']);
             $('#oders').text(localeFields['oders']);
             $('#settingprofile').text(localeFields['settingprofile']);
-
+            $('#enter-name').text(localeFields['enter-name']);
+            $('#enter-email').text(localeFields['enter-email']);
+            $('#enter-message').text(localeFields['enter-message']);
+            $('.contact-us').text(localeFields['contact-us']);
+            $('#ask-question').text(localeFields['ask-question']);
+            $('#closeModalBtn').text(localeFields['close']);
+            $('#send-feedback-request').text(localeFields['send-feedback-request']);
         })
 }
 
