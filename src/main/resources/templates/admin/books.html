@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Books Fragment</title>
+</head>
+<body>
+<div aria-labelledby="v-pills-profile-tab"
+     class="tab-pane fade show active" id="v-pills-profile" role="tabpanel"
+     th:fragment="books">
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab1" role="tablist">
+            <a aria-controls="nav-home" aria-selected="true" class="nav-item nav-link active" data-toggle="tab"
+               href="#nav-home1" id="nav-home-tab1" role="tab">AllBooks</a>
+            <a aria-controls="nav-profile" aria-selected="false" class="nav-item nav-link" data-toggle="tab"
+               href="#nav-profile1"
+               id="nav-profile-tab1" onclick="addPage()" role="tab">Add Book</a>
+        </div>
+    </nav>
+    <div class="tab-content tab - border" id="nav-tabContent1">
+        <div aria-labelledby="nav-home-tab" class="tab-pane fade show active" id="nav-home1"
+             role="tabpanel">
+            <div class="table">
+                <ul class="list-group">
+                    <li class="list-group-item list-group-item-light">All Books</li>
+                </ul>
+                <div class="btn-group" id="chlang1">
+                </div>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination" id="pagination00">
+                    </ul>
+                </nav>
+                <table class="table table-striped">
+                    <thead>
+                    <tr id="table0">
+                    </tr>
+                    </thead>
+                    <tbody id="extra">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div aria-labelledby="nav-profile-tab1" class="tab-pane fade" id="nav-profile1" role="tabpanel">
+            <ul class="list-group">
+                <li class="list-group-item list-group-item-light">Add new Book</li>
+            </ul>
+            <form id="newBookForm" role="form">
+            </form>
+            <form>
+                <div class="form-group">
+                    <label for="exampleFormFile">Image input</label>
+                    <input class="form-control-file" id="exampleFormFile" type="file">
+                </div>
+            </form>
+            <div class="carousel slide w-50" data-ride="carousel" id="carouselExampleCaptions">
+                <ol class="carousel-indicators" id='test0'>
+                </ol>
+                <div class="carousel-inner" id='test1'>
+                </div>
+                <a class="carousel-control-prev" data-slide="prev" href="#carouselExampleCaptions"
+                   role="button">
+                    <span aria-hidden="true" class="carousel-control-prev-icon"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" data-slide="next" href="#carouselExampleCaptions"
+                   role="button">
+                    <span aria-hidden="true" class="carousel-control-next-icon"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+            <button class='btn btn-primary mt-3' onclick='addBook()' type='submit'>
+                Add new Book
+            </button>
+        </div>
+    </div>
+</div>
+
+<div aria-hidden="true"
+     aria-labelledby="exampleModalLabel" class="modal fade" data-backdrop="static" data-keyboard="false"
+     id="asdddd" role="dialog" tabindex="-1" th:fragment="edit-book-modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit Book</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal"
+                        type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="custom-centered" id="editBookForm" role="form">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

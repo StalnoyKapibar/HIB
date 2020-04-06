@@ -46,12 +46,12 @@ public class FeedbackRequestController {
     @PostMapping("/reply/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public void send(@PathVariable Long id, @RequestBody SimpleMailMessage simpleMailMessage) {
+        LOGGER.debug("POST request '/feedback-request/reply/{}' with {}", id, simpleMailMessage);
         FeedbackRequest feedbackRequest = feedbackRequestService.getById(id);
         simpleMailMessage.setTo(feedbackRequest.getSenderEmail());
         simpleMailMessage.setFrom(env.getProperty("spring.mail.username"));
         feedbackRequest.setReplied(true);
         feedbackRequestService.save(feedbackRequest);
-        LOGGER.debug("POST request '/feedback-request/reply/{}' with {}", id, simpleMailMessage);
         mailService.sendEmail(simpleMailMessage);
     }
 
