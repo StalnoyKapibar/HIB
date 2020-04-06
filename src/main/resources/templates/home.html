@@ -21,19 +21,7 @@
 <body>
 
 <div class="d-flex">
-    <div class="sidebar" id="wrapper">
-        <div class="bg-light border-right sidebar-margin" id="sidebar-wrapper">
-            <div class="sidebar-heading mt-auto text-center">Category</div>
-            <div class="list-group list-group-flush">
-                <a href="#" class="list-group-item list-group-item-action bg-light">Item_1</a>
-                <a href="#" class="list-group-item list-group-item-action bg-light">Item_2</a>
-                <a href="#" class="list-group-item list-group-item-action bg-light">Item_3</a>
-                <a href="#" class="list-group-item list-group-item-action bg-light">Item_4</a>
-                <a href="#" class="list-group-item list-group-item-action bg-light">Item_5</a>
-            </div>
-        </div>
-    </div>
-    <header>
+    <header th:fragment="nav-bar">
         <nav class="navbar navbar-light bg-light  navbar-expand-md  fixed-top">
             <a class="navbar-brand header-title-big d-lg-block d-none">History in Books</a>
             <a class="navbar-brand header-title-little d-lg-none d-md-block">HIB</a>
@@ -50,9 +38,6 @@
                     </li>
                     <li class="nav-item">
                         <button class="btn pl-2 btn-header" id="link_books_header">Books</button>
-                    </li>
-                    <li class="nav-item">
-                        <button class="btn pl-2 btn-header" id="menu-toggle">Category</button>
                     </li>
                     <li class="nav-item" sec:authorize="hasRole('ADMIN')">
                         <button class="btn pl-2 btn-header" id="link_admin_page"
