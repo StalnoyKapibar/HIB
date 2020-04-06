@@ -21,6 +21,7 @@ public class OrderDTO {
     private String trackingNumber;
     private String status;
     private UserAccount userAccount;
+
     @Transient
     public Order getOder() {
         Order order = new Order();
@@ -40,7 +41,7 @@ public class OrderDTO {
                     cartItemDTO.getBook().getCoverImage(),
                     cartItemDTO.getBook().getPrice(),
                     cartItemDTO.getBook().getImageList(), null);
-            cartItems.add(new CartItem(cartItemDTO.getId(),book,cartItemDTO.getQuantity()));
+            cartItems.add(new CartItem(cartItemDTO.getId(), book, cartItemDTO.getQuantity()));
         }
         order.setItems(cartItems);
         order.setAddress(new Address(address.getId(),

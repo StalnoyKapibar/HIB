@@ -51,12 +51,13 @@ public class OderController {
         cartService.updateCart(shoppingCartDTO);
         orderService.addOrder(order.getOder());
     }
+
     @GetMapping("/order/getorders")
-    private List<OrderDTO> getOrder(HttpSession httpSession){
+    private List<OrderDTO> getOrder(HttpSession httpSession) {
         Long userId = (Long) httpSession.getAttribute("userId");
         List<Order> orderList = orderService.getOrdersByUserId(userId);
         List<OrderDTO> orderDTOS = new ArrayList<>();
-        for (Order order:orderList){
+        for (Order order : orderList) {
             orderDTOS.add(order.getOrderDTO());
         }
         return orderDTOS;
