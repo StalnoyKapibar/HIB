@@ -83,6 +83,7 @@ $(document).on('click', '#submit-btn', async () => {
 
 async function showInterestedBook(message) {
     let bookId;
+    interestedBookContainer.attr('style', 'display: none');
     if (message.includes("/page/")) {
         bookId = message.substr(message.indexOf("/page/") + 6, message.length);
         await fetch("/page/id/" + bookId)
