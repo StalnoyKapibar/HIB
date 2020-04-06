@@ -116,3 +116,7 @@ $(document).ready(function () {
     });
 })
 
+function forgotPassword() {
+    window.open('/resetPassword', '_blank');
+}
+

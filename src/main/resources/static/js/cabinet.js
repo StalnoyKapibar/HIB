@@ -133,7 +133,8 @@ function hideErrorPassword() {
 function savePasswordReq(x) {
     let tmp = {};
     tmp['userId'] = AU.userId;
-    tmp['password'] = x;
+    tmp['newPassword'] = x;
+    tmp['oldPassword'] = $('#oldPassword').val();
     let tmpSend = JSON.stringify(tmp);
     fetch("/cabinet/savePassword", {
         method: 'POST',
@@ -149,8 +150,13 @@ function savePasswordReq(x) {
                 showErrorPassword('The password must be between 8 and 64 and must contain numbers and characters in the upper and lower registers, without spaces!');
                 setTimeout(hideErrorPassword, 5000);
             } else {
-                showSuccess('Password successfully saved!');
-                setTimeout(hideSuccess, 2000);
+                if (resp === "wrongPassword") {
+                    showErrorPassword('Wrong current password!');
+                    setTimeout(hideErrorPassword, 5000);
+                } else {
+                    showSuccess('Password successfully saved!');
+                    setTimeout(hideSuccess, 2000);
+                }
             }
         });
 }
