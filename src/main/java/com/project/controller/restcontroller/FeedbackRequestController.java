@@ -60,9 +60,9 @@ public class FeedbackRequestController {
     public List<FeedbackRequest> getAll() {
         return feedbackRequestService.findAll();
     }
-
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    
     @GetMapping("{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public FeedbackRequest getById(@PathVariable Long id) {
         return feedbackRequestService.getById(id);
     }
