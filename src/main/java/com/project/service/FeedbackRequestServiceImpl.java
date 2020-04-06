@@ -2,6 +2,7 @@ package com.project.service;
 
 import com.project.dao.FeedbackRequestDAO;
 import com.project.model.FeedbackRequest;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
