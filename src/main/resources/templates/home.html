@@ -21,19 +21,7 @@
 <body>
 
 <div class="d-flex">
-    <div class="sidebar" id="wrapper">
-        <div class="bg-light border-right sidebar-margin" id="sidebar-wrapper">
-            <div class="sidebar-heading mt-auto text-center">Category</div>
-            <div class="list-group list-group-flush">
-                <a href="#" class="list-group-item list-group-item-action bg-light">Item_1</a>
-                <a href="#" class="list-group-item list-group-item-action bg-light">Item_2</a>
-                <a href="#" class="list-group-item list-group-item-action bg-light">Item_3</a>
-                <a href="#" class="list-group-item list-group-item-action bg-light">Item_4</a>
-                <a href="#" class="list-group-item list-group-item-action bg-light">Item_5</a>
-            </div>
-        </div>
-    </div>
-    <header>
+    <header th:fragment="nav-bar">
         <nav class="navbar navbar-light bg-light  navbar-expand-md  fixed-top">
             <a class="navbar-brand header-title-big d-lg-block d-none">History in Books</a>
             <a class="navbar-brand header-title-little d-lg-none d-md-block">HIB</a>
@@ -50,9 +38,6 @@
                     </li>
                     <li class="nav-item">
                         <button class="btn pl-2 btn-header" id="link_books_header">Books</button>
-                    </li>
-                    <li class="nav-item">
-                        <button class="btn pl-2 btn-header" id="menu-toggle">Category</button>
                     </li>
                     <li class="nav-item" sec:authorize="hasRole('ADMIN')">
                         <button class="btn pl-2 btn-header" id="link_admin_page"
@@ -109,11 +94,10 @@
                         </form>
                     </div>
                     <div sec:authorize="isAuthenticated()">
-                        <form action="/logout" class="m-0 ml-sm-0">
-                            <button type="submit" class="btn btn-header border m-0" id="logoutButton">
-                                Logout
-                            </button>
-                        </form>
+                        <button class="btn btn-header border m-0" data-target="#logout-modal" data-toggle="modal"
+                                id="logoutButton">
+                            Logout
+                        </button>
                     </div>
                 </div>
             </div>
@@ -264,8 +248,7 @@
         </div>
     </div>
 </div>
-
-<div sec:authorize="!hasRole('ADMIN')">
+<div sec:authorize="!hasRole('ADMIN')" th:fragment="contact-button">
     <div class="container-fluid fixed-bottom">
         <div class="row">
             <div class="col-sm-2 offset-10">
@@ -303,7 +286,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" data-dismiss="modal" id="closeModalBtn" type="button">Close
+                    <button class="btn btn-secondary closeModalBtn" data-dismiss="modal" type="button">Close
                     </button>
                     <button class="btn btn-primary" id="send-feedback-request" type="button">Send message</button>
                 </div>
@@ -312,7 +295,25 @@
     </div>
     <script src="/static/js/contactForm.js"></script>
 </div>
-
+<div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="logout-modal" role="dialog"
+     tabindex="-1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="logout-modal-title">Do you really want to logout?</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary closeModalBtn" data-dismiss="modal" type="button">Cancel</button>
+                <form action="/logout" method="post">
+                    <button class="btn btn-danger" type="submit">Logout</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <script src="/static/js/common-function.js"></script>
 <script src="/static/js/home.js"></script>
 </body>
