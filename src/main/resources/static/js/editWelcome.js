@@ -115,7 +115,7 @@ async function pageBook(x) {
                 for (key in tmp_html) {
                     if (tmp_html[key] !== null) {
                         if (key !== "id" && key !== "coverImage" && key !== "imageList" && key !== "desc" && key !== "edition"
-                            && key !== "yearOfEdition" && key !== "pages" && key !== "price") {
+                            && key !== "yearOfEdition" && key !== "pages" && key !== "price" && key!=="originalLanguage") {
                             var ad = tmp_html[key][idChangeLang];
                             html += `<td id='n${tmp_html.id}'>${ad}</td>`;
                         }
@@ -173,15 +173,20 @@ function addPage() {
         `<h5> Price </h5>` +
         `<input type="number" id="price" ><br><br> ` +
         `<h5> Original Language </h5>` +
-        `<input type="text" id="originalLanguage" placeholder="Original Language"><br><br> ` +
+        `<select id="originalLanguage" >`+
+        `</select>`+
         `<h4>Cover Image</h4>` +
         `<div class='car' id='divImage' style='width: 18rem;'>` +
         `<img id='myImage' class='card-img-top' alt='...'> ` +
         `</div><br><br>` +
         `<div class='car' id='imageList' style='width: 18rem;'>` +
         `</div><br><br>`
-
     );
+    for (let tmpNameVar of nameVarOfLocaleString) {
+        $("#originalLanguage").append(
+         `<option value=${tmpNameVar.toUpperCase()}>${tmpNameVar.toUpperCase()}</option>`
+        )
+    }
 }
 
 function loadBookFile() {
@@ -224,7 +229,7 @@ function addValueToFields(book) {
 }
 
 function addNewBook() {
-    if (confirm("Add this book?")){
+    if (confirm("Add this book?")) {
         let book = {};
         for (let tmpNameObject of nameObjectOfLocaleString) {
             let bookFields = {};
@@ -268,6 +273,7 @@ function clearFields() {
     $("#myImage").attr("src", ``);
     $("#imageList").empty();
 }
+
 function addBook() {
     var add = {};
     for (let tmp of nameObjectOfLocaleString) {
