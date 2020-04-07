@@ -4,7 +4,11 @@ let senderMessageInput = $("#sender-message");
 let feedbackModal = $("#feedback-modal");
 let messageTemplate = "Hello, I m interested in the book ";
 
-$(document).on('click', '#send-feedback-request', async () => {
+$(document).on('click', '#send-feedback-request', function f() {
+    $('#hidden_submit_btn_feedback').click();
+});
+
+$('#feedback-form').submit(async function(e) {
     let FeedbackRequest = {
         senderName: senderNameInput.val(),
         senderEmail: senderEmailInput.val(),
