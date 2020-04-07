@@ -21,14 +21,6 @@ public class UserRole implements GrantedAuthority {
     @Column(name = "role_name")
     private String roleName;
 
-    @OneToMany(mappedBy = "authorities", fetch = FetchType.EAGER)
-    private List<UserAccount> userAccount = new ArrayList<>();
-
-    public UserRole(Long roleId, String roleName){
-        this.roleId = roleId;
-        this.roleName = roleName;
-    }
-
     @Override
     public String getAuthority() {
         return roleName;

@@ -58,6 +58,19 @@ public class TestUserAccounts {
         account2.setEnabled(true);
         account2.setAuthorities(userRole);
         userAccountService.save(account2);
+
+        // Simple user. (username = "user", password = "user") ROLE:USER
+        UserAccount account3 = new UserAccount();
+        account3.setLogin("user1");
+        account3.setPassword(encoder.encode("user1"));
+        account3.setEmail("user1@gmail.com");
+        account3.setFirstName("user1");
+        account3.setLastName("user1");
+        account3.setRegDate(Instant.now().getEpochSecond());
+        account3.setProvider("local");
+        account3.setEnabled(true);
+        account3.setAuthorities(userRole);
+        userAccountService.save(account3);
     }
 
 }
