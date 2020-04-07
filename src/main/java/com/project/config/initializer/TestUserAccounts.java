@@ -23,6 +23,7 @@ public class TestUserAccounts {
     @Autowired
     PasswordEncoder encoder;
 
+
     public void init() {
         // two basic roles : ROLE_ADMIN & ROLE_USER
         UserRole userRole = new UserRole(1l, "ROLE_USER");
@@ -30,11 +31,7 @@ public class TestUserAccounts {
         userRoleService.save(userRole);
         userRoleService.save(adminRole);
 
-        List<UserRole> authorities = new ArrayList<>();
-        authorities.add(adminRole);
-        authorities.add(userRole);
-
-        // Admin user. (username = "admin", password = "admin") ROLES:ADMIN,USER
+        // Admin user. (username = "admin", password = "admin") ROLE:ADMIN
 
         UserAccount account1 = new UserAccount();
         account1.setLogin("admin");
@@ -45,12 +42,11 @@ public class TestUserAccounts {
         account1.setRegDate(Instant.now().getEpochSecond());
         account1.setProvider("local");
         account1.setEnabled(true);
-        account1.setAuthorities(authorities);
+        account1.setAuthorities(adminRole);
+
         userAccountService.save(account1);
 
-        authorities.clear();
         // Simple user. (username = "user", password = "user") ROLE:USER
-        authorities.add(userRole);
         UserAccount account2 = new UserAccount();
         account2.setLogin("user");
         account2.setPassword(encoder.encode("user"));
@@ -60,7 +56,7 @@ public class TestUserAccounts {
         account2.setRegDate(Instant.now().getEpochSecond());
         account2.setProvider("local");
         account2.setEnabled(true);
-        account2.setAuthorities(authorities);
+        account2.setAuthorities(userRole);
         userAccountService.save(account2);
     }
 

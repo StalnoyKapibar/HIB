@@ -55,7 +55,7 @@ public class UserAccountServiceImpl implements UserAccountService {
                 .locale(httpSession.getAttribute("LANG").toString())
                 .isEnabled(false)
                 .tokenToConfirmEmail(UUID.randomUUID().toString())
-                .authorities(userRoleDao.findByRoleName("ROLE_USER"))
+                .authorities(userRoleDao.findByRoleName("ROLE_USER").get(0))
                 .build();
 
         sendEmailToConfirmAccount(userAccount);

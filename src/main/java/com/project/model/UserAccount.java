@@ -38,13 +38,14 @@ public class UserAccount implements UserDetails {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private ShoppingCart cart = new ShoppingCart();
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_name"))
-    private List<UserRole> authorities = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.EAGER)
+    private UserRole authorities;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
+        List<UserRole> roles = new ArrayList<>();
+        roles.add(authorities);
+        return roles;
     }
 
     @Override
