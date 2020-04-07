@@ -11,6 +11,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Data
@@ -43,9 +44,7 @@ public class UserAccount implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<UserRole> roles = new ArrayList<>();
-        roles.add(authorities);
-        return roles;
+        return new ArrayList<>(Collections.singleton(authorities));
     }
 
     @Override
