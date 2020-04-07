@@ -1,47 +1,16 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Personal account</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <link href="/static/fonts/font.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/cabinet.css">
 </head>
 <body>
-<nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">HIB - </a>
-    <div class="d-flex flex-row-reverse">
-        <ul class="navbar-nav px-3 p-2">
-            <li class="nav-item text-nowrap">
-                <div sec:authorize="isAuthenticated()">
-                    <form action="/logout" class="m-0 ml-sm-0">
-                        <button type="submit" class="btn btn-header btn-dark border m-0" id="logoutButton">
-                            Logout
-                        </button>
-                    </form>
-                </div>
-            </li>
-        </ul>
-        <form class="form p-2">
-            <div class="input-group">
-                <input type="text" class="form-control border" placeholder="" aria-label=""
-                       aria-describedby="basic-addon1">
-                <div class="input-group-append">
-                    <button class="btn border btn-dark" type="button">
-                        <img src="../static/icons/search.svg" alt="" height="16" width="16"></button>
-                </div>
-            </div>
-        </form>
-        <div class="dropdown p-2">
-            <a class="btn dropdown-toggle border" href="#" role="button" id="dd_menu_link"
-               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-               th:attr="data-current-lang=${#httpSession.getAttribute('LANG')}">
-            </a>
-            <div class="dropdown-menu" aria-labelledby="dd_menu_link" id="dd_menu">
-            </div>
-        </div>
-    </div>
-</nav>
+<nav th:replace="home :: nav-bar"></nav>
 <div class="container-fluid">
     <div class="row">
         <nav class="col-md-2 d-none d-md-block bg-light sidebar">
@@ -384,8 +353,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg " role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id='modalHeader'>Заказ номер 1
-                </h5>
+                <h5 class="modal-title" id='modalHeader'>Заказ номер 1</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -460,8 +428,8 @@
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
 <script src="js/cabinet.js"></script>
-<script src="../static/js/shoppingcart.js"></script>
-<script src="../static/js/common-function.js"></script>
+<script src="/static/js/shoppingcart.js"></script>
+<script src="/static/js/common-function.js"></script>
 <script th:attr="src=*{key}" async defer></script>
 </body>
 </html>
