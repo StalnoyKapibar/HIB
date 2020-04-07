@@ -43,7 +43,9 @@
                 </div>
                 <div class="card-body">
                     <h4 class="card-title" id="book-name1">NAME OF BOOK</h4>
-                    <button class="btn btn-info btn-sm mr-1" id="ask-question">Ask a Question</button>
+                    <button class="btn btn-info btn-sm mr-1" id="ask-question" sec:authorize="!hasRole('ADMIN')">Ask a
+                        Question
+                    </button>
                     <button class="btn btn-success btn-sm  mr-1" data-id="" id="bottomInCart" type="button"></button>
                 </div>
             </div>
@@ -130,53 +132,7 @@
     </div>
 </div>
 
-<div sec:authorize="!hasRole('ADMIN')">
-    <div class="container-fluid fixed-bottom">
-        <div class="row">
-            <div class="col-sm-2 offset-10">
-                <div class="text-center" id="feedback-request">
-                    <a class="btn btn-success col-12 contact-us" data-target="#feedback-modal" data-toggle="modal">To
-                        contact us</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="feedback-modal" role="dialog"
-         tabindex="-1">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title contact-us">Contact us</h5>
-                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="form-group">
-                            <label class="col-form-label" for="sender-name" id="enter-name">Your name: *</label>
-                            <input class="form-control" id="sender-name" required type="text">
-                        </div>
-                        <div class="form-group">
-                            <label class="col-form-label" for="sender-email" id="enter-email">Your Email: *</label>
-                            <input class="form-control" id="sender-email" required type="email">
-                        </div>
-                        <div class="form-group">
-                            <label class="col-form-label" for="sender-message" id="enter-message">Message: *</label>
-                            <textarea class="form-control" id="sender-message" required></textarea>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" data-dismiss="modal" id="closeModalBtn" type="button">Close
-                    </button>
-                    <button class="btn btn-primary" id="send-feedback-request" type="button">Send message</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script src="/static/js/contactForm.js"></script>
-</div>
+<div th:replace="home :: contact-button"></div>
 
 <script src="../static/js/common-function.js"></script>
 <script src="../static/js/page.js"></script>
