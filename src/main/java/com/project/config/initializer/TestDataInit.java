@@ -28,9 +28,6 @@ public class TestDataInit {
     @Autowired
     private FeedbackRequestService feedbackRequestService;
 
-    @Autowired
-    HibParser parser;
-
     private int bookId;
 
     public void init() {
