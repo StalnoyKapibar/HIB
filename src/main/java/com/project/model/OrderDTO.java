@@ -35,12 +35,20 @@ public class OrderDTO {
         order.setStatus(status);
         List<CartItem> cartItems = new ArrayList<>();
         for (CartItemDTO cartItemDTO : items) {
-            Book book = new Book(cartItemDTO.getBook().getId(),
-                    cartItemDTO.getBook().getName(),
-                    cartItemDTO.getBook().getAuthor(),
-                    cartItemDTO.getBook().getCoverImage(),
-                    cartItemDTO.getBook().getPrice(),
-                    cartItemDTO.getBook().getImageList(), null);
+            BookDTO bookDTO = cartItemDTO.getBook();
+            Book book = Book.builder()
+                    .id(bookDTO.getId())
+                    .nameLocale(bookDTO.getName())
+                    .authorLocale(bookDTO.getAuthor())
+                    .desc(bookDTO.getDesc())
+                    .edition(bookDTO.getEdition())
+                    .yearOfEdition(bookDTO.getYearOfEdition())
+                    .pages(bookDTO.getPages())
+                    .price(bookDTO.getPrice())
+                    .coverImage(bookDTO.getCoverImage())
+                    .originalLanguage(bookDTO.getOriginalLanguage())
+                    .listImage(bookDTO.getImageList())
+                    .build();
             cartItems.add(new CartItem(cartItemDTO.getId(), book, cartItemDTO.getQuantity()));
         }
         order.setItems(cartItems);

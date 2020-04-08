@@ -1,12 +1,10 @@
 package com.project.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -16,7 +14,14 @@ public class BookDTO {
     private long id;
     private LocaleString name;
     private LocaleString author;
+    private LocaleString desc;
+    private LocaleString edition;
+    private String yearOfEdition;
+    private Long pages;
+    private Long price;
+    private String originalLanguage;
     private String coverImage;
-    private Integer price;
+    @Singular("imageList")
     private List<Image> imageList;
+
 }

@@ -35,7 +35,7 @@ public class OderController {
         order.setAddress(addressDTO);
         order.setData(LocalDate.now().toString());
         order.setShippingCost(350);
-        order.setItemsCost(shoppingCartDTO.getTotalCostItems());
+        order.setItemsCost((int) shoppingCartDTO.getTotalCostItems());
         order.setStatus("Processing");
         httpSession.setAttribute("order", order);
         return order;
