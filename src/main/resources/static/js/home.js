@@ -120,3 +120,10 @@ function forgotPassword() {
     window.open('/resetPassword', '_blank');
 }
 
+function checkParams() {
+    if ($('#loginInput').val().length !== 0 && $('#passwordInput').val().length !== 0) {
+        $('#sign_in_btn').removeAttr('hidden');
+    } else {
+        $('#sign_in_btn').attr('hidden', 'hidden');
+    }
+}

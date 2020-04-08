@@ -202,18 +202,22 @@
                     <div class="form-group">
                         <label for="loginInput">Login</label>
                         <input type="text" class="form-control" id="loginInput" name="username" placeholder="Login"
-                               required>
+                               required onkeyup="checkParams()">
                     </div>
                     <div class="form-group">
                         <label for="passwordInput">Password</label>
                         <input type="password" class="form-control" id="passwordInput" name="password"
-                               placeholder="Password" required>
+                               placeholder="Password" required onkeyup="checkParams()">
                     </div>
                     <div class="custom-control custom-checkbox mb-2">
                         <input type="checkbox" class="custom-control-input" id="checkboxRememberMe">
                         <label class="custom-control-label" for="checkboxRememberMe">Remember me</label>
                     </div>
                     <button type="submit" hidden id="hidden_submit_btn">HiddenButtonToSubmitLoginForm</button>
+                    <div>
+                        <button type="button" class="btn btn-primary border col-12 mt-3" id="sign_in_btn" onclick="sendSignInForm()" hidden="hidden">Sign in
+                        </button>
+                    </div>
                 </form>
                 <div class="row px-3" th:if="${errorMessage}!=null">
                     <!--/*@thymesVar id="getMessage" type="com.project.model.FormLoginErrorMessageDTO"*/-->
@@ -238,12 +242,9 @@
                         <button type="submit" class="btn btn-header border col-12 mt-3">Register new profile</button>
                     </form>
                 </div>
-            </div>
-            <div class="modal-footer mx-3">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="sign_in_btn" onclick="sendSignInForm()">Sign in
-                </button>
-                <button type="button" class="btn btn-warning" onclick="forgotPassword()">Forgot your password ?</button>
+                <div class="modal-footer mx-3">
+                    <button type="button" class="btn btn-warning border col-12 mt-3" onclick="forgotPassword()">Forgot your password ?</button>
+                </div>
             </div>
         </div>
     </div>
