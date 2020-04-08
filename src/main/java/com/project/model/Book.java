@@ -1,13 +1,11 @@
 package com.project.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
 
-
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -18,6 +16,10 @@ public class Book {
     public Book(LocaleString nameLocale, LocaleString authorLocale) {
         this.nameLocale = nameLocale;
         this.authorLocale = authorLocale;
+    }
+
+    public Book(CartItemDTO cartItemDTO){
+        id = cartItemDTO.getId();
     }
 
     @Id
@@ -40,13 +42,14 @@ public class Book {
 
     private Long pages;
 
-    private Integer price;
+    private Long price;
 
     private String coverImage;
 
     private String originalLanguage;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @Singular("listImage")
     private List<Image> listImage;
 
     @Column

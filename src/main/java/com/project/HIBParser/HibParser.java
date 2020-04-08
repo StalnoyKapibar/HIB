@@ -1,5 +1,6 @@
 package com.project.HIBParser;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.model.BookDTO;
@@ -25,45 +26,55 @@ public class HibParser {
     @Autowired
     private ObjectMapper objectMapper;
 
+    private String avatar = "avatar.jpg";
+
     private LocaleString initLocaleString(JsonNode node) {
         return new LocaleString(node.get("ru").asText(), node.get("en").asText(),
                 node.get("fr").asText(), node.get("it").asText(), node.get("de").asText(),
                 node.get("cs").asText(), node.get("gr").asText());
     }
 
-    public BookDTO getBookFromJSON(String json) {
-        BookDTO book = new BookDTO();
+    private void writeImgToFile(String path, byte[]bytes){
         try {
-            JsonNode jsonNode = objectMapper.readTree(json);
-            book.setName(initLocaleString(jsonNode.get("name")));
-            book.setAuthor(initLocaleString(jsonNode.get("author")));
-            book.setDesc(initLocaleString(jsonNode.get("desc")));
-            book.setEdition(initLocaleString(jsonNode.get("edition")));
-            book.setYearOfEdition(jsonNode.get("yearOfEdition").asText());
-            book.setPages(jsonNode.get("pages").asLong());
-            book.setPrice(jsonNode.get("price").asInt());
-            book.setOriginalLanguage(jsonNode.get("originalLanguage").asText());
-            long id = Long.parseLong(bookService.getLastIdOfBook()) + 1;
-            book.setId(id);
-
-            String avatarPath = "img/book" + id + "/" + "avatar.jpg";
-            byte[] decodedBytes = Base64.getDecoder().decode(jsonNode.get("avatar").asText());
-            FileUtils.writeByteArrayToFile(new File(avatarPath), decodedBytes);
-            book.setCoverImage("avatar.jpg");
-
-            JsonNode listBytes = jsonNode.get("additionalPhotos");
-            List<Image>listImage = new ArrayList<>();
-            for (int i = 0; i < listBytes.size(); i++) {
-                String additionalPhoto = "img/book" + id + "/" + i + ".jpg";
-                byte[] tmpDecodedBytes = Base64.getDecoder().decode(listBytes.get(i).asText());
-                FileUtils.writeByteArrayToFile(new File(additionalPhoto), tmpDecodedBytes);
-                listImage.add(new Image(0, i + ".jpg"));
-            }
-            book.setImageList(listImage);
-
+            FileUtils.writeByteArrayToFile(new File(path), bytes);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return book;
+    }
+
+    public BookDTO getBookFromJSON(String json) {
+        JsonNode jsonNode = null;
+        long id = Long.parseLong(bookService.getLastIdOfBook()) + 1;
+        try {
+            jsonNode = objectMapper.readTree(json);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        List<Image>listImage = new ArrayList<>();
+        listImage.add(new Image(0, avatar));
+        String avatarPath = "img/book" + id + "/" + avatar;
+        byte[] decodedBytes = Base64.getDecoder().decode(jsonNode.get("avatar").asText());
+        writeImgToFile(avatarPath, decodedBytes);
+
+        JsonNode listBytes = jsonNode.get("additionalPhotos");
+        for (int i = 0; i < listBytes.size(); i++) {
+            String additionalPhoto = "img/book" + id + "/" + i + ".jpg";
+            byte[] tmpDecodedBytes = Base64.getDecoder().decode(listBytes.get(i).asText());
+            writeImgToFile(additionalPhoto, tmpDecodedBytes);
+            listImage.add(new Image(0, i + ".jpg"));
+        }
+
+        return BookDTO.builder()
+                .id(id)
+                .name(initLocaleString(jsonNode.get("name")))
+                .author(initLocaleString(jsonNode.get("author")))
+                .desc(initLocaleString(jsonNode.get("desc")))
+                .edition(initLocaleString(jsonNode.get("edition")))
+                .yearOfEdition(jsonNode.get("yearOfEdition").asText())
+                .pages(jsonNode.get("pages").asLong())
+                .price(jsonNode.get("price").asLong())
+                .originalLanguage(jsonNode.get("originalLanguage").asText())
+                .coverImage(avatar)
+                .imageList(listImage).build();
     }
 }

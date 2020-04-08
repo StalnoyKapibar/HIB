@@ -68,8 +68,8 @@ public class ShoppingCartDTO {
         } else cartItems.addAll(shoppingCartDTO.getCartItems());
     }
 
-    public Integer getTotalCostItems() {
-        Integer cost = 0;
+    public long getTotalCostItems() {
+        long cost = 0;
         for (CartItemDTO cartItemDTO : cartItems) {
             cost += cartItemDTO.getBook().getPrice() * cartItemDTO.getQuantity();
         }

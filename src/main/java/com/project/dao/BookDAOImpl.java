@@ -17,34 +17,34 @@ import java.util.List;
 public class BookDAOImpl implements BookDAO {
 
     private BookDTO getBookDTOFromBook(Book book){
-        BookDTO bookDTO = new BookDTO();
-        bookDTO.setId(book.getId());
-        bookDTO.setName(book.getNameLocale());
-        bookDTO.setAuthor(book.getAuthorLocale());
-        bookDTO.setDesc(book.getDesc());
-        bookDTO.setEdition(book.getEdition());
-        bookDTO.setYearOfEdition(book.getYearOfEdition());
-        bookDTO.setPages(book.getPages());
-        bookDTO.setPrice(book.getPrice());
-        bookDTO.setCoverImage(book.getCoverImage());
-        bookDTO.setOriginalLanguage(book.getOriginalLanguage());
-        bookDTO.setImageList(book.getListImage());
-        return bookDTO;
+        return BookDTO.builder()
+                .id(book.getId())
+                .name(book.getNameLocale())
+                .author(book.getAuthorLocale())
+                .desc(book.getDesc())
+                .edition(book.getEdition())
+                .yearOfEdition(book.getYearOfEdition())
+                .pages(book.getPages())
+                .price(book.getPrice())
+                .coverImage(book.getCoverImage())
+                .originalLanguage(book.getOriginalLanguage())
+                .imageList(book.getListImage())
+                .build();
     }
 
     private Book getBookFromBookDTO(BookDTO bookDTO){
-        Book book = new Book();
-        book.setAuthorLocale(bookDTO.getAuthor());
-        book.setNameLocale(bookDTO.getName());
-        book.setDesc(bookDTO.getDesc());
-        book.setEdition(bookDTO.getEdition());
-        book.setYearOfEdition(bookDTO.getYearOfEdition());
-        book.setPages(bookDTO.getPages());
-        book.setPrice(bookDTO.getPrice());
-        book.setCoverImage(bookDTO.getCoverImage());
-        book.setOriginalLanguage(bookDTO.getOriginalLanguage());
-        book.setListImage(bookDTO.getImageList());
-        return book;
+        return Book.builder()
+                .authorLocale(bookDTO.getAuthor())
+                .nameLocale(bookDTO.getName())
+                .desc(bookDTO.getDesc())
+                .edition(bookDTO.getEdition())
+                .yearOfEdition(bookDTO.getYearOfEdition())
+                .pages(bookDTO.getPages())
+                .price(bookDTO.getPrice())
+                .coverImage(bookDTO.getCoverImage())
+                .originalLanguage(bookDTO.getOriginalLanguage())
+                .listImage(bookDTO.getImageList())
+                .build();
     }
 
     @PersistenceContext
