@@ -1,10 +1,10 @@
 package com.project.service;
 
-import com.project.model.UserRole;
+import com.project.model.Role;
 
 public interface UserRoleService {
 
-    UserRole getUserRoleByName(String name);
+    Role getUserRoleByName(String name);
 
-    void save(UserRole userRole);
+    void save(Role role);
 }

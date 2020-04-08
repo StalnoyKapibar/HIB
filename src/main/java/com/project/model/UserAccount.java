@@ -11,7 +11,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.Collections;
 
 @Data
 @AllArgsConstructor
@@ -38,13 +38,11 @@ public class UserAccount implements UserDetails {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private ShoppingCart cart = new ShoppingCart();
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_name"))
-    private List<UserRole> authorities = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Role roles;
 
-    @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
+        return new ArrayList<>(Collections.singleton(roles));
     }
 
     @Override

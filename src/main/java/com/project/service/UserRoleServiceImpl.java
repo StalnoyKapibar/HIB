@@ -1,7 +1,7 @@
 package com.project.service;
 
 import com.project.dao.UserRoleDao;
-import com.project.model.UserRole;
+import com.project.model.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,17 +12,17 @@ public class UserRoleServiceImpl implements UserRoleService {
     UserRoleDao userRoleDao;
 
     @Override
-    public UserRole getUserRoleByName(String name) {
-        UserRole userRole = userRoleDao.findUserRoleByRoleName(name);
-        if (userRole == null) {
-            return new UserRole(0l, "UNDEF");
+    public Role getUserRoleByName(String name) {
+        Role role = userRoleDao.findUserRoleByRoleName(name);
+        if (role == null) {
+            return new Role(0l, "UNDEF");
         } else {
-            return userRole;
+            return role;
         }
     }
 
     @Override
-    public void save(UserRole userRole) {
-        userRoleDao.save(userRole);
+    public void save(Role role) {
+        userRoleDao.save(role);
     }
 }
