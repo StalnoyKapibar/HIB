@@ -34,7 +34,7 @@ public class HibParser {
                 node.get("cs").asText(), node.get("gr").asText());
     }
 
-    private void writeImgToFile(String path, byte[]bytes){
+    private void writeImgToFile(String path, byte[] bytes) {
         try {
             FileUtils.writeByteArrayToFile(new File(path), bytes);
         } catch (IOException e) {
@@ -50,7 +50,7 @@ public class HibParser {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        List<Image>listImage = new ArrayList<>();
+        List<Image> listImage = new ArrayList<>();
         listImage.add(new Image(0, avatar));
         String avatarPath = "img/book" + id + "/" + avatar;
         byte[] decodedBytes = Base64.getDecoder().decode(jsonNode.get("avatar").asText());

@@ -18,10 +18,6 @@ public class Book {
         this.authorLocale = authorLocale;
     }
 
-    public Book(CartItemDTO cartItemDTO){
-        id = cartItemDTO.getId();
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

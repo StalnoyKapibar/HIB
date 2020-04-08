@@ -9,7 +9,6 @@ import com.project.service.BookService;
 import com.project.service.StorageService;
 import com.project.util.BookDTOWithFieldsForTable;
 import lombok.AllArgsConstructor;
-import org.jboss.logging.annotations.Pos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.PageRequest;
@@ -21,7 +20,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.util.List;
 
 @AllArgsConstructor
