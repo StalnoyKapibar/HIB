@@ -12,7 +12,6 @@ import javax.validation.constraints.Email;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -40,11 +39,10 @@ public class UserAccount implements UserDetails {
     private ShoppingCart cart = new ShoppingCart();
 
     @ManyToOne(fetch = FetchType.EAGER)
-    private UserRole authorities;
+    private Role roles;
 
-    @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return new ArrayList<>(Collections.singleton(authorities));
+        return new ArrayList<>(Collections.singleton(roles));
     }
 
     @Override

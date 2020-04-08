@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "roles")
-public class UserRole implements GrantedAuthority {
+public class Role implements GrantedAuthority {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long roleId;

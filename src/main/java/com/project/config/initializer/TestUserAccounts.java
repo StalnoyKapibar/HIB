@@ -1,16 +1,13 @@
 package com.project.config.initializer;
 
 import com.project.model.UserAccount;
-import com.project.model.UserRole;
+import com.project.model.Role;
 import com.project.service.UserAccountService;
 import com.project.service.UserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 public class TestUserAccounts {
 
@@ -26,9 +23,9 @@ public class TestUserAccounts {
 
     public void init() {
         // two basic roles : ROLE_ADMIN & ROLE_USER
-        UserRole userRole = new UserRole(1l, "ROLE_USER");
-        UserRole adminRole = new UserRole(2l, "ROLE_ADMIN");
-        userRoleService.save(userRole);
+        Role role = new Role(1l, "ROLE_USER");
+        Role adminRole = new Role(2l, "ROLE_ADMIN");
+        userRoleService.save(role);
         userRoleService.save(adminRole);
 
         // Admin user. (username = "admin", password = "admin") ROLE:ADMIN
@@ -42,7 +39,7 @@ public class TestUserAccounts {
         account1.setRegDate(Instant.now().getEpochSecond());
         account1.setProvider("local");
         account1.setEnabled(true);
-        account1.setAuthorities(adminRole);
+        account1.setRoles(adminRole);
 
         userAccountService.save(account1);
 
@@ -56,7 +53,7 @@ public class TestUserAccounts {
         account2.setRegDate(Instant.now().getEpochSecond());
         account2.setProvider("local");
         account2.setEnabled(true);
-        account2.setAuthorities(userRole);
+        account2.setRoles(role);
         userAccountService.save(account2);
     }
 
