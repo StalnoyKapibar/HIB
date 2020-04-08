@@ -48,8 +48,8 @@
             </form>
             <form>
                 <div class="form-group">
-                    <label for="exampleFormFile">Image input</label>
-                    <input class="form-control-file" id="exampleFormFile" type="file">
+                    <input type="file" class="form-control-file" id="formBookFile" accept=".hib">
+                    <button type="button" onclick="loadBookFile()" class='btn btn-primary mt-3'>Load file</button>
                 </div>
             </form>
             <div class="carousel slide w-50" data-ride="carousel" id="carouselExampleCaptions">
@@ -68,7 +68,7 @@
                     <span class="sr-only">Next</span>
                 </a>
             </div>
-            <button class='btn btn-primary mt-3' onclick='addBook()' type='submit'>
+            <button class='btn btn-primary mt-3' onclick='addNewBook()' type='submit'>
                 Add new Book
             </button>
         </div>
