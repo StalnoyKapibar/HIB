@@ -3,7 +3,7 @@ let senderNameInput = $("#sender-name");
 let senderEmailInput = $("#sender-email");
 let senderMessageInput = $("#sender-message");
 let feedbackModal = $("#feedback-modal");
-let messageTemplate = "Hello, I m interested in the book ";
+const messageTemplate = "Hello, I m interested in the book ";
 
 $(document).on('click', '#send-feedback-request', () => {
     hiddenButton.click();
@@ -15,7 +15,7 @@ $('#feedback-form').submit(async () => {
         senderEmail: senderEmailInput.val(),
         content: senderMessageInput.val()
     };
-    await fetch("/feedback-request", {
+    await fetch("/api/feedback-request", {
         method: 'POST',
         body: JSON.stringify(FeedbackRequest),
         headers: {

@@ -17,7 +17,6 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/feedback-request")
 @PropertySource("classpath:application.properties")
 public class FeedbackRequestController {
     private final static Logger LOGGER = LoggerFactory.getLogger(FeedbackRequestController.class.getName());
@@ -26,6 +25,7 @@ public class FeedbackRequestController {
     private final Environment env;
 
     @PostMapping
+    @RequestMapping("/api/feedback-request")
     public FeedbackRequest sendNewFeedBackRequest(@RequestBody FeedbackRequest feedbackRequest) {
         LOGGER.debug("POST request '/feedback-request' with {}", feedbackRequest);
         feedbackRequest.setId(null);
@@ -43,7 +43,7 @@ public class FeedbackRequestController {
     }
 
     @SuppressWarnings("all")
-    @PostMapping("/reply/{id}")
+    @PostMapping("/api/admin/feedback-request/reply/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public void send(@PathVariable Long id, @RequestBody SimpleMailMessage simpleMailMessage) {
         LOGGER.debug("POST request '/feedback-request/reply/{}' with {}", id, simpleMailMessage);
@@ -55,14 +55,14 @@ public class FeedbackRequestController {
         mailService.sendEmail(simpleMailMessage);
     }
 
-    @GetMapping
+    @GetMapping("/api/admin/feedback-request")
     @PreAuthorize("hasRole('ADMIN')")
     public List<FeedbackRequest> getAll() {
         return feedbackRequestService.findAll();
     }
-    
-    @GetMapping("{id}")
+
     @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/api/admin/feedback-request/{id}")
     public FeedbackRequest getById(@PathVariable Long id) {
         return feedbackRequestService.getById(id);
     }
