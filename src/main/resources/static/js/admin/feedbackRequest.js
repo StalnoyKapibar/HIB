@@ -10,14 +10,20 @@ let alertContainer = $("#alert-container");
 let interestedBookContainer = $("#interested-book");
 let interestedBookImage = $("#interested-image");
 let interestedBookTitle = $("#interested-title");
+let toggleReplied = $("#toggle-replied");
+const localStorageToggleKey = "request-toggle";
 
 $(document).ready(function () {
-    getFeedbackRequestTable().then(r => {
-    });
+    if (localStorage.getItem(localStorageToggleKey) === "true") {
+        toggleReplied.bootstrapToggle('on');
+    } else {
+        getFeedbackRequestTable(false).then(r => {
+        });
+    }
 });
 
-async function getFeedbackRequestTable() {
-    await fetch("/api/admin/feedback-request")
+async function getFeedbackRequestTable(replied) {
+    await fetch("/api/v1/admin/feedback-request?replied=" + replied)
         .then(json)
         .then((data) => {
             tableBody.empty();
@@ -27,10 +33,15 @@ async function getFeedbackRequestTable() {
                 let senderEmail = data[i].senderEmail;
                 let content = data[i].content;
                 let replied = data[i].replied ? '<input type="checkbox" disabled checked>'
-                    : `<button type="submit"
-                       class="btn btn-info"
+                    : `<button type="button"
+                       class="btn btn-info btn-reply"
                         id="replyBtn"
-                        onclick="reply(${id}, '${senderName}', '${senderEmail}', '${content}')">
+                        data-id="${id}"
+                        data-sender="${senderName}"
+                        data-email="${senderEmail}"
+                        data-message="${content}"
+                       
+                        >
                          Reply
                         </button>`;
                 let tr = $("<tr/>");
@@ -46,15 +57,20 @@ async function getFeedbackRequestTable() {
         })
 }
 
-async function reply(id, senderName, email, content) {
+$(document).on('click', '.btn-reply', function () {
     replySubject.val('');
     replyMessage.val('');
-    replyId.val(id);
-    recipient.val(senderName);
-    emailField.val(email);
-    message.val(content);
-    await showInterestedBook(content);
+    replyId.val($(this).attr("data-id"));
+    recipient.val($(this).attr("data-sender"));
+    emailField.val($(this).attr("data-email"));
+    message.val($(this).attr("data-message"));
+    showInterestedBook($(this).attr("data-message")).then(r => {
+    });
     theModal.modal('show');
+});
+
+async function reply(id, senderName, email, content) {
+
 }
 
 $(document).on('click', '#submit-btn', async () => {
@@ -62,7 +78,7 @@ $(document).on('click', '#submit-btn', async () => {
         subject: replySubject.val(),
         text: replyMessage.val(),
     };
-    await fetch("/api/admin/feedback-request/reply/" + replyId.val(), {
+    await fetch("/api/v1/admin/feedback-request/reply/" + replyId.val(), {
         method: 'POST',
         body: JSON.stringify(SimpleMailMessage),
         headers: {
@@ -107,4 +123,10 @@ async function showAlert(message, clazz) {
                         </div>`;
     alertContainer.append(alert);
 }
+
+toggleReplied.change(() => {
+    let repliedOn = toggleReplied.prop('checked');
+    localStorage.setItem(localStorageToggleKey, repliedOn.toString());
+    getFeedbackRequestTable(repliedOn).catch();
+});
 
