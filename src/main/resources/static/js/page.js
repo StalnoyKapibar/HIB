@@ -2,6 +2,7 @@ var currentLang = '';
 let pathImageDefault = '../images/book';
 let objectBook;
 let idCoverImage;
+let tmpEditBookId;
 
 $(document).ready(function () {
     if (currentLang == '') {
@@ -18,6 +19,8 @@ function setPageFields() {
         .then(status)
         .then(json).then(function (data) {
         objectBook = data;
+        tmpEditBookId = data.id;
+        $('title').text(data.name[currentLang]);
         $('#book-name').text(data.name[currentLang]);
         $('#book-author').text(data.author[currentLang]);
         $('#book-name1').text(data.name[currentLang]);
@@ -109,7 +112,7 @@ $(document).ready(function () {
         }, 20)
 
     })
-})
+});
 
 function addToCart(id) {
     fetch("/cart/" + id, {
@@ -123,7 +126,7 @@ async function getCart() {
         .then(json)
         .then(function (data) {
             $("#shoppingCartDrop").empty();
-            let table = $('<div class="dropdown-item-text"><table class="table table-striped table-sm bg-white" />')
+            let table = $('<div class="dropdown-item-text"><table class="table table-striped table-sm bg-white" />');
             $.each(data, function (index) {
                 let book = data[index].book;
                 table.append('<tr></td><td><img src="../images/book' + book.id + '/' + book.coverImage + '" style="max-width: 60px"></td>+' +
@@ -134,7 +137,7 @@ async function getCart() {
                     '<td style="width: 20px"></td>' +
                     '<td class="mr-1"><button class="btn btn-info delete"  style="background-color: orangered" data-id="' + book.id + '">' + deleteBottom + '</button></td>' +
                     '</tr>');
-                table.append('<tr style="height: 15px" />')
+                table.append('<tr style="height: 15px" />');
                 $('#shoppingCartDrop').append(table);
             })
         })
@@ -143,7 +146,7 @@ async function getCart() {
 $(document).ready(function () {
     $("#showCart").on('show.bs.dropdown', function () {
         getCart();
-    })
+    });
     $("body").on('click', '.delete', function () {
         let id = $(this).attr("data-id");
         fetch('/cart/' + id, {
@@ -152,4 +155,9 @@ $(document).ready(function () {
             showSizeCart();
         })
     });
-})
+});
+
+function openEdit() {
+    localStorage.setItem('tmpEditBookId', tmpEditBookId);
+    window.open('/edit', '_blank');
+}
