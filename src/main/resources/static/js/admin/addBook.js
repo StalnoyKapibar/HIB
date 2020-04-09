@@ -1,13 +1,11 @@
-
-let myImage;
+let divAvatar;
 let imageList;
 let yearOfEdition;
 let pages;
 let price;
 let originalLanguage;
 let newBook;
-
-
+let pathToImgPackage = '/images/book';
 
 function addPage() {
     getVarBookDTO();
@@ -47,13 +45,13 @@ function addPage() {
         <select id="originalLanguage" >
         </select>
         <h4>Cover Image</h4>
-        <div class='car' id='divImage' style='width: 18rem;'>
-        <img id='myImage' class='card-img-top' alt='...'>
+        <div class='car' id='divAvatar' style='width: 18rem;'>
         </div><br><br>
+        <h4>Another Image</h4>
         <div class='car' id='imageList' style='width: 18rem;'>
         </div><br><br>`
     );
-    myImage = $("#myImage");
+    divAvatar = $("#divAvatar");
     imageList = $("#imageList");
     yearOfEdition = $("#yearOfEdition");
     pages = $("#pages");
@@ -83,7 +81,8 @@ function loadBookFile() {
 }
 
 function addValueToFields(book) {
-    myImage.attr("src", ``);
+    let pathWithBookId = pathToImgPackage + book.id + "/";
+    divAvatar.empty();
     imageList.empty();
     for (let tmpNameObject of nameObjectOfLocaleString) {
         for (let tmpNameVar of nameVarOfLocaleString) {
@@ -94,20 +93,55 @@ function addValueToFields(book) {
     pages.val(`${book.pages}`);
     price.val(`${book.price}`);
     originalLanguage.val(`${book.originalLanguage}`);
-    myImage.attr("src", `/images/book${book.id}/avatar.jpg`);
+    divAvatar.attr("src", `${pathWithBookId}${book.coverImage}`);
+    divAvatar.append(
+        `<img id="avatarImage" src="${pathWithBookId}${book.coverImage}" class='card-img-top' alt='...'>
+    <button type="button" onclick="deleteImage('avatarImage', '${book.coverImage}')" class="btn btn-primary mx-3">Delete image </button>`
+    );
     for (const imageListElement of book.imageList) {
-        let pathToImg = '/images/book' + book.id + '/' + imageListElement.nameImage;
-        if (!imageListElement.nameImage.includes('avatar')) {
+        let nameImg = imageListElement.nameImage;
+        let pathToImg = '/images/book' + book.id + '/' + nameImg;
+        if (!nameImg.includes('avatar')) {
+            let newId = nameImg.replace(/\./g, '');
             imageList.append(
-                `<img src=${pathToImg} class='card-img-top' alt='...'><br><br> `
+                `<div  id="${newId}">
+                <img src=${pathToImg} class='card-img-top'  alt='...'>
+                <button type="button" onclick="deleteImage('${newId}','${nameImg}')" class="btn btn-primary mx-3">Delete image</button>
+                </div>
+                <br><br>`
             )
         }
     }
     newBook = book;
 }
 
+function deleteImage(id, name) {
+    if (id === 'avatarImage') {
+        divAvatar.empty();
+        newBook.coverImage = null;
+    } else {
+        $("#" + id).empty();
+    }
+    newBook.imageList = newBook.imageList.filter(function (img) {
+        return img.nameImage !== name;
+    });
+
+    fetch('/admin/deleteImg', {
+        method: 'POST',
+        body: "img/book"+ newBook.id + "/" + name
+    })
+}
+
+function isCoverImageNotNull() {
+    if (newBook.coverImage == null) {
+        alert("select avatar for book")
+        return false;
+    }
+    return true;
+}
+
 function addNewBook() {
-    if (confirm("Add this book?")) {
+    if (isCoverImageNotNull() && confirm("Add this book?")) {
         let book = {};
         for (let tmpNameObject of nameObjectOfLocaleString) {
             let bookFields = {};
@@ -148,7 +182,7 @@ function clearFields() {
     pages.val(``);
     price.val(``);
     originalLanguage.val(``);
-    myImage.attr("src", ``);
+    divAvatar.empty();
     imageList.empty();
 }
 

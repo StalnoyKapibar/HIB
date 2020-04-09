@@ -20,6 +20,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
 @AllArgsConstructor
@@ -34,17 +37,28 @@ public class BookController {
     @Autowired
     private StorageService storageService;
 
+    @PostMapping("/admin/deleteImg")
+    public HttpStatus deleteImageByPath(@RequestBody String path) {
+        try {
+            Files.delete(Paths.get(path));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return HttpStatus.OK;
+    }
+
     @PutMapping("/loadFile")
-    public BookDTO loadFile(@RequestBody String book){
+    public BookDTO loadFile(@RequestBody String book) {
         BookDTO bookDTO = hibParser.getBookFromJSON(book);
         return bookDTO;
     }
 
     @PutMapping("/admin/addBook")
-    public HttpStatus addNewBook(@RequestBody BookDTO bookDTO){
+    public HttpStatus addNewBook(@RequestBody BookDTO bookDTO) {
         bookService.addBook(bookDTO);
         return HttpStatus.OK;
     }
+
     @GetMapping("/getBookDTOById/{id}")
     public BookDTO getBookDTOById(@PathVariable("id") long id) {
         BookDTO bookDTO = bookService.getBookDTOById(id);
