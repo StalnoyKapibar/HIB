@@ -51,19 +51,29 @@
                             class="ti-shopping-cart"></i><span id="bucketIn"
                                                                class="nav-shop-circle"></span>
                     </button>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton"
-                    >
-                        <div id="shoppingCartDrop" style="overflow: auto; max-height: 300px; width: 600px">
+                    <div>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton"
+                        >
+                            <div id="shoppingCartDrop" style="overflow: auto; max-height: 300px; width: 600px">
+                            </div>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item-text">
+                                <button class="btn btn-success btn-sm mr-5  " data-toggle="dropdown" id="dropdownclose"
+                                        type="button">Продолжить покупки
+                                </button>
+                                <div sec:authorize="isAuthenticated() != true">
+                                    <button type="button" class="btn btn-primary btn-sm float-right"
+                                            data-target="#signModal" data-toggle="modal" id="toshoppingcart">Заказать сейчас
+                                    </button>
+                                </div>
+                                <div sec:authorize="isAuthenticated()">
+                                    <button type="button" class="btn btn-primary btn-sm float-right"
+                                            onclick="document.location='/cabinet#cart'" id="toshoppingcart">Заказать
+                                        сейчас
+                                    </button>
+                                </div>
+                            </a>
                         </div>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item-text">
-                            <button class="btn btn-success btn-sm mr-5  " data-toggle="dropdown" id="dropdownclose"
-                                    type="button">Продолжить покупки
-                            </button>
-                            <button type="button" class="btn btn-primary btn-sm float-right"
-                                    onclick="document.location='/cabinet#cart'" id="toshoppingcart">Заказать сейчас
-                            </button>
-                        </a>
                     </div>
                 </ul>
                 <div class="dropdown mr-2 mb-2 mt-2">
@@ -222,16 +232,19 @@
                     <div class="form-group">
                         <label for="loginInput">Login</label>
                         <input type="text" class="form-control" id="loginInput" name="username" placeholder="Login"
-                               required>
+                               required onkeyup="checkParams()">
                     </div>
                     <div class="form-group">
                         <label for="passwordInput">Password</label>
                         <input type="password" class="form-control" id="passwordInput" name="password"
-                               placeholder="Password" required>
+                               placeholder="Password" required onkeyup="checkParams()">
                     </div>
                     <div class="custom-control custom-checkbox mb-2">
                         <input type="checkbox" class="custom-control-input" id="checkboxRememberMe">
                         <label class="custom-control-label" for="checkboxRememberMe">Remember me</label>
+                        <button type="button" class="btn btn-primary btn-block col-6 pull-right mr-1" id="sign_in_btn"
+                                onclick="sendSignInForm()" hidden="hidden">Sign in
+                        </button>
                     </div>
                     <button type="submit" hidden id="hidden_submit_btn">HiddenButtonToSubmitLoginForm</button>
                 </form>
@@ -254,16 +267,15 @@
                     </div>
                 </div>
                 <div>
-                    <form action="/registration">
-                        <button type="submit" class="btn btn-header border col-12 mt-3">Register new profile</button>
-                    </form>
+
                 </div>
-            </div>
-            <div class="modal-footer mx-3">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="sign_in_btn" onclick="sendSignInForm()">Sign in
-                </button>
-                <button type="button" class="btn btn-warning" onclick="forgotPassword()">Forgot your password ?</button>
+                <div class="modal-footer mt-3">
+                    <a href="/registration" class="btn btn-header col-12 border mt-3" role="button" style="background-color: #AEC5EB">Register new
+                        profile</a>
+                    <button type="button" class="btn btn-warning col-12 border mt-3" onclick="forgotPassword()" style="background-color: #E9AFA3">Forgot
+                        your password ?
+                    </button>
+                </div>
             </div>
         </div>
     </div>
