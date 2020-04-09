@@ -22,14 +22,15 @@ public class    WelcomeDAOImpl implements WelcomeDAO {
 
     @Override
     public void editWelcome(Welcome welcome) {
-        entityManager.createQuery("update LocaleString set ru =:ru, cs =:cs, de =:de, en =: en, fr =: fr, it =: it, gr =: gr")
-                .setParameter("ru", welcome.getBody().getRu())
-                .setParameter("cs", welcome.getBody().getCs())
-                .setParameter("de", welcome.getBody().getDe())
-                .setParameter("en", welcome.getBody().getEn())
-                .setParameter("fr", welcome.getBody().getFr())
-                .setParameter("it", welcome.getBody().getIt())
-                .setParameter("gr", welcome.getBody().getGr())
-                .executeUpdate();
+        if (welcome.getId() == null) {
+            entityManager.persist(welcome);
+        } else {
+            entityManager.merge(welcome);
+        }
+    }
+
+    @Override
+    public Welcome getById(Long id) {
+        return entityManager.find(Welcome.class, id);
     }
 }

@@ -18,7 +18,6 @@ $(document).ready(function () {
 
 async function getFeedbackRequestTable() {
     await fetch("/api/admin/feedback-request")
-        .then(status)
         .then(json)
         .then((data) => {
             tableBody.empty();

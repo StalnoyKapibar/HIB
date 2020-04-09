@@ -23,4 +23,9 @@ public class WelcomeServiceImpl implements WelcomeService {
     public void editWelcome(Welcome welcome) {
         welcomeDAO.editWelcome(welcome);
     }
+
+    @Override
+    public Welcome getById(Long id) {
+        return welcomeDAO.getById(id);
+    }
 }
