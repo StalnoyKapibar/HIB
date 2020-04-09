@@ -7,16 +7,16 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="../static/css/style.css">
-    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../static/css/bootstrap-social.css"/>
-    <link href="../static/fonts/font-awesome.css" rel="stylesheet">
-    <link href="../static/fonts/font.css" rel="stylesheet">
-    <link rel="stylesheet" href="../static/css/themify-icons.css">
-    <script src="../static/js/jquery.min.js"></script>
-    <script src="../static/js/popper.min.js"></script>
-    <script src="../static/js/bootstrap.min.js"></script>
-    <title>Document</title>
+    <link href="/static/css/style.css" rel="stylesheet">
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/bootstrap-social.css" rel="stylesheet"/>
+    <link href="/static/fonts/font-awesome.css" rel="stylesheet">
+    <link href="/static/fonts/font.css" rel="stylesheet">
+    <link href="/static/css/themify-icons.css" rel="stylesheet">
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/popper.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <title></title>
 </head>
 <body>
 
@@ -46,7 +46,10 @@
                     <button class="btn btn-info btn-sm mr-1" id="ask-question" sec:authorize="!hasRole('ADMIN')">Ask a
                         Question
                     </button>
-                    <button class="btn btn-success btn-sm  mr-1" data-id="" id="bottomInCart" type="button"></button>
+                    <button class="btn btn-success btn-sm  mr-1" data-id=""
+                            id="bottomInCart" sec:authorize="!hasRole('ADMIN')" type="button">Add to cart
+                    </button>
+                    <button class="btn btn-info" onclick="openEdit()" sec:authorize="hasRole('ADMIN')">Edit</button>
                 </div>
             </div>
             <div class="card-col-4">
