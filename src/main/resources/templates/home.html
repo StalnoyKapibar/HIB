@@ -102,6 +102,26 @@
                 </div>
             </div>
         </nav>
+        <div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="logout-modal" role="dialog"
+             tabindex="-1">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="logout-modal-title">Do you really want to logout?</h5>
+                        <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary closeModalBtn" data-dismiss="modal" type="button">Cancel
+                        </button>
+                        <form action="/logout" method="post">
+                            <button class="btn btn-danger" type="submit">Logout</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </header>
 
     <!--    page container    -->
@@ -294,25 +314,6 @@
         </div>
     </div>
     <script src="/static/js/contactForm.js"></script>
-</div>
-<div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="logout-modal" role="dialog"
-     tabindex="-1">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="logout-modal-title">Do you really want to logout?</h5>
-                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary closeModalBtn" data-dismiss="modal" type="button">Cancel</button>
-                <form action="/logout" method="post">
-                    <button class="btn btn-danger" type="submit">Logout</button>
-                </form>
-            </div>
-        </div>
-    </div>
 </div>
 <script src="/static/js/common-function.js"></script>
 <script src="/static/js/home.js"></script>
