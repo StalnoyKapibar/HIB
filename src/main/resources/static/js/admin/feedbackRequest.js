@@ -17,7 +17,7 @@ $(document).ready(function () {
 });
 
 async function getFeedbackRequestTable() {
-    await fetch("/feedback-request")
+    await fetch("/api/admin/feedback-request")
         .then(status)
         .then(json)
         .then((data) => {
@@ -63,7 +63,7 @@ $(document).on('click', '#submit-btn', async () => {
         subject: replySubject.val(),
         text: replyMessage.val(),
     };
-    await fetch("/feedback-request/reply/" + replyId.val(), {
+    await fetch("/api/admin/feedback-request/reply/" + replyId.val(), {
         method: 'POST',
         body: JSON.stringify(SimpleMailMessage),
         headers: {
