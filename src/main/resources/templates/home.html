@@ -7,15 +7,16 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="../static/css/style.css">
-    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../static/css/themify-icons.css">
-    <link rel="stylesheet" href="../static/css/bootstrap-social.css"/>
-    <link href="../static/fonts/font.css" rel="stylesheet">
-    <link href="../static/fonts/font-awesome.css" rel="stylesheet">
-    <script src="../static/js/jquery.min.js"></script>
-    <script src="../static/js/popper.min.js"></script>
-    <script src="../static/js/bootstrap.min.js"></script>
+    <link href="/static/css/style.css" rel="stylesheet">
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/themify-icons.css" rel="stylesheet">
+    <link href="/static/css/bootstrap-social.css" rel="stylesheet"/>
+    <link href="/static/fonts/font.css" rel="stylesheet">
+    <link href="/static/fonts/font-awesome.css" rel="stylesheet">
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/popper.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script crossorigin="anonymous" src="https://kit.fontawesome.com/db08edad0b.js"></script>
     <title>History in Books</title>
 </head>
 <body>
@@ -36,24 +37,15 @@
                                 onclick="document.location.href='/home'">Main
                         </button>
                     </li>
-                    <li class="nav-item">
-                        <button class="btn pl-2 btn-header" id="link_books_header">Books</button>
-                    </li>
-                    <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-                        <button class="btn pl-2 btn-header" id="link_admin_page"
-                                onclick="document.location.href='/admin/panel/books'">Admin
-                        </button>
-                    </li>
                 </ul>
-                <ul class="dropdown mr-2 mb-2 mt-2" id="showCart">
+                <ul class="dropdown mr-2 mb-2 mt-2" id="showCart" sec:authorize="!hasRole('ADMIN')">
                     <button class="btn btn-lg" type="button" id="dropdownMenuButton" data-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false"><i
                             class="ti-shopping-cart"></i><span id="bucketIn"
                                                                class="nav-shop-circle"></span>
                     </button>
                     <div>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton"
-                        >
+                        <div aria-labelledby="dropdownMenuButton" class="dropdown-menu dropdown-menu-right">
                             <div id="shoppingCartDrop" style="overflow: auto; max-height: 300px; width: 600px">
                             </div>
                             <div class="dropdown-divider"></div>
@@ -63,7 +55,8 @@
                                 </button>
                                 <div sec:authorize="isAuthenticated() != true">
                                     <button type="button" class="btn btn-primary btn-sm float-right"
-                                            data-target="#signModal" data-toggle="modal" id="toshoppingcart">Заказать сейчас
+                                            data-target="#signModal" data-toggle="modal" id="toshoppingcart">Заказать
+                                        сейчас
                                     </button>
                                 </div>
                                 <div sec:authorize="isAuthenticated()">
@@ -90,7 +83,7 @@
                                aria-describedby="basic-addon1" name="request">
                         <div class="input-group-append">
                             <button class="btn border" type="submit">
-                                <img src="../static/icons/search.svg" alt="" height="16" width="16"></button>
+                                <img alt="" height="16" src="/static/icons/search.svg" width="16"></button>
                         </div>
                     </div>
                 </form>
@@ -103,11 +96,29 @@
                             </button>
                         </form>
                     </div>
-                    <div sec:authorize="isAuthenticated()">
-                        <button class="btn btn-header border m-0" data-target="#logout-modal" data-toggle="modal"
-                                id="logoutButton">
-                            Logout
+                    <div class="btn-group" sec:authorize="isAuthenticated()">
+                        <button aria-expanded="false" aria-haspopup="true" class="btn btn-light dropdown-toggle"
+                                data-toggle="dropdown" type="button">
+                            <i class="far fa-user"></i>
+                            <span th:text="${#authentication.getPrincipal().getUsername()}"></span>
                         </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <button class="dropdown-item"
+                                    onclick="document.location.href='/admin/panel/books'"
+                                    sec:authorize="hasRole('ADMIN')"
+                                    type="button">Admin Panel
+                            </button>
+                            <button class="dropdown-item myprof-loc"
+                                    id="profile" onclick="document.location.href='/cabinet'"
+                                    sec:authorize="hasRole('USER')"
+                                    type="button">Profile
+                            </button>
+                            <div class="dropdown-divider"></div>
+                            <button class="dropdown-item" data-target="#logout-modal"
+                                    data-toggle="modal" id="logoutButton"
+                                    type="button">Logout
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -251,9 +262,12 @@
 
                 </div>
                 <div class="modal-footer mt-3">
-                    <a href="/registration" class="btn btn-header col-12 border mt-3" role="button" style="background-color: #AEC5EB">Register new
+                    <a class="btn btn-header col-12 border mt-3" href="/registration" role="button"
+                       style="background-color: #AEC5EB">Register new
                         profile</a>
-                    <button type="button" class="btn btn-warning col-12 border mt-3" onclick="forgotPassword()" style="background-color: #E9AFA3">Forgot
+                    <button class="btn btn-warning col-12 border mt-3" onclick="forgotPassword()"
+                            style="background-color: #E9AFA3"
+                            type="button">Forgot
                         your password ?
                     </button>
                 </div>
@@ -283,7 +297,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id = "feedback-form">
+                    <form id="feedback-form">
                         <div class="form-group">
                             <label class="col-form-label" for="sender-name" id="enter-name">Your name: *</label>
                             <input class="form-control" id="sender-name" required type="text">
@@ -296,7 +310,8 @@
                             <label class="col-form-label" for="sender-message" id="enter-message">Message: *</label>
                             <textarea class="form-control" id="sender-message" required></textarea>
                         </div>
-                        <button type="submit" hidden id="hidden-submit-btn-feedback">HiddenButtonToSubmitFeedbackForm</button>
+                        <button hidden id="hidden-submit-btn-feedback" type="submit">HiddenButtonToSubmitFeedbackForm
+                        </button>
                     </form>
                 </div>
                 <div class="modal-footer">

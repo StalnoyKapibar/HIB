@@ -42,7 +42,7 @@ function setLocaleFields() {
             $('#headershoppingcart').text(localeFields['headershoppingcart']);
             $('#chechout').text(localeFields['chechout']);
             $('#shoppingcart').text(localeFields['headershoppingcart']);
-            $('#myprof').text(localeFields['myprofile']);
+            $('.myprof-loc').text(localeFields['myprofile']);
             $('#oders').text(localeFields['oders']);
             $('#settingprofile').text(localeFields['settingprofile']);
             $('#enter-name').text(localeFields['enter-name']);
