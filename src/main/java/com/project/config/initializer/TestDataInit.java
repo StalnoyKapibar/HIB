@@ -1,12 +1,9 @@
 package com.project.config.initializer;
 
-import com.project.HIBParser.HibParser;
-import com.project.model.BookDTO;
-import com.project.model.FeedbackRequest;
-import com.project.model.Image;
-import com.project.model.LocaleString;
+import com.project.model.*;
 import com.project.service.BookService;
 import com.project.service.FeedbackRequestService;
+import com.project.service.WelcomeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.FileSystemUtils;
 
@@ -27,6 +24,9 @@ public class TestDataInit {
 
     @Autowired
     private FeedbackRequestService feedbackRequestService;
+
+    @Autowired
+    private WelcomeService welcomeService;
 
     private int bookId;
 
@@ -166,6 +166,14 @@ public class TestDataInit {
         feedbackRequestService.save(feedbackRequest5);
         feedbackRequestService.save(feedbackRequest6);
         feedbackRequestService.save(feedbackRequest7);
+
+
+        Welcome welcome = Welcome.builder()
+                .id(1L)
+                .body(new LocaleString("Здравствуйте", "Hello", "Bonjour", "Ciao", "Guten Tag", "Ahoj", "Γεια σας"))
+                .name("default")
+                .build();
+        welcomeService.editWelcome(welcome);
     }
 
     private void deleteDir(File file) {
