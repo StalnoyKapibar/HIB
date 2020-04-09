@@ -290,7 +290,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form id = "feedback-form">
                         <div class="form-group">
                             <label class="col-form-label" for="sender-name" id="enter-name">Your name: *</label>
                             <input class="form-control" id="sender-name" required type="text">
@@ -303,6 +303,7 @@
                             <label class="col-form-label" for="sender-message" id="enter-message">Message: *</label>
                             <textarea class="form-control" id="sender-message" required></textarea>
                         </div>
+                        <button type="submit" hidden id="hidden-submit-btn-feedback">HiddenButtonToSubmitFeedbackForm</button>
                     </form>
                 </div>
                 <div class="modal-footer">
