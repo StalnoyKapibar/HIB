@@ -108,9 +108,9 @@
                                     sec:authorize="hasRole('ADMIN')"
                                     type="button">Admin Panel
                             </button>
-                            <button class="dropdown-item"
+                            <button class="dropdown-item myprof-loc"
                                     id="profile" onclick="document.location.href='/cabinet'"
-                                    sec:authorize="!hasRole('ADMIN')"
+                                    sec:authorize="hasRole('USER')"
                                     type="button">Profile
                             </button>
                             <div class="dropdown-divider"></div>
