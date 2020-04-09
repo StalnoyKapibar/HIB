@@ -7,4 +7,6 @@ public interface WelcomeService {
     WelcomeLocaleDTO getWelcomeLocaleDTOByLocale(String locale);
 
     void editWelcome(Welcome welcome);
+
+    Welcome getById(Long id);
 }

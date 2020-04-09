@@ -13,7 +13,6 @@ let pathImageDefault = 'images/tmp/';
 var nameImageCover = '';
 
 $(document).ready(getVarBookDTO(), getAllLocales(), pageBook(0));
-
 async function getVarBookDTO() {
     await fetch("/getVarBookDTO")
         .then(status)
@@ -24,6 +23,19 @@ async function getVarBookDTO() {
 }
 
 async function getAllLocales() {
+    let welcomeText = [];
+    await fetch("/api/welcome/1")
+        .then(json)
+        .then((data) => {
+            const keys = Object.keys(data);
+            let i = 0;
+            for (let key in keys) {
+                if (key === 'id') {
+                    continue;
+                }
+                welcomeText[i++] = key.valueOf();
+            }
+        });
     await fetch("/lang")
         .then(status)
         .then(json)
@@ -33,9 +45,10 @@ async function getAllLocales() {
             nameVarOfLocaleStringWithId.unshift("id");
             nameVarOfLocaleString = nameVarOfLocaleStringWithId.filter(t => t !== "id");
             var html = '';
-            for (let tmp_html of nameVarOfLocaleString) {
+            for (let i = 0; i < nameVarOfLocaleString.length; i++) {
+                let tmp_html = nameVarOfLocaleString[i];
                 html += `<label for = ${tmp_html}>${tmp_html}</label>` +
-                    `<input type='text' class='form-control' id='${tmp_html}' ` +
+                    `<input type='text' class='form-control' value="${welcomeText[i]}" id='${tmp_html}' ` +
                     `aria-describedby='emailHelp'>`;
             }
             $('#form_id').html(html + `<button type='submit' onclick='funcStart()' class='btn btn-primary'>Submit</button>`);
@@ -54,7 +67,7 @@ function funcStart() {
 }
 
 async function updateWelcome(x) {
-    await fetch("/welcome/edit", {
+    await fetch("/api/admin/welcome/edit", {
         method: 'POST',
         body: x,
         headers: {

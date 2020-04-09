@@ -2,6 +2,7 @@ var currentLang = '';
 var bottom = '';
 var addToshoppingCart = '';
 var deleteBottom = '';
+let welcomeBlock = $("#welcome");
 
 $(document).ready(function () {
     if (currentLang == '') {
@@ -12,6 +13,7 @@ $(document).ready(function () {
     buildPageByCurrentLang();
     openModalLoginWindowOnFailure();
     showSizeCart();
+    loadWelcome(currentLang);
 });
 
 function buildPageByCurrentLang() {
@@ -39,7 +41,7 @@ function buildPageByCurrentLang() {
                     $('#modalBody').empty();
                     $('#modalHeader').append(data[index].nameAuthorDTOLocale);
                     $('#modalBody').append('<p>' + data[index].nameBookDTOLocale + '</p>');
-                    $('#modalBody').append('<img class="card-img-top" src="images/book' + data[index].id + '/' + data[index].coverImage + '" alt="Card image cap">')
+                    $('#modalBody').append('<img class="card-img-top" src="images/book' + data[index].id + '/' + data[index].coverImage + '" alt="Card image cap">');
                     $('#buttonOnBook').attr("action", '/page/' + data[index].id);
                 });
             });
@@ -69,7 +71,7 @@ $(document).ready(function () {
         }, 20)
 
     })
-})
+});
 
 function addToCart(id) {
     fetch("/cart/" + id, {
@@ -84,7 +86,7 @@ async function getCart() {
         .then(json)
         .then(function (data) {
             $("#shoppingCartDrop").empty();
-            let table = $('<div class="dropdown-item-text"><table class="table table-striped table-sm bg-white" />')
+            let table = $('<div class="dropdown-item-text"><table class="table table-striped table-sm bg-white" />');
             $.each(data, function (index) {
                 let book = data[index].book;
                 table.append('<tr></td><td><img src="../images/book' + book.id + '/' + book.coverImage + '" style="max-width: 60px"></td>+' +
@@ -95,7 +97,7 @@ async function getCart() {
                     '<td style="width: 20px"></td>' +
                     '<td class="mr-1"><button class="btn btn-info delete"  style="background-color: orangered" data-id="' + book.id + '">' + deleteBottom + '</button></td>' +
                     '</tr>');
-                table.append('<tr style="height: 15px" />')
+                table.append('<tr style="height: 15px" />');
                 $('#shoppingCartDrop').append(table);
             })
         })
@@ -105,7 +107,7 @@ async function getCart() {
 $(document).ready(function () {
     $("#showCart").on('show.bs.dropdown', function () {
         getCart();
-    })
+    });
     $("body").on('click', '.delete', function () {
         let id = $(this).attr("data-id");
         fetch('/cart/' + id, {
@@ -114,9 +116,17 @@ $(document).ready(function () {
             showSizeCart();
         })
     });
-})
+});
 
 function forgotPassword() {
     window.open('/resetPassword', '_blank');
+}
+
+async function loadWelcome(locale) {
+    await fetch("/api/welcome/locale/" + locale)
+        .then(json)
+        .then((welcome) => {
+            welcomeBlock.html(welcome.bodyWelcome);
+        })
 }
 

@@ -7,6 +7,8 @@ public interface WelcomeDAO {
     WelcomeLocaleDTO getWelcomeLocaleDTOByLocale(String locale);
 
     void editWelcome(Welcome welcome);
+
+    Welcome getById(Long id);
 }
 
 
