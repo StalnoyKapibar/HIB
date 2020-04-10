@@ -16,6 +16,7 @@ public class FooterServiceImpl implements FooterService {
         return footerDAO.getFooter();
     }
 
+    @Transactional
     @Override
     public Footer updateFooter(Footer footer) {
         return footerDAO.updateFooter(footer);

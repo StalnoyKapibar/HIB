@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Footer Fragment</title>
+</head>
+<body>
+<div aria-labelledby="v-pills-feedback-tab"
+     class="tab-pane fade mt-3 show active" id="v-pills-feedback" role="tabpanel"
+     th:fragment="edit-footer">
+    <script crossorigin="anonymous" src="https://kit.fontawesome.com/db08edad0b.js"></script>
+    <link href="/static/fonts/font.css" rel="stylesheet">
+    <link href="/static/fonts/font-awesome.css" rel="stylesheet">
+    <div class="card">
+        <div id="alert-container">
+        </div>
+        <div class="card-header">
+            <div class="container-fluid">
+                <div class="row">
+                    <h3 class="col-2">Edit footer</h3>
+                    <button class="btn btn-success offset-8 col-2" id="save-footer-btn">Save</button>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="container-fluid text-center footer pt-3 p-0 ">
+                <div class="footer_menu" id="footer-menu"></div>
+                <style>
+                    .footer .footer_link {
+                        margin-right: 10px;
+                        font-family: Pacifico;
+                        color: black;
+                        text-decoration: none;
+                    }
+
+                    a.footer_link:hover {
+                        transition: 0.3s;
+                        color: rgba(79, 170, 237, 1);
+                    }
+                </style>
+            </div>
+            <br>
+            <form>
+                <div class="row">
+                    <div class="col-sm-5">
+                        <input class="form-control" placeholder="Text" type="text">
+                    </div>
+                    <div class="col-sm-5 offset-1">
+                        <input class="form-control" placeholder="Link" type="text">
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-success offset-4" id="add-footer-link"><i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <br>
+            <div class="card">
+                <ul class="list-group list-group-flush" id="footer-edit-link-list"></ul>
+            </div>
+        </div>
+    </div>
+    <script src="/static/js/footerBuilder.js"></script>
+    <script src="/static/js/admin/editFooter.js"></script>
+</div>
+
+<div aria-hidden="true"
+     aria-labelledby="exampleModalLabel" class="modal fade" id="edit-link-modal" role="dialog"
+     tabindex="-1" th:fragment="modal-edit-link">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit link</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label class="col-form-label" for="footer-link-link">Link</label>
+                        <input class="form-control" id="footer-link-link" type="email">
+                    </div>
+                    <div class="form-group" id="footer-link-locale-rows"></div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+                <button class="btn btn-primary" id="submit-btn" onclick="" type="button">Edit
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

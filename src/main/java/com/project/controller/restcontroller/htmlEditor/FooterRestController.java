@@ -5,10 +5,7 @@ import com.project.service.htmlEditor.footer.FooterService;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 
@@ -32,9 +29,18 @@ public class FooterRestController {
 
     @PostMapping(API_ADMIN_FOOTER)
     public Footer createFooter(@RequestBody Footer footer) {
-        LOGGER.debug("POST request '/api/admin/html/footer' with {}", footer);
+        LOGGER.debug("POST request '" + API_ADMIN_FOOTER + "' with {}", footer);
         footer.setId(null);
         footer.setUpdateDate(new Date().getTime());
         return footerService.createFooter(footer);
     }
+
+    @PutMapping(API_ADMIN_FOOTER)
+    public Footer editFooter(@RequestBody Footer footer) {
+        LOGGER.debug("PUT request '" + API_ADMIN_FOOTER + "' with {}", footer);
+        LOGGER.info("PUT request '" + API_ADMIN_FOOTER + "' with {}", footer);
+        footer.setId(1L);
+        return footerService.updateFooter(footer);
+    }
+
 }
