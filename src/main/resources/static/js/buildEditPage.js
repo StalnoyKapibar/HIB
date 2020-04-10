@@ -39,7 +39,7 @@ function buildPage() {
                     `placeholder='${tmpNameObject} ${tmpNameVar}' readonly>` +
                     `</div></div>`;
             } else {
-                html1 += `<div class='col'><div class='form-group col'>` +
+                html1 += `<div class='col'><div class='form-group'>` +
                     `<label for='${tmpNameObject}${tmpNameVar}'>${tmpNameObject} ${tmpNameVar}</label>` +
                     `<input type='text' class='form-control' id='${tmpNameObject}${tmpNameVar}' ` +
                     `placeholder='${tmpNameObject} ${tmpNameVar}'>` +
