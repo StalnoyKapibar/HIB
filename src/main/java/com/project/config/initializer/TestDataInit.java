@@ -187,6 +187,21 @@ public class TestDataInit {
         links.add(new Link(null, new LocaleString("Главная",
                 "Main", "Principale", "Principale",
                 "Zuhause", "Domu", "αρχική σελίδα"), "/home"));
+        links.add(new Link(null, new LocaleString("Главная",
+                "User's Manual", "Principale", "Principale",
+                "Zuhause", "Domu", "αρχική σελίδα"), "#"));
+        links.add(new Link(null, new LocaleString("Главная",
+                "How to order", "Principale", "Principale",
+                "Zuhause", "Domu", "αρχική σελίδα"), "#"));
+        links.add(new Link(null, new LocaleString("Главная",
+                "Authors list", "Principale", "Principale",
+                "Zuhause", "Domu", "αρχική σελίδα"), "#"));
+        links.add(new Link(null, new LocaleString("Главная",
+                "Theme links", "Principale", "Principale",
+                "Zuhause", "Domu", "αρχική σελίδα"), "#"));
+        links.add(new Link(null, new LocaleString("Главная",
+                "Contact - Locations", "Principale", "Principale",
+                "Zuhause", "Domu", "αρχική σελίδα"), "#"));
         footer.setUpdateDate(new Date().getTime());
         footer.setLinks(links);
         footerService.createFooter(footer);
