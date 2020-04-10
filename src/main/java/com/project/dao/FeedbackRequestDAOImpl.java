@@ -16,6 +16,11 @@ public class FeedbackRequestDAOImpl implements FeedbackRequestDAO {
     private final EntityManager entityManager;
 
     @Override
+    public List<FeedbackRequest> findAll() {
+        return entityManager.createQuery("FROM FeedbackRequest", FeedbackRequest.class).getResultList();
+    }
+
+    @Override
     public List<FeedbackRequest> findAllByOrderByRepliedAsc() {
         return entityManager
                 .createQuery("FROM FeedbackRequest f ORDER BY f.replied ASC", FeedbackRequest.class)
@@ -35,5 +40,12 @@ public class FeedbackRequestDAOImpl implements FeedbackRequestDAO {
             entityManager.merge(feedbackRequest);
         }
         return feedbackRequest;
+    }
+
+    @Override
+    public List<FeedbackRequest> getByReplied(Boolean replied) {
+        return entityManager
+                .createQuery("FROM FeedbackRequest f WHERE replied = :replied", FeedbackRequest.class)
+                .setParameter("replied", replied).getResultList();
     }
 }

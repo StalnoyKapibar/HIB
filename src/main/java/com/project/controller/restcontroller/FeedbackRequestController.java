@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.HtmlUtils;
 
@@ -30,21 +29,14 @@ public class FeedbackRequestController {
         LOGGER.debug("POST request '/feedback-request' with {}", feedbackRequest);
         feedbackRequest.setId(null);
         feedbackRequest.setReplied(false);
-        feedbackRequest.setSenderName(HtmlUtils.htmlEscape(feedbackRequest
-                .getSenderName()
-                .replaceAll("'", "")));
-        feedbackRequest.setContent(HtmlUtils.htmlEscape(feedbackRequest
-                .getContent()
-                .replaceAll("'", "")));
-        feedbackRequest.setSenderEmail(HtmlUtils.htmlEscape(feedbackRequest
-                .getSenderEmail()
-                .replaceAll("'", "")));
+        feedbackRequest.setSenderName(HtmlUtils.htmlEscape(feedbackRequest.getSenderName()));
+        feedbackRequest.setContent(HtmlUtils.htmlEscape(feedbackRequest.getContent()));
+        feedbackRequest.setSenderEmail(HtmlUtils.htmlEscape(feedbackRequest.getSenderEmail()));
         return feedbackRequestService.save(feedbackRequest);
     }
 
     @SuppressWarnings("all")
     @PostMapping("/api/admin/feedback-request/reply/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
     public void send(@PathVariable Long id, @RequestBody SimpleMailMessage simpleMailMessage) {
         LOGGER.debug("POST request '/feedback-request/reply/{}' with {}", id, simpleMailMessage);
         FeedbackRequest feedbackRequest = feedbackRequestService.getById(id);
@@ -55,13 +47,16 @@ public class FeedbackRequestController {
         mailService.sendEmail(simpleMailMessage);
     }
 
-    @GetMapping("/api/admin/feedback-request")
-    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping(value = "/api/admin/feedback-request", params = "!replied")
     public List<FeedbackRequest> getAll() {
         return feedbackRequestService.findAll();
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/api/admin/feedback-request")
+    public List<FeedbackRequest> getByReplied(@RequestParam Boolean replied) {
+        return feedbackRequestService.getByReplied(replied);
+    }
+
     @GetMapping("/api/admin/feedback-request/{id}")
     public FeedbackRequest getById(@PathVariable Long id) {
         return feedbackRequestService.getById(id);
