@@ -10,4 +10,6 @@ public interface FooterDAO {
     Footer createFooter(Footer footer);
 
     void deleteFooter();
+
+    Long getUpdateDate();
 }

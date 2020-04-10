@@ -35,4 +35,11 @@ public class FooterDAOImpl implements FooterDAO {
                 .createQuery("DELETE Footer WHERE id = :id", Footer.class)
                 .setParameter("id", footer.getId());
     }
+
+    @Override
+    public Long getUpdateDate() {
+        return entityManager
+                .createQuery("SELECT new java.lang.Long(f.updateDate) FROM Footer f", Long.class)
+                .getSingleResult();
+    }
 }

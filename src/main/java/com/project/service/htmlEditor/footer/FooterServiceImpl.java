@@ -31,4 +31,9 @@ public class FooterServiceImpl implements FooterService {
     public void deleteFooter() {
         footerDAO.deleteFooter();
     }
+
+    @Override
+    public Long getUpdateDate() {
+        return footerDAO.getUpdateDate();
+    }
 }

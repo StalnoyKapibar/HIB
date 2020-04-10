@@ -15,4 +15,6 @@ public class Footer {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Link> links;
+
+    private Long updateDate;
 }

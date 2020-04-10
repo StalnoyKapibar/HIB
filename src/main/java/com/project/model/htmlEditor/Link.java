@@ -1,13 +1,13 @@
 package com.project.model.htmlEditor;
 
+import com.project.model.LocaleString;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
+@Data
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,7 +16,8 @@ public class Link {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String text;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private LocaleString text;
 
     private String link;
 }

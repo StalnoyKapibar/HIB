@@ -10,4 +10,6 @@ public interface FooterService {
     Footer createFooter(Footer footer);
 
     void deleteFooter();
+
+    Long getUpdateDate();
 }

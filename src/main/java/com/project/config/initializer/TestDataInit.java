@@ -1,9 +1,12 @@
 package com.project.config.initializer;
 
 import com.project.model.*;
+import com.project.model.htmlEditor.Link;
+import com.project.model.htmlEditor.footer.Footer;
 import com.project.service.BookService;
 import com.project.service.FeedbackRequestService;
 import com.project.service.WelcomeService;
+import com.project.service.htmlEditor.footer.FooterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.FileSystemUtils;
 
@@ -13,6 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /*
@@ -27,6 +31,9 @@ public class TestDataInit {
 
     @Autowired
     private WelcomeService welcomeService;
+
+    @Autowired
+    private FooterService footerService;
 
     private int bookId;
 
@@ -174,6 +181,15 @@ public class TestDataInit {
                 .name("default")
                 .build();
         welcomeService.editWelcome(welcome);
+
+        Footer footer = new Footer();
+        List<Link> links = new ArrayList<>();
+        links.add(new Link(null, new LocaleString("Главная",
+                "Main", "Principale", "Principale",
+                "Zuhause", "Domu", "αρχική σελίδα"), "/home"));
+        footer.setUpdateDate(new Date().getTime());
+        footer.setLinks(links);
+        footerService.createFooter(footer);
     }
 
     private void deleteDir(File file) {
