@@ -13,7 +13,8 @@ let pathImageDefault = 'images/tmp/';
 var nameImageCover = '';
 let welcomeText = [];
 
-$(document).ready(getVarBookDTO(), getAllLocales(), pageBook(0));
+$(document).ready(getVarBookDTO(), getAllLocales());
+
 async function getVarBookDTO() {
     await fetch("/getVarBookDTO")
         .then(status)
@@ -46,6 +47,7 @@ async function getAllLocales() {
                     `aria-describedby='emailHelp'>${welcomeText[i + 1]}</textarea>`;
             }
             $('#form_id').html(html + `<button type='submit' onclick='funcStart()' class='btn btn-primary'>Submit</button>`);
+            pageBook(0);
         })
 }
 
@@ -123,7 +125,7 @@ async function pageBook(x) {
                 for (key in tmp_html) {
                     if (tmp_html[key] !== null) {
                         if (key !== "id" && key !== "coverImage" && key !== "imageList" && key !== "desc" && key !== "edition"
-                            && key !== "yearOfEdition" && key !== "pages" && key !== "price" && key!=="originalLanguage") {
+                            && key !== "yearOfEdition" && key !== "pages" && key !== "price" && key !== "originalLanguage" && key !== "otherLanguageOfBook" && key!=="statusInStock") {
                             var ad = tmp_html[key][idChangeLang];
                             html += `<td id='n${tmp_html.id}'>${ad}</td>`;
                         }
