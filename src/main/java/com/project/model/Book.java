@@ -50,6 +50,8 @@ public class Book {
 
     @Column
     private Long views;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private OtherLanguage otherLanguageOfBook;
 
     private Boolean statusInStock;
 }

@@ -15,6 +15,11 @@ public class FeedbackRequestServiceImpl implements FeedbackRequestService {
 
     @Override
     public List<FeedbackRequest> findAll() {
+        return feedbackRequestDAO.findAll();
+    }
+
+    @Override
+    public List<FeedbackRequest> findAllByOrderByRepliedAsc() {
         return feedbackRequestDAO.findAllByOrderByRepliedAsc();
     }
 
@@ -27,5 +32,10 @@ public class FeedbackRequestServiceImpl implements FeedbackRequestService {
     @Override
     public FeedbackRequest save(FeedbackRequest feedbackRequest) {
         return feedbackRequestDAO.save(feedbackRequest);
+    }
+
+    @Override
+    public List<FeedbackRequest> getByReplied(Boolean replied) {
+        return feedbackRequestDAO.getByReplied(replied);
     }
 }
