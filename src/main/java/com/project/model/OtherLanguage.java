@@ -12,8 +12,12 @@ public class OtherLanguage {
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @Column
     private String translitNameBook;
+    @Column
     private String translitAuthor;
+    @Column
     private String otherLangNameBook;
+    @Column
     private String otherLangAuthor;
 }
