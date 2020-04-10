@@ -25,6 +25,7 @@ public class BookDAOImpl implements BookDAO {
                 .coverImage(book.getCoverImage())
                 .originalLanguage(book.getOriginalLanguage())
                 .imageList(book.getListImage())
+                .otherLanguageOfBook(book.getOtherLanguageOfBook())
                 .statusInStock(book.getStatusInStock())
                 .build();
     }
@@ -42,6 +43,7 @@ public class BookDAOImpl implements BookDAO {
                     .coverImage(bookDTO.getCoverImage())
                     .originalLanguage(bookDTO.getOriginalLanguage())
                     .listImage(bookDTO.getImageList())
+                    .otherLanguageOfBook(bookDTO.getOtherLanguageOfBook())
                     .statusInStock(bookDTO.getStatusInStock())
                     .build();
         }

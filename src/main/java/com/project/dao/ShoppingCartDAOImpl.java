@@ -50,7 +50,7 @@ public class ShoppingCartDAOImpl implements ShoppingCartDAO {
                         cartItemDTO.getBook().getCoverImage(),
                         cartItemDTO.getBook().getOriginalLanguage(),
                         cartItemDTO.getBook().getImageList(),
-                        0L, cartItemDTO.getBook().getStatusInStock()), cartItemDTO.getQuantity()));
+                        0L, cartItemDTO.getBook().getOtherLanguageOfBook(), cartItemDTO.getBook().getStatusInStock()), cartItemDTO.getQuantity()));
             } else {
                 items.add(new CartItem(new Book(cartItemDTO.getBook().getId(),
                         cartItemDTO.getBook().getName(),
@@ -63,7 +63,7 @@ public class ShoppingCartDAOImpl implements ShoppingCartDAO {
                         cartItemDTO.getBook().getCoverImage(),
                         cartItemDTO.getBook().getOriginalLanguage(),
                         cartItemDTO.getBook().getImageList(),
-                        0L, cartItemDTO.getBook().getStatusInStock()), cartItemDTO.getQuantity()));
+                        0L, cartItemDTO.getBook().getOtherLanguageOfBook(), cartItemDTO.getBook().getStatusInStock()), cartItemDTO.getQuantity()));
             }
         }
         updateCart.setCartItems(items);
