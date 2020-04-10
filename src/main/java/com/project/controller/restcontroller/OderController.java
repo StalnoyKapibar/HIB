@@ -1,9 +1,7 @@
 package com.project.controller.restcontroller;
 
-import com.project.model.AddressDTO;
-import com.project.model.Order;
-import com.project.model.OrderDTO;
-import com.project.model.ShoppingCartDTO;
+import com.project.model.*;
+import com.project.service.BookService;
 import com.project.service.OrderService;
 import com.project.service.ShoppingCartService;
 import com.project.service.UserAccountService;
@@ -25,6 +23,7 @@ public class OderController {
     private ShoppingCartService cartService;
     private OrderService orderService;
     private UserAccountService userAccountService;
+    private BookService bookService;
 
 
     @PostMapping("/order/confirmaddress")
@@ -47,6 +46,10 @@ public class OderController {
         Long userId = (Long) httpSession.getAttribute("userId");
         order.setUserAccount(userAccountService.getUserById(userId));
         ShoppingCartDTO shoppingCartDTO = cartService.getCartById((Long) httpSession.getAttribute("cartId"));
+        for (CartItemDTO cartItemDTO : shoppingCartDTO.getCartItems()) {
+            cartItemDTO.getBook().setStatusInStock(false);
+            bookService.updateBook(cartItemDTO.getBook());
+        }
         shoppingCartDTO.getCartItems().clear();
         cartService.updateCart(shoppingCartDTO);
         orderService.addOrder(order.getOder());

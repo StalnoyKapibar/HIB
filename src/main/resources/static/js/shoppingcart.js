@@ -1,4 +1,6 @@
 var currentLang = '';
+let listOders = '';
+let totalPrice = 0;
 $(document).ready(function () {
     if (currentLang == '') {
         currentLang = $('#dd_menu_link').data('currentLang');
@@ -8,7 +10,6 @@ $(document).ready(function () {
     openModalLoginWindowOnFailure();
     getCart();
 });
-let totalPrice = 0;
 
 function getCart() {
     setTimeout(async function () {
@@ -22,13 +23,19 @@ function getCart() {
                 $.each(data, function (index) {
                     let book = data[index].book;
                     totalPrice += book.price * data[index].quantity;
+                    let badStatus = '';
+                    if (book.statusInStock === false) {
+                        bookStatus = book.statusInStock;
+                        badStatus = '<p style="color: #b21f2d">Out of Stock</p>'
+                        $('#checkout').prop('disabled', true)
+                    }
                     let row = $('<tr id="trr"/>');
                     let cell = $('<td width="10"></td>');
                     row.append(cell);
                     cell = '<td class="align-middle"><img src="../images/book' + book.id + '/' + book.coverImage + '" style="max-width: 60px"></td>' +
-                        '<td class="align-middle">' + book.name[currentLang] + ' | ' + book.author[currentLang] + '</td>' +
+                        '<td class="align-middle">' + book.name[currentLang] + ' | ' + book.author[currentLang] + badStatus + '</td>' +
                         '<td class="align-middle" id="book' + book.id + '">' + book.price + '</td>' +
-                        '<td class="align-middle"><div class="product-quantity" > <input id="value' + book.id + '" type="number" value="' + data[index].quantity + '" min="1" style="width: 45px" data-id="' + book.id + '" data-value="' + data[index].quantity + '"></div></td>' +
+                        '<td class="align-middle"><div class="product-quantity" > <input id="value' + book.id + '" type="number" value="' + data[index].quantity + '" min="1" style="width: 45px" data-id="' + book.id + '" data-value="' + data[index].quantity + '" disabled></div></td>' +
                         '<td class="align-middle" ><button class="btn btn-info delete"  style="background-color: orangered" data-id="' + book.id + '">' + deleteBottom + '</button></td>';
                     row.append(cell);
                     row.appendTo('#newTab');
@@ -147,7 +154,9 @@ let order = '';
 function confirmPurchase() {
     fetch('/order');
     showShoppingCart();
-    getCart();
+    setTimeout(function () {
+        getCart();
+    }, 10)
 }
 
 async function enterAddress() {
@@ -217,11 +226,17 @@ function showOrderSum() {
     $('#orderTab').empty();
     $.each(items, function (index) {
         let book = items[index].book;
+        let badStatus = '';
+        if (book.statusInStock === false) {
+            bookStatus = book.statusInStock;
+            badStatus = '<p style="color: #b21f2d">Out of Stock</p>'
+            $('#buyBotton').prop('disabled', true)
+        }
         let row = $('<tr id="trr"/>');
         let cell = $('<td width="10"></td>');
         row.append(cell);
         cell = '<td class="align-middle"><img src="../images/book' + book.id + '/' + book.coverImage + '" style="max-width: 60px"></td>' +
-            '<td class="align-middle">' + book.name[currentLang] + ' | ' + book.author[currentLang] + '</td>' +
+            '<td class="align-middle">' + book.name[currentLang] + ' | ' + book.author[currentLang] + badStatus + '</td>' +
             '<td class="align-middle" id="book' + book.id + '">' + book.price + '</td>' +
             '<td class="align-middle"><div class="product-quantity" >' + items[index].quantity + '</div></td>';
         row.append(cell);
@@ -242,8 +257,6 @@ function showOrderSum() {
         '<p>' + address.country + '</p>');
     shipping.appendTo('#shippingaddress');
 }
-
-let listOders = '';
 
 async function showListOrders() {
     await fetch("/order/getorders")
@@ -279,7 +292,7 @@ function showCarrentOrder(index) {
         row.append(cell);
         row.appendTo('#ordermodalbody');
     });
-    $('#modalHeader').text('Order No. '+order.id);
+    $('#modalHeader').text('Order No. ' + order.id);
     $('#ordestatus').text(order.status);
     $('#ordertrack').text(order.trackingNumber);
     $('#subtotalordermodal').text(order.itemsCost);

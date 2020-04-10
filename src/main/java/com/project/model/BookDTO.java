@@ -23,5 +23,6 @@ public class BookDTO {
     private String coverImage;
     @Singular("imageList")
     private List<Image> imageList;
+    private Boolean statusInStock;
 
 }

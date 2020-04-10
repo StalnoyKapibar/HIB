@@ -1,9 +1,6 @@
 package com.project.dao;
 
-import com.project.model.CartItem;
-import com.project.model.CartItemDTO;
-import com.project.model.ShoppingCart;
-import com.project.model.ShoppingCartDTO;
+import com.project.model.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -42,9 +39,31 @@ public class ShoppingCartDAOImpl implements ShoppingCartDAO {
         List<CartItem> items = new ArrayList<>();
         for (CartItemDTO cartItemDTO : cart.getCartItems()) {
             if (cartItemDTO.getId() != null) {
-                items.add(new CartItem(cartItemDTO.getId(), bookDAO.getBookById(cartItemDTO.getBook().getId()), cartItemDTO.getQuantity()));
+                items.add(new CartItem(cartItemDTO.getId(), new Book(cartItemDTO.getBook().getId(),
+                        cartItemDTO.getBook().getName(),
+                        cartItemDTO.getBook().getAuthor(),
+                        cartItemDTO.getBook().getDesc(),
+                        cartItemDTO.getBook().getEdition(),
+                        cartItemDTO.getBook().getYearOfEdition(),
+                        cartItemDTO.getBook().getPages(),
+                        cartItemDTO.getBook().getPrice(),
+                        cartItemDTO.getBook().getCoverImage(),
+                        cartItemDTO.getBook().getOriginalLanguage(),
+                        cartItemDTO.getBook().getImageList(),
+                        0L, cartItemDTO.getBook().getStatusInStock()), cartItemDTO.getQuantity()));
             } else {
-                items.add(new CartItem(bookDAO.getBookById(cartItemDTO.getBook().getId()), cartItemDTO.getQuantity()));
+                items.add(new CartItem(new Book(cartItemDTO.getBook().getId(),
+                        cartItemDTO.getBook().getName(),
+                        cartItemDTO.getBook().getAuthor(),
+                        cartItemDTO.getBook().getDesc(),
+                        cartItemDTO.getBook().getEdition(),
+                        cartItemDTO.getBook().getYearOfEdition(),
+                        cartItemDTO.getBook().getPages(),
+                        cartItemDTO.getBook().getPrice(),
+                        cartItemDTO.getBook().getCoverImage(),
+                        cartItemDTO.getBook().getOriginalLanguage(),
+                        cartItemDTO.getBook().getImageList(),
+                        0L, cartItemDTO.getBook().getStatusInStock()), cartItemDTO.getQuantity()));
             }
         }
         updateCart.setCartItems(items);

@@ -50,4 +50,6 @@ public class Book {
 
     @Column
     private Long views;
+
+    private Boolean statusInStock;
 }

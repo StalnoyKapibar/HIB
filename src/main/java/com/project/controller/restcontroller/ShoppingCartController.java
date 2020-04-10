@@ -53,8 +53,9 @@ public class ShoppingCartController {
         Long cartId = (Long) session.getAttribute("cartId");
         if (cartId != null) {
             ShoppingCartDTO shoppingCartDTO = cartService.getCartById(cartId);
-            shoppingCartDTO.addCartItem(bookDTO);
-            cartService.updateCart(shoppingCartDTO);
+            if (shoppingCartDTO.addCartItem(bookDTO)) {
+                cartService.updateCart(shoppingCartDTO);
+            }
         } else {
             ShoppingCartDTO shoppingCart = (ShoppingCartDTO) session.getAttribute("shoppingcart");
             shoppingCart.addCartItem(bookDTO);

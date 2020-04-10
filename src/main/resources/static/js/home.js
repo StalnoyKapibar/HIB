@@ -3,6 +3,7 @@ var bottom = '';
 var addToshoppingCart = '';
 var deleteBottom = '';
 let welcomeBlock = $("#welcome");
+let outOfStock = '';
 
 $(document).ready(function () {
     if (currentLang == '') {
@@ -30,8 +31,13 @@ function buildPageByCurrentLang() {
                     divBody.append('<h4 class="card-title" style="overflow: auto; height:100px">' + data[index].nameAuthorDTOLocale + '</h4>');
                     divBody.append('<p class="card-text">' + data[index].nameBookDTOLocale + '</p>');
                     divBody.append('<br>');
-                    divBody.append('<div style="position: absolute; bottom: 5px"><button id="bottomInCart"type="button" class="btn btn-success btn-sm  mr-1"  data-id="' + data[index].id + '">' + addToshoppingCart + '</button>' +
-                        '<button type="button" id="bookbotom"class="btn btn-primary btn-sm mr-1"  data-toggle="modal" data-target="#myModal"  data-book-index="' + index + '">' + bottom + '</button></div>');
+                    if (data[index].statusInStock) {
+                        divBody.append('<div style="position: absolute; bottom: 5px"><button id="bottomInCart"type="button" class="btn btn-success btn-sm  mr-1" data-id="' + data[index].id + '">' + addToshoppingCart + '</button>' +
+                            '<button type="button" id="bookbotom"class="btn btn-primary btn-sm mr-1"  data-toggle="modal" data-target="#myModal"  data-book-index="' + index + '">' + bottom + '</button></div>');
+                    } else {
+                        divBody.append('<div style="position: absolute; bottom: 5px"><button id="bottomInCart"type="button" class="btn btn-warning btn-sm  mr-1" disabled data-id="' + data[index].id + '" style="">' + outOfStock + '</button>' +
+                            '<button type="button" id="bookbotom"class="btn btn-primary btn-sm mr-1"  data-toggle="modal" data-target="#myModal"  data-book-index="' + index + '">' + bottom + '</button></div>');
+                    }
                     div.append(divBody);
                     div.appendTo('#cardcolumns');
                 });

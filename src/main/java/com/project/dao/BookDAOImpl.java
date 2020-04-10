@@ -1,10 +1,6 @@
 package com.project.dao;
 
-import com.project.model.Book;
-import com.project.model.BookDTO;
-import com.project.model.BookDTO20;
-import com.project.model.LocaleString;
-import com.project.model.PageableBookDTO;
+import com.project.model.*;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
@@ -16,7 +12,7 @@ import java.util.List;
 @Repository
 public class BookDAOImpl implements BookDAO {
 
-    private BookDTO getBookDTOFromBook(Book book){
+    private BookDTO getBookDTOFromBook(Book book) {
         return BookDTO.builder()
                 .id(book.getId())
                 .name(book.getNameLocale())
@@ -29,11 +25,28 @@ public class BookDAOImpl implements BookDAO {
                 .coverImage(book.getCoverImage())
                 .originalLanguage(book.getOriginalLanguage())
                 .imageList(book.getListImage())
+                .statusInStock(book.getStatusInStock())
                 .build();
     }
 
-    private Book getBookFromBookDTO(BookDTO bookDTO){
+    private Book getBookFromBookDTO(BookDTO bookDTO) {
+        if (bookDTO.getId() == 0) {
+            return Book.builder()
+                    .authorLocale(bookDTO.getAuthor())
+                    .nameLocale(bookDTO.getName())
+                    .desc(bookDTO.getDesc())
+                    .edition(bookDTO.getEdition())
+                    .yearOfEdition(bookDTO.getYearOfEdition())
+                    .pages(bookDTO.getPages())
+                    .price(bookDTO.getPrice())
+                    .coverImage(bookDTO.getCoverImage())
+                    .originalLanguage(bookDTO.getOriginalLanguage())
+                    .listImage(bookDTO.getImageList())
+                    .statusInStock(bookDTO.getStatusInStock())
+                    .build();
+        }
         return Book.builder()
+                .id(bookDTO.getId())
                 .authorLocale(bookDTO.getAuthor())
                 .nameLocale(bookDTO.getName())
                 .desc(bookDTO.getDesc())
@@ -44,6 +57,7 @@ public class BookDAOImpl implements BookDAO {
                 .coverImage(bookDTO.getCoverImage())
                 .originalLanguage(bookDTO.getOriginalLanguage())
                 .listImage(bookDTO.getImageList())
+                .statusInStock(bookDTO.getStatusInStock())
                 .build();
     }
 
@@ -91,7 +105,6 @@ public class BookDAOImpl implements BookDAO {
     }
 
 
-
     @Override
     public void updateBook(BookDTO bookDTO) {
         entityManager.merge(getBookFromBookDTO(bookDTO));
@@ -99,7 +112,7 @@ public class BookDAOImpl implements BookDAO {
 
     @Override
     public List<BookDTO20> get20BookDTO(String locale) {
-        String query = ("SELECT new com.project.model.BookDTO20(b.id, b.nameLocale.LOC, b.authorLocale.LOC, b.price, b.coverImage)" +
+        String query = ("SELECT new com.project.model.BookDTO20(b.id, b.nameLocale.LOC, b.authorLocale.LOC, b.price, b.coverImage, b.statusInStock)" +
                 "FROM Book b ORDER BY RAND()")
                 .replaceAll("LOC", locale);
         List<BookDTO20> listBookDTO = entityManager.createQuery(query, BookDTO20.class).setMaxResults(20).getResultList();

@@ -16,4 +16,5 @@ public class BookDTO20 {
     private String nameBookDTOLocale;
     private Long price;
     private String coverImage;
+    private Boolean statusInStock;
 }

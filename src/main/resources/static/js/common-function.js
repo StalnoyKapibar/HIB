@@ -2,6 +2,7 @@ var currentLang = '';
 var bottom = '';
 var addToshoppingCart = '';
 var deleteBottom = '';
+
 function sendSignInForm() {
     $('#hidden_submit_btn').click();
 }
@@ -15,6 +16,10 @@ function setLocaleFields() {
         .then(status)
         .then(json)
         .then(function (localeFields) {
+            bottom = localeFields['bookbotom'];
+            addToshoppingCart = localeFields['addToshoppingCart'];
+            deleteBottom = localeFields['deleteBottom'];
+            outOfStock = localeFields['outOfStock'];
             $('#link_main_footer').text(localeFields['main1']);
             $('#link_instruction').text(localeFields['instruction']);
             $('#link_authors').text(localeFields['authors']);
@@ -26,9 +31,6 @@ function setLocaleFields() {
             $('#link_books_header').text(localeFields['books']);
             $('#menu-toggle').text(localeFields['category']);
             $('#headpost').text(localeFields['headpost']);
-            bottom = localeFields['bookbotom'];
-            addToshoppingCart = localeFields['addToshoppingCart'];
-            deleteBottom = localeFields['deleteBottom'];
             $('#modalClose').text(localeFields['close']);
             $('#buttonBookPage').text(localeFields['pageofBook']);
             $('#dropdownclose').text(localeFields['dropdownclose']);
@@ -40,7 +42,7 @@ function setLocaleFields() {
             $('#book_author').text(localeFields['book_author']);
             $('#totalPrice').text(localeFields['totalprice']);
             $('#headershoppingcart').text(localeFields['headershoppingcart']);
-            $('#chechout').text(localeFields['chechout']);
+            $('#checkout').text(localeFields['chechout']);
             $('#shoppingcart').text(localeFields['headershoppingcart']);
             $('#myprof').text(localeFields['myprofile']);
             $('#oders').text(localeFields['oders']);

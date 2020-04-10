@@ -3,8 +3,8 @@ package com.project.controller.restcontroller;
 import com.project.HIBParser.HibParser;
 import com.project.model.BookDTO;
 import com.project.model.BookDTO20;
-import com.project.search.BookSearch;
 import com.project.model.PageableBookDTO;
+import com.project.search.BookSearch;
 import com.project.service.BookService;
 import com.project.service.StorageService;
 import com.project.util.BookDTOWithFieldsForTable;
@@ -35,16 +35,18 @@ public class BookController {
     private StorageService storageService;
 
     @PutMapping("/loadFile")
-    public BookDTO loadFile(@RequestBody String book){
+    public BookDTO loadFile(@RequestBody String book) {
         BookDTO bookDTO = hibParser.getBookFromJSON(book);
         return bookDTO;
     }
 
     @PutMapping("/admin/addBook")
-    public HttpStatus addNewBook(@RequestBody BookDTO bookDTO){
+    public HttpStatus addNewBook(@RequestBody BookDTO bookDTO) {
+        bookDTO.setStatusInStock(true);
         bookService.addBook(bookDTO);
         return HttpStatus.OK;
     }
+
     @GetMapping("/getBookDTOById/{id}")
     public BookDTO getBookDTOById(@PathVariable("id") long id) {
         BookDTO bookDTO = bookService.getBookDTOById(id);

@@ -3,6 +3,7 @@ let pathImageDefault = '../images/book';
 let objectBook;
 let idCoverImage;
 let tmpEditBookId;
+let outOfStock = '';
 
 $(document).ready(function () {
     if (currentLang == '') {
@@ -25,6 +26,11 @@ function setPageFields() {
         $('#book-author').text(data.author[currentLang]);
         $('#book-name1').text(data.name[currentLang]);
         $('#bottomInCart').attr('data-id', data.id);
+        if (data.statusInStock === false) {
+            $('#bottomInCart').attr('class', 'btn btn-warning btn-sm  mr-1');
+            $('#bottomInCart').text(outOfStock)
+            $('#bottomInCart').prop('disabled', true)
+        }
         buildCardImageOrCarousel();
     })
 }
