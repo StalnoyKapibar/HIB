@@ -15,7 +15,7 @@ $('#feedback-form').submit(async () => {
         senderEmail: senderEmailInput.val(),
         content: senderMessageInput.val()
     };
-    await fetch("/api/v1/feedback-request", {
+    await fetch("/api/feedback-request", {
         method: 'POST',
         body: JSON.stringify(FeedbackRequest),
         headers: {

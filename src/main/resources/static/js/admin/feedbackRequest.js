@@ -23,7 +23,7 @@ $(document).ready(function () {
 });
 
 async function getFeedbackRequestTable(replied) {
-    await fetch("/api/v1/admin/feedback-request?replied=" + replied)
+    await fetch("/api/admin/feedback-request?replied=" + replied)
         .then(json)
         .then((data) => {
             tableBody.empty();
@@ -69,16 +69,12 @@ $(document).on('click', '.btn-reply', function () {
     theModal.modal('show');
 });
 
-async function reply(id, senderName, email, content) {
-
-}
-
 $(document).on('click', '#submit-btn', async () => {
     let SimpleMailMessage = {
         subject: replySubject.val(),
         text: replyMessage.val(),
     };
-    await fetch("/api/v1/admin/feedback-request/reply/" + replyId.val(), {
+    await fetch("/api/admin/feedback-request/reply/" + replyId.val(), {
         method: 'POST',
         body: JSON.stringify(SimpleMailMessage),
         headers: {
