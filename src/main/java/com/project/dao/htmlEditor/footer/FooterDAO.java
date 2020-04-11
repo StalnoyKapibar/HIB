@@ -12,4 +12,6 @@ public interface FooterDAO {
     void deleteFooter();
 
     Long getUpdateDate();
+
+    void deleteOldLinks(Footer footer);
 }

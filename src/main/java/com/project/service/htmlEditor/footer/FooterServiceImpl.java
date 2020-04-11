@@ -19,6 +19,7 @@ public class FooterServiceImpl implements FooterService {
     @Transactional
     @Override
     public Footer updateFooter(Footer footer) {
+        footerDAO.deleteOldLinks(footer);
         return footerDAO.updateFooter(footer);
     }
 

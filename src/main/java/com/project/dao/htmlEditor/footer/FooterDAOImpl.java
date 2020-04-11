@@ -1,5 +1,6 @@
 package com.project.dao.htmlEditor.footer;
 
+import com.project.model.htmlEditor.Link;
 import com.project.model.htmlEditor.footer.Footer;
 import org.springframework.stereotype.Repository;
 
@@ -41,5 +42,12 @@ public class FooterDAOImpl implements FooterDAO {
         return entityManager
                 .createQuery("SELECT new java.lang.Long(f.updateDate) FROM Footer f", Long.class)
                 .getSingleResult();
+    }
+
+    @Override
+    public void deleteOldLinks(Footer footer) {
+        for (Link link : footer.getLinks()) {
+            entityManager.remove(entityManager.contains(link) ? link : entityManager.merge(link));
+        }
     }
 }

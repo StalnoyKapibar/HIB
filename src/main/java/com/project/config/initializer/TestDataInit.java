@@ -187,7 +187,7 @@ public class TestDataInit {
         links.add(new Link(null, new LocaleString("Главная",
                 "Main", "Principale", "Principale",
                 "Zuhause", "Domu", "αρχική σελίδα"), "/home"));
-        links.add(new Link(null, new LocaleString("Главная",
+        links.add(new Link(null, new LocaleString("Руководство пользователя",
                 "User's Manual", "Principale", "Principale",
                 "Zuhause", "Domu", "αρχική σελίδα"), "#"));
         links.add(new Link(null, new LocaleString("Главная",
