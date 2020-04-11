@@ -13,6 +13,7 @@ public class Footer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @OrderBy("id ASC")
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Link> links;
 

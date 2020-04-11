@@ -38,7 +38,7 @@ public class FooterRestController {
     @PutMapping(API_ADMIN_FOOTER)
     public Footer editFooter(@RequestBody Footer footer) {
         LOGGER.debug("PUT request '" + API_ADMIN_FOOTER + "' with {}", footer);
-        LOGGER.info("PUT request '" + API_ADMIN_FOOTER + "' with {}", footer);
+        footer.setUpdateDate(new Date().getTime());
         footer.setId(1L);
         return footerService.updateFooter(footer);
     }

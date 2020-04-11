@@ -1,0 +1,74 @@
+.fas.fa-trash:hover {
+    color: #ff5252;
+    transition-duration: .2s;
+    cursor: pointer;
+}
+
+.fa-check {
+    color: #28a745;
+}
+
+.fa-check:hover {
+    color: #50c854;
+    transition-duration: .5s;
+}
+
+
+.fas.fa-trash:hover .fa-edit {
+    transition-duration: .2s;
+    color: #b6b8c3;
+}
+
+.fa-lg {
+    transition-duration: .2s;
+    width: 20px;
+    height: 25px;
+
+    color: #b6b8c3;
+}
+
+a.edit-footer-link {
+    margin-right: 15px;
+}
+
+.link:hover .fa-edit {
+    color: #3692d2;
+}
+
+.link {
+    transition-duration: .5s;
+}
+
+.link:hover {
+    cursor: pointer;
+    background: #f1f3fe;
+    transition: .5s;
+}
+
+.deleted {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .3s, visibility 0s linear .3s;
+}
+
+.deleted-red {
+    background: #ff5252;
+    transition: .5s;
+}
+
+.deleted-green {
+    background: #3aff22;
+    transition: .5s;
+}
+
+.footer .footer_link {
+    margin-right: 10px;
+    font-family: Pacifico;
+    color: black;
+    text-decoration: none;
+}
+
+a.footer_link:hover {
+    transition: 0.3s;
+    color: rgba(79, 170, 237, 1);
+}

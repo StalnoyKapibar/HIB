@@ -20,9 +20,9 @@ async function checkFooterForUpdates() {
     this.footer = JSON.parse(localStorage.getItem(FOOTER_STORAGE_NAME));
     await fetch(API_URL + "/update-date")
         .then(json)
-        .then((date) => {
+        .then(async (date) => {
             if (date > this.footer.updateDate) {
-                getFooter();
+                await getFooter();
             }
             buildFooter().then(renderBuildEditFooterList);
         });
