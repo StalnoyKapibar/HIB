@@ -35,11 +35,18 @@ public class HibParser {
     }
 
     private void writeImgToFile(String path, byte[] bytes) {
-        try {
-            FileUtils.writeByteArrayToFile(new File(path), bytes);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            try {
+                FileUtils.writeByteArrayToFile(new File(path), bytes);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+    }
+
+    public String loadImage(byte[] file){
+        long id = Long.parseLong(bookService.getLastIdOfBook()) + 1;
+        String avatarPath = "img/book" + id + "/" + avatar;
+        writeImgToFile(avatarPath, file);
+        return "";
     }
 
     public BookDTO getBookFromJSON(String json) {

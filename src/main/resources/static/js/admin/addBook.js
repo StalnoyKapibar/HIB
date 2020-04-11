@@ -13,10 +13,12 @@ function addPage() {
     doesFolderTmpExist();
     let html = '';
     for (let tmpNameObject of nameObjectOfLocaleString) {
-        html += `<h5>${tmpNameObject}</h5>`;
+        html += `<div class="shadow p-4 mb-4 bg-white">
+                <h5>${tmpNameObject}</h5>`;
         for (let tmpNameVar of nameVarOfLocaleString) {
             html +=
-                `<div class='form-group mx-5'>
+                `<div class="shadow p-4 mb-4 bg-white">
+                <div class='form-group mx-5'>
                 <div class="row">
                 <div class="col-0" for=${tmpNameObject}${tmpNameVar}>${tmpNameObject} ${tmpNameVar}</div>
                 <div class="col-2 mr-1">
@@ -30,26 +32,49 @@ function addPage() {
                 <input type="checkbox" checked name="cb${tmpNameObject}" value="${tmpNameVar}" autocomplete="off"> Into this language
                 </div>
                 </div>
+                </div>
                 </div>`;
         }
-        html += `<button type="button" onclick="translateText('${tmpNameObject}')" class="btn btn-primary mx-3">Translate</button>`;
+        html += `<button type="button" onclick="translateText('${tmpNameObject}')" class="btn btn-primary mx-3">Translate</button></div>`;
     }
     $('#newBookForm').html(html +
-        `<h5> Year Of Edition </h5>
+        `<div class="shadow p-4 mb-4 bg-white">
+        <h5> Year Of Edition </h5>
         <input type="text" id="yearOfEdition" placeholder="Year Of Edition"><br><br>
+        </div>
+        <div class="shadow p-4 mb-4 bg-white">
         <h5> Pages </h5>
         <input type="number" id="pages" ><br><br>
+        </div>
+        <div class="shadow p-4 mb-4 bg-white">
         <h5> Price </h5>
         <input type="number" id="price" ><br><br>
+        </div>
+        <div class="shadow p-4 mb-4 bg-white">
         <h5> Original Language </h5>
         <select id="originalLanguage" >
-        </select>
-        <h4>Cover Image</h4>
-        <div class='car' id='divAvatar' style='width: 18rem;'>
+        </select><br><br>
+        </div>
+        <div class="shadow p-4 mb-4 bg-white">
+        <div id="divLoadAvatar">
+        <h4>Avatar</h4>
+        <Label>Load avatar</Label>
+        <input type="file" class="form-control-file" id="avatar" accept=".jpg" onchange="loadImage('avatar','divAvatar')">      
+        </div>
+        <div class='car' id='divAvatar' style='width: 18rem;'>    
         </div><br><br>
+        </div>
+        <div class="shadow p-4 mb-4 bg-white">
         <h4>Another Image</h4>
+        <Label>Load another image</Label>
+        
+        <input type="file" class="form-control-file" id="loadAnotherImage" accept=".jpg" onchange="loadImage('loadAnotherImage','imageList')">
+    
+        </div>
+        <div class="shadow p-4 mb-4 bg-white">
         <div class='car' id='imageList' style='width: 18rem;'>
-        </div><br><br>`
+        </div>
+        </div>`
     );
     divAvatar = $("#divAvatar");
     imageList = $("#imageList");
@@ -63,6 +88,29 @@ function addPage() {
             `<option value=${tmpNameVar.toUpperCase()}>${tmpNameVar.toUpperCase()}</option>`
         )
     }
+}
+
+function loadImage(nameId, div) {
+    const formData = new FormData();
+    let fileImg = $("#" + nameId).prop('files')[0];
+    formData.append('file', fileImg);
+    fetch('/admin/upload', {
+        method: 'POST',
+        body: formData
+    })
+        .then(function (body) {
+            return body.text();
+        }).then(function (data) {
+        addImageInDiv(data, div);
+    });
+}
+
+function addImageInDiv(fileName, id) {
+    let div = $("#" + id);
+    let path = "/images/tmp/"+fileName;
+    div.append(
+        `<img src=${path} class='card-img-top'  alt='...'>`
+    )
 }
 
 function loadBookFile() {
@@ -104,11 +152,12 @@ function addValueToFields(book) {
         if (!nameImg.includes('avatar')) {
             let newId = nameImg.replace(/\./g, '');
             imageList.append(
-                `<div  id="${newId}">
+                `<div class="shadow p-4 mb-4 bg-white">
+                <div  id="${newId}">
                 <img src=${pathToImg} class='card-img-top'  alt='...'>
                 <button type="button" onclick="deleteImage('${newId}','${nameImg}')" class="btn btn-primary mx-3">Delete image</button>
                 </div>
-                <br><br>`
+                </div>`
             )
         }
     }
@@ -128,7 +177,7 @@ function deleteImage(id, name) {
 
     fetch('/admin/deleteImg', {
         method: 'POST',
-        body: "img/book"+ newBook.id + "/" + name
+        body: "img/book" + newBook.id + "/" + name
     })
 }
 
@@ -141,7 +190,7 @@ function isCoverImageNotNull() {
 }
 
 function addNewBook() {
-    if (isCoverImageNotNull() && confirm("Add this book?")) {
+    if (confirm("Add this book?")) {
         let book = {};
         for (let tmpNameObject of nameObjectOfLocaleString) {
             let bookFields = {};
@@ -156,12 +205,12 @@ function addNewBook() {
         book["originalLanguage"] = originalLanguage.val();
         book["coverImage"] = "avatar.jpg";
         let imageList = [];
-        for (const imageListElement of newBook.imageList) {
-            imageList.push(imageListElement);
-        }
+        // for (const imageListElement of newBook.imageList) {
+        //     imageList.push(imageListElement);
+        // }
         book["imageList"] = imageList;
-        fetch('/admin/addBook', {
-            method: 'PUT',
+        fetch('/admin/add', {
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
             },

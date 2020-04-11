@@ -1,14 +1,16 @@
 package com.project.service;
 
+import com.project.model.Image;
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.file.Path;
+import java.util.List;
 import java.util.stream.Stream;
 
 public interface StorageService {
 
-	void saveImage(MultipartFile file);
+	String saveImage(MultipartFile file);
 
 	Stream<Path> loadAll();
 
@@ -23,6 +25,8 @@ public interface StorageService {
 	void deleteImageByFileName(String fileName);
 
 	void createNewPaperForImages(String namePaper);
+
+	void cutImagesFromTmpPaperToNewPaperByLastIdBook(String namePaper, List<Image> imageList);
 
 	void cutImagesFromTmpPaperToNewPaperByLastIdBook(String namePaper);
 
