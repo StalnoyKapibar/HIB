@@ -4,8 +4,16 @@
     cursor: pointer;
 }
 
+.move-link-down, .move-link-up, .edit-footer-link {
+    margin-right: 20px;
+}
+
 .fa-check {
     color: #28a745;
+}
+
+.fa-exclamation-circle {
+    color: #ffae42;
 }
 
 .fa-check:hover {
@@ -13,22 +21,28 @@
     transition-duration: .5s;
 }
 
-
-.fas.fa-trash:hover .fa-edit {
-    transition-duration: .2s;
-    color: #b6b8c3;
+.fa-chevron-up:hover {
+    color: #50c854;
+    transition-duration: .5s;
 }
 
-.fa-lg {
+.fa-chevron-down:hover {
+    color: #50c854;
+    transition-duration: .5s;
+}
+
+
+.fas.fa-trash:hover .link {
+    transition-duration: .2s;
+    color: white;
+}
+
+a > .fa-lg {
     transition-duration: .2s;
     width: 20px;
     height: 25px;
 
     color: #b6b8c3;
-}
-
-a.edit-footer-link {
-    margin-right: 15px;
 }
 
 .link:hover .fa-edit {

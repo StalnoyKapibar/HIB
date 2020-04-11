@@ -24,7 +24,9 @@ async function checkFooterForUpdates() {
             if (date > this.footer.updateDate) {
                 await getFooter();
             }
-            buildFooter().then(renderBuildEditFooterList);
+            await buildFooter();
+            await renderBuildEditFooterList();
+
         });
 }
 
