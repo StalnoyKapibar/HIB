@@ -8,11 +8,17 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.web.util.WebUtils;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.HttpCookie;
 import java.time.Instant;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.Optional;
 
 @Component
 @Primary
@@ -30,8 +36,19 @@ public class LoginSuccessHandlerImpl implements AuthenticationSuccessHandler {
         UserAccount user = (UserAccount) authentication.getPrincipal();
         String locale = request.getSession().getAttribute("LANG").toString();
         userAccountDAO.setLocaleAndAuthDate(user.getEmail(), locale, Instant.now().getEpochSecond());
-        response.sendRedirect(request.getHeader("referer"));
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("CURRENT_PAGE")) {
+                    String currentPage = cookie.getValue();
+                    cookie.setMaxAge(0);
+                    response.addCookie(cookie);
+                    response.sendRedirect(currentPage);
+                }
+            }
+        }
         shoppingCart.mergeCarts(request, user.getCart().getId());
         request.getSession().setAttribute("userId", user.getUserId());
     }
+
 }

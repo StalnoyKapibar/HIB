@@ -4,6 +4,7 @@ import com.project.dao.UserAccountDAO;
 import com.project.dao.UserRoleDao;
 import com.project.mail.MailService;
 import com.project.model.RegistrationUserDTO;
+import com.project.model.Role;
 import com.project.model.UserAccount;
 import lombok.AllArgsConstructor;
 import org.hibernate.exception.ConstraintViolationException;
@@ -55,7 +56,7 @@ public class UserAccountServiceImpl implements UserAccountService {
                 .locale(httpSession.getAttribute("LANG").toString())
                 .isEnabled(false)
                 .tokenToConfirmEmail(UUID.randomUUID().toString())
-                .roles(userRoleDao.findByRoleName("ROLE_USER").get(0))
+                .roles(new Role(1L, "ROLE_USER"))
                 .build();
 
         sendEmailToConfirmAccount(userAccount);
@@ -70,7 +71,7 @@ public class UserAccountServiceImpl implements UserAccountService {
         mailMessage.setSubject("Привет");
         mailMessage.setFrom(senderFromProperty);
         mailMessage.setText("Привет "
-                + "http://localhost:8080/confirmEmail?token="
+//                + "http://localhost:8080/confirmEmail?token="
                 + user.getTokenToConfirmEmail());
         mailService.sendEmail(mailMessage);
     }

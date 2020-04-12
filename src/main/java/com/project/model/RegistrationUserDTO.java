@@ -13,7 +13,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 public class RegistrationUserDTO {
     @Size(min = 5, max = 32,
-            message = "Логин должен быть в диапазоне от 4 до 32")
+            message = "Логин должен быть в диапазоне от 5 до 32")
     @Pattern(regexp = "[0-9a-zA-Z]+",
             message = "Логин не должен содержать пробелы или специальные символы")
     private String login;
@@ -23,9 +23,9 @@ public class RegistrationUserDTO {
             message = "Email не соответствует шаблону")
     private String email;
 
-    @Size(min = 6, max = 64, message = "пароль должен быть в диапазоне от 6 до 64")
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{6,}$",
-            message = "Пароль должен содержать числа, символы в верхнем и нижнем ригистрах, без пробела")
+    @Size(min = 6, max = 64, message = "пароль должен быть в диапазоне от 5 до 64")
+    @Pattern(regexp = "^[a-zA-Z0-9]{5,}$",
+            message = "Пароль может содержать числа, символы в верхнем и нижнем регистрах, без пробела")
     private String password;
 
     private String confirmPassword;

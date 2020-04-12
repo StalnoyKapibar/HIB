@@ -90,7 +90,7 @@
                 <div>
                     <div sec:authorize="isAuthenticated() != true">
                         <form action="#" class="m-0 ml-sm-0">
-                            <button type="button" class="btn btn-header border m-0" data-toggle="modal"
+                            <button onclick="setCurrentPageToCookie()" type="button" class="btn btn-header border m-0" data-toggle="modal"
                                     data-target="#signModal" id="signModalBtn">
                                 <span id="signin_btn_text">Sign In</span>
                             </button>
@@ -209,7 +209,7 @@
 
 <!--modal window for sing in-->
 
-<div class="modal fade" id="signModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<div th:fragment="sign-in-modal" class="modal fade" id="signModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -252,8 +252,7 @@
                         </a>
                     </div>
                     <div class="col-lg-6 col-sm-12 pl-lg-1 mt-1">
-                        <a class="btn btn-block btn-social btn-facebook text-white"
-                           th:href="@{/oauth2/authorize/facebook}">
+                        <a th:href="@{/oauth2/authorize/facebook}" class="btn btn-block btn-social btn-facebook text-white">
                             <span class="fa fa-facebook-f"></span>Sign up with Facebook
                         </a>
                     </div>
@@ -274,6 +273,7 @@
             </div>
         </div>
     </div>
+
 </div>
 <div sec:authorize="!hasRole('ADMIN')" th:fragment="contact-button">
     <div class="container-fluid fixed-bottom">

@@ -29,4 +29,5 @@ public class FacebookOauthUserInfo extends OAuth2UserInfo {
     public String[] getName(String fullNameStr) {
         return fullNameStr.split(" ");
     }
+
 }
