@@ -1,10 +1,6 @@
 package com.project.dao;
 
-import com.project.model.Book;
-import com.project.model.BookDTO;
-import com.project.model.BookDTO20;
-import com.project.model.LocaleString;
-import com.project.model.PageableBookDTO;
+import com.project.model.*;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
@@ -53,6 +49,21 @@ public class BookDAOImpl implements BookDAO {
     @Override
     public String getQuantityBook() {
         return entityManager.createQuery("SELECT COUNT (1) FROM Book").getSingleResult().toString();
+    }
+
+    @Override
+    public BookNewDTO getNewBookDTObyIdAndLang(Long id, String lang) {
+//        String hql = ("Select new com.project.model.BookNewDTO(b.id, b.nameLocale.LOC, " +
+//                "b.authorLocale.LOC, b.desc.LOC, b.edition.LOC, b.yearOfEdition, b.pages," +
+//                " b.price, b.originalLanguage, b.coverImage, b.listImage) FROM Book b WHERE id = :id").replaceAll("LOC", lang);
+
+        //String hql = ("Select new com.project.model.BookDTO(b.id, b.nameLocale, b.authorLocale, b.coverImage, b.price, b.listImage) FROM Book b WHERE id = :id").replaceAll("LOC", lang);
+
+        //  String hql = ("Select new com.project.model.BookNewDTO(b.listImage) FROM Book b WHERE id = :id").replaceAll("LOC", lang);
+        // System.err.println(hql);
+        // System.out.println(entityManager.createQuery(hql, BookDTO.class).setParameter("id", id).getSingleResult());
+        System.out.println(getBookByIdLocale(1));
+        return null;
     }
 
     @Override

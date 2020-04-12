@@ -1,10 +1,6 @@
 package com.project.service;
 
-import com.project.model.BookDTO;
-import com.project.model.BookDTO20;
-import com.project.model.LocaleString;
-import com.project.model.PageableBookDTO;
-import org.springframework.data.domain.Page;
+import com.project.model.*;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -29,4 +25,6 @@ public interface BookService {
     String getLastIdOfBook();
 
     BookDTO getBookByIdLocale(long x);
+
+    BookNewDTO getNewBookDTOByIdAndLang(Long id, String lang);
 }

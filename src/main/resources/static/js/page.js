@@ -15,15 +15,16 @@ $(document).ready(function () {
 });
 
 function setPageFields() {
-    fetch("/page/id/" + $("#bookid").attr("value"))
+    fetch("/api/book/" + $("#bookid").attr("value") + "?locale=" + currentLang)
         .then(status)
         .then(json).then(function (data) {
+        console.log(data);
         objectBook = data;
         tmpEditBookId = data.id;
-        $('title').text(data.name[currentLang]);
-        $('#book-name').text(data.name[currentLang]);
-        $('#book-author').text(data.author[currentLang]);
-        $('#book-name1').text(data.name[currentLang]);
+        $('title').text(data.name);
+        $('#book-name').text(data.name);
+        $('#book-author').text(data.author);
+        // $('#book-edition').text(data.edition[currentLang]);
         $('#bottomInCart').attr('data-id', data.id);
         buildCardImageOrCarousel();
     })
@@ -58,7 +59,7 @@ function buildCarousel() {
         }
     }
 
-    var htmlBodyCarousel = `<div id="carouselImagePage" class="carousel slide w-50" data-ride="carousel">
+    var htmlBodyCarousel = `<div id="carouselImagePage" class="carousel slide 100" data-ride="carousel">
                     <ol class="carousel-indicators" id='testActive'>
                     </ol>
                     <div class="carousel-inner" id='testBody'>
@@ -72,6 +73,7 @@ function buildCarousel() {
                         <span class="sr-only">Next</span>
                     </a>
                 </div>`;
+    console.log(htmlBodyCarousel);
     $('#CardImageOrCarousel').html(htmlBodyCarousel);
     $('#testActive').html(tmpHtmlForCarouselIndicators);
     $('#testBody').html(tmpHtmlForCarousel);
@@ -103,16 +105,7 @@ async function showSizeCart() {
         });
 }
 
-$(document).ready(function () {
-    $("body").on('click', '.btn-success', function () {
-        let id = $(this).attr("data-id");
-        addToCart(id);
-        setTimeout(function () {
-            showSizeCart();
-        }, 20)
 
-    })
-});
 
 function addToCart(id) {
     fetch("/cart/" + id, {
@@ -155,6 +148,17 @@ $(document).ready(function () {
             showSizeCart();
         })
     });
+});
+
+$(document).ready(function () {
+    $("body").on('click', '.btn-success', function () {
+        let id = $(this).attr("data-id");
+        addToCart(id);
+        setTimeout(function () {
+            showSizeCart();
+        }, 20)
+
+    })
 });
 
 function openEdit() {

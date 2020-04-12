@@ -3,8 +3,9 @@ package com.project.controller.restcontroller;
 import com.project.HIBParser.HibParser;
 import com.project.model.BookDTO;
 import com.project.model.BookDTO20;
-import com.project.search.BookSearch;
+import com.project.model.BookNewDTO;
 import com.project.model.PageableBookDTO;
+import com.project.search.BookSearch;
 import com.project.service.BookService;
 import com.project.service.StorageService;
 import com.project.util.BookDTOWithFieldsForTable;
@@ -95,10 +96,9 @@ public class BookController {
         return page;
     }
 
-    @GetMapping("/page/id/{x}")
-    public ResponseEntity<BookDTO> getBook(@PathVariable("x") long x) {
-        BookDTO bookDTO = bookService.getBookDTOById(x);
-        return ResponseEntity.ok(bookDTO);
+    @GetMapping("/api/book/{id}")
+    public BookNewDTO getNewBookDTOByIdAndLang(@PathVariable Long id, @RequestParam("locale") String lang) {
+        return bookService.getNewBookDTOByIdAndLang(id, lang);
     }
 
     @GetMapping("/searchResult")
