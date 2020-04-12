@@ -15,7 +15,6 @@ function setLocaleFields() {
         .then(status)
         .then(json)
         .then(function (localeFields) {
-            $('#link_main_footer').text(localeFields['main1']);
             $('#link_instruction').text(localeFields['instruction']);
             $('#link_authors').text(localeFields['authors']);
             $('#link_order').text(localeFields['order']);
