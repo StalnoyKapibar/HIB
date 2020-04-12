@@ -1,7 +1,6 @@
 <!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
->
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -25,8 +24,8 @@
     <header th:replace="home :: nav-bar"></header>
 
     <!--    page container    -->
-    <div class="container page-content" style="height: 550px">
-        <br><br><br>
+    <div class="container page-content" style="height: 800px">
+        <br>
         <div class="book-background w-auto p-3 h-100">
             <div class="container">
                 <div class="row">
@@ -36,25 +35,29 @@
                     </div>
                     <div class="col-9 container-fluid">
                         <div class="row">
-                            <div class="col-4">
+                            <div class="col-5">
                                 <h4 class="font-weight-light">Title: <span class="font-weight-normal" id="book-name">Book title</span>
                                 </h4>
                                 <h4 class="font-weight-light">Author: <span class="font-weight-normal"
                                                                             id="book-author">Book author</span></h4>
-                                <h4 class="font-weight-light">Edition: <span
-                                        class="font-weight-normal">Book edition</span></h4>
+                                <h4 class="font-weight-light">Edition: <span class="font-weight-normal"
+                                                                             id="book-edition">Book edition</span>
+                                </h4>
                             </div>
-                            <div class="col-8">
-                                <h4 class="font-weight-light">Original language: <span class="font-weight-normal">Original language</span>
+                            <div class="col-7">
+                                <h4 class="font-weight-light">Original language: <span class="font-weight-normal"
+                                                                                       id="book-original-language">Original language</span>
                                 </h4>
-                                <h4 class="font-weight-light">Amount of pages: <span class="font-weight-normal">Amount of pages</span>
+                                <h4 class="font-weight-light">Amount of pages: <span class="font-weight-normal"
+                                                                                     id="book-amount-of-pages">Amount of pages</span>
                                 </h4>
-                                <h4 class="font-weight-light">Year of edition: <span class="font-weight-normal">Year of edition</span>
+                                <h4 class="font-weight-light">Year of edition: <span class="font-weight-normal"
+                                                                                     id="book-year-of-edition">Year of edition</span>
                                 </h4>
                             </div>
                             <div class="col-12">
                                 <br>
-                                <span class="font-weight-light">
+                                <span class="font-weight-light" id="book-desc">
                                     Description Lorem ipsum dolor sit amet, consectetur adipisicing elit. At blanditiis corporis dolorem eveniet fugiat harum iste iusto, laborum maxime minima mollitia placeat provident quia quos recusandae reiciendis, saepe unde voluptatem? Animi corporis explicabo ipsam iure non? Blanditiis eveniet fuga illum provident quaerat quo tempora! Cupiditate dicta dolore eum optio sunt.
                                 </span>
                             </div>
@@ -64,15 +67,21 @@
                                     <div class="row">
                                         <div class="col-2">
                                             <h4 class="font-weight-light">Price:</h4>
-                                            <span class="font-weight-normal">15.00$</span>
+                                            <span class="font-weight-normal" id="book-price">15.00$</span>
                                         </div>
                                         <div class="col-6 offset-4">
+                                            <br>
                                             <div class="container">
                                                 <div class="row">
-                                                    <button class="btn btn-info col-5 btn-metro btn-info-inverse">Ask a
+                                                    <button class="btn btn-info col-5 btn-metro btn-info-inverse"
+                                                            id="ask-question"
+                                                            sec:authorize="!hasRole('ADMIN')"
+                                                            type="button">Ask a
                                                         question
                                                     </button>
-                                                    <button class="btn btn-info col-5 offset-1 btn-metro">Add to cart
+                                                    <button class="btn btn-info col-5 offset-1 btn-metro" id="addToCart"
+                                                            sec:authorize="!hasRole('ADMIN')" type="button">
+                                                        Add to cart
                                                     </button>
                                                 </div>
                                             </div>
@@ -124,56 +133,6 @@
         color: #17a2b8;
     }
 </style>
-
-
-<!--    <div class="container page-content">-->
-<!--        <h2 id="book-name">m </h2>-->
-
-<!--        <div id="book-author">Author-->
-<!--        </div>-->
-<!--        <hr>-->
-
-<!--        &lt;!&ndash;        for cards        &ndash;&gt;-->
-<!--        <div>-->
-<!--            <h2 id="headpost">You can read this</h2>-->
-<!--            <br>-->
-<!--        </div>-->
-<!--        <div class="row">-->
-<!--            <div class="col-6">-->
-<!--                <div id="CardImageOrCarousel">-->
-<!--                </div>-->
-<!--                <div class="card-body">-->
-<!--                    <h4 class="card-title" id="book-name1">NAME OF BOOK</h4>-->
-<!--                    <button class="btn btn-info btn-sm mr-1" id="ask-question" sec:authorize="!hasRole('ADMIN')">Ask a-->
-<!--                        Question-->
-<!--                    </button>-->
-<!--                    <button class="btn btn-success btn-sm  mr-1" data-id=""-->
-<!--                            id="bottomInCart" sec:authorize="!hasRole('ADMIN')" type="button">Add to cart-->
-<!--                    </button>-->
-<!--                    <button class="btn btn-info" onclick="openEdit()" sec:authorize="hasRole('ADMIN')">Edit</button>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="card-col-4">-->
-<!--                <p class="card-text">-->
-<!--                    Some description.-->
-<!--                </p>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        <br>-->
-<!--        &lt;!&ndash;        footer       &ndash;&gt;-->
-<!--        <div class="footer pt-3 p-0 container-fluid text-center">-->
-<!--            <div class="footer_menu">-->
-<!--                <a href="#" class="footer_link p-2" id="link_main_footer">Main</a>-->
-<!--                <a href="#" class="footer_link p-2" id="link_instruction">Instruction</a>-->
-<!--                <a href="#" class="footer_link p-2" id="link_order">Order</a>-->
-<!--                <a href="#" class="footer_link p-2" id="link_authors">Authors</a>-->
-<!--                <a href="#" class="footer_link p-2" id="links">Links</a>-->
-<!--                <a href="#" class="footer_link p-2" id="link_contacts">Contacts</a>-->
-<!--            </div>-->
-<!--            <div class="footer_made_by pt-2"><a id="made_by">Created by JavaMentor® Team</a></div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
 
 <a id="bookid" th:value="${book}" hidden></a>
 
