@@ -24,7 +24,7 @@ function setPageFields() {
         $('title').text(data.name);
         $('#book-name').text(data.name);
         $('#book-author').text(data.author);
-        // $('#book-edition').text(data.edition[currentLang]);
+        $('#book-edition').text(data.edition);
         $('#bottomInCart').attr('data-id', data.id);
         buildCardImageOrCarousel();
     })

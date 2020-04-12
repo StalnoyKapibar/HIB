@@ -52,18 +52,21 @@ public class BookDAOImpl implements BookDAO {
     }
 
     @Override
+    @SuppressWarnings("all")
     public BookNewDTO getNewBookDTObyIdAndLang(Long id, String lang) {
-//        String hql = ("Select new com.project.model.BookNewDTO(b.id, b.nameLocale.LOC, " +
-//                "b.authorLocale.LOC, b.desc.LOC, b.edition.LOC, b.yearOfEdition, b.pages," +
-//                " b.price, b.originalLanguage, b.coverImage, b.listImage) FROM Book b WHERE id = :id").replaceAll("LOC", lang);
-
-        //String hql = ("Select new com.project.model.BookDTO(b.id, b.nameLocale, b.authorLocale, b.coverImage, b.price, b.listImage) FROM Book b WHERE id = :id").replaceAll("LOC", lang);
-
-        //  String hql = ("Select new com.project.model.BookNewDTO(b.listImage) FROM Book b WHERE id = :id").replaceAll("LOC", lang);
-        // System.err.println(hql);
-        // System.out.println(entityManager.createQuery(hql, BookDTO.class).setParameter("id", id).getSingleResult());
-        System.out.println(getBookByIdLocale(1));
-        return null;
+        String hql = ("Select new com.project.model.BookNewDTO(b.id, b.nameLocale.LOC, " +
+                "b.authorLocale.LOC, b.desc.LOC, b.edition.LOC, b.yearOfEdition, b.pages," +
+                " b.price, b.originalLanguage, b.coverImage) FROM Book b WHERE id = :id").replaceAll("LOC", lang);
+        BookNewDTO bookNewDTO = entityManager.createQuery(hql, BookNewDTO.class).setParameter("id", id).getSingleResult();
+        List<Image> images = entityManager
+                .createNativeQuery(" select id, name_image " +
+                                "from image i " +
+                                "inner join book_list_image bi " +
+                                "on i.id = list_image_id " +
+                                "where bi.book_id = :id",
+                        Image.class).setParameter("id", id).getResultList();
+        bookNewDTO.setImageList(images);
+        return bookNewDTO;
     }
 
     @Override
