@@ -108,7 +108,6 @@ $(document).on('click', ".save-link", async function () {
     //editableLink = footer.links[$(this).attr('data-link-index')];
     form = $(this).parent().parent().parent().parent().parent().find(".form");
     form.find('input').each(function (index) {
-        console.log($(this));
         if (index === 0) {
             editableLink.link = $(this).val();
         } else {
@@ -194,14 +193,9 @@ $(document).on('click', '.move-link-up', async function () {
 });
 
 async function changeLinkListPositions(linkIndex, howMuch) {
-    // console.log(`Меняю позицию ${linkIndex} на ${howMuch}`);
-    // console.log("Входной массив: ");
-    //   console.log(footer.links);
     [footer.links[linkIndex].id, footer.links[linkIndex + howMuch].id] =
         [footer.links[linkIndex + howMuch].id, footer.links[linkIndex].id];
     footer.links.sort((a, b) => a.id > b.id ? 1 : -1);
-    // console.log("Выходной массив");
-    // console.log(footer.links);
     await showWarningAlert();
 }
 
