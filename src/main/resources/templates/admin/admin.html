@@ -19,14 +19,20 @@
         <div class="tab-content" id="v-pills-tabContent" th:switch="${#httpServletRequest.getRequestURI()}">
             <th:block th:case="'/admin/panel/edit-welcome'">
                 <div th:replace="admin/edit-welcome :: edit-welcome"></div>
+                <script src="/static/js/admin/editWelcome.js"></script>
             </th:block>
             <th:block th:case="'/admin/panel/books'">
                 <div th:replace="admin/books :: books"></div>
                 <div th:replace="admin/books :: edit-book-modal"></div>
+                <!--                <script src="/static/js/admin/editWelcome.js"></script>-->
+                <script src="/static/js/translate.js"></script>
+                <script src="/static/js/admin/books.js"></script>
+                <script src="/static/js/admin/addBook.js"></script>
             </th:block>
             <th:block th:case="'/admin/panel/feedback'">
                 <div th:replace="admin/feedback :: feedback"></div>
                 <div th:replace="admin/feedback :: modal-reply"></div>
+                <script src="/static/js/admin/feedbackRequest.js"></script>
             </th:block>
             <th:block th:case="*">
                 <div th:replace="admin/not-found :: not-found"></div>
@@ -34,6 +40,7 @@
         </div>
     </div>
 </div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
         integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
         crossorigin="anonymous"></script>
@@ -43,9 +50,5 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
-<script src="/static/js/admin/addBook.js"></script>
-<script src="/static/js/admin/editWelcome.js"></script>
-<script src="/static/js/translate.js"></script>
-<script src="/static/js/admin/feedbackRequest.js"></script>
 </body>
 </html>

@@ -22,6 +22,10 @@ $(document).ready(function () {
     }
 });
 
+function json(response) {
+    return response.json()
+}
+
 async function getFeedbackRequestTable(replied) {
     await fetch("/api/admin/feedback-request?replied=" + replied)
         .then(json)

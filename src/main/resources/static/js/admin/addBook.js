@@ -1,4 +1,3 @@
-
 let myImage;
 let imageList;
 let yearOfEdition;
@@ -7,8 +6,6 @@ let price;
 let originalLanguage;
 let newBook;
 
-
-
 function addPage() {
     getVarBookDTO();
     getAllLocales();
@@ -16,7 +13,7 @@ function addPage() {
     let html = '';
     for (let tmpNameObject of nameObjectOfLocaleString) {
         html += `<h5>${tmpNameObject}</h5>`;
-        for (let tmpNameVar of nameVarOfLocaleString) {
+        for (let tmpNameVar of langNames) {
             html +=
                 `<div class='form-group mx-5'>
                 <div class="row">
@@ -60,7 +57,7 @@ function addPage() {
     price = $("#price");
     originalLanguage = $("#originalLanguage");
 
-    for (let tmpNameVar of nameVarOfLocaleString) {
+    for (let tmpNameVar of langNames) {
         originalLanguage.append(
             `<option value=${tmpNameVar.toUpperCase()}>${tmpNameVar.toUpperCase()}</option>`
         )
@@ -86,7 +83,7 @@ function addValueToFields(book) {
     myImage.attr("src", ``);
     imageList.empty();
     for (let tmpNameObject of nameObjectOfLocaleString) {
-        for (let tmpNameVar of nameVarOfLocaleString) {
+        for (let tmpNameVar of langNames) {
             $("#inp" + tmpNameObject + tmpNameVar).val(book[tmpNameObject][tmpNameVar]);
         }
     }
@@ -111,7 +108,7 @@ function addNewBook() {
         let book = {};
         for (let tmpNameObject of nameObjectOfLocaleString) {
             let bookFields = {};
-            for (let tmpNameVar of nameVarOfLocaleString) {
+            for (let tmpNameVar of langNames) {
                 bookFields[tmpNameVar] = $("#inp" + tmpNameObject + tmpNameVar).val()
             }
             book[tmpNameObject] = bookFields;
@@ -140,7 +137,7 @@ function addNewBook() {
 function clearFields() {
     newBook = null;
     for (let tmpNameObject of nameObjectOfLocaleString) {
-        for (let tmpNameVar of nameVarOfLocaleString) {
+        for (let tmpNameVar of langNames) {
             $("#inp" + tmpNameObject + tmpNameVar).val('');
         }
     }
