@@ -48,9 +48,9 @@
             </form>
             <form>
                 <div class="form-group">
-                    <label for="exampleFormFile">Image input</label>
-                    <input class="form-control-file" id="exampleFormFile" type="file">
-                </div>7
+                    <h4>Load book from file</h4>
+                    <input type="file" class="form-control-file" id="formBookFile"  onchange="loadBookFile()" accept=".hib">
+                </div>
             </form>
             <div class="carousel slide w-50" data-ride="carousel" id="carouselExampleCaptions">
                 <ol class="carousel-indicators" id='test0'>
@@ -68,7 +68,7 @@
                     <span class="sr-only">Next</span>
                 </a>
             </div>
-            <button class='btn btn-primary mt-3' onclick='addBook()' type='submit'>
+            <button class='btn btn-primary mt-3' onclick='addNewBook()' type='submit'>
                 Add new Book
             </button>
         </div>
