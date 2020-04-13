@@ -1,10 +1,11 @@
 package com.project.service;
 
 import com.project.dao.UserAccountDAO;
+import com.project.model.Role;
 import com.project.oauth.OAuth2UserInfo;
 import com.project.oauth.OAuth2UserInfoFactory;
 import com.project.model.UserAccount;
-import com.project.model.UserPrincipal;
+import com.project.util.SocialUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -51,12 +53,13 @@ public class OAuthUserService extends DefaultOAuth2UserService {
         } catch (EmptyResultDataAccessException e) {
             user = registerNewUser(oAuth2UserRequest, oAuth2UserInfo);
         }
-        return UserPrincipal.create(user, oAuth2User.getAttributes());
+        return create(user, oAuth2User.getAttributes());
     }
 
     private UserAccount registerNewUser(OAuth2UserRequest oAuth2UserRequest, OAuth2UserInfo oAuth2UserInfo) {
         UserAccount user = new UserAccount();
         user.setProvider(String.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()));
+        user.setLogin(new SocialUtil().getLoginFromEmail(oAuth2UserInfo.getEmail()));
         user.setFirstName(oAuth2UserInfo.getFirstName());
         user.setLastName(oAuth2UserInfo.getLastName());
         user.setEmail(oAuth2UserInfo.getEmail());
@@ -72,4 +75,10 @@ public class OAuthUserService extends DefaultOAuth2UserService {
         return userAccountDao.save(existingUser);
     }
 
+    public static UserAccount create(UserAccount user, Map<String, Object> attributes) {
+        Role role = new Role(1L, "ROLE_USER");
+        user.setAttributes(attributes);
+        user.setRoles(role);
+        return user;
+    }
 }

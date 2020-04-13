@@ -5,13 +5,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
+import java.util.*;
 
 @Data
 @AllArgsConstructor
@@ -19,7 +19,7 @@ import java.util.Collections;
 @Entity
 @Builder
 @Table(name = "users")
-public class UserAccount implements UserDetails {
+public class UserAccount implements UserDetails, OAuth2User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
@@ -37,9 +37,15 @@ public class UserAccount implements UserDetails {
     private String tokenToConfirmEmail;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private ShoppingCart cart = new ShoppingCart();
-
     @ManyToOne(fetch = FetchType.EAGER)
     private Role roles;
+    @Transient
+    private Map<String, Object> attributes;
+
+    @Override
+    public Map<String, Object> getAttributes() {
+        return attributes;
+    }
 
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return new ArrayList<>(Collections.singleton(roles));
@@ -68,5 +74,10 @@ public class UserAccount implements UserDetails {
     @Override
     public boolean isEnabled() {
         return isEnabled;
+    }
+
+    @Override
+    public String getName() {
+        return email;
     }
 }

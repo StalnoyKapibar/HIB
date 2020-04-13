@@ -47,8 +47,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String saveUserDTOPassword(UserDTONewPassword userDTONewPassword) {
-        String reg = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{6,}$";
-        if (Pattern.matches(reg, userDTONewPassword.getNewPassword()) && (userDTONewPassword.getNewPassword().length() >= 8 && userDTONewPassword.getNewPassword().length() <= 64)) {
+        String reg = "^[a-zA-Z0-9]{5,}$";
+        if (Pattern.matches(reg, userDTONewPassword.getNewPassword()) && (userDTONewPassword.getNewPassword().length() >= 5 && userDTONewPassword.getNewPassword().length() <= 64)) {
             if (encoder.matches(userDTONewPassword.getOldPassword(), userDAO.getOldPassword(userDTONewPassword.getUserId()))) {
                 String newPass = encoder.encode(userDTONewPassword.getNewPassword());
                 userDTONewPassword.setNewPassword(newPass);
