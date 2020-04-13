@@ -138,7 +138,7 @@ async function pageBook(x) {
                     `</button>` +
                     `</td>` +
                     `<td>` +
-                    `<button type='button'  onclick='delBook(${tmp_html.id})'  class='btn btn-primary btn-danger'>` +
+                    `<button type='button'  onclick='delBook(${tmp_html.id})'  class='btn btn-danger'>` +
                     `Delete` +
                     `</button>` +
                     `</td>` +
@@ -166,20 +166,19 @@ $(document).ready( () => {
             .then(status)
             .then(json)
             .then(function (data) {
-                let tr = [];
                 for (let i = 0; i < data.length; i++) {
-                    $('#extra').append('<tr>' +
-                        '<td>' + data[i].id + '</td>>' +
+                    $('#extra').append('<tr id="' + data[i].id + '">' +
+                        '<td id="' + data[i].id + '">' + data[i].id + '</td>>' +
                         '<td>' + data[i].nameAuthorDTOLocale + '</td>' +
-                        '<td >' + data[i].nameBookDTOLocale + '</td>' +
-                        '<td >' +
+                        '<td>' + data[i].nameBookDTOLocale + '</td>' +
+                        '<td>' +
                         `<button type='button' onclick='buildEditBook(${data[i].id})'  data-toggle='modal'` +
                         `data-target='#asdddd'  class='btn btn-primary'> ` +
                         `Edit` +
                         `</button>` +
                         '</td>' +
-                        '<td >' +
-                        `<button type='button'  onclick='delBook(${data[i].id})'  class='btn btn-primary btn-danger'>` +
+                        '<td>' +
+                        `<button type='button'  onclick='delBook(${data[i].id})'  class='btn btn-danger'>` +
                         `Delete` +
                         `</button>` +
                         '</td>' +
