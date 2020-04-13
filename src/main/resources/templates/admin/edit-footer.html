@@ -26,7 +26,18 @@
         </div>
         <div class="card-body">
             <div class="container-fluid text-center footer pt-3 p-0 ">
-                <div class="footer_menu" id="footer-menu"></div>
+                <div class="row">
+                    <div class="footer_menu col-10" id="footer-menu"></div>
+                    <div class="dropdown col-2">
+                        <a aria-expanded="false" aria-haspopup="true" class="btn dropdown-toggle border"
+                           data-toggle="dropdown"
+                           href="#" id="dd_menu_link" role="button"
+                           th:attr="data-current-lang=${#httpSession.getAttribute('LANG')}">
+                        </a>
+                        <div aria-labelledby="dd_menu_link" class="dropdown-menu" id="dd_menu">
+                        </div>
+                    </div>
+                </div>
             </div>
             <br>
             <form>
@@ -51,35 +62,6 @@
     </div>
     <script src="/static/js/footerBuilder.js"></script>
     <script src="/static/js/admin/editFooter.js"></script>
-</div>
-
-<div aria-hidden="true"
-     aria-labelledby="exampleModalLabel" class="modal fade" id="edit-link-modal" role="dialog"
-     tabindex="-1" th:fragment="modal-edit-link">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Edit link</h5>
-                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="form-group">
-                        <label class="col-form-label" for="footer-link-link">Link</label>
-                        <input class="form-control" id="footer-link-link" type="email">
-                    </div>
-                    <div class="form-group" id="footer-link-locale-rows"></div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
-                <button class="btn btn-primary" id="submit-btn" onclick="" type="button">Edit
-                </button>
-            </div>
-        </div>
-    </div>
 </div>
 </body>
 </html>
