@@ -6,6 +6,16 @@ let price;
 let originalLanguage;
 let pathToTmpPackage = '/images/tmp/';
 
+function checkNamesNotNull() {
+    for (let tmpNameVar of nameVarOfLocaleString) {
+        if ($("#inpname" + tmpNameVar).val() !== '') {
+            return true;
+        }
+    }
+    alert("Enter name of the book")
+    return false;
+}
+
 function addPage() {
     getVarBookDTO();
     getAllLocales();
@@ -171,7 +181,7 @@ function deleteImage(id) {
 }
 
 function addNewBook() {
-    if (confirm("Add this book?")) {
+    if (checkNamesNotNull() && confirm("Add this book?")) {
         let book = {};
         for (let tmpNameObject of nameObjectOfLocaleString) {
             let bookFields = {};
