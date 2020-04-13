@@ -12,6 +12,8 @@
     <link href="/static/css/bootstrap-social.css" rel="stylesheet"/>
     <link href="/static/fonts/font-awesome.css" rel="stylesheet">
     <link href="/static/fonts/font.css" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet">
+    <link href="/static/css/page.css" rel="stylesheet">
     <link href="/static/css/themify-icons.css" rel="stylesheet">
     <script src="/static/js/jquery.min.js"></script>
     <script src="/static/js/popper.min.js"></script>
@@ -25,9 +27,9 @@
     <header th:replace="home :: nav-bar"></header>
 
     <!--    page container    -->
-    <div class="container page-content" style="height: 800px">
+    <div class="container page-content">
         <br>
-        <div class="book-background w-auto p-3 h-100">
+        <div class="book-background w-auto p-3 ">
             <div class="container">
                 <div class="row">
                     <div class="col-3 h-100">
@@ -71,8 +73,9 @@
                                     illum provident quaerat quo tempora! Cupiditate dicta dolore eum optio sunt.
                                 </span>
                             </div>
+                            <br><br><br><br><br><br>
                             <div class="col-12">
-                                <br><br><br>
+
                                 <div class="container-fluid">
                                     <div class="row">
                                         <div class="col-2">
@@ -108,11 +111,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-6">
-
-                    </div>
                 </div>
-
             </div>
         </div>
         <!--        footer       -->
@@ -121,34 +120,6 @@
         </div>
     </div>
 </div>
-
-<style>
-    .book-background {
-        background: #f6f6f6;
-    }
-
-    h4.font-weight-light {
-        margin-top: 15px;
-    }
-
-    span.font-weight-light {
-        font-size: 15pt;
-    }
-
-    div.col-12 span.font-weight-normal {
-        font-size: 17pt;
-    }
-
-    .btn-metro {
-        border-radius: 0px;
-    }
-
-    .btn-info-inverse {
-        background: rgba(246, 246, 246, 0);
-        border-color: #17a2b8;
-        color: #17a2b8;
-    }
-</style>
 
 <a id="bookid" th:value="${book}" hidden></a>
 
