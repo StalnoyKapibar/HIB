@@ -8,6 +8,7 @@ import com.project.service.UserAccountService;
 import org.apache.http.HttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @Controller
@@ -71,7 +73,6 @@ public class UserController {
             return view;
         }
         try {
-            //Нужна проверка на уникальность логина и пароля!!
             userAccountService.save(user);
         } catch (DataIntegrityViolationException e) {
             if (e.getCause().getCause().getMessage().contains("login")) {
@@ -84,5 +85,6 @@ public class UserController {
         view.setViewName("redirect:/home");
         return view;
     }
+
 
 }

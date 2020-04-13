@@ -1,6 +1,7 @@
 <!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -119,7 +120,6 @@
 
         </div>
     </div>
-
 </div>
 
 <style>
@@ -152,65 +152,7 @@
 
 <a id="bookid" th:value="${book}" hidden></a>
 
-<div class="modal fade" id="signModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header mx-3">
-                <h5 class="header-title-sign-in mb-0" id="exampleModalLabel">Sign in</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body mx-lg-2 mx-sm-1">
-                <form action="/login" th:action="@{/login}" role="form" method="post" id="form-login" name="form-login">
-                    <div class="form-group">
-                        <label for="loginInput">Login</label>
-                        <input type="text" class="form-control" id="loginInput" name="username" placeholder="Login"
-                               required>
-                    </div>
-                    <div class="form-group">
-                        <label for="passwordInput">Password</label>
-                        <input type="password" class="form-control" id="passwordInput" name="password"
-                               placeholder="Password" required>
-                    </div>
-                    <div class="custom-control custom-checkbox mb-2">
-                        <input type="checkbox" class="custom-control-input" id="checkboxRememberMe">
-                        <label class="custom-control-label" for="checkboxRememberMe">Remember me</label>
-                    </div>
-                    <button type="submit" hidden id="hidden_submit_btn">HiddenButtonToSubmitLoginForm</button>
-                </form>
-                <div class="row px-3" th:if="${errorMessage}!=null">
-                    <!--/*@thymesVar id="getMessage" type="com.project.model.FormLoginErrorMessageDTO"*/-->
-                    <h5 class="col-12 p-3 rounded text-center alert-danger" th:if="${errorMessage.isHasError()}"
-                        th:text="${errorMessage.getMessage()}" id="errorMessage"></h5>
-                </div>
-                <div class="row">
-                    <div class="col-lg-6 col-sm-12 pr-lg-1 mt-1">
-                        <a th:href="@{/oauth2/authorize/google}" class="btn btn-block btn-social btn-google text-white">
-                            <span class="fa fa-google mr-2"></span>Sign up with Google
-                        </a>
-                    </div>
-                    <div class="col-lg-6 col-sm-12 pl-lg-1 mt-1">
-                        <a class="btn btn-block btn-social btn-facebook text-white"
-                           th:href="@{/oauth2/authorize/facebook}">
-                            <span class="fa fa-facebook-f"></span>Sign up with Facebook
-                        </a>
-                    </div>
-                </div>
-                <div>
-                    <form action="/registration">
-                        <button type="submit" class="btn btn-header border col-12 mt-3">Register new profile</button>
-                    </form>
-                </div>
-            </div>
-            <div class="modal-footer mx-3">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="sign_in_btn" onclick="sendSignInForm()">Sign in
-                </button>
-            </div>
-        </div>
-    </div>
+<div th:replace="home :: sign-in-modal" class="modal fade" id="signModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
 </div>
 
 <div th:replace="home :: contact-button"></div>

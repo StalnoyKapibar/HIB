@@ -26,7 +26,8 @@ public class HibParser {
     @Autowired
     private ObjectMapper objectMapper;
 
-    private String avatar = "avatar.jpg";
+    private static final String AVATAR = "avatar.jpg";
+    private static final String PATH_TO_TMP = "img/tmp/";
 
     private LocaleString initLocaleString(JsonNode node) {
         return new LocaleString(node.get("ru").asText(), node.get("en").asText(),
@@ -51,14 +52,14 @@ public class HibParser {
             e.printStackTrace();
         }
         List<Image> listImage = new ArrayList<>();
-        listImage.add(new Image(0, avatar));
-        String avatarPath = "img/book" + id + "/" + avatar;
+        listImage.add(new Image(0, AVATAR));
+        String avatarPath = PATH_TO_TMP + AVATAR;
         byte[] decodedBytes = Base64.getDecoder().decode(jsonNode.get("avatar").asText());
         writeImgToFile(avatarPath, decodedBytes);
 
         JsonNode listBytes = jsonNode.get("additionalPhotos");
         for (int i = 0; i < listBytes.size(); i++) {
-            String additionalPhoto = "img/book" + id + "/" + i + ".jpg";
+            String additionalPhoto = PATH_TO_TMP + i + ".jpg";
             byte[] tmpDecodedBytes = Base64.getDecoder().decode(listBytes.get(i).asText());
             writeImgToFile(additionalPhoto, tmpDecodedBytes);
             listImage.add(new Image(0, i + ".jpg"));
@@ -74,7 +75,7 @@ public class HibParser {
                 .pages(jsonNode.get("pages").asLong())
                 .price(jsonNode.get("price").asLong())
                 .originalLanguage(jsonNode.get("originalLanguage").asText())
-                .coverImage(avatar)
+                .coverImage(AVATAR)
                 .imageList(listImage).build();
     }
 }

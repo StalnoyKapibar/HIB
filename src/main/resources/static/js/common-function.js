@@ -184,3 +184,9 @@ function json(response) {
 function text(response) {
     return response.text()
 }
+
+function setCurrentPageToCookie() {
+    let cookie = 'CURRENT_PAGE =' + window.location.pathname + ';' +
+    'path = /; max-age = 60';
+    document.cookie = cookie;
+}
