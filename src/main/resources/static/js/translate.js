@@ -63,3 +63,23 @@ function translateText(label) {
         }
     })
 }
+
+// for Transliterate
+function transliterationText(label) {
+    let text = $("#inpt" + label).val();
+    if (text == '') {
+        alert("Enter text")
+        return;
+    }
+    fetch('/api/transliteration', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify(text),
+    }).then(function (response) {
+        response.text().then(function (data) {
+            $("#in" + label).val(data)
+        })
+    })
+}
