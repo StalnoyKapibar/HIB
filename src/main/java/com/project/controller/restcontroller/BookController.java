@@ -3,12 +3,14 @@ package com.project.controller.restcontroller;
 import com.project.HIBParser.HibParser;
 import com.project.model.BookDTO;
 import com.project.model.BookDTO20;
-import com.project.search.BookSearch;
+import com.project.model.BookNewDTO;
 import com.project.model.PageableBookDTO;
+import com.project.search.BookSearch;
 import com.project.service.BookService;
 import com.project.service.StorageService;
 import com.project.util.BookDTOWithFieldsForTable;
 import lombok.AllArgsConstructor;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.PageRequest;
@@ -20,31 +22,66 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
 @AllArgsConstructor
 @RestController
 public class BookController {
 
-    @Autowired
     private BookService bookService;
     private BookSearch bookSearch;
     private HibParser hibParser;
-
-    @Autowired
     private StorageService storageService;
 
+    @PostMapping("/admin/deleteImg")
+    public HttpStatus deleteImageByPath(@RequestBody String path) {
+        try {
+            Files.delete(Paths.get(path));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return HttpStatus.BAD_REQUEST;
+        }
+        return HttpStatus.OK;
+    }
+
     @PutMapping("/loadFile")
-    public BookDTO loadFile(@RequestBody String book){
+    public BookDTO loadFile(@RequestBody String book) {
         BookDTO bookDTO = hibParser.getBookFromJSON(book);
         return bookDTO;
     }
 
+    @PostMapping("/admin/loadImg/{name}")
+    public String addNewImage(@PathVariable("name") String name, @RequestBody byte[] file) {
+        long id = Long.parseLong(bookService.getLastIdOfBook()) + 1;
+        String path = "img/book" + id;
+        if (name.equals("avatar")) {
+            path += "/" + name + ".jpg";
+        } else {
+            File dir = new File(path);
+            if (dir.exists()) {
+                path += "/" + dir.listFiles().length + ".jpg";
+            } else {
+                path += "/" + "0.jpg";
+            }
+        }
+        try {
+            FileUtils.writeByteArrayToFile(new File(path), file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
     @PutMapping("/admin/addBook")
-    public HttpStatus addNewBook(@RequestBody BookDTO bookDTO){
+    public HttpStatus addNewBook(@RequestBody BookDTO bookDTO) {
         bookService.addBook(bookDTO);
         return HttpStatus.OK;
     }
+
     @GetMapping("/getBookDTOById/{id}")
     public BookDTO getBookDTOById(@PathVariable("id") long id) {
         BookDTO bookDTO = bookService.getBookDTOById(id);
@@ -69,7 +106,7 @@ public class BookController {
         bookService.addBook(bookDTO);
         String lastId = bookService.getLastIdOfBook();
         storageService.createNewPaperForImages(lastId);
-        storageService.cutImagesFromTmpPaperToNewPaperByLastIdBook(lastId);
+        storageService.cutImagesFromTmpPaperToNewPaperByLastIdBook(lastId, bookDTO.getImageList());
     }
 
     @GetMapping("/getVarBookDTO")
@@ -95,10 +132,9 @@ public class BookController {
         return page;
     }
 
-    @GetMapping("/page/id/{x}")
-    public ResponseEntity<BookDTO> getBook(@PathVariable("x") long x) {
-        BookDTO bookDTO = bookService.getBookDTOById(x);
-        return ResponseEntity.ok(bookDTO);
+    @GetMapping("/api/book/{id}")
+    public BookNewDTO getNewBookDTOByIdAndLang(@PathVariable Long id, @RequestParam("locale") String lang) {
+        return bookService.getNewBookDTOByIdAndLang(id, lang);
     }
 
     @GetMapping("/searchResult")
@@ -108,9 +144,8 @@ public class BookController {
 
 
     @PostMapping("/admin/upload")
-    public HttpStatus fileUpload(@RequestBody MultipartFile file) {
-        storageService.saveImage(file);
-        return HttpStatus.OK;
+    public String fileUpload(@RequestBody MultipartFile file) {
+        return storageService.saveImage(file);
     }
 
     @PostMapping("/admin/download")

@@ -6,7 +6,6 @@ import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Map;
 
 @NoArgsConstructor
@@ -41,30 +40,30 @@ public class LocaleString {
     private Long id;
 
     @Field
-    @Column(name = "ru")
+    @Column(name = "ru", columnDefinition = "text")
     private String ru;
 
     @Field
-    @Column(name = "en")
+    @Column(name = "en", columnDefinition = "text")
     private String en;
 
     @Field
-    @Column(name = "fr")
+    @Column(name = "fr", columnDefinition = "text")
     private String fr;
 
     @Field
-    @Column(name = "it")
+    @Column(name = "it", columnDefinition = "text")
     private String it;
 
     @Field
-    @Column(name = "de")
+    @Column(name = "de", columnDefinition = "text")
     private String de;
 
     @Field
-    @Column(name = "cs")
+    @Column(name = "cs", columnDefinition = "text")
     private String cs;
 
     @Field
-    @Column(name = "gr")
+    @Column(name = "gr", columnDefinition = "text")
     private String gr;
 }

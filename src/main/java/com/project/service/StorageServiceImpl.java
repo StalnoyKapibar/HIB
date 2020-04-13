@@ -8,11 +8,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
 import java.util.Random;
 import java.util.stream.Stream;
 
 import com.project.exceptions.StorageException;
 import com.project.exceptions.StorageFileNotFoundException;
+import com.project.model.Image;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -27,11 +29,18 @@ public class StorageServiceImpl implements StorageService {
     private final Path path = Paths.get("img/tmp/");
 
     @Override
-    public void saveImage(MultipartFile file) {
+    public String saveImage(MultipartFile file) {
         String filename = StringUtils.cleanPath(file.getOriginalFilename());
+        File tmpPackage = new File(String.valueOf(path));
+        if (!tmpPackage.exists()) {
+            tmpPackage.mkdirs();
+        }
+        File fileImg = new File(String.valueOf(path.resolve(file.getOriginalFilename())));
         try (InputStream inputStream = file.getInputStream()) {
+            fileImg.createNewFile();
             Files.copy(inputStream, this.path.resolve(file.getOriginalFilename()),
                     StandardCopyOption.REPLACE_EXISTING);
+            return file.getOriginalFilename();
         } catch (IOException e) {
             throw new StorageException("Failed to store file " + filename, e);
         }
@@ -96,6 +105,26 @@ public class StorageServiceImpl implements StorageService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void cutImagesFromTmpPaperToNewPaperByLastIdBook(String namePaper, List<Image> imageList) {
+        try {
+            File folder = new File("img/tmp");
+            File[] listOfFiles = folder.listFiles();
+            Path destDir = Paths.get("img/book" + namePaper);
+            if (listOfFiles != null)
+                for (Image image : imageList) {
+                    for (File file : listOfFiles) {
+                        if (image.getNameImage().equals(file.getName())) {
+                            Files.copy(file.toPath(), destDir.resolve(file.getName()), StandardCopyOption.REPLACE_EXISTING);
+                        }
+                    }
+                }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        clearPaperTmp();
     }
 
     @Override
@@ -165,8 +194,7 @@ public class StorageServiceImpl implements StorageService {
     public boolean doesFolderTmpExist() {
         if (Files.exists(path)) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }

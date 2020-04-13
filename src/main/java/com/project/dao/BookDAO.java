@@ -1,10 +1,6 @@
 package com.project.dao;
 
-import com.project.model.Book;
-import com.project.model.BookDTO;
-import com.project.model.BookDTO20;
-import com.project.model.LocaleString;
-import com.project.model.PageableBookDTO;
+import com.project.model.*;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -33,4 +29,6 @@ public interface BookDAO {
     PageableBookDTO getPageBookDTOByPageable(Pageable pageable);
 
     String getQuantityBook();
+
+    BookNewDTO getNewBookDTObyIdAndLang(Long id, String lang);
 }

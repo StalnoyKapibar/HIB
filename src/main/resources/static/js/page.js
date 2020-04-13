@@ -15,18 +15,30 @@ $(document).ready(function () {
 });
 
 function setPageFields() {
-    fetch("/page/id/" + $("#bookid").attr("value"))
+    fetch("/api/book/" + $("#bookid").attr("value") + "?locale=" + currentLang)
         .then(status)
         .then(json).then(function (data) {
         objectBook = data;
         tmpEditBookId = data.id;
-        $('title').text(data.name[currentLang]);
-        $('#book-name').text(data.name[currentLang]);
-        $('#book-author').text(data.author[currentLang]);
-        $('#book-name1').text(data.name[currentLang]);
-        $('#bottomInCart').attr('data-id', data.id);
+        $('title').text(data.name);
+        $('#book-name').text(data.name);
+        $('#book-author').text(data.author);
+        $('#book-edition').text(data.edition);
+        $('#addToCart').attr('data-id', data.id);
+        $("#book-desc").text(data.desc);
+        $("#book-original-language").text(data.originalLanguage);
+        $("#book-amount-of-pages").text(data.pages);
+        $("#book-year-of-edition").text(data.yearOfEdition);
+        $("#book-price").text(convertPrice(data.price) + " $");
         buildCardImageOrCarousel();
     })
+}
+
+//TODO: Демонстрационная функция
+function convertPrice(price) {
+    price = price.toString();
+    let lastTwoNum = price.substr(price.length - 2, 2);
+    return price.substr(0, price.indexOf(lastTwoNum)) + '.' + lastTwoNum;
 }
 
 function buildCarousel() {
@@ -58,7 +70,7 @@ function buildCarousel() {
         }
     }
 
-    var htmlBodyCarousel = `<div id="carouselImagePage" class="carousel slide w-50" data-ride="carousel">
+    var htmlBodyCarousel = `<div id="carouselImagePage" class="carousel slide 100" data-ride="carousel">
                     <ol class="carousel-indicators" id='testActive'>
                     </ol>
                     <div class="carousel-inner" id='testBody'>
@@ -78,11 +90,7 @@ function buildCarousel() {
 }
 
 function buildCardImageOrCarousel() {
-    if (objectBook.imageList.length === 1) {
-        buildCardImage();
-    } else {
-        buildCarousel();
-    }
+    buildCarousel();
 }
 
 function buildCardImage() {
@@ -103,16 +111,6 @@ async function showSizeCart() {
         });
 }
 
-$(document).ready(function () {
-    $("body").on('click', '.btn-success', function () {
-        let id = $(this).attr("data-id");
-        addToCart(id);
-        setTimeout(function () {
-            showSizeCart();
-        }, 20)
-
-    })
-});
 
 function addToCart(id) {
     fetch("/cart/" + id, {
@@ -157,7 +155,24 @@ $(document).ready(function () {
     });
 });
 
+$("body").on('click', '#addToCart', function () {
+    let id = $(this).attr("data-id");
+    addToCart(id);
+    setTimeout(function () {
+        showSizeCart();
+    }, 20)
+
+});
+
 function openEdit() {
     localStorage.setItem('tmpEditBookId', tmpEditBookId);
     window.open('/edit', '_blank');
+}
+
+function checkParams() {
+    if ($('#loginInput').val().length !== 0 && $('#passwordInput').val().length !== 0) {
+        $('#sign_in_btn').removeAttr('hidden');
+    } else {
+        $('#sign_in_btn').attr('hidden', 'hidden');
+    }
 }

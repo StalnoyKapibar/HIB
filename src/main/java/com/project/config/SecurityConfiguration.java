@@ -1,7 +1,6 @@
 package com.project.config;
 
 import com.project.config.handler.LogoutSuccessHandler;
-import com.project.config.handler.OAuthLoginSuccessHandler;
 import com.project.filter.FilterSession;
 import com.project.service.OAuthUserService;
 import lombok.AllArgsConstructor;
@@ -18,6 +17,7 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.header.HeaderWriterFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 
@@ -30,8 +30,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private UserDetailsService userDetailsService;
 
     private AuthenticationSuccessHandler loginSuccessHandler;
-
-    private OAuthLoginSuccessHandler oAuthLoginSuccessHandler;
 
     private AuthenticationFailureHandler loginFailureHandler;
 
@@ -56,7 +54,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
+        //Фильтры
         http.addFilterBefore(filterSession, BasicAuthenticationFilter.class);
 
         //Страницы доступные для админа
@@ -74,7 +72,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 //OAuth
                 .oauth2Login()
-                .successHandler(oAuthLoginSuccessHandler)
+                .loginPage("/")
+                .successHandler(loginSuccessHandler)
                 .authorizationEndpoint()
                 .baseUri("/oauth2/authorize")
                 .and()

@@ -30,22 +30,23 @@ function text(response) {
 function buildPage() {
     var html1 = '';
     for (let tmpNameObject of nameObjectOfLocaleString) {
-        html1 += `<h5>${tmpNameObject}</h5>`;
+        html1 += `<h5 class='bg-secondary text-white text-center'>${tmpNameObject}</h5><div class="row row-cols-2">`;
         for (let tmpNameVar of nameVarOfLocaleStringWithId) {
             if (tmpNameVar === "id") {
-                html1 += `<div class='form-group'>` +
+                html1 += `<div class='col'><div class='form-group'>` +
                     `<label for='${tmpNameObject}${tmpNameVar}'>${tmpNameObject} ${tmpNameVar}</label>` +
                     `<input type='text' class='form-control' id='${tmpNameObject}${tmpNameVar}' ` +
                     `placeholder='${tmpNameObject} ${tmpNameVar}' readonly>` +
-                    `</div>`;
+                    `</div></div>`;
             } else {
-                html1 += `<div class='form-group'>` +
+                html1 += `<div class='col'><div class='form-group'>` +
                     `<label for='${tmpNameObject}${tmpNameVar}'>${tmpNameObject} ${tmpNameVar}</label>` +
                     `<input type='text' class='form-control' id='${tmpNameObject}${tmpNameVar}' ` +
                     `placeholder='${tmpNameObject} ${tmpNameVar}'>` +
-                    `</div>`;
+                    `</div></div>`;
             }
         }
+        html1 += '</div>';
     }
     html1 += `<h4>Cover Image</h4>` +
         `<div class='car' style='width: 18rem;'>` +

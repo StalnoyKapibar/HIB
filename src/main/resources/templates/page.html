@@ -12,6 +12,8 @@
     <link href="/static/css/bootstrap-social.css" rel="stylesheet"/>
     <link href="/static/fonts/font-awesome.css" rel="stylesheet">
     <link href="/static/fonts/font.css" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet">
+    <link href="/static/css/page.css" rel="stylesheet">
     <link href="/static/css/themify-icons.css" rel="stylesheet">
     <script src="/static/js/jquery.min.js"></script>
     <script src="/static/js/popper.min.js"></script>
@@ -25,113 +27,109 @@
     <header th:replace="home :: nav-bar"></header>
 
     <!--    page container    -->
-
     <div class="container page-content">
-        <h2 id="book-name">m </h2>
-
-        <div id="book-author">Author
-        </div>
-        <hr>
-
-        <!--        for cards        -->
-        <div>
-            <h2 id="headpost">You can read this</h2>
-            <br>
-        </div>
-        <div class="row">
-            <div class="col-6">
-                <div id="CardImageOrCarousel">
-                </div>
-                <div class="card-body">
-                    <h4 class="card-title" id="book-name1">NAME OF BOOK</h4>
-                    <button class="btn btn-info btn-sm mr-1" id="ask-question" sec:authorize="!hasRole('ADMIN')">Ask a
-                        Question
-                    </button>
-                    <button class="btn btn-success btn-sm  mr-1" data-id=""
-                            id="bottomInCart" sec:authorize="!hasRole('ADMIN')" type="button">Add to cart
-                    </button>
-                    <button class="btn btn-info" onclick="openEdit()" sec:authorize="hasRole('ADMIN')">Edit</button>
-                </div>
-            </div>
-            <div class="card-col-4">
-                <p class="card-text">
-                    Some description.
-                </p>
-            </div>
-        </div>
         <br>
+        <div class="book-background w-auto p-3 ">
+            <div class="container">
+                <div class="row">
+                    <div class="col-3 h-100">
+                        <div id="CardImageOrCarousel">
+                        </div>
+                    </div>
+                    <div class="col-9 container-fluid">
+                        <div class="row">
+                            <div class="col-6">
+                                <h4 class="font-weight-light title">Title: <span class="font-weight-normal"
+                                                                                 id="book-name">Book title</span>
+                                </h4>
+                                <h4 class="font-weight-light author">Author: <span class="font-weight-normal"
+                                                                                   id="book-author">Book author</span>
+                                </h4>
+                                <h4 class="font-weight-light edition">Edition: <span class="font-weight-normal"
+                                                                                     id="book-edition">Book edition</span>
+                                </h4>
+                            </div>
+                            <div class="col-6">
+                                <h4 class="font-weight-light original-language">Original language: <span
+                                        class="font-weight-normal"
+                                        id="book-original-language">Original language</span>
+                                </h4>
+                                <h4 class="font-weight-light amount-of-pages">Amount of pages: <span
+                                        class="font-weight-normal"
+                                        id="book-amount-of-pages">Amount of pages</span>
+                                </h4>
+                                <h4 class="font-weight-light year-of-edition">Year of edition: <span
+                                        class="font-weight-normal"
+                                        id="book-year-of-edition">Year of edition</span>
+                                </h4>
+                            </div>
+                            <div class="col-12">
+                                <br>
+                                <span class="font-weight-light" id="book-desc">
+                                    Description Lorem ipsum dolor sit amet, consectetur adipisicing elit. At
+                                    blanditiis corporis dolorem eveniet fugiat harum iste iusto, laborum maxime
+                                    minima mollitia placeat provident quia quos recusandae reiciendis, saepe unde
+                                    voluptatem? Animi corporis explicabo ipsam iure non? Blanditiis eveniet fuga
+                                    illum provident quaerat quo tempora! Cupiditate dicta dolore eum optio sunt.
+                                </span>
+                            </div>
+                            <br><br><br><br><br><br>
+                            <div class="col-12">
+
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-2">
+                                            <h4 class="font-weight-light price">Price:</h4>
+                                            <span class="font-weight-normal" id="book-price">15.00$</span>
+                                        </div>
+                                        <div class="col-8 offset-2">
+                                            <br>
+                                            <div class="container">
+                                                <div class="row">
+                                                    <th:block sec:authorize="!hasRole('ADMIN')">
+                                                        <button class="btn btn-info col-5 btn-metro btn-info-inverse"
+                                                                id="ask-question"
+                                                                type="button">Ask a
+                                                            question
+                                                        </button>
+                                                        <button class="btn btn-info col-5 offset-1 btn-metro"
+                                                                id="addToCart"
+                                                                type="button">
+                                                            Add to cart
+                                                        </button>
+                                                    </th:block>
+                                                    <th:block sec:authorize="hasRole('ADMIN')">
+                                                        <button class="btn btn-warning btn-metro col-8 offset-4"
+                                                                onclick="openEdit()">Edit book
+                                                        </button>
+                                                    </th:block>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!--        footer       -->
         <div class="footer pt-3 p-0 container-fluid text-center" th:replace="home :: footer">
 
         </div>
     </div>
 </div>
+
 <a id="bookid" th:value="${book}" hidden></a>
 
-<div class="modal fade" id="signModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header mx-3">
-                <h5 class="header-title-sign-in mb-0" id="exampleModalLabel">Sign in</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body mx-lg-2 mx-sm-1">
-                <form action="/login" th:action="@{/login}" role="form" method="post" id="form-login" name="form-login">
-                    <div class="form-group">
-                        <label for="loginInput">Login</label>
-                        <input type="text" class="form-control" id="loginInput" name="username" placeholder="Login"
-                               required>
-                    </div>
-                    <div class="form-group">
-                        <label for="passwordInput">Password</label>
-                        <input type="password" class="form-control" id="passwordInput" name="password"
-                               placeholder="Password" required>
-                    </div>
-                    <div class="custom-control custom-checkbox mb-2">
-                        <input type="checkbox" class="custom-control-input" id="checkboxRememberMe">
-                        <label class="custom-control-label" for="checkboxRememberMe">Remember me</label>
-                    </div>
-                    <button type="submit" hidden id="hidden_submit_btn">HiddenButtonToSubmitLoginForm</button>
-                </form>
-                <div class="row px-3" th:if="${errorMessage}!=null">
-                    <!--/*@thymesVar id="getMessage" type="com.project.model.FormLoginErrorMessageDTO"*/-->
-                    <h5 class="col-12 p-3 rounded text-center alert-danger" th:if="${errorMessage.isHasError()}"
-                        th:text="${errorMessage.getMessage()}" id="errorMessage"></h5>
-                </div>
-                <div class="row">
-                    <div class="col-lg-6 col-sm-12 pr-lg-1 mt-1">
-                        <a th:href="@{/oauth2/authorize/google}" class="btn btn-block btn-social btn-google text-white">
-                            <span class="fa fa-google mr-2"></span>Sign up with Google
-                        </a>
-                    </div>
-                    <div class="col-lg-6 col-sm-12 pl-lg-1 mt-1">
-                        <a th:href="@{/oauth2/authorize/facebook}" class="btn btn-block btn-social btn-facebook text-white">
-                            <span class="fa fa-facebook-f"></span>Sign up with Facebook
-                        </a>
-                    </div>
-                </div>
-                <div>
-                    <form action="/registration">
-                        <button type="submit" class="btn btn-header border col-12 mt-3">Register new profile</button>
-                    </form>
-                </div>
-            </div>
-            <div class="modal-footer mx-3">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="sign_in_btn" onclick="sendSignInForm()">Sign in
-                </button>
-            </div>
-        </div>
-    </div>
+<div th:replace="home :: sign-in-modal" class="modal fade" id="signModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
 </div>
 
 <div th:replace="home :: contact-button"></div>
 
+<script src="/static/js/common-function.js"></script>
+<script src="/static/js/page.js"></script>
 <script src="/static/js/footerBuilder.js"></script>
-<script src="../static/js/common-function.js"></script>
-<script src="../static/js/page.js"></script>
 </body>
 </html>

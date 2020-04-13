@@ -147,7 +147,7 @@ function savePasswordReq(x) {
         .then(text)
         .then(function (resp) {
             if (resp === "passError") {
-                showErrorPassword('The password must be between 8 and 64 and must contain numbers and characters in the upper and lower registers, without spaces!');
+                showErrorPassword('The password must be between 5 and 64 and can contain numbers and characters in the upper and lower registers, without spaces!');
                 setTimeout(hideErrorPassword, 5000);
             } else {
                 if (resp === "wrongPassword") {
