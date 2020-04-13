@@ -35,30 +35,39 @@
                     </div>
                     <div class="col-9 container-fluid">
                         <div class="row">
-                            <div class="col-5">
-                                <h4 class="font-weight-light">Title: <span class="font-weight-normal" id="book-name">Book title</span>
+                            <div class="col-6">
+                                <h4 class="font-weight-light title">Title: <span class="font-weight-normal"
+                                                                                 id="book-name">Book title</span>
                                 </h4>
-                                <h4 class="font-weight-light">Author: <span class="font-weight-normal"
-                                                                            id="book-author">Book author</span></h4>
-                                <h4 class="font-weight-light">Edition: <span class="font-weight-normal"
-                                                                             id="book-edition">Book edition</span>
+                                <h4 class="font-weight-light author">Author: <span class="font-weight-normal"
+                                                                                   id="book-author">Book author</span>
+                                </h4>
+                                <h4 class="font-weight-light edition">Edition: <span class="font-weight-normal"
+                                                                                     id="book-edition">Book edition</span>
                                 </h4>
                             </div>
-                            <div class="col-7">
-                                <h4 class="font-weight-light">Original language: <span class="font-weight-normal"
-                                                                                       id="book-original-language">Original language</span>
+                            <div class="col-6">
+                                <h4 class="font-weight-light original-language">Original language: <span
+                                        class="font-weight-normal"
+                                        id="book-original-language">Original language</span>
                                 </h4>
-                                <h4 class="font-weight-light">Amount of pages: <span class="font-weight-normal"
-                                                                                     id="book-amount-of-pages">Amount of pages</span>
+                                <h4 class="font-weight-light amount-of-pages">Amount of pages: <span
+                                        class="font-weight-normal"
+                                        id="book-amount-of-pages">Amount of pages</span>
                                 </h4>
-                                <h4 class="font-weight-light">Year of edition: <span class="font-weight-normal"
-                                                                                     id="book-year-of-edition">Year of edition</span>
+                                <h4 class="font-weight-light year-of-edition">Year of edition: <span
+                                        class="font-weight-normal"
+                                        id="book-year-of-edition">Year of edition</span>
                                 </h4>
                             </div>
                             <div class="col-12">
                                 <br>
                                 <span class="font-weight-light" id="book-desc">
-                                    Description Lorem ipsum dolor sit amet, consectetur adipisicing elit. At blanditiis corporis dolorem eveniet fugiat harum iste iusto, laborum maxime minima mollitia placeat provident quia quos recusandae reiciendis, saepe unde voluptatem? Animi corporis explicabo ipsam iure non? Blanditiis eveniet fuga illum provident quaerat quo tempora! Cupiditate dicta dolore eum optio sunt.
+                                    Description Lorem ipsum dolor sit amet, consectetur adipisicing elit. At
+                                    blanditiis corporis dolorem eveniet fugiat harum iste iusto, laborum maxime
+                                    minima mollitia placeat provident quia quos recusandae reiciendis, saepe unde
+                                    voluptatem? Animi corporis explicabo ipsam iure non? Blanditiis eveniet fuga
+                                    illum provident quaerat quo tempora! Cupiditate dicta dolore eum optio sunt.
                                 </span>
                             </div>
                             <div class="col-12">
@@ -66,23 +75,30 @@
                                 <div class="container-fluid">
                                     <div class="row">
                                         <div class="col-2">
-                                            <h4 class="font-weight-light">Price:</h4>
+                                            <h4 class="font-weight-light price">Price:</h4>
                                             <span class="font-weight-normal" id="book-price">15.00$</span>
                                         </div>
-                                        <div class="col-6 offset-4">
+                                        <div class="col-8 offset-2">
                                             <br>
                                             <div class="container">
                                                 <div class="row">
-                                                    <button class="btn btn-info col-5 btn-metro btn-info-inverse"
-                                                            id="ask-question"
-                                                            sec:authorize="!hasRole('ADMIN')"
-                                                            type="button">Ask a
-                                                        question
-                                                    </button>
-                                                    <button class="btn btn-info col-5 offset-1 btn-metro" id="addToCart"
-                                                            sec:authorize="!hasRole('ADMIN')" type="button">
-                                                        Add to cart
-                                                    </button>
+                                                    <th:block sec:authorize="!hasRole('ADMIN')">
+                                                        <button class="btn btn-info col-5 btn-metro btn-info-inverse"
+                                                                id="ask-question"
+                                                                type="button">Ask a
+                                                            question
+                                                        </button>
+                                                        <button class="btn btn-info col-5 offset-1 btn-metro"
+                                                                id="addToCart"
+                                                                type="button">
+                                                            Add to cart
+                                                        </button>
+                                                    </th:block>
+                                                    <th:block sec:authorize="hasRole('ADMIN')">
+                                                        <button class="btn btn-warning btn-metro col-8 offset-4"
+                                                                onclick="openEdit()">Edit book
+                                                        </button>
+                                                    </th:block>
                                                 </div>
                                             </div>
                                         </div>

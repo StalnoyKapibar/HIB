@@ -33,6 +33,7 @@ function setLocaleFields() {
             $('#dropdownclose').text(localeFields['dropdownclose']);
             $('#toshoppingcart').text(localeFields['toshoppingcart']);
             $('#bottomInCart').text(localeFields['addToshoppingCart']);
+            $('#addToCart').text(localeFields['addToshoppingCart']);
             $('#delete').text(localeFields['deleteBottom']);
             $('#quantity').text(localeFields['quantity']);
             $('#price').text(localeFields['price']);
@@ -52,6 +53,20 @@ function setLocaleFields() {
             $('.closeModalBtn').text(localeFields['close']);
             $('#send-feedback-request').text(localeFields['send-feedback-request']);
             $('#logout-modal-title').text(localeFields['logout']);
+            let title = $(".title");
+            let author = $(".author");
+            let edition = $(".edition");
+            let originalLanguage = $(".original-language");
+            let amountOfPages = $(".amount-of-pages");
+            let yearOfEdition = $(".year-of-edition");
+            let price = $(".price");
+            title.html(title.html().replace('Title:', localeFields['title']));
+            author.html(author.html().replace('Author:', localeFields['author']));
+            edition.html(edition.html().replace('Edition:', localeFields['edition']));
+            originalLanguage.html(originalLanguage.html().replace('Original language:', localeFields['original-language']));
+            amountOfPages.html(amountOfPages.html().replace('Amount of pages:', localeFields['amount-of-pages']));
+            yearOfEdition.html(yearOfEdition.html().replace('Year of edition:', localeFields['year-of-edition']));
+            price.html(price.html().replace('Price:', localeFields['price']));
         })
 }
 
