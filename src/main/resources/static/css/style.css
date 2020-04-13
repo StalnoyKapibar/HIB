@@ -138,3 +138,13 @@ a.footer_link:hover {
     border-radius: 40px;
 }
 
+.btn-metro {
+    border-radius: 0px;
+}
+
+.btn-info-inverse {
+    background: rgba(246, 246, 246, 0);
+    border-color: #17a2b8;
+    color: #17a2b8;
+}
+

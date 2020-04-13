@@ -1,0 +1,15 @@
+.book-background {
+    background: #f6f6f6;
+}
+
+h4.font-weight-light {
+    margin-top: 15px;
+}
+
+span.font-weight-light {
+    font-size: 15pt;
+}
+
+div.col-12 span.font-weight-normal {
+    font-size: 17pt;
+}

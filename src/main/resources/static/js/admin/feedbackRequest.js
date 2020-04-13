@@ -97,9 +97,9 @@ async function showInterestedBook(message) {
     interestedBookContainer.attr('style', 'display: none');
     if (message.includes("/page/")) {
         bookId = message.substr(message.indexOf("/page/") + 6, message.length);
-        await fetch("/page/id/" + bookId)
+        await fetch("/api/book/" + bookId + "?locale=en")
             .then(json).then((book) => {
-                interestedBookTitle.html(`<span>${book.name['en']}</span>`);
+                interestedBookTitle.html(`<span>${book.name}</span>`);
                 interestedBookTitle.attr('href', "/page/" + bookId);
                 interestedBookImage.attr('src', `/images/book${book.id}/${book.coverImage}`);
                 interestedBookContainer.attr('style', 'display: inline');

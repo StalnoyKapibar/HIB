@@ -1,10 +1,6 @@
 package com.project.dao;
 
-import com.project.model.Book;
-import com.project.model.BookDTO;
-import com.project.model.BookDTO20;
-import com.project.model.LocaleString;
-import com.project.model.PageableBookDTO;
+import com.project.model.*;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
@@ -53,6 +49,24 @@ public class BookDAOImpl implements BookDAO {
     @Override
     public String getQuantityBook() {
         return entityManager.createQuery("SELECT COUNT (1) FROM Book").getSingleResult().toString();
+    }
+
+    @Override
+    @SuppressWarnings("all")
+    public BookNewDTO getNewBookDTObyIdAndLang(Long id, String lang) {
+        String hql = ("Select new com.project.model.BookNewDTO(b.id, b.nameLocale.LOC, " +
+                "b.authorLocale.LOC, b.desc.LOC, b.edition.LOC, b.yearOfEdition, b.pages," +
+                " b.price, b.originalLanguage, b.coverImage) FROM Book b WHERE id = :id").replaceAll("LOC", lang);
+        BookNewDTO bookNewDTO = entityManager.createQuery(hql, BookNewDTO.class).setParameter("id", id).getSingleResult();
+        List<Image> images = entityManager
+                .createNativeQuery(" select id, name_image " +
+                                "from image i " +
+                                "inner join book_list_image bi " +
+                                "on i.id = list_image_id " +
+                                "where bi.book_id = :id",
+                        Image.class).setParameter("id", id).getResultList();
+        bookNewDTO.setImageList(images);
+        return bookNewDTO;
     }
 
     @Override
