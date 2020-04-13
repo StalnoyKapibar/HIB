@@ -168,24 +168,24 @@ $(document).ready( () => {
             .then(function (data) {
                 let tr = [];
                 for (let i = 0; i < data.length; i++) {
-                    tr.push('<tr>');
-                    tr.push('<td>' + data[i].id + '</td>>');
-                    tr.push('<td>' + data[i].nameAuthorDTOLocale + '</td>>');
-                    tr.push('<td >' + data[i].nameBookDTOLocale + '</td>>');
-                    tr.push('<td >' +
+                    $('#extra').append('<tr>' +
+                        '<td>' + data[i].id + '</td>>' +
+                        '<td>' + data[i].nameAuthorDTOLocale + '</td>' +
+                        '<td >' + data[i].nameBookDTOLocale + '</td>' +
+                        '<td >' +
                         `<button type='button' onclick='buildEditBook(${data[i].id})'  data-toggle='modal'` +
                         `data-target='#asdddd'  class='btn btn-primary'> ` +
                         `Edit` +
                         `</button>` +
-                        '</td>');
-                    tr.push('<td >' +
+                        '</td>' +
+                        '<td >' +
                         `<button type='button'  onclick='delBook(${data[i].id})'  class='btn btn-primary btn-danger'>` +
                         `Delete` +
                         `</button>` +
-                        '</td>');
-                    tr.push('</tr>');
+                        '</td>' +
+                        '</tr>'
+                    );
                 }
-                $('#extra').append($(tr.join('')));
             });
     });
 });
