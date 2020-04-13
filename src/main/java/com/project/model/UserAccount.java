@@ -78,6 +78,6 @@ public class UserAccount implements UserDetails, OAuth2User {
 
     @Override
     public String getName() {
-        return String.valueOf(email);
+        return email;
     }
 }
