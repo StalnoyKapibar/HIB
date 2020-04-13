@@ -14,7 +14,7 @@ import javax.persistence.*;
 @Table(name = "image")
 public class Image {
 
-    public Image(String nameImage){
+    public Image(String nameImage) {
         this.nameImage = nameImage;
     }
 

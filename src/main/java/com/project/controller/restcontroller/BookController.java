@@ -42,6 +42,7 @@ public class BookController {
             Files.delete(Paths.get(path));
         } catch (IOException e) {
             e.printStackTrace();
+            return HttpStatus.BAD_REQUEST;
         }
         return HttpStatus.OK;
     }

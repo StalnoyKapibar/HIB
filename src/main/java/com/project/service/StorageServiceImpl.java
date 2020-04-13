@@ -32,7 +32,7 @@ public class StorageServiceImpl implements StorageService {
     public String saveImage(MultipartFile file) {
         String filename = StringUtils.cleanPath(file.getOriginalFilename());
         File tmpPackage = new File(String.valueOf(path));
-        if (!tmpPackage.exists()){
+        if (!tmpPackage.exists()) {
             tmpPackage.mkdirs();
         }
         File fileImg = new File(String.valueOf(path.resolve(file.getOriginalFilename())));
@@ -194,8 +194,7 @@ public class StorageServiceImpl implements StorageService {
     public boolean doesFolderTmpExist() {
         if (Files.exists(path)) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
