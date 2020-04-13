@@ -27,6 +27,7 @@ public class HibParser {
     private ObjectMapper objectMapper;
 
     private String avatar = "avatar.jpg";
+    private String pathToTmp = "img/tmp/";
 
     private LocaleString initLocaleString(JsonNode node) {
         return new LocaleString(node.get("ru").asText(), node.get("en").asText(),
@@ -35,18 +36,11 @@ public class HibParser {
     }
 
     private void writeImgToFile(String path, byte[] bytes) {
-            try {
-                FileUtils.writeByteArrayToFile(new File(path), bytes);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-    }
-
-    public String loadImage(byte[] file){
-        long id = Long.parseLong(bookService.getLastIdOfBook()) + 1;
-        String avatarPath = "img/book" + id + "/" + avatar;
-        writeImgToFile(avatarPath, file);
-        return "";
+        try {
+            FileUtils.writeByteArrayToFile(new File(path), bytes);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public BookDTO getBookFromJSON(String json) {
@@ -59,13 +53,13 @@ public class HibParser {
         }
         List<Image> listImage = new ArrayList<>();
         listImage.add(new Image(0, avatar));
-        String avatarPath = "img/book" + id + "/" + avatar;
+        String avatarPath = pathToTmp + avatar;
         byte[] decodedBytes = Base64.getDecoder().decode(jsonNode.get("avatar").asText());
         writeImgToFile(avatarPath, decodedBytes);
 
         JsonNode listBytes = jsonNode.get("additionalPhotos");
         for (int i = 0; i < listBytes.size(); i++) {
-            String additionalPhoto = "img/book" + id + "/" + i + ".jpg";
+            String additionalPhoto = pathToTmp + i + ".jpg";
             byte[] tmpDecodedBytes = Base64.getDecoder().decode(listBytes.get(i).asText());
             writeImgToFile(additionalPhoto, tmpDecodedBytes);
             listImage.add(new Image(0, i + ".jpg"));

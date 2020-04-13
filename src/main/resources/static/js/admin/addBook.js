@@ -1,11 +1,10 @@
 let divAvatar;
-let imageList;
+let listImages;
 let yearOfEdition;
 let pages;
 let price;
 let originalLanguage;
-let newBook;
-let pathToImgPackage = '/images/book';
+let pathToTmpPackage = '/images/tmp/';
 
 function addPage() {
     getVarBookDTO();
@@ -30,10 +29,7 @@ function addPage() {
                 </div>
                 <div class="col">
                 <input type="checkbox" checked name="cb${tmpNameObject}" value="${tmpNameVar}" autocomplete="off"> Into this language
-                </div>
-                </div>
-                </div>
-                </div>`;
+                </div></div></div></div>`;
         }
         html += `<button type="button" onclick="translateText('${tmpNameObject}')" class="btn btn-primary mx-3">Translate</button></div>`;
     }
@@ -55,6 +51,7 @@ function addPage() {
         <select id="originalLanguage" >
         </select><br><br>
         </div>
+        <div id = "allImage">
         <div class="shadow p-4 mb-4 bg-white">
         <div id="divLoadAvatar">
         <h4>Avatar</h4>
@@ -62,22 +59,16 @@ function addPage() {
         <input type="file" class="form-control-file" id="avatar" accept=".jpg" onchange="loadImage('avatar','divAvatar')">      
         </div>
         <div class='car' id='divAvatar' style='width: 18rem;'>    
-        </div><br><br>
-        </div>
+        </div><br><br></div>
         <div class="shadow p-4 mb-4 bg-white">
         <h4>Another Image</h4>
-        <Label>Load another image</Label>
-        
+        <Label>Load another image</Label>       
         <input type="file" class="form-control-file" id="loadAnotherImage" accept=".jpg" onchange="loadImage('loadAnotherImage','imageList')">
-    
-        </div>
-        <div class="shadow p-4 mb-4 bg-white">
         <div class='car' id='imageList' style='width: 18rem;'>
-        </div>
-        </div>`
+        </div></div></div>`
     );
     divAvatar = $("#divAvatar");
-    imageList = $("#imageList");
+    listImages = $("#imageList");
     yearOfEdition = $("#yearOfEdition");
     pages = $("#pages");
     price = $("#price");
@@ -105,11 +96,30 @@ function loadImage(nameId, div) {
     });
 }
 
-function addImageInDiv(fileName, id) {
-    let div = $("#" + id);
-    let path = "/images/tmp/"+fileName;
-    div.append(
-        `<img src=${path} class='card-img-top'  alt='...'>`
+function addImageInDiv(fileName, divId) {
+    let path = "/images/tmp/" + fileName;
+    let imageId = fileName.replace(/\./g, '');
+    if (divId === 'divAvatar') {
+        divAvatar.empty();
+        addImgAvatarAndBtn(fileName, path);
+    } else {
+        addImgToListAndBtn(fileName, path);
+    }
+}
+
+function addImgAvatarAndBtn(divId, path) {
+    divAvatar.append(
+        `<img src=${path} class='card-img-top' id=${divId} alt='...'>
+        <button type="button" onclick="deleteImage('divAvatar')" class="btn btn-primary mx-3">Delete image</button>`
+    )
+}
+
+function addImgToListAndBtn(divId, path) {
+    listImages.append(
+        `<div class="shadow p-4 mb-4 bg-white" id="${divId}">               
+                <img src=${path} id=${divId} class='card-img-top'  alt='...'>
+                <button type="button" onclick="deleteImage('${divId}')" class="btn btn-primary mx-3">Delete image</button><br>              
+                </div>`
     )
 }
 
@@ -129,9 +139,8 @@ function loadBookFile() {
 }
 
 function addValueToFields(book) {
-    let pathWithBookId = pathToImgPackage + book.id + "/";
     divAvatar.empty();
-    imageList.empty();
+    listImages.empty();
     for (let tmpNameObject of nameObjectOfLocaleString) {
         for (let tmpNameVar of nameVarOfLocaleString) {
             $("#inp" + tmpNameObject + tmpNameVar).val(book[tmpNameObject][tmpNameVar]);
@@ -141,52 +150,24 @@ function addValueToFields(book) {
     pages.val(`${book.pages}`);
     price.val(`${book.price}`);
     originalLanguage.val(`${book.originalLanguage}`);
-    divAvatar.attr("src", `${pathWithBookId}${book.coverImage}`);
-    divAvatar.append(
-        `<img id="avatarImage" src="${pathWithBookId}${book.coverImage}" class='card-img-top' alt='...'>
-    <button type="button" onclick="deleteImage('avatarImage', '${book.coverImage}')" class="btn btn-primary mx-3">Delete image </button>`
-    );
+    let img = book.coverImage;
+    addImgAvatarAndBtn(img, pathToTmpPackage + img)
     for (const imageListElement of book.imageList) {
-        let nameImg = imageListElement.nameImage;
-        let pathToImg = '/images/book' + book.id + '/' + nameImg;
-        if (!nameImg.includes('avatar')) {
-            let newId = nameImg.replace(/\./g, '');
-            imageList.append(
-                `<div class="shadow p-4 mb-4 bg-white">
-                <div  id="${newId}">
-                <img src=${pathToImg} class='card-img-top'  alt='...'>
-                <button type="button" onclick="deleteImage('${newId}','${nameImg}')" class="btn btn-primary mx-3">Delete image</button>
-                </div>
-                </div>`
-            )
+        if (img !== imageListElement.nameImage) {
+            let nameImg = imageListElement.nameImage;
+            let pathToImg = pathToTmpPackage + nameImg;
+            addImgToListAndBtn(nameImg, pathToImg)
         }
     }
-    newBook = book;
 }
 
-function deleteImage(id, name) {
-    if (id === 'avatarImage') {
+function deleteImage(id) {
+    if (id === 'divAvatar') {
         divAvatar.empty();
-        newBook.coverImage = null;
     } else {
-        $("#" + id).empty();
+        document.getElementById(id).remove();
     }
-    newBook.imageList = newBook.imageList.filter(function (img) {
-        return img.nameImage !== name;
-    });
 
-    fetch('/admin/deleteImg', {
-        method: 'POST',
-        body: "img/book" + newBook.id + "/" + name
-    })
-}
-
-function isCoverImageNotNull() {
-    if (newBook.coverImage == null) {
-        alert("select avatar for book")
-        return false;
-    }
-    return true;
 }
 
 function addNewBook() {
@@ -203,11 +184,12 @@ function addNewBook() {
         book["pages"] = pages.val();
         book["price"] = price.val();
         book["originalLanguage"] = originalLanguage.val();
-        book["coverImage"] = "avatar.jpg";
+        book["coverImage"] = divAvatar.find("img")[0].id;
+        let allImages = $("#allImage").find("img");
         let imageList = [];
-        // for (const imageListElement of newBook.imageList) {
-        //     imageList.push(imageListElement);
-        // }
+        for (let img of allImages) {
+            imageList.push(img.id);
+        }
         book["imageList"] = imageList;
         fetch('/admin/add', {
             method: 'POST',
@@ -221,7 +203,6 @@ function addNewBook() {
 }
 
 function clearFields() {
-    newBook = null;
     for (let tmpNameObject of nameObjectOfLocaleString) {
         for (let tmpNameVar of nameVarOfLocaleString) {
             $("#inp" + tmpNameObject + tmpNameVar).val('');
@@ -232,7 +213,7 @@ function clearFields() {
     price.val(``);
     originalLanguage.val(``);
     divAvatar.empty();
-    imageList.empty();
+    listImages.empty();
 }
 
 function doesFolderTmpExist() {
