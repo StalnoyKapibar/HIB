@@ -1,4 +1,4 @@
-package com.project.service;
+package com.project.util;
 
 public interface TransliterateUtil {
    public String transliterate(String name);

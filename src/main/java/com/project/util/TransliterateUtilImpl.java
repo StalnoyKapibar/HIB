@@ -1,4 +1,4 @@
-package com.project.service;
+package com.project.util;
 
 import com.ibm.icu.text.Transliterator;
 import org.springframework.stereotype.Component;

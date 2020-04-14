@@ -1,6 +1,6 @@
 package com.project.controller.restcontroller;
 
-import com.project.service.TransliterateUtilImpl;
+import com.project.util.TransliterateUtilImpl;
 import lombok.AllArgsConstructor;
 import org.apache.tomcat.util.json.ParseException;
 import org.springframework.web.bind.annotation.PostMapping;
