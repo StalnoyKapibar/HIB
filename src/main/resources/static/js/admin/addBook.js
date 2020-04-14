@@ -42,6 +42,23 @@ function addPage() {
                 </div></div></div></div>`;
         }
         html += `<button type="button" onclick="translateText('${tmpNameObject}')" class="btn btn-primary mx-3">Translate</button></div>`;
+        html +=
+               `<div class="shadow p-4 mb-4 bg-white">
+                <div class='form-group mx-5 my-3'>
+                <div class="row">
+                <div class="col-0" for=${tmpNameObject}>${tmpNameObject} of other lang </div>
+                <div class="col-5 pl-5 ml-5  "><input type='text'  class='form-control '  id='inpt${tmpNameObject}'
+                placeholder='${tmpNameObject} of other  lang '>
+                </div> </div>
+                <div class="row my-2">
+                <div class="col-0" for=${tmpNameObject}>${tmpNameObject} transliterate&nbsp;&nbsp; </div>
+                <div class="col-5 pl-5 ml-5  mr-1 "><input type='text' class='form-control ' id='in${tmpNameObject}'
+                placeholder='${tmpNameObject} transliterate '>
+                </div> </div>
+                </div>
+                <button type="button" onclick="transliterationText('${tmpNameObject}')" class="btn btn-primary mx-3">Transliterate</button>
+                </div>`;
+
     }
     $('#newBookForm').html(html +
         `<div class="shadow p-4 mb-4 bg-white">
