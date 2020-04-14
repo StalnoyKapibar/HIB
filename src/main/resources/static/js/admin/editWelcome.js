@@ -14,6 +14,7 @@ var nameImageCover = '';
 let welcomeText = [];
 
 $(document).ready(getVarBookDTO(), getAllLocales(), pageBook(0));
+
 async function getVarBookDTO() {
     await fetch("/getVarBookDTO")
         .then(status)
@@ -123,7 +124,7 @@ async function pageBook(x) {
                 for (key in tmp_html) {
                     if (tmp_html[key] !== null) {
                         if (key !== "id" && key !== "coverImage" && key !== "imageList" && key !== "desc" && key !== "edition"
-                            && key !== "yearOfEdition" && key !== "pages" && key !== "price" && key!=="originalLanguage") {
+                            && key !== "yearOfEdition" && key !== "pages" && key !== "price" && key !== "originalLanguage") {
                             var ad = tmp_html[key][idChangeLang];
                             html += `<td id='n${tmp_html.id}'>${ad}</td>`;
                         }
@@ -137,7 +138,7 @@ async function pageBook(x) {
                     `</button>` +
                     `</td>` +
                     `<td>` +
-                    `<button type='button'  onclick='delBook(${tmp_html.id})'  class='btn btn-primary btn-danger'>` +
+                    `<button type='button'  onclick='delBook(${tmp_html.id})'  class='btn btn-danger'>` +
                     `Delete` +
                     `</button>` +
                     `</td>` +
@@ -146,7 +147,54 @@ async function pageBook(x) {
             $('#extra').html(html);
         });
     buildChangeLang();
+    $('#search-admin-local-id').html(idChangeLang);
 }
+
+$(document).ready( () => {
+    $('#search-form-admin').submit(async () => {
+        $('#pagination00').empty();
+        $('#extra').empty();
+        let searchWord = $('#search-input-admin').val();
+        let searchLang = idChangeLang;
+        fetch("/searchResult?request=" + searchWord + "&LANG=" + searchLang, {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        })
+            .then(status)
+            .then(json)
+            .then(function (data) {
+                for (let i = 0; i < data.length; i++) {
+                    $('#extra').append('<tr id="' + data[i].id + '">' +
+                        '<td id="' + data[i].id + '">' + data[i].id + '</td>>' +
+                        '<td>' + data[i].nameAuthorDTOLocale + '</td>' +
+                        '<td>' + data[i].nameBookDTOLocale + '</td>' +
+                        '<td>' +
+                        `<button type='button' onclick='buildEditBook(${data[i].id})'  data-toggle='modal'` +
+                        `data-target='#asdddd'  class='btn btn-primary'> ` +
+                        `Edit` +
+                        `</button>` +
+                        '</td>' +
+                        '<td>' +
+                        `<button type='button'  onclick='delBook(${data[i].id})'  class='btn btn-danger'>` +
+                        `Delete` +
+                        `</button>` +
+                        '</td>' +
+                        '</tr>'
+                    );
+                }
+            });
+    });
+});
+
+$(document).ready( ()  => {
+    $("body").on('click', '#search-admin-close', () => {
+        $('#search-input-admin').val('');
+        pageBook(idPageable);
+    });
+});
 
 function addBook() {
     var add = {};
@@ -238,6 +286,7 @@ function buildChangeLang() {
 
 function chanLang(x) {
     idChangeLang = nameVarOfLocaleString[x];
+    $('#search-input-admin').val('');
     pageBook(idPageable);
 }
 
