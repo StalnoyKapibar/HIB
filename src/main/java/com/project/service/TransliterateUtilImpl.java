@@ -4,7 +4,7 @@ import com.ibm.icu.text.Transliterator;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TransliterateForBookImpl implements TransliterateForBook {
+public class TransliterateUtilImpl implements TransliterateUtil {
 
     @Override
     public String transliterate(String text) {

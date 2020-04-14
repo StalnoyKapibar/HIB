@@ -1,5 +1,5 @@
 package com.project.service;
 
-public interface TransliterateForBook {
+public interface TransliterateUtil {
    public String transliterate(String name);
 }

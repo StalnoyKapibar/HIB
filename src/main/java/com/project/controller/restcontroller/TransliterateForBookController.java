@@ -1,6 +1,6 @@
 package com.project.controller.restcontroller;
 
-import com.project.service.TransliterateForBookImpl;
+import com.project.service.TransliterateUtilImpl;
 import lombok.AllArgsConstructor;
 import org.apache.tomcat.util.json.ParseException;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TransliterateForBookController {
 
-    private TransliterateForBookImpl transliterateForBookImpL;
+    private TransliterateUtilImpl transliterateForBookImpL;
 
     @PostMapping("/api/transliteration")
     public String transliteration(@RequestBody String text) throws ParseException {
