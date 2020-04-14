@@ -1,10 +1,10 @@
-package com.project.transliterate;
+package com.project.service;
 
 import com.ibm.icu.text.Transliterator;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TransliterateImp implements Transliterate {
+public class TransliterateForBookImpl implements TransliterateForBook {
 
     @Override
     public String transliterate(String text) {
