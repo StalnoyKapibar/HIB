@@ -150,44 +150,42 @@ async function pageBook(x) {
     $('#search-admin-local-id').html(idChangeLang);
 }
 
-$(document).ready( () => {
-    $('#search-form-admin').submit(async () => {
-        $('#pagination00').empty();
-        $('#extra').empty();
-        let searchWord = $('#search-input-admin').val();
-        let searchLang = idChangeLang;
-        fetch("/searchResult?request=" + searchWord + "&LANG=" + searchLang, {
-            method: "GET",
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
+async function searchBook() {
+    $('#pagination00').empty();
+    $('#extra').empty();
+    let searchWord = $('#search-input-admin').val();
+    let searchLang = idChangeLang;
+    await fetch("/searchResult?request=" + searchWord + "&LANG=" + idChangeLang, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
+    })
+        .then(status)
+        .then(json)
+        .then(function (data) {
+            for (let i = 0; i < data.length; i++) {
+                $('#extra').append('<tr id="' + data[i].id + '">' +
+                    '<td id="' + data[i].id + '">' + data[i].id + '</td>>' +
+                    '<td>' + data[i].nameAuthorDTOLocale + '</td>' +
+                    '<td>' + data[i].nameBookDTOLocale + '</td>' +
+                    '<td>' +
+                    `<button type='button' onclick='buildEditBook(${data[i].id})'  data-toggle='modal'` +
+                    `data-target='#asdddd'  class='btn btn-primary'> ` +
+                    `Edit` +
+                    `</button>` +
+                    '</td>' +
+                    '<td>' +
+                    `<button type='button'  onclick='delBook(${data[i].id})'  class='btn btn-danger'>` +
+                    `Delete` +
+                    `</button>` +
+                    '</td>' +
+                    '</tr>'
+                );
             }
-        })
-            .then(status)
-            .then(json)
-            .then(function (data) {
-                for (let i = 0; i < data.length; i++) {
-                    $('#extra').append('<tr id="' + data[i].id + '">' +
-                        '<td id="' + data[i].id + '">' + data[i].id + '</td>>' +
-                        '<td>' + data[i].nameAuthorDTOLocale + '</td>' +
-                        '<td>' + data[i].nameBookDTOLocale + '</td>' +
-                        '<td>' +
-                        `<button type='button' onclick='buildEditBook(${data[i].id})'  data-toggle='modal'` +
-                        `data-target='#asdddd'  class='btn btn-primary'> ` +
-                        `Edit` +
-                        `</button>` +
-                        '</td>' +
-                        '<td>' +
-                        `<button type='button'  onclick='delBook(${data[i].id})'  class='btn btn-danger'>` +
-                        `Delete` +
-                        `</button>` +
-                        '</td>' +
-                        '</tr>'
-                    );
-                }
-            });
-    });
-});
+        });
+}
 
 $(document).ready( ()  => {
     $("body").on('click', '#search-admin-close', () => {
