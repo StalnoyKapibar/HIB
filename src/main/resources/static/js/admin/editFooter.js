@@ -9,6 +9,12 @@ let deleteButton;
 let editableLink;
 let blockOpenEditBlock = false;
 let saveBtn = $("#save-footer-btn");
+let currentLangIcon = $('#dd_menu_link');
+
+$(document).ready(function () {
+    renderLangPanel().then(r => {
+    });
+});
 
 async function checkForAllLocalesExist(link) {
     for (let field of Object.keys(link.text)) {
@@ -34,7 +40,7 @@ async function renderBuildEditFooterList() {
                         <div class="container-fluid">
                             <div class="row">
                                 ${warning}
-                                <span class="col text-muted">${link.text[currentLang]}</span>
+                                <span class="col text-muted">${link.text['en']}</span>
                                 <span class="col text-muted">${link.link}</span>
                                 <div>
                                 ${move}
@@ -175,6 +181,7 @@ $(document).on('click', "#add-footer-link-btn", async () => {
     }
     delete linkText.id;
     link = {
+        id: footer.links[footer.links.length - 1].id + 1,
         text: linkText,
         link: addLinkLink.val()
     };
@@ -226,5 +233,61 @@ async function showWarningAlert() {
                                     <strong>Warning</strong> You have unsaved changes
                                 </div>`)
 }
+
+async function renderLangPanel() {
+    function getFullNameOfLanguage(language) {
+        switch (language) {
+            case 'ru' :
+                return 'Русский';
+            case 'en' :
+                return 'English';
+            case 'de' :
+                return 'Deutsch';
+            case 'it' :
+                return 'Italiano';
+            case 'fr' :
+                return 'Français';
+            case 'cs' :
+                return 'Český';
+            case 'gr' :
+                return 'Ελληνικά';
+        }
+        return "undef";
+    }
+
+    fetch("/lang")
+        .then(status)
+        .then(json)
+        .then(function (listOfLanguage) {
+            var currentLangFull = '';
+            var html = '';
+            for (language in listOfLanguage) {
+                currentLangFull = getFullNameOfLanguage(listOfLanguage[language]);
+                html += `<a class="dropdown-item lang" onclick="chooseLang('${listOfLanguage[language]}')" id="${listOfLanguage[language]}">
+                            <img src="/static/icons/${listOfLanguage[language]}.png" 
+                                alt="" height="16" width="16" class="lang-image"> - ${currentLangFull}
+                         </a>`;
+            }
+            $('#dd_menu').html(html);
+            setCurrentLangIcon();
+        })
+}
+
+async function chooseLang(lang) {
+    let selectedLang = lang;
+    fetch("/lang/" + selectedLang)
+        .then(text)
+        .then(function () {
+            currentLang = selectedLang;
+            buildFooter();
+            setCurrentLangIcon();
+        });
+}
+
+async function setCurrentLangIcon() {
+    currentLangIcon.html(`<img src="/static/icons/${currentLang}.png"
+                                alt="" height="20" width="16" class="lang-image">`);
+}
+
 
 
