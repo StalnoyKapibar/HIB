@@ -280,8 +280,9 @@
 
                 </div>
                 <div class="tab-pane fade" id="Summary" role="tabpanel" aria-labelledby="Summary-tab">
+                    <div class="card">
                     <table class="table table-sm table-sm bg-white">
-                        <h2 class="align-content-center mt-2">YOUR PURCHASES</h2>
+                        <h2 class="align-content-center card-header mt-2">YOUR PURCHASES</h2>
                         <thead>
                         <tr height="50">
                             <th width="10"></th>
@@ -321,22 +322,23 @@
                         </tr>
                         </tbody>
                     </table>
-                    <h4 class="mt-1">Delivery address:</h4>
-                    <div id="shippingaddress" style="line-height: 2.5px; font-size: large"></div>
-                    <div class="form-group row mt-5 ml-0">
-                        <div class="mb-1">
-                            <button type="button" class="btn btn-secondary btn-md" onclick="showAdresTab()">Back
+                         <h4 class="mt-1 card-header ">Delivery address:</h4>
+                        <div class="card-body" id="shippingaddress" style="line-height: 4px; font-size: large"></div>
+                    <div class="form-group card-footer  row mt-2 ml-0" style="width: 67.2rem;">
+                        <div class=" col-4">
+                            <button type="button" class="btn btn-secondary btn-block" onclick="showAdresTab()">Back
                             </button>
                         </div>
-                        <div class="col-md-3 offset-md-4">
+                        <div class="col-4 ">
                             <button type="button"
-                                    class="btn bt-lg" style="background-color: #b14c09; color: white"
+                                    class="btn bt-lg btn-block btn-success"
                                     onclick="confirmPurchase()">Buy Now
                             </button>
                         </div>
                     </div>
+                       </div>
+                    </div>
                 </div>
-            </div>
         </main>
     </div>
 </div>

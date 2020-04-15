@@ -236,11 +236,24 @@ function showOrderSum() {
     if (address.flat != "") {
         flat = '-' + address.flat;
     }
-    let shipping = $('<p>' + address.firstName + ' ' + address.lastName + '</p>' +
-        '<p>' + address.street + ' ' + address.house + flat + '</p>' +
-        '<p>' + address.postalCode + ' ' + address.city + ' ' + address.state + '</p>' +
-        '<p>' + address.country + '</p>');
+    let shipping = $('<div class="input-group mb-3 " style="width: 38rem;">' +
+        '<div class="input-group-prepend  "><span class="input-group-text" id="basic-addon3">Country/Zip Code</span></div>' +
+        '<h1 class="form-control "  aria-describedby="basic-addon3">' + address.country + ' , ' + address.postalCode + '</h1></div>' +
+        '<div class="input-group mb-3 " style="width: 33rem;">' +
+        '<div class="input-group-prepend  "><span class="input-group-text" id="basic-addon3">City/State</span></div>' +
+        '<h1 class="form-control "  aria-describedby="basic-addon3">' + address.city + ' , ' + address.state + '</h1></div>' +
+        '<div class="input-group mb-3 " style="width: 31rem;">' +
+        '<div class="input-group-prepend  "><span class="input-group-text" id="basic-addon3">Street</span></div>' +
+        '<h1 class="form-control "  aria-describedby="basic-addon3">'  + address.street + '</h1></div>'+
+        '<div class="input-group mb-3 " style="width: 34rem;">' +
+        '<div class="input-group-prepend  "><span class="input-group-text" id="basic-addon3">House/Flat</span></div>' +
+        '<h1 class="form-control "  aria-describedby="basic-addon3">' + address.house  + flat + '</h1></div>' +
+        '<div class="input-group mb-3 " style="width: 38rem;">' +
+        '<div class="input-group-prepend  "><span class="input-group-text" id="basic-addon3">First name , Last name</span></div>' +
+        '<h1 class="form-control "  aria-describedby="basic-addon3">' + address.firstName + ' ' + address.lastName + '</h1></div>') ;
     shipping.appendTo('#shippingaddress');
+
+
 }
 
 let listOders = '';
