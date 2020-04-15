@@ -7,13 +7,14 @@ var tmpEditBookId;
 var arrAllBooksByNumberPage;
 let nameVarOfLocaleStringWithId;
 var idPageable;
+let nameLocales;
 var idChangeLang = "en";
 let arrNameImageNew = [];
 let pathImageDefault = 'images/tmp/';
 var nameImageCover = '';
 let welcomeText = [];
 
-$(document).ready(getVarBookDTO(), getAllLocales(), pageBook(0));
+$(document).ready(getVarBookDTO(), getAllLocales(), pageBook(0), getLocales());
 
 async function getVarBookDTO() {
     await fetch("/getVarBookDTO")
@@ -90,6 +91,14 @@ function text(response) {
     return response.text()
 }
 
+async function getLocales() {
+    await fetch("/lang")
+        .then(json)
+        .then(function (resp) {
+            nameLocales = resp;
+        });
+}
+
 async function pageBook(x) {
     idPageable = x;
     await fetch("/admin/pageable/" + x)
@@ -103,7 +112,6 @@ async function pageBook(x) {
                 htmlTempPager += `<li class='page-item'><a class='page-link' href='#' onclick='pageBook(${i})'>${z}</a></li>`;
             }
             $('#pagination00').html(htmlTempPager);
-            buildChangeLang();
             var htmlAddPage = varBookDTO;
             nameObjectOfLocaleStringWithId = Object.values(htmlAddPage);
             nameObjectOfLocaleString = nameObjectOfLocaleStringWithId.filter(t => t !== "id");
@@ -148,6 +156,22 @@ async function pageBook(x) {
         });
     buildChangeLang();
     $('#search-admin-local-id').html(idChangeLang);
+}
+
+function buildChangeLang() {
+    getLocales();
+    var htmllang = '';
+    for (var i = 0; i < nameLocales.length; i++) {
+        var gh = nameLocales[i];
+        htmllang += `<button type='button' class='btn btn-secondary' onclick='chanLang(${i})'>${gh}</button>`;
+    }
+    $('#chlang1').html(htmllang);
+}
+
+function chanLang(x) {
+    idChangeLang = nameVarOfLocaleString[x];
+    $('#search-input-admin').val('');
+    pageBook(idPageable);
 }
 
 async function searchBook() {
@@ -271,21 +295,6 @@ function buildEditBook(xx) {
             }
         }
     }
-}
-
-function buildChangeLang() {
-    var htmllang = '';
-    for (var i = 0; i < nameVarOfLocaleString.length; i++) {
-        var gh = nameVarOfLocaleString[i];
-        htmllang += `<button type='button' class='btn btn-secondary' onclick='chanLang(${i})'>${gh}</button>`;
-    }
-    $('#chlang1').html(htmllang);
-}
-
-function chanLang(x) {
-    idChangeLang = nameVarOfLocaleString[x];
-    $('#search-input-admin').val('');
-    pageBook(idPageable);
 }
 
 function openEdit() {
