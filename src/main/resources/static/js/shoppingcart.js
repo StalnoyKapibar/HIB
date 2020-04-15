@@ -248,9 +248,9 @@ function showOrderSum() {
         '<div class="input-group mb-3 " style="width: 34rem;">' +
         '<div class="input-group-prepend  "><span class="input-group-text" id="basic-addon3">House/Flat</span></div>' +
         '<h1 class="form-control "  aria-describedby="basic-addon3">' + address.house  + flat + '</h1></div>' +
-        '<div class="input-group mb-3 " style="width: 38rem;">' +
+        '<div class="input-group mb-3 " style="width: 40rem;">' +
         '<div class="input-group-prepend  "><span class="input-group-text" id="basic-addon3">First name , Last name</span></div>' +
-        '<h1 class="form-control "  aria-describedby="basic-addon3">' + address.firstName + ' ' + address.lastName + '</h1></div>') ;
+        '<h1 class="form-control "  aria-describedby="basic-addon3">' + address.firstName + ' ' + address.lastName + '</h1></div>')
     shipping.appendTo('#shippingaddress');
 
 
