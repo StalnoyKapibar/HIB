@@ -16,6 +16,6 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public void addAddress(AddressDTO addressDTO) {
-        addressDAO.addAddress(addressDTO);
+        addressDAO.add(addressDAO.getAddressFromAddressDTO(addressDTO));
     }
 }

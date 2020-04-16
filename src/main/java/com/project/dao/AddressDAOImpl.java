@@ -1,5 +1,6 @@
 package com.project.dao;
 
+import com.project.dao.GenericDAO.AbstractDAO;
 import com.project.model.Address;
 import com.project.model.AddressDTO;
 import org.springframework.stereotype.Repository;
@@ -9,23 +10,24 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 @Repository
-public class AddressDAOImpl implements AddressDAO {
+public class AddressDAOImpl extends AbstractDAO<Long, Address> implements AddressDAO {
 
-    @PersistenceContext
-    private EntityManager entityManager;
+    AddressDAOImpl(){
+        super(Address.class);
+    }
 
     @Override
-    public void addAddress(AddressDTO addressDTO) {
-        Address address = new Address();
-        address.setFlat(addressDTO.getFlat());
-        address.setHouse(addressDTO.getHouse());
-        address.setStreet(addressDTO.getStreet());
-        address.setCity(addressDTO.getCity());
-        address.setState(addressDTO.getState());
-        address.setPostalCode(addressDTO.getPostalCode());
-        address.setCountry(addressDTO.getCountry());
-        address.setLastName(addressDTO.getLastName());
-        address.setFirstName(addressDTO.getFirstName());
-        entityManager.persist(address);
+    public Address getAddressFromAddressDTO(AddressDTO addressDTO) {
+        return Address.builder()
+                .flat(addressDTO.getFlat())
+                .house(addressDTO.getHouse())
+                .street(addressDTO.getStreet())
+                .city(addressDTO.getCity())
+                .state(addressDTO.getState())
+                .postalCode(addressDTO.getPostalCode())
+                .country(addressDTO.getCountry())
+                .lastName(addressDTO.getLastName())
+                .firstName(addressDTO.getFirstName())
+                .build();
     }
 }
