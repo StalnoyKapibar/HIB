@@ -10,36 +10,12 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
-@AllArgsConstructor
-public class OrderDaoImpl implements OrderDao {
+public class OrderDaoImpl extends AbstractDao<Long, Order> implements OrderDao {
+
+    OrderDaoImpl(){super(Order.class);}
 
     @PersistenceContext
     private EntityManager entityManager;
-
-    @Override
-    public void addOrder(Order order) {
-        entityManager.persist(order);
-    }
-
-    @Override
-    public void updateOrder(Order order) {
-        entityManager.merge(order);
-    }
-
-    @Override
-    public Order getOrderById(Long id) {
-        return entityManager.find(Order.class, id);
-    }
-
-    @Override
-    public void deleteOrder(Order order) {
-        entityManager.remove(order);
-    }
-
-    @Override
-    public List<Order> getAllOrders() {
-        return entityManager.createQuery("SELECT b FROM orders b", Order.class).getResultList();
-    }
 
     @Override
     public List<Order> getOrdersByUserId(Long id) {
@@ -47,7 +23,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public List<Order> getOdersByStatus(String status) {
+    public List<Order> getOrdersByStatus(String status) {
         return entityManager.createQuery("SELECT b FROM orders b where b.status=:status", Order.class).setParameter("status", status).getResultList();
     }
 }
