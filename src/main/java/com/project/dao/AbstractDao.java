@@ -1,13 +1,13 @@
 package com.project.dao;
 
-import com.project.dao.abstraction.IGenericDao;
+import com.project.dao.abstraction.GenericDao;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.io.Serializable;
 import java.util.List;
 
-public abstract class AbstractDao<I extends Serializable, E> implements IGenericDao<I, E> {
+public abstract class AbstractDao<I extends Serializable, E> implements GenericDao<I, E> {
 
     @PersistenceContext
     EntityManager entityManager;

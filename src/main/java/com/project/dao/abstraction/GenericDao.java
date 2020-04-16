@@ -3,7 +3,7 @@ package com.project.dao.abstraction;
 import java.io.Serializable;
 import java.util.List;
 
-public interface IGenericDao <I extends Serializable, E> {
+public interface GenericDao<I extends Serializable, E> {
 
     E findById(I id);
 

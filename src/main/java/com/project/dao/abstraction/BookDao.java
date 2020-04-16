@@ -1,12 +1,11 @@
 package com.project.dao.abstraction;
 
-import com.project.dao.abstraction.IGenericDao;
 import com.project.model.*;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
-public interface BookDao extends IGenericDao<Long, Book> {
+public interface BookDao extends GenericDao<Long, Book> {
 
     BookDTO getBookDTOFromBook(Book book);
 

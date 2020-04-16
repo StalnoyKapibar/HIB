@@ -4,7 +4,7 @@ import com.project.model.Order;
 
 import java.util.List;
 
-public interface OrderDao extends IGenericDao<Long, Order>{
+public interface OrderDao extends GenericDao<Long, Order> {
 
     List<Order> getOrdersByUserId(Long id);
 
