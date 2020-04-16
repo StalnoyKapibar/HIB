@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -18,12 +19,12 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<BookDTO> getAllBookDTO() {
-        return bookDAO.getAllBookDTO();
+        return bookDAO.findAll().stream().map(book -> bookDAO.getBookDTOFromBook(book)).collect(Collectors.toList());
     }
 
     @Override
     public void addBook(BookDTO bookDTO) {
-        bookDAO.addBook(bookDTO);
+        bookDAO.add(bookDAO.getBookFromBookDTO(bookDTO));
     }
 
     @Override
@@ -33,7 +34,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public void deleteBookById(long id) {
-        bookDAO.deleteBookById(id);
+        bookDAO.deleteById(id);
     }
 
     @Override
@@ -48,7 +49,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public void updateBook(BookDTO bookDTO) {
-        bookDAO.updateBook(bookDTO);
+        bookDAO.update(bookDAO.getBookFromBookDTO(bookDTO));
     }
 
     @Override

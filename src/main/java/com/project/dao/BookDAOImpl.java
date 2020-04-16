@@ -1,5 +1,6 @@
 package com.project.dao;
 
+import com.project.dao.GenericDAO.AbstractDAO;
 import com.project.model.*;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
@@ -10,9 +11,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class BookDAOImpl implements BookDAO {
+public class BookDAOImpl extends AbstractDAO<Long, Book> implements BookDAO {
+    BookDAOImpl(){
+        super(Book.class);
+    }
 
-    private BookDTO getBookDTOFromBook(Book book){
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    public BookDTO getBookDTOFromBook(Book book){
         return BookDTO.builder()
                 .id(book.getId())
                 .name(book.getNameLocale())
@@ -28,7 +35,7 @@ public class BookDAOImpl implements BookDAO {
                 .build();
     }
 
-    private Book getBookFromBookDTO(BookDTO bookDTO){
+    public Book getBookFromBookDTO(BookDTO bookDTO){
         return Book.builder()
                 .authorLocale(bookDTO.getAuthor())
                 .nameLocale(bookDTO.getName())
@@ -42,9 +49,6 @@ public class BookDAOImpl implements BookDAO {
                 .listImage(bookDTO.getImageList())
                 .build();
     }
-
-    @PersistenceContext
-    private EntityManager entityManager;
 
     @Override
     public String getQuantityBook() {
@@ -69,27 +73,6 @@ public class BookDAOImpl implements BookDAO {
         return bookNewDTO;
     }
 
-    @Override
-    public List<BookDTO> getAllBookDTO() {
-        String temp = "Select new com.project.model.BookDTO(b.id, b.nameLocale, b.authorLocale, b.coverImage, b.price, b.listImage) FROM Book b";
-        List<BookDTO> listBookDTO = entityManager.createQuery(temp, BookDTO.class).getResultList();
-        return listBookDTO;
-    }
-
-    @Override
-    public void addBook(BookDTO bookDTO) {
-        entityManager.persist(getBookFromBookDTO(bookDTO));
-    }
-
-    @Override
-    public void deleteBookById(long id) {
-        entityManager.remove(getBookById(id));
-    }
-
-    @Override
-    public Book getBookById(long id) {
-        return entityManager.find(Book.class, id);
-    }
 
     @Override
     public BookDTO getBookByIdLocale(long id) {
@@ -104,13 +87,6 @@ public class BookDAOImpl implements BookDAO {
         return entityManager.createQuery(query, BookDTO20.class).setParameter("name", localeString).getSingleResult();
     }
 
-
-
-    @Override
-    public void updateBook(BookDTO bookDTO) {
-        entityManager.merge(getBookFromBookDTO(bookDTO));
-    }
-
     @Override
     public List<BookDTO20> get20BookDTO(String locale) {
         String query = ("SELECT new com.project.model.BookDTO20(b.id, b.nameLocale.LOC, b.authorLocale.LOC, b.price, b.coverImage)" +
@@ -122,8 +98,7 @@ public class BookDAOImpl implements BookDAO {
 
     @Override
     public BookDTO getBookDTOById(long id) {
-        Book book = getBookById(id);
-        return getBookDTOFromBook(book);
+        return getBookDTOFromBook(findById(id));
     }
 
     @Override

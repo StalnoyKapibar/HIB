@@ -1,22 +1,19 @@
 package com.project.dao;
 
+import com.project.dao.GenericDAO.AbstractDAO;
+import com.project.dao.GenericDAO.IGenericDao;
 import com.project.model.*;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
-public interface BookDAO {
-    List<BookDTO> getAllBookDTO();
+public interface BookDAO extends IGenericDao<Long, Book> {
 
-    void addBook(BookDTO bookDTO);
+    BookDTO getBookDTOFromBook(Book book);
 
-    void deleteBookById(long id);
-
-    Book getBookById(long id);
+    Book getBookFromBookDTO(BookDTO bookDTO);
 
     BookDTO getBookByIdLocale(long id);
-
-    void updateBook(BookDTO bookDTO);
 
     List<BookDTO20> get20BookDTO(String locale);
 
