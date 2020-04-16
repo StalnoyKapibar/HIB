@@ -12,7 +12,7 @@ function checkNamesNotNull() {
             return true;
         }
     }
-    alert("Enter name of the book")
+    alert("Enter name of the book");
     return false;
 }
 
@@ -151,9 +151,9 @@ function addImgToListAndBtn(divId, path) {
 }
 
 function loadBookFile() {
-    let file = $("#formBookFile").prop('files')[0];
-    fetch('/loadFile', {
-        method: 'PUT',
+    let file = $("#add-hib-file-input").prop('files')[0];
+    fetch('/api/loadFile', {
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
         },
@@ -178,7 +178,7 @@ function addValueToFields(book) {
     price.val(`${book.price}`);
     originalLanguage.val(`${book.originalLanguage}`);
     let img = book.coverImage;
-    addImgAvatarAndBtn(img, pathToTmpPackage + img)
+    addImgAvatarAndBtn(img, pathToTmpPackage + img);
     for (const imageListElement of book.imageList) {
         if (img !== imageListElement.nameImage) {
             let nameImg = imageListElement.nameImage;

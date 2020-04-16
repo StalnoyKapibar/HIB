@@ -15,6 +15,8 @@
             <a aria-controls="nav-profile" aria-selected="false" class="nav-item nav-link" data-toggle="tab"
                href="#nav-profile1"
                id="nav-profile-tab1" onclick="addPage()" role="tab">Add Book</a>
+            <a aria-controls="nav-profile" aria-selected="false" class="nav-item nav-link" data-toggle="tab"
+               href="#add-hib-files" id="add-hib-files-tab" role="tab">Add hib files</a>
         </div>
     </nav>
     <div class="tab-content tab - border" id="nav-tabContent1">
@@ -68,7 +70,7 @@
             <form>
                 <div class="form-group">
                     <h4>Load book from file</h4>
-                    <input type="file" class="form-control-file" id="formBookFile"  onchange="loadBookFile()" accept=".hib">
+                    <!--                    <input type="file" class="form-control-file" id="formBookFile"  onchange="loadBookFile()" accept=".hib">-->
                 </div>
             </form>
             <div class="carousel slide w-50" data-ride="carousel" id="carouselExampleCaptions">
@@ -90,6 +92,29 @@
             <button class='btn btn-primary mt-3' onclick='addNewBook()' type='submit'>
                 Add new Book
             </button>
+        </div>
+
+        <div aria-labelledby="add-hib-files-tab" class="tab-pane fade" id="add-hib-files" role="tabpanel">
+            <div class="row">
+                <div class="col-sm-4 offset-2">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Upload 1 book</h5>
+                            <input accept=".hib" class="form-control-file" id="add-hib-file-input"
+                                   onchange="loadBookFile()" type="file">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Upload several books for further processing</h5>
+                            <input accept=".hib" class="form-control-file" id="add-hib-files-input" multiple onchange=""
+                                   type="file">
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
