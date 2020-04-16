@@ -9,7 +9,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 @Repository
-public class WelcomeDaoImpl implements WelcomeDao {
+public class WelcomeDaoImpl extends AbstractDao<Long, Welcome> implements WelcomeDao {
+    WelcomeDaoImpl(){super(Welcome.class);}
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -19,19 +20,5 @@ public class WelcomeDaoImpl implements WelcomeDao {
         String temp = "Select new com.project.model.WelcomeLocaleDTO('LOC', w.body.LOC) FROM Welcome w".replaceAll("LOC", locale);
         WelcomeLocaleDTO loc = entityManager.createQuery(temp, WelcomeLocaleDTO.class).getSingleResult();
         return loc;
-    }
-
-    @Override
-    public void editWelcome(Welcome welcome) {
-        if (welcome.getId() == null) {
-            entityManager.persist(welcome);
-        } else {
-            entityManager.merge(welcome);
-        }
-    }
-
-    @Override
-    public Welcome getById(Long id) {
-        return entityManager.find(Welcome.class, id);
     }
 }

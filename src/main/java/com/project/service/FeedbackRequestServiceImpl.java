@@ -31,7 +31,12 @@ public class FeedbackRequestServiceImpl implements FeedbackRequestService {
     @Transactional
     @Override
     public FeedbackRequest save(FeedbackRequest feedbackRequest) {
-        return feedbackRequestDAO.save(feedbackRequest);
+        if (feedbackRequest.getId() == null) {
+            feedbackRequestDAO.add(feedbackRequest);
+        } else {
+            feedbackRequestDAO.update(feedbackRequest);
+        }
+        return feedbackRequest;
     }
 
     @Override

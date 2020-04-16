@@ -21,11 +21,15 @@ public class WelcomeServiceImpl implements WelcomeService {
 
     @Override
     public void editWelcome(Welcome welcome) {
-        welcomeDAO.editWelcome(welcome);
+        if (welcome.getId() == null) {
+            welcomeDAO.add(welcome);
+        } else {
+            welcomeDAO.update(welcome);
+        }
     }
 
     @Override
     public Welcome getById(Long id) {
-        return welcomeDAO.getById(id);
+        return welcomeDAO.findById(id);
     }
 }

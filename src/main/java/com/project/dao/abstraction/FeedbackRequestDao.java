@@ -8,7 +8,5 @@ public interface FeedbackRequestDao extends IGenericDao<Long, FeedbackRequest>{
 
     List<FeedbackRequest> findAllByOrderByRepliedAsc();
 
-    FeedbackRequest save(FeedbackRequest feedbackRequest);
-
     List<FeedbackRequest> getByReplied(Boolean replied);
 }
