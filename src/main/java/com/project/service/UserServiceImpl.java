@@ -1,6 +1,6 @@
 package com.project.service;
 
-import com.project.dao.UserDAO;
+import com.project.dao.abstraction.UserDao;
 import com.project.model.UserDTO;
 import com.project.model.UserDTONewPassword;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ public class UserServiceImpl implements UserService {
     private PasswordEncoder encoder;
 
     @Autowired
-    private UserDAO userDAO;
+    private UserDao userDAO;
 
     @Override
     public UserDTO getUserDTOByLogin(String login) {

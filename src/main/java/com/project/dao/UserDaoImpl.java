@@ -1,18 +1,17 @@
 package com.project.dao;
 
+import com.project.dao.abstraction.UserDao;
 import com.project.model.UserAccount;
 import com.project.model.UserDTO;
 import com.project.model.UserDTONewPassword;
-import org.hibernate.annotations.SQLUpdate;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Repository
-public class UserDAOImpl implements UserDAO {
+public class UserDaoImpl implements UserDao {
 
     @PersistenceContext
     private EntityManager entityManager;

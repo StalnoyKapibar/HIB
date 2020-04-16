@@ -1,7 +1,7 @@
 package com.project.service;
 
-import com.project.dao.UserAccountDAO;
-import com.project.dao.UserRoleDao;
+import com.project.dao.UserAccountDao;
+import com.project.dao.abstraction.UserRoleDao;
 import com.project.mail.MailService;
 import com.project.model.RegistrationUserDTO;
 import com.project.model.Role;
@@ -24,7 +24,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class UserAccountServiceImpl implements UserAccountService {
 
-    UserAccountDAO userAccountDao;
+    UserAccountDao userAccountDao;
 
     UserRoleDao userRoleDao;
 

@@ -1,5 +1,6 @@
 package com.project.dao;
 
+import com.project.dao.abstraction.OrderDao;
 import com.project.model.Order;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -10,7 +11,7 @@ import java.util.List;
 
 @Repository
 @AllArgsConstructor
-public class OrderDAOImpl implements OrderDAO {
+public class OrderDaoImpl implements OrderDao {
 
     @PersistenceContext
     private EntityManager entityManager;

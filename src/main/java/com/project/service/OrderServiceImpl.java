@@ -1,6 +1,6 @@
 package com.project.service;
 
-import com.project.dao.OrderDAO;
+import com.project.dao.abstraction.OrderDao;
 import com.project.model.Order;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
-    private OrderDAO orderDAO;
+    private OrderDao orderDAO;
 
     @Override
     public void addOrder(Order order) {

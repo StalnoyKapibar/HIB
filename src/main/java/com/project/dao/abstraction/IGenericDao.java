@@ -1,4 +1,4 @@
-package com.project.dao.GenericDAO;
+package com.project.dao.abstraction;
 
 import java.io.Serializable;
 import java.util.List;

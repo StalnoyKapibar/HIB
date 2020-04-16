@@ -1,9 +1,9 @@
-package com.project.dao;
+package com.project.dao.abstraction;
 
 import com.project.model.Welcome;
 import com.project.model.WelcomeLocaleDTO;
 
-public interface WelcomeDAO {
+public interface WelcomeDao {
     WelcomeLocaleDTO getWelcomeLocaleDTOByLocale(String locale);
 
     void editWelcome(Welcome welcome);

@@ -1,9 +1,8 @@
 package com.project.service;
 
-import com.project.dao.UserAccountDAO;
+import com.project.dao.UserAccountDao;
 import com.project.mail.MailService;
 import com.project.model.UserAccount;
-import com.project.model.UserDTONewPassword;
 import com.project.model.UserDTOResetPassword;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -25,7 +24,7 @@ public class ResetPasswordServiceImpl implements ResetPasswordService {
     private PasswordEncoder encoder;
 
     @Autowired
-    private UserAccountDAO userAccountDAO;
+    private UserAccountDao userAccountDAO;
 
     @Autowired
     private MailService mailService;

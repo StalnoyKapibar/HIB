@@ -1,6 +1,6 @@
 package com.project.dao;
 
-import com.project.dao.GenericDAO.AbstractDAO;
+import com.project.dao.abstraction.BookDao;
 import com.project.model.*;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class BookDAOImpl extends AbstractDAO<Long, Book> implements BookDAO {
-    BookDAOImpl(){
+public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
+    BookDaoImpl(){
         super(Book.class);
     }
 

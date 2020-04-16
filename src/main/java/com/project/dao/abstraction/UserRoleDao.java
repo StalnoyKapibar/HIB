@@ -1,4 +1,4 @@
-package com.project.dao;
+package com.project.dao.abstraction;
 
 import com.project.model.Role;
 import org.springframework.data.jpa.repository.JpaRepository;

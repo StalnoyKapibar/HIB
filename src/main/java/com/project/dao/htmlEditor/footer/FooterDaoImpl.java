@@ -8,7 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 @Repository
-public class FooterDAOImpl implements FooterDAO {
+public class FooterDaoImpl implements FooterDao {
     @PersistenceContext
     private EntityManager entityManager;
 

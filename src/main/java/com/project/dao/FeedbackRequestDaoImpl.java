@@ -1,5 +1,6 @@
 package com.project.dao;
 
+import com.project.dao.abstraction.FeedbackRequestDao;
 import com.project.model.FeedbackRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -10,7 +11,7 @@ import java.util.List;
 
 @Repository
 @AllArgsConstructor
-public class FeedbackRequestDAOImpl implements FeedbackRequestDAO {
+public class FeedbackRequestDaoImpl implements FeedbackRequestDao {
 
     @PersistenceContext
     private final EntityManager entityManager;

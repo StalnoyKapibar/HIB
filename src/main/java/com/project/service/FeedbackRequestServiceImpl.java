@@ -1,6 +1,6 @@
 package com.project.service;
 
-import com.project.dao.FeedbackRequestDAO;
+import com.project.dao.abstraction.FeedbackRequestDao;
 import com.project.model.FeedbackRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class FeedbackRequestServiceImpl implements FeedbackRequestService {
-    private final FeedbackRequestDAO feedbackRequestDAO;
+    private final FeedbackRequestDao feedbackRequestDAO;
 
     @Override
     public List<FeedbackRequest> findAll() {

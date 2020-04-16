@@ -1,5 +1,6 @@
 package com.project.dao;
 
+import com.project.dao.abstraction.ShoppingCartDao;
 import com.project.model.CartItem;
 import com.project.model.CartItemDTO;
 import com.project.model.ShoppingCart;
@@ -14,11 +15,11 @@ import java.util.List;
 
 @AllArgsConstructor
 @Repository
-public class ShoppingCartDAOImpl implements ShoppingCartDAO {
+public class ShoppingCartDaoImpl implements ShoppingCartDao {
     @PersistenceContext
     private EntityManager entityManager;
 
-    private BookDAOImpl bookDAO;
+    private BookDaoImpl bookDAO;
 
 
     @Override

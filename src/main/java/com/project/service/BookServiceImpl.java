@@ -1,6 +1,6 @@
 package com.project.service;
 
-import com.project.dao.BookDAO;
+import com.project.dao.abstraction.BookDao;
 import com.project.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 public class BookServiceImpl implements BookService {
 
     @Autowired
-    private BookDAO bookDAO;
+    private BookDao bookDAO;
 
     @Override
     public List<BookDTO> getAllBookDTO() {

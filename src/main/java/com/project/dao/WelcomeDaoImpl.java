@@ -1,5 +1,6 @@
 package com.project.dao;
 
+import com.project.dao.abstraction.WelcomeDao;
 import com.project.model.Welcome;
 import com.project.model.WelcomeLocaleDTO;
 import org.springframework.stereotype.Repository;
@@ -8,7 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 @Repository
-public class    WelcomeDAOImpl implements WelcomeDAO {
+public class WelcomeDaoImpl implements WelcomeDao {
 
     @PersistenceContext
     private EntityManager entityManager;

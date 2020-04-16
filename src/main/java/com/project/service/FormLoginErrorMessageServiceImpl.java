@@ -1,6 +1,6 @@
 package com.project.service;
 
-import com.project.dao.FormErrorMessageDAOImpl;
+import com.project.dao.FormErrorMessageDaoImpl;
 import com.project.model.FormLoginErrorMessage;
 import com.project.model.FormLoginErrorMessageDTO;
 import lombok.AllArgsConstructor;
@@ -16,7 +16,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class FormLoginErrorMessageServiceImpl implements FormLoginErrorMessageService {
 
-    FormErrorMessageDAOImpl errorMessageDAO;
+    FormErrorMessageDaoImpl errorMessageDAO;
 
     HttpSession httpSession;
 

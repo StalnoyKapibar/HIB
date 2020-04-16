@@ -1,10 +1,10 @@
-package com.project.dao;
+package com.project.dao.abstraction;
 
 import com.project.model.FeedbackRequest;
 
 import java.util.List;
 
-public interface FeedbackRequestDAO {
+public interface FeedbackRequestDao {
     List<FeedbackRequest> findAll();
 
     List<FeedbackRequest> findAllByOrderByRepliedAsc();

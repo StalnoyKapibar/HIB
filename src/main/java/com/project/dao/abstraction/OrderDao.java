@@ -1,10 +1,10 @@
-package com.project.dao;
+package com.project.dao.abstraction;
 
 import com.project.model.Order;
 
 import java.util.List;
 
-public interface OrderDAO {
+public interface OrderDao {
     void addOrder(Order order);
 
     void updateOrder(Order order);

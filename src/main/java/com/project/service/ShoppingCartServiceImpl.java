@@ -1,7 +1,7 @@
 package com.project.service;
 
-import com.project.dao.CartItemDAO;
-import com.project.dao.ShoppingCartDAO;
+import com.project.dao.abstraction.CartItemDao;
+import com.project.dao.abstraction.ShoppingCartDao;
 import com.project.model.ShoppingCartDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,9 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 @Transactional
 public class ShoppingCartServiceImpl implements ShoppingCartService {
 
-    private ShoppingCartDAO cartDAO;
+    private ShoppingCartDao cartDAO;
 
-    private CartItemDAO cartItemDAO;
+    private CartItemDao cartItemDAO;
 
 
     @Override

@@ -1,6 +1,6 @@
 package com.project.service;
 
-import com.project.dao.WelcomeDAO;
+import com.project.dao.abstraction.WelcomeDao;
 import com.project.model.Welcome;
 import com.project.model.WelcomeLocaleDTO;
 import lombok.AllArgsConstructor;
@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 @AllArgsConstructor
 public class WelcomeServiceImpl implements WelcomeService {
 
-    private WelcomeDAO welcomeDAO;
+    private WelcomeDao welcomeDAO;
 
     @Override
     public WelcomeLocaleDTO getWelcomeLocaleDTOByLocale(String locale) {
