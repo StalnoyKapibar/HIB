@@ -7,7 +7,7 @@ var tmpEditBookId;
 var arrAllBooksByNumberPage;
 let nameVarOfLocaleStringWithId;
 var idPageable;
-let nameLocales;
+let nameLocalesBooks;
 var idChangeLang = "en";
 let arrNameImageNew = [];
 let pathImageDefault = 'images/tmp/';
@@ -95,7 +95,7 @@ async function getLocales() {
     await fetch("/lang")
         .then(json)
         .then(function (resp) {
-            nameLocales = resp;
+            nameLocalesBooks = resp;
         });
 }
 
@@ -161,8 +161,8 @@ async function pageBook(x) {
 function buildChangeLang() {
     getLocales();
     var htmllang = '';
-    for (var i = 0; i < nameLocales.length; i++) {
-        var gh = nameLocales[i];
+    for (var i = 0; i < nameLocalesBooks.length; i++) {
+        var gh = nameLocalesBooks[i];
         htmllang += `<button type='button' class='btn btn-secondary' onclick='chanLang(${i})'>${gh}</button>`;
     }
     $('#chlang1').html(htmllang);
@@ -190,22 +190,22 @@ async function searchBook() {
         .then(json)
         .then(function (data) {
             for (let i = 0; i < data.length; i++) {
-                $('#extra').append('<tr id="' + data[i].id + '">' +
-                    '<td id="' + data[i].id + '">' + data[i].id + '</td>>' +
-                    '<td>' + data[i].nameAuthorDTOLocale + '</td>' +
-                    '<td>' + data[i].nameBookDTOLocale + '</td>' +
-                    '<td>' +
-                    `<button type='button' onclick='buildEditBook(${data[i].id})'  data-toggle='modal'` +
-                    `data-target='#asdddd'  class='btn btn-primary'> ` +
-                    `Edit` +
-                    `</button>` +
-                    '</td>' +
-                    '<td>' +
-                    `<button type='button'  onclick='delBook(${data[i].id})'  class='btn btn-danger'>` +
-                    `Delete` +
-                    `</button>` +
-                    '</td>' +
-                    '</tr>'
+                $('#extra').append(`<tr id="${data[i].id}">
+                    <td id="${data[i].id}">${data[i].id}</td>
+                    <td>${data[i].nameAuthorDTOLocale}</td>
+                    <td>${data[i].nameBookDTOLocale}</td>
+                    <td>
+                    <button type='button' onclick='buildEditBook(${data[i].id})'  data-toggle='modal'
+                    data-target='#asdddd'  class='btn btn-primary'>
+                    Edit
+                    </button>
+                    </td>
+                    <td>
+                    <button type='button'  onclick='delBook(${data[i].id})'  class='btn btn-danger'>
+                    Delete
+                    </button>
+                    </td>
+                    </tr>`
                 );
             }
         });
