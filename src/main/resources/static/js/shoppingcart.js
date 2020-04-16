@@ -230,30 +230,32 @@ function showOrderSum() {
     $('#subtotal').text(totalPrice);
     $('#shippingcost').text(order.shippingCost);
     $('#pricetotal').text((totalPrice + order.shippingCost));
-    $('#shippingaddress').empty();
-    let address = order.address;
+
     let flat = '';
-    if (address.flat != "") {
-        flat = '-' + address.flat;
+    if (order.address.flat != "") {
+        flat = '-' + order.address.flat;
     }
-    let shipping = $('<div class="input-group mb-3 " style="width: 38rem;">' +
-        '<div class="input-group-prepend  "><span class="input-group-text" id="basic-addon3">Country/Zip Code</span></div>' +
-        '<h1 class="form-control "  aria-describedby="basic-addon3">' + address.country + ' , ' + address.postalCode + '</h1></div>' +
-        '<div class="input-group mb-3 " style="width: 33rem;">' +
-        '<div class="input-group-prepend  "><span class="input-group-text" id="basic-addon3">City/State</span></div>' +
-        '<h1 class="form-control "  aria-describedby="basic-addon3">' + address.city + ' , ' + address.state + '</h1></div>' +
-        '<div class="input-group mb-3 " style="width: 31rem;">' +
-        '<div class="input-group-prepend  "><span class="input-group-text" id="basic-addon3">Street</span></div>' +
-        '<h1 class="form-control "  aria-describedby="basic-addon3">'  + address.street + '</h1></div>'+
-        '<div class="input-group mb-3 " style="width: 34rem;">' +
-        '<div class="input-group-prepend  "><span class="input-group-text" id="basic-addon3">House/Flat</span></div>' +
-        '<h1 class="form-control "  aria-describedby="basic-addon3">' + address.house  + flat + '</h1></div>' +
-        '<div class="input-group mb-3 " style="width: 40rem;">' +
-        '<div class="input-group-prepend  "><span class="input-group-text" id="basic-addon3">First name , Last name</span></div>' +
-        '<h1 class="form-control "  aria-describedby="basic-addon3">' + address.firstName + ' ' + address.lastName + '</h1></div>')
-    shipping.appendTo('#shippingaddress');
 
-
+    let html = '';
+    let addressDelivery = {
+        "Country/Zip code" : order.address.country + " , " + order.address.postalCode,
+        "City/State": order.address.city + " , " + order.address.state,
+        "Street" : order.address.street,
+        "House/Flat" : order.address.house + flat ,
+        "First name , Last name" : order.address.firstName + " " + order.address.lastName
+    };
+    let x = 36;
+for (let key in addressDelivery) {
+    if (x < 34) {
+        x = x + 2
+    } else {
+        x = x - 2
+    }
+    html +=`<div class="input-group mb-3 shadow " style="width: ${x}rem;;">
+            <div class="input-group-prepend "  ><span class="input-group-text"  id="basic-addon3">${key}</span></div>
+            <h1 class="form-control  "  aria-describedby="basic-addon3"> ${addressDelivery[key]} </h1></div>`;
+}
+    $('#shippingaddress').html(html);
 }
 
 let listOders = '';
