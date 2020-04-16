@@ -9,7 +9,7 @@ public interface ShoppingCartService {
 
     void updateCart(ShoppingCartDTO cart);
 
-    void deletCartItem(Long id);
+    void deleteCartItem(Long id);
 
     void mergeCarts(HttpServletRequest request, Long id);
 }

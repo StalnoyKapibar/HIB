@@ -1,5 +1,7 @@
 package com.project.dao.abstraction;
 
-public interface CartItemDao {
-    void deleteCartItem(Long id);
+import com.project.model.CartItem;
+
+public interface CartItemDao extends IGenericDao<Long, CartItem> {
+
 }

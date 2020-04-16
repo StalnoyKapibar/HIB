@@ -30,8 +30,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
-    public void deletCartItem(Long id) {
-        cartItemDAO.deleteCartItem(id);
+    public void deleteCartItem(Long id) {
+        cartItemDAO.deleteById(id);
     }
 
     @Override
