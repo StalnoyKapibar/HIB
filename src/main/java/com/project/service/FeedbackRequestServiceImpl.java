@@ -25,7 +25,7 @@ public class FeedbackRequestServiceImpl implements FeedbackRequestService {
 
     @Override
     public FeedbackRequest getById(Long id) {
-        return feedbackRequestDAO.getById(id);
+        return feedbackRequestDAO.findById(id);
     }
 
     @Transactional

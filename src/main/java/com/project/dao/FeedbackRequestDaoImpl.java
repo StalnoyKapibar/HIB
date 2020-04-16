@@ -10,27 +10,18 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
-@AllArgsConstructor
-public class FeedbackRequestDaoImpl implements FeedbackRequestDao {
+public class FeedbackRequestDaoImpl extends AbstractDao<Long, FeedbackRequest> implements FeedbackRequestDao {
+
+    FeedbackRequestDaoImpl(){super(FeedbackRequest.class);}
 
     @PersistenceContext
-    private final EntityManager entityManager;
-
-    @Override
-    public List<FeedbackRequest> findAll() {
-        return entityManager.createQuery("FROM FeedbackRequest", FeedbackRequest.class).getResultList();
-    }
+    private EntityManager entityManager;
 
     @Override
     public List<FeedbackRequest> findAllByOrderByRepliedAsc() {
         return entityManager
                 .createQuery("FROM FeedbackRequest f ORDER BY f.replied ASC", FeedbackRequest.class)
                 .getResultList();
-    }
-
-    @Override
-    public FeedbackRequest getById(Long id) {
-        return entityManager.find(FeedbackRequest.class, id);
     }
 
     @Override

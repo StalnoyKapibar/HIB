@@ -4,12 +4,9 @@ import com.project.model.FeedbackRequest;
 
 import java.util.List;
 
-public interface FeedbackRequestDao {
-    List<FeedbackRequest> findAll();
+public interface FeedbackRequestDao extends IGenericDao<Long, FeedbackRequest>{
 
     List<FeedbackRequest> findAllByOrderByRepliedAsc();
-
-    FeedbackRequest getById(Long id);
 
     FeedbackRequest save(FeedbackRequest feedbackRequest);
 
