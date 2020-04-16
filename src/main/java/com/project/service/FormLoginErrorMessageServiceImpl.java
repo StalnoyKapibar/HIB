@@ -50,7 +50,7 @@ public class FormLoginErrorMessageServiceImpl implements FormLoginErrorMessageSe
 
     @Override
     public void saveErrorMessage(FormLoginErrorMessage errorMessage) {
-        errorMessageDAO.save(errorMessage);
+        errorMessageDAO.add(errorMessage);
     }
 
     @Override

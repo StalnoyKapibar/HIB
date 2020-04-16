@@ -9,7 +9,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 @Repository
-public class FormErrorMessageDaoImpl implements FormErrorMessageDao {
+public class FormErrorMessageDaoImpl extends AbstractDao<Long, FormLoginErrorMessage> implements FormErrorMessageDao {
+    FormErrorMessageDaoImpl(){super(FormLoginErrorMessage.class);}
 
     @PersistenceContext
     EntityManager entityManager;
@@ -23,10 +24,5 @@ public class FormErrorMessageDaoImpl implements FormErrorMessageDao {
                 .setParameter("field", field)
                 .setParameter("reason", reason).getSingleResult();
         return singleResult;
-    }
-
-    @Override
-    public void save(FormLoginErrorMessage errorMessage) {
-        entityManager.persist(errorMessage);
     }
 }
