@@ -246,12 +246,8 @@ function showOrderSum() {
     };
     let x = 36;
 for (let key in addressDelivery) {
-    if (x < 34) {
-        x = x + 2
-    } else {
-        x = x - 2
-    }
-    html +=`<div class="input-group mb-3 shadow " style="width: ${x}rem;;">
+     (x < 34) ? x = x + 2 : x = x - 2;
+        html +=`<div class="input-group mb-3 shadow " style="width: ${x}rem;;">
             <div class="input-group-prepend "  ><span class="input-group-text"  id="basic-addon3">${key}</span></div>
             <h1 class="form-control  "  aria-describedby="basic-addon3"> ${addressDelivery[key]} </h1></div>`;
 }
