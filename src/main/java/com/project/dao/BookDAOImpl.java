@@ -25,6 +25,7 @@ public class BookDAOImpl implements BookDAO {
                 .coverImage(book.getCoverImage())
                 .originalLanguage(book.getOriginalLanguage())
                 .imageList(book.getListImage())
+                .disabled(book.getDisabled())
                 .build();
     }
 
@@ -40,6 +41,7 @@ public class BookDAOImpl implements BookDAO {
                 .coverImage(bookDTO.getCoverImage())
                 .originalLanguage(bookDTO.getOriginalLanguage())
                 .listImage(bookDTO.getImageList())
+                .disabled(bookDTO.getDisabled())
                 .build();
     }
 
@@ -91,6 +93,10 @@ public class BookDAOImpl implements BookDAO {
         return entityManager.find(Book.class, id);
     }
 
+    /**
+     * @deprecated use getNewBookDTObyIdAndLang
+     */
+    @Deprecated
     @Override
     public BookDTO getBookByIdLocale(long id) {
         return entityManager.createQuery("SELECT new com.project.model.BookDTO(b.id, b.nameLocale, b.authorLocale, b.coverImage, b.listImage) FROM Book b where b.id=:id", BookDTO.class).setParameter("id", id).getSingleResult();

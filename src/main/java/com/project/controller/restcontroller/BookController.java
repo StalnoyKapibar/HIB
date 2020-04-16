@@ -82,10 +82,9 @@ public class BookController {
         return HttpStatus.OK;
     }
 
-    @GetMapping("/getBookDTOById/{id}")
-    public BookDTO getBookDTOById(@PathVariable("id") long id) {
-        BookDTO bookDTO = bookService.getBookDTOById(id);
-        return bookDTO;
+    @GetMapping("/api/book/{id}")
+    public BookDTO getBookById(@PathVariable Long id) {
+        return bookService.getBookDTOById(id);
     }
 
     @GetMapping("/admin/pageable/{page1}")
@@ -132,7 +131,7 @@ public class BookController {
         return page;
     }
 
-    @GetMapping("/api/book/{id}")
+    @GetMapping(value = "/api/book/{id}", params = "locale")
     public BookNewDTO getNewBookDTOByIdAndLang(@PathVariable Long id, @RequestParam("locale") String lang) {
         return bookService.getNewBookDTOByIdAndLang(id, lang);
     }

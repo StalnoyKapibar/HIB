@@ -62,6 +62,7 @@ public class TestDataInit {
         bookDTO1.setOriginalLanguage("Russian");
         bookDTO1.setPages(200L);
         bookDTO1.setYearOfEdition("2004");
+        bookDTO1.setDisabled(true);
         bookAddImgandAddBookToDb(bookDTO1);
 
         BookDTO bookDTO2 = new BookDTO();

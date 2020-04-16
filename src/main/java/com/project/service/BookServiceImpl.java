@@ -22,6 +22,11 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public Book getById(Long id) {
+        return bookDAO.getBookById(id);
+    }
+
+    @Override
     public void addBook(BookDTO bookDTO) {
         bookDAO.addBook(bookDTO);
     }
@@ -32,12 +37,12 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void deleteBookById(long id) {
+    public void deleteBookById(Long id) {
         bookDAO.deleteBookById(id);
     }
 
     @Override
-    public BookDTO getBookByIdLocale(long id) {
+    public BookDTO getBookByIdLocale(Long id) {
         return bookDAO.getBookByIdLocale(id);
     }
 
@@ -62,7 +67,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookDTO getBookDTOById(long id) {
+    public BookDTO getBookDTOById(Long id) {
         return bookDAO.getBookDTOById(id);
     }
 
