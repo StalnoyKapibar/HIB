@@ -1,6 +1,6 @@
 package com.project.controller.restcontroller;
 
-import com.project.model.UserDtoResetPassword;
+import com.project.model.UserDTOResetPassword;
 import com.project.service.abstraction.ResetPasswordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +17,7 @@ public class ResetPasswordController {
     }
 
     @PostMapping("/newPassword")
-    public String getNewPassword(@RequestBody UserDtoResetPassword userDTOResetPassword) {
+    public String getNewPassword(@RequestBody UserDTOResetPassword userDTOResetPassword) {
       return resetPasswordService.saveNewPasswordReset(userDTOResetPassword);
     }
 }

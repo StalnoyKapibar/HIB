@@ -2,7 +2,7 @@ package com.project.dao;
 
 import com.project.dao.abstraction.AddressDao;
 import com.project.model.Address;
-import com.project.model.AddressDto;
+import com.project.model.AddressDTO;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -13,7 +13,7 @@ public class AddressDaoImpl extends AbstractDao<Long, Address> implements Addres
     }
 
     @Override
-    public Address getAddressFromAddressDTO(AddressDto addressDTO) {
+    public Address getAddressFromAddressDTO(AddressDTO addressDTO) {
         return Address.builder()
                 .flat(addressDTO.getFlat())
                 .house(addressDTO.getHouse())

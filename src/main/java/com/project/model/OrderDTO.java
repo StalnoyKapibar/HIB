@@ -11,11 +11,11 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class OrderDto {
+public class OrderDTO {
     private Long id;
     private String data;
-    private List<CartItemDto> items;
-    private AddressDto address;
+    private List<CartItemDTO> items;
+    private AddressDTO address;
     private Integer itemsCost;
     private Integer shippingCost;
     private String trackingNumber;
@@ -34,8 +34,8 @@ public class OrderDto {
         order.setTrackingNumber(trackingNumber);
         order.setStatus(status);
         List<CartItem> cartItems = new ArrayList<>();
-        for (CartItemDto cartItemDTO : items) {
-            BookDto bookDTO = cartItemDTO.getBook();
+        for (CartItemDTO cartItemDTO : items) {
+            BookDTO bookDTO = cartItemDTO.getBook();
             Book book = Book.builder()
                     .id(bookDTO.getId())
                     .nameLocale(bookDTO.getName())

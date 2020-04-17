@@ -5,7 +5,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class AddressDto {
+public class AddressDTO {
     private long id;
     private String flat;
     private String house;

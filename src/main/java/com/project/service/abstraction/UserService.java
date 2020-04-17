@@ -1,11 +1,11 @@
 package com.project.service.abstraction;
 
-import com.project.model.UserDto;
-import com.project.model.UserDtoNewPassword;
+import com.project.model.UserDTO;
+import com.project.model.UserDTONewPassword;
 
 public interface UserService {
-    UserDto getUserDTOByLogin(String login);
-    String saveUserDTOPersonalInformation(UserDto userDTO);
+    UserDTO getUserDTOByLogin(String login);
+    String saveUserDTOPersonalInformation(UserDTO userDTO);
     boolean checkEmailFromOtherUsers(String email, long id);
-    String saveUserDTOPassword(UserDtoNewPassword userDTONewPassword);
+    String saveUserDTOPassword(UserDTONewPassword userDTONewPassword);
 }

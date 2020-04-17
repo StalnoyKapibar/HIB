@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegistrationUserDto {
+public class RegistrationUserDTO {
     @Size(min = 5, max = 32,
             message = "Логин должен быть в диапазоне от 5 до 32")
     @Pattern(regexp = "[0-9a-zA-Z]+",

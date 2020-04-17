@@ -1,11 +1,12 @@
 package com.project.service.abstraction;
 
-import com.project.model.UserDtoResetPassword;
+import com.project.model.UserDTONewPassword;
+import com.project.model.UserDTOResetPassword;
 
 public interface ResetPasswordService {
     String sendEmailResetPassword(String email);
 
     boolean checkTokenResetPassword(String token);
 
-    String saveNewPasswordReset(UserDtoResetPassword userDTOResetPassword);
+    String saveNewPasswordReset(UserDTOResetPassword userDTOResetPassword);
 }

@@ -1,17 +1,17 @@
 package com.project.dao.abstraction;
 
 import com.project.model.UserAccount;
-import com.project.model.UserDto;
-import com.project.model.UserDtoNewPassword;
+import com.project.model.UserDTO;
+import com.project.model.UserDTONewPassword;
 
 public interface UserDao extends GenericDao<Long, UserAccount> {
-    UserDto getUserByLogin(String login);
+    UserDTO getUserByLogin(String login);
 
-    void saveUserDTOPersonalInformation(UserDto userDTO);
+    void saveUserDTOPersonalInformation(UserDTO userDTO);
 
     boolean checkEmailFromOtherUsers(String email, long id);
 
-    void saveUserDTOPassword(UserDtoNewPassword userDTONewPassword);
+    void saveUserDTOPassword(UserDTONewPassword userDTONewPassword);
 
     String getOldPassword(long id);
 }

@@ -1,10 +1,10 @@
 package com.project.service.abstraction;
 
 import com.project.model.Welcome;
-import com.project.model.WelcomeLocaleDto;
+import com.project.model.WelcomeLocaleDTO;
 
 public interface WelcomeService {
-    WelcomeLocaleDto getWelcomeLocaleDTOByLocale(String locale);
+    WelcomeLocaleDTO getWelcomeLocaleDTOByLocale(String locale);
 
     void editWelcome(Welcome welcome);
 

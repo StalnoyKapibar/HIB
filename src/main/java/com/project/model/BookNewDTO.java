@@ -9,7 +9,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class BookNewDto {
+public class BookNewDTO {
     private long id;
     private String name;
     private String author;
@@ -22,7 +22,7 @@ public class BookNewDto {
     private String coverImage;
     private List<Image> imageList;
 
-    public BookNewDto(long id, String name, String author, String desc, String edition, String yearOfEdition, Long pages, Long price, String originalLanguage, String coverImage) {
+    public BookNewDTO(long id, String name, String author, String desc, String edition, String yearOfEdition, Long pages, Long price, String originalLanguage, String coverImage) {
         this.id = id;
         this.name = name;
         this.author = author;

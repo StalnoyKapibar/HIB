@@ -1,8 +1,8 @@
 package com.project.controller.restcontroller;
 
-import com.project.model.BookDto;
+import com.project.model.BookDTO;
 import com.project.model.Welcome;
-import com.project.model.WelcomeLocaleDto;
+import com.project.model.WelcomeLocaleDTO;
 import com.project.service.abstraction.BookService;
 import com.project.service.abstraction.WelcomeService;
 import lombok.AllArgsConstructor;
@@ -21,7 +21,7 @@ public class WelcomeLocaleController {
     private WelcomeService welcomeService;
 
     @GetMapping("/api/welcome/locale/{locale}")
-    public WelcomeLocaleDto getWelcomeLocaleDTOByLocale(@PathVariable("locale") String locale) {
+    public WelcomeLocaleDTO getWelcomeLocaleDTOByLocale(@PathVariable("locale") String locale) {
         return welcomeService.getWelcomeLocaleDTOByLocale(locale);
     }
 
@@ -37,7 +37,7 @@ public class WelcomeLocaleController {
     }
 
     @GetMapping("/get")
-    public List<BookDto> getAllAd() {
+    public List<BookDTO> getAllAd() {
         return bookService.getAllBookDTO();
     }
 }

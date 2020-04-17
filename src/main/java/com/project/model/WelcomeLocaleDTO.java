@@ -5,7 +5,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class WelcomeLocaleDto {
+public class WelcomeLocaleDTO {
     private String nameLocale;
     private String bodyWelcome;
 }

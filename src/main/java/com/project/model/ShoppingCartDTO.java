@@ -10,15 +10,15 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class ShoppingCartDto {
+public class ShoppingCartDTO {
     private Long id;
 
-    private List<CartItemDto> cartItems = new ArrayList<>(0);
+    private List<CartItemDTO> cartItems = new ArrayList<>(0);
 
-    public void addCartItem(BookDto bookDTO) {
-        CartItemDto newCartItem = new CartItemDto(bookDTO, 1);
+    public void addCartItem(BookDTO bookDTO) {
+        CartItemDTO newCartItem = new CartItemDTO(bookDTO, 1);
         if (cartItems.contains(newCartItem)) {
-            for (CartItemDto oldCartItem : cartItems) {
+            for (CartItemDTO oldCartItem : cartItems) {
                 if (oldCartItem.equals(newCartItem)) {
                     oldCartItem.setQuantity(oldCartItem.getQuantity() + 1);
                     break;
@@ -30,7 +30,7 @@ public class ShoppingCartDto {
     }
 
     public Long deleteCartItem(Long id) {
-        for (CartItemDto cartItemDTO : cartItems) {
+        for (CartItemDTO cartItemDTO : cartItems) {
             if (cartItemDTO.getBook().getId() == id) {
                 cartItems.remove(cartItemDTO);
                 return cartItemDTO.getId();
@@ -41,7 +41,7 @@ public class ShoppingCartDto {
 
 
     public void updateCartItem(Long id, Integer quantity) {
-        for (CartItemDto cartItemDTO : cartItems) {
+        for (CartItemDTO cartItemDTO : cartItems) {
             if (cartItemDTO.getBook().getId() == id) {
                 cartItemDTO.setQuantity(quantity);
             }
@@ -49,20 +49,20 @@ public class ShoppingCartDto {
     }
 
     public void mergeCartItem(Long id, Integer quantity) {
-        for (CartItemDto cartItemDTO : cartItems) {
+        for (CartItemDTO cartItemDTO : cartItems) {
             if (cartItemDTO.getBook().getId() == id) {
                 cartItemDTO.setQuantity(quantity + cartItemDTO.getQuantity());
             }
         }
     }
 
-    public void mergeCarts(ShoppingCartDto shoppingCartDTO) {
+    public void mergeCarts(ShoppingCartDTO shoppingCartDTO) {
         if (cartItems.size() != 0) {
-            for (CartItemDto newCartItemDto : shoppingCartDTO.cartItems) {
-                if (cartItems.contains(newCartItemDto)) {
-                    mergeCartItem(newCartItemDto.getBook().getId(), newCartItemDto.getQuantity());
+            for (CartItemDTO newCartItemDTO : shoppingCartDTO.cartItems) {
+                if (cartItems.contains(newCartItemDTO)) {
+                    mergeCartItem(newCartItemDTO.getBook().getId(), newCartItemDTO.getQuantity());
                 } else {
-                    cartItems.add(newCartItemDto);
+                    cartItems.add(newCartItemDTO);
                 }
             }
         } else cartItems.addAll(shoppingCartDTO.getCartItems());
@@ -70,7 +70,7 @@ public class ShoppingCartDto {
 
     public long getTotalCostItems() {
         long cost = 0;
-        for (CartItemDto cartItemDTO : cartItems) {
+        for (CartItemDTO cartItemDTO : cartItems) {
             cost += cartItemDTO.getBook().getPrice() * cartItemDTO.getQuantity();
         }
         return cost;

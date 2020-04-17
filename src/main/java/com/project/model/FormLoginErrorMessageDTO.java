@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class FormLoginErrorMessageDto {
+public class FormLoginErrorMessageDTO {
     private boolean hasError;
     private String message;
 }

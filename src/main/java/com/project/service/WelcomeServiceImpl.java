@@ -2,7 +2,7 @@ package com.project.service;
 
 import com.project.dao.abstraction.WelcomeDao;
 import com.project.model.Welcome;
-import com.project.model.WelcomeLocaleDto;
+import com.project.model.WelcomeLocaleDTO;
 import com.project.service.abstraction.WelcomeService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ public class WelcomeServiceImpl implements WelcomeService {
     private WelcomeDao welcomeDAO;
 
     @Override
-    public WelcomeLocaleDto getWelcomeLocaleDTOByLocale(String locale) {
+    public WelcomeLocaleDTO getWelcomeLocaleDTOByLocale(String locale) {
         return welcomeDAO.getWelcomeLocaleDTOByLocale(locale);
     }
 

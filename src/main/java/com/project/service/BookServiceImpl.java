@@ -19,17 +19,17 @@ public class BookServiceImpl implements BookService {
     private BookDao bookDAO;
 
     @Override
-    public List<BookDto> getAllBookDTO() {
+    public List<BookDTO> getAllBookDTO() {
         return bookDAO.findAll().stream().map(book -> bookDAO.getBookDTOFromBook(book)).collect(Collectors.toList());
     }
 
     @Override
-    public void addBook(BookDto bookDTO) {
+    public void addBook(BookDTO bookDTO) {
         bookDAO.add(bookDAO.getBookFromBookDTO(bookDTO));
     }
 
     @Override
-    public PageableBookDto getPageBookDTOByPageable(Pageable pageable) {
+    public PageableBookDTO getPageBookDTOByPageable(Pageable pageable) {
         return bookDAO.getPageBookDTOByPageable(pageable);
     }
 
@@ -39,32 +39,32 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookDto getBookByIdLocale(long id) {
+    public BookDTO getBookByIdLocale(long id) {
         return bookDAO.getBookByIdLocale(id);
     }
 
     @Override
-    public BookNewDto getNewBookDTOByIdAndLang(Long id, String lang) {
+    public BookNewDTO getNewBookDTOByIdAndLang(Long id, String lang) {
         return bookDAO.getNewBookDTObyIdAndLang(id, lang);
     }
 
     @Override
-    public void updateBook(BookDto bookDTO) {
+    public void updateBook(BookDTO bookDTO) {
         bookDAO.update(bookDAO.getBookFromBookDTO(bookDTO));
     }
 
     @Override
-    public List<BookDto20> get20BookDTO(String locale) {
+    public List<BookDTO20> get20BookDTO(String locale) {
         return bookDAO.get20BookDTO(locale);
     }
 
     @Override
-    public BookDto20 getBookBySearchRequest(LocaleString localeString, String locale) {
+    public BookDTO20 getBookBySearchRequest(LocaleString localeString, String locale) {
         return bookDAO.getBookBySearchRequest(localeString, locale);
     }
 
     @Override
-    public BookDto getBookDTOById(long id) {
+    public BookDTO getBookDTOById(long id) {
         return bookDAO.getBookDTOById(id);
     }
 

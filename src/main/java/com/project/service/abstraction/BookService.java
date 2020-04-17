@@ -6,25 +6,25 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface BookService {
-    List<BookDto> getAllBookDTO();
+    List<BookDTO> getAllBookDTO();
 
-    void addBook(BookDto bookDTO);
+    void addBook(BookDTO bookDTO);
 
-    PageableBookDto getPageBookDTOByPageable(Pageable pageable);
+    PageableBookDTO getPageBookDTOByPageable(Pageable pageable);
 
     void deleteBookById(long id);
 
-    void updateBook(BookDto bookDTO);
+    void updateBook(BookDTO bookDTO);
 
-    List<BookDto20> get20BookDTO(String locale);
+    List<BookDTO20> get20BookDTO(String locale);
 
-    BookDto20 getBookBySearchRequest(LocaleString localeString, String locale);
+    BookDTO20 getBookBySearchRequest(LocaleString localeString, String locale);
 
-    BookDto getBookDTOById(long id);
+    BookDTO getBookDTOById(long id);
 
     String getLastIdOfBook();
 
-    BookDto getBookByIdLocale(long x);
+    BookDTO getBookByIdLocale(long x);
 
-    BookNewDto getNewBookDTOByIdAndLang(Long id, String lang);
+    BookNewDTO getNewBookDTOByIdAndLang(Long id, String lang);
 }

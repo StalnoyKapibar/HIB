@@ -7,23 +7,23 @@ import java.util.List;
 
 public interface BookDao extends GenericDao<Long, Book> {
 
-    BookDto getBookDTOFromBook(Book book);
+    BookDTO getBookDTOFromBook(Book book);
 
-    Book getBookFromBookDTO(BookDto bookDTO);
+    Book getBookFromBookDTO(BookDTO bookDTO);
 
-    BookDto getBookByIdLocale(long id);
+    BookDTO getBookByIdLocale(long id);
 
-    List<BookDto20> get20BookDTO(String locale);
+    List<BookDTO20> get20BookDTO(String locale);
 
-    BookDto20 getBookBySearchRequest(LocaleString localeString, String locale);
+    BookDTO20 getBookBySearchRequest(LocaleString localeString, String locale);
 
-    BookDto getBookDTOById(long id);
+    BookDTO getBookDTOById(long id);
 
     String getLastIdOfBook();
 
-    PageableBookDto getPageBookDTOByPageable(Pageable pageable);
+    PageableBookDTO getPageBookDTOByPageable(Pageable pageable);
 
     String getQuantityBook();
 
-    BookNewDto getNewBookDTObyIdAndLang(Long id, String lang);
+    BookNewDTO getNewBookDTObyIdAndLang(Long id, String lang);
 }

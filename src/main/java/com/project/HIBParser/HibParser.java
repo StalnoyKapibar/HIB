@@ -3,7 +3,7 @@ package com.project.HIBParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.project.model.BookDto;
+import com.project.model.BookDTO;
 import com.project.model.Image;
 import com.project.model.LocaleString;
 import com.project.service.abstraction.BookService;
@@ -43,7 +43,7 @@ public class HibParser {
         }
     }
 
-    public BookDto getBookFromJSON(String json) {
+    public BookDTO getBookFromJSON(String json) {
         JsonNode jsonNode = null;
         long id = Long.parseLong(bookService.getLastIdOfBook()) + 1;
         try {
@@ -65,7 +65,7 @@ public class HibParser {
             listImage.add(new Image(0, i + ".jpg"));
         }
 
-        return BookDto.builder()
+        return BookDTO.builder()
                 .id(id)
                 .name(initLocaleString(jsonNode.get("name")))
                 .author(initLocaleString(jsonNode.get("author")))

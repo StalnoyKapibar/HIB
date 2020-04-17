@@ -1,6 +1,6 @@
 package com.project.search;
 
-import com.project.model.BookDto20;
+import com.project.model.BookDTO20;
 import com.project.model.LocaleString;
 import com.project.service.abstraction.BookService;
 import lombok.AllArgsConstructor;
@@ -27,7 +27,7 @@ public class BookSearch {
 
     private BookService bookService;
 
-    public List<BookDto20> search(String req, String locale) {
+    public List<BookDTO20> search(String req, String locale) {
         FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
 
         QueryBuilder queryBuilder = fullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(LocaleString.class).get();
@@ -36,7 +36,7 @@ public class BookSearch {
 
         FullTextQuery jpaQuery = fullTextEntityManager.createFullTextQuery(query, LocaleString.class);
         List<LocaleString> results = jpaQuery.getResultList();
-        List<BookDto20> result = new ArrayList<>();
+        List<BookDTO20> result = new ArrayList<>();
 
         for (LocaleString localeString : results) {
             result.add(bookService.getBookBySearchRequest(localeString, locale));

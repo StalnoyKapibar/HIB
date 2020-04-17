@@ -9,8 +9,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class PageableBookDto {
-    private List<BookDto> listBookDto;
+public class PageableBookDTO {
+    private List<BookDTO> listBookDTO;
     private int TotalPages;
     private int numberPages;
     private int pageableSize;

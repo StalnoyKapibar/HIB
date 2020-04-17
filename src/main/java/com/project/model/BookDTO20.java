@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class BookDto20 {
+public class BookDTO20 {
     @EqualsAndHashCode.Include
     private long id;
     private String nameAuthorDTOLocale;

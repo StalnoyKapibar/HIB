@@ -2,7 +2,7 @@ package com.project.service;
 
 import com.project.dao.abstraction.CartItemDao;
 import com.project.dao.abstraction.ShoppingCartDao;
-import com.project.model.ShoppingCartDto;
+import com.project.model.ShoppingCartDTO;
 import com.project.service.abstraction.ShoppingCartService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,12 +21,12 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
 
     @Override
-    public ShoppingCartDto getCartById(Long id) {
+    public ShoppingCartDTO getCartById(Long id) {
         return cartDAO.getCartById(id);
     }
 
     @Override
-    public void updateCart(ShoppingCartDto cart) {
+    public void updateCart(ShoppingCartDTO cart) {
         cartDAO.updateCart(cart);
     }
 
@@ -37,9 +37,9 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Override
     public void mergeCarts(HttpServletRequest request, Long id) {
-        ShoppingCartDto cart = (ShoppingCartDto) request.getSession().getAttribute("shoppingcart");
+        ShoppingCartDTO cart = (ShoppingCartDTO) request.getSession().getAttribute("shoppingcart");
         if (cart != null) {
-            ShoppingCartDto mainCart = cartDAO.getCartById(id);
+            ShoppingCartDTO mainCart = cartDAO.getCartById(id);
             mainCart.mergeCarts(cart);
             cartDAO.updateCart(mainCart);
             request.getSession().removeAttribute("shoppingcart");

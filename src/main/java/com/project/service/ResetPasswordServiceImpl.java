@@ -3,7 +3,7 @@ package com.project.service;
 import com.project.dao.UserAccountDao;
 import com.project.mail.MailService;
 import com.project.model.UserAccount;
-import com.project.model.UserDtoResetPassword;
+import com.project.model.UserDTOResetPassword;
 import com.project.service.abstraction.ResetPasswordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -73,7 +73,7 @@ public class ResetPasswordServiceImpl implements ResetPasswordService {
     }
 
     @Override
-    public String saveNewPasswordReset(UserDtoResetPassword userDTOResetPassword) {
+    public String saveNewPasswordReset(UserDTOResetPassword userDTOResetPassword) {
         String reg = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{6,}$";
         if (Pattern.matches(reg, userDTOResetPassword.getPassword()) && (userDTOResetPassword.getPassword().length() >= 8 && userDTOResetPassword.getPassword().length() <= 64)) {
             try {

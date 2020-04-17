@@ -1,9 +1,9 @@
 package com.project.controller.restcontroller;
 
-import com.project.model.AddressDto;
+import com.project.model.AddressDTO;
 import com.project.model.Order;
-import com.project.model.OrderDto;
-import com.project.model.ShoppingCartDto;
+import com.project.model.OrderDTO;
+import com.project.model.ShoppingCartDTO;
 import com.project.service.abstraction.OrderService;
 import com.project.service.abstraction.ShoppingCartService;
 import com.project.service.abstraction.UserAccountService;
@@ -28,9 +28,9 @@ public class OderController {
 
 
     @PostMapping("/order/confirmaddress")
-    private OrderDto addOder(@RequestBody AddressDto addressDTO, HttpSession httpSession) {
-        ShoppingCartDto shoppingCartDTO = cartService.getCartById((Long) httpSession.getAttribute("cartId"));
-        OrderDto order = new OrderDto();
+    private OrderDTO addOder(@RequestBody AddressDTO addressDTO, HttpSession httpSession) {
+        ShoppingCartDTO shoppingCartDTO = cartService.getCartById((Long) httpSession.getAttribute("cartId"));
+        OrderDTO order = new OrderDTO();
         order.setItems(shoppingCartDTO.getCartItems());
         order.setAddress(addressDTO);
         order.setData(LocalDate.now().toString());
@@ -43,23 +43,23 @@ public class OderController {
 
     @GetMapping("/order")
     private void confirmOrder(HttpSession httpSession) {
-        OrderDto order = (OrderDto) httpSession.getAttribute("order");
+        OrderDTO order = (OrderDTO) httpSession.getAttribute("order");
         Long userId = (Long) httpSession.getAttribute("userId");
         order.setUserAccount(userAccountService.getUserById(userId));
-        ShoppingCartDto shoppingCartDTO = cartService.getCartById((Long) httpSession.getAttribute("cartId"));
+        ShoppingCartDTO shoppingCartDTO = cartService.getCartById((Long) httpSession.getAttribute("cartId"));
         shoppingCartDTO.getCartItems().clear();
         cartService.updateCart(shoppingCartDTO);
         orderService.addOrder(order.getOder());
     }
 
     @GetMapping("/order/getorders")
-    private List<OrderDto> getOrder(HttpSession httpSession) {
+    private List<OrderDTO> getOrder(HttpSession httpSession) {
         Long userId = (Long) httpSession.getAttribute("userId");
         List<Order> orderList = orderService.getOrdersByUserId(userId);
-        List<OrderDto> orderDtos = new ArrayList<>();
+        List<OrderDTO> orderDTOS = new ArrayList<>();
         for (Order order : orderList) {
-            orderDtos.add(order.getOrderDTO());
+            orderDTOS.add(order.getOrderDTO());
         }
-        return orderDtos;
+        return orderDTOS;
     }
 }

@@ -1,7 +1,7 @@
 package com.project.service;
 
 import com.project.dao.abstraction.AddressDao;
-import com.project.model.AddressDto;
+import com.project.model.AddressDTO;
 import com.project.service.abstraction.AddressService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ public class AddressServiceImpl implements AddressService {
     private AddressDao addressDAO;
 
     @Override
-    public void addAddress(AddressDto addressDTO) {
+    public void addAddress(AddressDTO addressDTO) {
         addressDAO.add(addressDAO.getAddressFromAddressDTO(addressDTO));
     }
 }

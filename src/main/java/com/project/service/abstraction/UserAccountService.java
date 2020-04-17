@@ -1,6 +1,6 @@
 package com.project.service.abstraction;
 
-import com.project.model.RegistrationUserDto;
+import com.project.model.RegistrationUserDTO;
 import com.project.model.UserAccount;
 import org.hibernate.exception.ConstraintViolationException;
 
@@ -8,7 +8,7 @@ public interface UserAccountService {
 
     UserAccount findUserByToConfirmEmail(String token);
 
-    UserAccount save(RegistrationUserDto user) throws ConstraintViolationException;
+    UserAccount save(RegistrationUserDTO user) throws ConstraintViolationException;
 
     void sendEmailToConfirmAccount(UserAccount user);
 

@@ -1,8 +1,8 @@
 package com.project.service;
 
 import com.project.dao.abstraction.UserDao;
-import com.project.model.UserDto;
-import com.project.model.UserDtoNewPassword;
+import com.project.model.UserDTO;
+import com.project.model.UserDTONewPassword;
 import com.project.service.abstraction.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,12 +22,12 @@ public class UserServiceImpl implements UserService {
     private UserDao userDAO;
 
     @Override
-    public UserDto getUserDTOByLogin(String login) {
+    public UserDTO getUserDTOByLogin(String login) {
         return userDAO.getUserByLogin(login);
     }
 
     @Override
-    public String saveUserDTOPersonalInformation(UserDto userDTO) {
+    public String saveUserDTOPersonalInformation(UserDTO userDTO) {
         String reg = "^(.+)@([a-zA-Z]+)\\.([a-zA-Z]+)$";
         if (!checkEmailFromOtherUsers(userDTO.getEmail(), userDTO.getUserId())) {
             return "error";
@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String saveUserDTOPassword(UserDtoNewPassword userDTONewPassword) {
+    public String saveUserDTOPassword(UserDTONewPassword userDTONewPassword) {
         String reg = "^[a-zA-Z0-9]{5,}$";
         if (Pattern.matches(reg, userDTONewPassword.getNewPassword()) && (userDTONewPassword.getNewPassword().length() >= 5 && userDTONewPassword.getNewPassword().length() <= 64)) {
             if (encoder.matches(userDTONewPassword.getOldPassword(), userDAO.getOldPassword(userDTONewPassword.getUserId()))) {

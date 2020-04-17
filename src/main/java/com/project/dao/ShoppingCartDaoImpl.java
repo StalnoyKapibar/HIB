@@ -2,9 +2,9 @@ package com.project.dao;
 
 import com.project.dao.abstraction.ShoppingCartDao;
 import com.project.model.CartItem;
-import com.project.model.CartItemDto;
+import com.project.model.CartItemDTO;
 import com.project.model.ShoppingCart;
-import com.project.model.ShoppingCartDto;
+import com.project.model.ShoppingCartDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -21,25 +21,25 @@ public class ShoppingCartDaoImpl extends AbstractDao<Long, ShoppingCart> impleme
     private BookDaoImpl bookDAO;
 
     @Override
-    public ShoppingCartDto getCartById(Long id) {
+    public ShoppingCartDTO getCartById(Long id) {
         ShoppingCart shoppingCart = entityManager.find(ShoppingCart.class, id);
-        ShoppingCartDto cartDTO = new ShoppingCartDto();
+        ShoppingCartDTO cartDTO = new ShoppingCartDTO();
         cartDTO.setId(shoppingCart.getId());
         cartDTO.setId(shoppingCart.getId());
-        List<CartItemDto> itemDTO = new ArrayList<>();
+        List<CartItemDTO> itemDTO = new ArrayList<>();
         for (CartItem cartItem : shoppingCart.getCartItems()) {
-            itemDTO.add(new CartItemDto(cartItem.getId(), bookDAO.getBookDTOById(cartItem.getBook().getId()), cartItem.getQuantity()));
+            itemDTO.add(new CartItemDTO(cartItem.getId(), bookDAO.getBookDTOById(cartItem.getBook().getId()), cartItem.getQuantity()));
         }
         cartDTO.setCartItems(itemDTO);
         return cartDTO;
     }
 
     @Override
-    public void updateCart(ShoppingCartDto cart) {
+    public void updateCart(ShoppingCartDTO cart) {
         ShoppingCart updateCart = new ShoppingCart();
         updateCart.setId(cart.getId());
         List<CartItem> items = new ArrayList<>();
-        for (CartItemDto cartItemDTO : cart.getCartItems()) {
+        for (CartItemDTO cartItemDTO : cart.getCartItems()) {
             if (cartItemDTO.getId() != null) {
                 items.add(new CartItem(cartItemDTO.getId(), bookDAO.findById(cartItemDTO.getBook().getId()), cartItemDTO.getQuantity()));
             } else {

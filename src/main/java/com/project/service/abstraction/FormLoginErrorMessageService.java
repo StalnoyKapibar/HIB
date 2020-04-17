@@ -1,21 +1,21 @@
 package com.project.service.abstraction;
 
 import com.project.model.FormLoginErrorMessage;
-import com.project.model.FormLoginErrorMessageDto;
+import com.project.model.FormLoginErrorMessageDTO;
 import org.springframework.validation.BindingResult;
 
 public interface FormLoginErrorMessageService {
-    FormLoginErrorMessageDto getErrorMessage(BindingResult result);
+    FormLoginErrorMessageDTO getErrorMessage(BindingResult result);
 
-    FormLoginErrorMessageDto getErrorMessageOnPasswordsDoesNotMatch();
+    FormLoginErrorMessageDTO getErrorMessageOnPasswordsDoesNotMatch();
 
-    FormLoginErrorMessageDto getErrorMessageOnLoginUIndex();
+    FormLoginErrorMessageDTO getErrorMessageOnLoginUIndex();
 
-    FormLoginErrorMessageDto getErrorMessageOnEmailUIndex();
+    FormLoginErrorMessageDTO getErrorMessageOnEmailUIndex();
 
-    FormLoginErrorMessageDto getErrorMessageOnNoValuePresent();
+    FormLoginErrorMessageDTO getErrorMessageOnNoValuePresent();
 
-    FormLoginErrorMessageDto getErrorMessageOnBadCredential();
+    FormLoginErrorMessageDTO getErrorMessageOnBadCredential();
 
     void saveErrorMessage(FormLoginErrorMessage errorMessage);
 }

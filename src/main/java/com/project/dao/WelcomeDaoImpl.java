@@ -2,8 +2,11 @@ package com.project.dao;
 
 import com.project.dao.abstraction.WelcomeDao;
 import com.project.model.Welcome;
-import com.project.model.WelcomeLocaleDto;
+import com.project.model.WelcomeLocaleDTO;
 import org.springframework.stereotype.Repository;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 @Repository
 public class WelcomeDaoImpl extends AbstractDao<Long, Welcome> implements WelcomeDao {
@@ -12,9 +15,9 @@ public class WelcomeDaoImpl extends AbstractDao<Long, Welcome> implements Welcom
     }
 
     @Override
-    public WelcomeLocaleDto getWelcomeLocaleDTOByLocale(String locale) {
+    public WelcomeLocaleDTO getWelcomeLocaleDTOByLocale(String locale) {
         String temp = "Select new com.project.model.WelcomeLocaleDTO('LOC', w.body.LOC) FROM Welcome w".replaceAll("LOC", locale);
-        WelcomeLocaleDto loc = entityManager.createQuery(temp, WelcomeLocaleDto.class).getSingleResult();
+        WelcomeLocaleDTO loc = entityManager.createQuery(temp, WelcomeLocaleDTO.class).getSingleResult();
         return loc;
     }
 }

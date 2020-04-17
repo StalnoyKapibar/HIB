@@ -1,7 +1,7 @@
 package com.project.service.abstraction;
 
-import com.project.model.AddressDto;
+import com.project.model.AddressDTO;
 
 public interface AddressService {
-    void addAddress(AddressDto addressDTO);
+    void addAddress(AddressDTO addressDTO);
 }
