@@ -50,7 +50,14 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public void updateBook(BookDTO bookDTO) {
-        bookDAO.update(bookDAO.getBookFromBookDTO(bookDTO));
+        Book book = bookDAO.findById(bookDTO.getId());
+        book.setCoverImage(bookDTO.getCoverImage());
+        book.setListImage(bookDTO.getImageList());
+        book.setNameLocale(bookDTO.getName());
+        book.setAuthorLocale(bookDTO.getAuthor());
+        book.setDesc(bookDTO.getDesc());
+        book.setEdition(bookDTO.getEdition());
+        bookDAO.update(book);
     }
 
     @Override

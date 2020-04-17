@@ -54,11 +54,6 @@ function buildPage() {
         `</div>`;
     $('#bookEditPage').html(html1);
     for (key in tmpArr) {
-        if (key !== "id" && key !== "imageList" && key !== "coverImage") {
-            for (key0 of nameVarOfLocaleStringWithId) {
-                document.getElementById(key + key0).value = tmpArr[key][key0];
-            }
-        } else {
             if (key === "coverImage") {
                 nameImageCover = tmpArr[key];
                 nameImage = tmpArr[key];
@@ -71,7 +66,6 @@ function buildPage() {
                 buildCarousel();
             }
         }
-    }
 }
 
 function showImage(x) {
