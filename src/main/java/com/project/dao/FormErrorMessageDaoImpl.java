@@ -12,9 +12,6 @@ import javax.persistence.PersistenceContext;
 public class FormErrorMessageDaoImpl extends AbstractDao<Long, FormLoginErrorMessage> implements FormErrorMessageDao {
     FormErrorMessageDaoImpl(){super(FormLoginErrorMessage.class);}
 
-    @PersistenceContext
-    EntityManager entityManager;
-
     @Override
     public FormLoginErrorMessageDTO getErrorMessage(String field, String reason, String locale) {
         String HQL = "SELECT new com.project.model.FormLoginErrorMessageDTO(true, fem.body.LOCALE) ".replaceAll("LOCALE", locale) +

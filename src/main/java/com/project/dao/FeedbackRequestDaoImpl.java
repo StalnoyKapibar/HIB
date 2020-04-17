@@ -2,20 +2,14 @@ package com.project.dao;
 
 import com.project.dao.abstraction.FeedbackRequestDao;
 import com.project.model.FeedbackRequest;
-import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
 public class FeedbackRequestDaoImpl extends AbstractDao<Long, FeedbackRequest> implements FeedbackRequestDao {
 
     FeedbackRequestDaoImpl(){super(FeedbackRequest.class);}
-
-    @PersistenceContext
-    private EntityManager entityManager;
 
     @Override
     public List<FeedbackRequest> findAllByOrderByRepliedAsc() {

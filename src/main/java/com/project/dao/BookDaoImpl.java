@@ -5,19 +5,15 @@ import com.project.model.*;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.List;
 
 @Repository
 public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
+
     BookDaoImpl(){
         super(Book.class);
     }
-
-    @PersistenceContext
-    private EntityManager entityManager;
 
     public BookDTO getBookDTOFromBook(Book book){
         return BookDTO.builder()

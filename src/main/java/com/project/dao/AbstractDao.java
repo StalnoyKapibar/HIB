@@ -10,7 +10,7 @@ import java.util.List;
 public abstract class AbstractDao<I extends Serializable, E> implements GenericDao<I, E> {
 
     @PersistenceContext
-    EntityManager entityManager;
+    protected EntityManager entityManager;
 
     private final Class<E> persistentClass;
 
@@ -22,7 +22,7 @@ public abstract class AbstractDao<I extends Serializable, E> implements GenericD
         return entityManager.find(persistentClass, id);
     }
 
-    @SuppressWarnings("ALL")
+    @SuppressWarnings("Unchecked")
     public List<E> findAll() {
         return entityManager.createQuery("from " + persistentClass.getName()).getResultList();
     }
@@ -42,5 +42,9 @@ public abstract class AbstractDao<I extends Serializable, E> implements GenericD
     public void deleteById(I id) {
         E entity = findById(id);
         delete(entity);
+    }
+
+    public EntityManager getEntityManager(){
+        return entityManager;
     }
 }
