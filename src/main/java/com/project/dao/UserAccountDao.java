@@ -6,16 +6,14 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
 import java.util.Optional;
 
 @Repository
-public class UserAccountDao {
-
-    @PersistenceContext
-    private EntityManager entityManager;
+public class UserAccountDao extends AbstractDao<Long, UserAccount> {
+    UserAccountDao() {
+        super(UserAccount.class);
+    }
 
     public Optional<UserAccount> findByLogin(String login) {
         String sql = "SELECT * FROM users WHERE login =:login";
@@ -53,9 +51,5 @@ public class UserAccountDao {
     public UserAccount save(UserAccount userAccount) {
         entityManager.persist(userAccount);
         return userAccount;
-    }
-
-    public UserAccount getUserById(Long id) {
-        return entityManager.find(UserAccount.class, id);
     }
 }

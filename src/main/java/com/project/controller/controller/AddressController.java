@@ -1,9 +1,6 @@
 package com.project.controller.controller;
 
 import com.project.model.UserAccount;
-import com.project.service.AddressService;
-import com.project.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

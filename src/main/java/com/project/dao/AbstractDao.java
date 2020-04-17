@@ -14,7 +14,7 @@ public abstract class AbstractDao<I extends Serializable, E> implements GenericD
 
     private final Class<E> persistentClass;
 
-    public AbstractDao(Class<E> persistentClass){
+    public AbstractDao(Class<E> persistentClass) {
         this.persistentClass = persistentClass;
     }
 
@@ -40,11 +40,10 @@ public abstract class AbstractDao<I extends Serializable, E> implements GenericD
     }
 
     public void deleteById(I id) {
-        E entity = findById(id);
-        delete(entity);
+        entityManager.createQuery("DELETE FROM " + persistentClass.getName() + " where id = :id").setParameter("id", id).executeUpdate();
     }
 
-    public EntityManager getEntityManager(){
+    public EntityManager getEntityManager() {
         return entityManager;
     }
 }

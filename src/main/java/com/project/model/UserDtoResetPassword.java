@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class UserDTOResetPassword {
+public class UserDtoResetPassword {
     private String password;
     private String token;
 }

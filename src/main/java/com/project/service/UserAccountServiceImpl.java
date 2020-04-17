@@ -3,9 +3,10 @@ package com.project.service;
 import com.project.dao.UserAccountDao;
 import com.project.dao.abstraction.UserRoleDao;
 import com.project.mail.MailService;
-import com.project.model.RegistrationUserDTO;
+import com.project.model.RegistrationUserDto;
 import com.project.model.Role;
 import com.project.model.UserAccount;
+import com.project.service.abstraction.UserAccountService;
 import lombok.AllArgsConstructor;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.core.env.Environment;
@@ -46,7 +47,7 @@ public class UserAccountServiceImpl implements UserAccountService {
     }
 
     @Override
-    public UserAccount save(RegistrationUserDTO user) throws ConstraintViolationException {
+    public UserAccount save(RegistrationUserDto user) throws ConstraintViolationException {
         UserAccount userAccount = UserAccount.builder()
                 .login(user.getLogin())
                 .email(user.getEmail())
@@ -88,6 +89,6 @@ public class UserAccountServiceImpl implements UserAccountService {
 
     @Override
     public UserAccount getUserById(Long id) {
-        return userAccountDao.getUserById(id);
+        return userAccountDao.findById(id);
     }
 }

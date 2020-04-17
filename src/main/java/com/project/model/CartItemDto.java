@@ -9,16 +9,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class CartItemDTO {
+public class CartItemDto {
 
     private Long id;
 
     @EqualsAndHashCode.Include
-    private BookDTO book;
+    private BookDto book;
 
     private Integer quantity;
 
-    public CartItemDTO(BookDTO book, Integer quantity) {
+    public CartItemDto(BookDto book, Integer quantity) {
         this.book = book;
         this.quantity = quantity;
     }

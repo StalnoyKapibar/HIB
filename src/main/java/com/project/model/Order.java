@@ -29,18 +29,18 @@ public class Order {
     @JoinColumn(name = "user_id")
     private UserAccount userAccount;
 
-    public OrderDTO getOrderDTO() {
-        OrderDTO orderDTO = new OrderDTO();
+    public OrderDto getOrderDTO() {
+        OrderDto orderDTO = new OrderDto();
         orderDTO.setId(id);
         orderDTO.setData(data);
         orderDTO.setItemsCost(itemsCost);
         orderDTO.setShippingCost(shippingCost);
         orderDTO.setTrackingNumber(trackingNumber);
         orderDTO.setStatus(status);
-        List<CartItemDTO> cartItemDTOS = new ArrayList<>();
+        List<CartItemDto> cartItemDtos = new ArrayList<>();
         for (CartItem cartItem : items) {
             Book book = cartItem.getBook();
-            BookDTO bookDTO =  BookDTO.builder()
+            BookDto bookDTO =  BookDto.builder()
                     .id(book.getId())
                     .name(book.getNameLocale())
                     .author(book.getAuthorLocale())
@@ -53,10 +53,10 @@ public class Order {
                     .originalLanguage(book.getOriginalLanguage())
                     .imageList(book.getListImage())
                     .build();
-            cartItemDTOS.add(new CartItemDTO(cartItem.getId(), bookDTO, cartItem.getQuantity()));
+            cartItemDtos.add(new CartItemDto(cartItem.getId(), bookDTO, cartItem.getQuantity()));
         }
-        orderDTO.setItems(cartItemDTOS);
-        orderDTO.setAddress(new AddressDTO(address.getId(),
+        orderDTO.setItems(cartItemDtos);
+        orderDTO.setAddress(new AddressDto(address.getId(),
                 address.getFlat(),
                 address.getHouse(),
                 address.getStreet(),

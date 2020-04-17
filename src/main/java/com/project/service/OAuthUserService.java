@@ -24,7 +24,7 @@ import java.util.Optional;
 public class OAuthUserService extends DefaultOAuth2UserService {
 
     @Autowired
-    UserAccountDao userAccountDao;
+    private UserAccountDao userAccountDao;
 
     public OAuthUserService() {
         super();

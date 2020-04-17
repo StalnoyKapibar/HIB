@@ -1,10 +1,10 @@
 package com.project.controller.restcontroller;
 
-import com.project.model.BookDTO;
-import com.project.model.CartItemDTO;
-import com.project.model.ShoppingCartDTO;
-import com.project.service.BookService;
-import com.project.service.ShoppingCartService;
+import com.project.model.BookDto;
+import com.project.model.CartItemDto;
+import com.project.model.ShoppingCartDto;
+import com.project.service.abstraction.BookService;
+import com.project.service.abstraction.ShoppingCartService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -28,35 +28,35 @@ public class ShoppingCartController {
         } else {
             session.removeAttribute("cartId");
         }
-        ShoppingCartDTO shoppingCart = (ShoppingCartDTO) session.getAttribute("shoppingcart");
+        ShoppingCartDto shoppingCart = (ShoppingCartDto) session.getAttribute("shoppingcart");
         if (shoppingCart != null) {
             return shoppingCart.getCartItems().size();
         } else {
-            session.setAttribute("shoppingcart", new ShoppingCartDTO());
+            session.setAttribute("shoppingcart", new ShoppingCartDto());
             return 0;
         }
     }
 
     @GetMapping(value = "/cart")
-    public List<CartItemDTO> getShoppingCart(HttpSession session) {
+    public List<CartItemDto> getShoppingCart(HttpSession session) {
         Long cartId = (Long) session.getAttribute("cartId");
         if (cartId != null) {
             return cartService.getCartById(cartId).getCartItems();
         }
-        ShoppingCartDTO shoppingCart = (ShoppingCartDTO) session.getAttribute("shoppingcart");
+        ShoppingCartDto shoppingCart = (ShoppingCartDto) session.getAttribute("shoppingcart");
         return shoppingCart.getCartItems();
     }
 
     @PostMapping("/cart/{id}")
     public void addToCart(@PathVariable Long id, HttpSession session) {
-        BookDTO bookDTO = bookService.getBookDTOById(id);
+        BookDto bookDTO = bookService.getBookDTOById(id);
         Long cartId = (Long) session.getAttribute("cartId");
         if (cartId != null) {
-            ShoppingCartDTO shoppingCartDTO = cartService.getCartById(cartId);
+            ShoppingCartDto shoppingCartDTO = cartService.getCartById(cartId);
             shoppingCartDTO.addCartItem(bookDTO);
             cartService.updateCart(shoppingCartDTO);
         } else {
-            ShoppingCartDTO shoppingCart = (ShoppingCartDTO) session.getAttribute("shoppingcart");
+            ShoppingCartDto shoppingCart = (ShoppingCartDto) session.getAttribute("shoppingcart");
             shoppingCart.addCartItem(bookDTO);
             session.setAttribute("shoppingcart", shoppingCart);
         }
@@ -66,10 +66,10 @@ public class ShoppingCartController {
     public void deletFromCart(@PathVariable Long id, HttpSession session) {
         Long cartId = (Long) session.getAttribute("cartId");
         if (cartId != null) {
-            ShoppingCartDTO shoppingCartDTO = cartService.getCartById(cartId);
+            ShoppingCartDto shoppingCartDTO = cartService.getCartById(cartId);
             cartService.deleteCartItem(shoppingCartDTO.deleteCartItem(id));
         } else {
-            ShoppingCartDTO shoppingCart = (ShoppingCartDTO) session.getAttribute("shoppingcart");
+            ShoppingCartDto shoppingCart = (ShoppingCartDto) session.getAttribute("shoppingcart");
             shoppingCart.deleteCartItem(id);
             session.setAttribute("shoppingcart", shoppingCart);
         }
@@ -79,11 +79,11 @@ public class ShoppingCartController {
     public void editCart(@RequestParam("id") Long id, @RequestParam("quatity") Integer quatity, HttpSession session) {
         Long cartId = (Long) session.getAttribute("cartId");
         if (cartId != null) {
-            ShoppingCartDTO shoppingCartDTO = cartService.getCartById(cartId);
+            ShoppingCartDto shoppingCartDTO = cartService.getCartById(cartId);
             shoppingCartDTO.updateCartItem(id, quatity);
             cartService.updateCart(shoppingCartDTO);
         } else {
-            ShoppingCartDTO shoppingCart = (ShoppingCartDTO) session.getAttribute("shoppingcart");
+            ShoppingCartDto shoppingCart = (ShoppingCartDto) session.getAttribute("shoppingcart");
             shoppingCart.updateCartItem(id, quatity);
             session.setAttribute("shoppingcart", shoppingCart);
         }

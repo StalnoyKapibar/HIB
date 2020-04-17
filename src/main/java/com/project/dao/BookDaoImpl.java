@@ -15,8 +15,8 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
         super(Book.class);
     }
 
-    public BookDTO getBookDTOFromBook(Book book){
-        return BookDTO.builder()
+    public BookDto getBookDTOFromBook(Book book){
+        return BookDto.builder()
                 .id(book.getId())
                 .name(book.getNameLocale())
                 .author(book.getAuthorLocale())
@@ -31,7 +31,7 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
                 .build();
     }
 
-    public Book getBookFromBookDTO(BookDTO bookDTO){
+    public Book getBookFromBookDTO(BookDto bookDTO){
         return Book.builder()
                 .authorLocale(bookDTO.getAuthor())
                 .nameLocale(bookDTO.getName())
@@ -53,11 +53,11 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
 
     @Override
     @SuppressWarnings("all")
-    public BookNewDTO getNewBookDTObyIdAndLang(Long id, String lang) {
-        String hql = ("Select new com.project.model.BookNewDTO(b.id, b.nameLocale.LOC, " +
+    public BookNewDto getNewBookDTObyIdAndLang(Long id, String lang) {
+        String hql = ("Select new com.project.model.BookNewDto(b.id, b.nameLocale.LOC, " +
                 "b.authorLocale.LOC, b.desc.LOC, b.edition.LOC, b.yearOfEdition, b.pages," +
                 " b.price, b.originalLanguage, b.coverImage) FROM Book b WHERE id = :id").replaceAll("LOC", lang);
-        BookNewDTO bookNewDTO = entityManager.createQuery(hql, BookNewDTO.class).setParameter("id", id).getSingleResult();
+        BookNewDto bookNewDTO = entityManager.createQuery(hql, BookNewDto.class).setParameter("id", id).getSingleResult();
         List<Image> images = entityManager
                 .createNativeQuery(" select id, name_image " +
                                 "from image i " +
@@ -71,29 +71,29 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
 
 
     @Override
-    public BookDTO getBookByIdLocale(long id) {
-        return entityManager.createQuery("SELECT new com.project.model.BookDTO(b.id, b.nameLocale, b.authorLocale, b.coverImage, b.listImage) FROM Book b where b.id=:id", BookDTO.class).setParameter("id", id).getSingleResult();
+    public BookDto getBookByIdLocale(long id) {
+        return entityManager.createQuery("SELECT new com.project.model.BookDto(b.id, b.nameLocale, b.authorLocale, b.coverImage, b.listImage) FROM Book b where b.id=:id", BookDto.class).setParameter("id", id).getSingleResult();
     }
 
     @Override
-    public BookDTO20 getBookBySearchRequest(LocaleString localeString, String locale) {
+    public BookDto20 getBookBySearchRequest(LocaleString localeString, String locale) {
         String query = ("SELECT new com.project.model.BookDTO20(b.id, b.nameLocale.LOC, b.authorLocale.LOC, b.price, b.coverImage)" +
                 "FROM Book b where b.nameLocale=:name or b.authorLocale=:name ")
                 .replaceAll("LOC", locale);
-        return entityManager.createQuery(query, BookDTO20.class).setParameter("name", localeString).getSingleResult();
+        return entityManager.createQuery(query, BookDto20.class).setParameter("name", localeString).getSingleResult();
     }
 
     @Override
-    public List<BookDTO20> get20BookDTO(String locale) {
+    public List<BookDto20> get20BookDTO(String locale) {
         String query = ("SELECT new com.project.model.BookDTO20(b.id, b.nameLocale.LOC, b.authorLocale.LOC, b.price, b.coverImage)" +
                 "FROM Book b ORDER BY RAND()")
                 .replaceAll("LOC", locale);
-        List<BookDTO20> listBookDTO = entityManager.createQuery(query, BookDTO20.class).setMaxResults(20).getResultList();
+        List<BookDto20> listBookDTO = entityManager.createQuery(query, BookDto20.class).setMaxResults(20).getResultList();
         return listBookDTO;
     }
 
     @Override
-    public BookDTO getBookDTOById(long id) {
+    public BookDto getBookDTOById(long id) {
         return getBookDTOFromBook(findById(id));
     }
 
@@ -104,7 +104,7 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
     }
 
     @Override
-    public PageableBookDTO getPageBookDTOByPageable(Pageable pageable) {
+    public PageableBookDto getPageBookDTOByPageable(Pageable pageable) {
         int numberPage = pageable.getPageNumber();
         int limitBookDTOOnPage = pageable.getPageSize();
         int minNumberId = limitBookDTOOnPage * numberPage;
@@ -119,12 +119,12 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
                 .setFirstResult(minNumberId)
                 .setMaxResults(limitBookDTOOnPage)
                 .getResultList();
-        List<BookDTO> bookDTOList = new ArrayList<>();
+        List<BookDto> bookDtoList = new ArrayList<>();
         for (Book book : list) {
-            bookDTOList.add(getBookDTOFromBook(book));
+            bookDtoList.add(getBookDTOFromBook(book));
         }
-        PageableBookDTO pageableBookDTO = new PageableBookDTO();
-        pageableBookDTO.setListBookDTO(bookDTOList);
+        PageableBookDto pageableBookDTO = new PageableBookDto();
+        pageableBookDTO.setListBookDto(bookDtoList);
         pageableBookDTO.setNumberPages(pageable.getPageNumber());
         pageableBookDTO.setPageableSize(pageable.getPageSize());
         pageableBookDTO.setTotalPages((int) Math.ceil(Float.parseFloat(getQuantityBook()) / limitBookDTOOnPage));

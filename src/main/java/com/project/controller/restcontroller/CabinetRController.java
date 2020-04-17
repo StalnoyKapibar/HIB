@@ -1,8 +1,8 @@
 package com.project.controller.restcontroller;
 
-import com.project.model.UserDTO;
-import com.project.model.UserDTONewPassword;
-import com.project.service.UserService;
+import com.project.model.UserDto;
+import com.project.model.UserDtoNewPassword;
+import com.project.service.abstraction.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,19 +15,19 @@ public class CabinetRController {
     private UserService userService;
 
     @GetMapping("/cabinet/getAU")
-    public UserDTO getAU() {
+    public UserDto getAU() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        UserDTO userDTO = userService.getUserDTOByLogin(auth.getName());
+        UserDto userDTO = userService.getUserDTOByLogin(auth.getName());
         return userDTO;
     }
 
     @PostMapping("/cabinet/savePersonalInformation")
-    public String savePersonalInformation(@RequestBody UserDTO userDTO) {
+    public String savePersonalInformation(@RequestBody UserDto userDTO) {
         return userService.saveUserDTOPersonalInformation(userDTO);
     }
 
     @PostMapping("/cabinet/savePassword")
-    public String savePassword(@RequestBody UserDTONewPassword userDTONewPassword) {
+    public String savePassword(@RequestBody UserDtoNewPassword userDTONewPassword) {
         return userService.saveUserDTOPassword(userDTONewPassword);
     }
 }

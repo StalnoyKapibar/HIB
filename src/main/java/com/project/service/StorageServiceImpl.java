@@ -15,6 +15,7 @@ import java.util.stream.Stream;
 import com.project.exceptions.StorageException;
 import com.project.exceptions.StorageFileNotFoundException;
 import com.project.model.Image;
+import com.project.service.abstraction.StorageService;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;

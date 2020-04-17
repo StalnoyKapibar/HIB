@@ -1,10 +1,12 @@
-package com.project.dao.abstraction;
+package com.project.service.abstraction;
 
 import com.project.model.Welcome;
 import com.project.model.WelcomeLocaleDto;
 
-public interface WelcomeDao extends GenericDao<Long, Welcome> {
+public interface WelcomeService {
     WelcomeLocaleDto getWelcomeLocaleDTOByLocale(String locale);
+
+    void editWelcome(Welcome welcome);
+
+    Welcome getById(Long id);
 }
-
-

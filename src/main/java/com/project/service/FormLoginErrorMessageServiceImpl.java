@@ -2,7 +2,8 @@ package com.project.service;
 
 import com.project.dao.FormErrorMessageDaoImpl;
 import com.project.model.FormLoginErrorMessage;
-import com.project.model.FormLoginErrorMessageDTO;
+import com.project.model.FormLoginErrorMessageDto;
+import com.project.service.abstraction.FormLoginErrorMessageService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,29 +23,29 @@ public class FormLoginErrorMessageServiceImpl implements FormLoginErrorMessageSe
 
     //Common method to get standard error message by BindingResult (using in registration form)
     @Override
-    public FormLoginErrorMessageDTO getErrorMessage(BindingResult result) {
+    public FormLoginErrorMessageDto getErrorMessage(BindingResult result) {
         String reason = result.getFieldError().getCodes()[3]; // reason of validation error
         String field = result.getFieldError().getField(); // in witch field
         return errorMessageDAO.getErrorMessage(field, reason, getCurrentLocale());
     }
 
     @Override
-    public FormLoginErrorMessageDTO getErrorMessageOnPasswordsDoesNotMatch() {
+    public FormLoginErrorMessageDto getErrorMessageOnPasswordsDoesNotMatch() {
         return errorMessageDAO.getErrorMessage("password", "DontMatch", getCurrentLocale());
     }
 
     @Override
-    public FormLoginErrorMessageDTO getErrorMessageOnEmailUIndex() {
+    public FormLoginErrorMessageDto getErrorMessageOnEmailUIndex() {
         return errorMessageDAO.getErrorMessage("email", "UIndex", getCurrentLocale());
     }
 
     @Override
-    public FormLoginErrorMessageDTO getErrorMessageOnNoValuePresent() {
+    public FormLoginErrorMessageDto getErrorMessageOnNoValuePresent() {
         return errorMessageDAO.getErrorMessage("auth", "NoValuePresent", getCurrentLocale());
     }
 
     @Override
-    public FormLoginErrorMessageDTO getErrorMessageOnBadCredential() {
+    public FormLoginErrorMessageDto getErrorMessageOnBadCredential() {
         return errorMessageDAO.getErrorMessage("auth", "BadCredential", getCurrentLocale());
     }
 
@@ -54,7 +55,7 @@ public class FormLoginErrorMessageServiceImpl implements FormLoginErrorMessageSe
     }
 
     @Override
-    public FormLoginErrorMessageDTO getErrorMessageOnLoginUIndex() {
+    public FormLoginErrorMessageDto getErrorMessageOnLoginUIndex() {
         return errorMessageDAO.getErrorMessage("login", "UIndex", getCurrentLocale());
     }
 

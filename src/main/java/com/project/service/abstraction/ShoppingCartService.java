@@ -1,13 +1,13 @@
-package com.project.service;
+package com.project.service.abstraction;
 
-import com.project.model.ShoppingCartDTO;
+import com.project.model.ShoppingCartDto;
 
 import javax.servlet.http.HttpServletRequest;
 
 public interface ShoppingCartService {
-    ShoppingCartDTO getCartById(Long id);
+    ShoppingCartDto getCartById(Long id);
 
-    void updateCart(ShoppingCartDTO cart);
+    void updateCart(ShoppingCartDto cart);
 
     void deleteCartItem(Long id);
 

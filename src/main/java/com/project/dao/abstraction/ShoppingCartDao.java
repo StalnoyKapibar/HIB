@@ -1,9 +1,9 @@
 package com.project.dao.abstraction;
 
-import com.project.model.ShoppingCartDTO;
+import com.project.model.ShoppingCartDto;
 
 public interface ShoppingCartDao {
-    ShoppingCartDTO getCartById(Long id);
+    ShoppingCartDto getCartById(Long id);
 
-    void updateCart(ShoppingCartDTO cart);
+    void updateCart(ShoppingCartDto cart);
 }

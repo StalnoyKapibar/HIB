@@ -2,7 +2,7 @@ package com.project.config.handler;
 
 import com.project.dao.UserAccountDao;
 import com.project.model.UserAccount;
-import com.project.service.ShoppingCartService;
+import com.project.service.abstraction.ShoppingCartService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.Authentication;

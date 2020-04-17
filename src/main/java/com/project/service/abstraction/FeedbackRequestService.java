@@ -1,4 +1,4 @@
-package com.project.service;
+package com.project.service.abstraction;
 
 import com.project.model.FeedbackRequest;
 

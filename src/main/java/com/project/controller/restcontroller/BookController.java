@@ -1,13 +1,13 @@
 package com.project.controller.restcontroller;
 
 import com.project.HIBParser.HibParser;
-import com.project.model.BookDTO;
-import com.project.model.BookDTO20;
-import com.project.model.BookNewDTO;
-import com.project.model.PageableBookDTO;
+import com.project.model.BookDto;
+import com.project.model.BookDto20;
+import com.project.model.BookNewDto;
+import com.project.model.PageableBookDto;
 import com.project.search.BookSearch;
-import com.project.service.BookService;
-import com.project.service.StorageService;
+import com.project.service.abstraction.BookService;
+import com.project.service.abstraction.StorageService;
 import com.project.util.BookDTOWithFieldsForTable;
 import lombok.AllArgsConstructor;
 import org.apache.commons.io.FileUtils;
@@ -49,8 +49,8 @@ public class BookController {
     }
 
     @PutMapping("/loadFile")
-    public BookDTO loadFile(@RequestBody String book) {
-        BookDTO bookDTO = hibParser.getBookFromJSON(book);
+    public BookDto loadFile(@RequestBody String book) {
+        BookDto bookDTO = hibParser.getBookFromJSON(book);
         return bookDTO;
     }
 
@@ -77,32 +77,32 @@ public class BookController {
     }
 
     @PutMapping("/admin/addBook")
-    public HttpStatus addNewBook(@RequestBody BookDTO bookDTO) {
+    public HttpStatus addNewBook(@RequestBody BookDto bookDTO) {
         bookService.addBook(bookDTO);
         return HttpStatus.OK;
     }
 
     @GetMapping("/getBookDTOById/{id}")
-    public BookDTO getBookDTOById(@PathVariable("id") long id) {
-        BookDTO bookDTO = bookService.getBookDTOById(id);
+    public BookDto getBookDTOById(@PathVariable("id") long id) {
+        BookDto bookDTO = bookService.getBookDTOById(id);
         return bookDTO;
     }
 
     @GetMapping("/admin/pageable/{page1}")
-    public PageableBookDTO getWelcomeLocaleDTOByLocale(@PathVariable("page1") int page1) {
+    public PageableBookDto getWelcomeLocaleDTOByLocale(@PathVariable("page1") int page1) {
         Pageable pageable0 = PageRequest.of(page1, 10, Sort.by(
                 Sort.Order.asc("id")));
-        PageableBookDTO pageableBookDTO = bookService.getPageBookDTOByPageable(pageable0);
+        PageableBookDto pageableBookDTO = bookService.getPageBookDTOByPageable(pageable0);
         return pageableBookDTO;
     }
 
     @GetMapping("/getPageBooks")
-    public List<BookDTO> getPageBooks() {
+    public List<BookDto> getPageBooks() {
         return bookService.getAllBookDTO();
     }
 
     @PostMapping("/admin/add")
-    public void addBook(@RequestBody BookDTO bookDTO) {
+    public void addBook(@RequestBody BookDto bookDTO) {
         bookService.addBook(bookDTO);
         String lastId = bookService.getLastIdOfBook();
         storageService.createNewPaperForImages(lastId);
@@ -122,23 +122,23 @@ public class BookController {
     }
 
     @PostMapping("/admin/edit")
-    public void editBook(@RequestBody BookDTO bookDTO) {
+    public void editBook(@RequestBody BookDto bookDTO) {
         bookService.updateBook(bookDTO);
     }
 
     @GetMapping("/user/get20BookDTO/{locale}")
-    public List<BookDTO20> getWelcomeLocaleDTOByLocaleSize20(@PathVariable("locale") String locale) {
-        List<BookDTO20> page = bookService.get20BookDTO(locale);
+    public List<BookDto20> getWelcomeLocaleDTOByLocaleSize20(@PathVariable("locale") String locale) {
+        List<BookDto20> page = bookService.get20BookDTO(locale);
         return page;
     }
 
     @GetMapping("/api/book/{id}")
-    public BookNewDTO getNewBookDTOByIdAndLang(@PathVariable Long id, @RequestParam("locale") String lang) {
+    public BookNewDto getNewBookDTOByIdAndLang(@PathVariable Long id, @RequestParam("locale") String lang) {
         return bookService.getNewBookDTOByIdAndLang(id, lang);
     }
 
     @GetMapping("/searchResult")
-    public List<BookDTO20> search(@RequestParam(value = "request") String req, @RequestParam(value = "LANG") String locale) {
+    public List<BookDto20> search(@RequestParam(value = "request") String req, @RequestParam(value = "LANG") String locale) {
         return bookSearch.search(req, locale);
     }
 

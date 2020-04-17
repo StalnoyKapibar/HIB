@@ -1,6 +1,6 @@
 package com.project.config.handler;
 
-import com.project.service.FormLoginErrorMessageService;
+import com.project.service.abstraction.FormLoginErrorMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;

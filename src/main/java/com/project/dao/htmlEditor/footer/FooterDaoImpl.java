@@ -1,5 +1,6 @@
 package com.project.dao.htmlEditor.footer;
 
+import com.project.dao.AbstractDao;
 import com.project.model.htmlEditor.Link;
 import com.project.model.htmlEditor.footer.Footer;
 import org.springframework.stereotype.Repository;
@@ -8,9 +9,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 @Repository
-public class FooterDaoImpl implements FooterDao {
-    @PersistenceContext
-    private EntityManager entityManager;
+public class FooterDaoImpl extends AbstractDao<Long, Footer> implements FooterDao {
+    FooterDaoImpl() {
+        super(Footer.class);
+    }
 
     @Override
     public Footer getFooter() {

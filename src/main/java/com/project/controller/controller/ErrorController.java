@@ -1,7 +1,7 @@
 package com.project.controller.controller;
 
 import com.project.exceptions.NoValuePresentException;
-import com.project.service.FormLoginErrorMessageService;
+import com.project.service.abstraction.FormLoginErrorMessageService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.servlet.error.AbstractErrorController;

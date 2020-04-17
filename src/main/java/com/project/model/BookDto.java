@@ -9,7 +9,7 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class BookDTO {
+public class BookDto {
     @EqualsAndHashCode.Include
     private long id;
     private LocaleString name;

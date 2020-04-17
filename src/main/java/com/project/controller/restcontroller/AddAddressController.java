@@ -1,7 +1,7 @@
 package com.project.controller.restcontroller;
 
-import com.project.model.AddressDTO;
-import com.project.service.AddressService;
+import com.project.model.AddressDto;
+import com.project.service.abstraction.AddressService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +16,7 @@ public class AddAddressController {
     private AddressService addressService;
 
     @PostMapping("/enterAddress")
-    public ResponseEntity.BodyBuilder addAddress(@RequestBody AddressDTO addressDTO) {
+    public ResponseEntity.BodyBuilder addAddress(@RequestBody AddressDto addressDTO) {
         addressService.addAddress(addressDTO);
         return  ResponseEntity.status(HttpStatus.OK);
     }
