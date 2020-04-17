@@ -236,21 +236,22 @@ function showOrderSum() {
         flat = '-' + order.address.flat;
     }
 
-    let html = '';
     let addressDelivery = {
-        "Country/Zip code" : order.address.country + " , " + order.address.postalCode,
-        "City/State": order.address.city + " , " + order.address.state,
-        "Street" : order.address.street,
-        "House/Flat" : order.address.house + flat ,
-        "First name , Last name" : order.address.firstName + " " + order.address.lastName
+        "Country/Zip code": ` ${order.address.country} , ${order.address.postalCode}`,
+        "City/State": `${order.address.city} , ${order.address.state}`,
+        "Street": `${order.address.street}`,
+        "House/Flat": `${order.address.house}${flat}`,
+        "First name , Last name": `${order.address.firstName} ${order.address.lastName}`
     };
+
+    let html = ``;
     let x = 36;
-for (let key in addressDelivery) {
-     (x < 34) ? x = x + 2 : x = x - 2;
-        html +=`<div class="input-group mb-3 shadow " style="width: ${x}rem;;">
+    for (let key in addressDelivery) {
+        (x < 34) ? x = x + 2 : x = x - 2;
+        html += `<div class="input-group mb-3 shadow adressDelivery "  style="width: ${x}rem;">
             <div class="input-group-prepend "  ><span class="input-group-text"  id="basic-addon3">${key}</span></div>
-            <h1 class="form-control  "  aria-describedby="basic-addon3"> ${addressDelivery[key]} </h1></div>`;
-}
+            <h1 class="form-control  "  aria-describedby="basic-addon3"> ${addressDelivery[key]} </h1></div>`
+    }
     $('#shippingaddress').html(html);
 }
 
@@ -290,7 +291,7 @@ function showCarrentOrder(index) {
         row.append(cell);
         row.appendTo('#ordermodalbody');
     });
-    $('#modalHeader').text('Order No. '+order.id);
+    $('#modalHeader').text('Order No. ' + order.id);
     $('#ordestatus').text(order.status);
     $('#ordertrack').text(order.trackingNumber);
     $('#subtotalordermodal').text(order.itemsCost);
