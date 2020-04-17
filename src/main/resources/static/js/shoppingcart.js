@@ -145,9 +145,8 @@ function geolocate() {
 let order = '';
 
 function confirmPurchase() {
-    fetch('/order');
+    fetch('/order').then(r => getCart());
     showShoppingCart();
-    getCart();
 }
 
 async function enterAddress() {
