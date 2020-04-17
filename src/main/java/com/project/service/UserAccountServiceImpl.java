@@ -1,11 +1,12 @@
 package com.project.service;
 
-import com.project.dao.UserAccountDAO;
-import com.project.dao.UserRoleDao;
+import com.project.dao.UserAccountDao;
+import com.project.dao.abstraction.UserRoleDao;
 import com.project.mail.MailService;
 import com.project.model.RegistrationUserDTO;
 import com.project.model.Role;
 import com.project.model.UserAccount;
+import com.project.service.abstraction.UserAccountService;
 import lombok.AllArgsConstructor;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.core.env.Environment;
@@ -24,7 +25,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class UserAccountServiceImpl implements UserAccountService {
 
-    UserAccountDAO userAccountDao;
+    UserAccountDao userAccountDao;
 
     UserRoleDao userRoleDao;
 
@@ -88,6 +89,6 @@ public class UserAccountServiceImpl implements UserAccountService {
 
     @Override
     public UserAccount getUserById(Long id) {
-        return userAccountDao.getUserById(id);
+        return userAccountDao.findById(id);
     }
 }

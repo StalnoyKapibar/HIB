@@ -2,8 +2,8 @@ package com.project.config.initializer;
 
 import com.project.model.UserAccount;
 import com.project.model.Role;
-import com.project.service.UserAccountService;
-import com.project.service.UserRoleService;
+import com.project.service.abstraction.UserAccountService;
+import com.project.service.abstraction.UserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 

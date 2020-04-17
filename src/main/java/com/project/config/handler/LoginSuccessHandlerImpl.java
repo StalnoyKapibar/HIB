@@ -1,31 +1,26 @@
 package com.project.config.handler;
 
-import com.project.dao.UserAccountDAO;
+import com.project.dao.UserAccountDao;
 import com.project.model.UserAccount;
-import com.project.service.ShoppingCartService;
+import com.project.service.abstraction.ShoppingCartService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
-import org.springframework.web.util.WebUtils;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.net.HttpCookie;
 import java.time.Instant;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Optional;
 
 @Component
 @Primary
 @AllArgsConstructor
 public class LoginSuccessHandlerImpl implements AuthenticationSuccessHandler {
 
-    private UserAccountDAO userAccountDAO;
+    private UserAccountDao userAccountDAO;
     private ShoppingCartService shoppingCart;
 
     @Override

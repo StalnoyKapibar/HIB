@@ -1,8 +1,9 @@
 package com.project.service;
 
-import com.project.dao.CartItemDAO;
-import com.project.dao.ShoppingCartDAO;
+import com.project.dao.abstraction.CartItemDao;
+import com.project.dao.abstraction.ShoppingCartDao;
 import com.project.model.ShoppingCartDTO;
+import com.project.service.abstraction.ShoppingCartService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,9 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 @Transactional
 public class ShoppingCartServiceImpl implements ShoppingCartService {
 
-    private ShoppingCartDAO cartDAO;
+    private ShoppingCartDao cartDAO;
 
-    private CartItemDAO cartItemDAO;
+    private CartItemDao cartItemDAO;
 
 
     @Override
@@ -30,8 +31,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
-    public void deletCartItem(Long id) {
-        cartItemDAO.deleteCartItem(id);
+    public void deleteCartItem(Long id) {
+        cartItemDAO.deleteById(id);
     }
 
     @Override

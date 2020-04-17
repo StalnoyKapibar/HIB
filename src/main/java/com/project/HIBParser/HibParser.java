@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.model.BookDTO;
 import com.project.model.Image;
 import com.project.model.LocaleString;
-import com.project.service.BookService;
+import com.project.service.abstraction.BookService;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

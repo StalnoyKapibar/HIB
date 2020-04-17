@@ -3,8 +3,8 @@ package com.project.controller.restcontroller;
 import com.project.model.BookDTO;
 import com.project.model.CartItemDTO;
 import com.project.model.ShoppingCartDTO;
-import com.project.service.BookService;
-import com.project.service.ShoppingCartService;
+import com.project.service.abstraction.BookService;
+import com.project.service.abstraction.ShoppingCartService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -67,7 +67,7 @@ public class ShoppingCartController {
         Long cartId = (Long) session.getAttribute("cartId");
         if (cartId != null) {
             ShoppingCartDTO shoppingCartDTO = cartService.getCartById(cartId);
-            cartService.deletCartItem(shoppingCartDTO.deleteCartItem(id));
+            cartService.deleteCartItem(shoppingCartDTO.deleteCartItem(id));
         } else {
             ShoppingCartDTO shoppingCart = (ShoppingCartDTO) session.getAttribute("shoppingcart");
             shoppingCart.deleteCartItem(id);

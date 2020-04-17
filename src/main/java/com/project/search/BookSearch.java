@@ -1,16 +1,14 @@
 package com.project.search;
 
-import com.project.model.BookDTO;
 import com.project.model.BookDTO20;
 import com.project.model.LocaleString;
-import com.project.service.BookService;
+import com.project.service.abstraction.BookService;
 import lombok.AllArgsConstructor;
 import org.apache.lucene.search.Query;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.FullTextQuery;
 import org.hibernate.search.jpa.Search;
 import org.hibernate.search.query.dsl.QueryBuilder;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 

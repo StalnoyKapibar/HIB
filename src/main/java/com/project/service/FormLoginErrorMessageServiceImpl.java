@@ -1,8 +1,9 @@
 package com.project.service;
 
-import com.project.dao.FormErrorMessageDAOImpl;
+import com.project.dao.FormErrorMessageDaoImpl;
 import com.project.model.FormLoginErrorMessage;
 import com.project.model.FormLoginErrorMessageDTO;
+import com.project.service.abstraction.FormLoginErrorMessageService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +17,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class FormLoginErrorMessageServiceImpl implements FormLoginErrorMessageService {
 
-    FormErrorMessageDAOImpl errorMessageDAO;
+    FormErrorMessageDaoImpl errorMessageDAO;
 
     HttpSession httpSession;
 
@@ -50,7 +51,7 @@ public class FormLoginErrorMessageServiceImpl implements FormLoginErrorMessageSe
 
     @Override
     public void saveErrorMessage(FormLoginErrorMessage errorMessage) {
-        errorMessageDAO.save(errorMessage);
+        errorMessageDAO.add(errorMessage);
     }
 
     @Override
