@@ -2,7 +2,6 @@ package com.project.util;
 
 import com.project.model.BookDTO;
 import com.project.model.LocaleString;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

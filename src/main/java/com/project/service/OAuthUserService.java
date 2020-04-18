@@ -1,6 +1,6 @@
 package com.project.service;
 
-import com.project.dao.UserAccountDAO;
+import com.project.dao.UserAccountDao;
 import com.project.model.Role;
 import com.project.oauth.OAuth2UserInfo;
 import com.project.oauth.OAuth2UserInfoFactory;
@@ -24,7 +24,7 @@ import java.util.Optional;
 public class OAuthUserService extends DefaultOAuth2UserService {
 
     @Autowired
-    UserAccountDAO userAccountDao;
+    private UserAccountDao userAccountDao;
 
     public OAuthUserService() {
         super();

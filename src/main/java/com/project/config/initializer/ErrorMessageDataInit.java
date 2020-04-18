@@ -2,7 +2,7 @@ package com.project.config.initializer;
 
 import com.project.model.FormLoginErrorMessage;
 import com.project.model.LocaleString;
-import com.project.service.FormLoginErrorMessageService;
+import com.project.service.abstraction.FormLoginErrorMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class ErrorMessageDataInit {

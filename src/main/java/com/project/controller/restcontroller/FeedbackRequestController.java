@@ -2,7 +2,7 @@ package com.project.controller.restcontroller;
 
 import com.project.mail.MailService;
 import com.project.model.FeedbackRequest;
-import com.project.service.FeedbackRequestService;
+import com.project.service.abstraction.FeedbackRequestService;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

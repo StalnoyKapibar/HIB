@@ -2,18 +2,13 @@ package com.project.controller.controller;
 
 import com.project.model.FormLoginErrorMessageDTO;
 import com.project.model.RegistrationUserDTO;
-import com.project.service.FormLoginErrorMessageService;
-import com.project.service.ResetPasswordService;
-import com.project.service.UserAccountService;
-import org.apache.http.HttpResponse;
+import com.project.service.abstraction.FormLoginErrorMessageService;
+import com.project.service.abstraction.ResetPasswordService;
+import com.project.service.abstraction.UserAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.HttpRequest;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @Controller

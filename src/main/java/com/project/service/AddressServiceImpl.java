@@ -1,9 +1,9 @@
 package com.project.service;
 
-import com.project.dao.AddressDAO;
+import com.project.dao.abstraction.AddressDao;
 import com.project.model.AddressDTO;
+import com.project.service.abstraction.AddressService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,10 +12,10 @@ import org.springframework.transaction.annotation.Transactional;
 @AllArgsConstructor
 public class AddressServiceImpl implements AddressService {
 
-    private AddressDAO addressDAO;
+    private AddressDao addressDAO;
 
     @Override
     public void addAddress(AddressDTO addressDTO) {
-        addressDAO.addAddress(addressDTO);
+        addressDAO.add(addressDAO.getAddressFromAddressDTO(addressDTO));
     }
 }

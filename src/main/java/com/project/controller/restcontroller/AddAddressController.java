@@ -1,7 +1,7 @@
 package com.project.controller.restcontroller;
 
 import com.project.model.AddressDTO;
-import com.project.service.AddressService;
+import com.project.service.abstraction.AddressService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

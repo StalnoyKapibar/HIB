@@ -1,7 +1,8 @@
 package com.project.service;
 
-import com.project.dao.UserRoleDao;
+import com.project.dao.abstraction.UserRoleDao;
 import com.project.model.Role;
+import com.project.service.abstraction.UserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,7 +1,8 @@
 package com.project.service;
 
-import com.project.dao.OrderDAO;
+import com.project.dao.abstraction.OrderDao;
 import com.project.model.Order;
+import com.project.service.abstraction.OrderService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,31 +14,31 @@ import java.util.List;
 @AllArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
-    private OrderDAO orderDAO;
+    private OrderDao orderDAO;
 
     @Override
     public void addOrder(Order order) {
-        orderDAO.addOrder(order);
+        orderDAO.add(order);
     }
 
     @Override
     public void updateOrder(Order order) {
-        orderDAO.updateOrder(order);
+        orderDAO.update(order);
     }
 
     @Override
     public Order getOrderById(Long id) {
-        return orderDAO.getOrderById(id);
+        return orderDAO.findById(id);
     }
 
     @Override
     public void deleteOrder(Order order) {
-        orderDAO.deleteOrder(order);
+        orderDAO.delete(order);
     }
 
     @Override
     public List<Order> getAllOrders() {
-        return orderDAO.getAllOrders();
+        return orderDAO.findAll();
     }
 
     @Override
@@ -47,6 +48,6 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> getOdersByStatus(String status) {
-        return orderDAO.getOdersByStatus(status);
+        return orderDAO.getOrdersByStatus(status);
     }
 }
