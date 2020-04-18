@@ -124,7 +124,7 @@ async function pageBook(x) {
                 for (key in tmp_html) {
                     if (tmp_html[key] !== null) {
                         if (key !== "id" && key !== "coverImage" && key !== "imageList" && key !== "desc" && key !== "edition"
-                            && key !== "yearOfEdition" && key !== "pages" && key !== "price" && key !== "originalLanguage") {
+                            && key !== "yearOfEdition" && key !== "pages" && key !== "price" && key !== "originalLanguage" && key !== "disabled") {
                             var ad = tmp_html[key][idChangeLang];
                             html += `<td id='n${tmp_html.id}'>${ad}</td>`;
                         }
@@ -132,8 +132,7 @@ async function pageBook(x) {
                 }
                 html +=
                     `<td>` +
-                    `<button type='button' onclick='buildEditBook(${tmp_html.id})'  data-toggle='modal'` +
-                    `data-target='#asdddd'  class='btn btn-primary'> ` +
+                    `<button class="btn btn-info" onclick="openEdit(${tmp_html.id})"> ` +
                     `Edit` +
                     `</button>` +
                     `</td>` +
@@ -290,8 +289,8 @@ function chanLang(x) {
     pageBook(idPageable);
 }
 
-function openEdit() {
-    localStorage.setItem('tmpEditBookId', tmpEditBookId);
+function openEdit(id) {
+    localStorage.setItem('tmpEditBookId', id);
     window.open('/edit', '_blank');
 }
 

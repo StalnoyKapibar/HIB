@@ -120,7 +120,7 @@ public class BookDAOImpl implements BookDAO {
     @Override
     public List<BookDTO20> get20BookDTO(String locale) {
         String query = ("SELECT new com.project.model.BookDTO20(b.id, b.nameLocale.LOC, b.authorLocale.LOC, b.price, b.coverImage)" +
-                "FROM Book b ORDER BY RAND()")
+                "FROM Book b WHERE b.disabled = false or b.disabled = null ORDER BY RAND()")
                 .replaceAll("LOC", locale);
         List<BookDTO20> listBookDTO = entityManager.createQuery(query, BookDTO20.class).setMaxResults(20).getResultList();
         return listBookDTO;

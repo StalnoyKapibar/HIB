@@ -4,6 +4,7 @@ let yearOfEdition;
 let pages;
 let price;
 let originalLanguage;
+let disabledCheckBox = $("#disabled");
 let pathToTmpPackage = '/images/tmp/';
 
 function checkNamesNotNull() {
@@ -152,7 +153,7 @@ function addImgToListAndBtn(divId, path) {
 
 function loadBookFile() {
     let file = $("#add-hib-file-input").prop('files')[0];
-    fetch('/api/loadFile', {
+    fetch('/api/admin/upload-file', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
@@ -163,6 +164,7 @@ function loadBookFile() {
         .then(function (resp) {
             addValueToFields(resp);
         });
+    console.log(file);
 }
 
 function addValueToFields(book) {
@@ -211,6 +213,7 @@ function addNewBook() {
         book["pages"] = pages.val();
         book["price"] = price.val();
         book["originalLanguage"] = originalLanguage.val();
+        book['disabled'] = disabledCheckBox.is(':checked');
         book["coverImage"] = divAvatar.find("img")[0].id;
         let allImages = $("#allImage").find("img");
         let imageList = [];
@@ -242,6 +245,23 @@ function clearFields() {
     divAvatar.empty();
     listImages.empty();
 }
+
+// $(document).on('click', "#uploadMultiplyFiles", async () => {
+//     let files = [];
+//     let filesInSelector = $("#add-hib-files-input").prop('files');
+//     for(let file in filesInSelector) {
+//         files.push(filesInSelector[file]);
+//     }
+//     console.log(files);
+//     await fetch('/api/admin/upload-multiply-files', {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json;charset=utf-8'
+//         },
+//         body: files
+//     });
+//     console.log(files);
+// });
 
 function doesFolderTmpExist() {
     fetch("admin/doesFolderTmpExist");

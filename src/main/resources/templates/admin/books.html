@@ -65,33 +65,23 @@
             <ul class="list-group">
                 <li class="list-group-item list-group-item-light">Add new Book</li>
             </ul>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="container-fluid col-6">
+                        <div class="row">
+                            <h3 class="col-6">
+                                Disabled
+                            </h3>
+                            <input checked class="col-6" id="disabled" type="checkbox">
+                        </div>
+                    </div>
+                    <button class='btn btn-primary col-4 btn-metro offset-2' onclick='addNewBook()' type='submit'>Add
+                        new Book
+                    </button>
+                </div>
+            </div>
             <form id="newBookForm" role="form">
             </form>
-            <form>
-                <div class="form-group">
-                    <h4>Load book from file</h4>
-                    <!--                    <input type="file" class="form-control-file" id="formBookFile"  onchange="loadBookFile()" accept=".hib">-->
-                </div>
-            </form>
-            <div class="carousel slide w-50" data-ride="carousel" id="carouselExampleCaptions">
-                <ol class="carousel-indicators" id='test0'>
-                </ol>
-                <div class="carousel-inner" id='test1'>
-                </div>
-                <a class="carousel-control-prev" data-slide="prev" href="#carouselExampleCaptions"
-                   role="button">
-                    <span aria-hidden="true" class="carousel-control-prev-icon"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="carousel-control-next" data-slide="next" href="#carouselExampleCaptions"
-                   role="button">
-                    <span aria-hidden="true" class="carousel-control-next-icon"></span>
-                    <span class="sr-only">Next</span>
-                </a>
-            </div>
-            <button class='btn btn-primary mt-3' onclick='addNewBook()' type='submit'>
-                Add new Book
-            </button>
         </div>
 
         <div aria-labelledby="add-hib-files-tab" class="tab-pane fade" id="add-hib-files" role="tabpanel">
@@ -99,9 +89,19 @@
                 <div class="col-sm-4 offset-2">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Upload 1 book</h5>
+                            <h5 class="card-title">Upload 1 Book</h5>
                             <input accept=".hib" class="form-control-file" id="add-hib-file-input"
                                    onchange="loadBookFile()" type="file">
+                        </div>
+                        <div class="card-footer">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <button class="btn btn-success btn-metro col-5" onclick="editHibFile()">Edit and
+                                        Upload
+                                    </button>
+                                    <button class="btn btn-info btn-metro col-5 offset-2">Upload as disabled</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -109,14 +109,23 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Upload several books for further processing</h5>
-                            <input accept=".hib" class="form-control-file" id="add-hib-files-input" multiple onchange=""
-                                   type="file">
+                            <form action="/api/admin/upload-multiply-files" enctype="multipart/form-data" method="POST">
+                                <input accept=".hib" class="form-control-file" id="add-hib-files-input" multiple
+                                       name="files"
+                                       type="file">
+                                <div class="card-footer text-center">
+                                    <button class="btn btn-info btn-metro" id="uploadMultiplyFiles">Upload to server
+                                    </button>
+                                </div>
+
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <script src="/static/js/admin/uploadHibFiles.js"></script>
 </div>
 
 <div aria-hidden="true"

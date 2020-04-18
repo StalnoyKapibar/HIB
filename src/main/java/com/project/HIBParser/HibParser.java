@@ -7,8 +7,9 @@ import com.project.model.BookDTO;
 import com.project.model.Image;
 import com.project.model.LocaleString;
 import com.project.service.BookService;
+import com.project.service.StorageService;
+import lombok.AllArgsConstructor;
 import org.apache.commons.io.FileUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -18,13 +19,12 @@ import java.util.Base64;
 import java.util.List;
 
 @Component
+@AllArgsConstructor
 public class HibParser {
 
-    @Autowired
-    BookService bookService;
-
-    @Autowired
-    private ObjectMapper objectMapper;
+    private final BookService bookService;
+    private final ObjectMapper objectMapper;
+    private StorageService storageService;
 
     private static final String AVATAR = "avatar.jpg";
     private static final String PATH_TO_TMP = "img/tmp/";
@@ -77,5 +77,17 @@ public class HibParser {
                 .originalLanguage(jsonNode.get("originalLanguage").asText())
                 .coverImage(AVATAR)
                 .imageList(listImage).build();
+    }
+
+    public void saveBooks(List<String> booksAsJson) {
+        for (String json : booksAsJson) {
+            BookDTO bookDTO = getBookFromJSON(json);
+            bookDTO.setDisabled(true);
+            bookService.addBook(bookDTO);
+            String lastId = bookService.getLastIdOfBook();
+            storageService.createNewPaperForImages(lastId);
+            storageService.cutImagesFromTmpPaperToNewPaperByLastIdBook(lastId, bookDTO.getImageList());
+            System.out.println(bookDTO);
+        }
     }
 }
