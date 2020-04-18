@@ -54,5 +54,5 @@ public class Book {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private OtherLanguage otherLanguageOfBook;
 
-    private Boolean disabled;
+    private boolean disabled;
 }

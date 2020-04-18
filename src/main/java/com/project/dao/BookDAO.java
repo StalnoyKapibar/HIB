@@ -26,7 +26,7 @@ public interface BookDAO {
 
     String getLastIdOfBook();
 
-    PageableBookDTO getPageBookDTOByPageable(Pageable pageable);
+    PageableBookDTO getPageBookDTOByPageable(Pageable pageable, boolean disabled);
 
     String getQuantityBook();
 

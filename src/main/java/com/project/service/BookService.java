@@ -12,7 +12,7 @@ public interface BookService {
 
     void addBook(BookDTO bookDTO);
 
-    PageableBookDTO getPageBookDTOByPageable(Pageable pageable);
+    PageableBookDTO getPageBookDTOByPageable(Pageable pageable, boolean disabled);
 
     void deleteBookById(Long id);
 

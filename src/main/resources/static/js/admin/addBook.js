@@ -246,23 +246,6 @@ function clearFields() {
     listImages.empty();
 }
 
-// $(document).on('click', "#uploadMultiplyFiles", async () => {
-//     let files = [];
-//     let filesInSelector = $("#add-hib-files-input").prop('files');
-//     for(let file in filesInSelector) {
-//         files.push(filesInSelector[file]);
-//     }
-//     console.log(files);
-//     await fetch('/api/admin/upload-multiply-files', {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json;charset=utf-8'
-//         },
-//         body: files
-//     });
-//     console.log(files);
-// });
-
 function doesFolderTmpExist() {
     fetch("admin/doesFolderTmpExist");
 }

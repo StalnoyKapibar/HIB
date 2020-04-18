@@ -1,11 +1,11 @@
 let addBookTab = $('#nav-profile-tab1');
 
-function uploadMultiplyHibFiles() {
-    console.log("Hello!");
+function uploadOneFile() {
+    $("#uploadOneFileHidden").trigger('click');
 }
 
-function uploadOneHibFile() {
-    console.log("Hello!");
+function uploadMultiplyFiles() {
+    $("#uploadMultiplyFilesHidden").trigger('click');
 }
 
 function editHibFile() {

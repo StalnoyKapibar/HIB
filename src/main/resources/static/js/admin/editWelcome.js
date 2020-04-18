@@ -12,6 +12,8 @@ let arrNameImageNew = [];
 let pathImageDefault = 'images/tmp/';
 var nameImageCover = '';
 let welcomeText = [];
+let toggleShowDisabled = $("#toggleShowDisabled");
+let repliedOn = false;
 
 $(document).ready(getVarBookDTO(), getAllLocales(), pageBook(0));
 
@@ -92,7 +94,7 @@ function text(response) {
 
 async function pageBook(x) {
     idPageable = x;
-    await fetch("/admin/pageable/" + x)
+    await fetch(`/api/admin/pageable/${x}?disabled=${repliedOn}`)
         .then(status)
         .then(json)
         .then(function (resp_tmp) {
@@ -377,6 +379,12 @@ function resetForms() {
     nameImageCover = '';
     showImage('');
 }
+
+toggleShowDisabled.change(() => {
+    repliedOn = toggleShowDisabled.prop('checked');
+    pageBook(0).then(r => {
+    });
+});
 
 function showImage(x) {
     document.getElementById('myImage').src = x;

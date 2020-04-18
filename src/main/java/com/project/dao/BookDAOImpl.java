@@ -25,7 +25,7 @@ public class BookDAOImpl implements BookDAO {
                 .coverImage(book.getCoverImage())
                 .originalLanguage(book.getOriginalLanguage())
                 .imageList(book.getListImage())
-                .disabled(book.getDisabled())
+                .disabled(book.isDisabled())
                 .build();
     }
 
@@ -41,7 +41,7 @@ public class BookDAOImpl implements BookDAO {
                 .coverImage(bookDTO.getCoverImage())
                 .originalLanguage(bookDTO.getOriginalLanguage())
                 .listImage(bookDTO.getImageList())
-                .disabled(bookDTO.getDisabled())
+                .disabled(bookDTO.isDisabled())
                 .build();
     }
 
@@ -139,7 +139,7 @@ public class BookDAOImpl implements BookDAO {
     }
 
     @Override
-    public PageableBookDTO getPageBookDTOByPageable(Pageable pageable) {
+    public PageableBookDTO getPageBookDTOByPageable(Pageable pageable, boolean disabled) {
         int numberPage = pageable.getPageNumber();
         int limitBookDTOOnPage = pageable.getPageSize();
         int minNumberId = limitBookDTOOnPage * numberPage;
@@ -147,10 +147,11 @@ public class BookDAOImpl implements BookDAO {
         String sortingObject = sortTypeTmp.split(":")[0];
         String typeOfSorting = sortTypeTmp.split(" ")[1];
         String temp = "Select b " +
-                "FROM Book b ORDER BY sortingObject typeOfSorting"
+                "FROM Book b WHERE b.disabled = :disabled ORDER BY sortingObject typeOfSorting"
                         .replaceAll("sortingObject", sortingObject)
                         .replaceAll("typeOfSorting", typeOfSorting);
         List<Book> list = entityManager.createQuery(temp, Book.class)
+                .setParameter("disabled", disabled)
                 .setFirstResult(minNumberId)
                 .setMaxResults(limitBookDTOOnPage)
                 .getResultList();

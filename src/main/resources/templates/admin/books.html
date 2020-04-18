@@ -25,25 +25,36 @@
             <div class="table">
                 <ul class="list-group">
                     <li class="list-group-item list-group-item-light">All Books</li>
-                    <form class="form-inline mr-lg-2 mb-2 mt-2 mr-md-2" id="search-form-admin">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="search-admin-local-id"></span>
-                            </div>
-                            <input type="text" class="form-control border" placeholder="" aria-label=""
-                                   id="search-input-admin">
-                            <div class="input-group-append">
-                                <button class="btn border" type="submit">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                            </div>
-                            <div class="input-group-append">
-                                <button class="btn border" type="button" id="search-admin-close">
-                                    <i class="fas fa-times"></i>
-                                </button>
+                    <br>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <h3 class="lead offset-1">Show only disabled Books</h3>
+                            <div class="offset-8">
+                                <input data-size="md" data-toggle="toggle" id="toggleShowDisabled" type="checkbox">
                             </div>
                         </div>
-                    </form>
+                        <form class="form-inline mr-lg-2 mb-2 mt-2 mr-md-2" id="search-form-admin">
+                            <div class="input-group">
+
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="search-admin-local-id"></span>
+                                </div>
+                                <input aria-label="" class="form-control border" id="search-input-admin" placeholder=""
+                                       type="text">
+                                <div class="input-group-append">
+                                    <button class="btn border" type="submit">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                                <div class="input-group-append">
+                                    <button class="btn border" id="search-admin-close" type="button">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
                 </ul>
                 <div class="btn-group" id="chlang1">
                 </div>
@@ -89,9 +100,12 @@
                 <div class="col-sm-4 offset-2">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Upload 1 Book</h5>
-                            <input accept=".hib" class="form-control-file" id="add-hib-file-input"
-                                   onchange="loadBookFile()" type="file">
+                            <h5 class="card-title">Upload one Book</h5>
+                            <form action="/api/admin/upload-multiply-files" enctype="multipart/form-data" method="POST">
+                                <input accept=".hib" class="form-control-file" id="add-hib-file-input" name="files"
+                                       type="file">
+                                <button id="uploadOneFileHidden" style="display: none"></button>
+                            </form>
                         </div>
                         <div class="card-footer">
                             <div class="container-fluid">
@@ -99,7 +113,9 @@
                                     <button class="btn btn-success btn-metro col-5" onclick="editHibFile()">Edit and
                                         Upload
                                     </button>
-                                    <button class="btn btn-info btn-metro col-5 offset-2">Upload as disabled</button>
+                                    <button class="btn btn-info btn-metro col-5 offset-2" onclick="uploadOneFile()">
+                                        Upload as disabled
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -111,14 +127,13 @@
                             <h5 class="card-title">Upload several books for further processing</h5>
                             <form action="/api/admin/upload-multiply-files" enctype="multipart/form-data" method="POST">
                                 <input accept=".hib" class="form-control-file" id="add-hib-files-input" multiple
-                                       name="files"
-                                       type="file">
-                                <div class="card-footer text-center">
-                                    <button class="btn btn-info btn-metro" id="uploadMultiplyFiles">Upload to server
-                                    </button>
-                                </div>
-
+                                       name="files" type="file">
+                                <button id="uploadMultiplyFilesHidden" style="display: none"></button>
                             </form>
+                        </div>
+                        <div class="card-footer text-center">
+                            <button class="btn btn-info btn-metro" onclick="uploadMultiplyFiles()">Upload to server
+                            </button>
                         </div>
                     </div>
                 </div>

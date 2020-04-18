@@ -87,11 +87,11 @@ public class BookController {
         return bookService.getBookDTOById(id);
     }
 
-    @GetMapping("/admin/pageable/{page1}")
-    public PageableBookDTO getWelcomeLocaleDTOByLocale(@PathVariable("page1") int page1) {
-        Pageable pageable0 = PageRequest.of(page1, 10, Sort.by(
+    @GetMapping("/api/admin/pageable/{page}")
+    public PageableBookDTO getWelcomeLocaleDTOByLocale(@PathVariable int page, @RequestParam boolean disabled) {
+        Pageable pageable = PageRequest.of(page, 10, Sort.by(
                 Sort.Order.asc("id")));
-        PageableBookDTO pageableBookDTO = bookService.getPageBookDTOByPageable(pageable0);
+        PageableBookDTO pageableBookDTO = bookService.getPageBookDTOByPageable(pageable, disabled);
         return pageableBookDTO;
     }
 
