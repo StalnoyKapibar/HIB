@@ -11,10 +11,10 @@ const messageTemplate = "Hello, I m interested in the book ";
 $(document).ready(getUserData());
 
 function getUserData() {
-    fetch("/cabinet/getAU")
+    fetch("/api/current-user")
         .then(status)
         .then(json)
-        .then(function (resp) {
+        .then((resp) => {
             userData = resp;
             senderEmail.val(userData.email);
             senderName.val(userData.firstName + " " + userData.lastName);
@@ -22,7 +22,7 @@ function getUserData() {
 }
 
 function status(response) {
-    if (response.status >= 200 && response.status < 300) {
+    if (response.ok) {
         return Promise.resolve(response)
     } else {
         return Promise.reject(new Error(response.statusText))
