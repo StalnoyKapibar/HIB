@@ -277,7 +277,7 @@ function buildEditBook(xx) {
         html1 += `</div>` +
             `</div>`;
     }
-    html1 += `<button type='submit' onclick='openEdit()' data-dismiss='modal' class='btn btn-primary custom-centered m-3'>` +
+    html1 += `<button type='submit' onclick='openEdit(${tmpEditBookId})' data-dismiss='modal' class='btn btn-primary custom-centered m-3'>` +
         `Edit Book` +
         `</button>`;
     $('#editBookForm').html(html1);
@@ -315,8 +315,10 @@ function chanLang(x) {
 
 function openEdit(id) {
     localStorage.setItem('tmpEditBookId', id);
-function openEdit() {
-    localStorage.setItem('tmpEditBookId', tmpEditBookId);
+}
+
+function openEdit(id) {
+    localStorage.setItem('tmpEditBookId', id);
     window.open('/edit', '_blank');
 }
 
@@ -372,7 +374,6 @@ function buildCarousel() {
             }
         }
     }
-
     $('#test0').html(tmpHtmlForCarouselIndicators);
     $('#test1').html(tmpHtmlForCarousel);
 }

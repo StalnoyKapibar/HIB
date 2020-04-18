@@ -6,10 +6,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.model.BookDTO;
 import com.project.model.Image;
 import com.project.model.LocaleString;
-import com.project.service.BookService;
-import com.project.service.StorageService;
-import lombok.AllArgsConstructor;
 import com.project.service.abstraction.BookService;
+import com.project.service.abstraction.StorageService;
+import lombok.AllArgsConstructor;
 import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Component;
 
@@ -88,7 +87,6 @@ public class HibParser {
             String lastId = bookService.getLastIdOfBook();
             storageService.createNewPaperForImages(lastId);
             storageService.cutImagesFromTmpPaperToNewPaperByLastIdBook(lastId, bookDTO.getImageList());
-            System.out.println(bookDTO);
         }
     }
 }
