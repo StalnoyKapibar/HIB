@@ -1,11 +1,7 @@
 package com.project.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
@@ -19,10 +15,12 @@ import java.util.*;
 @Entity
 @Builder
 @Table(name = "users")
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class UserAccount implements UserDetails, OAuth2User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
+    private Long id;
+    @EqualsAndHashCode.Include
     private String login;
     @Email
     private String email;
@@ -41,6 +39,9 @@ public class UserAccount implements UserDetails, OAuth2User {
     private Role roles;
     @Transient
     private Map<String, Object> attributes;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Address> addresses = new HashSet<>();
 
     @Override
     public Map<String, Object> getAttributes() {

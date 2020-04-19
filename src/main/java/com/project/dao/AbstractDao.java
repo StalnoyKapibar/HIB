@@ -22,17 +22,16 @@ public abstract class AbstractDao<I extends Serializable, E> implements GenericD
         return entityManager.find(persistentClass, id);
     }
 
-    @SuppressWarnings("Unchecked")
     public List<E> findAll() {
-        return entityManager.createQuery("from " + persistentClass.getName()).getResultList();
+        return entityManager.createQuery("FROM " + persistentClass.getName(), persistentClass).getResultList();
     }
 
     public void add(E entity) {
         entityManager.persist(entity);
     }
 
-    public void update(E entity) {
-        entityManager.merge(entity);
+    public E update(E entity) {
+        return entityManager.merge(entity);
     }
 
     public void delete(E entity) {
