@@ -12,25 +12,12 @@ $(document).ready(getUserData());
 
 function getUserData() {
     fetch("/api/current-user")
-        .then(status)
-        .then(json)
+        .then(resp => resp.json())
         .then((resp) => {
             userData = resp;
             senderEmail.val(userData.email);
             senderName.val(userData.firstName + " " + userData.lastName);
         });
-}
-
-function status(response) {
-    if (response.ok) {
-        return Promise.resolve(response)
-    } else {
-        return Promise.reject(new Error(response.statusText))
-    }
-}
-
-function json(response) {
-    return response.json()
 }
 
 $(document).on('click', '#send-feedback-request', () => {
