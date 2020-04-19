@@ -1,6 +1,7 @@
 package com.project.controller.restcontroller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.project.model.Genre;
 import com.project.util.LocaleHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.Properties;
 
@@ -25,6 +27,12 @@ public class LangController {
     @Autowired
     public ResponseEntity getAllSupportLanguage(LocaleHolder localeHolder) throws JsonProcessingException {
         return ResponseEntity.status(HttpStatus.OK).body(localeHolder.getFields());
+    }
+
+    @PostMapping("/lang")
+    public void setCurrentLangForAdminPanel(@RequestBody String lang, HttpServletResponse response, HttpServletRequest request) {
+        request.getSession().setAttribute("LANG", lang);
+        response.setStatus(HttpServletResponse.SC_OK);
     }
 
     @GetMapping(value = "/properties/{lang}")

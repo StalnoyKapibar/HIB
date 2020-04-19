@@ -1,83 +1,92 @@
 let genresDto;
 
-$(document).ready(function() {
+$(document).ready(function () {
     getGenresDto();
 });
 
-async function getGenresDto() {
-    await fetch("/genresdto")
+function getGenresDto() {
+    fetch("/genresdto")
         .then(status)
         .then(json)
-        .then(function(resp) {
+        .then(function (resp) {
             genresDto = resp;
             buildRows(resp);
-        })
+        });
 }
 
 function buildRows(data) {
-    var	rows = '';
-    data.forEach(function(entry) {
-        rows += '<tr>';
-        rows += '<td>'+entry.id+'</td>';
-        rows += '<td>'+entry.number+'</td>';
-        rows += '<td>'+entry.body+'</td>';
-        rows += '<td data-id="'+entry.id+'">';
-        rows += '<button data-toggle="modal" data-target="#edit-genre" class="btn btn-primary" onclick="getGenreToEdit(parseInt($(this).parent(\'td\').data(\'id\'), 10))">Edit</button>';
-        rows += '</td>';
-        rows += '<td data-id="'+entry.id+'">';
-        rows += '<button class="btn btn-danger" onclick="deleteGenre(parseInt($(this).parent(\'td\').data(\'id\'), 10))">Delete</button>';
-        rows += '</td>';
-        rows += '<td data-id="'+entry.id+'">';
-        rows += '<button class="btn btn-success" onclick="moveUpGenre(parseInt($(this).parent(\'td\').data(\'id\'), 10))">Up</button>';
-        rows += '</td>';
-        rows += '<td data-id="'+entry.id+'">';
-        rows += '<button class="btn btn-success" onclick="moveDownGenre(parseInt($(this).parent(\'td\').data(\'id\'), 10))">Down</button>';
-        rows += '</td>';
-        rows += '</tr>';
+    var rows = '';
+    data.forEach(function (entry) {
+        rows += '<tr>' +
+            '<td>' + entry.id + '</td>' +
+            '<td>' + entry.number + '</td>' +
+            '<td>' + entry.body + '</td>' +
+            '<td data-id="' + entry.id + '">' +
+            '<button data-toggle="modal" data-target="#edit-genre" class="btn btn-primary" onclick="getGenreToEdit(parseInt($(this).parent(\'td\').data(\'id\'), 10))">Edit</button>' +
+            '</td>' +
+            '<td data-id="' + entry.id + '">' +
+            '<button class="btn btn-danger" onclick="deleteGenre(parseInt($(this).parent(\'td\').data(\'id\'), 10))">Delete</button>' +
+            '</td>' +
+            '<td data-id="' + entry.id + '">' +
+            '<button class="btn btn-success" onclick="moveUpGenre(parseInt($(this).parent(\'td\').data(\'id\'), 10))">Up</button>' +
+            '</td>' +
+            '<td data-id="' + entry.id + '">' +
+            '<button class="btn btn-success" onclick="moveDownGenre(parseInt($(this).parent(\'td\').data(\'id\'), 10))">Down</button>' +
+            '</td>' +
+            '</tr>';
     });
     $("#genrestable").html(rows);
 }
 
-async function deleteGenre(id) {
-    await fetch("/genre/" + id, {
+function deleteGenre(id) {
+    fetch("/genre/" + id, {
         method: 'DELETE',
-    });
-    await getGenresDto();
+    })
+        .then(status)
+        .then(function () {
+            getGenresDto();
+        });
 }
 
-async function moveUpGenre(id) {
+function moveUpGenre(id) {
     let prevElemIndex = genresDto.indexOf(genresDto.find(genreDto => genreDto.id === id)) - 1;
 
-    if(prevElemIndex > -1) {
-        await fetch("/genre/" + id + "/" + genresDto[prevElemIndex].id, {
+    if (prevElemIndex > -1) {
+        fetch("/genre/" + id + "/" + genresDto[prevElemIndex].id, {
             method: 'PUT',
-        });
-        await getGenresDto();
+        })
+            .then(status)
+            .then(function () {
+                getGenresDto();
+            });
     }
 }
 
-async function moveDownGenre(id) {
+function moveDownGenre(id) {
     let nextElemIndex = genresDto.indexOf(genresDto.find(genreDto => genreDto.id === id)) + 1;
 
-    if(nextElemIndex < genresDto.length) {
-        await fetch("/genre/" + id + "/" + genresDto[nextElemIndex].id, {
+    if (nextElemIndex < genresDto.length) {
+        fetch("/genre/" + id + "/" + genresDto[nextElemIndex].id, {
             method: 'PUT',
-        });
-        await getGenresDto();
+        })
+            .then(status)
+            .then(function () {
+                getGenresDto();
+            });
     }
 }
 
-async function setVacantNum() {
-    await fetch("/vacantnum")
+function setVacantNum() {
+    fetch("/vacantnum")
         .then(status)
         .then(json)
-        .then(function(resp) {
+        .then(function (resp) {
             $("#nav-profile2").find("input[name='addGenreNumber']").val(resp);
         })
 }
 
-async function addGenre() {
-    await fetch("/genre", {
+function addGenre() {
+    fetch("/genre", {
         method: 'POST',
         body: JSON.stringify(
             {
@@ -99,19 +108,22 @@ async function addGenre() {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         }
-    });
-    await getGenresDto();
-    $('#nav-profile-tab2').attr('class', 'nav-item nav-link').attr('aria-selected', 'false');
-    $('#nav-home-tab2').attr('class', 'nav-item nav-link active').attr('aria-selected', 'true');
-    $('#nav-profile2').attr('class', 'tab-pane fade');
-    $('#nav-home2').attr('class', 'tab-pane fade show active');
+    })
+        .then(status)
+        .then(function () {
+            getGenresDto();
+            $('#nav-profile-tab2').attr('class', 'nav-item nav-link').attr('aria-selected', 'false');
+            $('#nav-home-tab2').attr('class', 'nav-item nav-link active').attr('aria-selected', 'true');
+            $('#nav-profile2').attr('class', 'tab-pane fade');
+            $('#nav-home2').attr('class', 'tab-pane fade show active');
+        });
 }
 
-async function getGenreToEdit(id) {
-    await fetch("/genre/" + id)
+function getGenreToEdit(id) {
+    fetch("/genre/" + id)
         .then(status)
         .then(json)
-        .then(function(resp) {
+        .then(function (resp) {
             $("#edit-genre").find("input[name='editGenreId']").val(resp.id);
             $("#edit-genre").find("input[name='editGenreNumber']").val(resp.number);
             $("#edit-genre").find("input[name='editGenreLocaleId']").val(resp.genreLocale.id);
@@ -125,8 +137,8 @@ async function getGenreToEdit(id) {
         })
 }
 
-async function editGenre() {
-    await fetch("/genre/" + $("#editGenreId").val(), {
+function editGenre() {
+    fetch("/genre/" + $("#editGenreId").val(), {
         method: 'PUT',
         body: JSON.stringify(
             {
@@ -148,9 +160,12 @@ async function editGenre() {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         }
-    });
-    await getGenresDto();
-    $(".modal").modal('hide');
+    })
+        .then(status)
+        .then(function () {
+            getGenresDto();
+            $(".modal").modal('hide');
+        });
 }
 
 function json(response) {

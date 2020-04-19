@@ -258,7 +258,23 @@ function buildChangeLang() {
 
 function chanLang(x) {
     idChangeLang = nameVarOfLocaleString[x];
+    setCurrentLang();
     pageBook(idPageable);
+}
+
+function setCurrentLang() {
+    fetch("/lang", {
+        method: 'POST',
+        body: idChangeLang,
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
+    })
+        .then(status)
+        .then(function () {
+            getGenresDto();
+        });
 }
 
 function openEdit() {

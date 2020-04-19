@@ -7,7 +7,7 @@ import java.util.List;
 public interface GenreDtoDao {
     GenreDto getGenreDtoById(long id, String locale);
 
-    List<GenreDto> getAllGenreDto(String locale);
+    List<GenreDto> getAllGenresDto(String locale);
 
     Long getMaxNumber();
 }

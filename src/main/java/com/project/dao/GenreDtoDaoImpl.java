@@ -15,24 +15,20 @@ public class GenreDtoDaoImpl implements GenreDtoDao {
     private EntityManager entityManager;
 
     @Override
-    public GenreDto getGenreDtoById(long id, String locale) {
+    public GenreDto getGenreDtoById(long id, String locale) throws NoResultException {
         String temp = "Select new com.project.model.GenreDto(g.id, g.number, g.genreLocale.lang) FROM Genre g WHERE g.id = :genreId".replaceAll("lang", locale);
         return entityManager.createQuery(temp, GenreDto.class).setParameter("genreId", id).getSingleResult();
     }
 
     @Override
-    public List<GenreDto> getAllGenreDto(String locale) {
+    public List<GenreDto> getAllGenresDto(String locale) {
         String temp = "Select new com.project.model.GenreDto(g.id, g.number, g.genreLocale.lang) FROM Genre g".replaceAll("lang", locale);
         return entityManager.createQuery(temp, GenreDto.class).getResultList();
     }
 
     @Override
-    public Long getMaxNumber() {
+    public Long getMaxNumber() throws NoResultException {
         String temp = "Select new com.project.model.GenreDto(g.id, g.number, g.genreLocale.en) FROM Genre g WHERE g.number = (select max(number) from Genre)";
-        try {
-            return entityManager.createQuery(temp, GenreDto.class).getSingleResult().getNumber();
-        } catch (NoResultException e) {
-            return null;
-        }
+        return entityManager.createQuery(temp, GenreDto.class).getSingleResult().getNumber();
     }
 }

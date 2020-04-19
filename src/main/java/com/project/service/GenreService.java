@@ -10,9 +10,9 @@ public interface GenreService {
 
     List<Genre> getAllGenres();
 
-    Long addGenre(Genre genre);
+    void addGenre(Genre genre);
 
     void deleteGenreById(long id);
 
-    boolean changingGenreOrderById(long oldId, long newId);
+    void changingGenreOrderById(long oldId, long newId);
 }
