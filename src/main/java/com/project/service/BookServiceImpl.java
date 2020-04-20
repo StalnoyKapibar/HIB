@@ -24,22 +24,27 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public Book getById(Long id) {
+        return bookDAO.findById(id);
+    }
+
+    @Override
     public void addBook(BookDTO bookDTO) {
         bookDAO.add(bookDAO.getBookFromBookDTO(bookDTO));
     }
 
     @Override
-    public PageableBookDTO getPageBookDTOByPageable(Pageable pageable) {
-        return bookDAO.getPageBookDTOByPageable(pageable);
+    public PageableBookDTO getPageBookDTOByPageable(Pageable pageable, boolean disabled) {
+        return bookDAO.getPageBookDTOByPageable(pageable, disabled);
     }
 
     @Override
-    public void deleteBookById(long id) {
+    public void deleteBookById(Long id) {
         bookDAO.deleteById(id);
     }
 
     @Override
-    public BookDTO getBookByIdLocale(long id) {
+    public BookDTO getBookByIdLocale(Long id) {
         return bookDAO.getBookByIdLocale(id);
     }
 
@@ -64,7 +69,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookDTO getBookDTOById(long id) {
+    public BookDTO getBookDTOById(Long id) {
         return bookDAO.getBookDTOById(id);
     }
 

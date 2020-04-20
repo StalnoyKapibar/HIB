@@ -21,7 +21,7 @@ public interface BookDao extends GenericDao<Long, Book> {
 
     String getLastIdOfBook();
 
-    PageableBookDTO getPageBookDTOByPageable(Pageable pageable);
+    PageableBookDTO getPageBookDTOByPageable(Pageable pageable, boolean disabled);
 
     String getQuantityBook();
 
