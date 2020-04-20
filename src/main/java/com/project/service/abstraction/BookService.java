@@ -8,11 +8,13 @@ import java.util.List;
 public interface BookService {
     List<BookDTO> getAllBookDTO();
 
+    Book getById(Long id);
+
     void addBook(BookDTO bookDTO);
 
-    PageableBookDTO getPageBookDTOByPageable(Pageable pageable);
+    PageableBookDTO getPageBookDTOByPageable(Pageable pageable, boolean disabled);
 
-    void deleteBookById(long id);
+    void deleteBookById(Long id);
 
     void updateBook(BookDTO bookDTO);
 
@@ -20,11 +22,12 @@ public interface BookService {
 
     BookDTO20 getBookBySearchRequest(LocaleString localeString, String locale);
 
-    BookDTO getBookDTOById(long id);
+    @Deprecated
+    BookDTO getBookDTOById(Long id);
 
     String getLastIdOfBook();
 
-    BookDTO getBookByIdLocale(long x);
+    BookDTO getBookByIdLocale(Long x);
 
     BookNewDTO getNewBookDTOByIdAndLang(Long id, String lang);
 }

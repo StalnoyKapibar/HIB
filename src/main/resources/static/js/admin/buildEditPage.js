@@ -48,14 +48,16 @@ function buildPage() {
         }
         html1 += '</div>';
     }
+    let disabled = tmpArr.disabled ? 'checked' : '';
+    html1 += `<div class="container-fluid"><div class="row"><h3 class="col-1">Disabled</h3><input id="disabled" class="col-6" type="checkbox" ${disabled}></div></div>`;
     html1 += `<h4>Cover Image</h4>` +
         `<div class='car' style='width: 18rem;'>` +
         `<img id='myImage' src =''  class='card-img-top' alt='...'> ` +
         `</div>`;
     $('#bookEditPage').html(html1);
-    for (key in tmpArr) {
+    for (let key in tmpArr) {
         if (key !== "id" && key !== "imageList" && key !== "coverImage") {
-            for (key0 of nameVarOfLocaleStringWithId) {
+            for (let key0 of nameVarOfLocaleStringWithId) {
                 document.getElementById(key + key0).value = tmpArr[key][key0];
             }
         } else {
@@ -90,7 +92,7 @@ function sendUpdateBook() {
     }
     add['coverImage'] = nameImageCover;
     add['imageList'] = listImages;
-    alert(listImages);
+    add['disabled'] = $("#disabled").is(':checked');
     var body02 = JSON.stringify(add);
     sendUpdateBookReq(body02);
 }
@@ -128,11 +130,12 @@ function getAllLocales() {
 }
 
 function getBookDTOById(id) {
-    fetch("getBookDTOById/" + id)
+    fetch("/api/book/" + id)
         .then(status)
         .then(json)
         .then(function (resp) {
             tmpArr = resp;
+            console.log(tmpArr);
             buildPage();
         });
 }

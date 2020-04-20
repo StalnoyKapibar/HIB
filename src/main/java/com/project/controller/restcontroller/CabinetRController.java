@@ -14,7 +14,7 @@ public class CabinetRController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/cabinet/getAU")
+    @GetMapping("/api/current-user")
     public UserDTO getAU() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDTO userDTO = userService.getUserDTOByLogin(auth.getName());

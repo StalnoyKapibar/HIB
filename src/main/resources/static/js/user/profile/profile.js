@@ -14,7 +14,7 @@ function showShoppingCart() {
 $(document).ready(getAU());
 
 function getAU() {
-    GET("/cabinet/getAU")
+    GET("/api/current-user")
         .then(status)
         .then(json)
         .then(function (resp) {

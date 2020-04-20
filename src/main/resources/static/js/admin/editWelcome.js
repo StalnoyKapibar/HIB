@@ -13,6 +13,8 @@ let arrNameImageNew = [];
 let pathImageDefault = 'images/tmp/';
 var nameImageCover = '';
 let welcomeText = [];
+let toggleShowDisabled = $("#toggleShowDisabled");
+let repliedOn = false;
 
 $(document).ready(getVarBookDTO(), getAllLocales(), pageBook(0), getLocales());
 
@@ -101,7 +103,7 @@ async function getLocales() {
 
 async function pageBook(x) {
     idPageable = x;
-    await fetch("/admin/pageable/" + x)
+    await fetch(`/api/admin/pageable/${x}?disabled=${repliedOn}`)
         .then(status)
         .then(json)
         .then(function (resp_tmp) {
@@ -132,7 +134,7 @@ async function pageBook(x) {
                 for (key in tmp_html) {
                     if (tmp_html[key] !== null) {
                         if (key !== "id" && key !== "coverImage" && key !== "imageList" && key !== "desc" && key !== "edition"
-                            && key !== "yearOfEdition" && key !== "pages" && key !== "price" && key !== "originalLanguage") {
+                            && key !== "yearOfEdition" && key !== "pages" && key !== "price" && key !== "originalLanguage" && key !== "disabled") {
                             var ad = tmp_html[key][idChangeLang];
                             html += `<td id='n${tmp_html.id}'>${ad}</td>`;
                         }
@@ -140,8 +142,7 @@ async function pageBook(x) {
                 }
                 html +=
                     `<td>` +
-                    `<button type='button' onclick='buildEditBook(${tmp_html.id})'  data-toggle='modal'` +
-                    `data-target='#asdddd'  class='btn btn-primary'> ` +
+                    `<button class="btn btn-info" onclick="openEdit(${tmp_html.id})"> ` +
                     `Edit` +
                     `</button>` +
                     `</td>` +
@@ -276,7 +277,7 @@ function buildEditBook(xx) {
         html1 += `</div>` +
             `</div>`;
     }
-    html1 += `<button type='submit' onclick='openEdit()' data-dismiss='modal' class='btn btn-primary custom-centered m-3'>` +
+    html1 += `<button type='submit' onclick='openEdit(${tmpEditBookId})' data-dismiss='modal' class='btn btn-primary custom-centered m-3'>` +
         `Edit Book` +
         `</button>`;
     $('#editBookForm').html(html1);
@@ -297,8 +298,27 @@ function buildEditBook(xx) {
     }
 }
 
-function openEdit() {
-    localStorage.setItem('tmpEditBookId', tmpEditBookId);
+function buildChangeLang() {
+    var htmllang = '';
+    for (var i = 0; i < nameVarOfLocaleString.length; i++) {
+        var gh = nameVarOfLocaleString[i];
+        htmllang += `<button type='button' class='btn btn-secondary' onclick='chanLang(${i})'>${gh}</button>`;
+    }
+    $('#chlang1').html(htmllang);
+}
+
+function chanLang(x) {
+    idChangeLang = nameVarOfLocaleString[x];
+    $('#search-input-admin').val('');
+    pageBook(idPageable);
+}
+
+function openEdit(id) {
+    localStorage.setItem('tmpEditBookId', id);
+}
+
+function openEdit(id) {
+    localStorage.setItem('tmpEditBookId', id);
     window.open('/edit', '_blank');
 }
 
@@ -354,7 +374,6 @@ function buildCarousel() {
             }
         }
     }
-
     $('#test0').html(tmpHtmlForCarouselIndicators);
     $('#test1').html(tmpHtmlForCarousel);
 }
@@ -385,6 +404,12 @@ function resetForms() {
     nameImageCover = '';
     showImage('');
 }
+
+toggleShowDisabled.change(() => {
+    repliedOn = toggleShowDisabled.prop('checked');
+    pageBook(0).then(r => {
+    });
+});
 
 function showImage(x) {
     document.getElementById('myImage').src = x;
