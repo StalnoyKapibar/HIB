@@ -15,6 +15,8 @@
             <a aria-controls="nav-profile" aria-selected="false" class="nav-item nav-link" data-toggle="tab"
                href="#nav-profile1"
                id="nav-profile-tab1" onclick="addPage()" role="tab">Add Book</a>
+            <a aria-controls="nav-profile" aria-selected="false" class="nav-item nav-link" data-toggle="tab"
+               href="#add-hib-files" id="add-hib-files-tab" role="tab">Add hib files</a>
         </div>
     </nav>
     <div class="tab-content tab - border" id="nav-tabContent1">
@@ -23,25 +25,36 @@
             <div class="table">
                 <ul class="list-group">
                     <li class="list-group-item list-group-item-light">All Books</li>
-                    <form class="form-inline mr-lg-2 mb-2 mt-2 mr-md-2" id="search-form-admin">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="search-admin-local-id"></span>
-                            </div>
-                            <input type="text" class="form-control border" placeholder="" aria-label=""
-                                   id="search-input-admin">
-                            <div class="input-group-append">
-                                <button class="btn border" type="button" onclick="searchBook()">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                            </div>
-                            <div class="input-group-append">
-                                <button class="btn border" type="button" id="search-admin-close">
-                                    <i class="fas fa-times"></i>
-                                </button>
+                    <br>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <h3 class="lead offset-1">Show only disabled Books</h3>
+                            <div class="offset-8">
+                                <input data-size="md" data-toggle="toggle" id="toggleShowDisabled" type="checkbox">
                             </div>
                         </div>
-                    </form>
+                        <form class="form-inline mr-lg-2 mb-2 mt-2 mr-md-2" id="search-form-admin">
+                            <div class="input-group">
+
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="search-admin-local-id"></span>
+                                </div>
+                                <input aria-label="" class="form-control border" id="search-input-admin" placeholder=""
+                                       type="text">
+                                <div class="input-group-append">
+                                    <button class="btn border" type="button" onclick="searchBook()">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                                <div class="input-group-append">
+                                    <button class="btn border" id="search-admin-close" type="button">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
                 </ul>
                 <div class="btn-group" id="chlang1">
                 </div>
@@ -63,35 +76,71 @@
             <ul class="list-group">
                 <li class="list-group-item list-group-item-light">Add new Book</li>
             </ul>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="container-fluid col-6">
+                        <div class="row">
+                            <h3 class="col-6">
+                                Disabled
+                            </h3>
+                            <input checked class="col-6" id="disabled" type="checkbox">
+                        </div>
+                    </div>
+                    <button class='btn btn-primary col-4 btn-metro offset-2' onclick='addNewBook()' type='submit'>Add
+                        new Book
+                    </button>
+                </div>
+            </div>
             <form id="newBookForm" role="form">
             </form>
-            <form>
-                <div class="form-group">
-                    <h4>Load book from file</h4>
-                    <input type="file" class="form-control-file" id="formBookFile"  onchange="loadBookFile()" accept=".hib">
+        </div>
+
+        <div aria-labelledby="add-hib-files-tab" class="tab-pane fade" id="add-hib-files" role="tabpanel">
+            <div class="row">
+                <div class="col-sm-4 offset-2">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Upload one Book</h5>
+                            <form action="/api/admin/upload-multiply-files" enctype="multipart/form-data" method="POST">
+                                <input accept=".hib" class="form-control-file" id="add-hib-file-input" name="files"
+                                       type="file">
+                                <button id="uploadOneFileHidden" style="display: none"></button>
+                            </form>
+                        </div>
+                        <div class="card-footer">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <button class="btn btn-success btn-metro col-5" onclick="editHibFile()">Edit and
+                                        Upload
+                                    </button>
+                                    <button class="btn btn-info btn-metro col-5 offset-2" onclick="uploadOneFile()">
+                                        Upload as disabled
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </form>
-            <div class="carousel slide w-50" data-ride="carousel" id="carouselExampleCaptions">
-                <ol class="carousel-indicators" id='test0'>
-                </ol>
-                <div class="carousel-inner" id='test1'>
+                <div class="col-sm-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Upload several books for further processing</h5>
+                            <form action="/api/admin/upload-multiply-files" enctype="multipart/form-data" method="POST">
+                                <input accept=".hib" class="form-control-file" id="add-hib-files-input" multiple
+                                       name="files" type="file">
+                                <button id="uploadMultiplyFilesHidden" style="display: none"></button>
+                            </form>
+                        </div>
+                        <div class="card-footer text-center">
+                            <button class="btn btn-info btn-metro" onclick="uploadMultiplyFiles()">Upload to server
+                            </button>
+                        </div>
+                    </div>
                 </div>
-                <a class="carousel-control-prev" data-slide="prev" href="#carouselExampleCaptions"
-                   role="button">
-                    <span aria-hidden="true" class="carousel-control-prev-icon"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="carousel-control-next" data-slide="next" href="#carouselExampleCaptions"
-                   role="button">
-                    <span aria-hidden="true" class="carousel-control-next-icon"></span>
-                    <span class="sr-only">Next</span>
-                </a>
             </div>
-            <button class='btn btn-primary mt-3' onclick='addNewBook()' type='submit'>
-                Add new Book
-            </button>
         </div>
     </div>
+    <script src="/static/js/admin/uploadHibFiles.js"></script>
 </div>
 
 <div aria-hidden="true"

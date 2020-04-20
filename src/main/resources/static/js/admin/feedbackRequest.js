@@ -39,11 +39,7 @@ async function getFeedbackRequestTable(replied) {
                         data-id="${id}"
                         data-sender="${senderName}"
                         data-email="${senderEmail}"
-                        data-message="${content}"
-                       
-                        >
-                         Reply
-                        </button>`;
+                        data-message="${content}">Reply</button>`;
                 let tr = $("<tr/>");
                 tr.append(`
                             <td>${id}</td>
