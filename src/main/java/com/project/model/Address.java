@@ -45,5 +45,4 @@ public class Address {
 
     @Column(name = "firstName")
     private String firstName;
-
 }

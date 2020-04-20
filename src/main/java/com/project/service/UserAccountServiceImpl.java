@@ -91,4 +91,10 @@ public class UserAccountServiceImpl implements UserAccountService {
     public UserAccount getUserById(Long id) {
         return userAccountDao.findById(id);
     }
+
+    @Override
+    public UserAccount update(UserAccount userAccount) {
+        userAccountDao.update(userAccount);
+        return userAccount;
+    }
 }

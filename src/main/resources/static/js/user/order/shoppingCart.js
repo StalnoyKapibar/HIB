@@ -25,7 +25,7 @@ function getCart() {
                     let row = $('<tr id="trr"/>');
                     let cell = $('<td width="10"></td>');
                     row.append(cell);
-                    cell = '<td class="align-middle"><img src="../images/book' + book.id + '/' + book.coverImage + '" style="max-width: 60px"></td>' +
+                    cell = '<td class="align-middle"><img src="/images/book' + book.id + '/' + book.coverImage + '" style="max-width: 60px"></td>' +
                         '<td class="align-middle">' + book.name[currentLang] + ' | ' + book.author[currentLang] + '</td>' +
                         '<td class="align-middle" id="book' + book.id + '">' + book.price + '</td>' +
                         '<td class="align-middle"><div class="product-quantity" > <input id="value' + book.id + '" type="number" value="' + data[index].quantity + '" min="1" style="width: 45px" data-id="' + book.id + '" data-value="' + data[index].quantity + '"></div></td>' +
@@ -147,39 +147,6 @@ let order = '';
 function confirmPurchase() {
     fetch('/order').then(r => getCart());
     showShoppingCart();
-}
-
-async function enterAddress() {
-    let data = enterData();
-    if (data != '') {
-        alert('enter ' + data + ' !');
-        return;
-    }
-    let address = {
-        flat: $("#flat").val(),
-        house: $("#street_number").val(),
-        street: $("#route").val(),
-        city: $("#locality").val(),
-        state: $("#administrative_area_level_1").val(),
-        postalCode: $("#postal_code").val(),
-        country: $("#country").val(),
-        firstName: $("#firstName").val(),
-        lastName: $("#lastName").val()
-    };
-    await fetch('/order/confirmaddress', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json;charset=utf-8'
-        },
-        body: JSON.stringify(address)
-
-    }).then(status)
-        .then(json)
-        .then((data) => {
-            order = data;
-        });
-    showSummary();
-    showOrderSum();
 }
 
 function enterData() {
