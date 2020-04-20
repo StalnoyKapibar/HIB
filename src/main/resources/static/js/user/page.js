@@ -80,9 +80,9 @@ function buildCarousel() {
                     </div></div> 
    
        <div class="buttonCarousel card-footer">
-       <buttonCarousel class="left" href="#carouselImagePage"  data-slide="prev" > Previous</buttonCarousel>
-       <buttonCarousel class="center"  href="#carouselImagePage" data-slide="pause" > Stop</buttonCarousel>      
-       <buttonCarousel class="right"  href="#carouselImagePage" data-slide="next" > Next</buttonCarousel></div>`;
+       <buttonCarousel class="left" href="#carouselImagePage"  data-slide="prev" > 
+         <</buttonCarousel>     
+       <buttonCarousel class="right "  href="#carouselImagePage" data-slide="next" > ></buttonCarousel></div>`;
 
     $('#CardImageOrCarousel').html(htmlBodyCarousel);
     $('#testActive').html(tmpHtmlForCarouselIndicators);
