@@ -29,16 +29,13 @@ function setPageFields() {
         $("#book-original-language").text(data.originalLanguage);
         $("#book-amount-of-pages").text(data.pages);
         $("#book-year-of-edition").text(data.yearOfEdition);
-        $("#book-price").text(convertPrice(data.price) + " $");
+        $("#book-price").text(convertPrice(data.price) + ' €');
         buildCardImageOrCarousel();
     })
 }
 
-//TODO: Демонстрационная функция
 function convertPrice(price) {
-    price = price.toString();
-    let lastTwoNum = price.substr(price.length - 2, 2);
-    return price.substr(0, price.indexOf(lastTwoNum)) + '.' + lastTwoNum;
+    return price/100;
 }
 
 function buildCarousel() {
