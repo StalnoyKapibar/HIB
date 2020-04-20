@@ -4,6 +4,7 @@ let yearOfEdition;
 let pages;
 let price;
 let originalLanguage;
+let disabledCheckBox = $("#disabled");
 let pathToTmpPackage = '/images/tmp/';
 
 function checkNamesNotNull() {
@@ -12,7 +13,7 @@ function checkNamesNotNull() {
             return true;
         }
     }
-    alert("Enter name of the book")
+    alert("Enter name of the book");
     return false;
 }
 
@@ -151,9 +152,9 @@ function addImgToListAndBtn(divId, path) {
 }
 
 function loadBookFile() {
-    let file = $("#formBookFile").prop('files')[0];
-    fetch('/loadFile', {
-        method: 'PUT',
+    let file = $("#add-hib-file-input").prop('files')[0];
+    fetch('/api/admin/upload-file', {
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
         },
@@ -163,6 +164,7 @@ function loadBookFile() {
         .then(function (resp) {
             addValueToFields(resp);
         });
+    console.log(file);
 }
 
 function addValueToFields(book) {
@@ -178,7 +180,7 @@ function addValueToFields(book) {
     price.val(`${book.price}`);
     originalLanguage.val(`${book.originalLanguage}`);
     let img = book.coverImage;
-    addImgAvatarAndBtn(img, pathToTmpPackage + img)
+    addImgAvatarAndBtn(img, pathToTmpPackage + img);
     for (const imageListElement of book.imageList) {
         if (img !== imageListElement.nameImage) {
             let nameImg = imageListElement.nameImage;
@@ -211,6 +213,7 @@ function addNewBook() {
         book["pages"] = pages.val();
         book["price"] = price.val();
         book["originalLanguage"] = originalLanguage.val();
+        book['disabled'] = disabledCheckBox.is(':checked');
         book["coverImage"] = divAvatar.find("img")[0].id;
         let allImages = $("#allImage").find("img");
         let imageList = [];

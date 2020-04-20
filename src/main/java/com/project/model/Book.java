@@ -20,7 +20,7 @@ public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private LocaleString nameLocale;
@@ -50,6 +50,9 @@ public class Book {
 
     @Column
     private Long views;
+
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private OtherLanguage otherLanguageOfBook;
+
+    private boolean disabled;
 }

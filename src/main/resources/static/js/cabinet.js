@@ -23,7 +23,7 @@ function showSummary() {
 $(document).ready(getAU());
 
 function getAU() {
-    fetch("/cabinet/getAU")
+    fetch("/api/current-user")
         .then(status)
         .then(json)
         .then(function (resp) {
