@@ -70,20 +70,20 @@ function buildCarousel() {
         }
     }
 
-    var htmlBodyCarousel = `<div id="carouselImagePage" class="carousel slide 100" data-ride="carousel">
+    var htmlBodyCarousel =
+      `<div class="card">
+       <div id="carouselImagePage" class="carousel slide 100 card-header" data-ride="carousel">
+
                     <ol class="carousel-indicators" id='testActive'>
                     </ol>
                     <div class="carousel-inner" id='testBody'>
-                    </div>
-                    <a class="carousel-control-prev" href="#carouselImagePage" role="button" data-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" href="#carouselImagePage" role="button" data-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
-                </div>`;
+                    </div></div> 
+   
+       <div class="buttonCarousel card-footer">
+       <buttonCarousel class="left" href="#carouselImagePage"  data-slide="prev" > Previous</buttonCarousel>
+       <buttonCarousel class="center"  href="#carouselImagePage" data-slide="pause" > Stop</buttonCarousel>      
+       <buttonCarousel class="right"  href="#carouselImagePage" data-slide="next" > Next</buttonCarousel></div>`;
+
     $('#CardImageOrCarousel').html(htmlBodyCarousel);
     $('#testActive').html(tmpHtmlForCarouselIndicators);
     $('#testBody').html(tmpHtmlForCarousel);
