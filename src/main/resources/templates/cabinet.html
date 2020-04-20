@@ -141,7 +141,15 @@
         </main>
     </div>
     <div class="tab-pane fade" id="Basket" role="tabpanel" aria-labelledby="Basket-tab">
+        <br>
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+            <div class="alert alert-warning alert-dismissible fade" id="saveAddressAlert" role="alert">
+                <strong>Would you like to save the address?</strong>
+                <button class=" col-2 btn btn-success btn-metro offset-8" onclick="saveAddress()">Save</button>
+                <button aria-label="Close" class="close" data-dismiss="alert" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
             <p></p>
             <h1 class="h2" id="headershoppingcart">Shopping cart</h1>
             <ul class="nav nav-tabs" id="cartTab" role="tablist">
@@ -196,7 +204,7 @@
                             <th></th>
                             <th></th>
                             <th>
-                                <button id="chechout" type="button" class="btn btn-primary" onclick="showAdresTab()">
+                                <button class="btn btn-primary" id="chechout" onclick="showAddressTab()" type="button">
                                     Checkout
                                 </button>
                             </th>
@@ -211,6 +219,10 @@
                                 <input id="autocomplete" th:disabled=*{disabledAutocomplete}
                                        placeholder="221B Baker Street, London, United Kingdom" onFocus="geolocate()"
                                        type="text" class="form-control col-sm-7">
+                                <br>
+                                <select class="form-control col-7" id="addressSelect">
+                                    <option selected>Select from saved</option>
+                                </select>
                                 <br>
                                 <div id="address">
                                     <div class="form-group row">
@@ -267,7 +279,7 @@
                                             </button>
                                         </div>
                                         <div class="col-md-3 offset-md-4">
-                                            <button type="button" onclick="enterAddress()"
+                                            <button onclick="confirmAddress()" type="button"
                                                     class="btn btn-primary bt-lg">Confirm
                                                 address
                                             </button>
@@ -281,64 +293,65 @@
                 </div>
                 <div class="tab-pane fade" id="Summary" role="tabpanel" aria-labelledby="Summary-tab">
                     <div class="card">
-                    <table class="table table-sm table-sm bg-white">
-                        <h2 class="align-content-center card-header mt-2">YOUR PURCHASES</h2>
-                        <thead>
-                        <tr height="50">
-                            <th width="10"></th>
-                            <th></th>
-                            <th>Items</th>
-                            <th>Unit price</th>
-                            <th>Quantity</th>
-                        </tr>
-                        </thead>
-                        <tbody id='orderTab'>
-                        </tbody>
-                        <tbody>
-                        <tr>
-                        </tr>
-                        <tr>
-                        <tr height="50">
-                            <th width="10"></th>
-                            <th></th>
-                            <th></th>
-                            <th>
-                                <a>Subtotal:</a>
-                                <p>Shipping cost:</p>
-                            </th>
-                            <th>
-                                <a id="subtotal"></a>
-                                <p id="shippingcost"></p>
-                            </th>
-                        </tr>
-                        <tr>
-                        <tr height="50">
-                            <th width="10"></th>
-                            <th></th>
-                            <th></th>
-                            <th>Total price:</th>
-                            <th id="pricetotal"></th>
-                        </tr>
-                        </tr>
-                        </tbody>
-                    </table>
-                         <h4 class="mt-1 card-header ">Delivery address:</h4>
+                        <table class="table table-sm table-sm bg-white">
+                            <h2 class="align-content-center card-header mt-2">YOUR PURCHASES</h2>
+                            <thead>
+                            <tr height="50">
+                                <th width="10"></th>
+                                <th></th>
+                                <th>Items</th>
+                                <th>Unit price</th>
+                                <th>Quantity</th>
+                            </tr>
+                            </thead>
+                            <tbody id='orderTab'>
+                            </tbody>
+                            <tbody>
+                            <tr>
+                            </tr>
+                            <tr>
+                            <tr height="50">
+                                <th width="10"></th>
+                                <th></th>
+                                <th></th>
+                                <th>
+                                    <a>Subtotal:</a>
+                                    <p>Shipping cost:</p>
+                                </th>
+                                <th>
+                                    <a id="subtotal"></a>
+                                    <p id="shippingcost"></p>
+                                </th>
+                            </tr>
+                            <tr>
+                            <tr height="50">
+                                <th width="10"></th>
+                                <th></th>
+                                <th></th>
+                                <th>Total price:</th>
+                                <th id="pricetotal"></th>
+                            </tr>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <h4 class="mt-1 card-header ">Delivery address:</h4>
                         <div class="card-body" id="shippingaddress" style="line-height: 4px; font-size: large"></div>
-                    <div class="form-group card-footer  row mt-2 ml-0" style="width: 67.2rem;">
-                        <div class=" col-4">
-                            <button type="button" class="btn btn-secondary btn-block" onclick="showAdresTab()">Back
-                            </button>
+                        <div class="form-group card-footer  row mt-2 ml-0" style="width: 67.2rem;">
+                            <div class=" col-4">
+                                <button class="btn btn-secondary btn-block" onclick="showAddressTab()" type="button">
+                                    Back
+                                </button>
+                            </div>
+                            <div class="col-4 ">
+                                <button class="btn bt-lg btn-block btn-success"
+                                        onclick="confirmPurchase()"
+                                        type="button">Buy Now
+                                </button>
+                            </div>
                         </div>
-                        <div class="col-4 ">
-                            <button type="button"
-                                    class="btn bt-lg btn-block btn-success"
-                                    onclick="confirmPurchase()">Buy Now
-                            </button>
-                        </div>
-                    </div>
-                       </div>
                     </div>
                 </div>
+            </div>
         </main>
     </div>
 </div>
@@ -430,9 +443,11 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
-<script src="js/cabinet.js"></script>
-<script src="/static/js/shoppingcart.js"></script>
-<script src="/static/js/common-function.js"></script>
+<script src="/static/js/main.js"></script>
+<script src="/static/js/user/order/order.js"></script>
+<script src="/static/js/user/profile/profile.js"></script>
+<script src="/static/js/user/order/shoppingCart.js"></script>
+<script src="/static/js/utils/common-function.js"></script>
 <script th:attr="src=*{key}" async defer></script>
 </body>
 </html>

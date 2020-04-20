@@ -6,8 +6,6 @@ import com.project.model.UserDTO;
 import com.project.model.UserDTONewPassword;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
@@ -18,14 +16,14 @@ public class UserDaoImpl extends AbstractDao<Long, UserAccount> implements UserD
 
     @Override
     public UserDTO getUserByLogin(String login) {
-        String temp = "Select new com.project.model.UserDTO(ua.userId, ua.login, ua.email, ua.password, ua.firstName, ua.lastName) FROM UserAccount ua where ua.login=:login";
+        String temp = "Select new com.project.model.UserDTO(ua.id, ua.login, ua.email, ua.password, ua.firstName, ua.lastName) FROM UserAccount ua where ua.login=:login";
         UserDTO userDTO = entityManager.createQuery(temp, UserDTO.class).setParameter("login", login).getSingleResult();
         return userDTO;
     }
 
     @Override
     public void saveUserDTOPersonalInformation(UserDTO userDTO) {
-        entityManager.createQuery("update UserAccount set email = :email, firstName = :firstName, lastName = :lastName where userId =:userId")
+        entityManager.createQuery("update UserAccount set email = :email, firstName = :firstName, lastName = :lastName where id =:userId")
                 .setParameter("email", userDTO.getEmail())
                 .setParameter("firstName", userDTO.getFirstName())
                 .setParameter("lastName", userDTO.getLastName())
@@ -35,7 +33,7 @@ public class UserDaoImpl extends AbstractDao<Long, UserAccount> implements UserD
 
     @Override
     public boolean checkEmailFromOtherUsers(String email, long id) {
-        List<UserAccount> userAccountList = entityManager.createQuery("SELECT ua FROM UserAccount ua where ua.email=:email AND ua.userId <>: id")
+        List<UserAccount> userAccountList = entityManager.createQuery("SELECT ua FROM UserAccount ua where ua.email=:email AND ua.id <>: id")
                 .setParameter("email", email)
                 .setParameter("id", id)
                 .getResultList();
@@ -48,7 +46,7 @@ public class UserDaoImpl extends AbstractDao<Long, UserAccount> implements UserD
 
     @Override
     public void saveUserDTOPassword(UserDTONewPassword userDTONewPassword) {
-        entityManager.createQuery("update UserAccount set password = :password where userId =:userId")
+        entityManager.createQuery("update UserAccount set password = :password where id =:userId")
                 .setParameter("password", userDTONewPassword.getNewPassword())
                 .setParameter("userId", userDTONewPassword.getUserId())
                 .executeUpdate();
@@ -56,6 +54,6 @@ public class UserDaoImpl extends AbstractDao<Long, UserAccount> implements UserD
 
     @Override
     public String getOldPassword(long id) {
-        return (String) entityManager.createQuery("SELECT ua.password FROM UserAccount ua where ua.userId=:userId").setParameter("userId", id).getSingleResult();
+        return (String) entityManager.createQuery("SELECT ua.password FROM UserAccount ua where ua.id=:userId").setParameter("userId", id).getSingleResult();
     }
 }

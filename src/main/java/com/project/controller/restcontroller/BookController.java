@@ -114,10 +114,10 @@ public class BookController {
         return bookDTOWithFieldsForTable.getFields();
     }
 
-    @GetMapping("/admin/del/{idForDeleteBook}")
-    public void delBook(@PathVariable("idForDeleteBook") long idForDeleteBook) {
-        storageService.deletePaperById(idForDeleteBook);
-        bookService.deleteBookById(idForDeleteBook);
+    @GetMapping("/admin/del/{id}")
+    public void delBook(@PathVariable long id) {
+        storageService.deletePaperById(id);
+        bookService.deleteBookById(id);
     }
 
     @PostMapping("/admin/edit")

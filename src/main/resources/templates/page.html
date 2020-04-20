@@ -15,9 +15,9 @@
     <link href="/static/css/style.css" rel="stylesheet">
     <link href="/static/css/page.css" rel="stylesheet">
     <link href="/static/css/themify-icons.css" rel="stylesheet">
-    <script src="/static/js/jquery.min.js"></script>
-    <script src="/static/js/popper.min.js"></script>
-    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/lib/jquery.min.js"></script>
+    <script src="/static/js/lib/popper.min.js"></script>
+    <script src="/static/js/lib/bootstrap.min.js"></script>
     <script crossorigin="anonymous" src="https://kit.fontawesome.com/db08edad0b.js"></script>
     <title></title>
 </head>
@@ -123,13 +123,14 @@
 
 <a id="bookid" th:value="${book}" hidden></a>
 
-<div th:replace="home :: sign-in-modal" class="modal fade" id="signModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+<div th:replace="home :: sign-in-modal" class="modal fade" id="signModal" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalLabel">
 </div>
 
 <div th:replace="home :: contact-button"></div>
 
-<script src="/static/js/common-function.js"></script>
-<script src="/static/js/page.js"></script>
+<script src="/static/js/utils/common-function.js"></script>
+<script src="/static/js/user/page.js"></script>
 <script src="/static/js/footerBuilder.js"></script>
 </body>
 </html>
