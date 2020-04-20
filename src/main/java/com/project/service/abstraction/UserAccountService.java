@@ -17,4 +17,6 @@ public interface UserAccountService {
     UserAccount save(UserAccount user);
 
     UserAccount getUserById(Long id);
+
+    UserAccount update(UserAccount userAccount);
 }

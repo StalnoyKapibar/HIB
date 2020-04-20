@@ -1,4 +1,5 @@
 let AU;
+
 $(document).ready(function () {
     let tabhash = document.location.hash;
     if (tabhash == '#cart') {
@@ -6,24 +7,14 @@ $(document).ready(function () {
     }
 });
 
-function showAdresTab() {
-    if (totalPrice != 0) {
-        $('#cartTab a[href="#delivery"]').tab('show');
-    }
-}
-
 function showShoppingCart() {
     $('#cartTab a[href="#home"]').tab('show');
-}
-
-function showSummary() {
-    $('#cartTab a[href="#Summary"]').tab('show');
 }
 
 $(document).ready(getAU());
 
 function getAU() {
-    fetch("/api/current-user")
+    GET("/api/current-user")
         .then(status)
         .then(json)
         .then(function (resp) {
@@ -50,15 +41,9 @@ function savePersonalInformation() {
     savePersonalInformationRequest(tmpSend);
 }
 
-function savePersonalInformationRequest(x) {
-    fetch("/cabinet/savePersonalInformation", {
-        method: 'POST',
-        body: x,
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        }
-    }).then(status)
+function savePersonalInformationRequest(personalInformation) {
+    POST("/cabinet/savePersonalInformation", personalInformation, JSON_HEADER)
+        .then(status)
         .then(text)
         .then(function (resp) {
             if (resp === "error") {
@@ -84,16 +69,12 @@ function status(response) {
     }
 }
 
-function json(response) {
-    return response.json()
-}
-
 function text(response) {
     return response.text()
 }
 
-function showError(x) {
-    $('#errorMessageEmail').text(x);
+function showError(message) {
+    $('#errorMessageEmail').text(message);
     $('#collapseExample').attr('class', 'collapse show');
 }
 
@@ -101,8 +82,8 @@ function hideError() {
     $('#collapseExample').attr('class', 'collapse');
 }
 
-function showSuccess(x) {
-    $('#idMessagesSuccess').text(x);
+function showSuccess(message) {
+    $('#idMessagesSuccess').text(message);
     $('#staticBackdrop').modal();
 }
 
@@ -121,8 +102,8 @@ function savePassword() {
     }
 }
 
-function showErrorPassword(x) {
-    $('#errorMessagePassword').text(x);
+function showErrorPassword(message) {
+    $('#errorMessagePassword').text(message);
     $('#collapsePassword').attr('class', 'collapse show');
 }
 
@@ -130,20 +111,14 @@ function hideErrorPassword() {
     $('#collapsePassword').attr('class', 'collapse');
 }
 
-function savePasswordReq(x) {
-    let tmp = {};
-    tmp['userId'] = AU.userId;
-    tmp['newPassword'] = x;
-    tmp['oldPassword'] = $('#oldPassword').val();
-    let tmpSend = JSON.stringify(tmp);
-    fetch("/cabinet/savePassword", {
-        method: 'POST',
-        body: tmpSend,
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        }
-    }).then(status)
+function savePasswordReq(newPassword) {
+    let passwordDto = {
+        userId: AU.userId,
+        newPassword: newPassword,
+        oldPassword: $('#oldPassword').val(),
+    };
+    POST("/cabinet/savePassword", JSON.stringify(passwordDto), JSON_HEADER)
+        .then(status)
         .then(text)
         .then(function (resp) {
             if (resp === "passError") {
