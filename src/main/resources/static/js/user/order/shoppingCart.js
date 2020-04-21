@@ -1,4 +1,9 @@
 var currentLang = '';
+let listOders = '';
+let totalPrice = 0;
+let currencyIcon = ' €';
+let order = '';
+
 $(document).ready(function () {
     if (currentLang == '') {
         currentLang = $('#dd_menu_link').data('currentLang');
@@ -8,7 +13,10 @@ $(document).ready(function () {
     openModalLoginWindowOnFailure();
     getCart();
 });
-let totalPrice = 0;
+
+function convertPrice(price) {
+    return price / 100;
+}
 
 function getCart() {
     setTimeout(async function () {
@@ -21,18 +29,18 @@ function getCart() {
                 $('#sum').text(totalPrice);
                 $.each(data, function (index) {
                     let book = data[index].book;
-                    totalPrice += book.price * data[index].quantity;
+                    totalPrice += convertPrice(book.price) * data[index].quantity;
                     let row = $('<tr id="trr"/>');
                     let cell = $('<td width="10"></td>');
                     row.append(cell);
-                    cell = '<td class="align-middle"><img src="/images/book' + book.id + '/' + book.coverImage + '" style="max-width: 60px"></td>' +
-                        '<td class="align-middle">' + book.name[currentLang] + ' | ' + book.author[currentLang] + '</td>' +
-                        '<td class="align-middle" id="book' + book.id + '">' + book.price + '</td>' +
-                        '<td class="align-middle"><div class="product-quantity" > <input id="value' + book.id + '" type="number" value="' + data[index].quantity + '" min="1" style="width: 45px" data-id="' + book.id + '" data-value="' + data[index].quantity + '"></div></td>' +
-                        '<td class="align-middle" ><button class="btn btn-info delete"  style="background-color: orangered" data-id="' + book.id + '">' + deleteBottom + '</button></td>';
+                    cell = `<td class="align-middle"><img src="/images/book${book.id}/${book.coverImage}" style="max-width: 60px"></td>
+                        <td class="align-middle">${book.name[currentLang]} | ${book.author[currentLang]}</td>
+                        <td class="align-middle" id="book${book.id}">${convertPrice(book.price) + currencyIcon}</td>
+                        <td class="align-middle"><div class="product-quantity"><input id="value${book.id}" type="number" value="${data[index].quantity}" min="1" style="width: 45px" data-id="${book.id}" data-value="${data[index].quantity}"></div></td>
+                        <td class="align-middle"><button class="btn btn-info delete"  style="background-color: #ff4500" data-id="${book.id}">deleteBottom</button></td>`;
                     row.append(cell);
                     row.appendTo('#newTab');
-                    $('#sum').text(totalPrice);
+                    $('#sum').text(totalPrice + currencyIcon);
                 });
             });
     }, 10);
@@ -48,7 +56,7 @@ async function updateQuantity(quatity, id) {
         $('#value' + id).attr('data-value', quatity);
         let price = $('#book' + id).text();
         totalPrice = totalPrice + price * (quatity - oldVal);
-        $('#sum').text(totalPrice);
+        $('#sum').text(totalPrice + currencyIcon);
     })
 }
 
@@ -141,9 +149,6 @@ function geolocate() {
     }
 }
 
-
-let order = '';
-
 function confirmPurchase() {
     fetch('/order').then(r => getCart());
     showShoppingCart();
@@ -186,16 +191,17 @@ function showOrderSum() {
         let row = $('<tr id="trr"/>');
         let cell = $('<td width="10"></td>');
         row.append(cell);
-        cell = '<td class="align-middle"><img src="../images/book' + book.id + '/' + book.coverImage + '" style="max-width: 60px"></td>' +
-            '<td class="align-middle">' + book.name[currentLang] + ' | ' + book.author[currentLang] + '</td>' +
-            '<td class="align-middle" id="book' + book.id + '">' + book.price + '</td>' +
-            '<td class="align-middle"><div class="product-quantity" >' + items[index].quantity + '</div></td>';
+        cell = `<td class="align-middle"><img src="../images/book${book.id}/${book.coverImage}" style="max-width: 60px"></td>
+            <td class="align-middle">${book.name[currentLang]}|${book.author[currentLang]}</td>
+            <td class="align-middle" id="book${book.id}">${convertPrice(book.price) + currencyIcon}</td>
+            <td class="align-middle"><div class="product-quantity">${items[index].quantity}</div></td>`;
         row.append(cell);
         row.appendTo('#orderTab');
     });
-    $('#subtotal').text(totalPrice);
-    $('#shippingcost').text(order.shippingCost);
-    $('#pricetotal').text((totalPrice + order.shippingCost));
+    let convertShippingCost = order.shippingCost / 100;
+    $('#subtotal').text(totalPrice + currencyIcon);
+    $('#shippingcost').text(convertShippingCost + currencyIcon);
+    $('#pricetotal').text((totalPrice + convertShippingCost) + currencyIcon);
 
     let flat = '';
     if (order.address.flat != "") {
@@ -220,8 +226,6 @@ function showOrderSum() {
     }
     $('#shippingaddress').html(html);
 }
-
-let listOders = '';
 
 async function showListOrders() {
     await fetch("/order/getorders")
@@ -250,10 +254,10 @@ function showCarrentOrder(index) {
         let row = $('<tr id="trr"/>');
         let cell = $('<td width="10"></td>');
         row.append(cell);
-        cell = '<td class="align-middle"><img src="../images/book' + book.id + '/' + book.coverImage + '" style="max-width: 60px"></td>' +
-            '<td class="align-middle">' + book.name[currentLang] + ' | ' + book.author[currentLang] + '</td>' +
-            '<td class="align-middle" id="book' + book.id + '">' + book.price + '</td>' +
-            '<td class="align-middle"><div class="product-quantity" >' + items[index].quantity + '</div></td>';
+        cell = `<td class="align-middle"><img src="../images/book${book.id}/${book.coverImage}" style="max-width: 60px"></td>
+            <td class="align-middle">${book.name[currentLang]} | ${book.author[currentLang]}</td>
+            <td class="align-middle" id="book${book.id}">${convertPrice(book.price) + currencyIcon}</td>
+            <td class="align-middle"><div class="product-quantity">${items[index].quantity}</div></td>`;
         row.append(cell);
         row.appendTo('#ordermodalbody');
     });
@@ -269,10 +273,10 @@ function showCarrentOrder(index) {
     if (address.flat != "") {
         flat = '-' + address.flat;
     }
-    let shipping = $('<p>' + address.firstName + ' ' + address.lastName + '</p>' +
-        '<p>' + address.street + ' ' + address.house + flat + '</p>' +
-        '<p>' + address.postalCode + ' ' + address.city + ' ' + address.state + '</p>' +
-        '<p>' + address.country + '</p>');
+    let shipping = $(`<p>${address.firstName} ${address.lastName}</p>
+        <p>${address.street} ${address.house}${flat}</p>
+        <p>${address.postalCode} ${address.city} ${address.state}</p>
+        <p>${address.country}</p>`);
     shipping.appendTo('#shippingaddressordermodal');
 
 }
