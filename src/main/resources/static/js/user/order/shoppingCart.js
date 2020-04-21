@@ -37,7 +37,7 @@ function getCart() {
                         <td class="align-middle">${book.name[currentLang]} | ${book.author[currentLang]}</td>
                         <td class="align-middle" id="book${book.id}">${convertPrice(book.price) + currencyIcon}</td>
                         <td class="align-middle"><div class="product-quantity"><input id="value${book.id}" type="number" value="${data[index].quantity}" min="1" style="width: 45px" data-id="${book.id}" data-value="${data[index].quantity}"></div></td>
-                        <td class="align-middle"><button class="btn btn-info delete"  style="background-color: #ff4500" data-id="${book.id}">deleteBottom</button></td>`;
+                        <td class="align-middle"><button class="btn btn-info delete"  style="background-color: #ff4500" data-id="${book.id}">${deleteBottom}</button></td>`;
                     row.append(cell);
                     row.appendTo('#newTab');
                     $('#sum').text(totalPrice + currencyIcon);
