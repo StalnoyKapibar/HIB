@@ -60,7 +60,9 @@ function buildPage() {
             for (let key0 of nameVarOfLocaleStringWithId) {
                 document.getElementById(key + key0).value = tmpArr[key][key0];
             }
-        } else {
+        }
+
+        for (let key in tmpArr) {
             if (key === "coverImage") {
                 nameImageCover = tmpArr[key];
                 nameImage = tmpArr[key];
@@ -72,6 +74,7 @@ function buildPage() {
                 listImages = tmpArr[key];
                 buildCarousel();
             }
+
         }
     }
 }
