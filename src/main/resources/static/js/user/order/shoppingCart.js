@@ -31,6 +31,7 @@ function getCart() {
                     let book = data[index].book;
                     price = convertPrice(book.price);
                     totalPrice += (price * data[index].quantity);
+                    totalPrice = Number.parseFloat(totalPrice.toFixed(2));
                     let row = $('<tr id="trr"/>');
                     let cell = $('<td width="10"></td>');
                     row.append(cell);
@@ -38,11 +39,11 @@ function getCart() {
                         <td class="align-middle">${book.name[currentLang]} | ${book.author[currentLang]}</td>
                         <td class="align-middle">${price + currencyIcon}</td>
                         <td hidden id="book${book.id}">${price}</td>
-                        <td class="align-middle"><div class="product-quantity"><input id="value${book.id}" type="number" value="${data[index].quantity}" min="1" style="width: 45px" data-id="${book.id}" data-value="${data[index].quantity}"></div></td>
+                        <td class="align-middle"><div class="product-quantity"><input id="value${book.id}" type="number" value="${data[index].quantity}" min="1" style="width: 55px" data-id="${book.id}" data-value="${data[index].quantity}"></div></td>
                         <td class="align-middle"><button class="btn btn-info delete"  style="background-color: #ff4500" data-id="${book.id}">${deleteBottom}</button></td>`;
                     row.append(cell);
                     row.appendTo('#newTab');
-                    $('#sum').text(totalPrice.toFixed(2) + currencyIcon);
+                    $('#sum').text(totalPrice + currencyIcon);
                 });
             });
     }, 10);
@@ -57,8 +58,9 @@ async function updateQuantity(quatity, id) {
         let oldVal = $('#value' + id).attr('data-value');
         $('#value' + id).attr('data-value', quatity);
         let price = $('#book' + id).text();
-        totalPrice = totalPrice + price * (quatity - oldVal);
-        $('#sum').text(totalPrice.toFixed(2) + currencyIcon);
+        totalPrice += price * (quatity - oldVal);
+        totalPrice = Number.parseFloat(totalPrice.toFixed(2));
+        $('#sum').text(totalPrice + currencyIcon);
     })
 }
 
