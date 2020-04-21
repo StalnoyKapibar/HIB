@@ -2,7 +2,7 @@ var currentLang = '';
 let listOders = '';
 let totalPrice = 0;
 let currencyIcon = ' €';
-let order = '';
+let orderorder = '';
 
 $(document).ready(function () {
     if (currentLang == '') {
@@ -202,10 +202,9 @@ function showOrderSum() {
         row.append(cell);
         row.appendTo('#orderTab');
     });
-    let convertShippingCost = order.shippingCost / 100;
     $('#subtotal').text(totalPrice + currencyIcon);
-    $('#shippingcost').text(convertShippingCost + currencyIcon);
-    $('#pricetotal').text((totalPrice + convertShippingCost) + currencyIcon);
+    $('#shippingcost').text(convertPrice(order.shippingCost) + currencyIcon);
+    $('#pricetotal').text((totalPrice + convertPrice(order.shippingCost)) + currencyIcon);
 
     let flat = '';
     if (order.address.flat != "") {
@@ -268,9 +267,9 @@ function showCarrentOrder(index) {
     $('#modalHeader').text('Order No. ' + order.id);
     $('#ordestatus').text(order.status);
     $('#ordertrack').text(order.trackingNumber);
-    $('#subtotalordermodal').text(order.itemsCost);
-    $('#shippingcostordermodal').text(order.shippingCost);
-    $('#pricetotalordermodal').text((order.itemsCost + order.shippingCost));
+    $('#subtotalordermodal').text(convertPrice(order.itemsCost) + currencyIcon);
+    $('#shippingcostordermodal').text(convertPrice(order.shippingCost) + currencyIcon);
+    $('#pricetotalordermodal').text(convertPrice(order.itemsCost + order.shippingCost) + currencyIcon);
     $('#shippingaddressordermodal').empty();
     let address = order.address;
     let flat = '';
