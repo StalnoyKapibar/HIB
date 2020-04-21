@@ -2,7 +2,7 @@ var currentLang = '';
 let listOders = '';
 let totalPrice = 0;
 let currencyIcon = ' €';
-let orderorder = '';
+let order = '';
 
 $(document).ready(function () {
     if (currentLang == '') {
