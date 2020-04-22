@@ -161,15 +161,17 @@
                             </ul>
                         </div>
                     </li>
-                    <li class="header-menu">
-                        <span>Contact us</span>
-                    </li>
-                    <li>
-                        <a data-target="#feedback-modal" data-toggle="modal" href="">
-                            <i class="far fa-comment-dots"></i>
-                            <span>Ask a question</span>
-                        </a>
-                    </li>
+                    <th:block sec:authorize="!hasRole('ADMIN')">
+                        <li class="header-menu">
+                            <span>Contact us</span>
+                        </li>
+                        <li>
+                            <a data-target="#feedback-modal" data-toggle="modal" href="">
+                                <i class="far fa-comment-dots"></i>
+                                <span>Ask a question</span>
+                            </a>
+                        </li>
+                    </th:block>
                 </ul>
             </div>
             <!-- sidebar-menu  -->
