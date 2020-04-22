@@ -70,8 +70,8 @@
                     <li class="header-menu">
                         <span>General</span>
                     </li>
-                    <li th:classappend="${#httpServletRequest.getRequestURI() == '/' ? 'active' : ''}">
-                        <a href="/">
+                    <li th:classappend="${#httpServletRequest.getRequestURI() == '/home' ? 'active' : ''}">
+                        <a href="/home">
                             <i class="fas fa-book"></i>
                             <span class="menu-text">Main</span>
                         </a>
@@ -192,7 +192,7 @@
     </div>
 
     <!-- page-content  -->
-    <th:block th:if="${#httpServletRequest.getRequestURI() == '/'}">
+    <th:block th:if="${#httpServletRequest.getRequestURI() == '/home'}">
         <th:block th:include="home :: page-content">
         </th:block>
     </th:block>

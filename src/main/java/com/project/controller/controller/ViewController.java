@@ -16,9 +16,14 @@ public class ViewController {
 
     FormLoginErrorMessageService messageService;
 
-    @GetMapping({"/profile/**", "/", "/shopping-cart"})
+    @GetMapping({"/home", "/profile/**", "/shopping-cart"})
     public String getHomePage() {
         return "/user/user";
+    }
+
+    @GetMapping("/")
+    public String redirectToHome() {
+        return "redirect:/home";
     }
 
     @GetMapping("/page/{id}")
