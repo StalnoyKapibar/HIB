@@ -161,6 +161,15 @@
                             </ul>
                         </div>
                     </li>
+                    <li class="header-menu">
+                        <span>Contact us</span>
+                    </li>
+                    <li>
+                        <a data-target="#feedback-modal" data-toggle="modal" href="">
+                            <i class="far fa-comment-dots"></i>
+                            <span>Ask a question</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
             <!-- sidebar-menu  -->
@@ -190,6 +199,44 @@
             </div>
         </div>
     </div>
+
+    <div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="feedback-modal" role="dialog"
+         tabindex="-1">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title contact-us">Contact us</h5>
+                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="feedback-form">
+                        <div class="form-group">
+                            <label class="col-form-label" for="sender-name" id="enter-name">Your name: *</label>
+                            <input class="form-control" id="sender-name" required type="text">
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label" for="sender-email" id="enter-email">Your Email: *</label>
+                            <input class="form-control" id="sender-email" required type="email">
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label" for="sender-message" id="enter-message">Message: *</label>
+                            <textarea class="form-control" id="sender-message" required></textarea>
+                        </div>
+                        <button hidden id="hidden-submit-btn-feedback" type="submit">HiddenButtonToSubmitFeedbackForm
+                        </button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary closeModalBtn" data-dismiss="modal" type="button">Close
+                    </button>
+                    <button class="btn btn-primary" id="send-feedback-request" type="button">Send message</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <!-- page-content  -->
     <th:block th:if="${#httpServletRequest.getRequestURI() == '/home'}">
@@ -226,6 +273,7 @@
 </script>
 <script src="//malihu.github.io/custom-scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
 <script src="/static/js/user/userSidebar.js"></script>
+<script src="/static/js/user/contactForm.js"></script>
 
 </body>
 
