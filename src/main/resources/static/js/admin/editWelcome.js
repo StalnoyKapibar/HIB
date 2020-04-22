@@ -159,15 +159,6 @@ async function pageBook(x) {
     $('#search-admin-local-id').html(idChangeLang);
 }
 
-function buildChangeLang() {
-    getLocales();
-    var htmllang = '';
-    for (var i = 0; i < nameLocalesBooks.length; i++) {
-        var gh = nameLocalesBooks[i];
-        htmllang += `<button type='button' class='btn btn-secondary' onclick='chanLang(${i})'>${gh}</button>`;
-    }
-    $('#chlang1').html(htmllang);
-}
 
 function chanLang(x) {
     idChangeLang = nameVarOfLocaleString[x];
@@ -302,17 +293,10 @@ function buildChangeLang() {
     var htmllang = '';
     for (var i = 0; i < nameVarOfLocaleString.length; i++) {
         var gh = nameVarOfLocaleString[i];
-        htmllang += `<button type='button' class='btn btn-secondary' onclick='chanLang(${i})'>${gh}</button>`;
+        htmllang += ` <a  class='dropdown-item'  onclick='chanLang(${i})'>${gh}</a>`;
     }
     $('#chlang1').html(htmllang);
 }
-
-function chanLang(x) {
-    idChangeLang = nameVarOfLocaleString[x];
-    $('#search-input-admin').val('');
-    pageBook(idPageable);
-}
-
 function openEdit(id) {
     localStorage.setItem('tmpEditBookId', id);
 }
