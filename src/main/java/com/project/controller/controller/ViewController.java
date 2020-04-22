@@ -16,15 +16,15 @@ public class ViewController {
 
     FormLoginErrorMessageService messageService;
 
-    @GetMapping({"/home", "/"})
+    @GetMapping({"/profile/**", "/", "/shopping-cart"})
     public String getHomePage() {
-        return "home";
+        return "/user/user";
     }
 
     @GetMapping("/page/{id}")
     public ModelAndView getPage(@PathVariable("id") long id, ModelAndView modelAndView) {
         modelAndView.addObject("book", id);
-        modelAndView.setViewName("page");
+        modelAndView.setViewName("/user/user");
         return modelAndView;
     }
 

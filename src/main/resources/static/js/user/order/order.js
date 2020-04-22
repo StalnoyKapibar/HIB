@@ -46,12 +46,16 @@ async function saveAddress() {
 }
 
 async function showAddressTab() {
+    let isAuth = false;
     await GET("/api/user/address")
         .then(json)
         .then(resp => {
+            isAuth = true;
             savedAddresses = resp;
+        }, () => {
+            $("#signModal").modal('show');
         });
-
+    if (!isAuth) return;
     for (let address in savedAddresses) {
         let displayString = ``;
         for (let key in savedAddresses[address]) {

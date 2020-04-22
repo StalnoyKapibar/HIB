@@ -17,7 +17,6 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-import org.springframework.security.web.header.HeaderWriterFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 
@@ -61,7 +60,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/admin/**", "/admin", "/api/admin/**")
                 .hasRole("ADMIN");
         //Страницы доступные для юзеров
-        http.authorizeRequests().antMatchers("/user", "/logout", "/cabinet")
+        http.authorizeRequests().antMatchers("/user", "/logout", "/cabinet", "/api/user/**", "/profile/**")
                 .hasRole("USER");
 
         http.formLogin()

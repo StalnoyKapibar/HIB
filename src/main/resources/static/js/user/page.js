@@ -1,4 +1,4 @@
-var currentLang = '';
+var currentLang = 'en';
 let pathImageDefault = '../images/book';
 let objectBook;
 let idCoverImage;
@@ -15,6 +15,7 @@ $(document).ready(function () {
 });
 
 function setPageFields() {
+    console.log(currentLang);
     fetch("/api/book/" + $("#bookid").attr("value") + "?locale=" + currentLang)
         .then(status)
         .then(json).then(function (data) {

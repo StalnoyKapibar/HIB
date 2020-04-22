@@ -6,16 +6,21 @@ $(document).ready(function () {
     getLanguage();
     setLocaleFields();
     openModalLoginWindowOnFailure();
-    getCart();
+    console.log("Hello from document ready")
+    getShoppingCart();
+    showListOrders().then(r => {
+    });
 });
 let totalPrice = 0;
 
-function getCart() {
+function getShoppingCart() {
+    console.log("Lol");
     setTimeout(async function () {
         await fetch("/cart")
             .then(status)
             .then(json)
             .then(function (data) {
+                console.log("Hello from cart");
                 $('#newTab').empty();
                 totalPrice = 0;
                 $('#sum').text(totalPrice);
@@ -59,7 +64,7 @@ $(document).ready(function () {
         fetch('/cart/' + id, {
             method: 'DELETE',
         }).then(function () {
-            getCart();
+            getShoppingCart();
         })
     });
     $("body").on('change', '.product-quantity input', function () {
@@ -145,7 +150,7 @@ function geolocate() {
 let order = '';
 
 function confirmPurchase() {
-    fetch('/order').then(r => getCart());
+    fetch('/order').then(r => getShoppingCart());
     showShoppingCart();
 }
 
