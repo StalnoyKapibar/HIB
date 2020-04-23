@@ -7,29 +7,32 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="/static/css/style.css" rel="stylesheet">
-    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/static/css/bootstrap-social.css" rel="stylesheet"/>
-    <link href="/static/fonts/font-awesome.css" rel="stylesheet">
-    <link href="/static/fonts/font.css" rel="stylesheet">
-    <link href="/static/css/style.css" rel="stylesheet">
-    <link href="/static/css/page.css" rel="stylesheet">
-    <link href="/static/css/themify-icons.css" rel="stylesheet">
-    <script src="/static/js/lib/jquery.min.js"></script>
-    <script src="/static/js/lib/popper.min.js"></script>
-    <script src="/static/js/lib/bootstrap.min.js"></script>
-    <script crossorigin="anonymous" src="https://kit.fontawesome.com/db08edad0b.js"></script>
+
     <title></title>
 </head>
 <body>
 
 <div class="d-flex">
-    <header th:replace="home :: nav-bar"></header>
+    <header th:replace="home-old :: nav-bar"></header>
 
     <!--    page container    -->
-    <div class="container page-content">
+    <div class="container page-content" th:fragment="book-page">
+        <link href="/static/css/style.css" rel="stylesheet">
+        <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/static/css/bootstrap-social.css" rel="stylesheet"/>
+        <link href="/static/fonts/font-awesome.css" rel="stylesheet">
+        <link href="/static/fonts/font.css" rel="stylesheet">
+        <link href="/static/css/style.css" rel="stylesheet">
+        <link href="/static/css/page.css" rel="stylesheet">
+        <link href="/static/css/themify-icons.css" rel="stylesheet">
+        <script src="/static/js/lib/jquery.min.js"></script>
+        <script src="/static/js/lib/popper.min.js"></script>
+        <script src="/static/js/lib/bootstrap.min.js"></script>
+        <script crossorigin="anonymous" src="https://kit.fontawesome.com/db08edad0b.js"></script>
         <br>
-        <div class="book-background w-auto p-3 ">
+        <br>
+        <br>
+        <div class="book-background w-auto p-3">
             <div class="container">
                 <div class="row">
                     <div class="col-3 h-100">
@@ -113,24 +116,25 @@
                     </div>
                 </div>
             </div>
+            <a hidden id="bookid" th:value="${book}"></a>
         </div>
         <!--        footer       -->
-        <div class="footer pt-3 p-0 container-fluid text-center" th:replace="home :: footer">
-
+        <div class="footer pt-3 p-0 container-fluid text-center" th:replace="home-old :: footer">
         </div>
+        <script src="/static/js/utils/common-function.js"></script>
+        <script src="/static/js/user/page.js"></script>
+        <script src="/static/js/footerBuilder.js"></script>
     </div>
+
 </div>
 
-<a id="bookid" th:value="${book}" hidden></a>
 
-<div th:replace="home :: sign-in-modal" class="modal fade" id="signModal" tabindex="-1" role="dialog"
+<div class="modal fade" id="signModal" role="dialog" tabindex="-1" th:replace="home-old :: sign-in-modal"
      aria-labelledby="exampleModalLabel">
 </div>
 
-<div th:replace="home :: contact-button"></div>
+<div th:replace="home-old :: contact-button"></div>
 
-<script src="/static/js/utils/common-function.js"></script>
-<script src="/static/js/user/page.js"></script>
-<script src="/static/js/footerBuilder.js"></script>
+
 </body>
 </html>

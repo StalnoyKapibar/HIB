@@ -11,7 +11,7 @@
     <script crossorigin="anonymous" src="https://kit.fontawesome.com/db08edad0b.js"></script>
 </head>
 <body>
-<nav th:replace="home :: nav-bar"></nav>
+<nav th:replace="home-old :: nav-bar"></nav>
 <div class="container-fluid">
     <div class="row">
         <nav class="col-md-2 d-none d-md-block bg-light sidebar">
@@ -48,12 +48,117 @@
 <div class="tab-content" id="myTabContent">
     <div class="tab-pane fade show active" id="MyProfile" role="tabpanel" aria-labelledby="MyProfile-tab">
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2">My profile</h1>
+            <div class="my-profile-container">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom" style="margin-bottom: 0 !important">
+                    <div class="col-md-12 my-profile-name">
+                        <h1 class="h2" id="profile-name">User</h1>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <div class="col-md-3">
+                        <div class="my-profile-data">
+                            <h3 class="h5" id="profile-orders">##</h3>
+                            <h3 class="h5">Orders</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="my-profile-data">
+                            <h3 class="h5" id="profile-in-progress">##</h3>
+                            <h3 class="h5">In progress</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="my-profile-data">
+                            <h3 class="h5" id="profile-delivered">##</h3>
+                            <h3 class="h5">Delivered</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="my-profile-data" id="last-cell">
+                            <h3 class="h5" id="profile-bucket">##</h3>
+                            <h3 class="h5">Shopping cart</h3>
+                        </div>
+                    </div>
+                </div>
             </div>
         </main>
     </div>
-    <div class="tab-pane fade" id="Orders" role="tabpanel" aria-labelledby="Orders-tab">
+    <div aria-labelledby="Orders-tab" class="tab-pane fade" id="Orders" role="tabpanel" th:fragment="orders">
+        <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+              integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" rel="stylesheet">
+        <link href="css/style.css" rel="stylesheet" type="text/css">
+        <link href="/static/fonts/font.css" rel="stylesheet">
+        <link href="css/cabinet.css" rel="stylesheet" type="text/css">
+        <script crossorigin="anonymous" src="https://kit.fontawesome.com/db08edad0b.js"></script>
+        <div aria-hidden="true" aria-labelledby="myLargeModalLabel" class="modal fade" id="ordermodal"
+             role="dialog" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered modal-lg " role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id='modalHeader'>Заказ номер 1</h5>
+                        <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="modalBody">
+                        <table class="table table-sm table-sm bg-white">
+                            <h5 class="align-content-center mt-2">YOUR PURCHASES</h5>
+                            <thead>
+                            <tr height="50">
+                                <th width="10"></th>
+                                <th></th>
+                                <th>Items</th>
+                                <th>Unit price</th>
+                                <th>Quantity</th>
+                            </tr>
+                            </thead>
+                            <tbody id='ordermodalbody'>
+                            </tbody>
+                            <tbody>
+                            <tr>
+                            </tr>
+                            <tr>
+                            <tr height="50">
+                                <th width="10"></th>
+                                <th></th>
+                                <th></th>
+                                <th>
+                                    <a>Subtotal:</a>
+                                    <p>Shipping cost:</p>
+                                </th>
+                                <th>
+                                    <a id="subtotalordermodal"></a>
+                                    <p id="shippingcostordermodal"></p>
+                                </th>
+                            </tr>
+                            <tr>
+                            <tr height="50">
+                                <th width="10"></th>
+                                <th></th>
+                                <th></th>
+                                <th>Total price:</th>
+                                <th id="pricetotalordermodal"></th>
+                            </tr>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <h6 class="mt-1">Delivery address:</h6>
+                        <div id="shippingaddressordermodal" style="line-height: 2.5px; font-size: large"></div>
+                        </table>
+                        <div class="mt-1"><h6>Order status:</h6>
+                            <p id="ordestatus"></p>
+                            <p id="ordertrack"></p></div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-ifno" data-dismiss="modal" id="modalClose"
+                                style="background-color: #f5f5f5"
+                                type="button">Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
             <h1 class="align-content-center mt-3">Orders</h1>
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -72,8 +177,32 @@
                 </table>
             </div>
         </main>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+        <script crossorigin="anonymous"
+                integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+                src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+        <script crossorigin="anonymous"
+                integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+                src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+        <script crossorigin="anonymous"
+                integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+                src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+        <script src="/static/js/main.js"></script>
+        <script src="/static/js/user/order/order.js"></script>
+        <script src="/static/js/user/profile/profile.js"></script>
+        <script src="/static/js/user/order/shoppingCart.js"></script>
+        <script src="/static/js/utils/common-function.js"></script>
+        <script src="/static/js/user/home.js"></script>
     </div>
-    <div class="tab-pane fade" id="SettingsProfile" role="tabpanel" aria-labelledby="SettingsProfile-tab">
+    <div aria-labelledby="SettingsProfile-tab"
+         class="tab-pane fade" id="SettingsProfile" role="tabpanel" th:fragment="settings">
+        <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+              integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" rel="stylesheet">
+        <link href="css/style.css" rel="stylesheet" type="text/css">
+        <link href="/static/fonts/font.css" rel="stylesheet">
+        <link href="css/cabinet.css" rel="stylesheet" type="text/css">
+        <script crossorigin="anonymous" src="https://kit.fontawesome.com/db08edad0b.js"></script>
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h1 class="h2">Settings Profile</h1>
@@ -139,13 +268,46 @@
                 </div>
             </div>
         </main>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+        <script crossorigin="anonymous"
+                integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+                src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+        <script crossorigin="anonymous"
+                integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+                src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+        <script crossorigin="anonymous"
+                integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+                src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+        <script src="/static/js/main.js"></script>
+        <script src="/static/js/user/order/order.js"></script>
+        <script src="/static/js/user/profile/profile.js"></script>
+        <script src="/static/js/user/order/shoppingCart.js"></script>
+        <script src="/static/js/utils/common-function.js"></script>
+        <script src="/static/js/user/home.js"></script>
     </div>
-    <div class="tab-pane fade" id="Basket" role="tabpanel" aria-labelledby="Basket-tab">
+    <div aria-labelledby="Basket-tab"
+         class="tab-pane fade" id="Basket" role="tabpanel" th:fragment="shopping-cart">
+        <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+              integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" rel="stylesheet">
+        <link href="css/style.css" rel="stylesheet" type="text/css">
+        <link href="/static/fonts/font.css" rel="stylesheet">
+        <link href="css/cabinet.css" rel="stylesheet" type="text/css">
+        <script crossorigin="anonymous" src="https://kit.fontawesome.com/db08edad0b.js"></script>
+        <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/static/css/themify-icons.css" rel="stylesheet">
+        <link href="/static/css/bootstrap-social.css" rel="stylesheet"/>
+        <link href="/static/fonts/font.css" rel="stylesheet">
+        <link href="/static/fonts/font-awesome.css" rel="stylesheet">
+        <link href="/static/css/style.css" rel="stylesheet">
+        <script src="/static/js/lib/jquery.min.js"></script>
+        <script src="/static/js/lib/popper.min.js"></script>
+        <script src="/static/js/lib/bootstrap.min.js"></script>
         <br>
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
             <div class="alert alert-warning alert-dismissible fade" id="saveAddressAlert" role="alert">
                 <strong>Would you like to save the address?</strong>
-                <button class=" col-2 btn btn-success btn-metro offset-8" onclick="saveAddress()">Save</button>
+                <button class=" col-2 btn btn-success btn-metro offset-7" onclick="saveAddress()">Save</button>
                 <button aria-label="Close" class="close" data-dismiss="alert" type="button">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -353,83 +515,23 @@
                 </div>
             </div>
         </main>
-    </div>
-</div>
-<div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog"
-     aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-body">
-            <div class="alert alert-success" role="alert" id="idMessagesSuccess">
-            </div>
-        </div>
-    </div>
-</div>
-<div id="ordermodal" class="modal fade" tabindex="-1" role="dialog"
-     aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg " role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id='modalHeader'>Заказ номер 1</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div id="modalBody" class="modal-body">
-                <table class="table table-sm table-sm bg-white">
-                    <h5 class="align-content-center mt-2">YOUR PURCHASES</h5>
-                    <thead>
-                    <tr height="50">
-                        <th width="10"></th>
-                        <th></th>
-                        <th>Items</th>
-                        <th>Unit price</th>
-                        <th>Quantity</th>
-                    </tr>
-                    </thead>
-                    <tbody id='ordermodalbody'>
-                    </tbody>
-                    <tbody>
-                    <tr>
-                    </tr>
-                    <tr>
-                    <tr height="50">
-                        <th width="10"></th>
-                        <th></th>
-                        <th></th>
-                        <th>
-                            <a>Subtotal:</a>
-                            <p>Shipping cost:</p>
-                        </th>
-                        <th>
-                            <a id="subtotalordermodal"></a>
-                            <p id="shippingcostordermodal"></p>
-                        </th>
-                    </tr>
-                    <tr>
-                    <tr height="50">
-                        <th width="10"></th>
-                        <th></th>
-                        <th></th>
-                        <th>Total price:</th>
-                        <th id="pricetotalordermodal"></th>
-                    </tr>
-                    </tr>
-                    </tbody>
-                </table>
-                <h6 class="mt-1">Delivery address:</h6>
-                <div id="shippingaddressordermodal" style="line-height: 2.5px; font-size: large"></div>
-                </table>
-                <div class="mt-1"><h6>Order status:</h6>
-                    <p id="ordestatus"></p>
-                    <p id="ordertrack"></p></div>
-
-            </div>
-            <div class="modal-footer">
-                <button id="modalClose" type="button" class="btn btn-ifno" data-dismiss="modal"
-                        style="background-color: #f5f5f5">Close
-                </button>
-            </div>
-        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+        <script crossorigin="anonymous"
+                integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+                src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+        <script crossorigin="anonymous"
+                integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+                src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+        <script crossorigin="anonymous"
+                integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+                src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+        <script src="/static/js/main.js"></script>
+        <script src="/static/js/user/order/order.js"></script>
+        <script src="/static/js/user/profile/profile.js"></script>
+        <script src="/static/js/user/order/shoppingCart.js"></script>
+        <script src="/static/js/utils/common-function.js"></script>
+        <script src="/static/js/user/home.js"></script>
     </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
@@ -446,6 +548,7 @@
 <script src="/static/js/main.js"></script>
 <script src="/static/js/user/order/order.js"></script>
 <script src="/static/js/user/profile/profile.js"></script>
+<script src="/static/js/user/profile/orderStates.js"></script>
 <script src="/static/js/user/order/shoppingCart.js"></script>
 <script src="/static/js/utils/common-function.js"></script>
 <script th:attr="src=*{key}" async defer></script>

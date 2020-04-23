@@ -1,20 +1,25 @@
-var currentLang = '';
+var currentLang = 'en';
 let pathImageDefault = '../images/book';
 let objectBook;
 let idCoverImage;
 let tmpEditBookId;
 
 $(document).ready(function () {
-    if (currentLang == '') {
-        currentLang = $('#dd_menu_link').data('currentLang');
-    }
+
     getLanguage();
     setLocaleFields();
     setPageFields();
     showSizeCart();
 });
 
+function getCookie(name) {
+    let value = "; " + document.cookie;
+    let parts = value.split("; " + name + "=");
+    if (parts.length === 2) return parts.pop().split(";").shift();
+}
+
 function setPageFields() {
+    console.log(currentLang);
     fetch("/api/book/" + $("#bookid").attr("value") + "?locale=" + currentLang)
         .then(status)
         .then(json).then(function (data) {
@@ -29,16 +34,13 @@ function setPageFields() {
         $("#book-original-language").text(data.originalLanguage);
         $("#book-amount-of-pages").text(data.pages);
         $("#book-year-of-edition").text(data.yearOfEdition);
-        $("#book-price").text(convertPrice(data.price) + " $");
+        $("#book-price").text(convertPrice(data.price) + ' €');
         buildCardImageOrCarousel();
     })
 }
 
-//TODO: Демонстрационная функция
 function convertPrice(price) {
-    price = price.toString();
-    let lastTwoNum = price.substr(price.length - 2, 2);
-    return price.substr(0, price.indexOf(lastTwoNum)) + '.' + lastTwoNum;
+    return price/100;
 }
 
 function buildCarousel() {

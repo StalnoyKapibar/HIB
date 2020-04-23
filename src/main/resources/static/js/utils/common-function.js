@@ -2,6 +2,17 @@ var currentLang = '';
 var bottom = '';
 var addToshoppingCart = '';
 var deleteBottom = '';
+
+$(document).ready(function () {
+    if (currentLang === '') {
+        if (getCookieByName("lang")) {
+            currentLang = getCookieByName("lang");
+        } else {
+            currentLang = 'en';
+        }
+    }
+})
+
 function sendSignInForm() {
     $('#hidden_submit_btn').click();
 }
@@ -71,16 +82,9 @@ function setLocaleFields() {
 }
 
 //function for chose language
-function buildLangPanel(x) {
-    let selectedLang = x;
-    fetch("/lang/" + selectedLang)
-        .then(status)
-        .then(text)
-        .then(function (data) {
-            currentLang = selectedLang;
-            //TODO some logic to processing data and reload page with chosen lang
-            window.location.reload();
-        });
+function chooseLanguage(lang) {
+    document.cookie = `lang=${lang}; path=/`;
+    window.location.reload();
 }
 
 function getLanguage() {
@@ -110,21 +114,24 @@ function getLanguage() {
         .then(function (listOfLanguage) {
             var currentLangFull = '';
             var html = '';
-            for (language in listOfLanguage) {
-                if (currentLang == (listOfLanguage[language])) {
+            for (let language in listOfLanguage) {
+                if (currentLang === (listOfLanguage[language])) {
                     continue;
                 }
                 currentLangFull = getFullNameOfLanguage(listOfLanguage[language]);
-                html += `<a class="dropdown-item lang" onclick="buildLangPanel('${listOfLanguage[language]}')" id="${listOfLanguage[language]}">
-                            <img src="../static/icons/${listOfLanguage[language]}.png" 
-                                alt="" height="16" width="16" class="lang-image"> - ${currentLangFull}
-                         </a>`;
+                html += `<li>
+                             <a onclick="chooseLanguage('${listOfLanguage[language]}')">${currentLangFull}</a>
+                        </li>`
+                // html += `<a class="dropdown-item lang" onclick="chooseLanguage('${listOfLanguage[language]}')" id="${listOfLanguage[language]}">
+                //             <img src="../static/icons/${listOfLanguage[language]}.png"
+                //                 alt="" height="16" width="16" class="lang-image"> - ${currentLangFull}
+                //          </a>`;
             }
-            $('#dd_menu').html(html);
-            $('#dd_menu_link').text(currentLang);
-            $('#dd_menu_link').empty();
-            $('#dd_menu_link').html(`<img src="../static/icons/${currentLang}.png"
-                                alt="" height="20" width="16" class="lang-image">`);
+            $('#sidebarLanguages').html(html);
+            // $('#dd_menu_link').text(currentLang);
+            // $('#dd_menu_link').empty();
+            // $('#dd_menu_link').html(`<img src="../static/icons/${currentLang}.png"
+            //                     alt="" height="20" width="16" class="lang-image">`);
         })
 }
 
@@ -161,14 +168,6 @@ $(function ($) {
     });
 });
 
-// For smooth closing of header in mobile view when we click 'Category'
-$('#menu-toggle').click(function (e) {
-    var navbar = $('#navbarCollapse');
-    if (navbar.hasClass('show')) {
-        $('#toggleBtn').click();
-    }
-});
-
 function status(response) {
     if (response.status >= 200 && response.status < 300) {
         return Promise.resolve(response)
@@ -187,6 +186,6 @@ function text(response) {
 
 function setCurrentPageToCookie() {
     let cookie = 'CURRENT_PAGE =' + window.location.pathname + ';' +
-    'path = /; max-age = 60';
+        'path = /; max-age = 60';
     document.cookie = cookie;
 }
