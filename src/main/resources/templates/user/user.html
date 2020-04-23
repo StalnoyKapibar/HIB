@@ -1,8 +1,7 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
-      xmlns:th="http://www.thymeleaf.org">
-
+<html
+        xmlns=""
+        xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
@@ -19,8 +18,17 @@
     <link href="/static/css/user/sidebar/main.css" rel="stylesheet">
     <link href="/static/css/style.css" rel="stylesheet">
     <link href="/static/css/user/sidebar/sidebar-themes.css" rel="stylesheet">
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/themify-icons.css" rel="stylesheet">
+    <link href="/static/css/bootstrap-social.css" rel="stylesheet"/>
+    <link href="/static/fonts/font.css" rel="stylesheet">
+    <link href="/static/fonts/font-awesome.css" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet">
+    <script src="/static/js/lib/jquery.min.js"></script>
+    <script src="/static/js/lib/popper.min.js"></script>
+    <script src="/static/js/lib/bootstrap.min.js"></script>
+    <script crossorigin="anonymous" src="https://kit.fontawesome.com/db08edad0b.js"></script>
 </head>
-
 <body>
 <div class="page-wrapper default-theme sidebar-bg bg1 toggled">
     <nav class="sidebar-wrapper" id="sidebar">
@@ -55,9 +63,9 @@
             <div class="sidebar-item sidebar-search">
                 <div>
                     <div class="input-group">
-                        <input class="form-control search-menu" placeholder="Search..." type="text">
+                        <input class="form-control search-menu" id="searchInput" placeholder="Search..." type="text">
                         <div class="input-group-append">
-                                <span class="input-group-text">
+                                <span class="input-group-text" id="searchIcon">
                                     <i aria-hidden="true" class="fa fa-search"></i>
                                 </span>
                         </div>
@@ -116,7 +124,7 @@
                             <a href="/shopping-cart">
                                 <i class="fa fa-shopping-cart"></i>
                                 <span class="menu-text">Shopping cart</span>
-                                <span class="badge badge-pill badge-danger" id="bucketIn">0</span>
+                                <span class="badge badge-pill badge-danger" id="bucketIn"></span>
                             </a>
                         </li>
                     </th:block>
@@ -239,9 +247,81 @@
         </div>
     </div>
 
+    <div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="signModal" role="dialog"
+         tabindex="-1"
+         th:fragment="sign-in-modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header mx-3">
+                    <h5 class="header-title-sign-in mb-0" id="exampleModalLabel">Sign in</h5>
+                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body mx-lg-2 mx-sm-1">
+                    <form action="/login" id="form-login" method="post" name="form-login" role="form"
+                          th:action="@{/login}">
+                        <div class="form-group">
+                            <label for="loginInput">Login</label>
+                            <input class="form-control" id="loginInput" name="username" onkeyup="checkParams()"
+                                   placeholder="Login"
+                                   required type="text">
+                        </div>
+                        <div class="form-group">
+                            <label for="passwordInput">Password</label>
+                            <input class="form-control" id="passwordInput" name="password" onkeyup="checkParams()"
+                                   placeholder="Password" required type="password">
+                        </div>
+                        <div class="custom-control custom-checkbox mb-4">
+                            <input class="custom-control-input" id="checkboxRememberMe" type="checkbox">
+                            <label class="custom-control-label" for="checkboxRememberMe">Remember me</label>
+                            <button class="btn btn-primary btn-block col-6 pull-right mr-1" hidden="hidden"
+                                    id="sign_in_btn"
+                                    onclick="sendSignInForm()" type="button">Sign in
+                            </button>
+                        </div>
+                        <button hidden id="hidden_submit_btn" type="submit">HiddenButtonToSubmitLoginForm</button>
+                    </form>
+                    <div class="row px-3" th:if="${errorMessage}!=null">
+                        <!--/*@thymesVar id="getMessage" type="com.project.model.FormLoginErrorMessageDTO"*/-->
+                        <h5 class="col-12 p-3 rounded text-center alert-danger" id="errorMessage"
+                            th:if="${errorMessage.isHasError()}" th:text="${errorMessage.getMessage()}"></h5>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-sm-12 pr-lg-1 mt-1">
+                            <a class="btn btn-block btn-social btn-google text-white"
+                               th:href="@{/oauth2/authorize/google}">
+                                <span class="fa fa-google mr-2"></span>Sign up with Google
+                            </a>
+                        </div>
+                        <div class="col-lg-6 col-sm-12 pl-lg-1 mt-1">
+                            <a class="btn btn-block btn-social btn-facebook text-white"
+                               th:href="@{/oauth2/authorize/facebook}">
+                                <span class="fa fa-facebook-f"></span>Sign up with Facebook
+                            </a>
+                        </div>
+                    </div>
+                    <div>
+
+                    </div>
+                    <div class="modal-footer mt-3">
+                        <a class="btn col-12 border mt-3" href="/registration" role="button"
+                           style="background-color: #AEC5EB">Register new
+                            profile</a>
+                        <button class="btn btn-warning col-12 border mt-3" onclick="forgotPassword()"
+                                style="background-color: #E9AFA3"
+                                type="button">Forgot
+                            your password ?
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- page-content  -->
-    <th:block th:if="${#httpServletRequest.getRequestURI() == '/home'}">
+    <th:block
+            th:if="${#httpServletRequest.getRequestURI() == '/home' || #httpServletRequest.getRequestURI().contains('error')}">
         <th:block th:include="home :: page-content">
         </th:block>
     </th:block>
@@ -276,6 +356,16 @@
 <script src="//malihu.github.io/custom-scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
 <script src="/static/js/user/userSidebar.js"></script>
 <script src="/static/js/user/contactForm.js"></script>
+<script crossorigin="anonymous" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+<script crossorigin="anonymous" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script crossorigin="anonymous" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="/static/js/main.js"></script>
+<script src="/static/js/footerBuilder.js"></script>
+<script src="/static/js/utils/common-function.js"></script>
+<script src="/static/js/user/home.js"></script>
 
 </body>
 

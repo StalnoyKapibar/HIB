@@ -1,13 +1,11 @@
-var currentLang = 'en';
+var currentLang = '';
 var bottom = '';
 var addToshoppingCart = '';
 var deleteBottom = '';
 let welcomeBlock = $("#welcome");
 
 $(document).ready(function () {
-    if (currentLang === '') {
-        currentLang = $('#dd_menu_link').data('currentLang');
-    }
+
     getLanguage();
     setLocaleFields();
     buildPageByCurrentLang();
