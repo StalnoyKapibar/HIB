@@ -5,14 +5,18 @@ let idCoverImage;
 let tmpEditBookId;
 
 $(document).ready(function () {
-    if (currentLang == '') {
-        currentLang = $('#dd_menu_link').data('currentLang');
-    }
+
     getLanguage();
     setLocaleFields();
     setPageFields();
     showSizeCart();
 });
+
+function getCookie(name) {
+    let value = "; " + document.cookie;
+    let parts = value.split("; " + name + "=");
+    if (parts.length === 2) return parts.pop().split(";").shift();
+}
 
 function setPageFields() {
     console.log(currentLang);

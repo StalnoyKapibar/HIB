@@ -6,7 +6,6 @@ $(document).ready(function () {
     getLanguage();
     setLocaleFields();
     openModalLoginWindowOnFailure();
-    console.log("Hello from document ready")
     getShoppingCart();
     showListOrders().then(r => {
     });
@@ -14,13 +13,11 @@ $(document).ready(function () {
 let totalPrice = 0;
 
 function getShoppingCart() {
-    console.log("Lol");
     setTimeout(async function () {
         await fetch("/cart")
             .then(status)
             .then(json)
             .then(function (data) {
-                console.log("Hello from cart");
                 $('#newTab').empty();
                 totalPrice = 0;
                 $('#sum').text(totalPrice);
