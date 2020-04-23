@@ -48,8 +48,38 @@
 <div class="tab-content" id="myTabContent">
     <div class="tab-pane fade show active" id="MyProfile" role="tabpanel" aria-labelledby="MyProfile-tab">
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2">My profile</h1>
+            <div class="my-profile-container">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom" style="margin-bottom: 0 !important">
+                    <div class="col-md-12 my-profile-name">
+                        <h1 class="h2" id="profile-name">User</h1>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <div class="col-md-3">
+                        <div class="my-profile-data">
+                            <h3 class="h5" id="profile-orders">##</h3>
+                            <h3 class="h5">Orders</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="my-profile-data">
+                            <h3 class="h5" id="profile-in-progress">##</h3>
+                            <h3 class="h5">In progress</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="my-profile-data">
+                            <h3 class="h5" id="profile-delivered">##</h3>
+                            <h3 class="h5">Delivered</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="my-profile-data" id="last-cell">
+                            <h3 class="h5" id="profile-bucket">##</h3>
+                            <h3 class="h5">Shopping cart</h3>
+                        </div>
+                    </div>
+                </div>
             </div>
         </main>
     </div>
@@ -518,6 +548,7 @@
 <script src="/static/js/main.js"></script>
 <script src="/static/js/user/order/order.js"></script>
 <script src="/static/js/user/profile/profile.js"></script>
+<script src="/static/js/user/profile/orderStates.js"></script>
 <script src="/static/js/user/order/shoppingCart.js"></script>
 <script src="/static/js/utils/common-function.js"></script>
 <script th:attr="src=*{key}" async defer></script>

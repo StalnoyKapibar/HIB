@@ -80,6 +80,25 @@ body {
   }
 }
 
+.my-profile-container {
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 10px 0px;
+  background-color: white;
+}
+
+.my-profile-data {
+  border-right: 1px solid #dee2e6;
+  text-align: center;
+}
+
+#last-cell {
+  border-right: none;
+  text-align: center;
+}
+
+.my-profile-data h3 {
+  text-align: center;
+}
+
 /*
  * Navbar
  */
