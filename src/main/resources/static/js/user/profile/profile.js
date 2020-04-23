@@ -11,10 +11,12 @@ function showShoppingCart() {
     $('#cartTab a[href="#home"]').tab('show');
 }
 
-$(document).ready(getAU());
+$(document).ready(function () {
+    getAU().then(setFieldsChangePersonalInformation)
+});
 
-function getAU() {
-    GET("/api/current-user")
+async function getAU() {
+    await GET("/api/current-user")
         .then(status)
         .then(json)
         .then(function (resp) {
@@ -29,6 +31,7 @@ function setFieldsChangePersonalInformation() {
 }
 
 function savePersonalInformation() {
+    console.log("Hello");
     let email = $('#fieldEmail').val();
     let firstName = $('#fieldFirstName').val();
     let lastName = $('#fieldLastName').val();

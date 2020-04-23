@@ -1,4 +1,4 @@
-var currentLang = '';
+var currentLang = 'en';
 var bottom = '';
 var addToshoppingCart = '';
 var deleteBottom = '';
@@ -79,7 +79,7 @@ function buildLangPanel(x) {
         .then(function (data) {
             currentLang = selectedLang;
             //TODO some logic to processing data and reload page with chosen lang
-            window.location.reload();
+            // window.location.reload();
         });
 }
 
@@ -110,21 +110,24 @@ function getLanguage() {
         .then(function (listOfLanguage) {
             var currentLangFull = '';
             var html = '';
-            for (language in listOfLanguage) {
-                if (currentLang == (listOfLanguage[language])) {
+            for (let language in listOfLanguage) {
+                if (currentLang === (listOfLanguage[language])) {
                     continue;
                 }
                 currentLangFull = getFullNameOfLanguage(listOfLanguage[language]);
-                html += `<a class="dropdown-item lang" onclick="buildLangPanel('${listOfLanguage[language]}')" id="${listOfLanguage[language]}">
-                            <img src="../static/icons/${listOfLanguage[language]}.png" 
-                                alt="" height="16" width="16" class="lang-image"> - ${currentLangFull}
-                         </a>`;
+                html += `<li>
+                             <a onclick="buildLangPanel('${listOfLanguage[language]}')">${currentLangFull}</a>
+                        </li>`
+                // html += `<a class="dropdown-item lang" onclick="buildLangPanel('${listOfLanguage[language]}')" id="${listOfLanguage[language]}">
+                //             <img src="../static/icons/${listOfLanguage[language]}.png"
+                //                 alt="" height="16" width="16" class="lang-image"> - ${currentLangFull}
+                //          </a>`;
             }
-            $('#dd_menu').html(html);
-            $('#dd_menu_link').text(currentLang);
-            $('#dd_menu_link').empty();
-            $('#dd_menu_link').html(`<img src="../static/icons/${currentLang}.png"
-                                alt="" height="20" width="16" class="lang-image">`);
+            $('#sidebarLanguages').html(html);
+            // $('#dd_menu_link').text(currentLang);
+            // $('#dd_menu_link').empty();
+            // $('#dd_menu_link').html(`<img src="../static/icons/${currentLang}.png"
+            //                     alt="" height="20" width="16" class="lang-image">`);
         })
 }
 
@@ -159,14 +162,6 @@ $(function ($) {
             $('#toggleBtn').click();
         }
     });
-});
-
-// For smooth closing of header in mobile view when we click 'Category'
-$('#menu-toggle').click(function (e) {
-    var navbar = $('#navbarCollapse');
-    if (navbar.hasClass('show')) {
-        $('#toggleBtn').click();
-    }
 });
 
 function status(response) {

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <meta content="Responsive sidebar template with sliding effect and dropdown menu based on bootstrap 3"
+          name="description">
+    <title>History in books</title>
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" rel="stylesheet">
+    <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+          integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" rel="stylesheet">
+    <link href="//malihu.github.io/custom-scrollbar/jquery.mCustomScrollbar.min.css" rel="stylesheet">
+
+    <link href="/static/css/user/sidebar/main.css" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet">
+    <link href="/static/css/user/sidebar/sidebar-themes.css" rel="stylesheet">
+</head>
+
+<body>
+<div class="page-wrapper default-theme sidebar-bg bg1 toggled">
+    <nav class="sidebar-wrapper" id="sidebar">
+        <div class="sidebar-content">
+            <!-- sidebar-brand  -->
+            <div class="sidebar-item sidebar-brand">
+                <a href="#">History in books</a>
+            </div>
+            <!-- sidebar-header  -->
+            <div class="sidebar-item sidebar-header d-flex flex-nowrap">
+                <th:block sec:authorize="!isAuthenticated()">
+                    <button class="btn btn-info btn-metro col-12" data-target="#signModal" data-toggle="modal"
+                            id="signModalBtn"
+                            onclick="setCurrentPageToCookie()" type="button">
+                        <span id="signin_btn_text">Sign In</span>
+                    </button>
+                </th:block>
+                <th:block sec:authorize="isAuthenticated()">
+                    <div class="user-pic">
+                        <img alt="User picture" class="img-responsive img-rounded" src="/static/images/user.jpg">
+                    </div>
+                    <div class="user-info">
+                        <span class="user-name">
+                            <strong th:text="${#authentication.getPrincipal().getUsername()}">Username of user</strong>
+                        </span>
+                        <span class="user-role"
+                              th:text="${#authentication.getPrincipal().getEmail()}">email of user</span>
+                    </div>
+                </th:block>
+            </div>
+            <!-- sidebar-search  -->
+            <div class="sidebar-item sidebar-search">
+                <div>
+                    <div class="input-group">
+                        <input class="form-control search-menu" placeholder="Search..." type="text">
+                        <div class="input-group-append">
+                                <span class="input-group-text">
+                                    <i aria-hidden="true" class="fa fa-search"></i>
+                                </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- sidebar-menu  -->
+            <div class=" sidebar-item sidebar-menu">
+                <ul>
+                    <li class="header-menu">
+                        <span>General</span>
+                    </li>
+                    <li th:classappend="${#httpServletRequest.getRequestURI() == '/home' ? 'active' : ''}">
+                        <a href="/home">
+                            <i class="fas fa-book"></i>
+                            <span class="menu-text">Main</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-dropdown">
+                        <a href="#">
+                            <i class="fas fa-sitemap"></i>
+                            <span class="menu-text">Categories</span>
+                        </a>
+                        <div class="sidebar-submenu">
+                            <ul>
+                                <li>
+                                    <a href="#">Fantasy</a>
+                                </li>
+                                <li>
+                                    <a href="#">History</a>
+                                </li>
+                                <li>
+                                    <a href="#">Children's literature</a>
+                                </li>
+                                <li>
+                                    <a href="#">Dystopia</a>
+                                </li>
+                                <li>
+                                    <a href="#">Post Apocalypse</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <th:block sec:authorize="!hasRole('ADMIN')">
+                        <li class="header-menu">
+                            <span>Profile</span>
+                        </li>
+                        <li sec:authorize="hasRole('USER')"
+                            th:classappend="${#httpServletRequest.getRequestURI() == '/profile/orders' ? 'active' : ''}">
+                            <a href="/profile/orders">
+                                <i class="fas fa-shopping-bag"></i>
+                                <span class="menu-text">My orders</span>
+                            </a>
+                        </li>
+                        <li th:classappend="${#httpServletRequest.getRequestURI() == '/shopping-cart' ? 'active' : ''}">
+                            <a href="/shopping-cart">
+                                <i class="fa fa-shopping-cart"></i>
+                                <span class="menu-text">Shopping cart</span>
+                                <span class="badge badge-pill badge-danger" id="bucketIn">0</span>
+                            </a>
+                        </li>
+                    </th:block>
+                    <th:block sec:authorize="hasRole('ADMIN')">
+                        <li class="header-menu">
+                            <span>Admin</span>
+                        </li>
+                        <li>
+                            <a href="/admin/panel/books">
+                                <i class="fas fa-users-cog"></i>
+                                <span class="menu-text">Admin panel</span>
+                            </a>
+                        </li>
+                    </th:block>
+                    <li class="header-menu">
+                        <span>Settings</span>
+                    </li>
+                    <th:block sec:authorize="hasRole('USER')">
+                        <li th:classappend="${#httpServletRequest.getRequestURI() == '/profile/settings' ? 'active' : ''}">
+                            <a href="/profile/settings">
+                                <i class="fas fa-user-cog"></i>
+                                <span class="menu-text">Account settings</span>
+                            </a>
+                        </li>
+                    </th:block>
+                    <li class="sidebar-dropdown">
+                        <a href="#">
+                            <i class="fas fa-language"></i>
+                            <span class="menu-text">Language</span>
+                        </a>
+                        <div class="sidebar-submenu">
+                            <ul id="sidebarLanguages">
+                                <!--                                <li>-->
+                                <!--                                    <a href="#">Russian</a>-->
+                                <!--                                </li>-->
+                                <!--                                <li>-->
+                                <!--                                    <a href="#">English</a>-->
+                                <!--                                </li>-->
+                                <!--                                <li>-->
+                                <!--                                    <a href="#">Italian</a>-->
+                                <!--                                </li>-->
+                            </ul>
+                        </div>
+                    </li>
+                    <th:block sec:authorize="!hasRole('ADMIN')">
+                        <li class="header-menu">
+                            <span>Contact us</span>
+                        </li>
+                        <li>
+                            <a data-target="#feedback-modal" data-toggle="modal" href="">
+                                <i class="far fa-comment-dots"></i>
+                                <span>Ask a question</span>
+                            </a>
+                        </li>
+                    </th:block>
+                </ul>
+            </div>
+            <!-- sidebar-menu  -->
+        </div>
+        <!-- sidebar-footer  -->
+        <div class="sidebar-footer">
+            <div sec:authorize="isAuthenticated()">
+                <a href="/logout">
+                    <i class="fa fa-power-off"></i>
+                </a>
+            </div>
+            <div class="pinned-footer">
+                <a href="#">
+                    <i class="fas fa-ellipsis-h"></i>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div aria-hidden="true" aria-labelledby="staticBackdropLabel" class="modal fade" data-backdrop="static"
+         id="staticBackdrop"
+         role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-body">
+                <div class="alert alert-success" id="idMessagesSuccess" role="alert">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="feedback-modal" role="dialog"
+         tabindex="-1">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title contact-us">Contact us</h5>
+                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="feedback-form">
+                        <div class="form-group">
+                            <label class="col-form-label" for="sender-name" id="enter-name">Your name: *</label>
+                            <input class="form-control" id="sender-name" required type="text">
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label" for="sender-email" id="enter-email">Your Email: *</label>
+                            <input class="form-control" id="sender-email" required type="email">
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label" for="sender-message" id="enter-message">Message: *</label>
+                            <textarea class="form-control" id="sender-message" required></textarea>
+                        </div>
+                        <button hidden id="hidden-submit-btn-feedback" type="submit">HiddenButtonToSubmitFeedbackForm
+                        </button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary closeModalBtn" data-dismiss="modal" type="button">Close
+                    </button>
+                    <button class="btn btn-primary" id="send-feedback-request" type="button">Send message</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- page-content  -->
+    <th:block th:if="${#httpServletRequest.getRequestURI() == '/home'}">
+        <th:block th:include="home :: page-content">
+        </th:block>
+    </th:block>
+    <th:block th:if="${#httpServletRequest.getRequestURI() == '/profile/orders'}">
+        <th:block th:include="cabinet :: orders">
+        </th:block>
+    </th:block>
+    <th:block th:if="${#httpServletRequest.getRequestURI() == '/profile/settings'}">
+        <th:block th:include="cabinet :: settings">
+        </th:block>
+    </th:block>
+    <th:block th:if="${#httpServletRequest.getRequestURI() == '/shopping-cart'}">
+        <th:block th:include="cabinet :: shopping-cart">
+        </th:block>
+    </th:block>
+    <th:block th:if="${#httpServletRequest.getRequestURI().contains('/page/')}">
+        <th:block th:include="page :: book-page">
+        </th:block>
+    </th:block>
+    <!-- page-content" -->
+</div>
+<!-- page-wrapper -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js">
+</script>
+<script crossorigin="anonymous"
+        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js">
+</script>
+<script src="//malihu.github.io/custom-scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="/static/js/user/userSidebar.js"></script>
+<script src="/static/js/user/contactForm.js"></script>
+
+</body>
+
+</html>

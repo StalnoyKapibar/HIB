@@ -1,11 +1,11 @@
-var currentLang = '';
+var currentLang = 'en';
 var bottom = '';
 var addToshoppingCart = '';
 var deleteBottom = '';
 let welcomeBlock = $("#welcome");
 
 $(document).ready(function () {
-    if (currentLang == '') {
+    if (currentLang === '') {
         currentLang = $('#dd_menu_link').data('currentLang');
     }
     getLanguage();
@@ -24,14 +24,14 @@ function buildPageByCurrentLang() {
             .then(function (data) {
                 $('#cardcolumns').empty();
                 $.each(data, function (index) {
-                    let div = $('<div class="card"/>');
+                    let div = $('<div class="card col-3"/>');
                     div.append('<img class="card-img-top" src="images/book' + data[index].id + '/' + data[index].coverImage + '" alt="Card image cap">');
                     let divBody = $('<div class="card-body" ></div>');
                     divBody.append('<h4 class="card-title" style="overflow: auto; height:100px">' + data[index].nameAuthorDTOLocale + '</h4>');
                     divBody.append('<p class="card-text">' + data[index].nameBookDTOLocale + '</p>');
                     divBody.append('<br>');
                     divBody.append('<div style="position: absolute; bottom: 5px"><button id="bottomInCart"type="button" class="btn btn-success btn-sm  mr-1"  data-id="' + data[index].id + '">' + addToshoppingCart + '</button>' +
-                        '<button type="button" id="bookbotom"class="btn btn-primary btn-sm mr-1"  data-toggle="modal" data-target="#myModal"  data-book-index="' + index + '">' + bottom + '</button></div>');
+                        `<button type="button" id="bookbotom" class="btn btn-primary btn-sm mr-1" onclick="document.location='/page/${data[index].id}'"> ${bottom} </button></div>`);
                     div.append(divBody);
                     div.appendTo('#cardcolumns');
                 });
@@ -41,7 +41,7 @@ function buildPageByCurrentLang() {
                     $('#modalBody').empty();
                     $('#modalHeader').append(data[index].nameAuthorDTOLocale);
                     $('#modalBody').append('<p>' + data[index].nameBookDTOLocale + '</p>');
-                    $('#modalBody').append('<img class="card-img-top" src="images/book' + data[index].id + '/' + data[index].coverImage + '" alt="Card image cap">');
+                    $('#modalBody').append('<img class="card-img-top" src="/images/book' + data[index].id + '/' + data[index].coverImage + '" alt="Card image cap">');
                     $('#buttonOnBook').attr("action", '/page/' + data[index].id);
                 });
             });
@@ -78,7 +78,6 @@ function addToCart(id) {
         method: "POST"
     })
 }
-
 
 async function getCart() {
     await fetch("/cart")
@@ -122,7 +121,6 @@ function forgotPassword() {
     window.open('/resetPassword', '_blank');
 }
 
-
 async function loadWelcome(locale) {
     await fetch("/api/welcome/locale/" + locale)
         .then(json)
@@ -130,7 +128,6 @@ async function loadWelcome(locale) {
             welcomeBlock.html(welcome.bodyWelcome);
         })
 }
-
 
 function checkParams() {
     if ($('#loginInput').val().length !== 0 && $('#passwordInput').val().length !== 0) {
