@@ -229,6 +229,10 @@ function addNewBook() {
         });
         clearFields();
     }
+    if (uploadedBookName) {
+        sendDeleteRequest(uploadedBookName);
+        uploadedBookName = null;
+    }
 }
 
 function clearFields() {
