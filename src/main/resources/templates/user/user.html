@@ -29,6 +29,13 @@
 </head>
 <body>
 <div class="page-wrapper default-theme sidebar-bg bg1 toggled">
+    <div class="preloader">
+        <div class="lds-ellipsis">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
     <nav class="sidebar-wrapper" id="sidebar">
         <div class="sidebar-content">
             <!-- sidebar-brand  -->
@@ -320,13 +327,6 @@
     <script src="/static/js/utils/common-function.js"></script>
 
     <!-- page-content  -->
-    <div class="preloader">
-        <div class="lds-ellipsis">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-    </div>
     <th:block
             th:if="${#httpServletRequest.getRequestURI() == '/home' || #httpServletRequest.getRequestURI().contains('error')}">
         <th:block th:include="home :: page-content">
