@@ -12,6 +12,7 @@ $(document).ready(function () {
     openModalLoginWindowOnFailure();
     showSizeCart();
     loadWelcome(currentLang);
+    showOrderSize();
 });
 
 function buildPageByCurrentLang() {
@@ -56,6 +57,20 @@ async function showSizeCart() {
                 $("#bucketIn").append(data)
             } else {
                 $('#bucketIn').empty();
+            }
+        });
+}
+
+async function showOrderSize() {
+    await fetch("/order/size")
+        .then(status)
+        .then(json)
+        .then(function (data) {
+            if (data != 0) {
+                $("#orders-quantity").empty();
+                $("#orders-quantity").append(data)
+            } else {
+                $('#orders-quantity').empty();
             }
         });
 }
