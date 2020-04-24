@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-<html
-        xmlns=""
-        xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
@@ -31,6 +29,13 @@
 </head>
 <body>
 <div class="page-wrapper default-theme sidebar-bg bg1 toggled">
+    <div class="preloader">
+        <div class="lds-ellipsis">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
     <nav class="sidebar-wrapper" id="sidebar">
         <div class="sidebar-content">
             <!-- sidebar-brand  -->
@@ -81,13 +86,13 @@
                     <li th:classappend="${#httpServletRequest.getRequestURI() == '/home' ? 'active' : ''}">
                         <a href="/home">
                             <i class="fas fa-book"></i>
-                            <span class="menu-text">Main</span>
+                            <span class="menu-text" id="link_main_header">Main</span>
                         </a>
                     </li>
                     <li class="sidebar-dropdown">
                         <a href="#">
                             <i class="fas fa-sitemap"></i>
-                            <span class="menu-text">Categories</span>
+                            <span class="menu-text" id="categories">Categories</span>
                         </a>
                         <div class="sidebar-submenu">
                             <ul>
@@ -111,20 +116,20 @@
                     </li>
                     <th:block sec:authorize="!hasRole('ADMIN')">
                         <li class="header-menu">
-                            <span>Profile</span>
+                            <span class="myprof-loc">Profile</span>
                         </li>
                         <li sec:authorize="hasRole('USER')"
                             th:classappend="${#httpServletRequest.getRequestURI() == '/profile/orders' ? 'active' : ''}">
                             <a href="/profile/orders">
                                 <i class="fas fa-shopping-bag"></i>
-                                <span class="menu-text">My orders</span>
+                                <span class="menu-text" id="oders">My orders</span>
                                 <span class="badge badge-pill badge-danger" id="orders-quantity"></span>
                             </a>
                         </li>
                         <li th:classappend="${#httpServletRequest.getRequestURI() == '/shopping-cart' ? 'active' : ''}">
                             <a href="/shopping-cart">
                                 <i class="fa fa-shopping-cart"></i>
-                                <span class="menu-text">Shopping cart</span>
+                                <span class="menu-text" id="headershoppingcart">Shopping cart</span>
                                 <span class="badge badge-pill badge-danger" id="bucketIn"></span>
                             </a>
                         </li>
@@ -147,7 +152,7 @@
                         <li th:classappend="${#httpServletRequest.getRequestURI() == '/profile/settings' ? 'active' : ''}">
                             <a href="/profile/settings">
                                 <i class="fas fa-user-cog"></i>
-                                <span class="menu-text">Account settings</span>
+                                <span class="menu-text" id="settingprofile">Account settings</span>
                             </a>
                         </li>
                     </th:block>
@@ -172,12 +177,12 @@
                     </li>
                     <th:block sec:authorize="!hasRole('ADMIN')">
                         <li class="header-menu">
-                            <span>Contact us</span>
+                            <span class="contact-us">Contact us</span>
                         </li>
                         <li>
                             <a data-target="#feedback-modal" data-toggle="modal" href="">
                                 <i class="far fa-comment-dots"></i>
-                                <span>Ask a question</span>
+                                <span id="ask-question">Ask a question</span>
                             </a>
                         </li>
                     </th:block>
@@ -367,5 +372,12 @@
 <script src="/static/js/main.js"></script>
 <script src="/static/js/footerBuilder.js"></script>
 <script src="/static/js/user/home.js"></script>
+<script type="application/javascript">
+    $(document).ready(function () {
+        setTimeout(() => {
+            $(".preloader").hide("slow");
+        }, 300)
+    });
+</script>
 </body>
 </html>

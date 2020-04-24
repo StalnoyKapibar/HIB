@@ -1,3 +1,4 @@
+var uploadedBookName = null;
 let addBookTab = $('#nav-profile-tab1');
 let hibFilesTableBody = $("#hibFilesTable tbody");
 
@@ -43,7 +44,7 @@ $(document).on('click', ".upload-for-sale", async function () {
     await GET("/api/admin/hib?name=" + $(this).attr("data-filename"))
         .then(json)
         .then((resp) => {
-            renderHibFilesTable();
+            uploadedBookName = $(this).attr("data-filename");
             addPage();
             addValueToFields(resp);
             addBookTab.tab('show');
@@ -51,8 +52,12 @@ $(document).on('click', ".upload-for-sale", async function () {
 })
 
 $(document).on('click', ".delete-hib-file", function () {
-    fetch(`/api/admin/hib/${$(this).attr("data-filename")}`, {
+    sendDeleteRequest($(this).attr("data-filename"))
+});
+
+function sendDeleteRequest(name) {
+    fetch(`/api/admin/hib/${name}`, {
         method: 'DELETE'
     }).then(renderHibFilesTable);
-});
+}
 

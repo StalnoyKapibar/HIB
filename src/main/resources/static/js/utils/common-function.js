@@ -34,7 +34,7 @@ function setLocaleFields() {
             $('#made_by').text(localeFields['madeby']);
             $('#link_main_header').text(localeFields['main']);
             $('#link_books_header').text(localeFields['books']);
-            $('#menu-toggle').text(localeFields['category']);
+            $('#categories').text(localeFields['category']);
             $('#headpost').text(localeFields['headpost']);
             bottom = localeFields['bookbotom'];
             addToshoppingCart = localeFields['addToshoppingCart'];
