@@ -157,7 +157,7 @@ function geolocate() {
 
 function confirmPurchase() {
     fetch('/order').then(r => getShoppingCart());
-    showShoppingCart();
+    document.location.href = '/profile/orders';
 }
 
 function enterData() {

@@ -118,6 +118,7 @@
                             <a href="/profile/orders">
                                 <i class="fas fa-shopping-bag"></i>
                                 <span class="menu-text">My orders</span>
+                                <span class="badge badge-pill badge-danger" id="orders-quantity"></span>
                             </a>
                         </li>
                         <li th:classappend="${#httpServletRequest.getRequestURI() == '/shopping-cart' ? 'active' : ''}">
@@ -366,7 +367,5 @@
 <script src="/static/js/main.js"></script>
 <script src="/static/js/footerBuilder.js"></script>
 <script src="/static/js/user/home.js"></script>
-
 </body>
-
 </html>

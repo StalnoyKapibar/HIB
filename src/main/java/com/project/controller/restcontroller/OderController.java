@@ -62,4 +62,10 @@ public class OderController {
         }
         return orderDTOS;
     }
+
+    @GetMapping("/order/size")
+    private int getOrderSize(HttpSession httpSession){
+        Long userId = (Long) httpSession.getAttribute("userId");
+        return orderService.getOrdersByUserId(userId).size();
+    }
 }

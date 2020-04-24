@@ -164,7 +164,6 @@ function loadBookFile() {
         .then(function (resp) {
             addValueToFields(resp);
         });
-    console.log(file);
 }
 
 function addValueToFields(book) {
