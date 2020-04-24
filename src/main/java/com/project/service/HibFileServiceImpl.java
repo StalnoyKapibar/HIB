@@ -29,9 +29,7 @@ public class HibFileServiceImpl implements HibFileService {
     @Override
     public BookDTO getBookDtoFromHibFileByName(String name) {
         try {
-            BookDTO bookDTO = hibParser.getBookFromJSON(new String(Files.readAllBytes(Paths.get("hib/" + name + ".hib"))));
-            deleteByName(name);
-            return bookDTO;
+            return hibParser.getBookFromJSON(new String(Files.readAllBytes(Paths.get("hib/" + name + ".hib"))));
         } catch (IOException e) {
             e.printStackTrace();
         }
