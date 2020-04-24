@@ -38,9 +38,12 @@
 
                                 <div class="input-group-prepend ">
                                     <span class="input-group-text" id="search-admin-local-id"></span>
-                                    <button type="button"  class="btn  btn-secondary dropdown-toggle dropdown-toggle-split"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                    <button aria-expanded="false"
+                                            aria-haspopup="true"
+                                            class="btn  btn-secondary dropdown-toggle dropdown-toggle-split"
+                                            data-toggle="dropdown" type="button"></button>
                                     <span class="sr-only">Toggle Dropdown</span>
-                                    <div class="dropdown-menu" style="min-width: 1rem;" id="chlang1"  >
+                                    <div class="dropdown-menu" id="chlang1" style="min-width: 1rem;">
                                     </div>
                                 </div>
                                 <input aria-label="" class="form-control border" id="search-input-admin" placeholder=""
@@ -110,17 +113,10 @@
                                 <button id="uploadOneFileHidden" style="display: none"></button>
                             </form>
                         </div>
-                        <div class="card-footer">
-                            <div class="container-fluid">
-                                <div class="row">
-                                    <button class="btn btn-success btn-metro col-5" onclick="editHibFile()">Edit and
-                                        Upload
-                                    </button>
-                                    <button class="btn btn-info btn-metro col-5 offset-2" onclick="uploadOneFile()">
-                                        Upload as disabled
-                                    </button>
-                                </div>
-                            </div>
+                        <div class="card-footer text-center">
+                            <button class="btn btn-success btn-metro col-5" onclick="editHibFile()">Edit and
+                                Upload
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -141,8 +137,22 @@
                     </div>
                 </div>
             </div>
+            <br>
+            <table class="table table-sm table-sm bg-white" id="hibFilesTable">
+                <thead>
+                <tr height="50">
+                    <th width="10"></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
         </div>
     </div>
+    <script src="/static/js/main.js"></script>
     <script src="/static/js/admin/uploadHibFiles.js"></script>
 </div>
 
