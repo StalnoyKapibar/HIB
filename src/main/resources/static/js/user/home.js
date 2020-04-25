@@ -24,7 +24,7 @@ function buildPageByCurrentLang() {
             .then(function (data) {
                 $('#cardcolumns').empty();
                 $.each(data, function (index) {
-                    let div = $('<div class="card col-3"/>');
+                    let div = $('<div class="card mb-4"/>');
                     div.append('<img class="card-img-top" src="images/book' + data[index].id + '/' + data[index].coverImage + '" alt="Card image cap">');
                     let divBody = $('<div class="card-body" ></div>');
                     divBody.append('<h4 class="card-title" style="overflow: auto; height:100px">' + data[index].nameAuthorDTOLocale + '</h4>');
