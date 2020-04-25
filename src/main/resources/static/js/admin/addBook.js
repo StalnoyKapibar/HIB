@@ -164,7 +164,6 @@ function loadBookFile() {
         .then(function (resp) {
             addValueToFields(resp);
         });
-    console.log(file);
 }
 
 function addValueToFields(book) {
@@ -229,6 +228,10 @@ function addNewBook() {
             body: JSON.stringify(book)
         });
         clearFields();
+    }
+    if (uploadedBookName) {
+        sendDeleteRequest(uploadedBookName);
+        uploadedBookName = null;
     }
 }
 

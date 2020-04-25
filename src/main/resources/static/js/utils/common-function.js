@@ -1,7 +1,18 @@
-var currentLang = 'en';
+var currentLang = '';
 var bottom = '';
 var addToshoppingCart = '';
 var deleteBottom = '';
+
+$(document).ready(function () {
+    if (currentLang === '') {
+        if (getCookieByName("lang")) {
+            currentLang = getCookieByName("lang");
+        } else {
+            currentLang = 'en';
+        }
+    }
+})
+
 function sendSignInForm() {
     $('#hidden_submit_btn').click();
 }
@@ -23,7 +34,7 @@ function setLocaleFields() {
             $('#made_by').text(localeFields['madeby']);
             $('#link_main_header').text(localeFields['main']);
             $('#link_books_header').text(localeFields['books']);
-            $('#menu-toggle').text(localeFields['category']);
+            $('#categories').text(localeFields['category']);
             $('#headpost').text(localeFields['headpost']);
             bottom = localeFields['bookbotom'];
             addToshoppingCart = localeFields['addToshoppingCart'];
@@ -71,16 +82,9 @@ function setLocaleFields() {
 }
 
 //function for chose language
-function buildLangPanel(x) {
-    let selectedLang = x;
-    fetch("/lang/" + selectedLang)
-        .then(status)
-        .then(text)
-        .then(function (data) {
-            currentLang = selectedLang;
-            //TODO some logic to processing data and reload page with chosen lang
-            // window.location.reload();
-        });
+function chooseLanguage(lang) {
+    document.cookie = `lang=${lang}; path=/`;
+    window.location.reload();
 }
 
 function getLanguage() {
@@ -116,9 +120,9 @@ function getLanguage() {
                 }
                 currentLangFull = getFullNameOfLanguage(listOfLanguage[language]);
                 html += `<li>
-                             <a onclick="buildLangPanel('${listOfLanguage[language]}')">${currentLangFull}</a>
+                             <a onclick="chooseLanguage('${listOfLanguage[language]}')">${currentLangFull}</a>
                         </li>`
-                // html += `<a class="dropdown-item lang" onclick="buildLangPanel('${listOfLanguage[language]}')" id="${listOfLanguage[language]}">
+                // html += `<a class="dropdown-item lang" onclick="chooseLanguage('${listOfLanguage[language]}')" id="${listOfLanguage[language]}">
                 //             <img src="../static/icons/${listOfLanguage[language]}.png"
                 //                 alt="" height="16" width="16" class="lang-image"> - ${currentLangFull}
                 //          </a>`;
@@ -182,6 +186,6 @@ function text(response) {
 
 function setCurrentPageToCookie() {
     let cookie = 'CURRENT_PAGE =' + window.location.pathname + ';' +
-    'path = /; max-age = 60';
+        'path = /; max-age = 60';
     document.cookie = cookie;
 }

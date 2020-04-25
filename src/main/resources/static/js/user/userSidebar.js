@@ -1,3 +1,7 @@
+$(document).on('click', '#searchIcon', async () => {
+    document.location = `/search?request=${$("#searchInput").val()}`
+});
+
 jQuery(function ($) {
 
     // Dropdown menu

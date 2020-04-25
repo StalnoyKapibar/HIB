@@ -16,14 +16,19 @@ public class UserDaoImpl extends AbstractDao<Long, UserAccount> implements UserD
 
     @Override
     public UserDTO getUserByLogin(String login) {
-        String temp = "Select new com.project.model.UserDTO(ua.id, ua.login, ua.email, ua.password, ua.firstName, ua.lastName) FROM UserAccount ua where ua.login=:login";
-        UserDTO userDTO = entityManager.createQuery(temp, UserDTO.class).setParameter("login", login).getSingleResult();
-        return userDTO;
+        String temp = "SELECT new com.project.model.UserDTO(ua.id, ua.login, ua.email, ua.password, ua.firstName, ua.lastName) " +
+                "FROM UserAccount ua WHERE ua.login = :login";
+        return entityManager
+                .createQuery(temp, UserDTO.class)
+                .setParameter("login", login)
+                .getSingleResult();
     }
 
     @Override
     public void saveUserDTOPersonalInformation(UserDTO userDTO) {
-        entityManager.createQuery("update UserAccount set email = :email, firstName = :firstName, lastName = :lastName where id =:userId")
+        entityManager.createQuery("UPDATE UserAccount" +
+                " SET email = :email, firstName = :firstName, lastName = :lastName" +
+                " WHERE id =:userId")
                 .setParameter("email", userDTO.getEmail())
                 .setParameter("firstName", userDTO.getFirstName())
                 .setParameter("lastName", userDTO.getLastName())
@@ -33,20 +38,22 @@ public class UserDaoImpl extends AbstractDao<Long, UserAccount> implements UserD
 
     @Override
     public boolean checkEmailFromOtherUsers(String email, long id) {
-        List<UserAccount> userAccountList = entityManager.createQuery("SELECT ua FROM UserAccount ua where ua.email=:email AND ua.id <>: id")
+        List<UserAccount> userAccountList = entityManager
+                .createQuery("SELECT ua " +
+                        "FROM UserAccount ua " +
+                        "WHERE ua.email=:email " +
+                        "AND ua.id <>: id", UserAccount.class)
                 .setParameter("email", email)
                 .setParameter("id", id)
                 .getResultList();
-        if (userAccountList.size() > 0) {
-            return false;
-        } else {
-            return true;
-        }
+        return userAccountList.size() <= 0;
     }
 
     @Override
     public void saveUserDTOPassword(UserDTONewPassword userDTONewPassword) {
-        entityManager.createQuery("update UserAccount set password = :password where id =:userId")
+        entityManager.createQuery("UPDATE UserAccount " +
+                "SET password = :password " +
+                "WHERE id =:userId")
                 .setParameter("password", userDTONewPassword.getNewPassword())
                 .setParameter("userId", userDTONewPassword.getUserId())
                 .executeUpdate();
@@ -54,6 +61,10 @@ public class UserDaoImpl extends AbstractDao<Long, UserAccount> implements UserD
 
     @Override
     public String getOldPassword(long id) {
-        return (String) entityManager.createQuery("SELECT ua.password FROM UserAccount ua where ua.id=:userId").setParameter("userId", id).getSingleResult();
+        return (String) entityManager.createQuery("SELECT ua.password " +
+                "FROM UserAccount ua " +
+                "WHERE ua.id=:userId")
+                .setParameter("userId", id)
+                .getSingleResult();
     }
 }
