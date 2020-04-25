@@ -55,6 +55,9 @@
                     <div class="user-pic">
                         <img alt="User picture" class="img-responsive img-rounded" src="/static/images/user.jpg">
                     </div>
+                </th:block>
+                <a
+                <th:block sec:authorize="isAuthenticated()">
                     <div class="user-info">
                         <span class="user-name">
                             <strong th:text="${#authentication.getPrincipal().getUsername()}">Username of user</strong>

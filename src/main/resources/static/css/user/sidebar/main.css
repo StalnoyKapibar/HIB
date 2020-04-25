@@ -71,12 +71,12 @@
 }
 
 .sidebar-wrapper {
-    width: 200px;
+    width: 220px;
     height: 100%;
     max-height: 100%;
     position: fixed;
     top: 0;
-    left: -280px;
+    left: -220px;
     z-index: 999;
     -webkit-transition: left .3s ease, width .3s ease;
     transition: left .3s ease, width .3s ease;

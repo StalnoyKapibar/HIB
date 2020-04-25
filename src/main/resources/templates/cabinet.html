@@ -12,39 +12,39 @@
 </head>
 <body>
 <nav th:replace="home-old :: nav-bar"></nav>
-<div class="container-fluid">
-    <div class="row">
-        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-            <ul class="nav flex-column mt-2" id="myTab" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link active" id="MyProfile-tab" data-toggle="tab" href="#MyProfile" role="tab"
-                       aria-controls="MyProfile">
-                        <h5 class="myprof-loc">My profile</h5>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="Orders-tab" data-toggle="tab" href="#Orders" role="tab"
-                       aria-controls="Orders">
-                        <h5 id="oders" onclick="showListOrders()"> Orders</h5>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" onclick="setFieldsChangePersonalInformation()" id="SettingsProfile-tab"
-                       data-toggle="tab" href="#SettingsProfile" role="tab"
-                       aria-controls="SettingsProfile">
-                        <h5 id="settingprofile">Settings profile</h5>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="Basket-tab" data-toggle="tab" href="#Basket" role="tab"
-                       aria-controls="Basket">
-                        <h5 id="shoppingcart">Shopping cart</h5>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    </div>
-</div>
+<!--<div class="container-fluid">-->
+<!--    <div class="row">-->
+<!--        <nav class="col-md-2 d-none d-md-block bg-light sidebar">-->
+<!--            <ul class="nav flex-column mt-2" id="myTab" role="tablist">-->
+<!--                <li class="nav-item">-->
+<!--                    <a class="nav-link active" id="MyProfile-tab" data-toggle="tab" href="#MyProfile" role="tab"-->
+<!--                       aria-controls="MyProfile">-->
+<!--                        <h5 class="myprof-loc">My profile</h5>-->
+<!--                    </a>-->
+<!--                </li>-->
+<!--                <li class="nav-item">-->
+<!--                    <a class="nav-link" id="Orders-tab" data-toggle="tab" href="#Orders" role="tab"-->
+<!--                       aria-controls="Orders">-->
+<!--                        <h5 id="oders" onclick="showListOrders()"> Orders</h5>-->
+<!--                    </a>-->
+<!--                </li>-->
+<!--                <li class="nav-item">-->
+<!--                    <a class="nav-link" onclick="setFieldsChangePersonalInformation()" id="SettingsProfile-tab"-->
+<!--                       data-toggle="tab" href="#SettingsProfile" role="tab"-->
+<!--                       aria-controls="SettingsProfile">-->
+<!--                        <h5 id="settingprofile">Settings profile</h5>-->
+<!--                    </a>-->
+<!--                </li>-->
+<!--                <li class="nav-item">-->
+<!--                    <a class="nav-link" id="Basket-tab" data-toggle="tab" href="#Basket" role="tab"-->
+<!--                       aria-controls="Basket">-->
+<!--                        <h5 id="shoppingcart">Shopping cart</h5>-->
+<!--                    </a>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--        </nav>-->
+<!--    </div>-->
+<!--</div>-->
 <div class="tab-content" id="myTabContent">
     <div class="tab-pane fade show active" id="MyProfile" role="tabpanel" aria-labelledby="MyProfile-tab">
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
@@ -159,7 +159,7 @@
                 </div>
             </div>
         </div>
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+        <main role="main" class="col-sm-8 col-md-9 ml-auto col-xl-10">
             <h1 class="align-content-center mt-3">Orders</h1>
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <table class="table table-sm table-sm bg-white">
@@ -203,7 +203,7 @@
         <link href="/static/fonts/font.css" rel="stylesheet">
         <link href="css/cabinet.css" rel="stylesheet" type="text/css">
         <script crossorigin="anonymous" src="https://kit.fontawesome.com/db08edad0b.js"></script>
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+        <main role="main" class="col-sm-8 col-md-9 ml-auto col-xl-10">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h1 class="h2">Settings Profile</h1>
             </div>
@@ -304,7 +304,7 @@
         <script src="/static/js/lib/popper.min.js"></script>
         <script src="/static/js/lib/bootstrap.min.js"></script>
         <br>
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+        <main role="main" class="col-sm-8 col-md-9 ml-auto col-xl-10">
             <div class="alert alert-warning alert-dismissible fade" id="saveAddressAlert" role="alert">
                 <strong>Would you like to save the address?</strong>
                 <button class=" col-2 btn btn-success btn-metro offset-7" onclick="saveAddress()">Save</button>
