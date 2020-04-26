@@ -19,7 +19,6 @@ function getCookie(name) {
 }
 
 function setPageFields() {
-    console.log(currentLang);
     fetch("/api/book/" + $("#bookid").attr("value") + "?locale=" + currentLang)
         .then(status)
         .then(json).then(function (data) {

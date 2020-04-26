@@ -32,6 +32,7 @@ public class HibFileServiceImpl implements HibFileService {
             return hibParser.getBookFromJSON(new String(Files.readAllBytes(Paths.get("hib/" + name + ".hib"))));
         } catch (IOException e) {
             e.printStackTrace();
+
         }
         throw new RuntimeException("An error occurred while reading the file");
     }
