@@ -24,17 +24,22 @@ function buildPageByCurrentLang() {
             .then(function (data) {
                 $('#cardcolumns').empty();
                 $.each(data, function (index) {
-                    let col = $('<div class="col mb-4"></div>');
-                    let div = $('<a class="card border-0" href="/page/' + data[index].id + '" style="color: black"></a>');
-                    div.append('<img class="card-img-top mb-1" src="images/book' + data[index].id + '/' + data[index].coverImage + '" alt="Card image cap"><h5>' + covertPrice(data[index].price) + currencyIcon + '</h5>');
-                    let divBody = $('<div class="card-body"></div>');
-                    divBody.append('<h5 class="card-title" style="overflow: auto">' + data[index].nameAuthorDTOLocale + '</h5>');
-                    divBody.append('<h6 class="card-text text-muted">' + data[index].nameBookDTOLocale + '</h6>');
-                    divBody.append('<div class="card-footer bg-transparent"></div>');
-                    div.append(divBody);
-                    col.append(div);
-                    col.append('<div style="position: absolute; bottom: 5px"><button id="bottomInCart" type="button" class="btn btn-success btn-sm"  data-id="' + data[index].id + '">' + addToshoppingCart + '</button></div>');
-                    col.appendTo('#cardcolumns');
+                    let card = `<div class="col mb-4">
+                                    <a class="card border-0" href="/page/${data[index].id}" style="color: black">
+                                        <img class="card-img-top mb-1" src="images/book${data[index].id}/${data[index].coverImage}" alt="Card image cap">
+                                        <h5>${covertPrice(data[index].price)+currencyIcon}</h5>
+                                        <div class="card-body">
+                                            <h5 class="card-title" style="overflow: auto">${data[index].nameAuthorDTOLocale}</h5>
+                                            <h6 class="card-text text-muted">${data[index].nameBookDTOLocale}</h6>
+                                            <div class="card-footer bg-transparent"></div>
+                                        </div>
+                                    </a>
+                                    <div style="position: absolute; bottom: 5px">
+                                        <button id="bottomInCart" type="button" class="btn btn-success btn-sm"  data-id="${data[index].id}">
+                                            ${addToshoppingCart}
+                                        </button></div>
+                                </div>`;
+                    $('#cardcolumns').append(card);
                 });
                 $("#myModal").on('show.bs.modal', function (e) {
                     let index = $(e.relatedTarget).data('book-index');
