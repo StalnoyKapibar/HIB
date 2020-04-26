@@ -27,17 +27,17 @@ function buildPageByCurrentLang() {
                     let card = `<div class="col mb-4">
                                     <a class="card border-0" href="/page/${data[index].id}" style="color: black">
                                         <img class="card-img-top mb-1" src="images/book${data[index].id}/${data[index].coverImage}" alt="Card image cap">
-                                        <h5>${covertPrice(data[index].price)+currencyIcon}</h5>
                                         <div class="card-body">
-                                            <h5 class="card-title" style="overflow: auto">${data[index].nameAuthorDTOLocale}</h5>
+                                            <h5 class="card-title">${data[index].nameAuthorDTOLocale}</h5>
                                             <h6 class="card-text text-muted">${data[index].nameBookDTOLocale}</h6>
+                                            <h5 class="card-footer bg-transparent text-left pl-0">${covertPrice(data[index].price)+currencyIcon}</h5>
                                             <div class="card-footer bg-transparent"></div>
                                         </div>
                                     </a>
-                                    <div style="position: absolute; bottom: 5px">
-                                        <button id="bottomInCart" type="button" class="btn btn-success btn-sm"  data-id="${data[index].id}">
-                                            ${addToshoppingCart}
-                                        </button></div>
+                                    <div style="position: absolute; bottom: 5px; left: 15px; right: 15px" id="bottomInCart" type="button" 
+                                            class="btn btn-success btn-metro"  data-id="${data[index].id}">
+                                        ${addToshoppingCart}
+                                    </div>
                                 </div>`;
                     $('#cardcolumns').append(card);
                 });
