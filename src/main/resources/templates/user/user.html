@@ -64,6 +64,11 @@
                     </div>
                 </th:block>
             </div>
+            <th:block sec:authorize="isAuthenticated()">
+                <a class="d-block text-center mb-4" style="background-color: #303030" href="/logout">
+                    <i class="fa fa-power-off text-center"></i>
+                </a>
+            </th:block>
             <!-- sidebar-search  -->
             <div class="sidebar-item sidebar-search">
                 <div>
@@ -192,11 +197,6 @@
         </div>
         <!-- sidebar-footer  -->
         <div class="sidebar-footer">
-            <div sec:authorize="isAuthenticated()">
-                <a href="/logout">
-                    <i class="fa fa-power-off"></i>
-                </a>
-            </div>
             <div class="pinned-footer">
                 <a href="#">
                     <i class="fas fa-ellipsis-h"></i>
