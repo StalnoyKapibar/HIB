@@ -269,19 +269,19 @@
                           th:action="@{/login}">
                         <div class="form-group">
                             <label for="loginInput">Login</label>
-                            <input class="form-control" id="loginInput" name="username" onkeyup="checkParams()"
+                            <input class="form-control" id="loginInput" name="username"
                                    placeholder="Login"
                                    required type="text">
                         </div>
                         <div class="form-group">
                             <label for="passwordInput">Password</label>
-                            <input class="form-control" id="passwordInput" name="password" onkeyup="checkParams()"
+                            <input class="form-control" id="passwordInput" name="password"
                                    placeholder="Password" required type="password">
                         </div>
                         <div class="custom-control custom-checkbox mb-4">
                             <input class="custom-control-input" id="checkboxRememberMe" type="checkbox">
                             <label class="custom-control-label" for="checkboxRememberMe">Remember me</label>
-                            <button class="btn btn-primary btn-block col-6 pull-right mr-1" hidden="hidden"
+                            <button class="btn btn-primary btn-block col-6 pull-right mr-1"
                                     id="sign_in_btn"
                                     onclick="sendSignInForm()" type="button">Sign in
                             </button>
