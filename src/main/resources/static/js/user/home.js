@@ -3,6 +3,7 @@ var bottom = '';
 var addToshoppingCart = '';
 var deleteBottom = '';
 let welcomeBlock = $("#welcome");
+let currencyIcon = ' €';
 
 $(document).ready(function () {
 
@@ -23,16 +24,22 @@ function buildPageByCurrentLang() {
             .then(function (data) {
                 $('#cardcolumns').empty();
                 $.each(data, function (index) {
-                    let div = $('<div class="card col-3"/>');
-                    div.append('<img class="card-img-top" src="images/book' + data[index].id + '/' + data[index].coverImage + '" alt="Card image cap">');
-                    let divBody = $('<div class="card-body" ></div>');
-                    divBody.append('<h4 class="card-title" style="overflow: auto; height:100px">' + data[index].nameAuthorDTOLocale + '</h4>');
-                    divBody.append('<p class="card-text">' + data[index].nameBookDTOLocale + '</p>');
-                    divBody.append('<br>');
-                    divBody.append('<div style="position: absolute; bottom: 5px"><button id="bottomInCart"type="button" class="btn btn-success btn-sm  mr-1"  data-id="' + data[index].id + '">' + addToshoppingCart + '</button>' +
-                        `<button type="button" id="bookbotom" class="btn btn-primary btn-sm mr-1" onclick="document.location='/page/${data[index].id}'"> ${bottom} </button></div>`);
-                    div.append(divBody);
-                    div.appendTo('#cardcolumns');
+                    let card = `<div class="col mb-4">
+                                    <a class="card border-0" href="/page/${data[index].id}" style="color: black">
+                                        <img class="card-img-top mb-1" src="images/book${data[index].id}/${data[index].coverImage}" alt="Card image cap">
+                                        <div class="card-body">
+                                            <h5 class="card-title">${data[index].nameAuthorDTOLocale}</h5>
+                                            <h6 class="card-text text-muted">${data[index].nameBookDTOLocale}</h6>
+                                            <h5 class="card-footer bg-transparent text-left pl-0">${covertPrice(data[index].price)+currencyIcon}</h5>
+                                            <div class="card-footer bg-transparent"></div>
+                                        </div>
+                                    </a>
+                                    <div style="position: absolute; bottom: 5px; left: 15px; right: 15px" id="bottomInCart" type="button" 
+                                            class="btn btn-success btn-metro"  data-id="${data[index].id}">
+                                        ${addToshoppingCart}
+                                    </div>
+                                </div>`;
+                    $('#cardcolumns').append(card);
                 });
                 $("#myModal").on('show.bs.modal', function (e) {
                     let index = $(e.relatedTarget).data('book-index');
@@ -45,6 +52,10 @@ function buildPageByCurrentLang() {
                 });
             });
     }, 10);
+}
+
+function covertPrice(price) {
+    return price / 100;
 }
 
 async function showSizeCart() {
