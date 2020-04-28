@@ -22,8 +22,10 @@ public class UserServiceImpl implements UserService {
     private UserDao userDAO;
 
     @Override
-    public UserDTO getUserDTOByLogin(String login) {
-        return userDAO.getUserByLogin(login);
+    public UserDTO getUserDTOByLogin(String login, boolean isOAuth2Acc) {
+         UserDTO userDTO  = userDAO.getUserByLogin(login);
+         userDTO.setOauth2Acc(isOAuth2Acc);
+        return userDTO;
     }
 
     @Override

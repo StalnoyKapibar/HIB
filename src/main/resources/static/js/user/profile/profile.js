@@ -12,7 +12,7 @@ function showShoppingCart() {
 }
 
 $(document).ready(function () {
-    getAU().then(setFieldsChangePersonalInformation)
+    getAU().then(setFieldsChangePersonalInformation).then(oAuth2AccHandle);
 });
 
 async function getAU() {
@@ -28,6 +28,10 @@ function setFieldsChangePersonalInformation() {
     $('#fieldEmail').val(AU.email);
     $('#fieldFirstName').val(AU.firstName);
     $('#fieldLastName').val(AU.lastName);
+}
+
+function oAuth2AccHandle() {
+    document.getElementById("PasswordChange-tab").hidden = AU.oauth2Acc;
 }
 
 function savePersonalInformation() {

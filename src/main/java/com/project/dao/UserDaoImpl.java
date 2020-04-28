@@ -16,7 +16,7 @@ public class UserDaoImpl extends AbstractDao<Long, UserAccount> implements UserD
 
     @Override
     public UserDTO getUserByLogin(String login) {
-        String temp = "SELECT new com.project.model.UserDTO(ua.id, ua.login, ua.email, ua.password, ua.firstName, ua.lastName) " +
+        String temp = "SELECT new com.project.model.UserDTO(ua.id, ua.login, ua.email, ua.password, ua.firstName, ua.lastName, false) " +
                 "FROM UserAccount ua WHERE ua.login = :login";
         return entityManager
                 .createQuery(temp, UserDTO.class)
