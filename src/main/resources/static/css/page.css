@@ -35,6 +35,19 @@ buttonCarousel {
     -webkit-transition: box-shadow 1s ease, color 1s ease;
     transition: box-shadow 1s ease, color 1s ease;
 }
+buttonCarouselEdit {
+    width: 35%;
+    display: block;
+    margin: 2px auto;
+    font-size: 15pt;
+    background: whitesmoke;
+    border-radius: 10px;
+    font-family: arial;
+    padding: 0px 0px;
+    cursor: pointer;
+    -webkit-transition: box-shadow 1s ease, color 1s ease;
+    transition: box-shadow 1s ease, color 1s ease;
+}
 
 .left, .center, .right {
     display: inline-block;
@@ -51,6 +64,8 @@ buttonCarousel {
 }
 
 .center {
+    font-size: 15pt;
+    width: 70%;
     color: #000;
     border: solid 2px #7f8c8d;
 }
@@ -58,6 +73,18 @@ buttonCarousel {
 .center:hover {
     box-shadow: inset 0 0 0 2em #7f8c8d;
     color: whitesmoke;
+}
+.editButton {
+    width: 40%;
+    font-size: 20pt;
+    color: #000;
+    border: solid 2px #000000;
+}
+
+.editButton:hover {
+    box-shadow: inset 0 0 0 2em #06218c;
+    color: whitesmoke;
+    border: solid 2px #06218c;
 }
 
 .right {
@@ -69,5 +96,4 @@ buttonCarousel {
     box-shadow: inset 6em 0 #0f5404;
     color: whitesmoke;
 }
-
 

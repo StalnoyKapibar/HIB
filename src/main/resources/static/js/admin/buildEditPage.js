@@ -28,12 +28,19 @@ function text(response) {
 }
 
 function buildPage() {
+    let disabled = tmpArr.disabled ? 'checked' : '';
     var html1 = '';
+    html1 += `<div class="card card-header">
+              <div class="row">
+              <div class="col-1">
+              <h4 >Disabled</h4></div>
+              <div class="col"> <input id="disabled" class="big-checkbox"  type="checkbox" ${disabled}></div></div></div>`;
     for (let tmpNameObject of nameObjectOfLocaleString) {
-        html1 += `<h5 class='bg-secondary text-white text-center'>${tmpNameObject}</h5><div class="row row-cols-2">`;
+        html1 += `<div class="col card card-body my-2"><h5 class='bg-secondary p-2 text-white text-center'>${tmpNameObject}</h5>
+                  <div class="row row-cols-2">`;
         for (let tmpNameVar of nameVarOfLocaleStringWithId) {
             if (tmpNameVar === "id") {
-                html1 += `<div class='col'><div class='form-group'>` +
+                html1 += `<div class='col  '><div class='form-group'>` +
                     `<label for='${tmpNameObject}${tmpNameVar}'>${tmpNameObject} ${tmpNameVar}</label>` +
                     `<input type='text' class='form-control' id='${tmpNameObject}${tmpNameVar}' ` +
                     `placeholder='${tmpNameObject} ${tmpNameVar}' readonly>` +
@@ -46,15 +53,56 @@ function buildPage() {
                     `</div></div>`;
             }
         }
-        html1 += '</div>';
+        html1 += '</div></div>';
     }
-    let disabled = tmpArr.disabled ? 'checked' : '';
-    html1 += `<div class="container-fluid"><div class="row"><h3 class="col-1">Disabled</h3><input id="disabled" class="col-6" type="checkbox" ${disabled}></div></div>`;
-    html1 += `<h4>Cover Image</h4>` +
-        `<div class='car' style='width: 18rem;'>` +
-        `<img id='myImage' src =''  class='card-img-top' alt='...'> ` +
-        `</div>`;
+
+    let originalLang = ``;
+    for (let key in nameVarOfLocaleStringWithId) {
+        originalLang += `<option >${nameVarOfLocaleStringWithId[key]}</option>`;
+    }
+
+    html1 += `<div class="card card-footer">
+              <div class="row  ">
+              <div class="col p-4 mb-4">
+              <h5> Year Of Edition </h5>
+              <input type="text" class="form-control" id='yearOfEdition' value=${tmpArr.yearOfEdition}></div>
+              <div class=" col p-4 mb-4 ">
+              <h5> Pages </h5>
+              <input type="number" class="form-control" id="pages" value=${tmpArr.pages} ></div>
+              <div class=" col p-4 mb-4  ">
+              <h5> Price </h5>
+              <input type="number" class="form-control" id="price" value=${tmpArr.price} ></div>
+              <div class="col p-4 mb-4 ">
+              <div class="row-cols-1">
+              <div class="col">
+              <h5> Original Language </h5></div>
+              <div class="col-4">
+              <select id="originalLanguage" class="form-control" value=${originalLang} ></select></div></div>
+              </div></div></div>`;
+
     $('#bookEditPage').html(html1);
+
+    $('#bookEditPageForImg').html(`
+              <div class="row">
+              <div class="col-4 ">
+              <div class="card" style="width: 21rem">
+              <div id="carouselExampleCaptions"  class="carousel card-body slide w-50" data-ride="carousel">
+              <ol class="carousel-indicators" style="width: 18rem" id='test0'> </ol>
+              <div class="carousel-inner" style="width: 18rem" id='test1'></div></div>
+              <div class="buttonCarousel card-footer ">
+              <buttonCarouselEdit class="left" href="#carouselExampleCaptions"  data-slide="prev" > <</buttonCarouselEdit>     
+              <buttonCarouselEdit class="right " href="#carouselExampleCaptions" data-slide="next" > ></buttonCarouselEdit>
+              <buttonCarouselEdit class="center "   onclick="setImgInCarousel()" > Upload file</buttonCarouselEdit></div>
+              </div>
+              </div>
+              <div class="col"> 
+              <div class="card " style="width: 20rem;">
+              <h4 class="card-header">Cover Image</h4>
+              <div class='car card-body' style='width: 20rem;'>
+              <img id='myImage' src =''  class='card-img-top' alt='...'> 
+              </div></div>
+              </div> </div>`);
+
     for (let key in tmpArr) {
         if (key !== "id" && key !== "imageList" && key !== "coverImage") {
             for (let key0 of nameVarOfLocaleStringWithId) {
@@ -79,6 +127,10 @@ function buildPage() {
     }
 }
 
+function setImgInCarousel() {
+    $('#exampleFormControlFile1').trigger('click')
+}
+
 function showImage(x) {
     document.getElementById('myImage').src = x;
 }
@@ -96,6 +148,11 @@ function sendUpdateBook() {
     add['coverImage'] = nameImageCover;
     add['imageList'] = listImages;
     add['disabled'] = $("#disabled").is(':checked');
+    add['yearOfEdition'] = $('#yearOfEdition').val();
+    add['pages'] = $('#pages').val();
+    add['price'] = $('#price').val();
+    add['originalLanguage'] = $('#originalLanguage').val();
+
     var body02 = JSON.stringify(add);
     sendUpdateBookReq(body02);
 }
@@ -204,6 +261,7 @@ $("#exampleFormControlFile1").change(function () {
     uploadImageNew();
 });
 
+
 function uploadImageNew() {
     const formData = new FormData();
     const fileField = document.getElementById("exampleFormControlFile1");
@@ -220,3 +278,4 @@ function uploadImageNew() {
             buildCarousel();
         });
 }
+
