@@ -45,6 +45,7 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
                 .originalLanguage(bookDTO.getOriginalLanguage())
                 .listImage(bookDTO.getImageList())
                 .disabled(bookDTO.isDisabled())
+                .otherLanguageOfBook(bookDTO.getOtherLanguage())
                 .build();
     }
 

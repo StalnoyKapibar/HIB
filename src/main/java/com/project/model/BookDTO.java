@@ -24,4 +24,5 @@ public class BookDTO {
     @Singular("imageList")
     private List<Image> imageList;
     private boolean disabled;
+    private OtherLanguage otherLanguage;
 }
