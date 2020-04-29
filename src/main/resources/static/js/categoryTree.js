@@ -28,14 +28,14 @@ function getCategoryTree() {
 
 function getUnflatten(arr, parentid) {
     let output = [];
-    for(const obj of arr) {
-        if(obj.parentId == parentid) {
-            let children = getUnflatten(arr, obj.id);
+    for(const category of arr) {
+        if(category.parentId == parentid) {
+            let children = getUnflatten(arr, category.id);
 
             if(children.length) {
-                obj.childrens = children
+                category.childrens = children
             }
-            output.push(obj)
+            output.push(category)
         }
     }
     return output
