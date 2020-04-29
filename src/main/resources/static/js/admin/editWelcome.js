@@ -134,7 +134,7 @@ async function pageBook(x) {
                 for (key in tmp_html) {
                     if (tmp_html[key] !== null) {
                         if (key !== "id" && key !== "coverImage" && key !== "imageList" && key !== "desc" && key !== "edition"
-                            && key !== "yearOfEdition" && key !== "pages" && key !== "price" && key !== "originalLanguage" && key !== "disabled") {
+                            && key !== "yearOfEdition" && key !== "pages" && key !== "price" && key !== "originalLanguage" && key !== "show") {
                             var ad = tmp_html[key][idChangeLang];
                             html += `<td id='n${tmp_html.id}'>${ad}</td>`;
                         }
