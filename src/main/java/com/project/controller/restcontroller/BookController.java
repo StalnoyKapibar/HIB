@@ -1,7 +1,7 @@
 package com.project.controller.restcontroller;
 
 import com.project.HIBParser.HibParser;
-import com.project.model.BookDTO;
+import com.project.model.Book;
 import com.project.model.BookDTO20;
 import com.project.model.BookNewDTO;
 import com.project.model.PageableBookDTO;
@@ -49,9 +49,8 @@ public class BookController {
     }
 
     @PutMapping("/loadFile")
-    public BookDTO loadFile(@RequestBody String book) {
-        BookDTO bookDTO = hibParser.getBookFromJSON(book);
-        return bookDTO;
+    public Book loadFile(@RequestBody String bookAsJson) {
+        return hibParser.getBookFromJSON(bookAsJson);
     }
 
     @PostMapping("/admin/loadImg/{name}")
@@ -77,14 +76,14 @@ public class BookController {
     }
 
     @PutMapping("/admin/addBook")
-    public HttpStatus addNewBook(@RequestBody BookDTO bookDTO) {
-        bookService.addBook(bookDTO);
+    public HttpStatus addNewBook(@RequestBody Book book) {
+        bookService.addBook(book);
         return HttpStatus.OK;
     }
 
     @GetMapping("/api/book/{id}")
-    public BookDTO getBookById(@PathVariable Long id) {
-        return bookService.getBookDTOById(id);
+    public Book getBookById(@PathVariable Long id) {
+        return bookService.getById(id);
     }
 
     @GetMapping("/api/admin/pageable/{page}")
@@ -96,16 +95,16 @@ public class BookController {
     }
 
     @GetMapping("/getPageBooks")
-    public List<BookDTO> getPageBooks() {
+    public List<Book> getPageBooks() {
         return bookService.getAllBookDTO();
     }
 
     @PostMapping("/admin/add")
-    public void addBook(@RequestBody BookDTO bookDTO) {
-        bookService.addBook(bookDTO);
+    public void addBook(@RequestBody Book book) {
+        bookService.addBook(book);
         String lastId = bookService.getLastIdOfBook();
         storageService.createNewPaperForImages(lastId);
-        storageService.cutImagesFromTmpPaperToNewPaperByLastIdBook(lastId, bookDTO.getImageList());
+        storageService.cutImagesFromTmpPaperToNewPaperByLastIdBook(lastId, book.getListImage());
     }
 
     @GetMapping("/getVarBookDTO")
@@ -121,8 +120,8 @@ public class BookController {
     }
 
     @PostMapping("/admin/edit")
-    public void editBook(@RequestBody BookDTO bookDTO) {
-        bookService.updateBook(bookDTO);
+    public void editBook(@RequestBody Book book) {
+        bookService.updateBook(book);
     }
 
     @GetMapping("/user/get20BookDTO/{locale}")

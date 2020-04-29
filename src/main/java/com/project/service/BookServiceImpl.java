@@ -19,8 +19,8 @@ public class BookServiceImpl implements BookService {
     private BookDao bookDAO;
 
     @Override
-    public List<BookDTO> getAllBookDTO() {
-        return bookDAO.findAll().stream().map(book -> bookDAO.getBookDTOFromBook(book)).collect(Collectors.toList());
+    public List<Book> getAllBookDTO() {
+        return bookDAO.findAll();
     }
 
     @Override
@@ -29,8 +29,8 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void addBook(BookDTO bookDTO) {
-        bookDAO.add(bookDAO.getBookFromBookDTO(bookDTO));
+    public void addBook(Book book) {
+        bookDAO.add(book);
     }
 
     @Override
@@ -44,19 +44,12 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookDTO getBookByIdLocale(Long id) {
-        return bookDAO.getBookByIdLocale(id);
-    }
-
-    @Override
     public BookNewDTO getNewBookDTOByIdAndLang(Long id, String lang) {
         return bookDAO.getNewBookDTObyIdAndLang(id, lang);
     }
 
     @Override
-    public void updateBook(BookDTO bookDTO) {
-        Book book = bookDAO.getBookFromBookDTO(bookDTO);
-        book.setId(bookDTO.getId());
+    public void updateBook(Book book) {
         bookDAO.update(book);
     }
 
@@ -71,8 +64,8 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookDTO getBookDTOById(Long id) {
-        return bookDAO.getBookDTOById(id);
+    public Book getBookById(Long id) {
+        return bookDAO.findById(id);
     }
 
     @Override

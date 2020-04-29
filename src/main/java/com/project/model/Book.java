@@ -13,9 +13,9 @@ import java.util.List;
 @Table(name = "book")
 public class Book {
 
-    public Book(LocaleString nameLocale, LocaleString authorLocale) {
-        this.nameLocale = nameLocale;
-        this.authorLocale = authorLocale;
+    public Book(LocaleString nameLocale, LocaleString author) {
+        this.name = nameLocale;
+        this.author = author;
     }
 
     @Id
@@ -23,13 +23,13 @@ public class Book {
     private Long id;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private LocaleString nameLocale;
+    private LocaleString name;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private LocaleString authorLocale;
+    private LocaleString author;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private LocaleString desc;
+    private LocaleString description;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private LocaleString edition;

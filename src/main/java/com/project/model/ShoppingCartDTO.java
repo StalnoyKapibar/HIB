@@ -15,8 +15,8 @@ public class ShoppingCartDTO {
 
     private List<CartItemDTO> cartItems = new ArrayList<>(0);
 
-    public void addCartItem(BookDTO bookDTO) {
-        CartItemDTO newCartItem = new CartItemDTO(bookDTO, 1);
+    public void addCartItem(Book book) {
+        CartItemDTO newCartItem = new CartItemDTO(book, 1);
         if (cartItems.contains(newCartItem)) {
             for (CartItemDTO oldCartItem : cartItems) {
                 if (oldCartItem.equals(newCartItem)) {
