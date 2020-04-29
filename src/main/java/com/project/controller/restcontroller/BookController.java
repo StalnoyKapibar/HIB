@@ -1,6 +1,5 @@
 package com.project.controller.restcontroller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.project.HIBParser.HibParser;
 import com.project.model.BookDTO;
 import com.project.model.BookDTO20;
