@@ -36,6 +36,8 @@
             <span></span>
         </div>
     </div>
+    <div class="row">
+    <div class="col-2">
     <nav class="sidebar-wrapper" id="sidebar">
         <div class="sidebar-content">
             <!-- sidebar-brand  -->
@@ -95,22 +97,7 @@
                             <span class="menu-text" id="categories">Categories</span>
                         </a>
                         <div class="sidebar-submenu">
-                            <ul>
-                                <li>
-                                    <a href="#">Fantasy</a>
-                                </li>
-                                <li>
-                                    <a href="#">History</a>
-                                </li>
-                                <li>
-                                    <a href="#">Children's literature</a>
-                                </li>
-                                <li>
-                                    <a href="#">Dystopia</a>
-                                </li>
-                                <li>
-                                    <a href="#">Post Apocalypse</a>
-                                </li>
+                            <ul id="primaryCategories">
                             </ul>
                         </div>
                     </li>
@@ -325,32 +312,38 @@
         </div>
     </div>
     <script src="/static/js/utils/common-function.js"></script>
-
-    <!-- page-content  -->
-    <th:block
-            th:if="${#httpServletRequest.getRequestURI() == '/home' || #httpServletRequest.getRequestURI().contains('error')}">
-        <th:block th:include="home :: page-content">
-        </th:block>
-    </th:block>
-    <th:block th:if="${#httpServletRequest.getRequestURI() == '/profile/orders'}">
-        <th:block th:include="cabinet :: orders">
-        </th:block>
-    </th:block>
-    <th:block th:if="${#httpServletRequest.getRequestURI() == '/profile/settings'}">
-        <th:block th:include="cabinet :: settings">
-        </th:block>
-    </th:block>
-    <th:block th:if="${#httpServletRequest.getRequestURI() == '/shopping-cart'}">
-        <th:block th:include="cabinet :: shopping-cart">
-        </th:block>
-    </th:block>
-    <th:block th:if="${#httpServletRequest.getRequestURI().contains('/page/')}">
-        <th:block th:include="page :: book-page">
-        </th:block>
-    </th:block>
-    <!-- page-content" -->
 </div>
-<!-- page-wrapper -->
+    <div class="col-10">
+        <!-- page-content  -->
+        <th:block
+                th:if="${#httpServletRequest.getRequestURI() == '/home' || #httpServletRequest.getRequestURI().contains('error')}">
+            <th:block th:include="home :: page-content">
+            </th:block>
+        </th:block>
+        <th:block th:if="${#httpServletRequest.getRequestURI() == '/profile/orders'}">
+            <th:block th:include="cabinet :: orders">
+            </th:block>
+        </th:block>
+        <th:block th:if="${#httpServletRequest.getRequestURI() == '/profile/settings'}">
+            <th:block th:include="cabinet :: settings">
+            </th:block>
+        </th:block>
+        <th:block th:if="${#httpServletRequest.getRequestURI() == '/shopping-cart'}">
+            <th:block th:include="cabinet :: shopping-cart">
+            </th:block>
+        </th:block>
+        <th:block th:if="${#httpServletRequest.getRequestURI().contains('/page/')}">
+            <th:block th:include="page :: book-page">
+            </th:block>
+        </th:block>
+        <th:block th:if="${#httpServletRequest.getRequestURI().contains('/category/')}">
+            <th:block th:include="categories :: category">
+            </th:block>
+        </th:block>
+    </div>
+    </div>
+</div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script crossorigin="anonymous"
         integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"

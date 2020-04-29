@@ -25,6 +25,8 @@ public interface BookService {
     @Deprecated
     BookDTO getBookDTOById(Long id);
 
+    List<BookDTOForCategories> getBooksByCategoryId(Long categoryId, String lang);
+
     String getLastIdOfBook();
 
     BookDTO getBookByIdLocale(Long x);

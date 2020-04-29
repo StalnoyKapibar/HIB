@@ -1,6 +1,7 @@
 package com.project.config;
 
 import com.project.config.initializer.ErrorMessageDataInit;
+import com.project.config.initializer.TestCategories;
 import com.project.config.initializer.TestDataInit;
 import com.project.config.initializer.TestUserAccounts;
 import com.project.service.UserDetailServiceImpl;
@@ -33,6 +34,10 @@ public class BeanConfiguration {
             }
         }
     }
+
+    @Bean(initMethod = "init")
+    @PostConstruct
+    public TestCategories initTestCategories() { return new TestCategories();}
 
     @Bean(initMethod = "init")
     @DependsOn("checkAndCreateImg")

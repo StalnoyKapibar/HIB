@@ -29,7 +29,7 @@ function buildPageByCurrentLang() {
                     divBody.append('<h4 class="card-title" style="overflow: auto; height:100px">' + data[index].nameAuthorDTOLocale + '</h4>');
                     divBody.append('<p class="card-text">' + data[index].nameBookDTOLocale + '</p>');
                     divBody.append('<br>');
-                    divBody.append('<div style="position: absolute; bottom: 5px"><button id="bottomInCart"type="button" class="btn btn-success btn-sm  mr-1"  data-id="' + data[index].id + '">' + addToshoppingCart + '</button>' +
+                    divBody.append('<div style="position: absolute; bottom: 5px"><button id="bottomInCart" type="button" class="btn btn-success btn-sm  mr-1"  data-id="' + data[index].id + '">' + addToshoppingCart + '</button>' +
                         `<button type="button" id="bookbotom" class="btn btn-primary btn-sm mr-1" onclick="document.location='/page/${data[index].id}'"> ${bottom} </button></div>`);
                     div.append(divBody);
                     div.appendTo('#cardcolumns');

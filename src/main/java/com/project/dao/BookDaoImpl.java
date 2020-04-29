@@ -45,6 +45,7 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
                 .originalLanguage(bookDTO.getOriginalLanguage())
                 .listImage(bookDTO.getImageList())
                 .disabled(bookDTO.isDisabled())
+                .category(bookDTO.getCategory())
                 .build();
     }
 
@@ -141,5 +142,13 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
         pageableBookDTO.setPageableSize(pageable.getPageSize());
         pageableBookDTO.setTotalPages((int) Math.ceil(Float.parseFloat(getQuantityBook()) / limitBookDTOOnPage));
         return pageableBookDTO;
+    }
+    @Override
+    public List<BookDTOForCategories> getBooksByCategoryId(Long categoryId, String lang) {
+        String hql = "SELECT new com.project.model.BookDTOForCategories(b.id, b.nameLocale.en, " +
+                "b.authorLocale.en, b.edition.en, b.yearOfEdition, b.price, b.pages, " +
+                "b.coverImage, b.category) FROM Book b WHERE b.category.id =:categoryId".replaceAll("LOC", lang);
+
+        return entityManager.createQuery(hql, BookDTOForCategories.class).setParameter("categoryId", categoryId).getResultList();
     }
 }

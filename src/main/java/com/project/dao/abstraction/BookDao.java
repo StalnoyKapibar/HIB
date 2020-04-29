@@ -26,4 +26,6 @@ public interface BookDao extends GenericDao<Long, Book> {
     String getQuantityBook();
 
     BookNewDTO getNewBookDTObyIdAndLang(Long id, String lang);
+
+    List<BookDTOForCategories> getBooksByCategoryId(Long categoryId, String lang);
 }
