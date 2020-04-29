@@ -155,10 +155,19 @@ async function pageBook(x) {
             }
             $('#extra').html(html);
         });
-    buildChangeLang();
     $('#search-admin-local-id').html(idChangeLang);
-}
+    getLocales().then(buildChangeLang);
 
+}
+function buildChangeLang() {
+
+    var htmllang = '';
+    for (var i = 0; i < nameVarOfLocaleString.length; i++) {
+        var gh = nameVarOfLocaleString[i];
+        htmllang += ` <a  class='dropdown-item'  onclick='chanLang(${i})'>${gh}</a>`;
+    }
+    $('#chlang1').html(htmllang);
+}
 
 function chanLang(x) {
     idChangeLang = nameVarOfLocaleString[x];
@@ -289,14 +298,6 @@ function buildEditBook(xx) {
     }
 }
 
-function buildChangeLang() {
-    var htmllang = '';
-    for (var i = 0; i < nameVarOfLocaleString.length; i++) {
-        var gh = nameVarOfLocaleString[i];
-        htmllang += ` <a  class='dropdown-item'  onclick='chanLang(${i})'>${gh}</a>`;
-    }
-    $('#chlang1').html(htmllang);
-}
 function openEdit(id) {
     localStorage.setItem('tmpEditBookId', id);
 }

@@ -57,6 +57,9 @@
                     <div class="user-pic">
                         <img alt="User picture" class="img-responsive img-rounded" src="/static/images/user.jpg">
                     </div>
+                </th:block>
+                <a
+                <th:block sec:authorize="isAuthenticated()">
                     <div class="user-info">
                         <span class="user-name">
                             <strong th:text="${#authentication.getPrincipal().getUsername()}">Username of user</strong>
@@ -66,6 +69,11 @@
                     </div>
                 </th:block>
             </div>
+            <th:block sec:authorize="isAuthenticated()">
+                <a class="d-block text-center mb-4" style="background-color: #303030" href="/logout">
+                    <i class="fa fa-power-off text-center"></i>
+                </a>
+            </th:block>
             <!-- sidebar-search  -->
             <div class="sidebar-item sidebar-search">
                 <div>
@@ -179,11 +187,6 @@
         </div>
         <!-- sidebar-footer  -->
         <div class="sidebar-footer">
-            <div sec:authorize="isAuthenticated()">
-                <a href="/logout">
-                    <i class="fa fa-power-off"></i>
-                </a>
-            </div>
             <div class="pinned-footer">
                 <a href="#">
                     <i class="fas fa-ellipsis-h"></i>
@@ -256,19 +259,19 @@
                           th:action="@{/login}">
                         <div class="form-group">
                             <label for="loginInput">Login</label>
-                            <input class="form-control" id="loginInput" name="username" onkeyup="checkParams()"
+                            <input class="form-control" id="loginInput" name="username"
                                    placeholder="Login"
                                    required type="text">
                         </div>
                         <div class="form-group">
                             <label for="passwordInput">Password</label>
-                            <input class="form-control" id="passwordInput" name="password" onkeyup="checkParams()"
+                            <input class="form-control" id="passwordInput" name="password"
                                    placeholder="Password" required type="password">
                         </div>
                         <div class="custom-control custom-checkbox mb-4">
                             <input class="custom-control-input" id="checkboxRememberMe" type="checkbox">
                             <label class="custom-control-label" for="checkboxRememberMe">Remember me</label>
-                            <button class="btn btn-primary btn-block col-6 pull-right mr-1" hidden="hidden"
+                            <button class="btn btn-primary btn-block col-6 pull-right mr-1"
                                     id="sign_in_btn"
                                     onclick="sendSignInForm()" type="button">Sign in
                             </button>
