@@ -1,6 +1,9 @@
 package com.project.controller.controller;
 
 
+import com.project.model.Book;
+import com.project.model.BookDTO;
+import com.project.service.abstraction.BookService;
 import com.project.service.abstraction.FormLoginErrorMessageService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -15,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class ViewController {
 
     FormLoginErrorMessageService messageService;
+    BookService bookService;
 
     @GetMapping({"/home", "/profile/**", "/category/**", "/shopping-cart"})
     public String getHomePage() {
@@ -28,8 +32,13 @@ public class ViewController {
 
     @GetMapping("/page/{id}")
     public ModelAndView getPage(@PathVariable("id") long id, ModelAndView modelAndView) {
-        modelAndView.addObject("book", id);
-        modelAndView.setViewName("/user/user");
+        BookDTO bookDTO = bookService.getBookDTOById(id);
+        if (bookDTO.isShow()) {
+            modelAndView.addObject("book", id);
+            modelAndView.setViewName("/user/user");
+        }else {
+            modelAndView .setViewName("redirect:/home");
+        }
         return modelAndView;
     }
 

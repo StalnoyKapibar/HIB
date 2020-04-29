@@ -20,7 +20,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-public class OderController {
+public class OrderController {
 
     private ShoppingCartService cartService;
     private OrderService orderService;
