@@ -48,11 +48,13 @@ public class Book {
     @Singular("listImage")
     private List<Image> listImage;
 
-    @Column
     private Long views;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private OtherLanguage otherLanguageOfBook;
 
     private boolean disabled;
+
+    @OneToOne
+    private Category category;
 }

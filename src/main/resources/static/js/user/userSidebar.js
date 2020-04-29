@@ -1,3 +1,19 @@
+let categoryRow;
+fetch('/categories/getnullparent', {
+})
+    .then(function (response) {
+        return response.json()
+    })
+    .then(function (primaryCategories) {
+        for (let i in primaryCategories) {
+            categoryRow =
+                `<li>
+                <a href="/category/${primaryCategories[i].categoryName.toLowerCase()}">${primaryCategories[i].categoryName}</a>
+                </li>`;
+            $('#primaryCategories').append(categoryRow);
+        }
+    });
+
 $(document).on('click', '#searchIcon', async () => {
     document.location = `/search?request=${$("#searchInput").val()}`
 });
@@ -91,3 +107,4 @@ jQuery(function ($) {
 
     }
 });
+

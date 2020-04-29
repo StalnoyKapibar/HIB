@@ -1,0 +1,40 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Categories</title>
+</head>
+<body>
+<div class="container page-content" th:fragment="category">
+    <link href="/static/css/category-tree.css" rel="stylesheet">
+        <!--BreadCrumbs-->
+        <div class="row">
+            <nav class="col-12" aria-label="breadcrumb">
+                <ol class="breadcrumb" id="breadCrumbs"></ol>
+            </nav>
+        </div>
+        <!--BreadCrumbs-->
+
+        <!--Right SideBar-->
+        <div class="col-2 pull-right border-left">
+            <ul id="category_tree"></ul>
+        </div>
+        <!--Right SideBar-->
+
+        <!--Books-->
+        <div class="col-10 row" id="books">
+        </div>
+        <!--Books-->
+
+    <!--        footer       -->
+    <div class="footer container-fluid text-center" th:replace="home-old :: footer">
+    </div>
+<script src="/static/js/categories.js"></script>
+<script src="/static/js/categoryTree.js"></script>
+</div>
+</body>
+</html>

@@ -35,6 +35,9 @@
        href="/admin/panel/books"
        th:classappend="${#httpServletRequest.getRequestURI() == '/admin/panel/books' ? 'active' : ''}">Books</a>
     <a class="nav-link"
+       href="/admin/panel/categories"
+       th:classappend="${#httpServletRequest.getRequestURI() == '/admin/panel/categories' ? 'active' : ''}">Categories</a>
+    <a class="nav-link"
        href="/admin/panel/feedback"
        th:classappend="${#httpServletRequest.getRequestURI() == '/admin/panel/feedback' ? 'active' : ''}">Feedback
         Requests</a>

@@ -24,6 +24,8 @@ public interface BookService {
 
     Book getBookById(Long id);
 
+    List<BookDTOForCategories> getBooksByCategoryId(Long categoryId, String lang);
+
     String getLastIdOfBook();
 
     BookNewDTO getNewBookDTOByIdAndLang(Long id, String lang);
