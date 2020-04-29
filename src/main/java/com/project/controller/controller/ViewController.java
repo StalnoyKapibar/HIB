@@ -16,7 +16,7 @@ public class ViewController {
 
     FormLoginErrorMessageService messageService;
 
-    @GetMapping({"/home", "/profile/**", "/shopping-cart"})
+    @GetMapping({"/home", "/profile/**", "/category/**", "/shopping-cart"})
     public String getHomePage() {
         return "/user/user";
     }
@@ -44,4 +44,6 @@ public class ViewController {
         modelAndView.setViewName("search");
         return modelAndView;
     }
+
 }
+

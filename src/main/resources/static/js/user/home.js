@@ -152,5 +152,3 @@ async function loadWelcome(locale) {
             welcomeBlock.html(welcome.bodyWelcome);
         })
 }
-
-
