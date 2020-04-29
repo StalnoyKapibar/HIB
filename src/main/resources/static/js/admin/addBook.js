@@ -6,10 +6,13 @@ let price;
 let originalLanguage;
 let disabledCheckBox = $("#disabled");
 let pathToTmpPackage = '/images/tmp/';
+var otherLanguage;
+
+$(document).ready(getFieldsOfOtherLangBook());
 
 function checkNamesNotNull() {
     for (let tmpNameVar of nameVarOfLocaleString) {
-        if ($("#inpname" + tmpNameVar).val() !== '') {
+        if ($("#inpname" + tmpNameVar).val() !== '' || $("#inptname").val() !== '' ) {
             return true;
         }
     }
@@ -201,13 +204,18 @@ function deleteImage(id) {
 function addNewBook() {
     if (checkNamesNotNull() && confirm("Add this book?")) {
         let book = {};
+        let num = 0;
+        let otherLangFields = {};
         for (let tmpNameObject of nameObjectOfLocaleString) {
             let bookFields = {};
             for (let tmpNameVar of nameVarOfLocaleString) {
                 bookFields[tmpNameVar] = $("#inp" + tmpNameObject + tmpNameVar).val()
             }
             book[tmpNameObject] = bookFields;
+            otherLangFields[otherLanguage[num++]] = $("#inpt" + tmpNameObject).val();
+            otherLangFields[otherLanguage[num++]] = $("#in" + tmpNameObject).val();
         }
+        book["otherLanguageOfBook"] = otherLangFields;
         book["yearOfEdition"] = yearOfEdition.val();
         book["pages"] = pages.val();
         book["price"] = price.val();
@@ -251,4 +259,11 @@ function clearFields() {
 
 function doesFolderTmpExist() {
     fetch("admin/doesFolderTmpExist");
+}
+function getFieldsOfOtherLangBook() {
+    fetch("/api/getFieldsOfOtherLang")
+        .then(json)
+        .then(function (resp) {
+            otherLanguage = resp;
+        });
 }

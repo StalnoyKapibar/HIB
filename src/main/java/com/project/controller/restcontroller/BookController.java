@@ -9,6 +9,7 @@ import com.project.search.BookSearch;
 import com.project.service.abstraction.BookService;
 import com.project.service.abstraction.StorageService;
 import com.project.util.BookDTOWithFieldsForTable;
+import com.project.util.OtherLangFields;
 import lombok.AllArgsConstructor;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -174,5 +175,10 @@ public class BookController {
         if (!storageService.doesFolderTmpExist()) {
             storageService.createTmpFolderForImages();
         }
+    }
+
+    @GetMapping("/api/getFieldsOfOtherLang")
+    public List<String> getFieldsOfOtherLang(OtherLangFields otherLangFields) {
+        return otherLangFields.getFields();
     }
 }
