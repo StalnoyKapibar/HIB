@@ -3,6 +3,7 @@ var bottom = '';
 var addToshoppingCart = '';
 var deleteBottom = '';
 let welcomeBlock = $("#welcome");
+let currencyIcon = ' €';
 
 $(document).ready(function () {
 
@@ -51,6 +52,10 @@ function buildPageByCurrentLang() {
                 });
             });
     }, 10);
+}
+
+function covertPrice(price) {
+    return price / 100;
 }
 
 async function showSizeCart() {
@@ -147,13 +152,3 @@ async function loadWelcome(locale) {
             welcomeBlock.html(welcome.bodyWelcome);
         })
 }
-
-function checkParams() {
-    if ($('#loginInput').val().length !== 0 && $('#passwordInput').val().length !== 0) {
-        $('#sign_in_btn').removeAttr('hidden');
-    } else {
-        $('#sign_in_btn').attr('hidden', 'hidden');
-    }
-}
-
-
