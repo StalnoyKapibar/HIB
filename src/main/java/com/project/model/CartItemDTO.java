@@ -14,11 +14,11 @@ public class CartItemDTO {
     private Long id;
 
     @EqualsAndHashCode.Include
-    private BookDTO book;
+    private Book book;
 
     private Integer quantity;
 
-    public CartItemDTO(BookDTO book, Integer quantity) {
+    public CartItemDTO(Book book, Integer quantity) {
         this.book = book;
         this.quantity = quantity;
     }

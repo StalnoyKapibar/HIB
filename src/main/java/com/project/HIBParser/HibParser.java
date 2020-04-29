@@ -3,7 +3,7 @@ package com.project.HIBParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.project.model.BookDTO;
+import com.project.model.Book;
 import com.project.model.Image;
 import com.project.model.LocaleString;
 import com.project.service.abstraction.BookService;
@@ -43,7 +43,7 @@ public class HibParser {
         }
     }
 
-    public BookDTO getBookFromJSON(String json) {
+    public Book getBookFromJSON(String json) {
         JsonNode jsonNode = null;
         long id = Long.parseLong(bookService.getLastIdOfBook()) + 1;
         try {
@@ -65,28 +65,28 @@ public class HibParser {
             listImage.add(new Image(0, i + ".jpg"));
         }
 
-        return BookDTO.builder()
+        return Book.builder()
                 .id(id)
                 .name(initLocaleString(jsonNode.get("name")))
                 .author(initLocaleString(jsonNode.get("author")))
-                .desc(initLocaleString(jsonNode.get("desc")))
+                .description(initLocaleString(jsonNode.get("desc")))
                 .edition(initLocaleString(jsonNode.get("edition")))
                 .yearOfEdition(jsonNode.get("yearOfEdition").asText())
                 .pages(jsonNode.get("pages").asLong())
                 .price(jsonNode.get("price").asLong())
                 .originalLanguage(jsonNode.get("originalLanguage").asText())
                 .coverImage(AVATAR)
-                .imageList(listImage).build();
+                .listImage(listImage).build();
     }
 
     public void saveBooks(List<String> booksAsJson) {
         for (String json : booksAsJson) {
-            BookDTO bookDTO = getBookFromJSON(json);
-            bookDTO.setDisabled(true);
-            bookService.addBook(bookDTO);
+            Book book = getBookFromJSON(json);
+            book.setDisabled(true);
+            bookService.addBook(book);
             String lastId = bookService.getLastIdOfBook();
             storageService.createNewPaperForImages(lastId);
-            storageService.cutImagesFromTmpPaperToNewPaperByLastIdBook(lastId, bookDTO.getImageList());
+            storageService.cutImagesFromTmpPaperToNewPaperByLastIdBook(lastId, book.getListImage());
         }
     }
 }

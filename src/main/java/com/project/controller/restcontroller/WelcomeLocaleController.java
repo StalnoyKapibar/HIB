@@ -1,6 +1,6 @@
 package com.project.controller.restcontroller;
 
-import com.project.model.BookDTO;
+import com.project.model.Book;
 import com.project.model.Welcome;
 import com.project.model.WelcomeLocaleDTO;
 import com.project.service.abstraction.BookService;
@@ -37,7 +37,7 @@ public class WelcomeLocaleController {
     }
 
     @GetMapping("/get")
-    public List<BookDTO> getAllAd() {
+    public List<Book> getAllAd() {
         return bookService.getAllBookDTO();
     }
 }

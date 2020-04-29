@@ -1,7 +1,7 @@
 package com.project.controller.restcontroller;
 
 import com.project.HIBParser.HibParser;
-import com.project.model.BookDTO;
+import com.project.model.Book;
 import com.project.model.HibFileDto;
 import com.project.service.abstraction.HibFileService;
 import lombok.AllArgsConstructor;
@@ -24,7 +24,7 @@ public class LoadHibFilesRestController {
     private final HibFileService hibFileService;
 
     @PostMapping("/api/admin/upload-file")
-    public BookDTO uploadFile(@RequestBody String book) {
+    public Book uploadFile(@RequestBody String book) {
         LOGGER.info("POST request '/api/upload-file' with {}", book);
         return hibParser.getBookFromJSON(book);
     }
@@ -35,8 +35,8 @@ public class LoadHibFilesRestController {
     }
 
     @GetMapping(value = "/api/admin/hib", params = "name")
-    public BookDTO getBookDtoFromHibFileByName(@RequestParam String name) {
-        return hibFileService.getBookDtoFromHibFileByName(name);
+    public Book getBookDtoFromHibFileByName(@RequestParam String name) {
+        return hibFileService.getBookFromHibFileByName(name);
     }
 
     @PostMapping("/api/admin/upload-multiply-files")

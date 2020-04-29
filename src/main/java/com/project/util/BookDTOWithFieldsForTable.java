@@ -1,6 +1,6 @@
 package com.project.util;
 
-import com.project.model.BookDTO;
+import com.project.model.Book;
 import com.project.model.LocaleString;
 import org.springframework.stereotype.Component;
 
@@ -10,7 +10,7 @@ import java.util.List;
 
 @Component("BookDTOWithFieldsForTable")
 public class BookDTOWithFieldsForTable {
-    private Class localeStringClass = BookDTO.class;
+    private Class localeStringClass = Book.class;
     private List<String> fields = new ArrayList<>();
 
     public BookDTOWithFieldsForTable() {

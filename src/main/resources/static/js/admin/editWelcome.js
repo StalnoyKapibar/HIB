@@ -107,6 +107,7 @@ async function pageBook(x) {
         .then(status)
         .then(json)
         .then(function (resp_tmp) {
+            console.log(resp_tmp);
             arrAllBooksByNumberPage = resp_tmp.listBookDTO;
             var htmlTempPager = '';
             for (var i = 0; i < resp_tmp.totalPages; i++) {
