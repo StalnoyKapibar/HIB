@@ -28,7 +28,7 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
                 .coverImage(book.getCoverImage())
                 .originalLanguage(book.getOriginalLanguage())
                 .imageList(book.getListImage())
-                .disabled(book.isDisabled())
+                .isShow(book.isShow())
                 .build();
     }
 
@@ -44,7 +44,7 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
                 .coverImage(bookDTO.getCoverImage())
                 .originalLanguage(bookDTO.getOriginalLanguage())
                 .listImage(bookDTO.getImageList())
-                .disabled(bookDTO.isDisabled())
+                .isShow(bookDTO.isShow())
                 .category(bookDTO.getCategory())
                 .build();
     }
@@ -103,7 +103,7 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
     @Override
     public List<BookDTO20> get20BookDTO(String locale) {
         String hql = ("SELECT new com.project.model.BookDTO20(b.id, b.nameLocale.LOC, b.authorLocale.LOC, b.price, b.coverImage)" +
-                "FROM Book b WHERE b.disabled = false or b.disabled = null ORDER BY RAND()")
+                "FROM Book b WHERE b.isShow = true or b.isShow = null ORDER BY RAND()")
                 .replaceAll("LOC", locale);
         return entityManager.createQuery(hql, BookDTO20.class).setMaxResults(20).getResultList();
     }
@@ -127,7 +127,7 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
         String sortingObject = sortTypeTmp.split(":")[0];
         String typeOfSorting = sortTypeTmp.split(" ")[1];
         String hql = "SELECT b " +
-                "FROM Book b WHERE b.disabled = :disabled ORDER BY sortingObject typeOfSorting"
+                "FROM Book b WHERE b.isShow = :disabled ORDER BY sortingObject typeOfSorting"
                         .replaceAll("sortingObject", sortingObject)
                         .replaceAll("typeOfSorting", typeOfSorting);
         List<BookDTO> bookDTOList = new ArrayList<>();

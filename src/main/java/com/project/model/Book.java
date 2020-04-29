@@ -53,7 +53,7 @@ public class Book {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private OtherLanguage otherLanguageOfBook;
 
-    private boolean disabled;
+    private boolean isShow = true;
 
     @OneToOne
     private Category category;

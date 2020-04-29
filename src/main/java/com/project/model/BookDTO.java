@@ -23,6 +23,6 @@ public class BookDTO {
     private String coverImage;
     @Singular("imageList")
     private List<Image> imageList;
-    private boolean disabled;
+    private boolean isShow = true;
     private Category category;
 }

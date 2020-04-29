@@ -14,7 +14,7 @@ let pathImageDefault = 'images/tmp/';
 var nameImageCover = '';
 let welcomeText = [];
 let toggleShowDisabled = $("#toggleShowDisabled");
-let repliedOn = false;
+let repliedOn = true;
 
 $(document).ready(getVarBookDTO(), getAllLocales(), pageBook(0), getLocales());
 
