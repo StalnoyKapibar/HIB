@@ -13,6 +13,7 @@ function showShoppingCart() {
 
 $(document).ready(function () {
     getAU().then(setFieldsChangePersonalInformation).then(oAuth2AccHandle);
+    getAU().then(FirstLastNames);
 });
 
 async function getAU() {
@@ -34,6 +35,15 @@ function oAuth2AccHandle() {
     document.getElementById("PasswordChange-tab").hidden = AU.oauth2Acc;
 }
 
+function FirstLastNames() {
+    if (AU.lastName === null) {
+        document.getElementById("first-last-name").innerText = AU.firstName;
+    }
+    else {
+        document.getElementById("first-last-name").innerText = AU.firstName + ' ' + AU.lastName;
+    }
+}
+
 function savePersonalInformation() {
     console.log("Hello");
     let email = $('#fieldEmail').val();
@@ -46,6 +56,7 @@ function savePersonalInformation() {
     tmp['lastName'] = lastName;
     let tmpSend = JSON.stringify(tmp);
     savePersonalInformationRequest(tmpSend);
+    location.reload();
 }
 
 function savePersonalInformationRequest(personalInformation) {

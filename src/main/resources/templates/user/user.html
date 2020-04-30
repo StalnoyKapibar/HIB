@@ -52,7 +52,7 @@
                     </div>
                     <div class="user-info">
                         <span class="user-name">
-                            <strong th:text="${#authentication.getPrincipal().getUsername()}">Username of user</strong>
+                            <strong id="first-last-name"></strong>
                         </span>
                         <span class="user-role"
                               th:text="${#authentication.getPrincipal().getEmail()}">email of user</span>
@@ -366,6 +366,7 @@
 <script src="/static/js/main.js"></script>
 <script src="/static/js/footerBuilder.js"></script>
 <script src="/static/js/user/home.js"></script>
+<script src="/static/js/user/profile/profile.js"></script>
 
 </body>
 
