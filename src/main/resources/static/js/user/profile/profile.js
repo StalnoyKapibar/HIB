@@ -13,7 +13,7 @@ function showShoppingCart() {
 
 $(document).ready(function () {
     getAU().then(setFieldsChangePersonalInformation).then(oAuth2AccHandle);
-    getAU().then(FirstLastNames);
+    getAU().then(firstLastNames);
 });
 
 async function getAU() {
@@ -35,12 +35,21 @@ function oAuth2AccHandle() {
     document.getElementById("PasswordChange-tab").hidden = AU.oauth2Acc;
 }
 
-function FirstLastNames() {
+function firstLastNames() {
     if (AU.lastName === null) {
-        document.getElementById("first-last-name").innerText = AU.firstName;
+        document.getElementById("first-last-name").innerHTML = AU.firstName;
     }
     else {
-        document.getElementById("first-last-name").innerText = AU.firstName + ' ' + AU.lastName;
+        document.getElementById("first-last-name").innerHTML = AU.firstName + ' ' + AU.lastName;
+    }
+}
+
+function refreshUserNames(firstName, lastName) {
+    if (lastName === null) {
+        document.getElementById("first-last-name").innerHTML = firstName;
+    }
+    else {
+        document.getElementById("first-last-name").innerHTML = firstName + ' ' + lastName;
     }
 }
 
@@ -56,7 +65,7 @@ function savePersonalInformation() {
     tmp['lastName'] = lastName;
     let tmpSend = JSON.stringify(tmp);
     savePersonalInformationRequest(tmpSend);
-    location.reload();
+    refreshUserNames(firstName, lastName);
 }
 
 function savePersonalInformationRequest(personalInformation) {
