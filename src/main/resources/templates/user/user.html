@@ -42,7 +42,7 @@
         <div class="sidebar-content">
             <!-- sidebar-brand  -->
             <div class="sidebar-item sidebar-brand">
-                <a href="#">History in books</a>
+                <a href="/home">History in books</a>
             </div>
             <!-- sidebar-header  -->
             <div class="sidebar-item sidebar-header d-flex flex-nowrap">
@@ -62,7 +62,7 @@
                 <th:block sec:authorize="isAuthenticated()">
                     <div class="user-info">
                         <span class="user-name">
-                            <strong th:text="${#authentication.getPrincipal().getUsername()}">Username of user</strong>
+                            <strong id="first-last-name"></strong>
                         </span>
                         <span class="user-role"
                               th:text="${#authentication.getPrincipal().getEmail()}">email of user</span>
@@ -375,5 +375,6 @@
         }, 300)
     });
 </script>
+<script src="/static/js/user/profile/profile.js"></script>
 </body>
 </html>
