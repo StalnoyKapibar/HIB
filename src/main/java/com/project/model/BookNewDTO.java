@@ -21,7 +21,7 @@ public class BookNewDTO {
     private String originalLanguage;
     private String coverImage;
     private List<Image> imageList;
-    Category category;
+    private Category category;
 
     public BookNewDTO(long id, String name, String author, String desc, String edition, String yearOfEdition, Long pages, Long price, String originalLanguage, String coverImage) {
         this.id = id;
