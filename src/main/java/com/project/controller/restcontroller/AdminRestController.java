@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("/api/admin")
 @AllArgsConstructor
 public class AdminRestController {
 
@@ -20,7 +20,7 @@ public class AdminRestController {
         categoryService.addCategory(category);
     }
 
-    @GetMapping("/categories/getadmintree")
+    @GetMapping("/category/getadmintree")
     public List getAdminCategoryTree() {
         return categoryService.getAdminCategoryTree();
     }
