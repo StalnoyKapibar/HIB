@@ -38,8 +38,7 @@ function oAuth2AccHandle() {
 function firstLastNames() {
     if (AU.lastName === null) {
         document.getElementById("first-last-name").innerHTML = AU.firstName;
-    }
-    else {
+    } else {
         document.getElementById("first-last-name").innerHTML = AU.firstName + ' ' + AU.lastName;
     }
 }
