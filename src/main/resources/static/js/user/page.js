@@ -19,16 +19,16 @@ function getCookie(name) {
 }
 
 function setPageFields() {
-    console.log(currentLang);
     fetch("/api/book/" + $("#bookid").attr("value") + "?locale=" + currentLang)
         .then(status)
         .then(json).then(function (data) {
+            console.log(data);
         objectBook = data;
         tmpEditBookId = data.id;
         $('title').text(data.name);
-        $('#book-name').text(data.name);
-        $('#book-author').text(data.author);
-        $('#book-edition').text(data.edition);
+        $('#book-name').text(`${data.name} (${data.transitName})`);
+        $('#book-author').text(`${data.author} (${data.transitAuthor})`);
+        $('#book-edition').text(`${data.edition} (${data.editionTranslite})`);
         $('#addToCart').attr('data-id', data.id);
         $("#book-desc").text(data.desc);
         $("#book-original-language").text(data.originalLanguage);

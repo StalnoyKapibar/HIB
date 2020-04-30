@@ -24,11 +24,33 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
     }
 
     @Override
-    @SuppressWarnings("all")
+    public String getBookOriginalLanguageById(Long id) {
+        return entityManager
+                .createQuery("SELECT b.originalLanguage FROM Book b where b.id = :id", String.class)
+                .setParameter("id", id)
+                .getSingleResult();
+    }
+
+    @Override
     public BookNewDTO getNewBookDTObyIdAndLang(Long id, String lang) {
         String hql = ("SELECT new com.project.model.BookNewDTO(b.id, b.name.LOC, " +
                 "b.author.LOC, b.description.LOC, b.edition.LOC, b.yearOfEdition, b.pages," +
                 " b.price, b.originalLanguage, b.coverImage) FROM Book b WHERE id = :id").replaceAll("LOC", lang);
+        return getBookNewDTO(id, hql);
+    }
+
+    @Override
+    public BookNewDTO getNewBookDTOInOtherLangByIdAndLang(Long id, String lang) {
+        String hql = ("SELECT new com.project.model.BookNewDTO(b.id, b.otherLanguageOfBook.otherLangNameBook, " +
+                "b.otherLanguageOfBook.translitNameBook, " +
+                "b.otherLanguageOfBook.otherLangAuthor, " +
+                "b.otherLanguageOfBook.translitAuthor, b.description.LOC, b.edition.LOC, b.yearOfEdition, b.pages," +
+                " b.price, b.originalLanguage, b.coverImage) FROM Book b WHERE id = :id").replaceAll("LOC", lang);
+        return getBookNewDTO(id, hql);
+    }
+
+    @SuppressWarnings("all")
+    private BookNewDTO getBookNewDTO(Long id, String hql) {
         BookNewDTO bookNewDTO = entityManager.createQuery(hql, BookNewDTO.class).setParameter("id", id).getSingleResult();
         List<Image> images = entityManager
                 .createNativeQuery("SELECT id, name_image " +
@@ -47,14 +69,6 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
                 "FROM Book b where b.name=:name or b.author=:name ")
                 .replaceAll("LOC", locale);
         return entityManager.createQuery(hql, BookDTO20.class).setParameter("name", localeString).getSingleResult();
-    }
-
-    @Override
-    public List<BookDTO20> get20BookDTO(String locale) {
-        String hql = ("SELECT new com.project.model.BookDTO20(b.id, b.name.LOC, b.author.LOC, b.price, b.coverImage)" +
-                "FROM Book b WHERE b.disabled = false or b.disabled = null ORDER BY RAND()")
-                .replaceAll("LOC", locale);
-        return entityManager.createQuery(hql, BookDTO20.class).setMaxResults(20).getResultList();
     }
 
     @Override
