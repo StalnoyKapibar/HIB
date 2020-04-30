@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -53,7 +54,7 @@ public class BookServiceImpl implements BookService {
         Book book = bookDAO.findById(id);
         BookNewDTO bookNewDTO = new BookNewDTO();
         String originalLanguage = book.getOriginalLanguage();
-        if (originalLanguage == null) originalLanguage = lang;
+        if (originalLanguage == null) originalLanguage = lang.toUpperCase();
         Method getStringInOriginalLanguage = null;
         try {
             getStringInOriginalLanguage = LocaleString.class
@@ -142,6 +143,7 @@ public class BookServiceImpl implements BookService {
                     bookDTO20.setPrice(book.getPrice());
                     return bookDTO20;
                 }).collect(Collectors.toList());
+        Collections.shuffle(bookDTOList);
         return bookDTOList;
     }
 
