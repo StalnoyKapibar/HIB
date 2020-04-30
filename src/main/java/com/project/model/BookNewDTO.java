@@ -21,7 +21,7 @@ public class BookNewDTO {
     private String originalLanguage;
     private String coverImage;
     private List<Image> imageList;
-    private Category category;
+    Category category;
 
     public BookNewDTO(long id, String name, String author, String desc, String edition, String yearOfEdition, Long pages, Long price, String originalLanguage, String coverImage) {
         this.id = id;
@@ -34,9 +34,5 @@ public class BookNewDTO {
         this.price = price;
         this.originalLanguage = originalLanguage;
         this.coverImage = coverImage;
-    }
-
-    public BookNewDTO(Category category) {
-        this.category = category;
     }
 }

@@ -1,4 +1,10 @@
 let categoryRow;
+
+$("#menu-toggle").click(function(e) {
+    e.preventDefault();
+    $("#wrapper").toggleClass("active");
+});
+
 fetch('/categories/getnullparent', {
 })
     .then(function (response) {

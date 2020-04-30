@@ -89,8 +89,8 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
 
     @Override
     public List<BookDTOForCategories> getBooksByCategoryId(Long categoryId, String lang) {
-        String hql = "SELECT new com.project.model.BookDTOForCategories(b.id, b.nameLocale.en, " +
-                "b.authorLocale.en, b.edition.en, b.yearOfEdition, b.price, b.pages, " +
+        String hql = "SELECT new com.project.model.BookDTOForCategories(b.id, b.name.en, " +
+                "b.author.en, b.edition.en, b.yearOfEdition, b.price, b.pages, " +
                 "b.coverImage, b.category) FROM Book b WHERE b.category.id =:categoryId".replaceAll("LOC", lang);
 
         return entityManager.createQuery(hql, BookDTOForCategories.class).setParameter("categoryId", categoryId).getResultList();
