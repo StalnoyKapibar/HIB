@@ -28,7 +28,7 @@ public class ShoppingCartDaoImpl extends AbstractDao<Long, ShoppingCart> impleme
         cartDTO.setId(shoppingCart.getId());
         List<CartItemDTO> itemDTO = new ArrayList<>();
         for (CartItem cartItem : shoppingCart.getCartItems()) {
-            itemDTO.add(new CartItemDTO(cartItem.getId(), bookDAO.getBookDTOById(cartItem.getBook().getId()), cartItem.getQuantity()));
+            itemDTO.add(new CartItemDTO(cartItem.getId(), bookDAO.findById(cartItem.getBook().getId()), cartItem.getQuantity()));
         }
         cartDTO.setCartItems(itemDTO);
         return cartDTO;

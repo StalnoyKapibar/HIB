@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-<html
-        xmlns=""
-        xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
@@ -31,6 +29,15 @@
 </head>
 <body>
 <div class="page-wrapper default-theme sidebar-bg bg1 toggled">
+    <div class="preloader">
+        <div class="lds-ellipsis">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+    <div class="row">
+    <div class="col-2">
     <nav class="sidebar-wrapper" id="sidebar">
         <div class="sidebar-content">
             <!-- sidebar-brand  -->
@@ -50,6 +57,9 @@
                     <div class="user-pic">
                         <img alt="User picture" class="img-responsive img-rounded" src="/static/images/user.jpg">
                     </div>
+                </th:block>
+                <a
+                <th:block sec:authorize="isAuthenticated()">
                     <div class="user-info">
                         <span class="user-name">
                             <strong id="first-last-name"></strong>
@@ -59,6 +69,11 @@
                     </div>
                 </th:block>
             </div>
+            <th:block sec:authorize="isAuthenticated()">
+                <a class="d-block text-center mb-4" style="background-color: #303030" href="/logout">
+                    <i class="fa fa-power-off text-center"></i>
+                </a>
+            </th:block>
             <!-- sidebar-search  -->
             <div class="sidebar-item sidebar-search">
                 <div>
@@ -81,49 +96,35 @@
                     <li th:classappend="${#httpServletRequest.getRequestURI() == '/home' ? 'active' : ''}">
                         <a href="/home">
                             <i class="fas fa-book"></i>
-                            <span class="menu-text">Main</span>
+                            <span class="menu-text" id="link_main_header">Main</span>
                         </a>
                     </li>
                     <li class="sidebar-dropdown">
                         <a href="#">
                             <i class="fas fa-sitemap"></i>
-                            <span class="menu-text">Categories</span>
+                            <span class="menu-text" id="categories">Categories</span>
                         </a>
                         <div class="sidebar-submenu">
-                            <ul>
-                                <li>
-                                    <a href="#">Fantasy</a>
-                                </li>
-                                <li>
-                                    <a href="#">History</a>
-                                </li>
-                                <li>
-                                    <a href="#">Children's literature</a>
-                                </li>
-                                <li>
-                                    <a href="#">Dystopia</a>
-                                </li>
-                                <li>
-                                    <a href="#">Post Apocalypse</a>
-                                </li>
+                            <ul id="primaryCategories">
                             </ul>
                         </div>
                     </li>
                     <th:block sec:authorize="!hasRole('ADMIN')">
                         <li class="header-menu">
-                            <span>Profile</span>
+                            <span class="myprof-loc">Profile</span>
                         </li>
                         <li sec:authorize="hasRole('USER')"
                             th:classappend="${#httpServletRequest.getRequestURI() == '/profile/orders' ? 'active' : ''}">
                             <a href="/profile/orders">
                                 <i class="fas fa-shopping-bag"></i>
-                                <span class="menu-text">My orders</span>
+                                <span class="menu-text" id="oders">My orders</span>
+                                <span class="badge badge-pill badge-danger" id="orders-quantity"></span>
                             </a>
                         </li>
                         <li th:classappend="${#httpServletRequest.getRequestURI() == '/shopping-cart' ? 'active' : ''}">
                             <a href="/shopping-cart">
                                 <i class="fa fa-shopping-cart"></i>
-                                <span class="menu-text">Shopping cart</span>
+                                <span class="menu-text" id="headershoppingcart">Shopping cart</span>
                                 <span class="badge badge-pill badge-danger" id="bucketIn"></span>
                             </a>
                         </li>
@@ -146,7 +147,7 @@
                         <li th:classappend="${#httpServletRequest.getRequestURI() == '/profile/settings' ? 'active' : ''}">
                             <a href="/profile/settings">
                                 <i class="fas fa-user-cog"></i>
-                                <span class="menu-text">Account settings</span>
+                                <span class="menu-text" id="settingprofile">Account settings</span>
                             </a>
                         </li>
                     </th:block>
@@ -171,12 +172,12 @@
                     </li>
                     <th:block sec:authorize="!hasRole('ADMIN')">
                         <li class="header-menu">
-                            <span>Contact us</span>
+                            <span class="contact-us">Contact us</span>
                         </li>
                         <li>
                             <a data-target="#feedback-modal" data-toggle="modal" href="">
                                 <i class="far fa-comment-dots"></i>
-                                <span>Ask a question</span>
+                                <span id="ask-question">Ask a question</span>
                             </a>
                         </li>
                     </th:block>
@@ -186,11 +187,6 @@
         </div>
         <!-- sidebar-footer  -->
         <div class="sidebar-footer">
-            <div sec:authorize="isAuthenticated()">
-                <a href="/logout">
-                    <i class="fa fa-power-off"></i>
-                </a>
-            </div>
             <div class="pinned-footer">
                 <a href="#">
                     <i class="fas fa-ellipsis-h"></i>
@@ -263,19 +259,19 @@
                           th:action="@{/login}">
                         <div class="form-group">
                             <label for="loginInput">Login</label>
-                            <input class="form-control" id="loginInput" name="username" onkeyup="checkParams()"
+                            <input class="form-control" id="loginInput" name="username"
                                    placeholder="Login"
                                    required type="text">
                         </div>
                         <div class="form-group">
                             <label for="passwordInput">Password</label>
-                            <input class="form-control" id="passwordInput" name="password" onkeyup="checkParams()"
+                            <input class="form-control" id="passwordInput" name="password"
                                    placeholder="Password" required type="password">
                         </div>
                         <div class="custom-control custom-checkbox mb-4">
                             <input class="custom-control-input" id="checkboxRememberMe" type="checkbox">
                             <label class="custom-control-label" for="checkboxRememberMe">Remember me</label>
-                            <button class="btn btn-primary btn-block col-6 pull-right mr-1" hidden="hidden"
+                            <button class="btn btn-primary btn-block col-6 pull-right mr-1"
                                     id="sign_in_btn"
                                     onclick="sendSignInForm()" type="button">Sign in
                             </button>
@@ -319,32 +315,38 @@
         </div>
     </div>
     <script src="/static/js/utils/common-function.js"></script>
-
-    <!-- page-content  -->
-    <th:block
-            th:if="${#httpServletRequest.getRequestURI() == '/home' || #httpServletRequest.getRequestURI().contains('error')}">
-        <th:block th:include="home :: page-content">
-        </th:block>
-    </th:block>
-    <th:block th:if="${#httpServletRequest.getRequestURI() == '/profile/orders'}">
-        <th:block th:include="cabinet :: orders">
-        </th:block>
-    </th:block>
-    <th:block th:if="${#httpServletRequest.getRequestURI() == '/profile/settings'}">
-        <th:block th:include="cabinet :: settings">
-        </th:block>
-    </th:block>
-    <th:block th:if="${#httpServletRequest.getRequestURI() == '/shopping-cart'}">
-        <th:block th:include="cabinet :: shopping-cart">
-        </th:block>
-    </th:block>
-    <th:block th:if="${#httpServletRequest.getRequestURI().contains('/page/')}">
-        <th:block th:include="page :: book-page">
-        </th:block>
-    </th:block>
-    <!-- page-content" -->
 </div>
-<!-- page-wrapper -->
+    <div class="col-10">
+        <!-- page-content  -->
+        <th:block
+                th:if="${#httpServletRequest.getRequestURI() == '/home' || #httpServletRequest.getRequestURI().contains('error')}">
+            <th:block th:include="home :: page-content">
+            </th:block>
+        </th:block>
+        <th:block th:if="${#httpServletRequest.getRequestURI() == '/profile/orders'}">
+            <th:block th:include="cabinet :: orders">
+            </th:block>
+        </th:block>
+        <th:block th:if="${#httpServletRequest.getRequestURI() == '/profile/settings'}">
+            <th:block th:include="cabinet :: settings">
+            </th:block>
+        </th:block>
+        <th:block th:if="${#httpServletRequest.getRequestURI() == '/shopping-cart'}">
+            <th:block th:include="cabinet :: shopping-cart">
+            </th:block>
+        </th:block>
+        <th:block th:if="${#httpServletRequest.getRequestURI().contains('/page/')}">
+            <th:block th:include="page :: book-page">
+            </th:block>
+        </th:block>
+        <th:block th:if="${#httpServletRequest.getRequestURI().contains('/category/')}">
+            <th:block th:include="categories :: category">
+            </th:block>
+        </th:block>
+    </div>
+    </div>
+</div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script crossorigin="anonymous"
         integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
@@ -366,8 +368,12 @@
 <script src="/static/js/main.js"></script>
 <script src="/static/js/footerBuilder.js"></script>
 <script src="/static/js/user/home.js"></script>
-<script src="/static/js/user/profile/profile.js"></script>
-
+<script type="application/javascript">
+    $(document).ready(function () {
+        setTimeout(() => {
+            $(".preloader").hide("slow");
+        }, 300)
+    });
+</script>
 </body>
-
 </html>

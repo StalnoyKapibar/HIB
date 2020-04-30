@@ -1,0 +1,32 @@
+
+ul, #myUL {
+    list-style-type: none;
+}
+
+#myUL {
+    margin: 0;
+    padding: 0;
+}
+
+.caret {
+    cursor: pointer;
+    user-select: none;
+}
+
+.caret::before {
+    content: "-";
+    display: inline-block;
+    margin-right: 6px;
+}
+
+.caret-down::before {
+    content: "+";
+}
+
+.nested {
+    display: none;
+}
+
+.active {
+    display: block;
+}

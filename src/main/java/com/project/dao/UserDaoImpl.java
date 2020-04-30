@@ -4,8 +4,10 @@ import com.project.dao.abstraction.UserDao;
 import com.project.model.UserAccount;
 import com.project.model.UserDTO;
 import com.project.model.UserDTONewPassword;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.NoResultException;
 import java.util.List;
 
 @Repository
@@ -18,10 +20,14 @@ public class UserDaoImpl extends AbstractDao<Long, UserAccount> implements UserD
     public UserDTO getUserByLogin(String login) {
         String temp = "SELECT new com.project.model.UserDTO(ua.id, ua.login, ua.email, ua.password, ua.firstName, ua.lastName, false) " +
                 "FROM UserAccount ua WHERE ua.login = :login";
-        return entityManager
-                .createQuery(temp, UserDTO.class)
-                .setParameter("login", login)
-                .getSingleResult();
+        try {
+            return entityManager
+                    .createQuery(temp, UserDTO.class)
+                    .setParameter("login", login)
+                    .getSingleResult();
+        } catch (NoResultException nre) {
+            throw new UsernameNotFoundException(login);
+        }
     }
 
     @Override

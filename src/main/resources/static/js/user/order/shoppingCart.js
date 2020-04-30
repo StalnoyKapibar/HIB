@@ -157,7 +157,7 @@ function geolocate() {
 
 function confirmPurchase() {
     fetch('/order').then(r => getShoppingCart());
-    showShoppingCart();
+    document.location.href = '/profile/orders';
 }
 
 function enterData() {
@@ -272,17 +272,24 @@ function showCarrentOrder(index) {
     $('#subtotalordermodal').text(convertPrice(order.itemsCost) + currencyIcon);
     $('#shippingcostordermodal').text(convertPrice(order.shippingCost) + currencyIcon);
     $('#pricetotalordermodal').text(convertPrice(order.itemsCost + order.shippingCost) + currencyIcon);
-    $('#shippingaddressordermodal').empty();
-    let address = order.address;
     let flat = '';
-    if (address.flat != "") {
-        flat = '-' + address.flat;
+    if (order.address.flat != "") {
+        flat = '-' + order.address.flat;
     }
-    let shipping = $(`<p>${address.firstName} ${address.lastName}</p>
-        <p>${address.street} ${address.house}${flat}</p>
-        <p>${address.postalCode} ${address.city} ${address.state}</p>
-        <p>${address.country}</p>`);
-    shipping.appendTo('#shippingaddressordermodal');
+
+    let addressDelivery = {
+        "Country/Zip code": ` ${order.address.country} , ${order.address.postalCode}`,
+        "City/State": `${order.address.city} , ${order.address.state}`,
+        "Street": `${order.address.street}`,
+        "House/Flat": `${order.address.house}${flat}`,
+        "First name , Last name": `${order.address.firstName} ${order.address.lastName}`
+    };
+
+    let forAddressDelivery = ``;
+    for (let key in addressDelivery) {
+        forAddressDelivery += `<tr><td>${key} :</td><td>${addressDelivery[key]}</td></tr>`
+    }
+    $('#shippingaddressordermodal').html(`<table class="table"><tbody><tr>${forAddressDelivery}</tr></tbody></table>`);
 
 }
 
