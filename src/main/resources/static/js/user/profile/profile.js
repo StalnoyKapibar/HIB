@@ -12,7 +12,8 @@ function showShoppingCart() {
 }
 
 $(document).ready(function () {
-    getAU().then(setFieldsChangePersonalInformation)
+    getAU().then(setFieldsChangePersonalInformation).then(oAuth2AccHandle);
+    getAU().then(firstLastNames);
 });
 
 async function getAU() {
@@ -30,6 +31,27 @@ function setFieldsChangePersonalInformation() {
     $('#fieldLastName').val(AU.lastName);
 }
 
+function oAuth2AccHandle() {
+    document.getElementById("PasswordChange-tab").hidden = AU.oauth2Acc;
+}
+
+function firstLastNames() {
+    if (AU.lastName === null) {
+        document.getElementById("first-last-name").innerHTML = AU.firstName;
+    } else {
+        document.getElementById("first-last-name").innerHTML = AU.firstName + ' ' + AU.lastName;
+    }
+}
+
+function refreshUserNames(firstName, lastName) {
+    if (lastName === null) {
+        document.getElementById("first-last-name").innerHTML = firstName;
+    }
+    else {
+        document.getElementById("first-last-name").innerHTML = firstName + ' ' + lastName;
+    }
+}
+
 function savePersonalInformation() {
     console.log("Hello");
     let email = $('#fieldEmail').val();
@@ -42,6 +64,7 @@ function savePersonalInformation() {
     tmp['lastName'] = lastName;
     let tmpSend = JSON.stringify(tmp);
     savePersonalInformationRequest(tmpSend);
+    refreshUserNames(firstName, lastName);
 }
 
 function savePersonalInformationRequest(personalInformation) {
