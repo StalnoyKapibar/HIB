@@ -1,9 +1,7 @@
 package com.project.controller.restcontroller;
 
-import com.project.model.AddressDTO;
-import com.project.model.Order;
-import com.project.model.OrderDTO;
-import com.project.model.ShoppingCartDTO;
+import com.project.model.*;
+import com.project.service.abstraction.BookService;
 import com.project.service.abstraction.OrderService;
 import com.project.service.abstraction.ShoppingCartService;
 import com.project.service.abstraction.UserAccountService;
@@ -25,7 +23,7 @@ public class OrderController {
     private ShoppingCartService cartService;
     private OrderService orderService;
     private UserAccountService userAccountService;
-
+    private BookService bookService;
 
     @PostMapping("/order/confirmaddress")
     private OrderDTO addOder(@RequestBody AddressDTO addressDTO, HttpSession httpSession) {
@@ -47,7 +45,13 @@ public class OrderController {
         Long userId = (Long) httpSession.getAttribute("userId");
         order.setUserAccount(userAccountService.getUserById(userId));
         ShoppingCartDTO shoppingCartDTO = cartService.getCartById((Long) httpSession.getAttribute("cartId"));
-        shoppingCartDTO.getCartItems().clear();
+        List<CartItemDTO> cartItems = shoppingCartDTO.getCartItems();
+        for (CartItemDTO cartItem : cartItems) {
+            BookDTO bookDTO = cartItem.getBook();
+            bookDTO.setShow(false);
+            bookService.updateBook(bookDTO);
+        }
+        cartItems.clear();
         cartService.updateCart(shoppingCartDTO);
         orderService.addOrder(order.getOder());
     }
@@ -64,7 +68,7 @@ public class OrderController {
     }
 
     @GetMapping("/order/size")
-    private int getOrderSize(HttpSession httpSession){
+    private int getOrderSize(HttpSession httpSession) {
         Long userId = (Long) httpSession.getAttribute("userId");
         return orderService.getOrdersByUserId(userId).size();
     }

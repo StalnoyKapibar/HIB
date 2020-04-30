@@ -95,9 +95,13 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
     @Override
     public BookDTO20 getBookBySearchRequest(LocaleString localeString, String locale) {
         String hql = ("SELECT new com.project.model.BookDTO20(b.id, b.nameLocale.LOC, b.authorLocale.LOC, b.price, b.coverImage)" +
-                "FROM Book b where b.isShow = true and(b.nameLocale=:name or b.authorLocale=:name)")
+                "FROM Book b where (b.nameLocale=:name or b.authorLocale=:name) AND b.isShow = true ")
                 .replaceAll("LOC", locale);
-        return entityManager.createQuery(hql, BookDTO20.class).setParameter("name", localeString).getSingleResult();
+        List<BookDTO20> list = entityManager.createQuery(hql, BookDTO20.class).setParameter("name", localeString).getResultList();
+        if (list.size() != 0) {
+            return list.get(0);
+        }
+        return null;
     }
 
     @Override
