@@ -66,11 +66,12 @@ public class TestDataInit {
         Book1.setOriginalLanguage("Russian");
         Book1.setPages(200L);
         Book1.setYearOfEdition("2004");
-        Book1.setDisabled(true);
+        Book1.setShow(true);
         Book1.setCategory(category1);
         bookAddImgandAddBookToDb(Book1);
 
         Book Book2 = new Book();
+        Book2.setShow(true);
         Book2.setAuthor(new LocaleString("Татьяна Устинова", "Tatyana Ustinova", "Tatyana Ustinova", "Tatyana Ustinova", "Tatyana Ustinova", "Tatyana Ustinova", "Tatyana Ustinova"));
         Book2.setName(new LocaleString("Серьга Артемиды", "Earring of Artemis", "Boucle d'oreille d'Artémis", "Orecchino di Artemide", "Ohrring von Artemis", "Náušnice Artemis", "Σκουλαρίκι της Άρτεμης"));
         Book2.setPrice((long) (Math.random() * 1000));
@@ -80,6 +81,7 @@ public class TestDataInit {
         bookAddImgandAddBookToDb(Book2);
 
         Book Book3 = new Book();
+        Book3.setShow(true);
         Book3.setAuthor(new LocaleString("Дарья Донцова", "Daria Dontsova", "Daria Dontsova", "Daria Dontsova", "Daria Dontsova", "Daria Dontsová", "Ντάρια Ντόντσοβα"));
         Book3.setName(new LocaleString("Большой куш нищей герцогини", "Big jackpot to the poor duchess", "Gros jackpot pour la pauvre duchesse", "Grande jackpot alla povera duchessa", "Großer Jackpot für die arme Herzogin", "Velký jackpot pro chudé vévodkyně", "Μεγάλο τζάκποτ στην κακή δούκισσα"));
         Book3.setPrice((long) (Math.random() * 1000));
@@ -89,6 +91,7 @@ public class TestDataInit {
         bookAddImgandAddBookToDb(Book3);
 
         Book Book4 = new Book();
+        Book4.setShow(true);
         Book4.setAuthor(new LocaleString("Дэвид Кушнер", "David Kushner", "David Kushner", "David Kushner", "David Kushner", "David Kushner", "Ντέιβιντ Κουσνέρ"));
         Book4.setName(new LocaleString("Повелители DOOM", "Overlords of doom", "Overlords of doom", "Signori della rovina", "Oberherren des Untergangs", "Vládci zkázy", "Υπερβολείς της μοίρας"));
         Book4.setPrice((long) (Math.random() * 1000));
@@ -98,6 +101,7 @@ public class TestDataInit {
         bookAddImgandAddBookToDb(Book4);
 
         Book Book5 = new Book();
+        Book5.setShow(true);
         Book5.setAuthor(new LocaleString("Мария Воронова", "Maria Voronova", "Maria Voronova", "Maria Voronova", "Maria Voronova", "Maria Voronová", "Μαρία Βορονόβα"));
         Book5.setName(new LocaleString("Сама виновата", "You are the one to blame", "C'est à blâmer", "È da incolpare", "Es ist schuld", "Je to vina", "Είναι φταίξιμο"));
         Book5.setPrice((long) (Math.random() * 1000));
@@ -107,6 +111,7 @@ public class TestDataInit {
         bookAddImgandAddBookToDb(Book5);
 
         Book Book6 = new Book();
+        Book6.setShow(true);
         Book6.setAuthor(new LocaleString("Анна Матвеева", "Anna Matveeva", "Anna Matveeva", "Anna Matveeva", "Anna Matveeva", "Anna Matveeva", "Άννα Ματβέεβα"));
         Book6.setName(new LocaleString("Лолотта и другие парижские истории", "Lolotte and other Parisian stories", "Lolotte et autres histoires parisiennes", "Lolotte e altre storie parigine", "Lolotte und andere Pariser Geschichten", "Lolotte a další pařížské příběhy", "Lolotte και άλλες παριζιάνικες ιστορίες"));
         Book6.setPrice((long) (Math.random() * 1000));
@@ -115,7 +120,8 @@ public class TestDataInit {
         bookAddImgandAddBookToDb(Book6);
 
         Book Book7 = new Book();
-        Book1.setEdition(new LocaleString("First Edition", "First Edition", "First Edition", "First Edition", "First Edition", "First Edition", "First Edition"));
+        Book7.setShow(true);
+        Book7.setEdition(new LocaleString("First Edition", "First Edition", "First Edition", "First Edition", "First Edition", "First Edition", "First Edition"));
         Book7.setAuthor(new LocaleString("Гузель Яхина", "Guzel Yakhina", "Guzel Yakhina", "Guzel Yakhina", "Guzel Yakhina", "Guzel Yakhina", "Guzel Yakhina"));
         Book7.setName(new LocaleString("Зулейха открывает глаза", "Zuleikha opens her eyes", "Zuleikha ouvre les yeux", "Zuleikha apre gli occhi", "Zuleikha öffnet die Augen", "Zuleikha otevře oči", "Η Zuleikha ανοίγει τα μάτια της"));
         Book7.setPrice((long) (Math.random() * 1000));

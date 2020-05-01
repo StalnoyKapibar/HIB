@@ -39,7 +39,10 @@ public class BookSearch {
         List<BookDTO20> result = new ArrayList<>();
 
         for (LocaleString localeString : results) {
-            result.add(bookService.getBookBySearchRequest(localeString, locale));
+            BookDTO20 bookDTO20 = bookService.getBookBySearchRequest(localeString, locale);
+            if (bookDTO20 != null) {
+                result.add(bookDTO20);
+            }
         }
         return result;
     }
