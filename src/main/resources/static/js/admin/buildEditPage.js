@@ -147,7 +147,7 @@ function sendUpdateBook() {
     }
     add['coverImage'] = nameImageCover;
     add['imageList'] = listImages;
-    add['isShow'] = !($("#disabled").is(':checked'));
+    add['show'] = (!$("#disabled").is(':checked'));
     add['yearOfEdition'] = $('#yearOfEdition').val();
     add['pages'] = $('#pages').val();
     add['price'] = $('#price').val();
