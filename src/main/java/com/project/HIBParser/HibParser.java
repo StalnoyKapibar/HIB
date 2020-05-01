@@ -82,7 +82,7 @@ public class HibParser {
     public void saveBooks(List<String> booksAsJson) {
         for (String json : booksAsJson) {
             Book book = getBookFromJSON(json);
-            book.setDisabled(true);
+            book.setShow(false);
             bookService.addBook(book);
             String lastId = bookService.getLastIdOfBook();
             storageService.createNewPaperForImages(lastId);

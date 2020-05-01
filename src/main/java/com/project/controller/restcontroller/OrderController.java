@@ -1,9 +1,7 @@
 package com.project.controller.restcontroller;
 
-import com.project.model.AddressDTO;
-import com.project.model.Order;
-import com.project.model.OrderDTO;
-import com.project.model.ShoppingCartDTO;
+import com.project.model.*;
+import com.project.service.abstraction.BookService;
 import com.project.service.abstraction.OrderService;
 import com.project.service.abstraction.ShoppingCartService;
 import com.project.service.abstraction.UserAccountService;
@@ -20,12 +18,12 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-public class OderController {
+public class OrderController {
 
     private ShoppingCartService cartService;
     private OrderService orderService;
     private UserAccountService userAccountService;
-
+    private BookService bookService;
 
     @PostMapping("/order/confirmaddress")
     private OrderDTO addOder(@RequestBody AddressDTO addressDTO, HttpSession httpSession) {
@@ -64,7 +62,7 @@ public class OderController {
     }
 
     @GetMapping("/order/size")
-    private int getOrderSize(HttpSession httpSession){
+    private int getOrderSize(HttpSession httpSession) {
         Long userId = (Long) httpSession.getAttribute("userId");
         return orderService.getOrdersByUserId(userId).size();
     }
