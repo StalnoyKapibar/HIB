@@ -1,6 +1,6 @@
 package com.project.controller.restcontroller;
 
-import com.project.model.BookDTO;
+import com.project.model.Book;
 import com.project.model.CartItemDTO;
 import com.project.model.ShoppingCartDTO;
 import com.project.service.abstraction.BookService;
@@ -49,18 +49,18 @@ public class ShoppingCartController {
 
     @PostMapping("/cart/{id}")
     public void addToCart(@PathVariable Long id, HttpSession session) {
-        BookDTO bookDTO = bookService.getBookDTOById(id);
-        if (!bookDTO.isShow()){
+        Book book = bookService.getBookById(id);
+        if (!book.isShow()){
             return;
         }
         Long cartId = (Long) session.getAttribute("cartId");
         if (cartId != null) {
             ShoppingCartDTO shoppingCartDTO = cartService.getCartById(cartId);
-            shoppingCartDTO.addCartItem(bookDTO);
+            shoppingCartDTO.addCartItem(book);
             cartService.updateCart(shoppingCartDTO);
         } else {
             ShoppingCartDTO shoppingCart = (ShoppingCartDTO) session.getAttribute("shoppingcart");
-            shoppingCart.addCartItem(bookDTO);
+            shoppingCart.addCartItem(book);
             session.setAttribute("shoppingcart", shoppingCart);
         }
     }

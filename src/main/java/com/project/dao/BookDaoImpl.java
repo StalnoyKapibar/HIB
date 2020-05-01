@@ -15,40 +15,6 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
         super(Book.class);
     }
 
-    public BookDTO getBookDTOFromBook(Book book) {
-        return BookDTO.builder()
-                .id(book.getId())
-                .name(book.getNameLocale())
-                .author(book.getAuthorLocale())
-                .desc(book.getDesc())
-                .edition(book.getEdition())
-                .yearOfEdition(book.getYearOfEdition())
-                .pages(book.getPages())
-                .price(book.getPrice())
-                .coverImage(book.getCoverImage())
-                .originalLanguage(book.getOriginalLanguage())
-                .imageList(book.getListImage())
-                .isShow(book.isShow())
-                .build();
-    }
-
-    public Book getBookFromBookDTO(BookDTO bookDTO) {
-        return Book.builder()
-                .authorLocale(bookDTO.getAuthor())
-                .nameLocale(bookDTO.getName())
-                .desc(bookDTO.getDesc())
-                .edition(bookDTO.getEdition())
-                .yearOfEdition(bookDTO.getYearOfEdition())
-                .pages(bookDTO.getPages())
-                .price(bookDTO.getPrice())
-                .coverImage(bookDTO.getCoverImage())
-                .originalLanguage(bookDTO.getOriginalLanguage())
-                .listImage(bookDTO.getImageList())
-                .isShow(bookDTO.isShow())
-                .category(bookDTO.getCategory())
-                .build();
-    }
-
     @Override
     public String getQuantityBook() {
         return entityManager
@@ -60,8 +26,8 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
     @Override
     @SuppressWarnings("all")
     public BookNewDTO getNewBookDTObyIdAndLang(Long id, String lang) {
-        String hql = ("SELECT new com.project.model.BookNewDTO(b.id, b.nameLocale.LOC, " +
-                "b.authorLocale.LOC, b.desc.LOC, b.edition.LOC, b.yearOfEdition, b.pages," +
+        String hql = ("SELECT new com.project.model.BookNewDTO(b.id, b.name.LOC, " +
+                "b.author.LOC, b.description.LOC, b.edition.LOC, b.yearOfEdition, b.pages," +
                 " b.price, b.originalLanguage, b.coverImage) FROM Book b WHERE id = :id").replaceAll("LOC", lang);
         BookNewDTO bookNewDTO = entityManager.createQuery(hql, BookNewDTO.class).setParameter("id", id).getSingleResult();
         List<Image> images = entityManager
@@ -75,27 +41,10 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
         return bookNewDTO;
     }
 
-
-    /**
-     * @deprecated use getNewBookDTObyIdAndLang
-     */
-    @Deprecated
-    @Override
-    public BookDTO getBookByIdLocale(long id) {
-        return entityManager
-                .createQuery("SELECT new com.project.model.BookDTO(b.id, b.nameLocale, " +
-                                "b.authorLocale, b.coverImage, b.listImage) " +
-                                "FROM Book b " +
-                                "WHERE b.id=:id",
-                        BookDTO.class)
-                .setParameter("id", id)
-                .getSingleResult();
-    }
-
     @Override
     public BookDTO20 getBookBySearchRequest(LocaleString localeString, String locale) {
-        String hql = ("SELECT new com.project.model.BookDTO20(b.id, b.nameLocale.LOC, b.authorLocale.LOC, b.price, b.coverImage)" +
-                "FROM Book b where (b.nameLocale=:name or b.authorLocale=:name) AND b.isShow = true ")
+        String hql = ("SELECT new com.project.model.BookDTO20(b.id, b.name.LOC, b.author.LOC, b.price, b.coverImage)" +
+                "FROM Book b where (b.name=:name or b.author=:name) AND b.isShow = true  ")
                 .replaceAll("LOC", locale);
         List<BookDTO20> list = entityManager.createQuery(hql, BookDTO20.class).setParameter("name", localeString).getResultList();
         if (list.size() != 0) {
@@ -106,15 +55,10 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
 
     @Override
     public List<BookDTO20> get20BookDTO(String locale) {
-        String hql = ("SELECT new com.project.model.BookDTO20(b.id, b.nameLocale.LOC, b.authorLocale.LOC, b.price, b.coverImage)" +
+        String hql = ("SELECT new com.project.model.BookDTO20(b.id, b.name.LOC, b.author.LOC, b.price, b.coverImage)" +
                 "FROM Book b WHERE b.isShow = true or b.isShow = null ORDER BY RAND()")
                 .replaceAll("LOC", locale);
         return entityManager.createQuery(hql, BookDTO20.class).setMaxResults(20).getResultList();
-    }
-
-    @Override
-    public BookDTO getBookDTOById(long id) {
-        return getBookDTOFromBook(findById(id));
     }
 
     @Override
@@ -134,12 +78,11 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
                 "FROM Book b WHERE b.isShow = :disabled ORDER BY sortingObject typeOfSorting"
                         .replaceAll("sortingObject", sortingObject)
                         .replaceAll("typeOfSorting", typeOfSorting);
-        List<BookDTO> bookDTOList = new ArrayList<>();
-        entityManager.createQuery(hql, Book.class)
+        List<Book> bookDTOList = entityManager.createQuery(hql, Book.class)
                 .setParameter("disabled", disabled)
                 .setFirstResult(minNumberId)
                 .setMaxResults(limitBookDTOOnPage)
-                .getResultList().forEach(elem -> bookDTOList.add(getBookDTOFromBook(elem)));
+                .getResultList();
         PageableBookDTO pageableBookDTO = new PageableBookDTO();
         pageableBookDTO.setListBookDTO(bookDTOList);
         pageableBookDTO.setNumberPages(pageable.getPageNumber());

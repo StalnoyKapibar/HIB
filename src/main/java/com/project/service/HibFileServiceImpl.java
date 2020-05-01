@@ -2,7 +2,7 @@ package com.project.service;
 
 import com.project.HIBParser.HibParser;
 import com.project.dao.abstraction.HibFileDao;
-import com.project.model.BookDTO;
+import com.project.model.Book;
 import com.project.model.HibFileDto;
 import com.project.service.abstraction.HibFileService;
 import lombok.AllArgsConstructor;
@@ -27,7 +27,7 @@ public class HibFileServiceImpl implements HibFileService {
     }
 
     @Override
-    public BookDTO getBookDtoFromHibFileByName(String name) {
+    public Book getBookFromHibFileByName(String name) {
         try {
             return hibParser.getBookFromJSON(new String(Files.readAllBytes(Paths.get("hib/" + name + ".hib"))));
         } catch (IOException e) {
