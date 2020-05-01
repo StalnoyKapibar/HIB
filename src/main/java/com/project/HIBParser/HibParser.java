@@ -8,7 +8,6 @@ import com.project.model.Image;
 import com.project.model.LocaleString;
 import com.project.service.abstraction.BookService;
 import com.project.service.abstraction.StorageService;
-import lombok.AllArgsConstructor;
 import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Component;
 
@@ -19,15 +18,20 @@ import java.util.Base64;
 import java.util.List;
 
 @Component
-@AllArgsConstructor
 public class HibParser {
 
     private final BookService bookService;
     private final ObjectMapper objectMapper;
-    private StorageService storageService;
+    private final StorageService storageService;
 
     private static final String AVATAR = "avatar.jpg";
     private static final String PATH_TO_TMP = "img/tmp/";
+
+    public HibParser(BookService bookService, ObjectMapper objectMapper, StorageService storageService) {
+        this.bookService = bookService;
+        this.objectMapper = objectMapper;
+        this.storageService = storageService;
+    }
 
     private LocaleString initLocaleString(JsonNode node) {
         return new LocaleString(node.get("ru").asText(), node.get("en").asText(),
@@ -74,7 +78,7 @@ public class HibParser {
                 .yearOfEdition(jsonNode.get("yearOfEdition").asText())
                 .pages(jsonNode.get("pages").asLong())
                 .price(jsonNode.get("price").asLong())
-                .originalLanguage(jsonNode.get("originalLanguage").asText())
+                .originalLanguageName(jsonNode.get("originalLanguage").asText())
                 .coverImage(AVATAR)
                 .listImage(listImage).build();
     }

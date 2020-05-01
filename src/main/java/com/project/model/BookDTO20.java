@@ -12,8 +12,18 @@ import lombok.NoArgsConstructor;
 public class BookDTO20 {
     @EqualsAndHashCode.Include
     private long id;
-    private String nameAuthorDTOLocale;
     private String nameBookDTOLocale;
+    private String nameTranslit;
+    private String nameAuthorDTOLocale;
+    private String authorTranslit;
     private Long price;
     private String coverImage;
+
+    public BookDTO20(long id, String nameAuthorDTOLocale, String nameBookDTOLocale, Long price, String coverImage) {
+        this.id = id;
+        this.nameAuthorDTOLocale = nameAuthorDTOLocale;
+        this.nameBookDTOLocale = nameBookDTOLocale;
+        this.price = price;
+        this.coverImage = coverImage;
+    }
 }

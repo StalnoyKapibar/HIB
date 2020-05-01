@@ -2,12 +2,13 @@ package com.project.dao;
 
 import com.project.dao.abstraction.BookDao;
 import com.project.model.*;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 
+@Primary
 @Repository
 public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
 
@@ -28,17 +29,21 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
     public BookNewDTO getNewBookDTObyIdAndLang(Long id, String lang) {
         String hql = ("SELECT new com.project.model.BookNewDTO(b.id, b.name.LOC, " +
                 "b.author.LOC, b.description.LOC, b.edition.LOC, b.yearOfEdition, b.pages," +
-                " b.price, b.originalLanguage, b.coverImage) FROM Book b WHERE id = :id").replaceAll("LOC", lang);
+                " b.price, b.originalLanguageName, b.coverImage) FROM Book b WHERE id = :id").replaceAll("LOC", lang);
         BookNewDTO bookNewDTO = entityManager.createQuery(hql, BookNewDTO.class).setParameter("id", id).getSingleResult();
-        List<Image> images = entityManager
+        bookNewDTO.setImageList(getBookImageListById(id));
+        return bookNewDTO;
+    }
+
+    @SuppressWarnings("unchecked")
+    protected List<Image> getBookImageListById(Long id) {
+        return entityManager
                 .createNativeQuery("SELECT id, name_image " +
                                 "FROM image i " +
                                 "INNER JOIN book_list_image bi " +
                                 "ON i.id = list_image_id " +
                                 "WHERE bi.book_id = :id",
                         Image.class).setParameter("id", id).getResultList();
-        bookNewDTO.setImageList(images);
-        return bookNewDTO;
     }
 
     @Override
