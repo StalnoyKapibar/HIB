@@ -45,13 +45,7 @@ public class OrderController {
         Long userId = (Long) httpSession.getAttribute("userId");
         order.setUserAccount(userAccountService.getUserById(userId));
         ShoppingCartDTO shoppingCartDTO = cartService.getCartById((Long) httpSession.getAttribute("cartId"));
-        List<CartItemDTO> cartItems = shoppingCartDTO.getCartItems();
-        for (CartItemDTO cartItem : cartItems) {
-            BookDTO bookDTO = cartItem.getBook();
-            bookDTO.setShow(false);
-            bookService.updateBook(bookDTO);
-        }
-        cartItems.clear();
+        shoppingCartDTO.getCartItems().clear();
         cartService.updateCart(shoppingCartDTO);
         orderService.addOrder(order.getOder());
     }

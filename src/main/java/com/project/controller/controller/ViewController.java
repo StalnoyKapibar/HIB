@@ -2,7 +2,6 @@ package com.project.controller.controller;
 
 
 import com.project.model.Book;
-import com.project.model.BookDTO;
 import com.project.service.abstraction.BookService;
 import com.project.service.abstraction.FormLoginErrorMessageService;
 import lombok.AllArgsConstructor;
@@ -32,8 +31,8 @@ public class ViewController {
 
     @GetMapping("/page/{id}")
     public ModelAndView getPage(@PathVariable("id") long id, ModelAndView modelAndView) {
-        BookDTO bookDTO = bookService.getBookDTOById(id);
-        if (bookDTO.isShow()) {
+        Book book = bookService.getBookById(id);
+        if (book.isShow()) {
             modelAndView.addObject("book", id);
             modelAndView.setViewName("/user/user");
         }else {
