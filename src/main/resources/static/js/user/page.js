@@ -28,7 +28,7 @@ function setPageFields() {
         $('title').text(data.name);
         $('#book-name').text(convertOriginalLanguageRows(data.name, data.nameTranslit));
         $('#book-author').text(convertOriginalLanguageRows(data.author, data.authorTranslit));
-        $('#book-edition').text(data.edition);
+        $('#book-edition').text(convertOriginalLanguageRows(data.edition, data.editionTranslit));
         $('#addToCart').attr('data-id', data.id);
         $("#book-desc").text(data.desc);
         $("#book-original-language").text(data.originalLanguage);
