@@ -32,6 +32,7 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public Set<Address> getAddressByUserId(Long id) {
-        return userAccountService.getUserById(id).getAddresses();
+//        return userAccountService.getUserById(id).getAddresses();
+        return null;
     }
 }

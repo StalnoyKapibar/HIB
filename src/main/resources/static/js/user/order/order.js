@@ -3,24 +3,7 @@ let savedAddressesSelect = $("#addressSelect");
 let savedAddresses = [];
 
 async function confirmAddress() {
-    saveAddressAlert.addClass('show');
-    let data = enterData();
-    if (data != '') {
-        alert('enter ' + data + ' !');
-        return;
-    }
-    let address = {
-        flat: $("#flat").val(),
-        house: $("#street_number").val(),
-        street: $("#route").val(),
-        city: $("#locality").val(),
-        state: $("#administrative_area_level_1").val(),
-        postalCode: $("#postal_code").val(),
-        country: $("#country").val(),
-        firstName: $("#firstName").val(),
-        lastName: $("#lastName").val()
-    };
-    await POST('/order/confirmaddress', JSON.stringify(address), JSON_HEADER)
+    await POST('/order/confirmaddress')
         .then(json)
         .then((data) => {
             order = data;

@@ -26,11 +26,10 @@ public class OrderController {
     private BookService bookService;
 
     @PostMapping("/order/confirmaddress")
-    private OrderDTO addOder(@RequestBody AddressDTO addressDTO, HttpSession httpSession) {
+    private OrderDTO addOder(HttpSession httpSession) {
         ShoppingCartDTO shoppingCartDTO = cartService.getCartById((Long) httpSession.getAttribute("cartId"));
         OrderDTO order = new OrderDTO();
         order.setItems(shoppingCartDTO.getCartItems());
-        order.setAddress(addressDTO);
         order.setData(LocalDate.now().toString());
         order.setShippingCost(350);
         order.setItemsCost((int) shoppingCartDTO.getTotalCostItems());
