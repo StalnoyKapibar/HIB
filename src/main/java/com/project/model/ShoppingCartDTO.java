@@ -16,17 +16,12 @@ public class ShoppingCartDTO {
     private List<CartItemDTO> cartItems = new ArrayList<>(0);
 
     public void addCartItem(Book book) {
-        CartItemDTO newCartItem = new CartItemDTO(book, 1);
-        if (cartItems.contains(newCartItem)) {
-            for (CartItemDTO oldCartItem : cartItems) {
-                if (oldCartItem.equals(newCartItem)) {
-                    oldCartItem.setQuantity(oldCartItem.getQuantity() + 1);
-                    break;
-                }
+        for (CartItemDTO cartItem : cartItems) {
+            if (cartItem.getBook().getId().equals(book.getId())){
+                return;
             }
-        } else {
-            cartItems.add(newCartItem);
         }
+        cartItems.add(new CartItemDTO(book));
     }
 
     public Long deleteCartItem(Long id) {
@@ -40,28 +35,26 @@ public class ShoppingCartDTO {
     }
 
 
-    public void updateCartItem(Long id, Integer quantity) {
-        for (CartItemDTO cartItemDTO : cartItems) {
-            if (cartItemDTO.getBook().getId() == id) {
-                cartItemDTO.setQuantity(quantity);
-            }
-        }
-    }
-
-    public void mergeCartItem(Long id, Integer quantity) {
-        for (CartItemDTO cartItemDTO : cartItems) {
-            if (cartItemDTO.getBook().getId() == id) {
-                cartItemDTO.setQuantity(quantity + cartItemDTO.getQuantity());
-            }
-        }
-    }
+//    public void updateCartItem(Long id, Integer quantity) {
+//        for (CartItemDTO cartItemDTO : cartItems) {
+//            if (cartItemDTO.getBook().getId() == id) {
+//                cartItemDTO.setQuantity(quantity);
+//            }
+//        }
+//    }
+//
+//    public void mergeCartItem(Long id, Integer quantity) {
+//        for (CartItemDTO cartItemDTO : cartItems) {
+//            if (cartItemDTO.getBook().getId() == id) {
+//                cartItemDTO.setQuantity(quantity + cartItemDTO.getQuantity());
+//            }
+//        }
+//    }
 
     public void mergeCarts(ShoppingCartDTO shoppingCartDTO) {
         if (cartItems.size() != 0) {
             for (CartItemDTO newCartItemDTO : shoppingCartDTO.cartItems) {
-                if (cartItems.contains(newCartItemDTO)) {
-                    mergeCartItem(newCartItemDTO.getBook().getId(), newCartItemDTO.getQuantity());
-                } else {
+                if (!cartItems.contains(newCartItemDTO)) {
                     cartItems.add(newCartItemDTO);
                 }
             }
@@ -71,7 +64,7 @@ public class ShoppingCartDTO {
     public long getTotalCostItems() {
         long cost = 0;
         for (CartItemDTO cartItemDTO : cartItems) {
-            cost += cartItemDTO.getBook().getPrice() * cartItemDTO.getQuantity();
+            cost += cartItemDTO.getBook().getPrice();
         }
         return cost;
     }
