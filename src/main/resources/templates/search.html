@@ -102,23 +102,96 @@
     <!--    page container    -->
 
     <div class="container page-content">
-        <h2></h2>
-        <table class="table table-striped table-sm bg-white">
-            <thead>
-            <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody id='resultSearch'>
-            </tbody>
-        </table>
-        <div id="catTable">
+        <div class="row">
+
+            <!--    main    -->
+
+            <div class="col-10 main">
+                <div class="input-group">
+                    <input class="form-control" id="searchInput" placeholder="Search..." type="text">
+                    <div class="input-group-append">
+                                <span class="input-group-text" id="searchIcon">
+                                    <i aria-hidden="true" class="fa fa-search"></i>
+                                </span>
+                    </div>
+                </div>
+                    <table class="table table-striped table-sm bg-white">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody id='resultSearch'>
+                        </tbody>
+                    </table>
+                    <div id="catTable">
+                    </div>
+                    <hr>
+                    <br>
+            </div>
+
+            <!--    sidebar    -->
+
+            <div class="col-2 sidebar">
+                <div class="flex-column" id="search-sidebar" aria-orientation="vertical">
+                    <div class="form-group sidebar-item form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="input-disabled">
+                        <label class="form-check-label" for="input-disabled">
+                            On sale
+                        </label>
+                    </div>
+                    <div class="form-group sidebar-item">
+                        <label for="input-categories">Categories</label>
+                        <div id="input-categories">
+                        </div>
+                    </div>
+                    <div class="form-group sidebar-item">
+                        <label for="input-price">Price</label>
+                        <div class="form-row" id="input-price">
+                            <div class="col mb-1">
+                                <input type="number" class="form-control-sm" id="input-price-from" placeholder="From">
+                            </div>
+                            <div class="col">
+                                <input type="number" class="form-control-sm" id="input-price-to" placeholder="To">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group sidebar-item">
+                        <label for="input-name">Name of the book</label>
+                        <div id="input-name">
+                        </div>
+                    </div>
+                    <div class="form-group sidebar-item">
+                        <label for="input-author">Author</label>
+                        <div id="input-author">
+                        </div>
+                    </div>
+                    <div class="form-group sidebar-item">
+                        <label for="input-edition">Edition</label>
+                        <div id="input-edition">
+                        </div>
+                    </div>
+                    <div class="form-group sidebar-item">
+                        <label for="input-year-edition">Year of edition</label>
+                        <div id="input-year-edition">
+                        </div>
+                    </div>
+                    <div class="form-group sidebar-item">
+                        <label for="input-pages">Number of pages</label>
+                        <div id="input-pages">
+                        </div>
+                    </div>
+                    <div class="form-group sidebar-item">
+                        <label for="input-original-language">Original language</label>
+                        <div id="input-original-language">
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <hr>
-        <br>
         <!--        footer       -->
         <div class="footer pt-3 p-0 container-fluid text-center">
             <div class="footer_menu">
