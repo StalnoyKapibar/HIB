@@ -50,6 +50,9 @@ public class ShoppingCartController {
     @PostMapping("/cart/{id}")
     public void addToCart(@PathVariable Long id, HttpSession session) {
         Book book = bookService.getBookById(id);
+        if (!book.isShow()){
+            return;
+        }
         Long cartId = (Long) session.getAttribute("cartId");
         if (cartId != null) {
             ShoppingCartDTO shoppingCartDTO = cartService.getCartById(cartId);
@@ -63,7 +66,7 @@ public class ShoppingCartController {
     }
 
     @DeleteMapping("/cart/{id}")
-    public void deletFromCart(@PathVariable Long id, HttpSession session) {
+    public void deleteFromCart(@PathVariable Long id, HttpSession session) {
         Long cartId = (Long) session.getAttribute("cartId");
         if (cartId != null) {
             ShoppingCartDTO shoppingCartDTO = cartService.getCartById(cartId);

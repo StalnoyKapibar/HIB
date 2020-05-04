@@ -62,7 +62,7 @@ public class OrderServiceImpl implements OrderService {
         order.setStatus("Completed");
         for (CartItem cartItem : order.getItems()) {
             Book book = cartItem.getBook();
-            book.setDisabled(true);
+            book.setShow(false);
         }
         orderDAO.update(order);
     }
