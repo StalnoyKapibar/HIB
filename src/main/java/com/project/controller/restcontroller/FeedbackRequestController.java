@@ -35,6 +35,13 @@ public class FeedbackRequestController {
         return feedbackRequestService.save(feedbackRequest);
     }
 
+    @PostMapping("/api/admin/feedback-request/{id}")
+    public void markFeedbackAsRead(@PathVariable Long id){
+        FeedbackRequest feedbackRequest = feedbackRequestService.getById(id);
+        feedbackRequest.setReplied(true);
+        feedbackRequestService.save(feedbackRequest);
+    }
+
     @SuppressWarnings("all")
     @PostMapping("/api/admin/feedback-request/reply/{id}")
     public void send(@PathVariable Long id, @RequestBody SimpleMailMessage simpleMailMessage) {
