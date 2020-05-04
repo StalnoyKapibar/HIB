@@ -53,6 +53,9 @@ public class Order {
                 address.getCountry(),
                 address.getLastName(),
                 address.getFirstName()));
+        orderDTO.setUserDTO(new UserDTO(userAccount.getFirstName(),
+                userAccount.getLastName(),
+                userAccount.getEmail()));
         return orderDTO;
     }
 }

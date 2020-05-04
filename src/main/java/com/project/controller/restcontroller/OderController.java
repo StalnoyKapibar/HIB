@@ -1,5 +1,6 @@
 package com.project.controller.restcontroller;
 
+import com.google.api.client.json.Json;
 import com.project.model.AddressDTO;
 import com.project.model.Order;
 import com.project.model.OrderDTO;
@@ -67,5 +68,22 @@ public class OderController {
     private int getOrderSize(HttpSession httpSession){
         Long userId = (Long) httpSession.getAttribute("userId");
         return orderService.getOrdersByUserId(userId).size();
+    }
+    @GetMapping("/api/order/getAll")
+    private List<OrderDTO> getAllOrders(){
+        List<Order> orderList = orderService.getAllOrders();
+        List<OrderDTO> orderDTOS = new ArrayList<>();
+        for (Order order : orderList) {
+            orderDTOS.add(order.getOrderDTO());
+        }
+        return orderDTOS;
+    }
+    @PostMapping("/api/order/complete")
+    private void orderComplete(@RequestBody Long id) {
+      orderService.completeOrder(id);
+    }
+    @PostMapping("/api/order/delete")
+    private void orderDelete(@RequestBody Long id) {
+        orderService.deleteOrder(orderService.getOrderById(id));
     }
 }
