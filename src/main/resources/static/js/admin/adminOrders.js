@@ -69,13 +69,13 @@ function showModalOfOrder(index) {
     let html = ``;
     $('#modalTitle').html(`Order № ${order.id}`)
     html += `<thead><tr><th>Image</th>
-                             <th>Name</th>
+                             <th>Name | Author</th>
                              <th></th>
                              <th>Price</th></tr></thead>`;
     $.each(items, function (index) {
         let book = items[index].book;
         html += `<tr><td class="align-middle"><img src="/images/book${book.id}/${book.coverImage}" style="max-width: 80px"></td>
-                             <td >${book.name['en']}</td>
+                             <td >${book.name['en']} | ${book.author['en']}</td>
                              <td></td>
                              <td>${convertPrice(book.price)}${iconOfPrice}</td></tr>`;
     });
