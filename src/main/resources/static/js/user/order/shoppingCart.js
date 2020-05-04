@@ -198,8 +198,7 @@ function showOrderSum() {
         row.append(cell);
         cell = `<td class="align-middle"><img src="../images/book${book.id}/${book.coverImage}" style="max-width: 60px"></td>
             <td class="align-middle">${book.name[currentLang]}|${book.author[currentLang]}</td>
-            <td class="align-middle" id="book${book.id}">${convertPrice(book.price) + currencyIcon}</td>
-            <td class="align-middle"><div class="product-quantity">${items[index].quantity}</div></td>`;
+            <td class="align-middle" id="book${book.id}">${convertPrice(book.price) + currencyIcon}</td>`;
         row.append(cell);
         row.appendTo('#orderTab');
     });
@@ -260,8 +259,7 @@ function showCarrentOrder(index) {
         row.append(cell);
         cell = `<td class="align-middle"><img src="../images/book${book.id}/${book.coverImage}" style="max-width: 60px"></td>
             <td class="align-middle">${book.name[currentLang]} | ${book.author[currentLang]}</td>
-            <td class="align-middle" id="book${book.id}">${convertPrice(book.price) + currencyIcon}</td>
-            <td class="align-middle"><div class="product-quantity">${items[index].quantity}</div></td>`;
+            <td class="align-middle" id="book${book.id}">${convertPrice(book.price) + currencyIcon}</td>`;
         row.append(cell);
         row.appendTo('#ordermodalbody');
     });

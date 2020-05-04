@@ -34,23 +34,6 @@ public class ShoppingCartDTO {
         return null;
     }
 
-
-//    public void updateCartItem(Long id, Integer quantity) {
-//        for (CartItemDTO cartItemDTO : cartItems) {
-//            if (cartItemDTO.getBook().getId() == id) {
-//                cartItemDTO.setQuantity(quantity);
-//            }
-//        }
-//    }
-//
-//    public void mergeCartItem(Long id, Integer quantity) {
-//        for (CartItemDTO cartItemDTO : cartItems) {
-//            if (cartItemDTO.getBook().getId() == id) {
-//                cartItemDTO.setQuantity(quantity + cartItemDTO.getQuantity());
-//            }
-//        }
-//    }
-
     public void mergeCarts(ShoppingCartDTO shoppingCartDTO) {
         if (cartItems.size() != 0) {
             for (CartItemDTO newCartItemDTO : shoppingCartDTO.cartItems) {
