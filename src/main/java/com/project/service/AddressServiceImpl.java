@@ -12,6 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Set;
 
+/**
+ * Represented service for interaction with {@link Address} entity.
+ * Note that {@link UserAccount} must have field " Set<Address>" with getter and setter.
+ */
+
 @Service
 @Transactional
 @AllArgsConstructor
@@ -19,20 +24,39 @@ public class AddressServiceImpl implements AddressService {
     private UserAccountService userAccountService;
     private AddressDao addressDao;
 
+    /**
+     * Set new address for user
+     *
+     * @param user
+     * @param address
+     * @return new address
+     */
     @Transactional
     @Override
     public Address addAddress(UserAccount user, Address address) {
         return addressDao.addAddressToUser(user, address);
     }
 
+    /**
+     * Change users address
+     *
+     * @param user
+     * @param address - addressDTO with new data
+     * @return incoming addressDTO
+     */
     @Override
     public AddressDTO updateAddresses(UserAccount user, AddressDTO address) {
         return null;
     }
 
+    /**
+     * Get users addresses by user id
+     *
+     * @param id - user id
+     * @return users addresses
+     */
     @Override
     public Set<Address> getAddressByUserId(Long id) {
-//        return userAccountService.getUserById(id).getAddresses();
         return null;
     }
 }
