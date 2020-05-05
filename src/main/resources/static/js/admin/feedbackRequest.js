@@ -89,10 +89,14 @@ $(document).on('click', '#submit-btn', async () => {
 });
 
 async function showInterestedBook(message) {
-    let bookId;
+    let bookId = '';
     interestedBookContainer.attr('style', 'display: none');
     if (message.includes("/page/")) {
-        bookId = message.substr(message.indexOf("/page/") + 6, message.length);
+        let index = message.indexOf("/page/") + 6;
+        while (message[index] !== '\s' && message[index] !== undefined) {
+            bookId += message[index];
+            index++;
+        }
         await fetch("/api/book/" + bookId + "?locale=en")
             .then(json).then((book) => {
                 interestedBookTitle.html(`<span>${book.name}</span>`);
