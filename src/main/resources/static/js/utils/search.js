@@ -1,4 +1,4 @@
-var currentLang = '';
+var currentLang = 'ru';
 
 $(document).ready(function () {
     if (currentLang == '') {
@@ -6,11 +6,34 @@ $(document).ready(function () {
     }
     getLanguage();
     setLocaleFields();
+    loadPage();
     setPageFields();
+    setPageFieldsLocale();
 });
 
+function setPageFieldsLocale() {
+    console.log(currentLang);
+    fetch("/api/book/1" + "?locale=" + currentLang)
+        .then(status)
+        .then(json).then(function (data) {
+        objectBook = data;
+        tmpEditBookId = data.id;
+        $('title').text(data.name);
+        $('#book-name').text(data.name);
+        $('#book-author').text(data.author);
+        $('#book-edition').text(data.edition);
+        $('#addToCart').attr('data-id', data.id);
+        $("#book-desc").text(data.desc);
+        $("#book-original-language").text(data.originalLanguage);
+        $("#book-amount-of-pages").text(data.pages);
+        $("#book-year-of-edition").text(data.yearOfEdition);
+        $("#book-price").text(convertPrice(data.price) + ' €');
+        buildCardImageOrCarousel();
+    })
+}
+
 function status(response) {
-    if (response.status >= 200 && response.status < 300) {
+    if (response.ok) {
         return Promise.resolve(response)
     } else {
         return Promise.reject(new Error(response.statusText))
@@ -48,6 +71,20 @@ function setPageFields() {
                 tr.push('</tr>');
             }
             $('table').append($(tr.join('')));
+        });
+}
+
+function loadPage() {
+    fetch("/searchResult?request=" + req + "&LANG=" + currentLang, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
+    })
+        .then(response => response.json())
+        .then(function (data) {
+
         });
 }
 
