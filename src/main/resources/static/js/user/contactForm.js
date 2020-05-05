@@ -16,7 +16,11 @@ function getUserData() {
         .then((resp) => {
             userData = resp;
             senderEmail.val(userData.email);
-            senderName.val(userData.firstName + " " + userData.lastName);
+            if (userData.lastName === null) {
+                senderName.val(userData.firstName);
+            } else {
+                senderName.val(userData.firstName + " " + userData.lastName);
+            }
         });
 }
 
