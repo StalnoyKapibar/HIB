@@ -3,11 +3,16 @@ let savedAddressesSelect = $("#addressSelect");
 let savedAddresses = [];
 
 async function confirmAddress() {
+    let isAuth = false;
     await POST('/order/confirmaddress')
         .then(json)
         .then((data) => {
+            isAuth = true;
             order = data;
-        });
+        }, () => {
+        $("#signModal").modal('show');
+    });
+    if (!isAuth) return;
     showSummary();
     showOrderSum();
 }
