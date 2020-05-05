@@ -42,7 +42,7 @@ public class Book {
 
     private String coverImage;
 
-    private String originalLanguage;
+    private String originalLanguageName;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @Singular("listImage")
@@ -51,9 +51,9 @@ public class Book {
     private Long views;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private OtherLanguage otherLanguageOfBook;
+    private OriginalLanguage originalLanguage;
 
-    private boolean disabled;
+    private boolean isShow;
 
     @OneToOne
     private Category category;

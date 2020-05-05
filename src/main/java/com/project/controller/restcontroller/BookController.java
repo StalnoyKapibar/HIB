@@ -9,7 +9,6 @@ import com.project.search.BookSearch;
 import com.project.service.abstraction.BookService;
 import com.project.service.abstraction.StorageService;
 import com.project.util.BookDTOWithFieldsForTable;
-import lombok.AllArgsConstructor;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -28,14 +27,22 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
-@AllArgsConstructor
 @RestController
 public class BookController {
 
-    private BookService bookService;
-    private BookSearch bookSearch;
-    private HibParser hibParser;
-    private StorageService storageService;
+    private final BookService bookService;
+    private final BookSearch bookSearch;
+    private final HibParser hibParser;
+    private final StorageService storageService;
+
+    @Autowired
+    public BookController(BookService bookService, BookSearch bookSearch,
+                          HibParser hibParser, StorageService storageService) {
+        this.bookService = bookService;
+        this.bookSearch = bookSearch;
+        this.hibParser = hibParser;
+        this.storageService = storageService;
+    }
 
     @PostMapping("/admin/deleteImg")
     public HttpStatus deleteImageByPath(@RequestBody String path) {
