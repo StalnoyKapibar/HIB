@@ -93,7 +93,7 @@ async function showInterestedBook(message) {
     interestedBookContainer.attr('style', 'display: none');
     if (message.includes("/page/")) {
         let index = message.indexOf("/page/") + 6;
-        while (message[index] !== '\s' && message[index] !== undefined) {
+        while (message[index] !== ' ' && message[index] !== undefined) {
             bookId += message[index];
             index++;
         }
