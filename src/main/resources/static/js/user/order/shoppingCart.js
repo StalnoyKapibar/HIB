@@ -206,19 +206,6 @@ function showOrderSum() {
     $('#shippingcost').text(convertPrice(order.shippingCost) + currencyIcon);
     $('#pricetotal').text((totalPrice + convertPrice(order.shippingCost)) + currencyIcon);
 
-    let flat = '';
-    if (order.address.flat != "") {
-        flat = '-' + order.address.flat;
-    }
-
-    let addressDelivery = {
-        "Country/Zip code": ` ${order.address.country} , ${order.address.postalCode}`,
-        "City/State": `${order.address.city} , ${order.address.state}`,
-        "Street": `${order.address.street}`,
-        "House/Flat": `${order.address.house}${flat}`,
-        "First name , Last name": `${order.address.firstName} ${order.address.lastName}`
-    };
-
     let html = ``;
     let x = 36;
     for (let key in addressDelivery) {
@@ -269,25 +256,6 @@ function showCarrentOrder(index) {
     $('#subtotalordermodal').text(convertPrice(order.itemsCost) + currencyIcon);
     $('#shippingcostordermodal').text(convertPrice(order.shippingCost) + currencyIcon);
     $('#pricetotalordermodal').text(convertPrice(order.itemsCost + order.shippingCost) + currencyIcon);
-    let flat = '';
-    if (order.address.flat != "") {
-        flat = '-' + order.address.flat;
-    }
-
-    let addressDelivery = {
-        "Country/Zip code": ` ${order.address.country} , ${order.address.postalCode}`,
-        "City/State": `${order.address.city} , ${order.address.state}`,
-        "Street": `${order.address.street}`,
-        "House/Flat": `${order.address.house}${flat}`,
-        "First name , Last name": `${order.address.firstName} ${order.address.lastName}`
-    };
-
-    let forAddressDelivery = ``;
-    for (let key in addressDelivery) {
-        forAddressDelivery += `<tr><td>${key} :</td><td>${addressDelivery[key]}</td></tr>`
-    }
-    $('#shippingaddressordermodal').html(`<table class="table"><tbody><tr>${forAddressDelivery}</tr></tbody></table>`);
-
 }
 
 

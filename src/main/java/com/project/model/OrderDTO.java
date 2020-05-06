@@ -15,7 +15,6 @@ public class OrderDTO {
     private Long id;
     private String data;
     private List<CartItemDTO> items;
-    private AddressDTO address;
     private Integer itemsCost;
     private Integer shippingCost;
     private String trackingNumber;
@@ -39,16 +38,6 @@ public class OrderDTO {
             cartItems.add(new CartItem(cartItemDTO.getId(), book));
         }
         order.setItems(cartItems);
-        order.setAddress(new Address(address.getId(),
-                address.getFlat(),
-                address.getHouse(),
-                address.getStreet(),
-                address.getCity(),
-                address.getState(),
-                address.getPostalCode(),
-                address.getCountry(),
-                address.getLastName(),
-                address.getFirstName()));
         order.setUserAccount(userAccount);
         return order;
     }

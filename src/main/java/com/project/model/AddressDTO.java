@@ -2,6 +2,10 @@ package com.project.model;
 
 import lombok.*;
 
+/**
+ * Represented DTO for entity Address.
+ * Keep same data
+ */
 @AllArgsConstructor
 @NoArgsConstructor
 @Data

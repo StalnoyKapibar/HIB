@@ -19,8 +19,6 @@ public class Order {
     private String data;
     @OneToMany(cascade = CascadeType.MERGE)
     private List<CartItem> items;
-    @OneToOne(cascade = CascadeType.ALL)
-    private Address address;
     private Integer itemsCost;
     private Integer shippingCost;
     private String trackingNumber;
@@ -43,16 +41,6 @@ public class Order {
             cartItemDTOS.add(new CartItemDTO(cartItem.getId(), book));
         }
         orderDTO.setItems(cartItemDTOS);
-        orderDTO.setAddress(new AddressDTO(address.getId(),
-                address.getFlat(),
-                address.getHouse(),
-                address.getStreet(),
-                address.getCity(),
-                address.getState(),
-                address.getPostalCode(),
-                address.getCountry(),
-                address.getLastName(),
-                address.getFirstName()));
         return orderDTO;
     }
 }

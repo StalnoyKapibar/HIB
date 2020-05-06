@@ -7,6 +7,11 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+/**
+ * Represented entity with users address.
+ * UserAccount storage Address as field Set<Address>
+ * Note that {@link UserAccount} must have field "Set<Address>" with getter and setter.
+ */
 @Builder
 @Data
 @Entity

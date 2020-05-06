@@ -40,9 +40,6 @@ public class UserAccount implements UserDetails, OAuth2User {
     @Transient
     private Map<String, Object> attributes;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<Address> addresses = new HashSet<>();
-
     @Override
     public Map<String, Object> getAttributes() {
         return attributes;
