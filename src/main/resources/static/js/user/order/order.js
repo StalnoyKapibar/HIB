@@ -3,8 +3,7 @@ let savedAddressesSelect = $("#addressSelect");
 let savedAddresses = [];
 
 function setCurrentPageToCookie() {
-    let cookie = 'CURRENT_PAGE =' + window.location.pathname + ';' +
-        'path = /; max-age = 60';
+    let cookie = `CURRENT_PAGE = ${window.location.pathname}; path = /; max-age = 60`;
     document.cookie = cookie;
 }
 
