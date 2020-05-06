@@ -24,7 +24,7 @@ $(document).ready(function () {
 
 function markAsRead(id, replied) {
     let message = "Mark this message as ";
-    message += replied ? "read?" : "unread?";
+    message += replied ? "unread?" : "read?";
     if (confirm(message)) {
         fetch("/api/admin/feedback-request/" + id + "/" + replied, {
             method: 'POST'
