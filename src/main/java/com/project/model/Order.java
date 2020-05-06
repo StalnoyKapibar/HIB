@@ -40,7 +40,7 @@ public class Order {
         List<CartItemDTO> cartItemDTOS = new ArrayList<>();
         for (CartItem cartItem : items) {
             Book book = cartItem.getBook();
-            cartItemDTOS.add(new CartItemDTO(cartItem.getId(), book, cartItem.getQuantity()));
+            cartItemDTOS.add(new CartItemDTO(cartItem.getId(), book));
         }
         orderDTO.setItems(cartItemDTOS);
 
@@ -61,7 +61,7 @@ public class Order {
                     cartItem.getBook().getCoverImage());
             book.setId(cartItem.getBook().getId());
 
-            cartItemDTOS.add(new CartItemDTO(cartItem.getId(), book, cartItem.getQuantity()));
+            cartItemDTOS.add(new CartItemDTO(cartItem.getId(), book));
         }
         orderDTO.setItems(cartItemDTOS);
 
