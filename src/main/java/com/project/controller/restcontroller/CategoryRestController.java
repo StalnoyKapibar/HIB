@@ -30,7 +30,7 @@ public class CategoryRestController {
     }
 
     @GetMapping("/getbooks")
-    public List<BookDTOForCategories> getbooks(@RequestParam("path") String path) {
+    public List<BookDTOForCategories> getBooksByPath(@RequestParam("path") String path) {
         List<BookDTOForCategories> books = new ArrayList<>();
         for (Long id : categoryService.getallChildsIdByPath(path)) {
             books.addAll(bookService.getBooksByCategoryId(id, "en"));

@@ -23,7 +23,6 @@ fetch('/admin/categories/getadmintree')
             cateroryArr.push(category);
         }
         let tree = getUnflatten(cateroryArr, null);
-        console.log(tree);
         setTreeView(tree);
     });
 

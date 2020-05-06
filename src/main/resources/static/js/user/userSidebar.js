@@ -1,5 +1,6 @@
 let categoryRow;
 
+
 $('#sidebar').mouseenter(() => {
     $('#page-wrapper').removeClass('pinned');
 });
