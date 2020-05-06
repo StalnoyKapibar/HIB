@@ -50,4 +50,10 @@ public class CategoryService {
         return ids;
     }
 
+    public void parentChange(Category category) {
+        Long id = category.getId();
+        Long parentId = category.getParentId();
+        categoryDAO.parentChange(id, parentId);
+    }
+
 }

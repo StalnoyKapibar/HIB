@@ -31,21 +31,21 @@ public class CategoryDAO extends AbstractDao<Long, Category> {
                 "    FROM cte cte, category c\n" +
                 "    WHERE c.parent_id = cte.id\n" +
                 "    )\n" +
-                "SELECT * FROM cte ORDER BY path;";
+                "SELECT * FROM cte ORDER BY view_order;";
         return entityManager.createNativeQuery(hql).getResultList();
     }
 
     public List getCategoryTree() {
         String hql = "WITH RECURSIVE cte AS\n" +
                 "    (\n" +
-                "    SELECT id, category_name, CAST(LOWER(CONCAT('/', category_name)) AS CHAR(1000)) AS path, parent_id\n" +
+                "    SELECT id, category_name, CAST(LOWER(CONCAT('/', category_name)) AS CHAR(1000)) AS path, parent_id, view_order\n" +
                 "    FROM category where parent_id IS NULL\n" +
                 "    UNION ALL\n" +
-                "    SELECT c.id, c.category_name, CONCAT(cte.path, '/', LOWER(c.category_name)), c.parent_id\n" +
+                "    SELECT c.id, c.category_name, CONCAT(cte.path, '/', LOWER(c.category_name)), c.parent_id, c.view_order\n" +
                 "    FROM cte cte, category c\n" +
                 "    WHERE c.parent_id = cte.id\n" +
                 "    )\n" +
-                "SELECT * FROM cte ORDER BY path;";
+                "SELECT * FROM cte ORDER BY view_orde                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          ";
         return entityManager.createNativeQuery(hql).getResultList();
     }
 
@@ -93,5 +93,10 @@ public class CategoryDAO extends AbstractDao<Long, Category> {
                 "SELECT id FROM cte WHERE path LIKE '%/path%' ORDER BY path".replace("/path", path);
 
         return entityManager.createNativeQuery(sql).getResultList();
+    }
+
+    public void parentChange(Long id, Long parentId) {
+        String sql = "UPDATE category SET parent_id =:parentId WHERE id =:id";
+        entityManager.createNativeQuery(sql).setParameter("id", id).setParameter("parentId", parentId).executeUpdate();
     }
 }
