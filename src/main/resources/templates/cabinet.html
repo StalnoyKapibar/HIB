@@ -109,7 +109,6 @@
                                 <th></th>
                                 <th>Items</th>
                                 <th>Unit price</th>
-                                <th>Quantity</th>
                             </tr>
                             </thead>
                             <tbody id='ordermodalbody'>
@@ -120,7 +119,6 @@
                             <tr>
                             <tr height="50">
                                 <th width="10"></th>
-                                <th></th>
                                 <th></th>
                                 <th>
                                     <a>Subtotal:</a>
@@ -134,7 +132,6 @@
                             <tr>
                             <tr height="50">
                                 <th width="10"></th>
-                                <th></th>
                                 <th></th>
                                 <th>Total price:</th>
                                 <th id="pricetotalordermodal"></th>
@@ -203,7 +200,7 @@
         <link href="/static/fonts/font.css" rel="stylesheet">
         <link href="css/cabinet.css" rel="stylesheet" type="text/css">
         <script crossorigin="anonymous" src="https://kit.fontawesome.com/db08edad0b.js"></script>
-        <main role="main" class="col-auto">
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h1 class="h2">Settings Profile</h1>
             </div>
@@ -304,7 +301,7 @@
         <script src="/static/js/lib/popper.min.js"></script>
         <script src="/static/js/lib/bootstrap.min.js"></script>
         <br>
-        <main role="main" class="col-auto">
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
             <div class="alert alert-warning alert-dismissible fade" id="saveAddressAlert" role="alert">
                 <strong>Would you like to save the address?</strong>
                 <button class=" col-2 btn btn-success btn-metro offset-7" onclick="saveAddress()">Save</button>
@@ -314,18 +311,18 @@
             </div>
             <p></p>
             <h1 class="h2" id="headershoppingcart">Shopping cart</h1>
-            <ul class="nav nav-tabs" id="cartTab" role="tablist">
+            <ul class="nav nav-tabs" id="cartTab" role="tablist" >
                 <li class="nav-item">
-                    <a class="nav-link active" id="home-tab" href="#home" style="pointer-events: none">Your shopping
+                    <a class="nav-link active" id="home-tab" href="#home" style="pointer-events: none; color: #333333">Your shopping
                         cart</a>
                 </li>
                 <li class="nav-item">
 
-                    <a class="nav-link" id="deliveryaddress" href="#delivery" style="pointer-events: none">Delivery
+                    <a class="nav-link  " id="deliveryaddress" href="#delivery" style="pointer-events: none; color: #333333">Delivery
                         address</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="summary-tab" href="#Summary" style="pointer-events: none">Summary</a>
+                    <a class="nav-link  " id="summary-tab" href="#Summary" style="pointer-events: none;color: #333333">Summary</a>
                 </li>
             </ul>
             <div class="tab-content" id="cartTabContent">
@@ -337,7 +334,6 @@
                             <th></th>
                             <th id="book_author">Книга | Автор</th>
                             <th id="price">Цена</th>
-                            <th id="quantity">Кол-во</th>
                             <th id="delete">Убрать</th>
                         </tr>
                         </thead>
@@ -353,15 +349,13 @@
                         <tr>
                             <th width="10"></th>
                             <th></th>
-                            <th></th>
-                            <th></th>
-                            <th id="totalPrice"></th>
+                            <th align="right" id="totalPrice" ></th>
                             <th><a id="sum"></a></th>
+                            <th></th>
                         </tr>
 
                         <tr style="height: 15px">
                             <th width="10"></th>
-                            <th></th>
                             <th></th>
                             <th></th>
                             <th></th>
@@ -375,83 +369,86 @@
                     </table>
                 </div>
                 <div class="tab-pane fade" id="delivery" role="tabpanel" aria-labelledby="delivery-tab">
-                    <div class="container mt-2">
+                    <div class="container mt-2 " >
                         <div class="panel panel-primary">
-                            <div class="panel-body">
-                                <input id="autocomplete" th:disabled=*{disabledAutocomplete}
-                                       placeholder="221B Baker Street, London, United Kingdom" onFocus="geolocate()"
-                                       type="text" class="form-control col-sm-7">
-                                <br>
-                                <select class="form-control col-7" id="addressSelect">
-                                    <option selected>Select from saved</option>
-                                </select>
-                                <br>
-                                <div id="address">
-                                    <div class="form-group row">
-                                        <label class="control-label col-sm-2 col-form-label">Country/Zip code</label>
-                                        <div class="col-md-3 pl-0 pr-1">
-                                            <input class="form-control" id="country" placeholder="Country">
-                                        </div>
-                                        <div class="col-md-2 pl-0">
-                                            <input class="form-control" id="postal_code" placeholder="Zip code">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="control-label col-sm-2 col-form-label">City/State</label>
-                                        <div class="col-sm-2 pl-0 pr-1">
-                                            <input class="form-control field" id="locality" placeholder="City">
-                                        </div>
-                                        <div class="col-sm-3 pl-0">
-                                            <input class="form-control" id="administrative_area_level_1"
-                                                   placeholder="State">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="control-label col-sm-2 col-form-label">Street</label>
-                                        <div class="col-md-4 pl-0">
-                                            <input class="form-control" id="route" placeholder="Street">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="control-label col-sm-2 col-form-label">House/Flat</label>
-                                        <div class="col-md-2 pl-0 pr-1">
-                                            <input class="form-control" id="street_number" placeholder="House">
-                                        </div>
-                                        <div class="col-md-2 pl-0">
-                                            <input class="form-control" id="flat" placeholder="Flat">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="control-label col-sm-2 col-form-label">First name</label>
-                                        <div class="col-md-4 pl-0">
-                                            <input class="form-control" id="firstName" th:attr="value=*{firstName}">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="control-label col-sm-2 col-form-label">Last name</label>
-                                        <div class="col-md-4 pl-0">
-                                            <input class="form-control" id="lastName" th:attr="value=*{lastName}">
-                                        </div>
+                            <div class="panel-body ">
+                                <div class="card" style="width: 40rem;">
+                                    <div class="card-header">
+                                        <input id="autocomplete" th:disabled=*{disabledAutocomplete}
+                                               placeholder="221B Baker Street, London, United Kingdom" onFocus="geolocate()"
+                                               type="text" class="form-control col-sm-12" readonly>
+                                        <br>
+                                        <select class="form-control col-sm-12" id="addressSelect">
+                                            <option selected>Select from saved</option>
+                                        </select>
                                     </div>
                                     <br>
-                                    <div class="form-group row mb-2">
-                                        <div class="offset-mb-1">
-                                            <button type="button" class="btn btn-secondary btn-md"
-                                                    onclick="showShoppingCart()">Back
-                                            </button>
+                                    <div id="address" class="card-body">
+                                        <div class="form-group row">
+                                            <label class="control-label col-sm-3 col-form-label">Country/Zip code</label>
+                                            <div class="col-md-5 pl-0 pr-1">
+                                                <input class="form-control" id="country" placeholder="Country">
+                                            </div>
+                                            <div class="col-md-4 pl-0">
+                                                <input class="form-control" id="postal_code" placeholder="Zip code">
+                                            </div>
                                         </div>
-                                        <div class="col-md-3 offset-md-4">
-                                            <button onclick="confirmAddress()" type="button"
-                                                    class="btn btn-primary bt-lg">Confirm
-                                                address
-                                            </button>
+                                        <div class="form-group row">
+                                            <label class="control-label col-sm-3 col-form-label">City/State</label>
+                                            <div class="col-sm-4 pl-0 pr-1">
+                                                <input class="form-control field" id="locality" placeholder="City">
+                                            </div>
+                                            <div class="col-sm-5 pl-0">
+                                                <input class="form-control" id="administrative_area_level_1"
+                                                       placeholder="State">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="control-label col-sm-3 col-form-label">Street</label>
+                                            <div class="col-md-8 pl-0">
+                                                <input class="form-control" id="route" placeholder="Street">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="control-label col-sm-3 col-form-label">House/Flat</label>
+                                            <div class="col-md-4 pl-0 pr-1">
+                                                <input class="form-control" id="street_number" placeholder="House">
+                                            </div>
+                                            <div class="col-md-4 pl-0">
+                                                <input class="form-control" id="flat" placeholder="Flat">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="control-label col-sm-3 col-form-label">First name</label>
+                                            <div class="col-md-8 pl-0">
+                                                <input class="form-control" id="firstName" th:attr="value=*{firstName}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="control-label col-sm-3 col-form-label">Last name</label>
+                                            <div class="col-md-8 pl-0">
+                                                <input class="form-control" id="lastName" th:attr="value=*{lastName}">
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="form-group row mb-2 card-footer">
+                                            <div class=" col-6">
+                                                <button type="button" class="btn btn-block btn-secondary "
+                                                        onclick="showShoppingCart()">Back
+                                                </button>
+                                            </div>
+                                            <div class="col-6 ">
+                                                <button onclick="confirmAddress()" type="button"
+                                                        class="btn btn-block btn-primary ">Confirm
+                                                    address
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
                 <div class="tab-pane fade" id="Summary" role="tabpanel" aria-labelledby="Summary-tab">
                     <div class="card">
@@ -463,7 +460,6 @@
                                 <th></th>
                                 <th>Items</th>
                                 <th>Unit price</th>
-                                <th>Quantity</th>
                             </tr>
                             </thead>
                             <tbody id='orderTab'>
@@ -474,7 +470,6 @@
                             <tr>
                             <tr height="50">
                                 <th width="10"></th>
-                                <th></th>
                                 <th></th>
                                 <th>
                                     <a>Subtotal:</a>
@@ -488,7 +483,6 @@
                             <tr>
                             <tr height="50">
                                 <th width="10"></th>
-                                <th></th>
                                 <th></th>
                                 <th>Total price:</th>
                                 <th id="pricetotal"></th>

@@ -28,7 +28,7 @@
     <script crossorigin="anonymous" src="https://kit.fontawesome.com/db08edad0b.js"></script>
 </head>
 <body>
-<div class="page-wrapper default-theme sidebar-bg bg1 toggled">
+<div id="page-wrapper" class="page-wrapper default-theme sidebar-bg bg1 toggled pinned">
     <div class="preloader">
         <div class="lds-ellipsis">
             <span></span>
@@ -36,8 +36,6 @@
             <span></span>
         </div>
     </div>
-    <div class="row">
-    <div class="col-2">
     <nav class="sidebar-wrapper" id="sidebar">
         <div class="sidebar-content">
             <!-- sidebar-brand  -->
@@ -58,7 +56,7 @@
                         <img alt="User picture" class="img-responsive img-rounded" src="/static/images/user.jpg">
                     </div>
                 </th:block>
-                <a
+
                 <th:block sec:authorize="isAuthenticated()">
                     <div class="user-info">
                         <span class="user-name">
@@ -186,13 +184,13 @@
             <!-- sidebar-menu  -->
         </div>
         <!-- sidebar-footer  -->
-        <div class="sidebar-footer">
-            <div class="pinned-footer">
-                <a href="#">
-                    <i class="fas fa-ellipsis-h"></i>
-                </a>
-            </div>
-        </div>
+<!--        <div class="sidebar-footer">-->
+<!--            <div class="pinned-footer">-->
+<!--                <a href="#">-->
+<!--                    <i class="fas fa-ellipsis-h"></i>-->
+<!--                </a>-->
+<!--            </div>-->
+<!--        </div>-->
     </nav>
 
     <div aria-hidden="true" aria-labelledby="staticBackdropLabel" class="modal fade" data-backdrop="static"
@@ -315,8 +313,6 @@
         </div>
     </div>
     <script src="/static/js/utils/common-function.js"></script>
-</div>
-    <div class="col-10">
         <!-- page-content  -->
         <th:block
                 th:if="${#httpServletRequest.getRequestURI() == '/home' || #httpServletRequest.getRequestURI().contains('error')}">
@@ -344,8 +340,6 @@
             </th:block>
         </th:block>
     </div>
-    </div>
-</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script crossorigin="anonymous"
