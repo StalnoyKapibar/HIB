@@ -43,16 +43,7 @@ public class Order {
             cartItemDTOS.add(new CartItemDTO(cartItem.getId(), book, cartItem.getQuantity()));
         }
         orderDTO.setItems(cartItemDTOS);
-        orderDTO.setAddress(new AddressDTO(address.getId(),
-                address.getFlat(),
-                address.getHouse(),
-                address.getStreet(),
-                address.getCity(),
-                address.getState(),
-                address.getPostalCode(),
-                address.getCountry(),
-                address.getLastName(),
-                address.getFirstName()));
+
         orderDTO.setUserDTO(new UserDTO(userAccount.getFirstName(),
                 userAccount.getLastName(),
                 userAccount.getEmail()));
