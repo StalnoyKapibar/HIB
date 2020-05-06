@@ -22,13 +22,15 @@ $(document).ready(function () {
     }
 });
 
-function markAsRead(id) {
-    if (confirm("Mark this message as read?")) {
-        fetch("/api/admin/feedback-request/" + id, {
+function markAsRead(id, replied) {
+    let message = "Mark this message as ";
+    message += replied ? "read?" : "unread?";
+    if (confirm(message)) {
+        fetch("/api/admin/feedback-request/" + id + "/" + replied, {
             method: 'POST'
         });
     }
-    getFeedbackRequestTable(false).then(r => {
+    getFeedbackRequestTable(replied).then(r => {
     });
 }
 
@@ -50,11 +52,11 @@ async function getFeedbackRequestTable(replied) {
                         data-sender="${senderName}"
                         data-email="${senderEmail}"
                         data-message="${content}">Reply</button>`;
-                let read = `<button type="button"
-                class="btn btn-info "
-                id="btnRead"
-                data-id="${id}"
-                onclick="markAsRead(${id})">Read</button>`
+
+                let mark = `<button type="button"
+                class="btn btn-info "           
+                onclick="markAsRead(${id},${data[i].replied})">`;
+                mark += (data[i].replied ? `Unread</button>` : `Read</button>`);
                 let tr = $("<tr/>");
                 tr.append(`
                             <td>${id}</td>
@@ -62,7 +64,7 @@ async function getFeedbackRequestTable(replied) {
                             <td>${senderEmail}</td>
                             <td>${content}</td>
                             <td>${replied}</td>
-                            <td>${read}</td>
+                            <td>${mark}</td>
                            `);
                 tableBody.append(tr);
             }

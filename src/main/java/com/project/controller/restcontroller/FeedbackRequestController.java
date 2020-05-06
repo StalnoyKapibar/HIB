@@ -35,10 +35,10 @@ public class FeedbackRequestController {
         return feedbackRequestService.save(feedbackRequest);
     }
 
-    @PostMapping("/api/admin/feedback-request/{id}")
-    public void markFeedbackAsRead(@PathVariable Long id){
+    @PostMapping("/api/admin/feedback-request/{id}/{replied}")
+    public void markFeedbackAsRead(@PathVariable Long id, @PathVariable Boolean replied){
         FeedbackRequest feedbackRequest = feedbackRequestService.getById(id);
-        feedbackRequest.setReplied(true);
+        feedbackRequest.setReplied(!replied);
         feedbackRequestService.save(feedbackRequest);
     }
 
