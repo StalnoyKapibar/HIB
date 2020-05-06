@@ -1,4 +1,13 @@
 let categoryRow;
+
+$('#sidebar').mouseenter(() => {
+    $('#page-wrapper').removeClass('pinned');
+});
+
+$('#sidebar').mouseleave(() => {
+    $('#page-wrapper').addClass('pinned');
+});
+
 fetch('/categories/getnullparent', {
 })
     .then(function (response) {

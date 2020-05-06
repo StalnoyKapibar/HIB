@@ -28,7 +28,7 @@
     <script crossorigin="anonymous" src="https://kit.fontawesome.com/db08edad0b.js"></script>
 </head>
 <body>
-<div class="page-wrapper default-theme sidebar-bg bg1 toggled">
+<div id="page-wrapper" class="page-wrapper default-theme sidebar-bg bg1 toggled pinned">
     <div class="preloader">
         <div class="lds-ellipsis">
             <span></span>
@@ -58,7 +58,6 @@
                         <img alt="User picture" class="img-responsive img-rounded" src="/static/images/user.jpg">
                     </div>
                 </th:block>
-                <a
                 <th:block sec:authorize="isAuthenticated()">
                     <div class="user-info">
                         <span class="user-name">
@@ -186,13 +185,13 @@
             <!-- sidebar-menu  -->
         </div>
         <!-- sidebar-footer  -->
-        <div class="sidebar-footer">
-            <div class="pinned-footer">
-                <a href="#">
-                    <i class="fas fa-ellipsis-h"></i>
-                </a>
-            </div>
-        </div>
+<!--        <div class="sidebar-footer">-->
+<!--            <div class="pinned-footer">-->
+<!--                <a href="#">-->
+<!--                    <i class="fas fa-ellipsis-h"></i>-->
+<!--                </a>-->
+<!--            </div>-->
+<!--        </div>-->
     </nav>
 
     <div aria-hidden="true" aria-labelledby="staticBackdropLabel" class="modal fade" data-backdrop="static"
