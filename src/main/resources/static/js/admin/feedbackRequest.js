@@ -52,7 +52,6 @@ async function getFeedbackRequestTable(replied) {
                         data-sender="${senderName}"
                         data-email="${senderEmail}"
                         data-message="${content}">Reply</button>`;
-
                 let mark = `<button type="button"
                 class="btn btn-info "           
                 onclick="markAsRead(${id},${data[i].replied})">`;
