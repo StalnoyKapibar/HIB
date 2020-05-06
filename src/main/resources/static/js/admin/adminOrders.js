@@ -14,18 +14,16 @@ $('#statusCheckbox').change(function () {
     if ($(this).prop('checked') === true) {
         statusOfOrder = "Processing";
         btnDisplay = "d-inline";
-        $('#test').html(`on`);
     } else {
         statusOfOrder = "Completed";
         btnDisplay = "d-none";
-        $('#test').html(`of`);
     }
     showListOrders();
 });
 
 
 function showListOrders() {
-    fetch("/api/order/getAll")
+    fetch("/api/admin/getAllOrders")
         .then(json)
         .then(function (data) {
             $('#adminListOrders').empty();
@@ -88,8 +86,8 @@ function showModalOfOrder(index) {
 }
 
 function orderComplete(id) {
-    fetch("/api/order/complete", {
-        method: "POST",
+    fetch("/api/admin/completeOrder/" + id, {
+        method: "PATCH",
         headers: {
             "Content-Type": "application/json;charset=utf-8"
         },
@@ -98,7 +96,7 @@ function orderComplete(id) {
 }
 
 function orderDelete(id) {
-    fetch("/api/order/delete", {
+    fetch("/api/admin/deleteOrder/" + id, {
         method: "POST",
         headers: {
             "Content-Type": "application/json;charset=utf-8"
