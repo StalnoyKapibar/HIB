@@ -36,7 +36,7 @@ public class OrderDTO {
         List<CartItem> cartItems = new ArrayList<>();
         for (CartItemDTO cartItemDTO : items) {
             Book book = cartItemDTO.getBook();
-            cartItems.add(new CartItem(cartItemDTO.getId(), book, cartItemDTO.getQuantity()));
+            cartItems.add(new CartItem(cartItemDTO.getId(), book));
         }
         order.setItems(cartItems);
         order.setAddress(new Address(address.getId(),
