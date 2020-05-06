@@ -22,6 +22,18 @@ $(document).ready(function () {
     }
 });
 
+function markAsRead(id, replied) {
+    let message = "Mark this message as ";
+    message += replied ? "read?" : "unread?";
+    if (confirm(message)) {
+        fetch("/api/admin/feedback-request/" + id + "/" + replied, {
+            method: 'POST'
+        });
+    }
+    getFeedbackRequestTable(replied).then(r => {
+    });
+}
+
 async function getFeedbackRequestTable(replied) {
     await fetch("/api/admin/feedback-request?replied=" + replied)
         .then(json)
@@ -40,6 +52,10 @@ async function getFeedbackRequestTable(replied) {
                         data-sender="${senderName}"
                         data-email="${senderEmail}"
                         data-message="${content}">Reply</button>`;
+                let mark = `<button type="button"
+                class="btn btn-info "           
+                onclick="markAsRead(${id},${data[i].replied})">`;
+                mark += (data[i].replied ? `Unread</button>` : `Read</button>`);
                 let tr = $("<tr/>");
                 tr.append(`
                             <td>${id}</td>
@@ -47,6 +63,7 @@ async function getFeedbackRequestTable(replied) {
                             <td>${senderEmail}</td>
                             <td>${content}</td>
                             <td>${replied}</td>
+                            <td>${mark}</td>
                            `);
                 tableBody.append(tr);
             }

@@ -28,12 +28,12 @@ function text(response) {
 }
 
 function buildPage() {
-    let disabled = tmpArr.disabled ? 'checked' : '';
+    let disabled = tmpArr.show ? '' : 'checked';
     var html1 = '';
     html1 += `<div class="card card-header">
               <div class="row">
               <div class="col-1">
-              <h4 >Disabled</h4></div>
+              <h4 >Book sold</h4></div>
               <div class="col"> <input id="disabled" class="big-checkbox"  type="checkbox" ${disabled}></div></div></div>`;
     for (let tmpNameObject of nameObjectOfLocaleString) {
         html1 += `<div class="col card card-body my-2"><h5 class='bg-secondary p-2 text-white text-center'>${tmpNameObject}</h5>
@@ -147,7 +147,7 @@ function sendUpdateBook() {
     }
     add['coverImage'] = nameImageCover;
     add['imageList'] = listImages;
-    add['disabled'] = $("#disabled").is(':checked');
+    add['show'] = (!$("#disabled").is(':checked'));
     add['yearOfEdition'] = $('#yearOfEdition').val();
     add['pages'] = $('#pages').val();
     add['price'] = $('#price').val();

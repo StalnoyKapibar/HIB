@@ -22,15 +22,16 @@ function buildPageByCurrentLang() {
             .then(status)
             .then(json)
             .then(function (data) {
+                console.log(data);
                 $('#cardcolumns').empty();
                 $.each(data, function (index) {
                     let card = `<div class="col mb-4">
                                     <a class="card border-0" href="/page/${data[index].id}" style="color: black">
                                         <img class="card-img-top mb-1" src="images/book${data[index].id}/${data[index].coverImage}" alt="Card image cap">
                                         <div class="card-body">
-                                            <h5 class="card-title">${data[index].nameAuthorDTOLocale}</h5>
-                                            <h6 class="card-text text-muted">${data[index].nameBookDTOLocale}</h6>
-                                            <h5 class="card-footer bg-transparent text-left pl-0">${covertPrice(data[index].price)+currencyIcon}</h5>
+                                            <h5 class="card-title">${convertOriginalLanguageRows(data[index].nameAuthorDTOLocale, data[index].authorTranslit)}</h5>
+                                            <h6 class="card-text text-muted">${convertOriginalLanguageRows(data[index].nameBookDTOLocale, data[index].nameTranslit)}</h6>
+                                            <h5 class="card-footer bg-transparent text-left pl-0">${covertPrice(data[index].price) + currencyIcon}</h5>
                                             <div class="card-footer bg-transparent"></div>
                                         </div>
                                     </a>

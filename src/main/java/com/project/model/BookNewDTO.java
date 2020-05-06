@@ -12,9 +12,12 @@ import java.util.List;
 public class BookNewDTO {
     private long id;
     private String name;
+    private String nameTranslit;
     private String author;
+    private String authorTranslit;
     private String desc;
     private String edition;
+    private String editionTranslit;
     private String yearOfEdition;
     private Long pages;
     private Long price;
@@ -35,4 +38,5 @@ public class BookNewDTO {
         this.originalLanguage = originalLanguage;
         this.coverImage = coverImage;
     }
+
 }

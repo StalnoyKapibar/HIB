@@ -16,10 +16,7 @@ public class CartItemDTO {
     @EqualsAndHashCode.Include
     private Book book;
 
-    private Integer quantity;
-
-    public CartItemDTO(Book book, Integer quantity) {
+    public CartItemDTO(Book book) {
         this.book = book;
-        this.quantity = quantity;
     }
 }

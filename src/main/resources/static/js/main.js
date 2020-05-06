@@ -16,6 +16,11 @@ function json(response) {
     return response.json()
 }
 
+function convertOriginalLanguageRows(originalRow, transliteRow) {
+    if (originalRow === transliteRow) return originalRow;
+    return `${originalRow} (${transliteRow})`
+}
+
 function getCookieByName(name) {
     let value = "; " + document.cookie;
     let parts = value.split("; " + name + "=");

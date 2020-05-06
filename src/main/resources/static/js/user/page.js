@@ -26,9 +26,9 @@ function setPageFields() {
         objectBook = data;
         tmpEditBookId = data.id;
         $('title').text(data.name);
-        $('#book-name').text(data.name);
-        $('#book-author').text(data.author);
-        $('#book-edition').text(data.edition);
+        $('#book-name').text(convertOriginalLanguageRows(data.name, data.nameTranslit));
+        $('#book-author').text(convertOriginalLanguageRows(data.author, data.authorTranslit));
+        $('#book-edition').text(convertOriginalLanguageRows(data.edition, data.editionTranslit));
         $('#addToCart').attr('data-id', data.id);
         $("#book-desc").text(data.desc);
         $("#book-original-language").text(data.originalLanguage);
@@ -40,7 +40,7 @@ function setPageFields() {
 }
 
 function convertPrice(price) {
-    return price/100;
+    return price / 100;
 }
 
 function buildCarousel() {
@@ -73,7 +73,7 @@ function buildCarousel() {
     }
 
     var htmlBodyCarousel =
-      `<div class="card">
+        `<div class="card">
        <div id="carouselImagePage" class="carousel slide 100 card-header" data-ride="carousel">
 
                     <ol class="carousel-indicators" id='testActive'>
