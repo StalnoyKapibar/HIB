@@ -109,7 +109,6 @@
                                 <th></th>
                                 <th>Items</th>
                                 <th>Unit price</th>
-                                <th>Quantity</th>
                             </tr>
                             </thead>
                             <tbody id='ordermodalbody'>
@@ -120,7 +119,6 @@
                             <tr>
                             <tr height="50">
                                 <th width="10"></th>
-                                <th></th>
                                 <th></th>
                                 <th>
                                     <a>Subtotal:</a>
@@ -134,7 +132,6 @@
                             <tr>
                             <tr height="50">
                                 <th width="10"></th>
-                                <th></th>
                                 <th></th>
                                 <th>Total price:</th>
                                 <th id="pricetotalordermodal"></th>
@@ -202,7 +199,7 @@
         <link href="/static/fonts/font.css" rel="stylesheet">
         <link href="css/cabinet.css" rel="stylesheet" type="text/css">
         <script crossorigin="anonymous" src="https://kit.fontawesome.com/db08edad0b.js"></script>
-        <main role="main" class="col-auto">
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h1 class="h2">Settings Profile</h1>
             </div>
@@ -303,15 +300,21 @@
         <script src="/static/js/lib/popper.min.js"></script>
         <script src="/static/js/lib/bootstrap.min.js"></script>
         <br>
-        <main role="main" class="col-auto">
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
             <p></p>
             <h1 class="h2" id="headershoppingcart">Shopping cart</h1>
-            <ul class="nav nav-tabs" id="cartTab" role="tablist">
+            <ul class="nav nav-tabs" id="cartTab" role="tablist" >
                 <li class="nav-item">
-                    <a class="nav-link active" id="home-tab" href="#home" style="pointer-events: none">Your shopping
+                    <a class="nav-link active" id="home-tab" href="#home" style="pointer-events: none; color: #333333">Your shopping
                         cart</a>
                 </li>
                 <li class="nav-item">
+
+                    <a class="nav-link  " id="deliveryaddress" href="#delivery" style="pointer-events: none; color: #333333">Delivery
+                        address</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link  " id="summary-tab" href="#Summary" style="pointer-events: none;color: #333333">Summary</a>
                     <a class="nav-link" id="summary-tab" href="#Summary" style="pointer-events: none">Summary</a>
                 </li>
             </ul>
@@ -324,7 +327,6 @@
                             <th></th>
                             <th id="book_author">Книга | Автор</th>
                             <th id="price">Цена</th>
-                            <th id="quantity">Кол-во</th>
                             <th id="delete">Убрать</th>
                         </tr>
                         </thead>
@@ -340,15 +342,13 @@
                         <tr>
                             <th width="10"></th>
                             <th></th>
-                            <th></th>
-                            <th></th>
-                            <th id="totalPrice"></th>
+                            <th align="right" id="totalPrice" ></th>
                             <th><a id="sum"></a></th>
+                            <th></th>
                         </tr>
 
                         <tr style="height: 15px">
                             <th width="10"></th>
-                            <th></th>
                             <th></th>
                             <th></th>
                             <th></th>
@@ -371,7 +371,6 @@
                                 <th></th>
                                 <th>Items</th>
                                 <th>Unit price</th>
-                                <th>Quantity</th>
                             </tr>
                             </thead>
                             <tbody id='orderTab'>
@@ -382,7 +381,6 @@
                             <tr>
                             <tr height="50">
                                 <th width="10"></th>
-                                <th></th>
                                 <th></th>
                                 <th>
                                     <a>Subtotal:</a>
@@ -396,7 +394,6 @@
                             <tr>
                             <tr height="50">
                                 <th width="10"></th>
-                                <th></th>
                                 <th></th>
                                 <th>Total price:</th>
                                 <th id="pricetotal"></th>

@@ -28,7 +28,7 @@ public class ShoppingCartDaoImpl extends AbstractDao<Long, ShoppingCart> impleme
         cartDTO.setId(shoppingCart.getId());
         List<CartItemDTO> itemDTO = new ArrayList<>();
         for (CartItem cartItem : shoppingCart.getCartItems()) {
-            itemDTO.add(new CartItemDTO(cartItem.getId(), bookDAO.findById(cartItem.getBook().getId()), cartItem.getQuantity()));
+            itemDTO.add(new CartItemDTO(cartItem.getId(), bookDAO.findById(cartItem.getBook().getId())));
         }
         cartDTO.setCartItems(itemDTO);
         return cartDTO;
@@ -41,9 +41,9 @@ public class ShoppingCartDaoImpl extends AbstractDao<Long, ShoppingCart> impleme
         List<CartItem> items = new ArrayList<>();
         for (CartItemDTO cartItemDTO : cart.getCartItems()) {
             if (cartItemDTO.getId() != null) {
-                items.add(new CartItem(cartItemDTO.getId(), bookDAO.findById(cartItemDTO.getBook().getId()), cartItemDTO.getQuantity()));
+                items.add(new CartItem(cartItemDTO.getId(), bookDAO.findById(cartItemDTO.getBook().getId())));
             } else {
-                items.add(new CartItem(bookDAO.findById(cartItemDTO.getBook().getId()), cartItemDTO.getQuantity()));
+                items.add(new CartItem(bookDAO.findById(cartItemDTO.getBook().getId())));
             }
         }
         updateCart.setCartItems(items);
