@@ -21,10 +21,7 @@ public class CartItem {
     @ManyToOne(fetch = FetchType.EAGER)
     private Book book;
 
-    private Integer quantity;
-
-    public CartItem(Book book, Integer quantity) {
+    public CartItem(Book book) {
         this.book = book;
-        this.quantity = quantity;
     }
 }
