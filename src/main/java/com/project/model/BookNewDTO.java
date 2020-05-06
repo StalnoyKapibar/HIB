@@ -57,7 +57,4 @@ public class BookNewDTO {
         this.coverImage = coverImage;
     }
 
-    public BookNewDTO(Category category) {
-        this.category = category;
-    }
 }

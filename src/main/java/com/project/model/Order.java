@@ -40,19 +40,31 @@ public class Order {
         List<CartItemDTO> cartItemDTOS = new ArrayList<>();
         for (CartItem cartItem : items) {
             Book book = cartItem.getBook();
-            cartItemDTOS.add(new CartItemDTO(cartItem.getId(), book, cartItem.getQuantity()));
+            cartItemDTOS.add(new CartItemDTO(cartItem.getId(), book));
         }
         orderDTO.setItems(cartItemDTOS);
-        orderDTO.setAddress(new AddressDTO(address.getId(),
-                address.getFlat(),
-                address.getHouse(),
-                address.getStreet(),
-                address.getCity(),
-                address.getState(),
-                address.getPostalCode(),
-                address.getCountry(),
-                address.getLastName(),
-                address.getFirstName()));
+
+        orderDTO.setUserDTO(new UserDTO(userAccount.getFirstName(),
+                userAccount.getLastName(),
+                userAccount.getEmail()));
+        return orderDTO;
+    }
+
+    public OrderDTO getOrderDTOForAdmin() {
+        OrderDTO orderDTO = getOrderDTO();
+        List<CartItemDTO> cartItemDTOS = new ArrayList<>();
+        for (CartItem cartItem : items) {
+            Book book = new Book(cartItem.getBook().getId(),
+                    cartItem.getBook().getName(),
+                    cartItem.getBook().getAuthor(),
+                    cartItem.getBook().getPrice(),
+                    cartItem.getBook().getCoverImage());
+            book.setId(cartItem.getBook().getId());
+
+            cartItemDTOS.add(new CartItemDTO(cartItem.getId(), book));
+        }
+        orderDTO.setItems(cartItemDTOS);
+
         return orderDTO;
     }
 }
