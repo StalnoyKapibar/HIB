@@ -18,6 +18,14 @@ public class Book {
         this.author = author;
     }
 
+    public Book(Long id, LocaleString nameLocale, LocaleString author, Long price, String coverImage) {
+        this.id = id;
+        this.name = nameLocale;
+        this.author = author;
+        this.price = price;
+        this.coverImage = coverImage;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
