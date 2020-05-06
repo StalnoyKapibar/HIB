@@ -40,4 +40,9 @@ public class AdminRestController {
         categoryService.addCategory(category);
     }
 
+    @PostMapping("/categories/parentchange")
+    public void parentChange(@RequestBody Category category) {
+        categoryService.parentChange(category);
+    }
+
 }
