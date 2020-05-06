@@ -6,10 +6,7 @@ import com.project.service.abstraction.OrderService;
 import com.project.service.abstraction.ShoppingCartService;
 import com.project.service.abstraction.UserAccountService;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
@@ -23,7 +20,6 @@ public class OrderController {
     private ShoppingCartService cartService;
     private OrderService orderService;
     private UserAccountService userAccountService;
-    private BookService bookService;
 
     @PostMapping("/order/confirmaddress")
     private OrderDTO addOder(HttpSession httpSession) {
@@ -64,5 +60,25 @@ public class OrderController {
     private int getOrderSize(HttpSession httpSession) {
         Long userId = (Long) httpSession.getAttribute("userId");
         return orderService.getOrdersByUserId(userId).size();
+    }
+
+    @GetMapping("/api/admin/getAllOrders")
+    private List<OrderDTO> getAllOrders(){
+        List<Order> orderList = orderService.getAllOrders();
+        List<OrderDTO> orderDTOS = new ArrayList<>();
+        for (Order order : orderList) {
+            orderDTOS.add(order.getOrderDTOForAdmin());
+        }
+        return orderDTOS;
+    }
+
+    @PatchMapping("/api/admin/completeOrder/{id}")
+    private void orderComplete(@PathVariable Long id) {
+        orderService.completeOrder(id);
+    }
+
+    @PostMapping("/api/admin/deleteOrder/{id}")
+    private void orderDelete(@PathVariable Long id) {
+        orderService.deleteOrder(orderService.getOrderById(id));
     }
 }

@@ -20,6 +20,7 @@ public class OrderDTO {
     private String trackingNumber;
     private String status;
     private UserAccount userAccount;
+    private UserDTO userDTO;
 
     @Transient
     public Order getOder() {
