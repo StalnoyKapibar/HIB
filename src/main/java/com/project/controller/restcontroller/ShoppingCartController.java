@@ -77,18 +77,4 @@ public class ShoppingCartController {
             session.setAttribute("shoppingcart", shoppingCart);
         }
     }
-
-    @PostMapping(value = "/cart", params = {"id", "quatity"})
-    public void editCart(@RequestParam("id") Long id, @RequestParam("quatity") Integer quatity, HttpSession session) {
-        Long cartId = (Long) session.getAttribute("cartId");
-        if (cartId != null) {
-            ShoppingCartDTO shoppingCartDTO = cartService.getCartById(cartId);
-            shoppingCartDTO.updateCartItem(id, quatity);
-            cartService.updateCart(shoppingCartDTO);
-        } else {
-            ShoppingCartDTO shoppingCart = (ShoppingCartDTO) session.getAttribute("shoppingcart");
-            shoppingCart.updateCartItem(id, quatity);
-            session.setAttribute("shoppingcart", shoppingCart);
-        }
-    }
 }

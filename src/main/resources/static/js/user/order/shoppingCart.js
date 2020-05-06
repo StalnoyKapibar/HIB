@@ -32,7 +32,7 @@ function getShoppingCart() {
                 $.each(data, function (index) {
                     let book = data[index].book;
                     price = convertPrice(book.price);
-                    totalPrice += (price * data[index].quantity);
+                    totalPrice += price;
                     totalPrice = Number.parseFloat(totalPrice.toFixed(2));
                     let row = $('<tr id="trr"/>');
                     let cell = $('<td width="10"></td>');
@@ -41,7 +41,6 @@ function getShoppingCart() {
                         <td class="align-middle">${book.name[currentLang]} | ${book.author[currentLang]}</td>
                         <td class="align-middle">${price + currencyIcon}</td>
                         <td hidden id="book${book.id}">${price}</td>
-                        <td class="align-middle"><div class="product-quantity"><input id="value${book.id}" type="number" value="${data[index].quantity}" min="1" style="width: 55px" data-id="${book.id}" data-value="${data[index].quantity}"></div></td>
                         <td class="align-middle"><button class="btn btn-info delete"  style="background-color: #ff4500" data-id="${book.id}">${deleteBottom}</button></td>`;
                     row.append(cell);
                     row.appendTo('#newTab');
@@ -199,8 +198,7 @@ function showOrderSum() {
         row.append(cell);
         cell = `<td class="align-middle"><img src="../images/book${book.id}/${book.coverImage}" style="max-width: 60px"></td>
             <td class="align-middle">${book.name[currentLang]}|${book.author[currentLang]}</td>
-            <td class="align-middle" id="book${book.id}">${convertPrice(book.price) + currencyIcon}</td>
-            <td class="align-middle"><div class="product-quantity">${items[index].quantity}</div></td>`;
+            <td class="align-middle" id="book${book.id}">${convertPrice(book.price) + currencyIcon}</td>`;
         row.append(cell);
         row.appendTo('#orderTab');
     });
@@ -261,8 +259,7 @@ function showCarrentOrder(index) {
         row.append(cell);
         cell = `<td class="align-middle"><img src="../images/book${book.id}/${book.coverImage}" style="max-width: 60px"></td>
             <td class="align-middle">${book.name[currentLang]} | ${book.author[currentLang]}</td>
-            <td class="align-middle" id="book${book.id}">${convertPrice(book.price) + currencyIcon}</td>
-            <td class="align-middle"><div class="product-quantity">${items[index].quantity}</div></td>`;
+            <td class="align-middle" id="book${book.id}">${convertPrice(book.price) + currencyIcon}</td>`;
         row.append(cell);
         row.appendTo('#ordermodalbody');
     });
