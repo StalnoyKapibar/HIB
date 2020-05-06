@@ -8,6 +8,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+/**
+ * Represented controller for binding current user with google API key.
+ * You must include an API key with every Maps JavaScript API request.
+ * @see <a href = "https://developers.google.com/maps/documentation/javascript/get-api-key">
+ *     https://developers.google.com/maps/documentation/javascript/get-api-key</a>
+ */
 @Controller
 public class AddressController {
 
@@ -17,6 +23,9 @@ public class AddressController {
     @Value("${showAddressAutocomplete}")
     private boolean showAddressAutocomplete;
 
+    /**
+     * @return page with address form
+     */
     @GetMapping("/enterAddress")
     public String getAddressPage(Model model) {
 

@@ -6,6 +6,10 @@ import com.project.model.AddressDTO;
 import com.project.model.UserAccount;
 import org.springframework.stereotype.Repository;
 
+/**
+ * Represented service for interaction with {@link Address} entity.
+ * Note that {@link UserAccount} must have field " Set<Address>" with getter and setter.
+ */
 @Repository
 public class AddressDaoImpl extends AbstractDao<Long, Address> implements AddressDao {
 
@@ -13,6 +17,12 @@ public class AddressDaoImpl extends AbstractDao<Long, Address> implements Addres
         super(Address.class);
     }
 
+    /**
+     * Build address with addressDTO data
+     *
+     * @param addressDTO with data
+     * @return created address
+     */
     @Override
     public Address getAddressFromAddressDTO(AddressDTO addressDTO) {
         return Address.builder()
@@ -28,6 +38,13 @@ public class AddressDaoImpl extends AbstractDao<Long, Address> implements Addres
                 .build();
     }
 
+    /**
+     * Set new address for user
+     *
+     * @param userAccount
+     * @param address
+     * @return new address
+     */
     @Override
     public Address addAddressToUser(UserAccount userAccount, Address address) {
         address = entityManager.merge(address);
