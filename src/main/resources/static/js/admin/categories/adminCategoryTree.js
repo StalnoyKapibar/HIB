@@ -26,10 +26,10 @@ fetch('/admin/categories/getadmintree')
         setTreeView(tree);
     });
 
-function getUnflatten(arr, parentid) {
+function getUnflatten(arr, parentId) {
     let output = [];
     for(const category of arr) {
-        if(category.parentId == parentid) {
+        if(category.parentId == parentId) {
             let children = getUnflatten(arr, category.id);
             if(children.length) {
                 category.childrens = children
@@ -46,8 +46,8 @@ function setTreeView(category) {
         $('#adminTree').append(`<figure id="${category[i].categoryName}"></figure><br>`);
         treeRow =
             `<ul class="col-12 tree">
-                <li class="col-12">
-                    <code data-target="#category-modal" id="categoryEdit"
+                <li ondragstart="drag(event, this)" class="col-12">
+                    <code draggable="true" ondrop="drop(event, this)" ondragover="allowDrop(event)" data-target="#category-modal" id="categoryEdit"
                     parent="${category[i].parentId}" view-order="${category[i].viewOrder}"
                     data-id="${category[i].id}" data-toggle="modal" class="btn-outline-primary">${category[i].categoryName}
                     </code>
@@ -66,15 +66,15 @@ function setChilds(category) {
     for (let i in category) {
         if (category[i].childrens === undefined) {
             row +=
-                `<li>
-                    <code class="btn-outline-primary" data-target="#category-modal"
+                `<li ondragstart="drag(event, this)">
+                    <code draggable="true" ondrop="drop(event, this)" ondragover="allowDrop(event)" class="btn-outline-primary" data-target="#category-modal"
                      parent="${category[i].parentId}" view-order="${category[i].viewOrder}"
                       id="categoryEdit" data-id="${category[i].id}" data-toggle="modal">${category[i].categoryName}</code>
                 </li>`;
         } else {
             row +=
-                `<li>
-                    <code class="btn-outline-primary" data-target="#category-modal"
+                `<li ondragstart="drag(event, this)">
+                    <code draggable="true" ondrop="drop(event, this)" ondragover="allowDrop(event)" class="btn-outline-primary" data-target="#category-modal"
                      parent="${category[i].parentId}" view-order="${category[i].viewOrder}"
                       id="categoryEdit" data-id="${category[i].id}" data-toggle="modal">${category[i].categoryName}</code>
                       <ul>${setChilds(category[i].childrens)}</ul>
@@ -193,8 +193,25 @@ $(document).on('click', '#addPrimary', function () {
 });
 
 
+function allowDrop(ev) {
+    ev.preventDefault();
+}
 
+function drag(ev) {
+    ev.dataTransfer.setData('text', ev.target.getAttribute('data-id'));
+}
 
-
-
-
+function drop(ev, target) {
+    ev.preventDefault();
+    let draggableCategoryId = ev.dataTransfer.getData("text");
+    let targetCategoryId = target.getAttribute('data-id');
+    fetch('/admin/categories/parentchange', {
+        method: 'POST',
+        body: JSON.stringify({id: draggableCategoryId, parentId: targetCategoryId}),
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
+    });
+    location.reload();
+}
