@@ -4,7 +4,7 @@ let yearOfEdition;
 let pages;
 let price;
 let originalLanguage;
-let disabledCheckBox = $("#disabled");
+let disabledCheckBox = $('#disabled');
 let pathToTmpPackage = '/images/tmp/';
 
 function checkNamesNotNull() {
@@ -228,6 +228,7 @@ function deleteImage(id) {
 }
 
 function addNewBook() {
+    // checkBoxOnOrOf();
     if (checkNamesNotNull() && confirm("Add this book?")) {
         let book = {};
         let otherLangFields = {};
@@ -247,16 +248,16 @@ function addNewBook() {
         book["pages"] = pages.val();
         book["price"] = price.val();
         book["originalLanguageName"] = originalLanguage.val();
-        book['isShow'] = disabledCheckBox.is(':checked');
+        book["show"] = disabledCheckBox.is(':checked');
         book["coverImage"] = divAvatar.find("img")[0].id;
         let allImages = $("#allImage").find("img");
         let imageList = [];
         for (let img of allImages) {
             imageList.push(img.id);
         }
-        book["imageList"] = imageList;
-        fetch('/admin/addBook', {
-            method: 'PUT',
+        book["listImage"] = imageList;
+        fetch('/admin/add', {
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
             },
@@ -274,6 +275,10 @@ function clearFields() {
     for (let tmpNameObject of nameObjectOfLocaleString) {
         for (let tmpNameVar of nameVarOfLocaleString) {
             $("#inp" + tmpNameObject + tmpNameVar).val('');
+        }
+        if (tmpNameObject !== "description") {
+            $("#inpt" + tmpNameObject).val('');
+            $("#in" + tmpNameObject).val('');
         }
     }
     yearOfEdition.val(``);
