@@ -29,8 +29,8 @@ function buildPageByCurrentLang() {
                                     <a class="card border-0" href="/page/${data[index].id}" style="color: black">
                                         <img class="card-img-top mb-1" src="images/book${data[index].id}/${data[index].coverImage}" alt="Card image cap">
                                         <div class="card-body">
-                                            <h5 class="card-title">${convertOriginalLanguageRows(data[index].nameAuthorDTOLocale, data[index].authorTranslit)}</h5>
-                                            <h6 class="card-text text-muted">${convertOriginalLanguageRows(data[index].nameBookDTOLocale, data[index].nameTranslit)}</h6>
+                                            <h5 class=" ard-title">${convertOriginalLanguageRows(data[index].nameBookDTOLocale, data[index].nameTranslit)}</h5>
+                                            <h6 class="card-text text-muted">${convertOriginalLanguageRows(data[index].nameAuthorDTOLocale, data[index].authorTranslit)}</h6>
                                             <h5 class="card-footer bg-transparent text-left pl-0">${covertPrice(data[index].price) + currencyIcon}</h5>
                                             <div class="card-footer bg-transparent"></div>
                                         </div>
