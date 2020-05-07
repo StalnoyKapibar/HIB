@@ -16,7 +16,11 @@ function getUserData() {
         .then((resp) => {
             userData = resp;
             senderEmail.val(userData.email);
-            senderName.val(userData.firstName + " " + userData.lastName);
+            if (userData.lastName === null) {
+                senderName.val(userData.firstName);
+            } else {
+                senderName.val(userData.firstName + " " + userData.lastName);
+            }
         });
 }
 
@@ -25,10 +29,16 @@ $(document).on('click', '#send-feedback-request', () => {
 });
 
 $('#feedback-form').submit(async () => {
+    let senderMessage;
+    if (senderMessageInput.val().includes("/page/")) {
+        senderMessage = senderMessageInput.val();
+    } else {
+        senderMessage = senderMessageInput.val() + ' ' + window.location.href;
+    }
     let FeedbackRequest = {
         senderName: senderNameInput.val(),
         senderEmail: senderEmailInput.val(),
-        content: senderMessageInput.val()
+        content: senderMessage
     };
     await fetch("/api/feedback-request", {
         method: 'POST',

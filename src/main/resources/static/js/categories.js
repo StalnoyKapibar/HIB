@@ -6,7 +6,6 @@ currentPath.splice(0, 2);
 setBreadCrumbs();
 showBooksByCategory();
 
-
 function setBreadCrumbs() {
     for (let i in currentPath) {
         categoryName = currentPath[i][0].toUpperCase() + currentPath[i].substr (1);

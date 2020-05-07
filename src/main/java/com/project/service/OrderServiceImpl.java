@@ -1,12 +1,17 @@
 package com.project.service;
 
+import com.project.dao.abstraction.BookDao;
 import com.project.dao.abstraction.OrderDao;
+import com.project.model.Book;
+import com.project.model.CartItem;
+import com.project.model.CartItemDTO;
 import com.project.model.Order;
 import com.project.service.abstraction.OrderService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -49,5 +54,16 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> getOdersByStatus(String status) {
         return orderDAO.getOrdersByStatus(status);
+    }
+
+    @Override
+    public void completeOrder(Long id) {
+        Order order = getOrderById(id);
+        order.setStatus("Completed");
+        for (CartItem cartItem : order.getItems()) {
+            Book book = cartItem.getBook();
+            book.setShow(false);
+        }
+        orderDAO.update(order);
     }
 }

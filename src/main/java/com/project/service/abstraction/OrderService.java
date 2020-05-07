@@ -18,4 +18,6 @@ public interface OrderService {
     List<Order> getOrdersByUserId(Long id);
 
     List<Order> getOdersByStatus(String status);
+
+    void completeOrder(Long id);
 }
