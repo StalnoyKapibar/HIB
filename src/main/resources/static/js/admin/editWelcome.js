@@ -107,7 +107,6 @@ async function pageBook(x) {
         .then(status)
         .then(json)
         .then(function (resp_tmp) {
-            console.log(resp_tmp);
             arrAllBooksByNumberPage = resp_tmp.listBookDTO;
             var htmlTempPager = '';
             for (var i = 0; i < resp_tmp.totalPages; i++) {
@@ -115,16 +114,15 @@ async function pageBook(x) {
                 htmlTempPager += `<li class='page-item'><a class='page-link' href='#' onclick='pageBook(${i})'>${z}</a></li>`;
             }
             $('#pagination00').html(htmlTempPager);
-            var htmlAddPage = varBookDTO;
+            let htmlAddPage = varBookDTO;
             nameObjectOfLocaleStringWithId = Object.values(htmlAddPage);
             nameObjectOfLocaleString = nameObjectOfLocaleStringWithId.filter(t => t !== "id");
-            var htmlTable = `<th scope='col'>id ${idChangeLang}</th>`;
-            for (let dd of nameObjectOfLocaleStringWithId) {
-                if (dd !== "desc" && dd !== "edition") {
-                    htmlTable += `<th scope='col'>${dd} ${idChangeLang}</th>`;
-                }
-            }
+            let htmlTable = `<th scope='col'>id ${idChangeLang}</th>`;
+
             htmlTable +=
+                `<th scope="col">Name</th>` +
+                `<th scope="col">Author</th>` +
+                `<th scope="col">Description ${idChangeLang}</th>` +
                 `<th scope='col'>Edit</th>` +
                 `<th scope='col'>Delete</th>`;
             $('#table0').html(htmlTable);
@@ -132,13 +130,13 @@ async function pageBook(x) {
             for (let tmp_html of resp_tmp.listBookDTO) {
                 html += `<tr id=${tmp_html.id}>` +
                     `<td id=${tmp_html.id}>${tmp_html.id}</td>`;
-                for (key in tmp_html) {
-                    if (tmp_html[key] !== null) {
-                        if (key !== "id" && key !== "coverImage" && key !== "imageList" && key !== "desc" && key !== "edition"
-                            && key !== "yearOfEdition" && key !== "pages" && key !== "price" && key !== "originalLanguage" && key !== "show") {
-                            var ad = tmp_html[key][idChangeLang];
-                            html += `<td id='n${tmp_html.id}'>${ad}</td>`;
-                        }
+                html += `<td id='n${tmp_html.id}'>${convertOriginalLanguageRows(tmp_html.originalLanguage.name, tmp_html.originalLanguage.nameTranslit)}</td>`;
+                html += `<td id='n${tmp_html.id}'>${convertOriginalLanguageRows(tmp_html.originalLanguage.author, tmp_html.originalLanguage.authorTranslit)}</td>`;
+
+                for (let key in tmp_html) {
+                    if (tmp_html[key] !== null && key === "description") {
+                        let ad = tmp_html[key][idChangeLang];
+                        html += `<td width="600" id='n${tmp_html.id}'>${ad}</td>`;
                     }
                 }
                 html +=
