@@ -22,7 +22,6 @@ function buildPageByCurrentLang() {
             .then(status)
             .then(json)
             .then(function (data) {
-                console.log(data);
                 $('#cardcolumns').empty();
                 $.each(data, function (index) {
                     let card = `<div class="col mb-4">

@@ -22,7 +22,6 @@ public class Order {
     @OneToOne(cascade = CascadeType.ALL)
     private Address address;
     private Integer itemsCost;
-    private Integer shippingCost;
     private String trackingNumber;
     private String status;
     @ManyToOne(fetch = FetchType.EAGER)
@@ -34,7 +33,6 @@ public class Order {
         orderDTO.setId(id);
         orderDTO.setData(data);
         orderDTO.setItemsCost(itemsCost);
-        orderDTO.setShippingCost(shippingCost);
         orderDTO.setTrackingNumber(trackingNumber);
         orderDTO.setStatus(status);
         List<CartItemDTO> cartItemDTOS = new ArrayList<>();
