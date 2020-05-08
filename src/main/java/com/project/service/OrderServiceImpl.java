@@ -54,7 +54,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void completeOrder(Long id) {
         Order order = getOrderById(id);
-        order.setStatus(StatusOrder.COMPLETED);
+        order.setStatus(Status.COMPLETED);
         for (CartItem cartItem : order.getItems()) {
             Book book = cartItem.getBook();
             book.setShow(false);

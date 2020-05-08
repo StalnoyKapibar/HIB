@@ -4,10 +4,8 @@ import com.project.model.*;
 import com.project.service.abstraction.OrderService;
 import com.project.service.abstraction.ShoppingCartService;
 import com.project.service.abstraction.UserAccountService;
-import com.sun.xml.internal.ws.util.StringUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -29,7 +27,7 @@ public class OrderController {
         order.setData(LocalDate.now().toString());
         order.setShippingCost(350);
         order.setItemsCost((int) shoppingCartDTO.getTotalCostItems());
-        order.setStatus(StatusOrder.PROCESSING);
+        order.setStatus(Status.PROCESSING);
         httpSession.setAttribute("order", order);
         return order;
     }

@@ -1,6 +1,6 @@
 package com.project.model;
 
-public enum StatusOrder {
+public enum Status {
     PROCESSING,
     COMPLETED
 }
