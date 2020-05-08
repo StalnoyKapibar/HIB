@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -34,7 +33,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public PageableBookDTO getPageBookDTOByPageable(Pageable pageable, boolean disabled) {
+    public BookPageAdminDto getPageBookDTOByPageable(Pageable pageable, boolean disabled) {
         return bookDAO.getPageBookDTOByPageable(pageable, disabled);
     }
 
@@ -49,17 +48,22 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public BookPageDto getBookPageByPageable(Pageable pageable) {
+        return bookDAO.getBookPageByPageable(pageable);
+    }
+
+    @Override
     public void updateBook(Book book) {
         bookDAO.update(book);
     }
 
     @Override
-    public List<BookDTO20> get20BookDTO(String locale) {
+    public List<BookDTO> get20BookDTO(String locale) {
         return bookDAO.get20BookDTO(locale);
     }
 
     @Override
-    public BookDTO20 getBookBySearchRequest(LocaleString localeString, String locale) {
+    public BookDTO getBookBySearchRequest(LocaleString localeString, String locale) {
         return bookDAO.getBookBySearchRequest(localeString, locale);
     }
 

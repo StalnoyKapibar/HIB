@@ -4,54 +4,64 @@ var addToshoppingCart = '';
 var deleteBottom = '';
 let welcomeBlock = $("#welcome");
 let currencyIcon = ' €';
+let currentPage = 0;
+let amountBooksInPage = 0;
+let amountBooksInDb;
 
 $(document).ready(function () {
 
     getLanguage();
     setLocaleFields();
-    buildPageByCurrentLang();
+    getPageWithBooks(currentPage++);
     openModalLoginWindowOnFailure();
     showSizeCart();
     loadWelcome(currentLang);
     showOrderSize();
 });
 
-function buildPageByCurrentLang() {
-    setTimeout(function () {
-        fetch("/user/get20BookDTO/" + currentLang)
-            .then(status)
-            .then(json)
-            .then(function (data) {
-                $('#cardcolumns').empty();
-                $.each(data, function (index) {
-                    let card = `<div class="col mb-4">
-                                    <a class="card border-0" href="/page/${data[index].id}" style="color: black">
-                                        <img class="card-img-top mb-1" src="images/book${data[index].id}/${data[index].coverImage}" alt="Card image cap">
+
+function addBooksToPage(books) {
+    $.each(books, function (index) {
+        let card = `<div class="col mb-4">
+                                    <a class="card border-0" href="/page/${books[index].id}" style="color: black">
+                                        <img class="card-img-top mb-1" src="images/book${books[index].id}/${books[index].coverImage}" alt="Card image cap">
                                         <div class="card-body">
-                                            <h5 class=" ard-title">${convertOriginalLanguageRows(data[index].nameBookDTOLocale, data[index].nameTranslit)}</h5>
-                                            <h6 class="card-text text-muted">${convertOriginalLanguageRows(data[index].nameAuthorDTOLocale, data[index].authorTranslit)}</h6>
-                                            <h5 class="card-footer bg-transparent text-left pl-0">${covertPrice(data[index].price) + currencyIcon}</h5>
+                                            <h5 class="card-title">${convertOriginalLanguageRows(books[index].nameAuthorDTOLocale, books[index].authorTranslit)}</h5>
+                                            <h6 class="card-text text-muted">${convertOriginalLanguageRows(books[index].nameBookDTOLocale, books[index].nameTranslit)}</h6>
+                                            <h5 class="card-footer bg-transparent text-left pl-0">${covertPrice(books[index].price) + currencyIcon}</h5>
                                             <div class="card-footer bg-transparent"></div>
                                         </div>
                                     </a>
                                     <div style="position: absolute; bottom: 5px; left: 15px; right: 15px" id="bottomInCart" type="button" 
-                                            class="btn btn-success btn-metro"  data-id="${data[index].id}">
+                                            class="btn btn-success btn-metro"  data-id="${books[index].id}">
                                         ${addToshoppingCart}
                                     </div>
                                 </div>`;
-                    $('#cardcolumns').append(card);
-                });
-                $("#myModal").on('show.bs.modal', function (e) {
-                    let index = $(e.relatedTarget).data('book-index');
-                    $('#modalHeader').empty();
-                    $('#modalBody').empty();
-                    $('#modalHeader').append(data[index].nameAuthorDTOLocale);
-                    $('#modalBody').append('<p>' + data[index].nameBookDTOLocale + '</p>');
-                    $('#modalBody').append('<img class="card-img-top" src="/images/book' + data[index].id + '/' + data[index].coverImage + '" alt="Card image cap">');
-                    $('#buttonOnBook').attr("action", '/page/' + data[index].id);
-                });
-            });
-    }, 10);
+        $('#cardcolumns').append(card);
+    });
+}
+
+function loadMore() {
+    getPageWithBooks(currentPage++);
+}
+
+function getPageWithBooks(page) {
+    GET(`/api/book?limit=4&start=${page}`)
+        .then(json)
+        .then((data) => {
+            addBooksToPage(data.books);
+            amountBooksInDb = data.amountOfBooksInDb;
+            amountBooksInPage += data.size;
+            if (amountBooksInPage === amountBooksInDb) {
+                $(".load-more-btn").remove();
+            }
+            setAmountBooksInPage();
+        })
+}
+
+function setAmountBooksInPage() {
+    $(".books-in-page").text(amountBooksInPage);
+    $(".books-in-db").text(amountBooksInDb);
 }
 
 function covertPrice(price) {

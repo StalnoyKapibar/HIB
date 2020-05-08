@@ -12,15 +12,15 @@ public interface BookService {
 
     void addBook(Book book);
 
-    PageableBookDTO getPageBookDTOByPageable(Pageable pageable, boolean disabled);
+    BookPageAdminDto getPageBookDTOByPageable(Pageable pageable, boolean disabled);
 
     void deleteBookById(Long id);
 
     void updateBook(Book book);
 
-    List<BookDTO20> get20BookDTO(String locale);
+    List<BookDTO> get20BookDTO(String locale);
 
-    BookDTO20 getBookBySearchRequest(LocaleString localeString, String locale);
+    BookDTO getBookBySearchRequest(LocaleString localeString, String locale);
 
     Book getBookById(Long id);
 
@@ -29,4 +29,6 @@ public interface BookService {
     String getLastIdOfBook();
 
     BookNewDTO getNewBookDTOByIdAndLang(Long id, String lang);
+
+    BookPageDto getBookPageByPageable(Pageable pageable);
 }

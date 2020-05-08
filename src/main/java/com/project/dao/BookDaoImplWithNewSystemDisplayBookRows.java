@@ -1,6 +1,6 @@
 package com.project.dao;
 
-import com.project.model.BookDTO20;
+import com.project.model.BookDTO;
 import com.project.model.BookNewDTO;
 import org.springframework.stereotype.Repository;
 
@@ -22,9 +22,9 @@ public class BookDaoImplWithNewSystemDisplayBookRows extends BookDaoImpl {
     }
 
     @Override
-    public List<BookDTO20> get20BookDTO(String locale) {
-        String hql = "SELECT new com.project.model.BookDTO20(b.id, b.originalLanguage.name, b.originalLanguage.nameTranslit, b.originalLanguage.author, b.originalLanguage.authorTranslit, b.price, b.coverImage)" +
+    public List<BookDTO> get20BookDTO(String locale) {
+        String hql = "SELECT new com.project.model.BookDTO(b.id, b.originalLanguage.name, b.originalLanguage.nameTranslit, b.originalLanguage.author, b.originalLanguage.authorTranslit, b.price, b.coverImage)" +
                 "FROM Book b WHERE b.isShow = true or b.isShow = null ORDER BY RAND()";
-        return entityManager.createQuery(hql, BookDTO20.class).setMaxResults(20).getResultList();
+        return entityManager.createQuery(hql, BookDTO.class).setMaxResults(20).getResultList();
     }
 }
