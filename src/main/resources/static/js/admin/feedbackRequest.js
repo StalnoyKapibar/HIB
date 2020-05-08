@@ -88,8 +88,7 @@ $(document).on('click', '.btn-reply', function () {
     recipient.val($(this).attr("data-sender"));
     emailField.val($(this).attr("data-email"));
     message.val($(this).attr("data-message"));
-    showInterestedBook($(this).attr("data-bookId"), $(this).attr("data-bookName"), $(this).attr("data-bookCoverImage")).then(r => {
-    });
+    showInterestedBook($(this).attr("data-bookId"), $(this).attr("data-bookName"), $(this).attr("data-bookCoverImage"));
     theModal.modal('show');
 });
 
@@ -116,13 +115,15 @@ $(document).on('click', '#submit-btn', async () => {
     await getFeedbackRequestTable();
 });
 
-async function showInterestedBook(bookId, bookName, bookCoverImage) {
+function showInterestedBook(bookId, bookName, bookCoverImage) {
     if (bookId !== "null") {
         interestedBookContainer.attr('style', 'display: none');
         interestedBookTitle.html(`<span>${bookName}</span>`);
         interestedBookTitle.attr('href', "/page/" + bookId);
         interestedBookImage.attr('src', `/images/book${bookId}/${bookCoverImage}`);
         interestedBookContainer.attr('style', 'display: inline');
+    } else {
+        interestedBookContainer.attr('style', 'display: none');
     }
 }
 
