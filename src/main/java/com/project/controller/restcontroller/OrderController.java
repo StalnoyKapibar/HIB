@@ -1,10 +1,10 @@
 package com.project.controller.restcontroller;
 
 import com.project.model.*;
-import com.project.service.abstraction.BookService;
 import com.project.service.abstraction.OrderService;
 import com.project.service.abstraction.ShoppingCartService;
 import com.project.service.abstraction.UserAccountService;
+import com.sun.xml.internal.ws.util.StringUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,7 +29,7 @@ public class OrderController {
         order.setData(LocalDate.now().toString());
         order.setShippingCost(350);
         order.setItemsCost((int) shoppingCartDTO.getTotalCostItems());
-        order.setStatus("Processing");
+        order.setStatus(StatusOrder.PROCESSING);
         httpSession.setAttribute("order", order);
         return order;
     }

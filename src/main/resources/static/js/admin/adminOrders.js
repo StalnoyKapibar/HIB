@@ -40,7 +40,7 @@ function showListOrders() {
                              <th></th></tr></thead>`;
             $.each(data, function (index) {
                 order = data[index];
-                if (order.status === statusOfOrder) {
+                if (order.status === statusOfOrder.toUpperCase()) {
                     html += `<tbody ><tr > <td> ${order.id}</td>`;
                     for (let key in order.userDTO) {
                         if (key === "email" || key === "firstName" || key === "lastName") {

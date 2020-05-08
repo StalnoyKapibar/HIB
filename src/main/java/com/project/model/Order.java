@@ -24,7 +24,7 @@ public class Order {
     private Integer itemsCost;
     private Integer shippingCost;
     private String trackingNumber;
-    private String status;
+    private StatusOrder status;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private UserAccount userAccount;

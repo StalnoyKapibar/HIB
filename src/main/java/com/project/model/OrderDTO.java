@@ -18,7 +18,7 @@ public class OrderDTO {
     private Integer itemsCost;
     private Integer shippingCost;
     private String trackingNumber;
-    private String status;
+    private StatusOrder status;
     private UserAccount userAccount;
     private UserDTO userDTO;
 
