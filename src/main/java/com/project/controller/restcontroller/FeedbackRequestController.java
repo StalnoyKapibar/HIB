@@ -25,9 +25,8 @@ public class FeedbackRequestController {
     private final Environment env;
     private final BookService bookService;
 
-    @PostMapping
-    @RequestMapping(value = "/api/feedback-request", params = "bookId")
-    public FeedbackRequest sendNewFeedBackRequest(@RequestBody FeedbackRequest feedbackRequest, @RequestParam("bookId") String bookId) {
+    @PostMapping(value ="/api/feedback-request", params = "book_id")
+    public FeedbackRequest sendNewFeedBackRequest(@RequestBody FeedbackRequest feedbackRequest, @RequestParam("book_id") String bookId) {
         LOGGER.debug("POST request '/feedback-request' with {}", feedbackRequest);
         feedbackRequest.setId(null);
         feedbackRequest.setReplied(false);
