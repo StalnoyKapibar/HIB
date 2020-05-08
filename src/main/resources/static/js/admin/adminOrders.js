@@ -78,7 +78,6 @@ function showModalOfOrder(index) {
                              <td>${convertPrice(book.price)}${iconOfPrice}</td></tr>`;
     });
     html += `<tr><td></td><td></td><td>Subtotal :</td><td> ${convertPrice(order.itemsCost)}${iconOfPrice}</td></tr>
-                 <tr><td></td><td></td></tr>
                  <tr><td></td><td></td><td>Total :</td><td>${convertPrice(order.itemsCost + order.shippingCost)}${iconOfPrice}</td></tr>`;
     $('#modalBody').html(html);
 
