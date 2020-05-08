@@ -23,7 +23,7 @@ public class Order {
     private Address address;
     private Integer itemsCost;
     private String trackingNumber;
-    private String status;
+    private Status status;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private UserAccount userAccount;
