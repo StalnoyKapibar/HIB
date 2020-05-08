@@ -2,6 +2,7 @@ package com.project.controller.restcontroller;
 
 import com.project.mail.MailService;
 import com.project.model.FeedbackRequest;
+import com.project.service.abstraction.BookService;
 import com.project.service.abstraction.FeedbackRequestService;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -22,16 +23,20 @@ public class FeedbackRequestController {
     private final FeedbackRequestService feedbackRequestService;
     private final MailService mailService;
     private final Environment env;
+    private final BookService bookService;
 
     @PostMapping
-    @RequestMapping("/api/feedback-request")
-    public FeedbackRequest sendNewFeedBackRequest(@RequestBody FeedbackRequest feedbackRequest) {
+    @RequestMapping(value = "/api/feedback-request", params = "bookId")
+    public FeedbackRequest sendNewFeedBackRequest(@RequestBody FeedbackRequest feedbackRequest, @RequestParam("bookId") String bookId) {
         LOGGER.debug("POST request '/feedback-request' with {}", feedbackRequest);
         feedbackRequest.setId(null);
         feedbackRequest.setReplied(false);
         feedbackRequest.setSenderName(HtmlUtils.htmlEscape(feedbackRequest.getSenderName()));
         feedbackRequest.setContent(HtmlUtils.htmlEscape(feedbackRequest.getContent()));
         feedbackRequest.setSenderEmail(HtmlUtils.htmlEscape(feedbackRequest.getSenderEmail()));
+        if (!bookId.equals("null")) {
+            feedbackRequest.setBook(bookService.getBookById(Long.parseLong(bookId)));
+        }
         return feedbackRequestService.save(feedbackRequest);
     }
 
