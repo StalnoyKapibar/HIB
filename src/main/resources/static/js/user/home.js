@@ -19,6 +19,7 @@ $(document).ready(function () {
     showOrderSize();
 });
 
+
 function addBooksToPage(books) {
     $.each(books, function (index) {
         let card = `<div class="col mb-4">
