@@ -27,4 +27,7 @@ public class FeedbackRequest {
 
     @Column(name = "replied")
     private Boolean replied;
+
+    @OneToOne(cascade = CascadeType.MERGE)
+    private Book book;
 }
