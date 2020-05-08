@@ -34,7 +34,7 @@ $('#feedback-form').submit(async () => {
     if (location.includes("/page/")) {
         let index = location.indexOf("/page/") + 6;
         bookId = '';
-        while (location[index] !== ' ' && location[index] !== undefined) {
+        while (location[index] !== ' ' && location[index] !== undefined && location[index] !== "?") {
             bookId += location[index];
             index++;
         }
