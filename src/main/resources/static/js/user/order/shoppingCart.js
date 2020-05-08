@@ -203,8 +203,7 @@ function showOrderSum() {
         row.appendTo('#orderTab');
     });
     $('#subtotal').text(totalPrice + currencyIcon);
-    $('#shippingcost').text(convertPrice(order.shippingCost) + currencyIcon);
-    $('#pricetotal').text((totalPrice + convertPrice(order.shippingCost)) + currencyIcon);
+    $('#pricetotal').text(totalPrice + currencyIcon);
 
     let html = ``;
     let x = 36;
@@ -228,7 +227,7 @@ async function showListOrders() {
                 let row = $('<tr>');
                 let cell = $('<td width="10"></td>');
                 row.append(cell);
-                cell = '<td>' + data[index].id + '</td><td>' + data[index].data + '</td><td>' + (data[index].itemsCost + data[index].shippingCost) + '</td><td><a href="#" data-toggle="modal" data-target="#ordermodal"  onclick="showCarrentOrder(' + index + ')">Show</a></td>'
+                cell = '<td>' + data[index].id + '</td><td>' + data[index].data + '</td><td>' + (convertPrice(data[index].itemsCost) + currencyIcon) + '</td><td><a href="#" data-toggle="modal" data-target="#ordermodal"  onclick="showCarrentOrder(' + index + ')">Show</a></td>'
                 row.append(cell);
                 row.appendTo('#listorders');
             })
@@ -254,8 +253,7 @@ function showCarrentOrder(index) {
     $('#ordestatus').text(order.status);
     $('#ordertrack').text(order.trackingNumber);
     $('#subtotalordermodal').text(convertPrice(order.itemsCost) + currencyIcon);
-    $('#shippingcostordermodal').text(convertPrice(order.shippingCost) + currencyIcon);
-    $('#pricetotalordermodal').text(convertPrice(order.itemsCost + order.shippingCost) + currencyIcon);
+    $('#pricetotalordermodal').text(convertPrice(order.itemsCost) + currencyIcon);
 }
 
 

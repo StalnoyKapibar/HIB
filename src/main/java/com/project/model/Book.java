@@ -18,10 +18,9 @@ public class Book {
         this.author = author;
     }
 
-    public Book(Long id, LocaleString nameLocale, LocaleString author, Long price, String coverImage) {
+    public Book(Long id, OriginalLanguage originalLanguage, Long price, String coverImage) {
         this.id = id;
-        this.name = nameLocale;
-        this.author = author;
+        this.originalLanguage = originalLanguage;
         this.price = price;
         this.coverImage = coverImage;
     }

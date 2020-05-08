@@ -90,13 +90,30 @@
                             <h3 class="col-6">
                                 Disabled
                             </h3>
-                            <input type="checkbox" checked data-toggle="toggle">
+                            <input type="checkbox" id="disabled" checked data-toggle="toggle">
                         </div>
                     </div>
                     <button class='btn btn-primary col-4 btn-metro offset-2' onclick='addNewBook()' type='submit'>Add
                         new Book
                     </button>
                 </div>
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="name-tab" data-toggle="tab" href="#name" role="tab" aria-controls="home" aria-selected="true">Add name</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="author-tab" data-toggle="tab" href="#author" role="tab" aria-controls="profile" aria-selected="false">Add author</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="description-tab" data-toggle="tab" href="#description" role="tab" aria-controls="contact" aria-selected="false">Add description</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="edition-tab" data-toggle="tab" href="#edition" role="tab" aria-controls="contact" aria-selected="false">Add edition</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="other-tab" data-toggle="tab" href="#other" role="tab" aria-controls="contact" aria-selected="false">Add other</a>
+                    </li>
+                </ul>
             </div>
             <form id="newBookForm" role="form">
             </form>
