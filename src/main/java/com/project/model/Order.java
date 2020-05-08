@@ -55,8 +55,7 @@ public class Order {
         List<CartItemDTO> cartItemDTOS = new ArrayList<>();
         for (CartItem cartItem : items) {
             Book book = new Book(cartItem.getBook().getId(),
-                    cartItem.getBook().getName(),
-                    cartItem.getBook().getAuthor(),
+                    cartItem.getBook().getOriginalLanguage(),
                     cartItem.getBook().getPrice(),
                     cartItem.getBook().getCoverImage());
             book.setId(cartItem.getBook().getId());
