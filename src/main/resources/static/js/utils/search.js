@@ -1,4 +1,4 @@
-var currentLang = 'ru';
+let currentLang = '';
 
 $(document).ready(function () {
     if (currentLang == '') {
@@ -6,42 +6,28 @@ $(document).ready(function () {
     }
     getLanguage();
     setLocaleFields();
-    loadPage();
-    setPageFields();
-    setPageFieldsLocale();
+    // setPageFields();
+    // getCategoryTree();
 });
 
-function setPageFieldsLocale() {
-    console.log(currentLang);
-    fetch("/api/book/1" + "?locale=" + currentLang)
-        .then(status)
-        .then(json).then(function (data) {
-        objectBook = data;
-        tmpEditBookId = data.id;
-        $('title').text(data.name);
-        $('#book-name').text(data.name);
-        $('#book-author').text(data.author);
-        $('#book-edition').text(data.edition);
-        $('#addToCart').attr('data-id', data.id);
-        $("#book-desc").text(data.desc);
-        $("#book-original-language").text(data.originalLanguage);
-        $("#book-amount-of-pages").text(data.pages);
-        $("#book-year-of-edition").text(data.yearOfEdition);
-        $("#book-price").text(convertPrice(data.price) + ' €');
-        buildCardImageOrCarousel();
+function advancedSearch() {
+    let request = $('#search-input').val();
+    let priceFrom = $('#input-price-from').val();
+    let priceTo = $('#input-price-to').val();
+    let yearOfEdition = $('#input-year-edition').val();
+    let pages = $('#input-pages').val();
+    fetch("/searchAdvanced?request=" + request + "&priceFrom=" + priceFrom + "&priceTo=" + priceTo + "&yearOfEdition=" + yearOfEdition + "&pages=" + pages+ "&LANG=" + currentLang, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
     })
-}
+        .then(status)
+        .then(json)
+        .then(function (data) {
 
-function status(response) {
-    if (response.ok) {
-        return Promise.resolve(response)
-    } else {
-        return Promise.reject(new Error(response.statusText))
-    }
-}
-
-function json(response) {
-    return response.json()
+        });
 }
 
 function text(response) {
@@ -73,18 +59,3 @@ function setPageFields() {
             $('table').append($(tr.join('')));
         });
 }
-
-function loadPage() {
-    fetch("/searchResult?request=" + req + "&LANG=" + currentLang, {
-        method: "GET",
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        }
-    })
-        .then(response => response.json())
-        .then(function (data) {
-
-        });
-}
-

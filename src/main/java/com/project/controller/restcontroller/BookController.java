@@ -1,10 +1,7 @@
 package com.project.controller.restcontroller;
 
 import com.project.HIBParser.HibParser;
-import com.project.model.Book;
-import com.project.model.BookDTO20;
-import com.project.model.BookNewDTO;
-import com.project.model.PageableBookDTO;
+import com.project.model.*;
 import com.project.search.BookSearch;
 import com.project.service.abstraction.BookService;
 import com.project.service.abstraction.StorageService;
@@ -145,6 +142,13 @@ public class BookController {
     @GetMapping("/searchResult")
     public List<BookDTO20> search(@RequestParam(value = "request") String req, @RequestParam(value = "LANG") String locale) {
         return bookSearch.search(req, locale);
+    }
+
+    @GetMapping("/searchAdvanced")
+    public List<BookDTO20> advancedSearch(@RequestParam(value = "request") String request, @RequestParam(value = "priceFrom") Long priceFrom,
+                                          @RequestParam(value = "priceTo") Long priceTo,@RequestParam(value = "yearOfEdition") Long yearOfEdition,
+                                          @RequestParam(value = "pages") Long pages, @RequestParam(value = "LANG") String locale) {
+        return bookSearch.search(request, locale);
     }
 
 

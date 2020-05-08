@@ -16,7 +16,7 @@
     <script src="../static/js/lib/jquery.min.js"></script>
     <script src="../static/js/lib/popper.min.js"></script>
     <script src="../static/js/lib/bootstrap.min.js"></script>
-    <title>Document</title>
+    <title>Search</title>
 </head>
 <body>
 
@@ -53,7 +53,7 @@
                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                        th:attr="data-current-lang=${#httpSession.getAttribute('LANG')}">
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="dd_menu_link" id="dd_menu">
+                    <div class="dropdown-menu" aria-labelledby="dd_menu_link" id="sidebarLanguages">
                     </div>
                 </div>
                 <form class="form-inline mr-lg-2 mb-2 mt-2 mr-md-2" action="/search">
@@ -89,14 +89,14 @@
 
     <!--    page container    -->
 
-    <div class="container page-content">
+    <div class="container page-content" th:fragment="search-page">
         <div class="row">
 
             <!--    main    -->
 
             <div class="col-10 main">
                 <div class="input-group mb-1">
-                    <input class="form-control" id="searchInput" placeholder="Search..." type="text">
+                    <input class="form-control" id="search-input" placeholder="Search..." type="text">
                     <div class="input-group-append">
                                 <span class="input-group-text" id="searchIcon">
                                     <i aria-hidden="true" class="fa fa-search"></i>
@@ -149,15 +149,12 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group sidebar-item form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="input-disabled">
-                            <label class="form-check-label font-weight-bold" for="input-disabled">
-                                On sale
-                            </label>
-                        </div>
                         <div class="form-group sidebar-item">
                             <label for="input-categories" class="font-weight-bold">Categories</label>
                             <div id="input-categories">
+                                <div id="category_tree">
+
+                                </div>
                             </div>
                         </div>
                         <div class="form-group sidebar-item">
@@ -172,37 +169,14 @@
                             </div>
                         </div>
                         <div class="form-group sidebar-item">
-                            <label for="input-author" class="font-weight-bold">Author</label>
-                            <div id="input-author">
-                            </div>
-                        </div>
-                        <div class="form-group sidebar-item">
-                            <label for="input-edition" class="font-weight-bold">Edition</label>
-                            <div id="input-edition">
-                            </div>
-                        </div>
-                        <div class="form-group sidebar-item">
                             <label for="input-year-edition" class="font-weight-bold">Year of edition</label>
-                            <div id="input-year-edition">
-                            </div>
+                            <input type="number" class="form-control" id="input-year-edition">
                         </div>
                         <div class="form-group sidebar-item">
                             <label for="input-pages" class="font-weight-bold">Number of pages</label>
-                            <div id="input-pages">
-                            </div>
+                            <input type="number" class="form-control" id="input-pages">
                         </div>
-                        <div class="form-group sidebar-item">
-                            <label for="input-original-language1" class="font-weight-bold original-language">Original language: <span
-                                    class="font-weight-normal"
-                                    id="book-original-language">Original language</span></label>
-                            <div id="input-original-language1">
-                            </div>
-                        </div>
-                        <div class="form-group sidebar-item">
-                            <label for="input-original-language" class="font-weight-bold">Original language</label>
-                            <div id="input-original-language">
-                            </div>
-                        </div>
+                        <button id="search-submit" class="btn btn-block btn-success" type="button" onclick="advancedSearch()">Search</button>
                     </form>
                 </div>
             </div>
@@ -219,10 +193,13 @@
      aria-labelledby="exampleModalLabel">
 </div>
 
-
 <a id="request" th:value="${request}" hidden></a>
-<script src="../static/js/utils/search.js"></script>
-<script src="../static/js/utils/common-function.js"></script>
+
+<script src="/static/js/main.js"></script>
+<script src="/static/js/utils/common-function.js"></script>
+<script src="/static/js/categoryTree.js"></script>
+<script src="/static/js/utils/search.js"></script>
 <script src="/static/js/footerBuilder.js"></script>
+
 </body>
 </html>
