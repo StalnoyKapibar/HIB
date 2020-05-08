@@ -29,18 +29,22 @@ $(document).on('click', '#send-feedback-request', () => {
 });
 
 $('#feedback-form').submit(async () => {
-    let senderMessage;
-    if (senderMessageInput.val().includes("/page/")) {
-        senderMessage = senderMessageInput.val();
-    } else {
-        senderMessage = senderMessageInput.val() + ' ' + window.location.href;
+    let location = window.location.href;
+    let bookId = null;
+    if (location.includes("/page/")) {
+        let index = location.indexOf("/page/") + 6;
+        bookId = '';
+        while (location[index] !== ' ' && location[index] !== undefined && location[index] !== "?") {
+            bookId += location[index];
+            index++;
+        }
     }
     let FeedbackRequest = {
         senderName: senderNameInput.val(),
         senderEmail: senderEmailInput.val(),
-        content: senderMessage
+        content: senderMessageInput.val(),
     };
-    await fetch("/api/feedback-request", {
+    await fetch("/api/feedback-request" + "?book_id=" + bookId, {
         method: 'POST',
         body: JSON.stringify(FeedbackRequest),
         headers: {

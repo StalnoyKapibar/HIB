@@ -256,14 +256,14 @@ public class TestDataInit {
 
         //Add test feedback requests
         String testEmail = "test@hib.com";
-        FeedbackRequest feedbackRequest = new FeedbackRequest(null, "Алексей", "Здравствуйте, у меня возник вопрос по оплате. Какие сервисы электронных платежей поддерживает ваш сайт? И могу  ли я заказать книгу в Сибирь?", testEmail, false);
-        FeedbackRequest feedbackRequest1 = new FeedbackRequest(null, "Алексей", "Здравствуйте, меня заинтересовала книга http://localhost:8080/page/1", testEmail, false);
-        FeedbackRequest feedbackRequest2 = new FeedbackRequest(null, "Mike", "Здравствуйте, меня заинтересовала книга http://localhost:8080/page/2", testEmail, false);
-        FeedbackRequest feedbackRequest3 = new FeedbackRequest(null, "Emma", "Bonjour, je m intéresse au livre. http://localhost:8080/page/3", testEmail, false);
-        FeedbackRequest feedbackRequest4 = new FeedbackRequest(null, "Julio", "Ciao, sono interessato al libro. http://localhost:8080/page/4", testEmail, true);
-        FeedbackRequest feedbackRequest5 = new FeedbackRequest(null, "Claus", "Hallo, ich interessiere mich für das Buch. http://localhost:8080/page/5", testEmail, false);
-        FeedbackRequest feedbackRequest6 = new FeedbackRequest(null, "Alexey", "Witam, jestem zainteresowana książką. http://localhost:8080/page/6", testEmail, false);
-        FeedbackRequest feedbackRequest7 = new FeedbackRequest(null, "Άννα", "Γεια σας, ενδιαφέρομαι για το βιβλίο. http://localhost:8080/page/7", testEmail, false);
+        FeedbackRequest feedbackRequest = new FeedbackRequest(null, "Алексей", "Здравствуйте, у меня возник вопрос по оплате. Какие сервисы электронных платежей поддерживает ваш сайт? И могу  ли я заказать книгу в Сибирь?", testEmail, false, null);
+        FeedbackRequest feedbackRequest1 = new FeedbackRequest(null, "Алексей", "Здравствуйте, меня заинтересовала книга", testEmail, false, bookService.getBookById(Long.valueOf(1)));
+        FeedbackRequest feedbackRequest2 = new FeedbackRequest(null, "Mike", "Здравствуйте, меня заинтересовала книга", testEmail, false, bookService.getBookById(Long.valueOf(2)));
+        FeedbackRequest feedbackRequest3 = new FeedbackRequest(null, "Emma", "Bonjour, je m intéresse au livre.", testEmail, false, bookService.getBookById(Long.valueOf(3)));
+        FeedbackRequest feedbackRequest4 = new FeedbackRequest(null, "Julio", "Ciao, sono interessato al libro.", testEmail, true, bookService.getBookById(Long.valueOf(4)));
+        FeedbackRequest feedbackRequest5 = new FeedbackRequest(null, "Claus", "Hallo, ich interessiere mich für das Buch.", testEmail, false, bookService.getBookById(Long.valueOf(5)));
+        FeedbackRequest feedbackRequest6 = new FeedbackRequest(null, "Alexey", "Witam, jestem zainteresowana książką.", testEmail, false, bookService.getBookById(Long.valueOf(6)));
+        FeedbackRequest feedbackRequest7 = new FeedbackRequest(null, "Άννα", "Γεια σας, ενδιαφέρομαι για το βιβλίο.", testEmail, false, bookService.getBookById(Long.valueOf(7)));
 
         feedbackRequestService.save(feedbackRequest);
         feedbackRequestService.save(feedbackRequest1);
