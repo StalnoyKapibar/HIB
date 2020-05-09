@@ -7,20 +7,35 @@ let currencyIcon = ' €';
 let currentPage = 0;
 let amountBooksInPage = 0;
 let amountBooksInDb;
+let ddmAmountBook = $("#ddmAmountBook");
 
 $(document).ready(function () {
 
     getLanguage();
     setLocaleFields();
-    getPageWithBooks(currentPage++);
+    getPageWithBooks(ddmAmountBook.val(), currentPage++);
     openModalLoginWindowOnFailure();
     showSizeCart();
     loadWelcome(currentLang);
     showOrderSize();
 });
 
+function getQuantityPage() {
+    let quantityPage;
+    if (amountBooksInDb < amountBooksInPage){
+        return 0;
+    }
+    if (amountBooksInDb % amountBooksInPage === 0) {
+        quantityPage = amountBooksInDb / amountBooksInPage;
+    } else {
+        quantityPage = amountBooksInDb / amountBooksInPage + 1;
+    }
+    return quantityPage;
+}
 
 function addBooksToPage(books) {
+    $('#cardcolumns').empty();
+    $("#rowForPagination").empty();
     $.each(books, function (index) {
         let card = `<div class="col mb-4">
                                     <a class="card border-0" href="/page/${books[index].id}" style="color: black">
@@ -39,29 +54,39 @@ function addBooksToPage(books) {
                                 </div>`;
         $('#cardcolumns').append(card);
     });
+    addPagination();
 }
 
-function loadMore() {
-    getPageWithBooks(currentPage++);
+function addPagination() {
+    let pag = `<nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                    <li class="page-item"><a class="page-link" href="#">Previous</a></li>`;
+    for (let i = 1; i < getQuantityPage() + 1; i++) {
+        pag += `<li class="page-item"><a class="page-link" onclick="loadMore(${i-1})">${i}</a></li>`;
+    }
+    pag += `<li class="page-item"><a class="page-link" href="#">Next</a></li>
+                    </ul>
+                </nav>`;
+    $("#rowForPagination").append(pag);
 }
 
-function getPageWithBooks(page) {
-    GET(`/api/book?limit=4&start=${page}`)
+function loadMore(pageNumber) {
+    getPageWithBooks(amountBooksInPage, pageNumber);
+}
+
+function getPageWithBooks(amount, page) {
+    GET(`/api/book?limit=${amount}&start=${page}`)
         .then(json)
         .then((data) => {
-            addBooksToPage(data.books);
             amountBooksInDb = data.amountOfBooksInDb;
-            amountBooksInPage += data.size;
-            if (amountBooksInPage === amountBooksInDb) {
-                $(".load-more-btn").remove();
-            }
-            setAmountBooksInPage();
+            addBooksToPage(data.books);
         })
 }
 
-function setAmountBooksInPage() {
-    $(".books-in-page").text(amountBooksInPage);
-    $(".books-in-db").text(amountBooksInDb);
+function setAmountBooksInPage(amount) {
+    amountBooksInPage = amount;
+    ddmAmountBook.text(amount);
+    getPageWithBooks(amount, 0);
 }
 
 function covertPrice(price) {
