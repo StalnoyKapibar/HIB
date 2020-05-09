@@ -66,7 +66,9 @@ async function showSizeCart() {
         .then(function (data) {
             if (data != 0) {
                 $("#bucketIn").empty();
+                $("#bucketIn1").empty();
                 $("#bucketIn").append(data)
+                $("#bucketIn1").append(data)
             } else {
                 $('#bucketIn').empty();
             }
@@ -80,7 +82,10 @@ async function showOrderSize() {
         .then(function (data) {
             if (data != 0) {
                 $("#orders-quantity").empty();
+                $("#orders-quantity1").empty();
                 $("#orders-quantity").append(data)
+                $("#orders-quantity1").append(data)
+
             } else {
                 $('#orders-quantity').empty();
             }
