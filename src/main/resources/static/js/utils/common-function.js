@@ -71,6 +71,12 @@ function setLocaleFields() {
             let amountOfPages = $(".amount-of-pages");
             let yearOfEdition = $(".year-of-edition");
             let price = $(".price");
+            $(".load-more-btn").html(localeFields['load-more']);
+            $(".displayed").html(localeFields['displayed']);
+            $(".of").html(localeFields['of']);
+
+
+            //should be down
             title.html(title.html().replace('Title:', localeFields['title']));
             author.html(author.html().replace('Author:', localeFields['author']));
             edition.html(edition.html().replace('Edition:', localeFields['edition']));
@@ -185,7 +191,6 @@ function text(response) {
 }
 
 function setCurrentPageToCookie() {
-    let cookie = 'CURRENT_PAGE =' + window.location.pathname + ';' +
-        'path = /; max-age = 60';
+    let cookie = `CURRENT_PAGE = ${window.location.pathname}; path = /; max-age = 60`;
     document.cookie = cookie;
 }

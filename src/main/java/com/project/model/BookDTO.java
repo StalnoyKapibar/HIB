@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class BookDTO20 {
+public class BookDTO {
     @EqualsAndHashCode.Include
     private long id;
     private String nameBookDTOLocale;
@@ -19,7 +19,7 @@ public class BookDTO20 {
     private Long price;
     private String coverImage;
 
-    public BookDTO20(long id, String nameAuthorDTOLocale, String nameBookDTOLocale, Long price, String coverImage) {
+    public BookDTO(long id, String nameAuthorDTOLocale, String nameBookDTOLocale, Long price, String coverImage) {
         this.id = id;
         this.nameAuthorDTOLocale = nameAuthorDTOLocale;
         this.nameBookDTOLocale = nameBookDTOLocale;

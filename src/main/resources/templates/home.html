@@ -19,9 +19,17 @@
             <h2 id="headpost">You can read this</h2>
             <br>
         </div>
-        <div class="row row-cols-xl-4 row-cols-lg-3 row-cols-md-2 row-cols-sm-2" id="cardcolumns">
+        <div class="row row-cols-xl-4 row-cols-lg-3 row-cols-md-2 row-cols-sm-2 pt-2" id="cardcolumns">
         </div>
-        <br>
+        <div class="container col-2 offset-5">
+            <div class="row">
+                <div class="font-italic col-12" style="font-size: .75rem; text-align: center"><span class="displayed">Отображается</span>
+                    <span class="books-in-page">24</span> <span class="of">из</span> <span class="books-in-db">39</span>
+                </div>
+                <button class="btn btn-primary col-12 btn-metro load-more-btn" onclick="loadMore()">Загрузить еще
+                </button>
+            </div>
+        </div>
         <!--        footer       -->
         <div class="container-fluid text-center footer pt-3 p-0 " th:fragment="footer">
             <div class="footer_menu" id="footer-menu"></div>

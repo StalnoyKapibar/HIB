@@ -9,7 +9,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class PageableBookDTO {
+public class BookPageAdminDto {
     private List<Book> listBookDTO;
     private int TotalPages;
     private int numberPages;

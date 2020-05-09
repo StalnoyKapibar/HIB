@@ -30,7 +30,6 @@ public class OrderDTO {
         }
         order.setData(data);
         order.setItemsCost(itemsCost);
-        order.setShippingCost(shippingCost);
         order.setTrackingNumber(trackingNumber);
         order.setStatus(status);
         List<CartItem> cartItems = new ArrayList<>();

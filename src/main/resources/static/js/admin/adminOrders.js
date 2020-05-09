@@ -73,12 +73,11 @@ function showModalOfOrder(index) {
     $.each(items, function (index) {
         let book = items[index].book;
         html += `<tr><td class="align-middle"><img src="/images/book${book.id}/${book.coverImage}" style="max-width: 80px"></td>
-                             <td >${book.name['en']} | ${book.author['en']}</td>
+                             <td width="350">${convertOriginalLanguageRows(book.originalLanguage.name, book.originalLanguage.nameTranslit)} | ${convertOriginalLanguageRows(book.originalLanguage.author, book.originalLanguage.authorTranslit)}</td>
                              <td></td>
                              <td>${convertPrice(book.price)}${iconOfPrice}</td></tr>`;
     });
     html += `<tr><td></td><td></td><td>Subtotal :</td><td> ${convertPrice(order.itemsCost)}${iconOfPrice}</td></tr>
-                 <tr><td></td><td></td><td>Shipping Cost :</td><td> ${convertPrice(order.shippingCost)}${iconOfPrice}</td></tr>
                  <tr><td></td><td></td><td>Total :</td><td>${convertPrice(order.itemsCost + order.shippingCost)}${iconOfPrice}</td></tr>`;
     $('#modalBody').html(html);
 
