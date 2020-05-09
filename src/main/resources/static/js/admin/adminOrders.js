@@ -3,24 +3,23 @@ let iconOfPrice = " €";
 let statusOfOrder = "Processing";
 let btnDisplay = "d-inline";
 
-$(document).ready(showListOrders());
+$( window ).on( "load", function() {
+    showListOrders();
+    $('#statusCheckbox').change(function () {
+        if ($(this).prop('checked') === true) {
+            statusOfOrder = "Processing";
+            btnDisplay = "d-inline";
+        } else {
+            statusOfOrder = "Completed";
+            btnDisplay = "d-none";
+        }
+        showListOrders();
+    });
+});
 
 function convertPrice(price) {
     return price / 100;
 }
-
-
-$('#statusCheckbox').change(function () {
-    if ($(this).prop('checked') === true) {
-        statusOfOrder = "Processing";
-        btnDisplay = "d-inline";
-    } else {
-        statusOfOrder = "Completed";
-        btnDisplay = "d-none";
-    }
-    showListOrders();
-});
-
 
 function showListOrders() {
     fetch("/api/admin/getAllOrders")
@@ -58,7 +57,6 @@ function showListOrders() {
             });
 
         });
-
 }
 
 function showModalOfOrder(index) {
