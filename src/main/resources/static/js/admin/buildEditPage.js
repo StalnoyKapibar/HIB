@@ -151,7 +151,7 @@ function sendUpdateBook() {
     add['yearOfEdition'] = $('#yearOfEdition').val();
     add['pages'] = $('#pages').val();
     add['price'] = $('#price').val();
-    add['originalLanguage'] = $('#originalLanguage').val();
+    add['originalLanguageName'] = $('#originalLanguage').val();
 
     var body02 = JSON.stringify(add);
     sendUpdateBookReq(body02);
