@@ -22,7 +22,7 @@ $(document).ready(function () {
 
 function getQuantityPage() {
     let quantityPage;
-    if (amountBooksInDb < amountBooksInPage){
+    if (amountBooksInDb < amountBooksInPage) {
         return 0;
     }
     if (amountBooksInDb % amountBooksInPage === 0) {
@@ -58,19 +58,33 @@ function addBooksToPage(books) {
 }
 
 function addPagination() {
-    let pag = `<nav aria-label="Page navigation example">
-                    <ul class="pagination">
-                    <li class="page-item"><a class="page-link" href="#">Previous</a></li>`;
-    for (let i = 1; i < getQuantityPage() + 1; i++) {
-        pag += `<li class="page-item"><a class="page-link" onclick="loadMore(${i-1})">${i}</a></li>`;
+    let quantity = getQuantityPage();
+    let pag;
+    if (quantity === 0) {
+        return;
     }
-    pag += `<li class="page-item"><a class="page-link" href="#">Next</a></li>
+    pag = `<nav aria-label="Page navigation example">
+                    <ul class="pagination">`
+    pag += currentPage === 1 ? `<li class="page-item disabled"><a class="page-link" href="#" tabindex="-1">` :
+        `<li class="page-item"><a class="page-link" onclick="loadMore(currentPage - 2)" href="#">`;
+    pag += `Previous</a></li>`;
+    
+    for (let i = 1; i < quantity + 1; i++) {
+        if (currentPage === i) {
+            pag += `<li class="page-item active"><a class="page-link" onclick="loadMore(${i - 1})">${i}</a></li>`;
+        } else {
+            pag += `<li class="page-item"><a class="page-link" onclick="loadMore(${i - 1})">${i}</a></li>`;
+        }
+    }
+    pag += currentPage === quantity ? `<li class="page-item disabled">` : `<li class="page-item">`
+    pag += `<a class="page-link" onclick="loadMore(currentPage)" href="#">Next</a></li>
                     </ul>
                 </nav>`;
     $("#rowForPagination").append(pag);
 }
 
 function loadMore(pageNumber) {
+    currentPage = pageNumber + 1;
     getPageWithBooks(amountBooksInPage, pageNumber);
 }
 
