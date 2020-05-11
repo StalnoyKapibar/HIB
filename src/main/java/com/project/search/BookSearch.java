@@ -46,4 +46,24 @@ public class BookSearch {
         }
         return result;
     }
+
+    public List<BookDTO20> search(String req, String locale, Long priceFrom, Long priceTo, String yearOfEdition, Long pages) {
+        FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
+
+        QueryBuilder queryBuilder = fullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(LocaleString.class).get();
+        Query query = queryBuilder.keyword().fuzzy().withEditDistanceUpTo(1).withPrefixLength(0)
+                .onField(locale).matching(req).createQuery();
+
+        FullTextQuery jpaQuery = fullTextEntityManager.createFullTextQuery(query, LocaleString.class);
+        List<LocaleString> results = jpaQuery.getResultList();
+        List<BookDTO20> result = new ArrayList<>();
+
+        for (LocaleString localeString : results) {
+            BookDTO20 bookDTO20 = bookService.getBookBySearchRequest(localeString, locale, priceFrom, priceTo, yearOfEdition, pages);
+            if (bookDTO20 != null) {
+                result.add(bookDTO20);
+            }
+        }
+        return result;
+    }
 }

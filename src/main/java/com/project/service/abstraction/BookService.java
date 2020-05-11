@@ -22,6 +22,8 @@ public interface BookService {
 
     BookDTO20 getBookBySearchRequest(LocaleString localeString, String locale);
 
+    BookDTO20 getBookBySearchRequest(LocaleString localeString, String locale, Long priceFrom, Long priceTo, String yearOfEdition, Long pages);
+
     Book getBookById(Long id);
 
     List<BookDTOForCategories> getBooksByCategoryId(Long categoryId, String lang);

@@ -148,7 +148,8 @@ public class BookController {
     public List<BookDTO20> advancedSearch(@RequestParam(value = "request") String request, @RequestParam(value = "priceFrom") Long priceFrom,
                                           @RequestParam(value = "priceTo") Long priceTo,@RequestParam(value = "yearOfEdition") Long yearOfEdition,
                                           @RequestParam(value = "pages") Long pages, @RequestParam(value = "LANG") String locale) {
-        return bookSearch.search(request, locale);
+        List<BookDTO20> books = bookSearch.search(request, locale, priceFrom, priceTo, String.valueOf(yearOfEdition), pages);
+        return books;
     }
 
 
