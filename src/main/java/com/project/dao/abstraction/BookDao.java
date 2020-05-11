@@ -11,9 +11,9 @@ public interface BookDao extends GenericDao<Long, Book> {
 
     BookDTO20 getBookBySearchRequest(LocaleString localeString, String locale);
 
-    BookDTO20 getBookBySearchRequest(LocaleString localeString, String locale, Long priceFrom, Long priceTo, String yearOfEdition, Long pages);
+    BookDTO20 getBookBySearchRequest(LocaleString localeString, String locale, Long priceFrom, Long priceTo, String yearOfEdition, Long pages, String searchBy, String category);
 
-    List<BookDTO20> getBooksBySearchParameters(String locale, Long priceFrom, Long priceTo, String yearOfEdition, Long pages);
+    List<BookDTO20> getBooksBySearchParameters(String locale, Long priceFrom, Long priceTo, String yearOfEdition, Long pages, String searchBy, String category);
 
     String getLastIdOfBook();
 

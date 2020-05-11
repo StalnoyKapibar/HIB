@@ -87,7 +87,7 @@
             </div>
             <div class="sidebar-menu">
                 <ul>
-                    <li th:classappend="${#httpServletRequest.getRequestURI() == '/search?request=' ? 'active' : ''}">
+                    <li th:classappend="${#httpServletRequest.getRequestURI() == '/search' ? 'active' : ''}">
                         <a href="/search?request=">
                             <i class="fas fa-filter"></i>
                             <span class="menu-text">Advanced search</span>

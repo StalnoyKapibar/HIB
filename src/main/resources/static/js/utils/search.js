@@ -7,16 +7,36 @@ $(document).ready(function () {
     getLanguage();
     setLocaleFields();
     setPageFields();
-    // getCategoryTree();
 });
+
+fetch('/categories/getnullparent', {
+})
+    .then(function (response) {
+        return response.json()
+    })
+    .then(function (primaryCategories) {
+        for (let i in primaryCategories) {
+            categoryRow =
+                `<div class="form-check">
+                    <input class="form-check-input" type="radio" name="category" id="id-${primaryCategories[i].categoryName.toLowerCase()}" value="${primaryCategories[i].categoryName}">
+                    <label class="form-check-label" for="id-${primaryCategories[i].categoryName.toLowerCase()}">
+                        ${primaryCategories[i].categoryName}
+                    </label>
+                </div>`;
+            $('#input-categories').append(categoryRow);
+        }
+    });
 
 function advancedSearch() {
     let request = $('#search-input').val();
-    let priceFrom = $('#input-price-from').val();
-    let priceTo = $('#input-price-to').val();
+    let priceFrom = $('#input-price-from').val() * 100;
+    let priceTo = $('#input-price-to').val() * 100;
     let yearOfEdition = $('#input-year-edition').val();
     let pages = $('#input-pages').val();
-    fetch("/searchAdvanced?request=" + request + "&priceFrom=" + priceFrom + "&priceTo=" + priceTo + "&yearOfEdition=" + yearOfEdition + "&pages=" + pages+ "&LANG=" + currentLang, {
+    let category = $('#input-categories input:checked').val();
+    let searchBy = $('#search-by input:checked').val();
+    fetch("/searchAdvanced?request=" + request + "&searchBy=" + searchBy + "&category=" + category +
+        "&priceFrom=" + priceFrom + "&priceTo=" + priceTo + "&yearOfEdition=" + yearOfEdition + "&pages=" + pages+ "&LANG=" + currentLang, {
         method: "GET",
         headers: {
             'Content-Type': 'application/json',

@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Primary
@@ -59,15 +60,25 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
     }
 
     @Override
-    public BookDTO20 getBookBySearchRequest(LocaleString localeString, String locale, Long priceFrom, Long priceTo, String yearOfEdition, Long pages) {
+    public BookDTO20 getBookBySearchRequest(LocaleString localeString, String locale, Long priceFrom, Long priceTo, String yearOfEdition, Long pages, String searchBy, String category) {
         String hql = ("SELECT new com.project.model.BookDTO20(b.id, b.name.LOC, b.author.LOC, b.price, b.coverImage)" +
                 "FROM Book b where b.isShow = true AND" +
-                "((b.name=:name or b.author=:name or :name is null ) AND" +
-                "(b.pages=:pages or :pages is null ))")
+                "(((b.name = :name or b.author = :name) and :searchBy = 'name-author') OR" +
+                "(b.name = :name and :searchBy = 'name') OR" +
+                "(b.author = :name and :searchBy = 'author')) AND" +
+                "(b.pages = :pages or :pages is null) AND" +
+                "(b.yearOfEdition = :yearOfEdition or :yearOfEdition = 'null') AND" +
+                "(b.category.categoryName = :category or :category = 'undefined') AND" +
+                "((b.price >= :priceFrom and b.price <= :priceTo) OR (b.price >= :priceFrom and :priceTo = 0) OR (:priceFrom = 0 and b.price <= :priceTo) OR (:priceFrom = 0 and :priceTo = 0))")
                 .replaceAll("LOC", locale);
         List<BookDTO20> list = entityManager.createQuery(hql, BookDTO20.class)
                 .setParameter("name", localeString)
                 .setParameter("pages", pages)
+                .setParameter("yearOfEdition", yearOfEdition)
+                .setParameter("priceFrom", priceFrom)
+                .setParameter("priceTo", priceTo)
+                .setParameter("category", category)
+                .setParameter("searchBy", searchBy)
                 .getResultList();
         if (list.size() != 0) {
             return list.get(0);
@@ -76,13 +87,21 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
     }
 
     @Override
-    public List<BookDTO20> getBooksBySearchParameters(String locale, Long priceFrom, Long priceTo, String yearOfEdition, Long pages) {
+    public List<BookDTO20> getBooksBySearchParameters(String locale, Long priceFrom, Long priceTo, String yearOfEdition, Long pages, String searchBy, String category) {
+
         String hql = ("SELECT new com.project.model.BookDTO20(b.id, b.name.LOC, b.author.LOC, b.price, b.coverImage)" +
                 "FROM Book b where b.isShow = true AND" +
-                "(b.pages=:pages or :pages is null )")
+                "(b.pages = :pages or :pages is null) AND" +
+                "(b.yearOfEdition = :yearOfEdition or :yearOfEdition = 'null') AND" +
+                "(b.category.categoryName = :category or :category = 'undefined') AND" +
+                "((b.price >= :priceFrom and b.price <= :priceTo) OR (b.price >= :priceFrom and :priceTo = 0) OR (:priceFrom = 0 and b.price <= :priceTo) OR (:priceFrom = 0 and :priceTo = 0))")
                 .replaceAll("LOC", locale);
         List<BookDTO20> list = entityManager.createQuery(hql, BookDTO20.class)
                 .setParameter("pages", pages)
+                .setParameter("yearOfEdition", yearOfEdition)
+                .setParameter("priceFrom", priceFrom)
+                .setParameter("priceTo", priceTo)
+                .setParameter("category", category)
                 .getResultList();
         return list;
     }

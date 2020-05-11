@@ -9,6 +9,7 @@ import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.FullTextQuery;
 import org.hibernate.search.jpa.Search;
 import org.hibernate.search.query.dsl.QueryBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +26,7 @@ public class BookSearch {
     @PersistenceContext
     private EntityManager entityManager;
 
+    @Autowired
     private BookService bookService;
 
     public List<BookDTO20> search(String req, String locale) {
@@ -47,9 +49,9 @@ public class BookSearch {
         return result;
     }
 
-    public List<BookDTO20> search(String req, String locale, Long priceFrom, Long priceTo, String yearOfEdition, Long pages) {
+    public List<BookDTO20> search(String req, String locale, Long priceFrom, Long priceTo, String yearOfEdition, Long pages, String searchBy, String category) {
         if (req == "") {
-            List<BookDTO20> result = bookService.getBooksBySearchParameters(locale, priceFrom, priceTo, yearOfEdition, pages);
+            List<BookDTO20> result = bookService.getBooksBySearchParameters(locale, priceFrom, priceTo, yearOfEdition, pages, searchBy, category);
             return result;
         }
         FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
@@ -63,7 +65,7 @@ public class BookSearch {
         List<BookDTO20> result = new ArrayList<>();
 
         for (LocaleString localeString : results) {
-            BookDTO20 bookDTO20 = bookService.getBookBySearchRequest(localeString, locale, priceFrom, priceTo, yearOfEdition, pages);
+            BookDTO20 bookDTO20 = bookService.getBookBySearchRequest(localeString, locale, priceFrom, priceTo, yearOfEdition, pages, searchBy, category);
             if (bookDTO20 != null) {
                 result.add(bookDTO20);
             }

@@ -98,7 +98,7 @@
                 <div class="input-group mb-1">
                     <input class="form-control" id="search-input" placeholder="Search..." type="text">
                     <div class="input-group-append">
-                                <span class="input-group-text" id="searchIcon">
+                                <span class="input-group-text" id="searchIcon" onclick="advancedSearch()">
                                     <i aria-hidden="true" class="fa fa-search"></i>
                                 </span>
                     </div>
@@ -130,19 +130,19 @@
                             <label for="input-pages" class="font-weight-bold">Search by...</label>
                             <div class="form-group" id="search-by">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="searchBy" id="search-by-name-author" value="" checked>
+                                    <input class="form-check-input" type="radio" name="searchBy" id="search-by-name-author" value="name-author" checked>
                                     <label class="form-check-label" for="search-by-name-author">
                                         name and author
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="searchBy" id="search-by-name" value="">
+                                    <input class="form-check-input" type="radio" name="searchBy" id="search-by-name" value="name">
                                     <label class="form-check-label" for="search-by-name">
                                         name
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="searchBy" id="search-by-author" value="">
+                                    <input class="form-check-input" type="radio" name="searchBy" id="search-by-author" value="author">
                                     <label class="form-check-label" for="search-by-author">
                                         author
                                     </label>
@@ -152,29 +152,27 @@
                         <div class="form-group sidebar-item">
                             <label for="input-categories" class="font-weight-bold">Categories</label>
                             <div id="input-categories">
-                                <div id="category_tree">
 
-                                </div>
                             </div>
                         </div>
                         <div class="form-group sidebar-item">
-                            <label for="input-price" class="font-weight-bold">Price</label>
+                            <label for="input-price" class="font-weight-bold">Price, €</label>
                             <div class="form-row" id="input-price">
                                 <div class="col-auto mb-1">
-                                    <input type="number" class="form-control" id="input-price-from" placeholder="From">
+                                    <input type="number" step="any" min="0" class="form-control" id="input-price-from" name="priceFrom" placeholder="From">
                                 </div>
                                 <div class="col-auto">
-                                    <input type="number" class="form-control" id="input-price-to" placeholder="To">
+                                    <input type="number" step="any" min="0" class="form-control" id="input-price-to" name="priceTo" placeholder="To">
                                 </div>
                             </div>
                         </div>
                         <div class="form-group sidebar-item">
                             <label for="input-year-edition" class="font-weight-bold">Year of edition</label>
-                            <input type="number" class="form-control" id="input-year-edition">
+                            <input type="number" class="form-control" id="input-year-edition" name="yearOfEdition">
                         </div>
                         <div class="form-group sidebar-item">
                             <label for="input-pages" class="font-weight-bold">Number of pages</label>
-                            <input type="number" class="form-control" id="input-pages">
+                            <input type="number" class="form-control" id="input-pages" name="pages">
                         </div>
                         <button id="search-submit" class="btn btn-block btn-success" type="button" onclick="advancedSearch()">Search</button>
                     </form>
@@ -187,6 +185,11 @@
     </div>
 </div>
 
+<script src="/static/js/main.js"></script>
+<script src="/static/js/utils/common-function.js"></script>
+<script src="/static/js/utils/search.js"></script>
+<script src="/static/js/footerBuilder.js"></script>
+
 <!--modal window for sing in-->
 
 <div class="modal fade" id="signModal" role="dialog" tabindex="-1" th:replace="home-old :: sign-in-modal"
@@ -194,12 +197,5 @@
 </div>
 
 <a id="request" th:value="${request}" hidden></a>
-
-<script src="/static/js/main.js"></script>
-<script src="/static/js/utils/common-function.js"></script>
-<script src="/static/js/categoryTree.js"></script>
-<script src="/static/js/utils/search.js"></script>
-<script src="/static/js/footerBuilder.js"></script>
-
 </body>
 </html>

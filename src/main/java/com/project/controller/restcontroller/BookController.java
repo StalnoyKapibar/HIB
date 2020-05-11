@@ -145,10 +145,11 @@ public class BookController {
     }
 
     @GetMapping("/searchAdvanced")
-    public List<BookDTO20> advancedSearch(@RequestParam(value = "request") String request, @RequestParam(value = "priceFrom") Long priceFrom,
+    public List<BookDTO20> advancedSearch(@RequestParam(value = "request") String request, @RequestParam(value = "searchBy") String searchBy,
+                                          @RequestParam(value = "category") String category, @RequestParam(value = "priceFrom") Long priceFrom,
                                           @RequestParam(value = "priceTo") Long priceTo,@RequestParam(value = "yearOfEdition") Long yearOfEdition,
                                           @RequestParam(value = "pages") Long pages, @RequestParam(value = "LANG") String locale) {
-        List<BookDTO20> books = bookSearch.search(request, locale, priceFrom, priceTo, String.valueOf(yearOfEdition), pages);
+        List<BookDTO20> books = bookSearch.search(request, locale, priceFrom, priceTo, String.valueOf(yearOfEdition), pages, searchBy, category);
         return books;
     }
 
