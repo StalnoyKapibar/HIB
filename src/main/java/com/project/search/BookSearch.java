@@ -48,6 +48,10 @@ public class BookSearch {
     }
 
     public List<BookDTO20> search(String req, String locale, Long priceFrom, Long priceTo, String yearOfEdition, Long pages) {
+        if (req == "") {
+            List<BookDTO20> result = bookService.getBooksBySearchParameters(locale, priceFrom, priceTo, yearOfEdition, pages);
+            return result;
+        }
         FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
 
         QueryBuilder queryBuilder = fullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(LocaleString.class).get();

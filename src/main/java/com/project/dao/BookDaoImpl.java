@@ -61,13 +61,30 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
     @Override
     public BookDTO20 getBookBySearchRequest(LocaleString localeString, String locale, Long priceFrom, Long priceTo, String yearOfEdition, Long pages) {
         String hql = ("SELECT new com.project.model.BookDTO20(b.id, b.name.LOC, b.author.LOC, b.price, b.coverImage)" +
-                "FROM Book b where (b.name=:name or b.author=:name) AND b.isShow = true  ")
+                "FROM Book b where b.isShow = true AND" +
+                "((b.name=:name or b.author=:name or :name is null ) AND" +
+                "(b.pages=:pages or :pages is null ))")
                 .replaceAll("LOC", locale);
-        List<BookDTO20> list = entityManager.createQuery(hql, BookDTO20.class).setParameter("name", localeString).getResultList();
+        List<BookDTO20> list = entityManager.createQuery(hql, BookDTO20.class)
+                .setParameter("name", localeString)
+                .setParameter("pages", pages)
+                .getResultList();
         if (list.size() != 0) {
             return list.get(0);
         }
         return null;
+    }
+
+    @Override
+    public List<BookDTO20> getBooksBySearchParameters(String locale, Long priceFrom, Long priceTo, String yearOfEdition, Long pages) {
+        String hql = ("SELECT new com.project.model.BookDTO20(b.id, b.name.LOC, b.author.LOC, b.price, b.coverImage)" +
+                "FROM Book b where b.isShow = true AND" +
+                "(b.pages=:pages or :pages is null )")
+                .replaceAll("LOC", locale);
+        List<BookDTO20> list = entityManager.createQuery(hql, BookDTO20.class)
+                .setParameter("pages", pages)
+                .getResultList();
+        return list;
     }
 
     @Override
