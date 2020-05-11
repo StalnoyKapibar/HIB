@@ -52,9 +52,12 @@ function addBooksToPage(books) {
 }
 
 function addPagination() {
-    let quantity = getQuantityPage();
+    let numberOfPagesInPagination = 5;
+    let startIter;
+    let endIter;
+    let quantityPage = getQuantityPage();
     let pag;
-    if (quantity === 0) {
+    if (quantityPage === 0) {
         return;
     }
     pag = `<nav aria-label="Page navigation example">
@@ -62,14 +65,14 @@ function addPagination() {
     pag += currentPage === 1 ? `<li class="page-item disabled"><a class="page-link" href="#" tabindex="-1">` :
         `<li class="page-item"><a class="page-link" onclick="loadMore(currentPage - 2)" href="#">`;
     pag += `Previous</a></li>`;
-    for (let i = 1; i < quantity + 1; i++) {
+    for (let i = 1; i < quantityPage + 1; i++) {
         if (currentPage === i) {
             pag += `<li class="page-item active"><a class="page-link" onclick="loadMore(${i - 1})">${i}</a></li>`;
         } else {
             pag += `<li class="page-item"><a class="page-link" onclick="loadMore(${i - 1})">${i}</a></li>`;
         }
     }
-    pag += currentPage === quantity ? `<li class="page-item disabled">` : `<li class="page-item">`
+    pag += currentPage === quantityPage ? `<li class="page-item disabled">` : `<li class="page-item">`
     pag += `<a class="page-link" onclick="loadMore(currentPage)" href="#">Next</a></li>
                     </ul>
                 </nav>`;
