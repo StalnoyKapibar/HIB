@@ -26,7 +26,8 @@ function addPartsOfBook(partsOfBook) {
 
             html += `<div class="shadow p-4 mb-4 bg-white">`;
 
-            if (partsOfBook !== "description") {
+            if (partsOfBook === "description") {
+            } else {
 
                 html +=
                     `<div class="shadow p-4 mb-4 bg-white">
@@ -81,8 +82,10 @@ function addPage() {
     doesFolderTmpExist();
 
     $('#newBookForm').html(`<div class="tab-content" id="myTabContent">
+            
             <div class="tab-pane fade show active" id="name" role="tabpanel" aria-labelledby="name-tab">
              ${addPartsOfBook("name")}</div>
+             
             <div class="tab-pane fade" id="author" role="tabpanel" aria-labelledby="author-tab" >
              ${addPartsOfBook("author")} </div>
             <div class="tab-pane fade" id="description" role="tabpanel" aria-labelledby="description-tab">

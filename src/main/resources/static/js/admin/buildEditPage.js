@@ -1,5 +1,6 @@
 let idd;
 let nameObjectOfLocaleString;
+let nameVarOfLocaleString;
 let tmpArr;
 let nameVarOfLocaleStringWithId;
 let pathImageDefault = 'images/book';
@@ -27,6 +28,64 @@ function text(response) {
     return response.text()
 }
 
+function addPartsOfBook(partsOfBook) {
+    let html = ``;
+    for (let tmpNameObject of nameObjectOfLocaleString) {
+
+        if (tmpNameObject === partsOfBook) {
+
+            html += `<div class="shadow p-4 mb-4 bg-white">`;
+
+            if (partsOfBook !== "description") {
+
+                html +=
+                    `<div class="shadow p-4 mb-4 bg-white">
+                <div class='form-group mx-5 my-3'>
+                <div class="row">
+                <div class="col-0" for=${tmpNameObject}>${tmpNameObject} of other lang </div>
+                <div class="col-5 pl-5 ml-5  "><input type='text'  class='form-control '  id='inpt${tmpNameObject}'
+                placeholder='${tmpNameObject} of other  lang '>
+                </div> </div>
+                <div class="row my-2">
+                <div class="col-0" for=${tmpNameObject}>${tmpNameObject} transliterate&nbsp;&nbsp; </div>
+                <div class="col-5 pl-5 ml-5  mr-1 "><input type='text' class='form-control ' id='in${tmpNameObject}'
+                placeholder='${tmpNameObject} transliterate '>
+                </div> </div>
+                </div>
+                <button type="button" onclick="transliterationText('${tmpNameObject}')" class="btn btn-primary mx-3">Transliterate</button>
+                </div>`;
+
+            }
+
+            for (let tmpNameVar of nameVarOfLocaleString) {
+
+                html += `<div class="shadow p-4 mb-4 bg-white">
+                <div class='form-group mx-5'>
+                <div class="row">
+                <div class="col-0" for=${tmpNameObject}${tmpNameVar}>${tmpNameObject} ${tmpNameVar}</div>
+                <div class="col-2 mr-1">
+                <input type="radio" name="rb${tmpNameObject}" id="rb${tmpNameObject}${tmpNameVar}" value="${tmpNameVar}" autocomplete="off"> Translate from this language
+                </div>
+                <div class="col">
+                <input type='text' class='form-control' id='inp${tmpNameObject}${tmpNameVar}'
+                placeholder='${tmpNameObject} ${tmpNameVar}'>
+                </div>
+                <div class="col">
+                <input type="checkbox" checked name="cb${tmpNameObject}" value="${tmpNameVar}" autocomplete="off"> Into this language
+                </div></div></div></div>`;
+                if (tmpNameVar === "gr") {
+                    html += `<button type="button" onclick="translateText('${tmpNameObject}')" class="btn btn-primary mx-3">Translate</button></div>`
+                }
+
+            }
+
+            return html;
+        }
+
+    }
+
+}
+
 function buildPage() {
     let disabled = tmpArr.show ? '' : 'checked';
     var html1 = '';
@@ -35,7 +94,53 @@ function buildPage() {
               <div class="col-1">
               <h4 >Book sold</h4></div>
               <div class="col"> <input id="disabled" class="big-checkbox"  type="checkbox" ${disabled}></div></div></div>`;
+
+    $('#bookEditPage').html(`<div class="tab-content" id="myTabContent">
+            
+            <div class="tab-pane fade show active" id="name" role="tabpanel" aria-labelledby="name-tab">
+             ${addPartsOfBook("name")}</div>
+             
+            <div class="tab-pane fade" id="author" role="tabpanel" aria-labelledby="author-tab" >
+             ${addPartsOfBook("author")} </div>
+            <div class="tab-pane fade" id="description" role="tabpanel" aria-labelledby="description-tab">
+             ${addPartsOfBook("description")}</div>
+             <div class="tab-pane fade" id="edition" role="tabpanel" aria-labelledby="edition-tab">
+             ${addPartsOfBook("edition")}</div>
+            <div class="tab-pane fade" id="other" role="tabpanel" aria-labelledby="other-tab">
+            <div class="shadow p-4 mb-4 bg-white">
+            <h5> Year Of Edition </h5>
+            <input type="text" id="yearOfEdition" placeholder="Year Of Edition"><br><br>
+            </div>
+            <div class="shadow p-4 mb-4 bg-white">
+            <h5> Pages </h5>
+            <input type="number" id="pages" ><br><br>
+            </div>
+            <div class="shadow p-4 mb-4 bg-white">
+            <h5> Price </h5>
+            <input type="number" id="price" ><br><br>
+            </div>
+            <div class="shadow p-4 mb-4 bg-white">
+            <h5> Original Language </h5>
+            <select id="originalLanguage" >
+            </select><br><br>
+            </div>
+            <div id = "allImage">
+            <div class="shadow p-4 mb-4 bg-white">
+            <div id="divLoadAvatar">
+            <h4>Avatar</h4>
+            <Label>Load avatar</Label>
+            <input type="file" class="form-control-file" id="avatar" accept=".jpg" onchange="loadImage('avatar','divAvatar')">
+            </div>
+            <div class='car' id='divAvatar' style='width: 18rem;'>
+            </div><br><br></div>
+            <div class="shadow p-4 mb-4 bg-white">
+            <h4>Another Image</h4>
+            <Label>Load another image</Label>
+            <input type="file" class="form-control-file" id="loadAnotherImage" accept=".jpg" onchange="loadImage('loadAnotherImage','imageList')">
+            <div class='car' id='imageList' style='width: 18rem;'>
+            </div></div></div></div></div>`);
     for (let tmpNameObject of nameObjectOfLocaleString) {
+
         html1 += `<div class="col card card-body my-2"><h5 class='bg-secondary p-2 text-white text-center'>${tmpNameObject}</h5>
                   <div class="row row-cols-2">`;
         for (let tmpNameVar of nameVarOfLocaleStringWithId) {
@@ -46,6 +151,7 @@ function buildPage() {
                     `placeholder='${tmpNameObject} ${tmpNameVar}' readonly>` +
                     `</div></div>`;
             } else {
+
                 html1 += `<div class='col'><div class='form-group'>` +
                     `<label for='${tmpNameObject}${tmpNameVar}'>${tmpNameObject} ${tmpNameVar}</label>` +
                     `<input type='text' class='form-control' id='${tmpNameObject}${tmpNameVar}' ` +
@@ -60,8 +166,13 @@ function buildPage() {
     for (let key in nameVarOfLocaleStringWithId) {
         originalLang += `<option >${nameVarOfLocaleStringWithId[key]}</option>`;
     }
+    for (let tmpNameVar of nameVarOfLocaleString) {
+        $('#originalLanguage').append(
+            `<option value=${tmpNameVar.toUpperCase()}>${tmpNameVar.toUpperCase()}</option>`
+        )
+    }
 
-    html1 += `<div class="card card-footer">
+  /*  html1 += `<div class="card card-footer">
               <div class="row  ">
               <div class="col p-4 mb-4">
               <h5> Year Of Edition </h5>
@@ -78,9 +189,10 @@ function buildPage() {
               <h5> Original Language </h5></div>
               <div class="col-4">
               <select id="originalLanguage" class="form-control" value=${originalLang} ></select></div></div>
-              </div></div></div>`;
+              </div></div></div>`;*/
 
-    $('#bookEditPage').html(html1);
+   /* $('#bookEditPage').html(html1);*/
+
 
     $('#bookEditPageForImg').html(`
               <div class="row">
@@ -151,7 +263,7 @@ function sendUpdateBook() {
     add['yearOfEdition'] = $('#yearOfEdition').val();
     add['pages'] = $('#pages').val();
     add['price'] = $('#price').val();
-    add['originalLanguage'] = $('#originalLanguage').val();
+    add['originalLanguageName'] = $('#originalLanguage').val();
 
     var body02 = JSON.stringify(add);
     sendUpdateBookReq(body02);
@@ -185,6 +297,7 @@ function getAllLocales() {
         .then(function (resp) {
             nameVarOfLocaleStringWithId = resp;
             nameVarOfLocaleStringWithId.unshift("id");
+            nameVarOfLocaleString = nameVarOfLocaleStringWithId.filter(t => t !== "id");
             getBookDTOById(idd = localStorage.getItem('tmpEditBookId'));
         });
 }
