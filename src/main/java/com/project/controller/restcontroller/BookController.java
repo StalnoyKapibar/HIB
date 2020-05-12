@@ -130,6 +130,7 @@ public class BookController {
     @PostMapping("/admin/edit")
     public void editBook(@RequestBody Book book) {
         bookService.updateBook(book);
+        storageService.cutImagesFromTmpPaperToNewPaperByLastIdBook(String.valueOf(book.getId()), book.getListImage());
     }
 
     @GetMapping("/user/get20BookDTO/{locale}")
