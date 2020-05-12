@@ -22,6 +22,8 @@ public interface BookService {
 
     BookDTO getBookBySearchRequest(LocaleString localeString, String locale);
 
+    BookNewDTO getBookBySearchRequest(OriginalLanguage originalLanguage, boolean isShow);
+
     Book getBookById(Long id);
 
     List<BookDTOForCategories> getBooksByCategoryId(Long categoryId, String lang);
