@@ -2,6 +2,7 @@ package com.project.search;
 
 import com.project.model.BookDTO20;
 import com.project.model.LocaleString;
+import com.project.model.OriginalLanguage;
 import com.project.service.abstraction.BookService;
 import lombok.AllArgsConstructor;
 import org.apache.lucene.search.Query;
@@ -24,12 +25,12 @@ import java.util.List;
 public class BookSearch {
 
     @PersistenceContext
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
     @Autowired
-    private BookService bookService;
+    private final BookService bookService;
 
-    public List<BookDTO20> search(String req, String locale) {
+    public List<BookDTO> search(String req, String locale) {
         FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
 
         QueryBuilder queryBuilder = fullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(LocaleString.class).get();
@@ -38,10 +39,10 @@ public class BookSearch {
 
         FullTextQuery jpaQuery = fullTextEntityManager.createFullTextQuery(query, LocaleString.class);
         List<LocaleString> results = jpaQuery.getResultList();
-        List<BookDTO20> result = new ArrayList<>();
+        List<BookDTO> result = new ArrayList<>();
 
         for (LocaleString localeString : results) {
-            BookDTO20 bookDTO20 = bookService.getBookBySearchRequest(localeString, locale);
+            BookDTO bookDTO20 = bookService.getBookBySearchRequest(localeString, locale);
             if (bookDTO20 != null) {
                 result.add(bookDTO20);
             }
@@ -49,25 +50,37 @@ public class BookSearch {
         return result;
     }
 
-    public List<BookDTO20> search(String req, String locale, Long priceFrom, Long priceTo, String yearOfEdition, Long pages, String searchBy, String category) {
+    public List<BookNewDTO> search(String req, boolean isShow, Long priceFrom, Long priceTo, String yearOfEdition, Long pages, String searchBy, String category) {
         if (req == "") {
             List<BookDTO20> result = bookService.getBooksBySearchParameters(locale, priceFrom, priceTo, yearOfEdition, pages, searchBy, category);
             return result;
         }
         FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
 
-        QueryBuilder queryBuilder = fullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(LocaleString.class).get();
-        Query query = queryBuilder.keyword().fuzzy().withEditDistanceUpTo(1).withPrefixLength(0)
-                .onField(locale).matching(req).createQuery();
+        QueryBuilder queryBuilder = fullTextEntityManager
+                .getSearchFactory()
+                .buildQueryBuilder()
+                .forEntity(OriginalLanguage.class)
+                .get();
 
-        FullTextQuery jpaQuery = fullTextEntityManager.createFullTextQuery(query, LocaleString.class);
-        List<LocaleString> results = jpaQuery.getResultList();
-        List<BookDTO20> result = new ArrayList<>();
+        Query query = queryBuilder
+                .keyword()
+                .fuzzy()
+                .withEditDistanceUpTo(1)
+                .withPrefixLength(0)
+                .onFields("author", "name", "edition",
+                        "authorTranslit", "nameTranslit", "editionTranslit")
+                .matching(req)
+                .createQuery();
 
-        for (LocaleString localeString : results) {
-            BookDTO20 bookDTO20 = bookService.getBookBySearchRequest(localeString, locale, priceFrom, priceTo, yearOfEdition, pages, searchBy, category);
-            if (bookDTO20 != null) {
-                result.add(bookDTO20);
+        FullTextQuery jpaQuery = fullTextEntityManager.createFullTextQuery(query, OriginalLanguage.class);
+        List<OriginalLanguage> results = jpaQuery.getResultList();
+        List<BookNewDTO> result = new ArrayList<>();
+
+        for (OriginalLanguage originalLanguage : results) {
+            BookNewDTO bookDTO = bookService.getBookBySearchRequest(originalLanguage, isShow, priceFrom, priceTo, yearOfEdition, pages, searchBy, category);
+            if (bookDTO != null) {
+                result.add(bookDTO);
             }
         }
         return result;
