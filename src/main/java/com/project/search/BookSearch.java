@@ -1,7 +1,10 @@
 package com.project.search;
 
+import com.project.dao.abstraction.BookDao;
 import com.project.model.BookDTO;
+import com.project.model.BookNewDTO;
 import com.project.model.LocaleString;
+import com.project.model.OriginalLanguage;
 import com.project.service.abstraction.BookService;
 import lombok.AllArgsConstructor;
 import org.apache.lucene.search.Query;
@@ -42,6 +45,37 @@ public class BookSearch {
             BookDTO bookDTO20 = bookService.getBookBySearchRequest(localeString, locale);
             if (bookDTO20 != null) {
                 result.add(bookDTO20);
+            }
+        }
+        return result;
+    }
+
+    public List<BookNewDTO> search(String req, boolean isShow) {
+        FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
+
+        QueryBuilder queryBuilder = fullTextEntityManager
+                .getSearchFactory()
+                .buildQueryBuilder()
+                .forEntity(OriginalLanguage.class)
+                .get();
+        Query query = queryBuilder
+                .keyword()
+                .fuzzy()
+                .withEditDistanceUpTo(1)
+                .withPrefixLength(0)
+                .onFields("author", "name", "edition",
+                        "authorTranslit", "nameTranslit", "editionTranslit")
+                .matching(req)
+                .createQuery();
+
+        FullTextQuery jpaQuery = fullTextEntityManager.createFullTextQuery(query, OriginalLanguage.class);
+        List<OriginalLanguage> results = jpaQuery.getResultList();
+        List<BookNewDTO> result = new ArrayList<>();
+
+        for (OriginalLanguage originalLanguage : results) {
+            BookNewDTO bookDTO = bookService.getBookBySearchRequest(originalLanguage, isShow);
+            if (bookDTO != null) {
+                result.add(bookDTO);
             }
         }
         return result;

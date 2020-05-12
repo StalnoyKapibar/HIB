@@ -26,6 +26,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 @RestController
 public class BookController {
@@ -146,6 +147,11 @@ public class BookController {
     @GetMapping("/searchResult")
     public List<BookDTO> search(@RequestParam(value = "request") String req, @RequestParam(value = "LANG") String locale) {
         return bookSearch.search(req, locale);
+    }
+
+    @PostMapping("/api/admin/searchResult")
+    public List<BookNewDTO> search(@RequestParam(value = "request") String req,@RequestParam(value = "Show") boolean isShow) {
+        return bookSearch.search(req, isShow);
     }
 
 
