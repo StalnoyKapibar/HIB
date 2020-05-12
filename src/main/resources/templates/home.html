@@ -23,22 +23,16 @@
         </div>
         <div class="container col-2 offset-5">
             <div class="row">
-<!--                <div class="font-italic col-12" style="font-size: .75rem; text-align: center"><span class="displayed">Отображается</span>-->
-<!--                    <span class="books-in-page">24</span> <span class="of">из</span> <span class="books-in-db">39</span>-->
-<!--                </div>-->
-<!--                <button class="btn btn-primary col-12 btn-metro load-more-btn" onclick="loadMore()">Загрузить еще-->
-<!--                </button>-->
-                <div class="dropdown">
-                    <label>Book on page</label>
+                <div class="dropdown dropdown-header">Book on page
                     <button class="btn btn-primary dropdown-toggle" type="button" id="ddmAmountBook"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">3</button>
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">10</button>
                     <div class="dropdown-menu" aria-labelledby="ddmAmountBook">
-                        <a class="dropdown-item" href="#" onclick="setAmountBooksInPage(3)">3</a>
+                        <a class="dropdown-item" href="#" onclick="setAmountBooksInPage(10)">10</a>
                         <a class="dropdown-item" href="#" onclick="setAmountBooksInPage(50)">50</a>
                         <a class="dropdown-item" href="#" onclick="setAmountBooksInPage(100)">100</a>
                     </div>
                 </div>
-                <div  id="rowForPagination"></div>
+                <div id="rowForPagination"></div>
             </div>
         </div>
         <!--        footer       -->
