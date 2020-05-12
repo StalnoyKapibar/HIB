@@ -35,19 +35,7 @@ buttonCarousel {
     -webkit-transition: box-shadow 1s ease, color 1s ease;
     transition: box-shadow 1s ease, color 1s ease;
 }
-buttonCarouselEdit {
-    width: 35%;
-    display: block;
-    margin: 2px auto;
-    font-size: 15pt;
-    background: whitesmoke;
-    border-radius: 10px;
-    font-family: arial;
-    padding: 0px 0px;
-    cursor: pointer;
-    -webkit-transition: box-shadow 1s ease, color 1s ease;
-    transition: box-shadow 1s ease, color 1s ease;
-}
+
 
 .left, .center, .right {
     display: inline-block;
