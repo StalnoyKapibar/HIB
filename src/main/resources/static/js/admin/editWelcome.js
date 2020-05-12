@@ -158,6 +158,7 @@ async function pageBook(x) {
     getLocales().then(buildChangeLang);
 
 }
+
 function buildChangeLang() {
 
     var htmllang = '';
@@ -240,7 +241,7 @@ async function searchBook() {
         });
 }
 
-$(document).ready( ()  => {
+$(document).ready(() => {
     $("body").on('click', '#search-admin-close', () => {
         $('#search-input-admin').val('');
         pageBook(idPageable);
@@ -282,9 +283,11 @@ async function addBookReq(x) {
 }
 
 function delBook(x) {
-    fetch("admin/del/" + x);
-    var elem = document.getElementById(x);
-    elem.parentNode.removeChild(elem);
+    if (confirm('Do you really want to DELETE book?')) {
+        fetch("admin/del/" + x);
+        var elem = document.getElementById(x);
+        elem.parentNode.removeChild(elem);
+    }
 }
 
 function buildEditBook(xx) {
