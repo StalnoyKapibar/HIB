@@ -149,6 +149,11 @@ public class BookController {
         return bookSearch.search(req, locale);
     }
 
+    @PostMapping("/api/admin/searchResult")
+    public List<BookNewDTO> search(@RequestParam(value = "request") String req,@RequestParam(value = "Show") boolean isShow) {
+        return bookSearch.search(req, isShow);
+    }
+
 
     @PostMapping("/admin/upload")
     public String fileUpload(@RequestBody MultipartFile file) {
