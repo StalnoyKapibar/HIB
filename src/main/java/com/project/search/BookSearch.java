@@ -58,6 +58,7 @@ public class BookSearch {
                 .buildQueryBuilder()
                 .forEntity(OriginalLanguage.class)
                 .get();
+
         Query query = queryBuilder
                 .keyword()
                 .fuzzy()

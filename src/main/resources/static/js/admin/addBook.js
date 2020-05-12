@@ -46,9 +46,8 @@ function addPartsOfBook(partsOfBook) {
                 </div>`;
             }
 
-
             if(partsOfBook === "description") {
-
+                
                 for (let tmpNameVar of nameVarOfLocaleString) {
                     html += `<div class="shadow p-4 mb-4 bg-white">
                 <div class='form-group mx-5'>
@@ -67,11 +66,9 @@ function addPartsOfBook(partsOfBook) {
                     if (tmpNameVar === "gr") {
                         html += `<button type="button" onclick="translateText('${tmpNameObject}')" class="btn btn-primary mx-3">Translate</button></div>`
                     }
-
                 }
 
             } else {
-
                 for (let tmpNameVar of nameVarOfLocaleString) {
                     html += `<div class="shadow p-4 mb-4 bg-white">
                 <div class='form-group mx-5'>
@@ -90,15 +87,11 @@ function addPartsOfBook(partsOfBook) {
                     if (tmpNameVar === "gr") {
                         html += `<button type="button" onclick="translateText('${tmpNameObject}')" class="btn btn-primary mx-3">Translate</button></div>`
                     }
-
                 }
             }
-
             return html;
         }
-
     }
-
 }
 
 function addPage() {
