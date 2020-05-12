@@ -7,20 +7,30 @@ let currencyIcon = ' €';
 let currentPage = 0;
 let amountBooksInPage = 0;
 let amountBooksInDb;
+let ddmAmountBook = $("#ddmAmountBook");
 
 $(document).ready(function () {
 
     getLanguage();
     setLocaleFields();
-    getPageWithBooks(currentPage++);
+    amountBooksInPage = ddmAmountBook.text();
+    getPageWithBooks(ddmAmountBook.text(), currentPage++);
     openModalLoginWindowOnFailure();
     showSizeCart();
     loadWelcome(currentLang);
     showOrderSize();
 });
 
+function getQuantityPage() {
+    if (amountBooksInDb < amountBooksInPage) {
+        return 1;
+    }
+    return Math.ceil(amountBooksInDb / amountBooksInPage);
+}
 
 function addBooksToPage(books) {
+    $('#cardcolumns').empty();
+    $("#rowForPagination").empty();
     $.each(books, function (index) {
         let card = `<div class="col mb-4">
                                     <a class="card border-0" href="/page/${books[index].id}" style="color: black">
@@ -39,29 +49,69 @@ function addBooksToPage(books) {
                                 </div>`;
         $('#cardcolumns').append(card);
     });
+    addPagination();
 }
 
-function loadMore() {
-    getPageWithBooks(currentPage++);
+function addPagination() {
+    let numberOfPagesInPagination = 7;
+    let quantityPage = getQuantityPage();
+    let startIter;
+    let endIter = currentPage;
+    let pag;
+    let halfPages = Math.floor(numberOfPagesInPagination / 2);
+
+    if (quantityPage <= numberOfPagesInPagination || quantityPage === 0) {
+        startIter = 1;
+        endIter = quantityPage;
+    } else {
+        if (currentPage - halfPages <= 0) {
+            startIter = 1;
+            endIter = numberOfPagesInPagination;
+        } else if (currentPage + halfPages > quantityPage) {
+            startIter = quantityPage - numberOfPagesInPagination + 1;
+            endIter = quantityPage;
+        } else {
+            startIter = currentPage - halfPages;
+            endIter = currentPage + halfPages;
+        }
+    }
+    pag = `<nav aria-label="Page navigation example">
+                    <ul class="pagination">`;
+    pag += currentPage === 1 ? `<li class="page-item disabled"><a class="page-link" href="#" tabindex="-1">` :
+        `<li class="page-item"><a class="page-link" onclick="loadMore(1)" href="#">`;
+    pag += `<span aria-hidden="true">&laquo;</span></a></li>`;
+    for (let i = startIter; i < endIter + 1; i++) {
+        if (currentPage === i) {
+            pag += `<li class="page-item active"><a class="page-link" onclick="loadMore(${i})">${i}</a></li>`;
+        } else {
+            pag += `<li class="page-item"><a class="page-link" onclick="loadMore(${i})">${i}</a></li>`;
+        }
+    }
+    pag += currentPage === quantityPage ? `<li class="page-item disabled">` : `<li class="page-item">`
+    pag += `<a class="page-link" onclick="loadMore(${quantityPage})" href="#"><span aria-hidden="true">&raquo;</span></a></li>
+                    </ul>
+                </nav>`;
+    $("#rowForPagination").append(pag);
 }
 
-function getPageWithBooks(page) {
-    GET(`/api/book?limit=4&start=${page}`)
+function loadMore(pageNumber) {
+    currentPage = pageNumber;
+    getPageWithBooks(amountBooksInPage, pageNumber - 1);
+}
+
+function getPageWithBooks(amount, page) {
+    GET(`/api/book?limit=${amount}&start=${page}`)
         .then(json)
         .then((data) => {
-            addBooksToPage(data.books);
             amountBooksInDb = data.amountOfBooksInDb;
-            amountBooksInPage += data.size;
-            if (amountBooksInPage === amountBooksInDb) {
-                $(".load-more-btn").remove();
-            }
-            setAmountBooksInPage();
+            addBooksToPage(data.books);
         })
 }
 
-function setAmountBooksInPage() {
-    $(".books-in-page").text(amountBooksInPage);
-    $(".books-in-db").text(amountBooksInDb);
+function setAmountBooksInPage(amount) {
+    amountBooksInPage = amount;
+    ddmAmountBook.text(amount);
+    getPageWithBooks(amount, 0);
 }
 
 function covertPrice(price) {
@@ -75,7 +125,9 @@ async function showSizeCart() {
         .then(function (data) {
             if (data != 0) {
                 $("#bucketIn").empty();
+                $("#bucketIn1").empty();
                 $("#bucketIn").append(data)
+                $("#bucketIn1").append(data)
             } else {
                 $('#bucketIn').empty();
             }
@@ -89,7 +141,10 @@ async function showOrderSize() {
         .then(function (data) {
             if (data != 0) {
                 $("#orders-quantity").empty();
+                $("#orders-quantity1").empty();
                 $("#orders-quantity").append(data)
+                $("#orders-quantity1").append(data)
+
             } else {
                 $('#orders-quantity').empty();
             }

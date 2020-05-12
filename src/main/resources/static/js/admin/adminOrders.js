@@ -83,23 +83,26 @@ function showModalOfOrder(index) {
 }
 
 function orderComplete(id) {
-    fetch("/api/admin/completeOrder/" + id, {
-        method: "PATCH",
-        headers: {
-            "Content-Type": "application/json;charset=utf-8"
-        },
-        body: JSON.stringify(id),
-    }).then(r => showListOrders())
+    if (confirm('Do you really want to COMPLETE order?')) {
+        fetch("/api/admin/completeOrder/" + id, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json;charset=utf-8"
+            },
+            body: JSON.stringify(id),
+        }).then(r => showListOrders())
+    }
 }
 
 function orderDelete(id) {
-    fetch("/api/admin/deleteOrder/" + id, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json;charset=utf-8"
-        },
-        body: JSON.stringify(id),
-    }).then(r => showListOrders())
-
+    if (confirm('Do you really want to DELETE order?')) {
+        fetch("/api/admin/deleteOrder/" + id, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json;charset=utf-8"
+            },
+            body: JSON.stringify(id),
+        }).then(r => showListOrders())
+    }
 }
 

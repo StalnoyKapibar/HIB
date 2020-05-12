@@ -46,9 +46,31 @@ function addPartsOfBook(partsOfBook) {
                 </div>`;
             }
 
-            for (let tmpNameVar of nameVarOfLocaleString) {
+            if(partsOfBook === "description") {
+                
+                for (let tmpNameVar of nameVarOfLocaleString) {
+                    html += `<div class="shadow p-4 mb-4 bg-white">
+                <div class='form-group mx-5'>
+                <div class="row">
+                <div class="col-0" for=${tmpNameObject}${tmpNameVar}>${tmpNameObject} ${tmpNameVar}</div>
+                <div class="col-2 mr-1">
+                <input type="radio" name="rb${tmpNameObject}" id="rb${tmpNameObject}${tmpNameVar}" value="${tmpNameVar}" autocomplete="off"> Translate from this language
+                </div>
+                <div class="col-6">
+                <textarea type='text' class='form-control' rows="10"  id='inp${tmpNameObject}${tmpNameVar}'
+                placeholder='${tmpNameObject} ${tmpNameVar}'> </textarea>
+                </div>
+                <div class="col">
+                <input type="checkbox" checked name="cb${tmpNameObject}" value="${tmpNameVar}" autocomplete="off"> Into this language
+                </div></div></div></div>`;
+                    if (tmpNameVar === "gr") {
+                        html += `<button type="button" onclick="translateText('${tmpNameObject}')" class="btn btn-primary mx-3">Translate</button></div>`
+                    }
+                }
 
-                html += `<div class="shadow p-4 mb-4 bg-white">
+            } else {
+                for (let tmpNameVar of nameVarOfLocaleString) {
+                    html += `<div class="shadow p-4 mb-4 bg-white">
                 <div class='form-group mx-5'>
                 <div class="row">
                 <div class="col-0" for=${tmpNameObject}${tmpNameVar}>${tmpNameObject} ${tmpNameVar}</div>
@@ -56,23 +78,20 @@ function addPartsOfBook(partsOfBook) {
                 <input type="radio" name="rb${tmpNameObject}" id="rb${tmpNameObject}${tmpNameVar}" value="${tmpNameVar}" autocomplete="off"> Translate from this language
                 </div>
                 <div class="col">
-                <input type='text' class='form-control' id='inp${tmpNameObject}${tmpNameVar}'
-                placeholder='${tmpNameObject} ${tmpNameVar}'>
+                <input type='text' class='form-control'  id='inp${tmpNameObject}${tmpNameVar}'
+                placeholder='${tmpNameObject} ${tmpNameVar}'> 
                 </div>
                 <div class="col">
                 <input type="checkbox" checked name="cb${tmpNameObject}" value="${tmpNameVar}" autocomplete="off"> Into this language
                 </div></div></div></div>`;
-                if (tmpNameVar === "gr") {
-                    html += `<button type="button" onclick="translateText('${tmpNameObject}')" class="btn btn-primary mx-3">Translate</button></div>`
+                    if (tmpNameVar === "gr") {
+                        html += `<button type="button" onclick="translateText('${tmpNameObject}')" class="btn btn-primary mx-3">Translate</button></div>`
+                    }
                 }
-
             }
-
             return html;
         }
-
     }
-
 }
 
 function addPage() {

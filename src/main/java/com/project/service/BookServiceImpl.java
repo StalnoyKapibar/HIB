@@ -68,6 +68,11 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public BookNewDTO getBookBySearchRequest(OriginalLanguage originalLanguage, boolean isShow) {
+        return bookDAO.getBookBySearchRequest(originalLanguage,isShow);
+    }
+
+    @Override
     public Book getBookById(Long id) {
         return bookDAO.findById(id);
     }
