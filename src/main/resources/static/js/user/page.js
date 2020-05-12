@@ -178,3 +178,6 @@ function checkParams() {
         $('#sign_in_btn').attr('hidden', 'hidden');
     }
 }
+function doesFolderTmpExist() {
+    fetch("admin/doesFolderTmpExist");
+}

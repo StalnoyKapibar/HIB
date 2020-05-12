@@ -9,11 +9,10 @@ let pathImageFin;
 let pathImageFinWithoutImage;
 let nameImage;
 let nameImageCover = '';
-let disabledCheckBox = $('#disabled');
 let pathImageDefault = '../images/book';
 
-
-$(document).ready(getVarBookDTO());
+$(document).ready(getVarBookDTO()
+);
 
 function status(response) {
     if (response.status >= 200 && response.status < 300) {
@@ -56,7 +55,7 @@ function addPartsOfBook(partsOfBook) {
                 placeholder='${tmpNameObject} transliterate '>
                 </div> </div>
                 </div>
-                <button type="button" onclick="transliterationText('${tmpNameObject}')" class="btn btn-primary mx-3">Transliterate</button>
+                <button id="yourDivId" type="button" onclick="transliterationText('${tmpNameObject}')" class="btn btn-primary mx-3">Transliterate</button>
                 </div>`;
 
             }
@@ -80,14 +79,10 @@ function addPartsOfBook(partsOfBook) {
                 if (tmpNameVar === "gr") {
                     html += `<button type="button" onclick="translateText('${tmpNameObject}')" class="btn btn-primary mx-3">Translate</button></div>`
                 }
-
             }
-
             return html;
         }
-
     }
-
 }
 
 function buildPage() {
@@ -185,7 +180,6 @@ function buildPage() {
         )
     }
 
-
     $('#inptname').attr("value", tmpArr.originalLanguage.name);
     $('#inpnameru').attr("value", tmpArr.name.ru);
     $('#inpnameen').attr("value", tmpArr.name.en);
@@ -257,7 +251,6 @@ function buildPage() {
                 listImages = tmpArr[key];
                 buildCarousel();
             }
-
         }
     }
 }
@@ -300,7 +293,7 @@ function sendUpdateBook() {
     book["listImage"] = imageList;
     var body02 = JSON.stringify(book);
     sendUpdateBookReq(body02);
-    confirm("Edit this book?");
+    confirm("Edit this book?")
     window.location.href = "http://localhost:8080/admin/panel/books";
 }
 
@@ -443,7 +436,6 @@ function deleteImage(id) {
     } else {
         document.getElementById(id).remove();
     }
-
 }
 
 function getVarBookDTO() {
