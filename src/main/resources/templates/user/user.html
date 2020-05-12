@@ -114,14 +114,14 @@
                         <li sec:authorize="hasRole('USER')"
                             th:classappend="${#httpServletRequest.getRequestURI() == '/profile/orders' ? 'active' : ''}">
                             <a href="/profile/orders">
-                                <i class="fas fa-shopping-bag"></i>
+                                <i class="fas fa-shopping-bag"><span class="badgeOrder" id="orders-quantity1"></span></i>
                                 <span class="menu-text" id="oders">My orders</span>
                                 <span class="badge badge-pill badge-danger" id="orders-quantity"></span>
                             </a>
                         </li>
                         <li th:classappend="${#httpServletRequest.getRequestURI() == '/shopping-cart' ? 'active' : ''}">
                             <a href="/shopping-cart">
-                                <i class="fa fa-shopping-cart"></i>
+                                <i class="fa fa-shopping-cart"><span class="badgeCart" id="bucketIn1"></span></i>
                                 <span class="menu-text" id="headershoppingcart">Shopping cart</span>
                                 <span class="badge badge-pill badge-danger" id="bucketIn"></span>
                             </a>
