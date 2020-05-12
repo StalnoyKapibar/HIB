@@ -117,7 +117,7 @@ async function pageBook(x) {
             let htmlAddPage = varBookDTO;
             nameObjectOfLocaleStringWithId = Object.values(htmlAddPage);
             nameObjectOfLocaleString = nameObjectOfLocaleStringWithId.filter(t => t !== "id");
-            let htmlTable = `<th scope='col'>id ${idChangeLang}</th>`;
+            let htmlTable = `<th scope='col'>id </th>`;
 
             htmlTable +=
                 `<th scope="col">Name</th>` +
@@ -173,14 +173,50 @@ function chanLang(x) {
     $('#search-input-admin').val('');
     pageBook(idPageable);
 }
+<!--  old search that uses languages -->
+// async function searchBook() {
+//     $('#pagination00').empty();
+//     $('#extra').empty();
+//     let searchWord = $('#search-input-admin').val();
+//     let searchLang = idChangeLang;
+//     await fetch("/searchResult?request=" + searchWord + "&LANG=" + idChangeLang, {
+//         method: "GET",
+//         headers: {
+//             'Content-Type': 'application/json',
+//             'Accept': 'application/json'
+//         }
+//     })
+//         .then(status)
+//         .then(json)
+//         .then(function (data) {
+//             for (let i = 0; i < data.length; i++) {
+//                 $('#extra').append(`<tr id="${data[i].id}">
+//                     <td id="${data[i].id}">${data[i].id}</td>
+//                     <td>${data[i].nameAuthorDTOLocale}</td>
+//                     <td>${data[i].nameBookDTOLocale}</td>
+//                     <td>
+//                     <button type='button' onclick='buildEditBook(${data[i].id})'  data-toggle='modal'
+//                     data-target='#asdddd'  class='btn btn-primary'>
+//                     Edit
+//                     </button>
+//                     </td>
+//                     <td>
+//                     <button type='button'  onclick='delBook(${data[i].id})'  class='btn btn-danger'>
+//                     Delete
+//                     </button>
+//                     </td>
+//                     </tr>`
+//                 );
+//             }
+//         });
+// }
 
 async function searchBook() {
     $('#pagination00').empty();
     $('#extra').empty();
     let searchWord = $('#search-input-admin').val();
-    let searchLang = idChangeLang;
-    await fetch("/searchResult?request=" + searchWord + "&LANG=" + idChangeLang, {
-        method: "GET",
+    await fetch("/api/admin/searchResult?request=" + searchWord + "&Show=" + toggleShowDisabled.is(':checked'), {
+        method: "POST",
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
@@ -189,25 +225,18 @@ async function searchBook() {
         .then(status)
         .then(json)
         .then(function (data) {
-            for (let i = 0; i < data.length; i++) {
-                $('#extra').append(`<tr id="${data[i].id}">
-                    <td id="${data[i].id}">${data[i].id}</td>
-                    <td>${data[i].nameAuthorDTOLocale}</td>
-                    <td>${data[i].nameBookDTOLocale}</td>
-                    <td>
-                    <button type='button' onclick='buildEditBook(${data[i].id})'  data-toggle='modal'
-                    data-target='#asdddd'  class='btn btn-primary'>
-                    Edit
-                    </button>
-                    </td>
-                    <td>
-                    <button type='button'  onclick='delBook(${data[i].id})'  class='btn btn-danger'>
-                    Delete
-                    </button>
-                    </td>
-                    </tr>`
-                );
+            let html = '';
+            for (let key in data) {
+                let book = data[key];
+                html += `<tr id="${book.id}"><td>${book.id} </td>
+                             <td style="width: 20%">${book.name}<br>(${book.nameTranslit})</td>
+                             <td style="width: 15%">${book.author}<br>(${book.authorTranslit})</td>
+                             <td style="width: 50%" > ${book.desc}</td> 
+                             <td> <button class="btn btn-info" onclick="openEdit(${book.id})"> Edit </button></td>
+                             <td> <button type='button'  onclick="delBook(${book.id})"  class='btn btn-danger'> Delete</button> </td>
+                         </tr>`;
             }
+            $('#extra').html(html)
         });
 }
 
