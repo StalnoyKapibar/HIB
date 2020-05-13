@@ -231,7 +231,7 @@ function addValueToFields(book) {
     originalLanguage.val(`${book.originalLanguage}`);
     let img = book.coverImage;
     addImgAvatarAndBtn(img, pathToTmpPackage + img);
-    for (const imageListElement of book.imageList) {
+    for (const imageListElement of book.listImage) {
         if (img !== imageListElement.nameImage) {
             let nameImg = imageListElement.nameImage;
             let pathToImg = pathToTmpPackage + nameImg;
@@ -246,7 +246,6 @@ function deleteImage(id) {
     } else {
         document.getElementById(id).remove();
     }
-
 }
 
 function addNewBook() {
