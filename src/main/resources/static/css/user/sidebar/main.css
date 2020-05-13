@@ -71,7 +71,7 @@
 }
 
 .sidebar-wrapper {
-    width: 220px;
+    width: 14%;
     height: 100%;
     max-height: 100%;
     position: fixed;
@@ -536,6 +536,7 @@ body {
     background: #ececec;
 }
 
+/*
 .page-wrapper .page-content {
     display: inline-block;
     width: 100%;
@@ -543,6 +544,7 @@ body {
     transition: padding-left .3s ease;
     overflow-x: hidden;
 }
+*/
 
 .page-wrapper .page-content .overlay {
     position: fixed;
@@ -562,7 +564,7 @@ body {
 
 @media screen and (min-width: 768px) {
     .page-wrapper.toggled .page-content {
-        padding-left: 280px;
+        padding-left: 6%;
     }
 }
 
@@ -574,7 +576,7 @@ body {
 
 @media screen and (min-width: 768px) {
     .page-wrapper.toggled.pinned .page-content {
-        padding-left: 80px;
+        padding-left: 6%;
     }
 }
 

@@ -41,40 +41,7 @@ async function getAllLocales() {
             nameVarOfLocaleStringWithId = tmp;
             nameVarOfLocaleStringWithId.unshift("id");
             nameVarOfLocaleString = nameVarOfLocaleStringWithId.filter(t => t !== "id");
-
-            let html = `<input id="welcome-id" type="hidden" value="${welcomeText[0]}"/>`;
-            for (let i = 0; i < nameVarOfLocaleString.length; i++) {
-                let tmp_html = nameVarOfLocaleString[i];
-                html += `<label for = ${tmp_html}>${tmp_html}</label>` +
-                    `<textarea type='text' class='form-control' id='${tmp_html}' ` +
-                    `aria-describedby='emailHelp'>${welcomeText[i + 1]}</textarea>`;
-            }
-            $('#form_id').html(html + `<button type='submit' onclick='funcStart()' class='btn btn-primary'>Submit</button>`);
         })
-}
-
-function funcStart() {
-    var aniArgs = {};
-    for (let tmp_html of tmp) {
-        aniArgs[tmp_html] = $('#' + tmp_html).val();
-    }
-    aniArgs['id'] = welcomeText[0];
-    var body02 = JSON.stringify({
-        id: 1,
-        body: aniArgs
-    });
-    updateWelcome(body02);
-}
-
-async function updateWelcome(x) {
-    await fetch("/api/admin/welcome/edit", {
-        method: 'POST',
-        body: x,
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        }
-    });
 }
 
 function status(response) {
@@ -107,7 +74,6 @@ async function pageBook(x) {
         .then(status)
         .then(json)
         .then(function (resp_tmp) {
-            console.log(resp_tmp);
             arrAllBooksByNumberPage = resp_tmp.listBookDTO;
             var htmlTempPager = '';
             for (var i = 0; i < resp_tmp.totalPages; i++) {
@@ -115,16 +81,15 @@ async function pageBook(x) {
                 htmlTempPager += `<li class='page-item'><a class='page-link' href='#' onclick='pageBook(${i})'>${z}</a></li>`;
             }
             $('#pagination00').html(htmlTempPager);
-            var htmlAddPage = varBookDTO;
+            let htmlAddPage = varBookDTO;
             nameObjectOfLocaleStringWithId = Object.values(htmlAddPage);
             nameObjectOfLocaleString = nameObjectOfLocaleStringWithId.filter(t => t !== "id");
-            var htmlTable = `<th scope='col'>id ${idChangeLang}</th>`;
-            for (let dd of nameObjectOfLocaleStringWithId) {
-                if (dd !== "desc" && dd !== "edition") {
-                    htmlTable += `<th scope='col'>${dd} ${idChangeLang}</th>`;
-                }
-            }
+            let htmlTable = `<th scope='col'>id </th>`;
+
             htmlTable +=
+                `<th scope="col">Name</th>` +
+                `<th scope="col">Author</th>` +
+                `<th scope="col">Description ${idChangeLang}</th>` +
                 `<th scope='col'>Edit</th>` +
                 `<th scope='col'>Delete</th>`;
             $('#table0').html(htmlTable);
@@ -132,13 +97,13 @@ async function pageBook(x) {
             for (let tmp_html of resp_tmp.listBookDTO) {
                 html += `<tr id=${tmp_html.id}>` +
                     `<td id=${tmp_html.id}>${tmp_html.id}</td>`;
-                for (key in tmp_html) {
-                    if (tmp_html[key] !== null) {
-                        if (key !== "id" && key !== "coverImage" && key !== "imageList" && key !== "desc" && key !== "edition"
-                            && key !== "yearOfEdition" && key !== "pages" && key !== "price" && key !== "originalLanguage" && key !== "show") {
-                            var ad = tmp_html[key][idChangeLang];
-                            html += `<td id='n${tmp_html.id}'>${ad}</td>`;
-                        }
+                html += `<td id='n${tmp_html.id}'>${convertOriginalLanguageRows(tmp_html.originalLanguage.name, tmp_html.originalLanguage.nameTranslit)}</td>`;
+                html += `<td id='n${tmp_html.id}'>${convertOriginalLanguageRows(tmp_html.originalLanguage.author, tmp_html.originalLanguage.authorTranslit)}</td>`;
+
+                for (let key in tmp_html) {
+                    if (tmp_html[key] !== null && key === "description") {
+                        let ad = tmp_html[key][idChangeLang];
+                        html += `<td width="600" id='n${tmp_html.id}'>${ad}</td>`;
                     }
                 }
                 html +=
@@ -160,6 +125,7 @@ async function pageBook(x) {
     getLocales().then(buildChangeLang);
 
 }
+
 function buildChangeLang() {
 
     var htmllang = '';
@@ -175,14 +141,50 @@ function chanLang(x) {
     $('#search-input-admin').val('');
     pageBook(idPageable);
 }
+<!--  old search that uses languages -->
+// async function searchBook() {
+//     $('#pagination00').empty();
+//     $('#extra').empty();
+//     let searchWord = $('#search-input-admin').val();
+//     let searchLang = idChangeLang;
+//     await fetch("/searchResult?request=" + searchWord + "&LANG=" + idChangeLang, {
+//         method: "GET",
+//         headers: {
+//             'Content-Type': 'application/json',
+//             'Accept': 'application/json'
+//         }
+//     })
+//         .then(status)
+//         .then(json)
+//         .then(function (data) {
+//             for (let i = 0; i < data.length; i++) {
+//                 $('#extra').append(`<tr id="${data[i].id}">
+//                     <td id="${data[i].id}">${data[i].id}</td>
+//                     <td>${data[i].nameAuthorDTOLocale}</td>
+//                     <td>${data[i].nameBookDTOLocale}</td>
+//                     <td>
+//                     <button type='button' onclick='buildEditBook(${data[i].id})'  data-toggle='modal'
+//                     data-target='#asdddd'  class='btn btn-primary'>
+//                     Edit
+//                     </button>
+//                     </td>
+//                     <td>
+//                     <button type='button'  onclick='delBook(${data[i].id})'  class='btn btn-danger'>
+//                     Delete
+//                     </button>
+//                     </td>
+//                     </tr>`
+//                 );
+//             }
+//         });
+// }
 
 async function searchBook() {
     $('#pagination00').empty();
     $('#extra').empty();
     let searchWord = $('#search-input-admin').val();
-    let searchLang = idChangeLang;
-    await fetch("/searchResult?request=" + searchWord + "&LANG=" + idChangeLang, {
-        method: "GET",
+    await fetch("/api/admin/searchResult?request=" + searchWord + "&Show=" + toggleShowDisabled.is(':checked'), {
+        method: "POST",
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
@@ -191,29 +193,22 @@ async function searchBook() {
         .then(status)
         .then(json)
         .then(function (data) {
-            for (let i = 0; i < data.length; i++) {
-                $('#extra').append(`<tr id="${data[i].id}">
-                    <td id="${data[i].id}">${data[i].id}</td>
-                    <td>${data[i].nameAuthorDTOLocale}</td>
-                    <td>${data[i].nameBookDTOLocale}</td>
-                    <td>
-                    <button type='button' onclick='buildEditBook(${data[i].id})'  data-toggle='modal'
-                    data-target='#asdddd'  class='btn btn-primary'>
-                    Edit
-                    </button>
-                    </td>
-                    <td>
-                    <button type='button'  onclick='delBook(${data[i].id})'  class='btn btn-danger'>
-                    Delete
-                    </button>
-                    </td>
-                    </tr>`
-                );
+            let html = '';
+            for (let key in data) {
+                let book = data[key];
+                html += `<tr id="${book.id}"><td>${book.id} </td>
+                             <td style="width: 20%">${book.name}<br>(${book.nameTranslit})</td>
+                             <td style="width: 15%">${book.author}<br>(${book.authorTranslit})</td>
+                             <td style="width: 50%" > ${book.desc}</td> 
+                             <td> <button class="btn btn-info" onclick="openEdit(${book.id})"> Edit </button></td>
+                             <td> <button type='button'  onclick="delBook(${book.id})"  class='btn btn-danger'> Delete</button> </td>
+                         </tr>`;
             }
+            $('#extra').html(html)
         });
 }
 
-$(document).ready( ()  => {
+$(document).ready(() => {
     $("body").on('click', '#search-admin-close', () => {
         $('#search-input-admin').val('');
         pageBook(idPageable);
@@ -255,9 +250,11 @@ async function addBookReq(x) {
 }
 
 function delBook(x) {
-    fetch("admin/del/" + x);
-    var elem = document.getElementById(x);
-    elem.parentNode.removeChild(elem);
+    if (confirm('Do you really want to DELETE book?')) {
+        fetch("admin/del/" + x);
+        var elem = document.getElementById(x);
+        elem.parentNode.removeChild(elem);
+    }
 }
 
 function buildEditBook(xx) {

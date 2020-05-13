@@ -57,4 +57,17 @@ public class BookNewDTO {
         this.coverImage = coverImage;
     }
 
+    public BookNewDTO(long id, String name, String nameTranslit, String author, String authorTranslit,
+                      String edition, String editionTranslit, String description) {
+        this.id = id;
+        this.name = name;
+        this.nameTranslit = nameTranslit;
+        this.author = author;
+        this.authorTranslit = authorTranslit;
+        this.edition = edition;
+        this.editionTranslit = editionTranslit;
+        this.desc = description;
+
+    }
+
 }

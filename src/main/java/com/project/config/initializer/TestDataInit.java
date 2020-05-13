@@ -136,6 +136,7 @@ public class TestDataInit {
         bookAddImgandAddBookToDb(Book7);
 
         Book Book8 = new Book();
+        Book8.setShow(true);
         Book8.setAuthor(new LocaleString("Джордж Р. Р. Мартин", "George R. R. Martin", "George R. R. Martin", "George R. R. Martin", "George R. R. Martin", "George R. R. Martin", "George R. R. Martin"));
         Book8.setName(new LocaleString("Пламя и кровь. Кровь драконов", "Flames and blood. Dragon blood", "Flammes et sang. Sang de dragon", "Fiamme e sangue. Sangue di drago", "Flammen und Blut. Drachenblut", "Plameny a krev. Dračí krev", "Φλόγες και αίμα. Δράκος του αίματος"));
         Book8.setPrice((long) (Math.random() * 1000));
@@ -145,6 +146,7 @@ public class TestDataInit {
         bookAddImgandAddBookToDb(Book8);
 
         Book Book9 = new Book();
+        Book9.setShow(true);
         Book9.setAuthor(new LocaleString("Анджей Сапковский", "Andrzej Sapkowski", "Andrzej Sapkowski", "Andrzej Sapkowski", "Andrzej Sapkowski", "Andrzej Sapkowski", "Andrzej Sapkowski"));
         Book9.setName(new LocaleString("Меч Предназначения", "Destination Sword", "Épée de destination", "Spada di destinazione", "Zielschwert", "Cílový meč", "Destination Sword"));
         Book9.setPrice((long) (Math.random() * 1000));
@@ -154,6 +156,7 @@ public class TestDataInit {
         bookAddImgandAddBookToDb(Book9);
 
         Book Book10 = new Book();
+        Book10.setShow(true);
         Book10.setAuthor(new LocaleString("Елизавета Соболянская", "Elizabeth Sobolyanskaya", "Elizabeth Sobolyanskaya", "Elizabeth Sobolyanskaya", "Elizabeth Sobolyanskaya", "Elizabeth Sobolyanskaya", "Elizabeth Sobolyanskaya"));
         Book10.setName(new LocaleString("Зануда в Академии Драконов", "Bore at the Dragon Academy", "Alésage à la Dragon Academy", "Alesato alla Dragon Academy", "Langeweile in der Drachenakademie", "Narodil se na Dragon Academy", "Βρέθηκε στην Ακαδημία Dragon"));
         Book10.setPrice((long) (Math.random() * 1000));
@@ -256,14 +259,14 @@ public class TestDataInit {
 
         //Add test feedback requests
         String testEmail = "test@hib.com";
-        FeedbackRequest feedbackRequest = new FeedbackRequest(null, "Алексей", "Здравствуйте, у меня возник вопрос по оплате. Какие сервисы электронных платежей поддерживает ваш сайт? И могу  ли я заказать книгу в Сибирь?", testEmail, false);
-        FeedbackRequest feedbackRequest1 = new FeedbackRequest(null, "Алексей", "Здравствуйте, меня заинтересовала книга http://localhost:8080/page/1", testEmail, false);
-        FeedbackRequest feedbackRequest2 = new FeedbackRequest(null, "Mike", "Здравствуйте, меня заинтересовала книга http://localhost:8080/page/2", testEmail, false);
-        FeedbackRequest feedbackRequest3 = new FeedbackRequest(null, "Emma", "Bonjour, je m intéresse au livre. http://localhost:8080/page/3", testEmail, false);
-        FeedbackRequest feedbackRequest4 = new FeedbackRequest(null, "Julio", "Ciao, sono interessato al libro. http://localhost:8080/page/4", testEmail, true);
-        FeedbackRequest feedbackRequest5 = new FeedbackRequest(null, "Claus", "Hallo, ich interessiere mich für das Buch. http://localhost:8080/page/5", testEmail, false);
-        FeedbackRequest feedbackRequest6 = new FeedbackRequest(null, "Alexey", "Witam, jestem zainteresowana książką. http://localhost:8080/page/6", testEmail, false);
-        FeedbackRequest feedbackRequest7 = new FeedbackRequest(null, "Άννα", "Γεια σας, ενδιαφέρομαι για το βιβλίο. http://localhost:8080/page/7", testEmail, false);
+        FeedbackRequest feedbackRequest = new FeedbackRequest(null, "Алексей", "Здравствуйте, у меня возник вопрос по оплате. Какие сервисы электронных платежей поддерживает ваш сайт? И могу  ли я заказать книгу в Сибирь?", testEmail, false, null);
+        FeedbackRequest feedbackRequest1 = new FeedbackRequest(null, "Алексей", "Здравствуйте, меня заинтересовала книга", testEmail, false, bookService.getBookById(Long.valueOf(1)));
+        FeedbackRequest feedbackRequest2 = new FeedbackRequest(null, "Mike", "Здравствуйте, меня заинтересовала книга", testEmail, false, bookService.getBookById(Long.valueOf(2)));
+        FeedbackRequest feedbackRequest3 = new FeedbackRequest(null, "Emma", "Bonjour, je m intéresse au livre.", testEmail, false, bookService.getBookById(Long.valueOf(3)));
+        FeedbackRequest feedbackRequest4 = new FeedbackRequest(null, "Julio", "Ciao, sono interessato al libro.", testEmail, true, bookService.getBookById(Long.valueOf(4)));
+        FeedbackRequest feedbackRequest5 = new FeedbackRequest(null, "Claus", "Hallo, ich interessiere mich für das Buch.", testEmail, false, bookService.getBookById(Long.valueOf(5)));
+        FeedbackRequest feedbackRequest6 = new FeedbackRequest(null, "Alexey", "Witam, jestem zainteresowana książką.", testEmail, false, bookService.getBookById(Long.valueOf(6)));
+        FeedbackRequest feedbackRequest7 = new FeedbackRequest(null, "Άννα", "Γεια σας, ενδιαφέρομαι για το βιβλίο.", testEmail, false, bookService.getBookById(Long.valueOf(7)));
 
         feedbackRequestService.save(feedbackRequest);
         feedbackRequestService.save(feedbackRequest1);

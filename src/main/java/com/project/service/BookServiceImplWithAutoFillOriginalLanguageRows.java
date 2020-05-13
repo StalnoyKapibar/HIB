@@ -60,7 +60,7 @@ public class BookServiceImplWithAutoFillOriginalLanguageRows extends BookService
     }
 
     @Override
-    public List<BookDTO20> get20BookDTO(String locale) {
+    public List<BookDTO> get20BookDTO(String locale) {
         return bookDao.get20BookDTO(locale);
     }
 }

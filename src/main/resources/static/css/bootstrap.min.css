@@ -5071,6 +5071,40 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
     transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out
 }
 
+.badgeCart {
+    display: inline-block;
+    padding: .25em .4em;
+    color:#FF0000;
+    font-size: 120%;
+    font-weight: 900;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .55rem;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out
+}
+.badgeOrder {
+    display: inline-block;
+    padding: .25em .4em;
+    color:#FF0000;
+    font-size: 120%;
+    font-weight: 900;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .55rem;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out
+}
+div.sidebar-content:hover span.badgeOrder {
+    display: none;
+}
+
+div.sidebar-content:hover span.badgeCart {
+    display: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
     .badge {
         transition: none
@@ -6543,6 +6577,9 @@ a.close.disabled {
     margin-right: 15%;
     margin-left: 15%;
     list-style: none
+}
+.form-control-file{
+    type
 }
 
 .carousel-indicators li {

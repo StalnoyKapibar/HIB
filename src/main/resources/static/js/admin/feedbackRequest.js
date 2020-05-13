@@ -24,7 +24,7 @@ $(document).ready(function () {
 
 function markAsRead(id, replied) {
     let message = "Mark this message as ";
-    message += replied ? "read?" : "unread?";
+    message += replied ? "unread?" : "read?";
     if (confirm(message)) {
         fetch("/api/admin/feedback-request/" + id + "/" + replied, {
             method: 'POST'
@@ -44,6 +44,14 @@ async function getFeedbackRequestTable(replied) {
                 let senderName = data[i].senderName;
                 let senderEmail = data[i].senderEmail;
                 let content = data[i].content;
+                let bookId = null;
+                let bookName =null;
+                let bookCoverImage = null;
+                if (data[i].book !== null) {
+                    bookId = data[i].book.id;
+                    bookName = data[i].book.name.en;
+                    bookCoverImage = data[i].book.coverImage;
+                }
                 let replied = data[i].replied ? '<input type="checkbox" disabled checked>'
                     : `<button type="button"
                        class="btn btn-info btn-reply"
@@ -51,7 +59,10 @@ async function getFeedbackRequestTable(replied) {
                         data-id="${id}"
                         data-sender="${senderName}"
                         data-email="${senderEmail}"
-                        data-message="${content}">Reply</button>`;
+                        data-message="${content}"
+                        data-bookId="${bookId}"
+                        data-bookName="${bookName}"
+                        data-bookCoverImage="${bookCoverImage}">Reply</button>`;
                 let mark = `<button type="button"
                 class="btn btn-info "           
                 onclick="markAsRead(${id},${data[i].replied})">`;
@@ -77,8 +88,7 @@ $(document).on('click', '.btn-reply', function () {
     recipient.val($(this).attr("data-sender"));
     emailField.val($(this).attr("data-email"));
     message.val($(this).attr("data-message"));
-    showInterestedBook($(this).attr("data-message")).then(r => {
-    });
+    showInterestedBook($(this).attr("data-bookId"), $(this).attr("data-bookName"), $(this).attr("data-bookCoverImage"));
     theModal.modal('show');
 });
 
@@ -105,22 +115,15 @@ $(document).on('click', '#submit-btn', async () => {
     await getFeedbackRequestTable();
 });
 
-async function showInterestedBook(message) {
-    let bookId = '';
-    interestedBookContainer.attr('style', 'display: none');
-    if (message.includes("/page/")) {
-        let index = message.indexOf("/page/") + 6;
-        while (message[index] !== ' ' && message[index] !== undefined) {
-            bookId += message[index];
-            index++;
-        }
-        await fetch("/api/book/" + bookId + "?locale=en")
-            .then(json).then((book) => {
-                interestedBookTitle.html(`<span>${book.name}</span>`);
-                interestedBookTitle.attr('href', "/page/" + bookId);
-                interestedBookImage.attr('src', `/images/book${book.id}/${book.coverImage}`);
-                interestedBookContainer.attr('style', 'display: inline');
-            });
+function showInterestedBook(bookId, bookName, bookCoverImage) {
+    if (bookId !== "null") {
+        interestedBookContainer.attr('style', 'display: none');
+        interestedBookTitle.html(`<span>${bookName}</span>`);
+        interestedBookTitle.attr('href', "/page/" + bookId);
+        interestedBookImage.attr('src', `/images/book${bookId}/${bookCoverImage}`);
+        interestedBookContainer.attr('style', 'display: inline');
+    } else {
+        interestedBookContainer.attr('style', 'display: none');
     }
 }
 

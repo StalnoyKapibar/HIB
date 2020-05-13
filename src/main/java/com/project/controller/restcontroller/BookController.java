@@ -7,6 +7,8 @@ import com.project.service.abstraction.BookService;
 import com.project.service.abstraction.StorageService;
 import com.project.util.BookDTOWithFieldsForTable;
 import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.PageRequest;
@@ -23,6 +25,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class BookController {
@@ -31,6 +34,7 @@ public class BookController {
     private final BookSearch bookSearch;
     private final HibParser hibParser;
     private final StorageService storageService;
+    private final static Logger LOGGER = LoggerFactory.getLogger(BookController.class.getName());
 
     @Autowired
     public BookController(BookService bookService, BookSearch bookSearch,
@@ -91,10 +95,10 @@ public class BookController {
     }
 
     @GetMapping("/api/admin/pageable/{page}")
-    public PageableBookDTO getWelcomeLocaleDTOByLocale(@PathVariable int page, @RequestParam boolean disabled) {
+    public BookPageAdminDto getWelcomeLocaleDTOByLocale(@PathVariable int page, @RequestParam boolean disabled) {
         Pageable pageable = PageRequest.of(page, 10, Sort.by(
                 Sort.Order.asc("id")));
-        PageableBookDTO pageableBookDTO = bookService.getPageBookDTOByPageable(pageable, disabled);
+        BookPageAdminDto pageableBookDTO = bookService.getPageBookDTOByPageable(pageable, disabled);
         return pageableBookDTO;
     }
 
@@ -126,11 +130,12 @@ public class BookController {
     @PostMapping("/admin/edit")
     public void editBook(@RequestBody Book book) {
         bookService.updateBook(book);
+        storageService.cutImagesFromTmpPaperToNewPaperByLastIdBook(String.valueOf(book.getId()), book.getListImage());
     }
 
     @GetMapping("/user/get20BookDTO/{locale}")
-    public List<BookDTO20> getWelcomeLocaleDTOByLocaleSize20(@PathVariable("locale") String locale) {
-        List<BookDTO20> page = bookService.get20BookDTO(locale);
+    public List<BookDTO> getWelcomeLocaleDTOByLocaleSize20(@PathVariable("locale") String locale) {
+        List<BookDTO> page = bookService.get20BookDTO(locale);
         return page;
     }
 
@@ -140,8 +145,13 @@ public class BookController {
     }
 
     @GetMapping("/searchResult")
-    public List<BookDTO20> search(@RequestParam(value = "request") String req, @RequestParam(value = "LANG") String locale) {
+    public List<BookDTO> search(@RequestParam(value = "request") String req, @RequestParam(value = "LANG") String locale) {
         return bookSearch.search(req, locale);
+    }
+
+    @PostMapping("/api/admin/searchResult")
+    public List<BookNewDTO> search(@RequestParam(value = "request") String req,@RequestParam(value = "Show") boolean isShow) {
+        return bookSearch.search(req, isShow);
     }
 
     @GetMapping("/searchAdvanced")
@@ -187,5 +197,12 @@ public class BookController {
         if (!storageService.doesFolderTmpExist()) {
             storageService.createTmpFolderForImages();
         }
+    }
+
+    @GetMapping(value = "/api/book", params = {"limit", "start"})
+    public BookPageDto getBookDtoByLimitAndAmountAndStart(@RequestParam Map<String, String> params) {
+        Pageable pageable = PageRequest.of(Integer.parseInt(params.get("start")),
+                Integer.parseInt(params.get("limit")), Sort.by(Sort.Order.asc("id")));
+        return bookService.getBookPageByPageable(pageable);
     }
 }

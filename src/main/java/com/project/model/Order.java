@@ -22,9 +22,8 @@ public class Order {
     @OneToOne(cascade = CascadeType.ALL)
     private Address address;
     private Integer itemsCost;
-    private Integer shippingCost;
     private String trackingNumber;
-    private String status;
+    private Status status;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private UserAccount userAccount;
@@ -34,7 +33,6 @@ public class Order {
         orderDTO.setId(id);
         orderDTO.setData(data);
         orderDTO.setItemsCost(itemsCost);
-        orderDTO.setShippingCost(shippingCost);
         orderDTO.setTrackingNumber(trackingNumber);
         orderDTO.setStatus(status);
         List<CartItemDTO> cartItemDTOS = new ArrayList<>();
@@ -55,8 +53,7 @@ public class Order {
         List<CartItemDTO> cartItemDTOS = new ArrayList<>();
         for (CartItem cartItem : items) {
             Book book = new Book(cartItem.getBook().getId(),
-                    cartItem.getBook().getName(),
-                    cartItem.getBook().getAuthor(),
+                    cartItem.getBook().getOriginalLanguage(),
                     cartItem.getBook().getPrice(),
                     cartItem.getBook().getCoverImage());
             book.setId(cartItem.getBook().getId());

@@ -3,24 +3,23 @@ let iconOfPrice = " €";
 let statusOfOrder = "Processing";
 let btnDisplay = "d-inline";
 
-$(document).ready(showListOrders());
+$( window ).on( "load", function() {
+    showListOrders();
+    $('#statusCheckbox').change(function () {
+        if ($(this).prop('checked') === true) {
+            statusOfOrder = "Processing";
+            btnDisplay = "d-inline";
+        } else {
+            statusOfOrder = "Completed";
+            btnDisplay = "d-none";
+        }
+        showListOrders();
+    });
+});
 
 function convertPrice(price) {
     return price / 100;
 }
-
-
-$('#statusCheckbox').change(function () {
-    if ($(this).prop('checked') === true) {
-        statusOfOrder = "Processing";
-        btnDisplay = "d-inline";
-    } else {
-        statusOfOrder = "Completed";
-        btnDisplay = "d-none";
-    }
-    showListOrders();
-});
-
 
 function showListOrders() {
     fetch("/api/admin/getAllOrders")
@@ -40,7 +39,7 @@ function showListOrders() {
                              <th></th></tr></thead>`;
             $.each(data, function (index) {
                 order = data[index];
-                if (order.status === statusOfOrder) {
+                if (order.status === statusOfOrder.toUpperCase()) {
                     html += `<tbody ><tr > <td> ${order.id}</td>`;
                     for (let key in order.userDTO) {
                         if (key === "email" || key === "firstName" || key === "lastName") {
@@ -58,7 +57,6 @@ function showListOrders() {
             });
 
         });
-
 }
 
 function showModalOfOrder(index) {
@@ -73,12 +71,11 @@ function showModalOfOrder(index) {
     $.each(items, function (index) {
         let book = items[index].book;
         html += `<tr><td class="align-middle"><img src="/images/book${book.id}/${book.coverImage}" style="max-width: 80px"></td>
-                             <td >${book.name['en']} | ${book.author['en']}</td>
+                             <td width="350">${convertOriginalLanguageRows(book.originalLanguage.name, book.originalLanguage.nameTranslit)} | ${convertOriginalLanguageRows(book.originalLanguage.author, book.originalLanguage.authorTranslit)}</td>
                              <td></td>
                              <td>${convertPrice(book.price)}${iconOfPrice}</td></tr>`;
     });
     html += `<tr><td></td><td></td><td>Subtotal :</td><td> ${convertPrice(order.itemsCost)}${iconOfPrice}</td></tr>
-                 <tr><td></td><td></td><td>Shipping Cost :</td><td> ${convertPrice(order.shippingCost)}${iconOfPrice}</td></tr>
                  <tr><td></td><td></td><td>Total :</td><td>${convertPrice(order.itemsCost + order.shippingCost)}${iconOfPrice}</td></tr>`;
     $('#modalBody').html(html);
 
@@ -86,23 +83,26 @@ function showModalOfOrder(index) {
 }
 
 function orderComplete(id) {
-    fetch("/api/admin/completeOrder/" + id, {
-        method: "PATCH",
-        headers: {
-            "Content-Type": "application/json;charset=utf-8"
-        },
-        body: JSON.stringify(id),
-    }).then(r => showListOrders())
+    if (confirm('Do you really want to COMPLETE order?')) {
+        fetch("/api/admin/completeOrder/" + id, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json;charset=utf-8"
+            },
+            body: JSON.stringify(id),
+        }).then(r => showListOrders())
+    }
 }
 
 function orderDelete(id) {
-    fetch("/api/admin/deleteOrder/" + id, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json;charset=utf-8"
-        },
-        body: JSON.stringify(id),
-    }).then(r => showListOrders())
-
+    if (confirm('Do you really want to DELETE order?')) {
+        fetch("/api/admin/deleteOrder/" + id, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json;charset=utf-8"
+            },
+            body: JSON.stringify(id),
+        }).then(r => showListOrders())
+    }
 }
 
