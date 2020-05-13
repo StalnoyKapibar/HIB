@@ -73,8 +73,8 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookNewDTO getBookBySearchRequest(OriginalLanguage originalLanguage, Long priceFrom, Long priceTo, String yearOfEdition, Long pages, String searchBy, String category) {
-        return bookDAO.getBookBySearchRequest(originalLanguage, priceFrom, priceTo, yearOfEdition, pages, searchBy, category);
+    public BookNewDTO getBookBySearchRequest(String req, OriginalLanguage originalLanguage, Long priceFrom, Long priceTo, String yearOfEdition, Long pages, String searchBy, String category) {
+        return bookDAO.getBookBySearchRequest(req, originalLanguage, priceFrom, priceTo, yearOfEdition, pages, searchBy, category);
     }
 
     @Override

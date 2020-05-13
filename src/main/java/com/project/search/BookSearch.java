@@ -77,7 +77,7 @@ public class BookSearch {
         List<BookNewDTO> result = new ArrayList<>();
 
         for (OriginalLanguage originalLanguage : results) {
-            BookNewDTO bookDTO = bookService.getBookBySearchRequest(originalLanguage, priceFrom, priceTo, yearOfEdition, pages, searchBy, category);
+            BookNewDTO bookDTO = bookService.getBookBySearchRequest(req, originalLanguage, priceFrom, priceTo, yearOfEdition, pages, searchBy, category);
             if (bookDTO != null) {
                 result.add(bookDTO);
             }

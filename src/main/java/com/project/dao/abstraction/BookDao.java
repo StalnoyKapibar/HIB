@@ -13,7 +13,7 @@ public interface BookDao extends GenericDao<Long, Book> {
 
     BookNewDTO getBookBySearchRequest(OriginalLanguage originalLanguage, boolean isShow);
 
-    BookNewDTO getBookBySearchRequest(OriginalLanguage originalLanguage, Long priceFrom, Long priceTo, String yearOfEdition, Long pages, String searchBy, String category);
+    BookNewDTO getBookBySearchRequest(String req, OriginalLanguage originalLanguage, Long priceFrom, Long priceTo, String yearOfEdition, Long pages, String searchBy, String category);
 
     List<BookNewDTO> getBooksBySearchParameters(Long priceFrom, Long priceTo, String yearOfEdition, Long pages, String searchBy, String category);
 

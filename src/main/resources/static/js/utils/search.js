@@ -36,7 +36,7 @@ function advancedSearch() {
     let category = $('#input-categories input:checked').val();
     let searchBy = $('#search-by input:checked').val();
     fetch("/searchAdvanced?request=" + request + "&searchBy=" + searchBy + "&category=" + category +
-        "&priceFrom=" + priceFrom + "&priceTo=" + priceTo + "&yearOfEdition=" + yearOfEdition + "&pages=" + pages+ "&LANG=" + currentLang, {
+        "&priceFrom=" + priceFrom + "&priceTo=" + priceTo + "&yearOfEdition=" + yearOfEdition + "&pages=" + pages, {
         method: "GET",
         headers: {
             'Content-Type': 'application/json',
@@ -45,16 +45,23 @@ function advancedSearch() {
     })
         .then(data => data.json())
         .then(function (data) {
-            $('table').empty();
+            $('tbody').empty();
             let tr = [];
             for (let i = 0; i < data.length; i++) {
-                tr.push('<tr>');
-                tr.push('<td class="align-middle"><img src="../images/book' + data[i].id + '/' + data[i].coverImage + '" style="max-width: 60px">');
-                tr.push('<td class="align-middle">' + data[i].nameAuthorDTOLocale + '</td>>');
-                tr.push('<td class="align-middle">' + data[i].nameBookDTOLocale + '</td>>');
-                tr.push('<td class="align-middle"><form id="bookButton" method="get" action="/page/' + data[i].id + '">' +
-                    '<button class="btn btn-primary pageOfBook" id="buttonBookPage" name="bookPage">A page of book</button></form></td>>');
-                tr.push('</tr>');
+                tr.push(`<tr>
+                    <td class="align-middle"><img src="images/book${data[i].id}/${data[i].coverImage}" style="max-width: 60px">
+                    <td class="align-middle">${data[i].author}</td>
+                    <td class="align-middle">${data[i].name}</td>
+                    <td class="align-middle">${data[i].pages}</td>
+                    <td class="align-middle">${data[i].yearOfEdition}</td>
+                    <td class="align-middle">${data[i].price / 100}</td>
+                    <td class="align-middle">${data[i].category.categoryName}</td>
+                    <td class="align-middle"><form id="bookButton" method="get" action="/page/${data[i].id}">
+                        <button class="btn btn-primary pageOfBook" id="buttonBookPage" name="bookPage">
+                            A page of book
+                        </button>
+                    </td>
+                </tr>`);
             }
             $('table').append($(tr.join('')));
         });
