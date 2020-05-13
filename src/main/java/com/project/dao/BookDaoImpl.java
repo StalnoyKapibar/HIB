@@ -60,7 +60,7 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
 
     @Override
     public BookNewDTO getBookBySearchRequest(String req, OriginalLanguage originalLanguage, Long priceFrom, Long priceTo, String yearOfEdition, Long pages, String searchBy, String category) {
-        String name = "???";
+        String name = "";
         if (originalLanguage.getName().toLowerCase().contains(req.toLowerCase())) {
             name = originalLanguage.getName();
         }
@@ -73,8 +73,8 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
                 "b.originalLanguage.edition, b.originalLanguage.editionTranslit, b.yearOfEdition, b.pages, b.price, b.originalLanguageName, b.coverImage, b.category)" +
                 "FROM Book b where b.isShow = true AND" +
                 "((b.id = :id and :searchBy = 'name-author') OR" +
-                "(b.originalLanguage.name like :name and :searchBy = 'name') OR" +
-                "(b.originalLanguage.author like :name and :searchBy = 'author')) AND" +
+                "(b.originalLanguage.name = :name and :searchBy = 'name') OR" +
+                "(b.originalLanguage.author = :name and :searchBy = 'author')) AND" +
                 "(b.pages = :pages or :pages is null) AND" +
                 "(b.yearOfEdition = :yearOfEdition or :yearOfEdition = 'null') AND" +
                 "(b.category.categoryName = :category or :category = 'undefined') AND" +
