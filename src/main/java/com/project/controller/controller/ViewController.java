@@ -45,13 +45,5 @@ public class ViewController {
     public String getTranslatePage() {
         return "translate";
     }
-
-//    @GetMapping("/search")
-//    public ModelAndView getSearchResultPage(@RequestParam("request") String req, ModelAndView modelAndView) {
-//        modelAndView.addObject("request", req);
-//        modelAndView.setViewName("search");
-//        return modelAndView;
-//    }
-
 }
 
