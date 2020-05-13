@@ -29,19 +29,36 @@ public class BookSearch {
 
     private final BookService bookService;
 
-    public List<BookDTO> search(String req, String locale) {
+    public List<BookNewDTO> search(String req) {
+
+        List<BookNewDTO> result = new ArrayList<>();
+
+        if (req == "") {
+            return result;
+        }
         FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
 
-        QueryBuilder queryBuilder = fullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(LocaleString.class).get();
-        Query query = queryBuilder.keyword().fuzzy().withEditDistanceUpTo(1).withPrefixLength(0)
-                .onField(locale).matching(req).createQuery();
+        QueryBuilder queryBuilder = fullTextEntityManager
+                .getSearchFactory()
+                .buildQueryBuilder()
+                .forEntity(OriginalLanguage.class)
+                .get();
 
-        FullTextQuery jpaQuery = fullTextEntityManager.createFullTextQuery(query, LocaleString.class);
-        List<LocaleString> results = jpaQuery.getResultList();
-        List<BookDTO> result = new ArrayList<>();
+        Query query = queryBuilder
+                .keyword()
+                .fuzzy()
+                .withEditDistanceUpTo(1)
+                .withPrefixLength(0)
+                .onFields("author", "name", "edition",
+                        "authorTranslit", "nameTranslit", "editionTranslit")
+                .matching(req)
+                .createQuery();
 
-        for (LocaleString localeString : results) {
-            BookDTO bookDTO = bookService.getBookBySearchRequest(localeString, locale);
+        FullTextQuery jpaQuery = fullTextEntityManager.createFullTextQuery(query, OriginalLanguage.class);
+        List<OriginalLanguage> results = jpaQuery.getResultList();
+
+        for (OriginalLanguage originalLanguage : results) {
+            BookNewDTO bookDTO = bookService.getBookBySearchRequest(req, originalLanguage);
             if (bookDTO != null) {
                 result.add(bookDTO);
             }

@@ -47,11 +47,22 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
     }
 
     @Override
-    public BookDTO getBookBySearchRequest(LocaleString localeString, String locale) {
-        String hql = ("SELECT new com.project.model.BookDTO(b.id, b.name.LOC, b.author.LOC, b.price, b.coverImage)" +
-                "FROM Book b where (b.name=:name or b.author=:name) AND b.isShow = true  ")
-                .replaceAll("LOC", locale);
-        List<BookDTO> list = entityManager.createQuery(hql, BookDTO.class).setParameter("name", localeString).getResultList();
+    public BookNewDTO getBookBySearchRequest(String req, OriginalLanguage originalLanguage) {
+        String name = "";
+        if (originalLanguage.getName().toLowerCase().contains(req.toLowerCase())) {
+            name = originalLanguage.getName();
+        }
+        else if (originalLanguage.getAuthor().toLowerCase().contains(req.toLowerCase())) {
+            name = originalLanguage.getAuthor();
+        }
+
+        String hql = ("SELECT new com.project.model.BookNewDTO(b.id, b.originalLanguage.name," +
+                "b.originalLanguage.nameTranslit, b.originalLanguage.author, b.originalLanguage.authorTranslit, b.description.en," +
+                "b.originalLanguage.edition, b.originalLanguage.editionTranslit, b.yearOfEdition, b.pages, b.price, b.originalLanguageName, b.coverImage, b.category)" +
+                "FROM Book b where (b.originalLanguage.name =: name or b.originalLanguage.author =: name) AND b.isShow = true");
+        List<BookNewDTO> list = entityManager.createQuery(hql, BookNewDTO.class)
+                .setParameter("name", name)
+                .getResultList();
         if (list.size() != 0) {
             return list.get(0);
         }

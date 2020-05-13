@@ -20,7 +20,7 @@ public interface BookService {
 
     List<BookDTO> get20BookDTO(String locale);
 
-    BookDTO getBookBySearchRequest(LocaleString localeString, String locale);
+    BookNewDTO getBookBySearchRequest(String req, OriginalLanguage originalLanguageq);
 
     BookNewDTO getBookBySearchRequest(OriginalLanguage originalLanguage, boolean isShow);
 

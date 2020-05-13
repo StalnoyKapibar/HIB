@@ -9,7 +9,7 @@ public interface BookDao extends GenericDao<Long, Book> {
 
     List<BookDTO> get20BookDTO(String locale);
 
-    BookDTO getBookBySearchRequest(LocaleString localeString, String locale);
+    BookNewDTO getBookBySearchRequest(String req, OriginalLanguage originalLanguage);
 
     BookNewDTO getBookBySearchRequest(OriginalLanguage originalLanguage, boolean isShow);
 

@@ -144,14 +144,14 @@ public class BookController {
         return bookService.getNewBookDTOByIdAndLang(id, lang);
     }
 
-    @GetMapping("/searchResult")
-    public List<BookDTO> search(@RequestParam(value = "request") String req, @RequestParam(value = "LANG") String locale) {
-        return bookSearch.search(req, locale);
-    }
-
     @PostMapping("/api/admin/searchResult")
     public List<BookNewDTO> search(@RequestParam(value = "request") String req,@RequestParam(value = "Show") boolean isShow) {
         return bookSearch.search(req, isShow);
+    }
+
+    @GetMapping("/searchResult")
+    public List<BookNewDTO> search(@RequestParam(value = "request") String req) {
+        return bookSearch.search(req);
     }
 
     @GetMapping("/searchAdvanced")
