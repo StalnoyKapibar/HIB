@@ -88,9 +88,9 @@
             <div class="sidebar-menu">
                 <ul>
                     <li th:classappend="${#httpServletRequest.getRequestURI() == '/search' ? 'active' : ''}">
-                        <a href="/search?request=">
+                        <a href="" id="searchIcon">
                             <i class="fas fa-filter"></i>
-                            <span class="menu-text">Advanced search</span>
+                            <span class="menu-text">Search page</span>
                         </a>
                     </li>
                 </ul>
@@ -349,7 +349,7 @@
             <th:block th:include="categories :: category">
             </th:block>
         </th:block>
-        <th:block th:if="${#httpServletRequest.getRequestURI().contains('/search?request=')}">
+        <th:block th:if="${#httpServletRequest.getRequestURI().contains('/search')}">
             <th:block th:include="search :: search-page">
             </th:block>
         </th:block>
