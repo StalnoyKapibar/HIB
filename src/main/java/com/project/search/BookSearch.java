@@ -1,9 +1,6 @@
 package com.project.search;
 
-import com.project.dao.abstraction.BookDao;
-import com.project.model.BookDTO;
 import com.project.model.BookNewDTO;
-import com.project.model.LocaleString;
 import com.project.model.OriginalLanguage;
 import com.project.service.abstraction.BookService;
 import lombok.AllArgsConstructor;
@@ -30,27 +27,67 @@ public class BookSearch {
 
     private final BookService bookService;
 
-    public List<BookDTO> search(String req, String locale) {
-        FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
+    public List<BookNewDTO> search(String req) {
+        List<BookNewDTO> result = new ArrayList<>();
 
-        QueryBuilder queryBuilder = fullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(LocaleString.class).get();
-        Query query = queryBuilder.keyword().fuzzy().withEditDistanceUpTo(1).withPrefixLength(0)
-                .onField(locale).matching(req).createQuery();
+        if (req == "") {
+            return result;
+        }
 
-        FullTextQuery jpaQuery = fullTextEntityManager.createFullTextQuery(query, LocaleString.class);
-        List<LocaleString> results = jpaQuery.getResultList();
-        List<BookDTO> result = new ArrayList<>();
+        List<OriginalLanguage> results = getOriginalLanguageList(req);
 
-        for (LocaleString localeString : results) {
-            BookDTO bookDTO20 = bookService.getBookBySearchRequest(localeString, locale);
-            if (bookDTO20 != null) {
-                result.add(bookDTO20);
+        for (OriginalLanguage originalLanguage : results) {
+            String name = "";
+            if (originalLanguage.getName().toLowerCase().contains(req.toLowerCase())) {
+                name = originalLanguage.getName();
+            } else if (originalLanguage.getAuthor().toLowerCase().contains(req.toLowerCase())) {
+                name = originalLanguage.getAuthor();
+            }
+            BookNewDTO bookDTO = bookService.getBookBySearchRequest(name, originalLanguage);
+            if (bookDTO != null) {
+                result.add(bookDTO);
+            }
+        }
+        return result;
+    }
+
+    public List<BookNewDTO> search(String req, Long priceFrom, Long priceTo, String yearOfEdition, Long pages, String searchBy, String category) {
+        if (req == "") {
+            return bookService.getBooksBySearchParameters(priceFrom, priceTo, yearOfEdition, pages, searchBy, category);
+        }
+
+        List<OriginalLanguage> results = getOriginalLanguageList(req);
+        List<BookNewDTO> result = new ArrayList<>();
+
+        for (OriginalLanguage originalLanguage : results) {
+            String name = "";
+            if (originalLanguage.getName().toLowerCase().contains(req.toLowerCase())) {
+                name = originalLanguage.getName();
+            } else if (originalLanguage.getAuthor().toLowerCase().contains(req.toLowerCase())) {
+                name = originalLanguage.getAuthor();
+            }
+            BookNewDTO bookDTO = bookService.getBookBySearchRequest(name, originalLanguage, priceFrom, priceTo, yearOfEdition, pages, searchBy, category);
+            if (bookDTO != null) {
+                result.add(bookDTO);
             }
         }
         return result;
     }
 
     public List<BookNewDTO> search(String req, boolean isShow) {
+        List<OriginalLanguage> results = getOriginalLanguageList(req);
+        List<BookNewDTO> result = new ArrayList<>();
+
+        for (OriginalLanguage originalLanguage : results) {
+            BookNewDTO bookDTO = bookService.getBookBySearchRequest(originalLanguage, isShow);
+            if (bookDTO != null) {
+                result.add(bookDTO);
+            }
+        }
+        return result;
+    }
+
+    private List<OriginalLanguage> getOriginalLanguageList(String req) {
         FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
 
         QueryBuilder queryBuilder = fullTextEntityManager
@@ -70,15 +107,6 @@ public class BookSearch {
                 .createQuery();
 
         FullTextQuery jpaQuery = fullTextEntityManager.createFullTextQuery(query, OriginalLanguage.class);
-        List<OriginalLanguage> results = jpaQuery.getResultList();
-        List<BookNewDTO> result = new ArrayList<>();
-
-        for (OriginalLanguage originalLanguage : results) {
-            BookNewDTO bookDTO = bookService.getBookBySearchRequest(originalLanguage, isShow);
-            if (bookDTO != null) {
-                result.add(bookDTO);
-            }
-        }
-        return result;
+        return jpaQuery.getResultList();
     }
 }

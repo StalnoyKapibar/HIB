@@ -85,8 +85,18 @@
                     </div>
                 </div>
             </div>
+            <div class="sidebar-menu">
+                <ul>
+                    <li th:classappend="${#httpServletRequest.getRequestURI() == '/search' ? 'active' : ''}">
+                        <a href="#" id="searchIcon">
+                            <i class="fas fa-filter"></i>
+                            <span class="menu-text">Search page</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
             <!-- sidebar-menu  -->
-            <div class=" sidebar-item sidebar-menu">
+            <div class="sidebar-item sidebar-menu">
                 <ul>
                     <li class="header-menu">
                         <span>General</span>
@@ -337,6 +347,10 @@
         </th:block>
         <th:block th:if="${#httpServletRequest.getRequestURI().contains('/category/')}">
             <th:block th:include="categories :: category">
+            </th:block>
+        </th:block>
+        <th:block th:if="${#httpServletRequest.getRequestURI().contains('/search')}">
+            <th:block th:include="search :: search-page">
             </th:block>
         </th:block>
     </div>
