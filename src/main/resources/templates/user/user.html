@@ -47,18 +47,17 @@
                 <a href="/home">History in books</a>
             </div>
             <!-- sidebar-header  -->
-            <div class="sidebar-item sidebar-header d-flex flex-nowrap">
+            <div class="sidebar-menu sidebar-header d-flex flex-nowrap">
                 <th:block sec:authorize="!isAuthenticated()">
-                    <button class="btn btn-info btn-metro col-12" data-target="#signModal" data-toggle="modal"
-                            id="signModalBtn"
-                            onclick="setCurrentPageToCookie()" type="button">
-                        <span id="signin_btn_text">Sign In</span>
-                    </button>
-                </th:block>
-                <th:block sec:authorize="isAuthenticated()">
-                    <div class="user-pic">
-                        <img alt="User picture" class="img-responsive img-rounded" src="/static/images/user.jpg">
-                    </div>
+                    <ul>
+                        <li>
+                            <a data-target="#signModal"
+                                data-toggle="modal" id="signModalBtn" onclick="setCurrentPageToCookie()">
+                                <i class="iconify"></i>
+                                <span class="menu-text">Sign In</span>
+                            </a>
+                        </li>
+                    </ul>
                 </th:block>
 
                 <th:block sec:authorize="isAuthenticated()">
