@@ -119,6 +119,9 @@
 .default-theme.sidebar-bg .sidebar-wrapper .sidebar-menu ul li a i {
   background-color: rgba(81, 81, 81, 0.5);
 }
+.default-theme.sidebar-bg .sidebar-wrapper .sidebar-menu ul li a .iconify {
+  background-color: #A1B8BB;
+}
 
 .default-theme.sidebar-bg .sidebar-wrapper .sidebar-footer {
   background-color: rgba(56, 56, 56, 0.5);
