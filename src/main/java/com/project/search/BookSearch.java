@@ -37,7 +37,13 @@ public class BookSearch {
         List<OriginalLanguage> results = getOriginalLanguageList(req);
 
         for (OriginalLanguage originalLanguage : results) {
-            BookNewDTO bookDTO = bookService.getBookBySearchRequest(req, originalLanguage);
+            String name = "";
+            if (originalLanguage.getName().toLowerCase().contains(req.toLowerCase())) {
+                name = originalLanguage.getName();
+            } else if (originalLanguage.getAuthor().toLowerCase().contains(req.toLowerCase())) {
+                name = originalLanguage.getAuthor();
+            }
+            BookNewDTO bookDTO = bookService.getBookBySearchRequest(name, originalLanguage);
             if (bookDTO != null) {
                 result.add(bookDTO);
             }
@@ -60,7 +66,6 @@ public class BookSearch {
             } else if (originalLanguage.getAuthor().toLowerCase().contains(req.toLowerCase())) {
                 name = originalLanguage.getAuthor();
             }
-
             BookNewDTO bookDTO = bookService.getBookBySearchRequest(name, originalLanguage, priceFrom, priceTo, yearOfEdition, pages, searchBy, category);
             if (bookDTO != null) {
                 result.add(bookDTO);
