@@ -9,7 +9,12 @@ $(document).ready(async function () {
     } else {
         await getFooter().then(buildFooter).then(renderBuildEditFooterList);
     }
+    setTextHeader()
 });
+function setTextHeader() {
+    document.getElementById("greekText").innerHTML = "ΠΑΛΑΙΑ & Σπάνια βιβλία";
+    document.getElementById("engText").innerHTML = "OLD & RARE BOOKS";
+}
 
 async function setFooter(footer) {
     this.footer = footer;

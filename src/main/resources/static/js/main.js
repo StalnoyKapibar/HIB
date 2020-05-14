@@ -1,5 +1,7 @@
 const JSON_HEADER = {'Content-Type': 'application/json;charset=utf-8'};
-
+$(document).ready(function () {
+    setTextHeader()
+});
 const POST = async (url, data, headers) => {
     return await fetch(url, {
         method: 'POST',
@@ -19,6 +21,11 @@ function json(response) {
 function convertOriginalLanguageRows(originalRow, transliteRow) {
     if (originalRow === transliteRow) return originalRow;
     return `${originalRow} (${transliteRow})`
+}
+
+function setTextHeader() {
+    document.getElementById("greekText").innerHTML = "ΠΑΛΑΙΑ & Σπάνια βιβλία";
+    document.getElementById("engText").innerHTML = "OLD & RARE BOOKS";
 }
 
 function getCookieByName(name) {
