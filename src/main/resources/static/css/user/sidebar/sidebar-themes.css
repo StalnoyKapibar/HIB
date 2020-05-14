@@ -5,6 +5,10 @@
 .default-theme .sidebar-wrapper .sidebar-item {
   border-top: 1px solid #2b2b2b;
 }
+.color{
+  background-color: red;
+}
+
 
 .default-theme .sidebar-wrapper .sidebar-item:first-child {
   border-top: none;
