@@ -43,6 +43,10 @@ public class HibFileServiceImpl implements HibFileService {
 
     @Override
     public void bulkLoading(MultipartFile[] files) {
+        File hibPath = new File("hib/");
+        if (!hibPath.exists()){
+                hibPath.mkdir();
+        }
         for (MultipartFile file : files) {
             try {
                 hibFileDao.saveHibFile(new File("hib/" +
