@@ -1,8 +1,6 @@
 package com.project.search;
 
-import com.project.model.BookDTO;
 import com.project.model.BookNewDTO;
-import com.project.model.LocaleString;
 import com.project.model.OriginalLanguage;
 import com.project.service.abstraction.BookService;
 import lombok.AllArgsConstructor;
@@ -30,32 +28,13 @@ public class BookSearch {
     private final BookService bookService;
 
     public List<BookNewDTO> search(String req) {
-
         List<BookNewDTO> result = new ArrayList<>();
 
         if (req == "") {
             return result;
         }
-        FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
 
-        QueryBuilder queryBuilder = fullTextEntityManager
-                .getSearchFactory()
-                .buildQueryBuilder()
-                .forEntity(OriginalLanguage.class)
-                .get();
-
-        Query query = queryBuilder
-                .keyword()
-                .fuzzy()
-                .withEditDistanceUpTo(1)
-                .withPrefixLength(0)
-                .onFields("author", "name", "edition",
-                        "authorTranslit", "nameTranslit", "editionTranslit")
-                .matching(req)
-                .createQuery();
-
-        FullTextQuery jpaQuery = fullTextEntityManager.createFullTextQuery(query, OriginalLanguage.class);
-        List<OriginalLanguage> results = jpaQuery.getResultList();
+        List<OriginalLanguage> results = getOriginalLanguageList(req);
 
         for (OriginalLanguage originalLanguage : results) {
             BookNewDTO bookDTO = bookService.getBookBySearchRequest(req, originalLanguage);
@@ -68,33 +47,21 @@ public class BookSearch {
 
     public List<BookNewDTO> search(String req, Long priceFrom, Long priceTo, String yearOfEdition, Long pages, String searchBy, String category) {
         if (req == "") {
-            List<BookNewDTO> result = bookService.getBooksBySearchParameters(priceFrom, priceTo, yearOfEdition, pages, searchBy, category);
-            return result;
+            return bookService.getBooksBySearchParameters(priceFrom, priceTo, yearOfEdition, pages, searchBy, category);
         }
-        FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
 
-        QueryBuilder queryBuilder = fullTextEntityManager
-                .getSearchFactory()
-                .buildQueryBuilder()
-                .forEntity(OriginalLanguage.class)
-                .get();
-
-        Query query = queryBuilder
-                .keyword()
-                .fuzzy()
-                .withEditDistanceUpTo(1)
-                .withPrefixLength(0)
-                .onFields("author", "name", "edition",
-                        "authorTranslit", "nameTranslit", "editionTranslit")
-                .matching(req)
-                .createQuery();
-
-        FullTextQuery jpaQuery = fullTextEntityManager.createFullTextQuery(query, OriginalLanguage.class);
-        List<OriginalLanguage> results = jpaQuery.getResultList();
+        List<OriginalLanguage> results = getOriginalLanguageList(req);
         List<BookNewDTO> result = new ArrayList<>();
 
         for (OriginalLanguage originalLanguage : results) {
-            BookNewDTO bookDTO = bookService.getBookBySearchRequest(req, originalLanguage, priceFrom, priceTo, yearOfEdition, pages, searchBy, category);
+            String name = "";
+            if (originalLanguage.getName().toLowerCase().contains(req.toLowerCase())) {
+                name = originalLanguage.getName();
+            } else if (originalLanguage.getAuthor().toLowerCase().contains(req.toLowerCase())) {
+                name = originalLanguage.getAuthor();
+            }
+
+            BookNewDTO bookDTO = bookService.getBookBySearchRequest(name, originalLanguage, priceFrom, priceTo, yearOfEdition, pages, searchBy, category);
             if (bookDTO != null) {
                 result.add(bookDTO);
             }
@@ -103,26 +70,7 @@ public class BookSearch {
     }
 
     public List<BookNewDTO> search(String req, boolean isShow) {
-        FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
-
-        QueryBuilder queryBuilder = fullTextEntityManager
-                .getSearchFactory()
-                .buildQueryBuilder()
-                .forEntity(OriginalLanguage.class)
-                .get();
-
-        Query query = queryBuilder
-                .keyword()
-                .fuzzy()
-                .withEditDistanceUpTo(1)
-                .withPrefixLength(0)
-                .onFields("author", "name", "edition",
-                        "authorTranslit", "nameTranslit", "editionTranslit")
-                .matching(req)
-                .createQuery();
-
-        FullTextQuery jpaQuery = fullTextEntityManager.createFullTextQuery(query, OriginalLanguage.class);
-        List<OriginalLanguage> results = jpaQuery.getResultList();
+        List<OriginalLanguage> results = getOriginalLanguageList(req);
         List<BookNewDTO> result = new ArrayList<>();
 
         for (OriginalLanguage originalLanguage : results) {
@@ -132,5 +80,28 @@ public class BookSearch {
             }
         }
         return result;
+    }
+
+    private List<OriginalLanguage> getOriginalLanguageList(String req) {
+        FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
+
+        QueryBuilder queryBuilder = fullTextEntityManager
+                .getSearchFactory()
+                .buildQueryBuilder()
+                .forEntity(OriginalLanguage.class)
+                .get();
+
+        Query query = queryBuilder
+                .keyword()
+                .fuzzy()
+                .withEditDistanceUpTo(1)
+                .withPrefixLength(0)
+                .onFields("author", "name", "edition",
+                        "authorTranslit", "nameTranslit", "editionTranslit")
+                .matching(req)
+                .createQuery();
+
+        FullTextQuery jpaQuery = fullTextEntityManager.createFullTextQuery(query, OriginalLanguage.class);
+        return jpaQuery.getResultList();
     }
 }

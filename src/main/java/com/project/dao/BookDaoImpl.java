@@ -47,15 +47,7 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
     }
 
     @Override
-    public BookNewDTO getBookBySearchRequest(String req, OriginalLanguage originalLanguage) {
-        String name = "";
-        if (originalLanguage.getName().toLowerCase().contains(req.toLowerCase())) {
-            name = originalLanguage.getName();
-        }
-        else if (originalLanguage.getAuthor().toLowerCase().contains(req.toLowerCase())) {
-            name = originalLanguage.getAuthor();
-        }
-
+    public BookNewDTO getBookBySearchRequest(String name, OriginalLanguage originalLanguage) {
         String hql = ("SELECT new com.project.model.BookNewDTO(b.id, b.originalLanguage.name," +
                 "b.originalLanguage.nameTranslit, b.originalLanguage.author, b.originalLanguage.authorTranslit, b.description.en," +
                 "b.originalLanguage.edition, b.originalLanguage.editionTranslit, b.yearOfEdition, b.pages, b.price, b.originalLanguageName, b.coverImage, b.category)" +
@@ -70,15 +62,7 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
     }
 
     @Override
-    public BookNewDTO getBookBySearchRequest(String req, OriginalLanguage originalLanguage, Long priceFrom, Long priceTo, String yearOfEdition, Long pages, String searchBy, String category) {
-        String name = "";
-        if (originalLanguage.getName().toLowerCase().contains(req.toLowerCase())) {
-            name = originalLanguage.getName();
-        }
-        else if (originalLanguage.getAuthor().toLowerCase().contains(req.toLowerCase())) {
-            name = originalLanguage.getAuthor();
-        }
-
+    public BookNewDTO getBookBySearchRequest(String name, OriginalLanguage originalLanguage, Long priceFrom, Long priceTo, String yearOfEdition, Long pages, String searchBy, String category) {
         String hql = ("SELECT new com.project.model.BookNewDTO(b.id, b.originalLanguage.name," +
                 "b.originalLanguage.nameTranslit, b.originalLanguage.author, b.originalLanguage.authorTranslit, b.description.en," +
                 "b.originalLanguage.edition, b.originalLanguage.editionTranslit, b.yearOfEdition, b.pages, b.price, b.originalLanguageName, b.coverImage, b.category)" +
