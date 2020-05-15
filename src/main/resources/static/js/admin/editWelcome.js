@@ -81,6 +81,7 @@ async function pageBook(x) {
                 htmlTempPager += `<li class='page-item'><a class='page-link' href='#' onclick='pageBook(${i})'>${z}</a></li>`;
             }
             $('#pagination00').html(htmlTempPager);
+            $('#pagination01').html(htmlTempPager);
             let htmlAddPage = varBookDTO;
             nameObjectOfLocaleStringWithId = Object.values(htmlAddPage);
             nameObjectOfLocaleString = nameObjectOfLocaleStringWithId.filter(t => t !== "id");
