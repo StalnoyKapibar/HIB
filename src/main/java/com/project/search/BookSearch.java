@@ -37,13 +37,7 @@ public class BookSearch {
         List<OriginalLanguage> results = getOriginalLanguageList(req);
 
         for (OriginalLanguage originalLanguage : results) {
-            String name = "";
-            if (originalLanguage.getName().toLowerCase().contains(req.toLowerCase())) {
-                name = originalLanguage.getName();
-            } else if (originalLanguage.getAuthor().toLowerCase().contains(req.toLowerCase())) {
-                name = originalLanguage.getAuthor();
-            }
-            BookNewDTO bookDTO = bookService.getBookBySearchRequest(name, originalLanguage);
+            BookNewDTO bookDTO = bookService.getBookBySearchRequestAdvanced(originalLanguage);
             if (bookDTO != null) {
                 result.add(bookDTO);
             }
@@ -61,12 +55,15 @@ public class BookSearch {
 
         for (OriginalLanguage originalLanguage : results) {
             String name = "";
-            if (originalLanguage.getName().toLowerCase().contains(req.toLowerCase())) {
+            String translitName = "";
+            if (originalLanguage.getName().toLowerCase().contains(req.toLowerCase()) || originalLanguage.getNameTranslit().toLowerCase().contains(req.toLowerCase())) {
                 name = originalLanguage.getName();
-            } else if (originalLanguage.getAuthor().toLowerCase().contains(req.toLowerCase())) {
+                translitName = originalLanguage.getNameTranslit();
+            } else if (originalLanguage.getAuthor().toLowerCase().contains(req.toLowerCase()) || originalLanguage.getAuthorTranslit().toLowerCase().contains(req.toLowerCase())) {
                 name = originalLanguage.getAuthor();
+                translitName = originalLanguage.getAuthorTranslit();
             }
-            BookNewDTO bookDTO = bookService.getBookBySearchRequest(name, originalLanguage, priceFrom, priceTo, yearOfEdition, pages, searchBy, category);
+            BookNewDTO bookDTO = bookService.getBookBySearchRequest(name, translitName, originalLanguage, priceFrom, priceTo, yearOfEdition, pages, searchBy, category);
             if (bookDTO != null) {
                 result.add(bookDTO);
             }
