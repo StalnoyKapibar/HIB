@@ -92,17 +92,18 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
     }
 
     @Override
-    public List<BookNewDTO> getBooksBySearchParameters(Long priceFrom, Long priceTo, String yearOfEdition, Long pages, String searchBy, String category) {
-        String hql = ("SELECT new com.project.model.BookNewDTO(b.id, b.originalLanguage.name," +
-                "b.originalLanguage.nameTranslit, b.originalLanguage.author, b.originalLanguage.authorTranslit, b.description.en," +
+    public List<BookNewDTO> getBooksBySearchParameters(Long priceFrom, Long priceTo, String yearOfEdition, Long pages, String category) {
+        String hql = ("SELECT new com.project.model.BookNewDTO(b.id, b.originalLanguage.name, " +
+                "b.originalLanguage.nameTranslit, b.originalLanguage.author, b.originalLanguage.authorTranslit, b.description.en, " +
                 "b.originalLanguage.edition, b.originalLanguage.editionTranslit, b.yearOfEdition, b.pages, b.price, b.originalLanguageName, b.coverImage, b.category)" +
-                "FROM Book b where b.isShow = true AND" +
-                "(b.pages = :pages or :pages is null) AND" +
-                "(b.yearOfEdition = :yearOfEdition or :yearOfEdition = 'null') AND" +
-                "(b.category.categoryName = :category or :category = 'undefined') AND" +
+                "FROM Book b where b.isShow = :show AND" +
+                "(b.pages = :pages or :pages is null) AND " +
+                "(b.yearOfEdition = :yearOfEdition or :yearOfEdition = 'null') AND " +
+                "(:category = 'undefined' or b.category.categoryName = :category ) AND " +
                 "((b.price >= :priceFrom and b.price <= :priceTo) OR (b.price >= :priceFrom and :priceTo = 0) OR " +
                 "(:priceFrom = 0 and b.price <= :priceTo) OR (:priceFrom = 0 and :priceTo = 0))");
         List<BookNewDTO> list = entityManager.createQuery(hql, BookNewDTO.class)
+                .setParameter("show", true)
                 .setParameter("pages", pages)
                 .setParameter("yearOfEdition", yearOfEdition)
                 .setParameter("priceFrom", priceFrom)

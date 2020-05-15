@@ -91,7 +91,7 @@
             <div class="sidebar-menu">
                 <ul>
                     <li th:classappend="${#httpServletRequest.getRequestURI() == '/search' ? 'active' : ''}">
-                        <a href="#" id="searchIcon">
+                        <a href="/search">
                             <i class="fas fa-filter"></i>
                             <span class="menu-text" id="link_search_page_header">Search page</span>
                         </a>
@@ -378,7 +378,6 @@
         src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <script src="/static/js/main.js"></script>
 <script src="/static/js/footerBuilder.js"></script>
-<script src="/static/js/user/home.js"></script>
 <script type="application/javascript">
     $(document).ready(function () {
         setTimeout(() => {

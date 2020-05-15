@@ -53,7 +53,7 @@ public class BookSearch {
 
     public List<BookNewDTO> search(String req, Long priceFrom, Long priceTo, String yearOfEdition, Long pages, String searchBy, String category) {
         if (req == "") {
-            return bookService.getBooksBySearchParameters(priceFrom, priceTo, yearOfEdition, pages, searchBy, category);
+            return bookService.getBooksBySearchParameters(priceFrom, priceTo, yearOfEdition, pages, category);
         }
 
         List<OriginalLanguage> results = getOriginalLanguageList(req);

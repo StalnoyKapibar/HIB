@@ -45,17 +45,22 @@ function advancedSearch() {
 }
 
 function setPageFields() {
-    fetch("/searchResult" + window.location.search, {
-        method: "GET",
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        }
-    })
-        .then(data => data.json())
-        .then(function (data) {
-            addFindeBooks(data)
-        });
+    if (window.location.search === "") {
+        advancedSearch();
+    } else {
+        fetch("/searchResult" + window.location.search, {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        })
+            .then(data => data.json())
+            .then(function (data) {
+                addFindeBooks(data)
+            });
+    }
+
 }
 
 function addFindeBooks(data) {
