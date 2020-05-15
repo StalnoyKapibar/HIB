@@ -8,9 +8,10 @@ let currentPage = 0;
 let amountBooksInPage = 0;
 let amountBooksInDb;
 let ddmAmountBook = $("#ddmAmountBook");
+let auth;
 
 $(document).ready(function () {
-
+    getAUTH();
     getLanguage();
     setLocaleFields();
     amountBooksInPage = ddmAmountBook.text();
@@ -19,7 +20,6 @@ $(document).ready(function () {
     showSizeCart();
     loadWelcome(currentLang);
     showOrderSize();
-
 });
 
 
@@ -45,14 +45,23 @@ function addBooksToPage(books) {
                                             <div class="card-footer bg-transparent"></div>
                                         </div>
                                     </a>
-                                    <div style="position: absolute; bottom: 5px; left: 15px; right: 15px" id="bottomInCart" type="button" 
-                                            class="btn btn-success btn-metro"  data-id="${books[index].id}">
+                                    ${auth !== undefined && auth.roles.authority === 'ROLE_ADMIN' ? '': `<div style="position: absolute; bottom: 5px; left: 15px; right: 15px" id="bottomInCart" type="button" 
+                                        class="btn btn-success btn-metro"  data-id="${books[index].id}">                        
                                         ${addToshoppingCart}
-                                    </div>
+                                    </div>`}
                                 </div>`;
         $('#cardcolumns').append(card);
     });
     addPagination();
+}
+
+async function getAUTH() {
+    await GET("/api/current-user")
+        .then(status)
+        .then(json)
+        .then(function (resp) {
+            auth = resp;
+        });
 }
 
 function addPagination() {
