@@ -2,7 +2,6 @@ var currentLang = '';
 var bottom = '';
 var addToshoppingCart = '';
 let editBook = '';
-var addedToshoppingCart = '';
 var deleteBottom = '';
 let welcomeBlock = $("#welcome");
 let currencyIcon = ' €';
@@ -35,22 +34,18 @@ function getQuantityPage() {
     return Math.ceil(amountBooksInDb / amountBooksInPage);
 }
 
-  async function addBooksToPage(books) {
-      let listOrdersOfCart = [];
-      listOrdersOfCart = await getListOrdersOfCart();
-      $('#cardcolumns').empty();
-      $("#rowForPagination").empty();
-      $.each(books, function (index) {
-          let textOfBtn = listOrdersOfCart.includes(books[index].id) ? addedToshoppingCart : addToshoppingCart;
-          let cssOfBtn = listOrdersOfCart.includes(books[index].id) ? "btn-outline-success disabled" : "btn-success";
-          let card = `<div class="col mb-4">
+function addBooksToPage(books) {
+    $('#cardcolumns').empty();
+    $("#rowForPagination").empty();
+    $.each(books, function (index) {
+        let card = `<div class="col mb-4">
                                     <a class="card border-0" href="/page/${books[index].id}" style="color: black">
                                         <img class="card-img-top mb-1" src="images/book${books[index].id}/${books[index].coverImage}" alt="Card image cap">
                                         <div class="card-body">
                                             <h5 class="card-title">${convertOriginalLanguageRows(books[index].nameAuthorDTOLocale, books[index].authorTranslit)}</h5>
                                             <h6 class="card-text text-muted">${convertOriginalLanguageRows(books[index].nameBookDTOLocale, books[index].nameTranslit)}</h6>
                                             <h5 class="card-footer bg-transparent text-left pl-0">${covertPrice(books[index].price) + currencyIcon}</h5>
-                                            
+                                            <div class="card-footer bg-transparent"></div>
                                         </div>
                                     </a>
                                     ${isAdmin ? `<div style="position: absolute; bottom: 5px; left: 15px; right: 15px" id="bottomEditBook" type="button" 
@@ -60,14 +55,14 @@ function getQuantityPage() {
                                                     ${editBook}
                                                   </div>`:
                                                 `<div style="position: absolute; bottom: 5px; left: 15px; right: 15px" id="bottomInCart" type="button" 
-                                                      class="btn ${cssOfBtn} btn-metro"  data-id="${books[index].id}">                        
-                                                    ${textOfBtn}
+                                                      class="btn btn-success btn-metro"  data-id="${books[index].id}">                        
+                                                    ${addToshoppingCart}
                                                 </div>`}
                                 </div>`;
-          $('#cardcolumns').append(card);
-      });
-      addPagination();
-  }
+        $('#cardcolumns').append(card);
+    });
+    addPagination();
+}
 
 function openEdit(id) {
     localStorage.setItem('tmpEditBookId', id);
@@ -186,9 +181,6 @@ $(document).ready(function () {
     $("body").on('click', '.btn-success', function () {
         let id = $(this).attr("data-id");
         addToCart(id);
-        $(this).removeClass("btn-success")
-            .addClass("btn-outline-success disabled")
-            .text(addedToshoppingCart);
         setTimeout(function () {
             showSizeCart();
         }, 20)
@@ -250,16 +242,4 @@ async function loadWelcome(locale) {
         .then((welcome) => {
             welcomeBlock.html(welcome.bodyWelcome);
         })
-}
-
-async function getListOrdersOfCart() {
-    let listOrdersOfCart = [];
-    await POST("/cart")
-        .then(json)
-        .then(function (data) {
-            $.each(data, function (index) {
-                listOrdersOfCart[index] = data[index].book.id;
-            });
-        });
-    return listOrdersOfCart;
 }
