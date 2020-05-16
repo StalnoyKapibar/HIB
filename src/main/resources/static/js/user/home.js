@@ -30,11 +30,21 @@ function getQuantityPage() {
     return Math.ceil(amountBooksInDb / amountBooksInPage);
 }
 
-function addBooksToPage(books) {
+async function addBooksToPage(books) {
+    let listOrdersOfCart = [];
+    await GET("/cart")
+        .then(json)
+        .then(function (data) {
+            $.each(data, function (index) {
+                listOrdersOfCart[index] = data[index].book.id;
+            });
+        });
     $('#cardcolumns').empty();
     $("#rowForPagination").empty();
     $.each(books, function (index) {
-        let card = `<div class="col mb-4">
+        let textOfBtn = listOrdersOfCart.includes(books[index].id) ? addedToshoppingCart : addToshoppingCart ;
+        let cssOfBtn = listOrdersOfCart.includes(books[index].id) ? "btn-outline-success disabled" : "btn-success";
+            let card = `<div class="col mb-4">
                                     <a class="card border-0" href="/page/${books[index].id}" style="color: black">
                                         <img class="card-img-top mb-1" src="images/book${books[index].id}/${books[index].coverImage}" alt="Card image cap">
                                         <div class="card-body">
@@ -45,9 +55,9 @@ function addBooksToPage(books) {
                                         </div>
                                     </a>
                                     <div style="position: absolute; bottom: 5px; left: 15px; right: 15px" id="bottomInCart" type="button" 
-                                            class="btn btn-success btn-metro"  data-id="${books[index].id}">
+                                            class="btn ${cssOfBtn} btn-metro"  data-id="${books[index].id}">
                                             
-                                        ${addToshoppingCart}
+                                        ${textOfBtn}
                                     </div>
                                 </div>`;
         $('#cardcolumns').append(card);
@@ -158,9 +168,9 @@ $(document).ready(function () {
     $("body").on('click', '.btn-success', function () {
         let id = $(this).attr("data-id");
         addToCart(id);
-        let btn = $(this);
-        btn.removeClass("btn-success").addClass("btn-outline-success disabled");
-        btn.text(addedToshoppingCart);
+        $(this).removeClass("btn-success")
+            .addClass("btn-outline-success disabled")
+            .text(addedToshoppingCart);
         setTimeout(function () {
             showSizeCart();
         }, 20)
@@ -223,15 +233,3 @@ async function loadWelcome(locale) {
             welcomeBlock.html(welcome.bodyWelcome);
         })
 }
-
-// function changeBtnIfCarted() {
-//     fetch("/cart")
-//         .then(status)
-//         .then(json)
-//         .then(function (data) {
-//             $.each(data, function (index) {
-//                 $('.btn [data-id="' + index.id + '"]').empty();
-//                 // btn.innerHTML = "Добавить";
-//             });
-//         });
-// }
