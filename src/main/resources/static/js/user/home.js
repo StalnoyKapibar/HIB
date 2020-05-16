@@ -1,6 +1,7 @@
 var currentLang = '';
 var bottom = '';
 var addToshoppingCart = '';
+var addedToshoppingCart = '';
 var deleteBottom = '';
 let welcomeBlock = $("#welcome");
 let currencyIcon = ' €';
@@ -19,9 +20,7 @@ $(document).ready(function () {
     showSizeCart();
     loadWelcome(currentLang);
     showOrderSize();
-
 });
-
 
 
 function getQuantityPage() {
@@ -47,6 +46,7 @@ function addBooksToPage(books) {
                                     </a>
                                     <div style="position: absolute; bottom: 5px; left: 15px; right: 15px" id="bottomInCart" type="button" 
                                             class="btn btn-success btn-metro"  data-id="${books[index].id}">
+                                            
                                         ${addToshoppingCart}
                                     </div>
                                 </div>`;
@@ -158,6 +158,9 @@ $(document).ready(function () {
     $("body").on('click', '.btn-success', function () {
         let id = $(this).attr("data-id");
         addToCart(id);
+        let btn = $(this);
+        btn.removeClass("btn-success").addClass("btn-outline-success disabled");
+        btn.text(addedToshoppingCart);
         setTimeout(function () {
             showSizeCart();
         }, 20)
@@ -220,3 +223,15 @@ async function loadWelcome(locale) {
             welcomeBlock.html(welcome.bodyWelcome);
         })
 }
+
+// function changeBtnIfCarted() {
+//     fetch("/cart")
+//         .then(status)
+//         .then(json)
+//         .then(function (data) {
+//             $.each(data, function (index) {
+//                 $('.btn [data-id="' + index.id + '"]').empty();
+//                 // btn.innerHTML = "Добавить";
+//             });
+//         });
+// }
