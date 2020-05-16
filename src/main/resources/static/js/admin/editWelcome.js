@@ -78,7 +78,10 @@ async function pageBook(x) {
             var htmlTempPager = '';
             for (var i = 0; i < resp_tmp.totalPages; i++) {
                 var z = 1 + i;
-                htmlTempPager += `<li class='page-item ${x === i ? 'currentPage' : ''}'><a class='page-link ${x === i ? 'currentLink' : ''}' href='#' onclick='pageBook(${i})'>${z}</a></li>`;
+                let isCurrent = x === i;
+                htmlTempPager += `<li class='page-item ${isCurrent ? 'currentItem' : ''}'>
+                                     <a class='page-link ${isCurrent ? 'currentLink' : ''}' href='#' onclick='pageBook(${i})'>${z}</a>
+                                  </li>`;
             }
             $('#pagination00').html(htmlTempPager);
             $('#pagination01').html(htmlTempPager);
