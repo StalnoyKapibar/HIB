@@ -1,6 +1,7 @@
 var currentLang = '';
 var bottom = '';
 var addToshoppingCart = '';
+let editBook = '';
 var deleteBottom = '';
 let welcomeBlock = $("#welcome");
 let currencyIcon = ' €';
@@ -8,7 +9,7 @@ let currentPage = 0;
 let amountBooksInPage = 0;
 let amountBooksInDb;
 let ddmAmountBook = $("#ddmAmountBook");
-let auth;
+let isAdmin = false;
 
 $(document).ready(function () {
     getAUTH();
@@ -17,9 +18,11 @@ $(document).ready(function () {
     amountBooksInPage = ddmAmountBook.text();
     getPageWithBooks(ddmAmountBook.text(), currentPage++);
     openModalLoginWindowOnFailure();
-    showSizeCart();
+    if(!isAdmin){
+        showSizeCart();
+        showOrderSize();
+    }
     loadWelcome(currentLang);
-    showOrderSize();
 });
 
 
@@ -45,14 +48,25 @@ function addBooksToPage(books) {
                                             <div class="card-footer bg-transparent"></div>
                                         </div>
                                     </a>
-                                    ${auth !== undefined && auth.roles.authority === 'ROLE_ADMIN' ? '': `<div style="position: absolute; bottom: 5px; left: 15px; right: 15px" id="bottomInCart" type="button" 
-                                        class="btn btn-success btn-metro"  data-id="${books[index].id}">                        
-                                        ${addToshoppingCart}
-                                    </div>`}
+                                    ${isAdmin ? `<div style="position: absolute; bottom: 5px; left: 15px; right: 15px" id="bottomEditBook" type="button" 
+                                                    class="btn btn-info"
+                                                    onclick="openEdit(${books[index].id})"
+                                                  >                        
+                                                    ${editBook}
+                                                  </div>`:
+                                                `<div style="position: absolute; bottom: 5px; left: 15px; right: 15px" id="bottomInCart" type="button" 
+                                                      class="btn btn-success btn-metro"  data-id="${books[index].id}">                        
+                                                    ${addToshoppingCart}
+                                                </div>`}
                                 </div>`;
         $('#cardcolumns').append(card);
     });
     addPagination();
+}
+
+function openEdit(id) {
+    localStorage.setItem('tmpEditBookId', id);
+    window.open('/edit', '_blank');
 }
 
 async function getAUTH() {
@@ -60,7 +74,7 @@ async function getAUTH() {
         .then(status)
         .then(json)
         .then(function (resp) {
-            auth = resp;
+            isAdmin = resp.roles.authority === 'ROLE_ADMIN';
         });
 }
 
