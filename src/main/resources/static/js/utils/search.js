@@ -75,6 +75,7 @@ function addFindeBooks(data) {
                             <th>Year of edition</th>
                             <th>Price, €</th>
                             <th>Category</th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -83,7 +84,7 @@ function addFindeBooks(data) {
     let tr = [];
     for (let i = 0; i < data.length; i++) {
         tr.push(`<tr>
-                                <td class="align-middle"><img src="images/book${data[i].id}/${data[i].coverImage}" style="max-width: 60px">
+                                <td class="align-middle"><img src="images/book${data[i].id}/${data[i].coverImage}" style="max-width: 60px"></td>
                                 <td class="align-middle">${data[i].author} (${data[i].authorTranslit})</td>
                                 <td class="align-middle">${data[i].name} (${data[i].nameTranslit})</td>
                                 <td class="align-middle">${data[i].pages}</td>
