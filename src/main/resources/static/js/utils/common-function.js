@@ -32,6 +32,7 @@ function setLocaleFields() {
             $('#link_contacts').text(localeFields['contacts']);
             $('#links').text(localeFields['links']);
             $('#made_by').text(localeFields['madeby']);
+            $('#link_search_page_header').text(localeFields['searchPage']);
             $('#link_main_header').text(localeFields['main']);
             $('#link_books_header').text(localeFields['books']);
             $('#categories').text(localeFields['category']);
