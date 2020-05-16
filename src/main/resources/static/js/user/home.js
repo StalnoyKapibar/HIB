@@ -30,21 +30,22 @@ function getQuantityPage() {
     return Math.ceil(amountBooksInDb / amountBooksInPage);
 }
 
-async function addBooksToPage(books) {
-    let listOrdersOfCart = [];
-    await GET("/cart")
-        .then(json)
-        .then(function (data) {
-            $.each(data, function (index) {
-                listOrdersOfCart[index] = data[index].book.id;
-            });
-        });
-    $('#cardcolumns').empty();
-    $("#rowForPagination").empty();
-    $.each(books, function (index) {
-        let textOfBtn = listOrdersOfCart.includes(books[index].id) ? addedToshoppingCart : addToshoppingCart ;
-        let cssOfBtn = listOrdersOfCart.includes(books[index].id) ? "btn-outline-success disabled" : "btn-success";
-            let card = `<div class="col mb-4">
+  async function addBooksToPage(books) {
+      let listOrdersOfCart = [];
+      listOrdersOfCart = await getListOrdersOfCart();
+      // GET("/cart")
+      //    .then(json)
+      //    .then(function (data) {
+      //        $.each(data, function (index) {
+      //            listOrdersOfCart[index] = data[index].book.id;
+      //        });
+      //    });
+      $('#cardcolumns').empty();
+      $("#rowForPagination").empty();
+      $.each(books, function (index) {
+          let textOfBtn = listOrdersOfCart.includes(books[index].id) ? addedToshoppingCart : addToshoppingCart;
+          let cssOfBtn = listOrdersOfCart.includes(books[index].id) ? "btn-outline-success disabled" : "btn-success";
+          let card = `<div class="col mb-4">
                                     <a class="card border-0" href="/page/${books[index].id}" style="color: black">
                                         <img class="card-img-top mb-1" src="images/book${books[index].id}/${books[index].coverImage}" alt="Card image cap">
                                         <div class="card-body">
@@ -60,10 +61,10 @@ async function addBooksToPage(books) {
                                         ${textOfBtn}
                                     </div>
                                 </div>`;
-        $('#cardcolumns').append(card);
-    });
-    addPagination();
-}
+          $('#cardcolumns').append(card);
+      });
+      addPagination();
+  }
 
 function addPagination() {
     let numberOfPagesInPagination = 7;
@@ -232,4 +233,16 @@ async function loadWelcome(locale) {
         .then((welcome) => {
             welcomeBlock.html(welcome.bodyWelcome);
         })
+}
+
+async function getListOrdersOfCart() {
+    let listOrdersOfCart = [];
+    await GET("/cart")
+        .then(json)
+        .then(function (data) {
+            $.each(data, function (index) {
+                listOrdersOfCart[index] = data[index].book.id;
+            });
+        });
+    return listOrdersOfCart;
 }
