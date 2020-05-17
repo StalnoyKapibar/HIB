@@ -1,26 +1,110 @@
-var currentLang = '';
+let count = '0';
 
 $(document).ready(function () {
     setPageFields();
+    getCategoryTree();
 });
 
-fetch('/categories/getnullparent', {
-})
-    .then(function (response) {
+let row, primary;
+
+
+function getCategoryTree() {
+    fetch('/categories/gettree', {
+    })    .then(function (response) {
         return response.json()
     })
-    .then(function (primaryCategories) {
-        for (let i in primaryCategories) {
-            categoryRow =
-                `<div class="form-check">
-                    <input class="form-check-input" type="radio" name="category" id="id-${primaryCategories[i].categoryName.toLowerCase()}" value="${primaryCategories[i].categoryName}">
-                    <label class="form-check-label" for="id-${primaryCategories[i].categoryName.toLowerCase()}">
-                        ${primaryCategories[i].categoryName}
-                    </label>
-                </div>`;
-            $('#input-categories').append(categoryRow);
+        .then(function (json) {
+            categoryArr = [];
+            for (let i in json) {
+                categoryId = json[i][0];
+                categoryName = json[i][1];
+                categoryPath = json[i][2];
+                categoryParent = json[i][3];
+                const category = {
+                    id: categoryId,
+                    categoryName: categoryName,
+                    path: categoryPath,
+                    parentId: categoryParent
+                };
+                categoryArr.push(category);
+            }
+            let tree = getUnflatten(categoryArr, null);
+            setTreeView(tree);
+        })
+}
+
+function getUnflatten(arr, parentid) {
+    let output = [];
+    for(const category of arr) {
+        if(category.parentId == parentid) {
+            let children = getUnflatten(arr, category.id);
+
+            if(children.length) {
+                category.childrens = children
+            }
+            output.push(category)
         }
-    });
+    }
+    return output
+}
+
+
+function setTreeView(category) {
+    for (let i in category) {
+        row =
+            `<div class="category-${i}">
+                <div class="custom-control custom-checkbox form-check-inline" id="heading-${i}">
+                    <input class="custom-control-input collapsed" type="checkbox" id="check-${i}">
+                    <label class="custom-control-label" for="check-${i}"></label>
+                    <label data-toggle="collapse" data-target="#collapse-${i}" aria-expanded="false" aria-controls="collapse-${i}">
+                       ${category[i].categoryName}
+                       <i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                    </label>
+                </div>
+                <div class="ml-3">
+                    <div id="collapse-${i}" class="collapse" aria-labelledby="heading-${i}" data-parent="#accordionExample">
+                    ${setChilds(category[i].childrens)}
+                    </div>
+                </div>`;
+        $('#input-categories').append(row);
+        count++;
+    }
+}
+
+function setChilds(category) {
+    let row = '';
+    for (let i in category) {
+        if (category[i].childrens === undefined) {
+            row +=
+                `<div class="category-${i}-${i}">
+                <div class="custom-control custom-checkbox form-check-inline" id="heading-${i}-${i}">
+                    <input class="custom-control-input collapsed" type="checkbox" id="check-${i}-${i}">
+                    <label class="custom-control-label" for="check-${i}-${i}"></label>
+                    <label data-toggle="collapse" data-target="#collapse-${i}-${i}" aria-expanded="false" aria-controls="collapse-${i}-${i}">
+                       ${category[i].categoryName}
+                    </label>
+                </div>
+                </div>`;
+        } else {
+            row +=
+                `<div class="category-${i}-${i}">
+                <div class="custom-control custom-checkbox form-check-inline" id="heading-${i}-${i}">
+                    <input class="custom-control-input collapsed" type="checkbox" id="check-${i}-${i}">
+                    <label class="custom-control-label" for="check-${i}-${i}"></label>
+                    <label data-toggle="collapse" data-target="#collapse-${i}-${i}" aria-expanded="false" aria-controls="collapse-${i}-${i}">
+                       ${category[i].categoryName}
+                       <i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                    </label>
+                </div>
+                <div class="ml-3">
+                    <div id="collapse-${i}-${i}" class="collapse" aria-labelledby="heading-${i}-${i}" data-parent="#accordionExample">
+                    ${setChilds(category[i].childrens)}
+                    </div>
+                </div>`;
+        }
+    }
+    return row;
+}
 
 function advancedSearch() {
     let request = $('#search-input').val();
