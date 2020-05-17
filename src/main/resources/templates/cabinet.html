@@ -102,7 +102,8 @@
                     </div>
                     <div class="modal-body" id="modalBody">
                         <table class="table table-sm table-sm bg-white">
-                            <h5 class="align-content-center mt-2">YOUR PURCHASES</h5>
+                            <div class="col-8 p-4 mb-4  alert alert-info" role="alert">
+                                <h6 class="align-content-center mt-2">YOUR PURCHASES</h6> </div>
                             <thead>
                             <tr height="50">
                                 <th width="10"></th>
@@ -140,11 +141,10 @@
                         </table>
                         <div id="shippingaddressordermodal" style="line-height: 2.5px; font-size: large"></div>
                         </table>
-                        <div class="mt-1"><h6>Order status:</h6>
-                            <p id="ordestatus"></p>
+                            <p id="contactStatus"></p>
                             <p id="ordertrack"></p></div>
 
-                    </div>
+
                     <div class="modal-footer">
                         <button class="btn btn-ifno" data-dismiss="modal" id="modalClose"
                                 style="background-color: #f5f5f5"
@@ -154,8 +154,11 @@
                 </div>
             </div>
         </div>
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-            <h1 class="align-content-center mt-3">Orders</h1>
+        <main role="main" class="page-content offset-1 col-10"  style="margin-top: 50px">
+            <div class="card" >
+                <div class="card-header">
+                    <h3 class="align-content-center mt-3">Orders</h3></div>
+                <div class="card-body">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <table class="table table-sm table-sm bg-white">
                     <thead>
@@ -163,6 +166,7 @@
                         <th width="10"></th>
                         <th>Order No.</th>
                         <th>Date of order</th>
+                        <th>Order status</th>
                         <th>Total price</th>
                         <th></th>
                     </tr>
@@ -170,6 +174,8 @@
                     <tbody id="listorders">
                     </tbody>
                 </table>
+            </div>
+                </div>
             </div>
         </main>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
@@ -198,7 +204,8 @@
         <link href="/static/fonts/font.css" rel="stylesheet">
         <link href="css/cabinet.css" rel="stylesheet" type="text/css">
         <script crossorigin="anonymous" src="https://kit.fontawesome.com/db08edad0b.js"></script>
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+        <main role="main" class="page-content offset-1 col-10"  style="margin-top: 50px; margin-left: 25rem">
+            <div class="card-body card col-md-5">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h1 class="h2">Settings Profile</h1>
             </div>
@@ -218,7 +225,7 @@
                      aria-labelledby="PersonalInformation-tab">
                     <form>
                         <div class="teswt112">
-                            <div class="form-group">
+                            <div class="form-group col-md-9 pl-0 pr-1">
                                 <label for="fieldEmail">Email address</label>
                                 <input type="email" class="form-control" id="fieldEmail" aria-describedby="emailHelp">
                             </div>
@@ -226,30 +233,30 @@
                                 <div class="alert alert-danger" role="alert" id="errorMessageEmail">
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group col-md-9 pl-0 pr-1">
                                 <label for="fieldFirstName">First Name</label>
                                 <input type="text" class="form-control" id="fieldFirstName">
                             </div>
-                            <div class="form-group">
+                            <div class="form-group col-md-9 pl-0 pr-1">
                                 <label for="fieldLastName">Last Name</label>
                                 <input type="text" class="form-control" id="fieldLastName">
                             </div>
                         </div>
                     </form>
-                    <button type="submit" onclick="savePersonalInformation()" class="btn btn-primary">Save</button>
+                    <button type="submit" onclick="savePersonalInformation()" class="btn btn-block btn-primary">Save</button>
                 </div>
                 <div class="tab-pane fade" id="PasswordChange" role="tabpanel" aria-labelledby="PasswordChange-tab">
                     <form>
                         <div class="teswt112">
-                            <div class="form-group">
+                            <div class="form-group col-md-9 pl-0 pr-1">
                                 <label for="oldPassword">Enter old password</label>
                                 <input type="password" class="form-control" id="oldPassword">
                             </div>
-                            <div class="form-group">
+                            <div class="form-group col-md-9 pl-0 pr-1">
                                 <label for="enterPassword">Enter new password</label>
                                 <input type="password" class="form-control" id="enterPassword">
                             </div>
-                            <div class="form-group">
+                            <div class="form-group col-md-9 pl-0 pr-1">
                                 <label for="enterPasswordAgain">Enter new password again</label>
                                 <input type="password" class="form-control" id="enterPasswordAgain">
                             </div>
@@ -259,8 +266,9 @@
                             </div>
                         </div>
                     </form>
-                    <button type="submit" onclick="savePassword()" class="btn btn-primary">Save</button>
+                    <button type="submit" onclick="savePassword()" class="btn btn-block btn-primary">Save</button>
                 </div>
+            </div>
             </div>
         </main>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
@@ -299,13 +307,16 @@
         <script src="/static/js/lib/popper.min.js"></script>
         <script src="/static/js/lib/bootstrap.min.js"></script>
         <br>
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-            <p></p>
-            <h1 class="h2" id="headershoppingcart">Shopping cart</h1>
+        <main role="main" class="page-content offset-1 col-10" style="margin-top: 0px;">
+            <div class="card card-body">
+            <h3 class="h2" id="headershoppingcart">Shopping cart</h3>
             <ul class="nav nav-tabs" id="cartTab" role="tablist" >
                 <li class="nav-item">
                     <a class="nav-link active" id="home-tab" href="#home" style="pointer-events: none; color: #333333">Your shopping
                         cart</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " id="contacts-tab" href="#contacts" style="pointer-events: none; color: #333333">Your contacts</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link  " id="summary-tab" href="#Summary" style="pointer-events: none;color: #333333">Summary</a>
@@ -313,6 +324,7 @@
             </ul>
             <div class="tab-content" id="cartTabContent">
                 <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                    <div class="shadow-lg p-4 mb-2 bg-white ">
                     <table class="table table-sm table-sm bg-white">
                         <thead>
                         <tr height="50">
@@ -345,19 +357,62 @@
                             <th></th>
                             <th></th>
                             <th></th>
-                            <th>
-                                <button class="btn btn-primary" id="chechout" onclick="confirmAddress()" type="button">
-                                    Checkout
-                                </button>
+                            <th id="forButtonCheckout">
                             </th>
                         </tr>
                         </tbody>
                     </table>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="contacts" role="tabpanel" aria-labelledby="contacts-tab">
+                    <div class="shadow-lg p-4 mb-2 bg-white ">
+                    <div class="panel panel-primary">
+                        <div class="panel-body">
+                            <div class="container mt-2">
+                                <div class="col-8 p-4 mb-4  alert alert-info" role="alert">
+                                    <h6>Enter your <strong>contacts </strong> and
+                                        if you want you can leave a <strong>comment ... </strong></h6>
+                                </div>
+                    <div class="form-group row">
+                        <label class="control-label col-sm-2 col-form-label">Email</label>
+                        <div class="col-md-5 pl-0 pr-1">
+                            <input class="form-control" type="email" id="email" placeholder="Email">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-sm-2 col-form-label">Phone</label>
+                        <div class="col-sm-5 pl-0 pr-1">
+                            <input class="form-control field" type="tel" id="phone" placeholder="Phone">
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-sm-2 col-form-label">Comment</label>
+                        <div class="col-md-6 pl-0">
+                            <textarea class="form-control" id="comment" rows="5" placeholder="Comment"> </textarea>
+                        </div>
+                    </div>
+                                <div class="form-group row">
+                                    <div class="col" ><button class="btn btn-secondary"  onclick="showHome()" type="button">
+                                        Back
+                                    </button></div>
+                                    <div class="col">
+                    <button class="btn btn-primary"  onclick="confirmContacts()" type="button">
+                        Next
+                    </button>
+                                    </div>
+                                </div>
+                </div>
+                </div>
+                    </div>
+                </div>
                 </div>
                 <div class="tab-pane fade" id="Summary" role="tabpanel" aria-labelledby="Summary-tab">
-                    <div class="card">
+                    <div class="shadow-lg p-4 mb-2 bg-white ">
+                        <div class="card card-body">
                         <table class="table table-sm table-sm bg-white">
-                            <h2 class="align-content-center card-header mt-2">YOUR PURCHASES</h2>
+                            <div class="col-9 p-4 mb-4  alert alert-info" role="alert">
+                                <h6 class="align-content-center  mt-2">YOUR PURCHASES</h6></div>
                             <thead>
                             <tr height="50">
                                 <th width="10"></th>
@@ -393,12 +448,15 @@
                             </tr>
                             </tbody>
                         </table>
-                        <div class="card-body" id="shippingaddress" style="line-height: 4px; font-size: large"></div>
-                        <div class="form-group card-footer  row mt-2 ml-0" style="width: 67.2rem;">
+                        </div>
+                        <div class="card card-body" id="shippingaddress" style="line-height: 4px; font-size: large"></div>
+                    </div>
+                        <div class="card-footer my-4 ">
+                        <div class="form-group  row mt-2 ml-0" >
                             <div class=" col-4">
-                                <a class="btn btn-secondary btn-block" href="/shopping-cart" type="button">
+                                <button class="btn btn-secondary btn-block" onclick="showContacts()" type="button">
                                         Back
-                                </a>
+                                </button>
                             </div>
                             <div class="col-4 ">
                                 <button class="btn bt-lg btn-block btn-success"
@@ -409,6 +467,7 @@
                         </div>
                     </div>
                 </div>
+            </div>
             </div>
         </main>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>

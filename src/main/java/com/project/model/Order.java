@@ -27,6 +27,9 @@ public class Order {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private UserAccount userAccount;
+    @OneToOne(cascade = CascadeType.ALL)
+    private ContactsOfOrder contacts;
+    private String comment;
 
     public OrderDTO getOrderDTO() {
         OrderDTO orderDTO = new OrderDTO();
@@ -45,6 +48,8 @@ public class Order {
         orderDTO.setUserDTO(new UserDTO(userAccount.getFirstName(),
                 userAccount.getLastName(),
                 userAccount.getEmail()));
+        orderDTO.setComment(comment);
+        orderDTO.setContacts(new ContactsOfOrderDTO(contacts));
         return orderDTO;
     }
 
