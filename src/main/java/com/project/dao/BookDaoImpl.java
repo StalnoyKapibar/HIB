@@ -62,7 +62,7 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
     }
 
     @Override
-    public BookNewDTO getBookBySearchRequest(String name, String translitName, OriginalLanguage originalLanguage, Long priceFrom, Long priceTo, String yearOfEdition, Long pages, String searchBy, String category) {
+    public BookNewDTO getBookBySearchRequest(String name, String translitName, OriginalLanguage originalLanguage, Long priceFrom, Long priceTo, String yearOfEdition, Long pages, String searchBy, List<String> categories) {
         String hql = ("SELECT new com.project.model.BookNewDTO(b.id, b.originalLanguage.name," +
                 "b.originalLanguage.nameTranslit, b.originalLanguage.author, b.originalLanguage.authorTranslit, b.description.en," +
                 "b.originalLanguage.edition, b.originalLanguage.editionTranslit, b.yearOfEdition, b.pages, b.price, b.originalLanguageName, b.coverImage, b.category)" +
@@ -72,7 +72,7 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
                 "((b.originalLanguage.author = :name or b.originalLanguage.authorTranslit = :translitName) and :searchBy = 'author')) AND" +
                 "(b.pages = :pages or :pages is null) AND" +
                 "(b.yearOfEdition = :yearOfEdition or :yearOfEdition = 'null') AND" +
-                "(b.category.categoryName = :category or :category = 'undefined') AND" +
+                "((b.category.categoryName in :categories) or ('undefined' in :categories)) AND" +
                 "((b.price >= :priceFrom and b.price <= :priceTo) OR (b.price >= :priceFrom and :priceTo = 0) OR " +
                 "(:priceFrom = 0 and b.price <= :priceTo) OR (:priceFrom = 0 and :priceTo = 0))");
         List<BookNewDTO> list = entityManager.createQuery(hql, BookNewDTO.class)
@@ -83,7 +83,7 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
                 .setParameter("yearOfEdition", yearOfEdition)
                 .setParameter("priceFrom", priceFrom)
                 .setParameter("priceTo", priceTo)
-                .setParameter("category", category)
+                .setParameter("categories", categories)
                 .setParameter("searchBy", searchBy)
                 .getResultList();
         if (list.size() != 0) {
@@ -93,14 +93,14 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
     }
 
     @Override
-    public List<BookNewDTO> getBooksBySearchParameters(Long priceFrom, Long priceTo, String yearOfEdition, Long pages, String category) {
+    public List<BookNewDTO> getBooksBySearchParameters(Long priceFrom, Long priceTo, String yearOfEdition, Long pages, List<String> categories) {
         String hql = ("SELECT new com.project.model.BookNewDTO(b.id, b.originalLanguage.name, " +
                 "b.originalLanguage.nameTranslit, b.originalLanguage.author, b.originalLanguage.authorTranslit, b.description.en, " +
                 "b.originalLanguage.edition, b.originalLanguage.editionTranslit, b.yearOfEdition, b.pages, b.price, b.originalLanguageName, b.coverImage, b.category)" +
                 "FROM Book b where b.isShow = :show AND" +
                 "(b.pages = :pages or :pages is null) AND " +
                 "(b.yearOfEdition = :yearOfEdition or :yearOfEdition = 'null') AND " +
-                "(:category = 'undefined' or b.category.categoryName = :category ) AND " +
+                "((b.category.categoryName in :categories) or ('undefined' in :categories)) AND" +
                 "((b.price >= :priceFrom and b.price <= :priceTo) OR (b.price >= :priceFrom and :priceTo = 0) OR " +
                 "(:priceFrom = 0 and b.price <= :priceTo) OR (:priceFrom = 0 and :priceTo = 0))");
         List<BookNewDTO> list = entityManager.createQuery(hql, BookNewDTO.class)
@@ -109,7 +109,7 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
                 .setParameter("yearOfEdition", yearOfEdition)
                 .setParameter("priceFrom", priceFrom)
                 .setParameter("priceTo", priceTo)
-                .setParameter("category", category)
+                .setParameter("categories", categories)
                 .getResultList();
         return list;
     }
@@ -129,6 +129,18 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
             return list.get(0);
         }
         return null;
+    }
+
+    @Override
+    public List<BookNewDTO> getAllBooksSearchPage() {
+        String hql = ("SELECT new com.project.model.BookNewDTO(b.id, b.originalLanguage.name, " +
+                "b.originalLanguage.nameTranslit, b.originalLanguage.author, b.originalLanguage.authorTranslit, b.description.en, " +
+                "b.originalLanguage.edition, b.originalLanguage.editionTranslit, b.yearOfEdition, b.pages, b.price, b.originalLanguageName, b.coverImage, b.category)" +
+                "FROM Book b where b.isShow = :show");
+        List<BookNewDTO> list = entityManager.createQuery(hql, BookNewDTO.class)
+                .setParameter("show", true)
+                .getResultList();
+        return list;
     }
 
     @Override

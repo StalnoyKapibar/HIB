@@ -4,10 +4,9 @@ let id = "";
 $(document).ready(function () {
     setPageFields();
     getCategoryTree();
-});
-
-$('.category').on('hidden.bs.collapse', function () {
-    $(".glyphicon").removeClass("glyphicon-folder-open").addClass("glyphicon-folder-close");
+    $(".custom-control-input").change(function() {
+        alert("!!");
+    });
 });
 
 function getCategoryTree() {
@@ -55,7 +54,7 @@ function setTreeView(category) {
         row =
             `<div class="category">
                 <div class="custom-control custom-checkbox form-check-inline" id="heading-${i}">
-                    <input class="custom-control-input collapsed" type="checkbox" id="check-${i}">
+                    <input class="custom-control-input collapsed" type="checkbox" id="check-${i}" value="${category[i].categoryName}">
                     <label class="custom-control-label" for="check-${i}"></label>
                     <label data-toggle="collapse" data-target="#collapse-${i}" aria-expanded="false" aria-controls="collapse-${i}">
                        ${category[i].categoryName}
@@ -80,7 +79,7 @@ function setChilds(category, count) {
             row +=
                 `<div class="category">
                     <div class="custom-control custom-checkbox form-check-inline" id="heading-${id}${i}">
-                        <input class="custom-control-input collapsed" type="checkbox" id="check-${id}${i}">
+                        <input class="custom-control-input collapsed" type="checkbox" id="check-${id}${i}" value="${category[i].categoryName}">
                         <label class="custom-control-label" for="check-${id}${i}">
                             ${category[i].categoryName}
                         </label>
@@ -90,7 +89,7 @@ function setChilds(category, count) {
             row +=
                 `<div class="category">
                     <div class="custom-control custom-checkbox form-check-inline" id="heading-${id}${i}">
-                        <input class="custom-control-input collapsed" type="checkbox" id="check-${id}${i}">
+                        <input class="custom-control-input collapsed" type="checkbox" id="check-${id}${i}" value="${category[i].categoryName}">
                         <label class="custom-control-label" for="check-${id}${i}"></label>
                         <label data-toggle="collapse" data-target="#collapse-${id}${i}" aria-expanded="false" aria-controls="collapse-${id}${i}">
                            ${category[i].categoryName}
@@ -115,9 +114,15 @@ function advancedSearch() {
     let priceTo = $('#input-price-to').val() * 100;
     let yearOfEdition = $('#input-year-edition').val();
     let pages = $('#input-pages').val();
-    let category = $('#input-categories input:checked').val();
     let searchBy = $('#search-by input:checked').val();
-    fetch("/searchAdvanced?request=" + request + "&searchBy=" + searchBy + "&category=" + category +
+    let categories = $("#input-categories input:checked").map(function(){
+        return $(this).val();
+    }).get();
+    let categoryRequest = "";
+    for (let i in categories) {
+        categoryRequest += "&categories="+categories[i];
+    }
+    fetch("/searchAdvanced?request=" + request + "&searchBy=" + searchBy + categoryRequest +
         "&priceFrom=" + priceFrom + "&priceTo=" + priceTo + "&yearOfEdition=" + yearOfEdition + "&pages=" + pages, {
         method: "GET",
         headers: {
@@ -131,9 +136,41 @@ function advancedSearch() {
         });
 }
 
+// function advancedSearch() {
+//     let map = new Map();
+//     let categories = $("#input-categories input:checked").map(function(){
+//         return $(this).val();
+//     }).get();
+//     map.set("1", "str1");    // строка в качестве ключа
+//     map.set(1, "num1");      // цифра как ключ
+//     map.set(true, "bool1");  // булево значение как ключ
+//     map.entries();
+//     fetch("/searchAdvanced?categories=mgr&categories=20160210", {
+//         method: "GET",
+//         headers: {
+//             'Content-Type': 'application/json',
+//             'Accept': 'application/json'
+//         }
+//     })
+//         .then(data => data.json())
+//         .then(function (data) {
+//             addFindeBooks(data)
+//         });
+// }
+
 function setPageFields() {
     if (window.location.search === "") {
-        advancedSearch();
+        fetch("/api/booksSearchPage", {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        })
+            .then(data => data.json())
+            .then(function (data) {
+                addFindeBooks(data)
+            });
     } else {
         fetch("/searchResult" + window.location.search, {
             method: "GET",
@@ -147,7 +184,6 @@ function setPageFields() {
                 addFindeBooks(data)
             });
     }
-
 }
 
 function addFindeBooks(data) {
