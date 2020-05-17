@@ -70,4 +70,22 @@ public class BookNewDTO {
 
     }
 
+    public BookNewDTO(long id, String name, String nameTranslit, String author, String authorTranslit,
+                      String desc, String edition, String editionTranslit, String yearOfEdition, Long pages,
+                      Long price, String originalLanguage, String coverImage, Category category) {
+        this.id = id;
+        this.name = name;
+        this.nameTranslit = nameTranslit;
+        this.author = author;
+        this.authorTranslit = authorTranslit;
+        this.desc = desc;
+        this.edition = edition;
+        this.editionTranslit = editionTranslit;
+        this.yearOfEdition = yearOfEdition;
+        this.pages = pages;
+        this.price = price;
+        this.originalLanguage = originalLanguage;
+        this.coverImage = coverImage;
+        this.category = category;
+    }
 }

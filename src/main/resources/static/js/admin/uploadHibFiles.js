@@ -11,7 +11,13 @@ function uploadOneFile() {
 }
 
 function uploadMultiplyFiles() {
+    let files = $('#add-hib-files-input')[0].files;
+    fetch("/api/admin/upload-multiply-files", {
+        method: 'POST',
+        body: files
+    });
     $("#uploadMultiplyFilesHidden").trigger('click');
+
 }
 
 function editHibFile() {
@@ -49,7 +55,7 @@ $(document).on('click', ".upload-for-sale", async function () {
             addValueToFields(resp);
             addBookTab.tab('show');
         })
-})
+});
 
 $(document).on('click', ".delete-hib-file", function () {
     sendDeleteRequest($(this).attr("data-filename"))

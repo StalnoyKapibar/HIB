@@ -144,14 +144,23 @@ public class BookController {
         return bookService.getNewBookDTOByIdAndLang(id, lang);
     }
 
-    @GetMapping("/searchResult")
-    public List<BookDTO> search(@RequestParam(value = "request") String req, @RequestParam(value = "LANG") String locale) {
-        return bookSearch.search(req, locale);
-    }
-
     @PostMapping("/api/admin/searchResult")
     public List<BookNewDTO> search(@RequestParam(value = "request") String req,@RequestParam(value = "Show") boolean isShow) {
         return bookSearch.search(req, isShow);
+    }
+
+    @GetMapping("/searchResult")
+    public List<BookNewDTO> search(@RequestParam(value = "request") String req) {
+        return bookSearch.search(req);
+    }
+
+    @GetMapping("/searchAdvanced")
+    public List<BookNewDTO> advancedSearch(@RequestParam(value = "request") String request, @RequestParam(value = "searchBy") String searchBy,
+                                          @RequestParam(value = "category") String category, @RequestParam(value = "priceFrom") Long priceFrom,
+                                          @RequestParam(value = "priceTo") Long priceTo,@RequestParam(value = "yearOfEdition") Long yearOfEdition,
+                                          @RequestParam(value = "pages") Long pages) {
+        List<BookNewDTO> books = bookSearch.search(request, priceFrom, priceTo, String.valueOf(yearOfEdition), pages, searchBy, category);
+        return books;
     }
 
 

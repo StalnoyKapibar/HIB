@@ -20,9 +20,13 @@ public interface BookService {
 
     List<BookDTO> get20BookDTO(String locale);
 
-    BookDTO getBookBySearchRequest(LocaleString localeString, String locale);
+    BookNewDTO getBookBySearchRequest(String req, OriginalLanguage originalLanguageq);
 
     BookNewDTO getBookBySearchRequest(OriginalLanguage originalLanguage, boolean isShow);
+
+    BookNewDTO getBookBySearchRequest(String req, OriginalLanguage originalLanguage, Long priceFrom, Long priceTo, String yearOfEdition, Long pages, String searchBy, String category);
+
+    List<BookNewDTO> getBooksBySearchParameters(Long priceFrom, Long priceTo, String yearOfEdition, Long pages, String searchBy, String category);
 
     Book getBookById(Long id);
 

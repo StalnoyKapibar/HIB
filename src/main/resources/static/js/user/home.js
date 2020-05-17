@@ -19,7 +19,10 @@ $(document).ready(function () {
     showSizeCart();
     loadWelcome(currentLang);
     showOrderSize();
+
 });
+
+
 
 function getQuantityPage() {
     if (amountBooksInDb < amountBooksInPage) {

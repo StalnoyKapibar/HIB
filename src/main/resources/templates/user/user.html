@@ -29,6 +29,10 @@
 </head>
 <body>
 <div id="page-wrapper" class="page-wrapper default-theme sidebar-bg bg1 toggled pinned">
+    <div class="wide top">
+        <h2 id="greekText"></h2>
+        <h3 id="engText"></h3>
+    </div>
     <div class="preloader">
         <div class="lds-ellipsis">
             <span></span>
@@ -43,18 +47,17 @@
                 <a href="/home">History in books</a>
             </div>
             <!-- sidebar-header  -->
-            <div class="sidebar-item sidebar-header d-flex flex-nowrap">
+            <div class="sidebar-menu sidebar-header d-flex flex-nowrap">
                 <th:block sec:authorize="!isAuthenticated()">
-                    <button class="btn btn-info btn-metro col-12" data-target="#signModal" data-toggle="modal"
-                            id="signModalBtn"
-                            onclick="setCurrentPageToCookie()" type="button">
-                        <span id="signin_btn_text">Sign In</span>
-                    </button>
-                </th:block>
-                <th:block sec:authorize="isAuthenticated()">
-                    <div class="user-pic">
-                        <img alt="User picture" class="img-responsive img-rounded" src="/static/images/user.jpg">
-                    </div>
+                    <ul>
+                        <li>
+                            <a data-target="#signModal"
+                                data-toggle="modal" id="signModalBtn" onclick="setCurrentPageToCookie()">
+                                <i class="iconify"></i>
+                                <span class="menu-text">Sign In</span>
+                            </a>
+                        </li>
+                    </ul>
                 </th:block>
 
                 <th:block sec:authorize="isAuthenticated()">
@@ -85,8 +88,18 @@
                     </div>
                 </div>
             </div>
+            <div class="sidebar-menu">
+                <ul>
+                    <li th:classappend="${#httpServletRequest.getRequestURI() == '/search' ? 'active' : ''}">
+                        <a href="#" id="searchIcon">
+                            <i class="fas fa-filter"></i>
+                            <span class="menu-text" id="link_search_page_header">Search page</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
             <!-- sidebar-menu  -->
-            <div class=" sidebar-item sidebar-menu">
+            <div class="sidebar-item sidebar-menu">
                 <ul>
                     <li class="header-menu">
                         <span>General</span>
@@ -337,6 +350,10 @@
         </th:block>
         <th:block th:if="${#httpServletRequest.getRequestURI().contains('/category/')}">
             <th:block th:include="categories :: category">
+            </th:block>
+        </th:block>
+        <th:block th:if="${#httpServletRequest.getRequestURI().contains('/search')}">
+            <th:block th:include="search :: search-page">
             </th:block>
         </th:block>
     </div>
