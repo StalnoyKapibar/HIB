@@ -1,12 +1,14 @@
-let count = '0';
+let row, primary;
+let id = "";
 
 $(document).ready(function () {
     setPageFields();
     getCategoryTree();
 });
 
-let row, primary;
-
+$('.category').on('hidden.bs.collapse', function () {
+    $(".glyphicon").removeClass("glyphicon-folder-open").addClass("glyphicon-folder-close");
+});
 
 function getCategoryTree() {
     fetch('/categories/gettree', {
@@ -48,11 +50,10 @@ function getUnflatten(arr, parentid) {
     return output
 }
 
-
 function setTreeView(category) {
     for (let i in category) {
         row =
-            `<div class="category-${i}">
+            `<div class="category">
                 <div class="custom-control custom-checkbox form-check-inline" id="heading-${i}">
                     <input class="custom-control-input collapsed" type="checkbox" id="check-${i}">
                     <label class="custom-control-label" for="check-${i}"></label>
@@ -63,46 +64,48 @@ function setTreeView(category) {
                 </div>
                 <div class="ml-3">
                     <div id="collapse-${i}" class="collapse" aria-labelledby="heading-${i}" data-parent="#accordionExample">
-                    ${setChilds(category[i].childrens)}
+                    ${setChilds(category[i].childrens, i)}
                     </div>
-                </div>`;
+                </div>
+            </div>`;
         $('#input-categories').append(row);
-        count++;
     }
 }
 
-function setChilds(category) {
+function setChilds(category, count) {
+    id += (count + "-");
     let row = '';
     for (let i in category) {
         if (category[i].childrens === undefined) {
             row +=
-                `<div class="category-${i}-${i}">
-                <div class="custom-control custom-checkbox form-check-inline" id="heading-${i}-${i}">
-                    <input class="custom-control-input collapsed" type="checkbox" id="check-${i}-${i}">
-                    <label class="custom-control-label" for="check-${i}-${i}"></label>
-                    <label data-toggle="collapse" data-target="#collapse-${i}-${i}" aria-expanded="false" aria-controls="collapse-${i}-${i}">
-                       ${category[i].categoryName}
-                    </label>
-                </div>
+                `<div class="category">
+                    <div class="custom-control custom-checkbox form-check-inline" id="heading-${id}${i}">
+                        <input class="custom-control-input collapsed" type="checkbox" id="check-${id}${i}">
+                        <label class="custom-control-label" for="check-${id}${i}">
+                            ${category[i].categoryName}
+                        </label>
+                    </div>
                 </div>`;
         } else {
             row +=
-                `<div class="category-${i}-${i}">
-                <div class="custom-control custom-checkbox form-check-inline" id="heading-${i}-${i}">
-                    <input class="custom-control-input collapsed" type="checkbox" id="check-${i}-${i}">
-                    <label class="custom-control-label" for="check-${i}-${i}"></label>
-                    <label data-toggle="collapse" data-target="#collapse-${i}-${i}" aria-expanded="false" aria-controls="collapse-${i}-${i}">
-                       ${category[i].categoryName}
-                       <i class="fa fa-plus-square-o" aria-hidden="true"></i>
-                    </label>
-                </div>
-                <div class="ml-3">
-                    <div id="collapse-${i}-${i}" class="collapse" aria-labelledby="heading-${i}-${i}" data-parent="#accordionExample">
-                    ${setChilds(category[i].childrens)}
+                `<div class="category">
+                    <div class="custom-control custom-checkbox form-check-inline" id="heading-${id}${i}">
+                        <input class="custom-control-input collapsed" type="checkbox" id="check-${id}${i}">
+                        <label class="custom-control-label" for="check-${id}${i}"></label>
+                        <label data-toggle="collapse" data-target="#collapse-${id}${i}" aria-expanded="false" aria-controls="collapse-${id}${i}">
+                           ${category[i].categoryName}
+                           <i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                        </label>
+                    </div>
+                    <div class="ml-3">
+                        <div id="collapse-${id}${i}" class="collapse" aria-labelledby="heading-${id}${i}" data-parent="#accordionExample">
+                            ${setChilds(category[i].childrens, i)}
+                        </div>
                     </div>
                 </div>`;
         }
     }
+    id = "";
     return row;
 }
 
