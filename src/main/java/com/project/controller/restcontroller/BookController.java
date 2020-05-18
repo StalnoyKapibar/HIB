@@ -109,10 +109,18 @@ public class BookController {
 
     @PostMapping("/admin/add")
     public void addBook(@RequestBody Book book) {
-        bookService.addBook(book);
-        String lastId = bookService.getLastIdOfBook();
-        storageService.createNewPaperForImages(lastId);
-        storageService.cutImagesFromTmpPaperToNewPaperByLastIdBook(lastId, book.getListImage());
+        if(book.getCoverImage() == null) {
+            book.setCoverImage("book.jpg");
+            bookService.addBook(book);
+            String lastId = bookService.getLastIdOfBook();
+            storageService.createNewPaperForImages(lastId);
+            storageService.copyDefaultPhotoToFolder(lastId);
+        } else {
+            bookService.addBook(book);
+            String lastId = bookService.getLastIdOfBook();
+            storageService.createNewPaperForImages(lastId);
+            storageService.cutImagesFromTmpPaperToNewPaperByLastIdBook(lastId, book.getListImage());
+        }
     }
 
     @GetMapping("/getVarBookDTO")

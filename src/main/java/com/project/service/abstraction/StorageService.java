@@ -26,6 +26,8 @@ public interface StorageService {
 
 	void createNewPaperForImages(String namePaper);
 
+	void copyDefaultPhotoToFolder(String namePaper);
+
 	void cutImagesFromTmpPaperToNewPaperByLastIdBook(String namePaper, List<Image> imageList);
 
 	void cutImagesFromTmpPaperToNewPaperByLastIdBook(String namePaper);
