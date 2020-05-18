@@ -18,16 +18,18 @@ html, body {
 .top h2 {
      color: white;
      margin: 0;
-     padding-left: 200px;
+     padding-left: 14%;
      padding-top: 50px;
      font-family: 'Georgia';
+     text-transform: uppercase;
      font-size: 35px;
  }
 .top h3 {
     color: white;
     margin: 0;
-    padding-left: 200px;
+    padding-left: 14%;
     font-family: 'Arial';
+    text-transform: uppercase;
     font-size: 28px;
 
 }
