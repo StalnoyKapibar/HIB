@@ -34,8 +34,8 @@ function showBooksByCategory() {
                 $('#books').append('<h3>There are no books in this category</h3>');
             } else {
                 for (let i in books) {
-                    let textOfBtn = listOrdersOfCart.includes(books[i].id) ? addedToshoppingCart : addToshoppingCart;
-                    let cssOfBtn = listOrdersOfCart.includes(books[i].id) ? "btn-outline-success disabled" : "btn-success";
+                    let textOfBtn =await listOrdersOfCart.includes(books[i].id) ? addedToshoppingCart : addToshoppingCart;
+                    let cssOfBtn = await listOrdersOfCart.includes(books[i].id) ? "btn-outline-success disabled" : "btn-success";
                     card =
                 `<div class="col-md-3 col-sm-6">
       			<img class="card-img" width="250" height="360" src="/images/book${books[i].id}/${books[i].coverImage}" alt="...">

@@ -254,7 +254,7 @@ async function loadWelcome(locale) {
 
 async function getListOrdersOfCart() {
     let listOrdersOfCart = [];
-    await GET("/cart")
+    await POST("/cart")
         .then(json)
         .then(function (data) {
             $.each(data, function (index) {
