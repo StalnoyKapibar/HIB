@@ -21,7 +21,8 @@ public class CategoryService {
     }
 
     public List getCategoryTree() {
-        return categoryDAO.getCategoryTree();
+        List tree = categoryDAO.getCategoryTree();
+        return tree;
     }
 
     public List getAdminCategoryTree() {

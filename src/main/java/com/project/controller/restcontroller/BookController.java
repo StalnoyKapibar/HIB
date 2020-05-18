@@ -24,6 +24,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -156,12 +157,19 @@ public class BookController {
 
     @GetMapping("/searchAdvanced")
     public List<BookNewDTO> advancedSearch(@RequestParam(value = "request") String request, @RequestParam(value = "searchBy") String searchBy,
-                                          @RequestParam(value = "category") String category, @RequestParam(value = "priceFrom") Long priceFrom,
+                                          @RequestParam List<String> categories, @RequestParam(value = "priceFrom") Long priceFrom,
                                           @RequestParam(value = "priceTo") Long priceTo,@RequestParam(value = "yearOfEdition") Long yearOfEdition,
                                           @RequestParam(value = "pages") Long pages) {
-        List<BookNewDTO> books = bookSearch.search(request, priceFrom, priceTo, String.valueOf(yearOfEdition), pages, searchBy, category);
+        List<BookNewDTO> books = bookSearch.search(request, priceFrom, priceTo, String.valueOf(yearOfEdition), pages, searchBy, categories);
         return books;
     }
+
+    @GetMapping("/api/booksSearchPage")
+    public List<BookNewDTO> getAllBooksSearchPage() {
+        List<BookNewDTO> books = bookService.getAllBooksSearchPage();
+        return books;
+    }
+
 
 
     @PostMapping("/admin/upload")
