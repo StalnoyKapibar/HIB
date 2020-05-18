@@ -39,6 +39,7 @@ function setLocaleFields() {
             $('#headpost').text(localeFields['headpost']);
             bottom = localeFields['bookbotom'];
             addToshoppingCart = localeFields['addToshoppingCart'];
+            editBook = localeFields['editBook'];
             addedToshoppingCart = localeFields['addedToshoppingCart'];
             deleteBottom = localeFields['deleteBottom'];
             $('#modalClose').text(localeFields['close']);

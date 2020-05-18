@@ -3,6 +3,7 @@ let listOders = '';
 let totalPrice = 0;
 let currencyIcon = ' €';
 let order = '';
+var htmlForModalBody = `` ;
 
 $(document).ready(function () {
     if (currentLang == '') {
@@ -21,33 +22,36 @@ function convertPrice(price) {
 }
 
 function getShoppingCart() {
-    setTimeout(async function () {
-        await fetch("/cart")
-            .then(status)
-            .then(json)
-            .then(function (data) {
-                $('#newTab').empty();
-                totalPrice = 0;
-                $('#sum').text(totalPrice);
-                $.each(data, function (index) {
-                    let book = data[index].book;
-                    price = convertPrice(book.price);
-                    totalPrice += price;
-                    totalPrice = Number.parseFloat(totalPrice.toFixed(2));
-                    let row = $('<tr id="trr"/>');
-                    let cell = $('<td width="10"></td>');
-                    row.append(cell);
-                    cell = `<td class="align-middle"><img src="/images/book${book.id}/${book.coverImage}" style="max-width: 60px"></td>
+        setTimeout(async function () {
+            await POST("/cart")
+                .then(status)
+                .then(json)
+                .then(function (data) {
+                    $('#newTab').empty();
+                    totalPrice = 0;
+                    $('#sum').text(totalPrice);
+                    $.each(data, function (index) {
+                        let book = data[index].book;
+                        price = convertPrice(book.price);
+                        totalPrice += price;
+                        totalPrice = Number.parseFloat(totalPrice.toFixed(2));
+                        let row = $('<tr id="trr"/>');
+                        let cell = $('<td width="10"></td>');
+                        row.append(cell);
+                        cell = `<td class="align-middle"><img src="/images/book${book.id}/${book.coverImage}" style="max-width: 60px"></td>
                         <td class="align-middle">${convertOriginalLanguageRows(book.originalLanguage.name, book.originalLanguage.nameTranslit)} | ${convertOriginalLanguageRows(book.originalLanguage.author, book.originalLanguage.authorTranslit)}</td>
                         <td class="align-middle">${price + currencyIcon}</td>
                         <td hidden id="book${book.id}">${price}</td>
                         <td class="align-middle"><button class="btn btn-info delete"  style="background-color: #ff4500" data-id="${book.id}">${deleteBottom}</button></td>`;
-                    row.append(cell);
-                    row.appendTo('#newTab');
-                    $('#sum').text(totalPrice + currencyIcon);
+                        row.append(cell);
+                        row.appendTo('#newTab');
+                        $('#sum').text(totalPrice + currencyIcon);
+                    });
+                    $('#forButtonCheckout').html(`<div><button class="btn btn-primary" id="chechout" onclick="confirmAddress()" type="button">
+                                    Checkout
+                                </button></div>`)
                 });
-            });
-    }, 10);
+        }, 10);
 }
 
 async function updateQuantity(quatity, id) {
@@ -154,8 +158,8 @@ function geolocate() {
     }
 }
 
-function confirmPurchase() {
-    fetch('/order').then(r => getShoppingCart());
+ async function confirmPurchase() {
+   await POST ('/order').then(r => getShoppingCart());
     document.location.href = '/profile/orders';
 }
 
@@ -205,15 +209,42 @@ function showOrderSum() {
     $('#subtotal').text(totalPrice + currencyIcon);
     $('#pricetotal').text(totalPrice + currencyIcon);
 
-    let html = ``;
-    let x = 36;
-    for (let key in addressDelivery) {
-        (x < 34) ? x = x + 2 : x = x - 2;
-        html += `<div class="input-group mb-3 shadow adressDelivery "  style="width: ${x}rem;">
-            <div class="input-group-prepend "  ><span class="input-group-text"  id="basic-addon3">${key}</span></div>
-            <h1 class="form-control  "  aria-describedby="basic-addon3"> ${addressDelivery[key]} </h1></div>`
-    }
-    $('#shippingaddress').html(html);
+         let html = ``;
+            html += `
+                    <div class="panel panel-primary">
+                        <div class="panel-body">
+                            <div class="container mt-2">
+                                <div class="col-8 p-4 mb-4  alert alert-info" role="alert">
+                                    <h6>Your <strong>contacts </strong></h6>
+                                </div>`;
+         if(contacts.email !== '') {
+            html += `<div class="form-group  row">
+                        <label class="control-label col-sm-2 col-form-label">Email</label>
+                        <div class="col-md-5 pl-0 pr-1">
+                            <input class="form-control" readonly  placeholder=${contacts.email}>
+                        </div>
+                    </div>`;
+        }
+         if (contacts.phone !== '') {
+             html += `<div class="form-group row">
+                        <label class="control-label col-sm-2 col-form-label">Phone</label>
+                        <div class="col-sm-5 pl-0 pr-1">
+                            <input class="form-control field" readonly  placeholder=${contacts.phone}>
+                        </div></div>`;
+         }
+          if (contacts.comment !== " ") {
+              html += `
+                    <div class="form-group row">
+                        <label class="control-label col-sm-2 col-form-label">Comment</label>
+                        <div class="col-md-6 pl-0">
+                            <textarea class="form-control" readonly  rows="5" placeholder="${contacts.comment}" ></textarea>
+                        </div>
+                    </div>`;
+          }
+
+               html +=`</div></div>`;
+        $('#shippingaddress').html(html);
+
 }
 
 async function showListOrders() {
@@ -221,16 +252,18 @@ async function showListOrders() {
         .then(status)
         .then(json)
         .then(function (data) {
-            $('#listorders').empty();
             listOders = data;
-            $.each(data, function (index) {
-                let row = $('<tr>');
-                let cell = $('<td width="10"></td>');
-                row.append(cell);
-                cell = '<td>' + data[index].id + '</td><td>' + data[index].data + '</td><td>' + (convertPrice(data[index].itemsCost) + currencyIcon) + '</td><td><a href="#" data-toggle="modal" data-target="#ordermodal"  onclick="showCarrentOrder(' + index + ')">Show</a></td>'
-                row.append(cell);
-                row.appendTo('#listorders');
-            })
+            let html = ``;
+            for(let key in data ) {
+                let order = data[key];
+                html += `<tr><td></td>
+                         <td>${order.id}</td> 
+                         <td>${order.data}</td> 
+                         <td>${order.status}</td>
+                         <td>${convertPrice(order.itemsCost)} ${currencyIcon}</td>
+                         <td><a href="#" data-toggle="modal" data-target="#ordermodal"  onclick="showCarrentOrder(${key})">Show</a></td></tr>`;
+            }
+            $('#listorders').html(html);
         });
 }
 
@@ -250,10 +283,43 @@ function showCarrentOrder(index) {
         row.appendTo('#ordermodalbody');
     });
     $('#modalHeader').text('Order No. ' + order.id);
-    $('#ordestatus').text(order.status);
     $('#ordertrack').text(order.trackingNumber);
     $('#subtotalordermodal').text(convertPrice(order.itemsCost) + currencyIcon);
     $('#pricetotalordermodal').text(convertPrice(order.itemsCost) + currencyIcon);
+
+    let html = ``;
+    html += `<div class="panel panel-primary">
+                        <div class="panel-body">
+                            <div class="container mt-2">
+                                <div class="col-8 p-4 mb-4  alert alert-info" role="alert">
+                                    <h6>Your <strong>contacts </strong></h6>
+                                </div>`;
+    if(order.contacts.email !== '') {
+        html += `<div class="form-group row">
+                       <label class="control-label col-sm-2 col-form-label">Email</label>
+                        <div class="col-md-5 pl-0 pr-1">
+                            <input class="form-control" readonly  placeholder=${order.contacts.email}>
+                        </div>
+                    </div>`;
+    }
+    if (order.contacts.phone !== '') {
+        html += `<div class="form-group row">
+                        <label class="control-label col-sm-2 col-form-label">Phone</label>
+                        <div class="col-sm-5 pl-0 pr-1">
+                            <input class="form-control field" readonly  placeholder=${order.contacts.phone}>
+                        </div></div>`;
+    }
+    if (order.comment !== " ") {
+        html += `<div class="form-group row">
+                        <label class="control-label col-sm-2 col-form-label">Comment</label>
+                        <div class="col-md-6 pl-0">
+                            <textarea class="form-control" readonly  rows="5" placeholder="${order.comment}" ></textarea>
+                        </div>
+                    </div>`;
+    }
+
+    html +=`</div></div>`;
+    $('#contactStatus').html(html);
 }
 
 

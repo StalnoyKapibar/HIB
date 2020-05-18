@@ -94,6 +94,7 @@ function buildCarousel() {
     $('#CardImageOrCarousel').html(htmlBodyCarousel);
     $('#testActive').html(tmpHtmlForCarouselIndicators);
     $('#testBody').html(tmpHtmlForCarousel);
+
 }
 
 function buildCardImageOrCarousel() {

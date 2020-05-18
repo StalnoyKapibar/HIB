@@ -11,7 +11,8 @@ let nameImage;
 let nameImageCover = '';
 let pathImageDefault = '../images/book';
 
-$(document).ready(getVarBookDTO()
+$(document).ready(
+    getVarBookDTO()
 );
 
 function status(response) {
@@ -73,11 +74,13 @@ function addPartsOfBook(partsOfBook) {
                 <div class="col-0" for=${tmpNameObject}>${tmpNameObject} transliterate&nbsp;&nbsp; </div>
                 <div class="col-5 pl-5 ml-5  mr-1 ">
                 <input type='text' class='form-control ' id='in${tmpNameObject}'
-                placeholder='${tmpNameObject} transliterate '>
+                >
                 </div> </div>
                 </div>
                 <button id="yourDivId" type="button" onclick="transliterationText('${tmpNameObject}')" class="btn btn-primary mx-3">Transliterate</button>
                 </div>`;
+
+
                 for (let tmpNameVar of nameVarOfLocaleString) {
 
                     html += `<div class="shadow p-4 mb-4 bg-white">
@@ -240,11 +243,26 @@ function buildPage() {
     $('#yearOfEdition').attr("value", tmpArr.yearOfEdition);
     $('#pages').attr("value", tmpArr.pages);
     $('#price').attr("value", tmpArr.price);
+    $('#inname').attr("value", transliterationText("name"));
+    $('#inauthor').attr("value", transliterationText("author"));
+    $('#inedition').attr("value", transliterationText("edition"));
     document.getElementById('originalLanguage').value = tmpArr.originalLanguageName;
+    var myHTML = '';
+
+    for (let key in tmpArr.listImage) {
+        myHTML += `<img src ='${pathImageDefault + idd + '/'}${tmpArr.listImage[key].nameImage}'  class="pic" alt='...'>`;
+    }
 
     $('#bookEditPageForImg').html(`
+<div >
               <div class="row">
               <div class="col-4 ">
+              <div class="card " style="width: 20rem;">
+              <div class='car card-body' style='width: 20rem;'>
+              <div class="pic-ctn">
+    ${myHTML}
+  </div>
+            </div></div>
               </div>
               <div class="col"> 
               <div class="card " style="width: 20rem;">
@@ -253,6 +271,7 @@ function buildPage() {
               <img id='myImage' src =''  class='card-img-top' alt='...'> 
               </div></div>
               </div> </div>`);
+
 
     for (let key in tmpArr) {
         if (key !== "id" && key !== "imageList" && key !== "coverImage") {
@@ -276,6 +295,7 @@ function buildPage() {
         }
     }
 }
+
 
 function setImgInCarousel() {
     $('#exampleFormControlFile1').trigger('click')
@@ -309,14 +329,20 @@ function sendUpdateBook() {
     book['originalLanguageName'] = $('#originalLanguage').val();
     let allImages = $("#allImage").find("img");
     let imageList = [];
+
     for (let img of allImages) {
         imageList.push(img.id);
     }
-    book["listImage"] = imageList;
+    if (allImages.length == 0) {
+        book["listImage"] = tmpArr.listImage;
+    } else {
+        book["listImage"] = imageList;
+    }
+
     var body02 = JSON.stringify(book);
     sendUpdateBookReq(body02);
     confirm("Edit this book?")
-    window.location.href = "http://localhost:8080/admin/panel/books";
+    window.location.href = "http://localhost:8080/page/" + idd;
 }
 
 async function sendUpdateBookReq(x) {
@@ -369,6 +395,10 @@ function buildCarousel() {
 
 function setImageCover(x) {
     nameImageCover = listImages[x].nameImage;
+    showImage(pathImageFinWithoutImage + nameImageCover);
+}
+
+function setImageCarousel(x) {
     showImage(pathImageFinWithoutImage + nameImageCover);
 }
 

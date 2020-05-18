@@ -37,7 +37,7 @@ public class ShoppingCartController {
         }
     }
 
-    @GetMapping(value = "/cart")
+    @PostMapping(value = "/cart")
     public List<CartItemDTO> getShoppingCart(HttpSession session) {
         Long cartId = (Long) session.getAttribute("cartId");
         if (cartId != null) {
@@ -50,7 +50,7 @@ public class ShoppingCartController {
     @PostMapping("/cart/{id}")
     public void addToCart(@PathVariable Long id, HttpSession session) {
         Book book = bookService.getBookById(id);
-        if (!book.isShow()){
+        if (!book.isShow()) {
             return;
         }
         Long cartId = (Long) session.getAttribute("cartId");

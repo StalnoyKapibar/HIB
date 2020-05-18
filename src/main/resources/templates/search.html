@@ -25,9 +25,9 @@
                                 </span>
                     </div>
                 </div>
-                    <table class="table table-striped table-sm bg-white text-center">
+                <table class="table table-striped table-sm bg-white text-center">
 
-                    </table>
+                </table>
             </div>
 
             <!--    sidebar    -->
@@ -38,21 +38,24 @@
                         <div class="form-group sidebar-item">
                             <label for="input-pages" class="font-weight-bold">Search by...</label>
                             <div class="form-group" id="search-by">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="searchBy" id="search-by-name-author" value="name-author" checked>
-                                    <label class="form-check-label" for="search-by-name-author">
+                                <div class="custom-control custom-radio">
+                                    <input class="custom-control-input" type="radio" name="searchBy"
+                                           id="search-by-name-author" value="name-author" checked>
+                                    <label class="custom-control-label" for="search-by-name-author">
                                         name and author
                                     </label>
                                 </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="searchBy" id="search-by-name" value="name">
-                                    <label class="form-check-label" for="search-by-name">
+                                <div class="custom-control custom-radio">
+                                    <input class="custom-control-input" type="radio" name="searchBy" id="search-by-name"
+                                           value="name">
+                                    <label class="custom-control-label" for="search-by-name">
                                         name
                                     </label>
                                 </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="searchBy" id="search-by-author" value="author">
-                                    <label class="form-check-label" for="search-by-author">
+                                <div class="custom-control custom-radio">
+                                    <input class="custom-control-input" type="radio" name="searchBy"
+                                           id="search-by-author" value="author">
+                                    <label class="custom-control-label" for="search-by-author">
                                         author
                                     </label>
                                 </div>
@@ -68,10 +71,12 @@
                             <label for="input-price" class="font-weight-bold">Price, €</label>
                             <div class="form-row" id="input-price">
                                 <div class="col-auto mb-1">
-                                    <input type="number" step="any" min="0" class="form-control" id="input-price-from" name="priceFrom" placeholder="From">
+                                    <input type="number" step="any" min="0" class="form-control" id="input-price-from"
+                                           name="priceFrom" placeholder="From">
                                 </div>
                                 <div class="col-auto">
-                                    <input type="number" step="any" min="0" class="form-control" id="input-price-to" name="priceTo" placeholder="To">
+                                    <input type="number" step="any" min="0" class="form-control" id="input-price-to"
+                                           name="priceTo" placeholder="To">
                                 </div>
                             </div>
                         </div>
@@ -83,7 +88,9 @@
                             <label for="input-pages" class="font-weight-bold">Number of pages</label>
                             <input type="number" class="form-control" id="input-pages" name="pages">
                         </div>
-                        <button id="search-submit" class="btn btn-block btn-success" type="button" onclick="advancedSearch()">Search</button>
+                        <button id="search-submit" class="btn btn-block btn-success" type="button"
+                                onclick="advancedSearch()">Search
+                        </button>
                     </form>
                 </div>
             </div>

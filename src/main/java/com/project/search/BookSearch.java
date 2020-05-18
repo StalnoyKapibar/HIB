@@ -37,13 +37,7 @@ public class BookSearch {
         List<OriginalLanguage> results = getOriginalLanguageList(req);
 
         for (OriginalLanguage originalLanguage : results) {
-            String name = "";
-            if (originalLanguage.getName().toLowerCase().contains(req.toLowerCase())) {
-                name = originalLanguage.getName();
-            } else if (originalLanguage.getAuthor().toLowerCase().contains(req.toLowerCase())) {
-                name = originalLanguage.getAuthor();
-            }
-            BookNewDTO bookDTO = bookService.getBookBySearchRequest(name, originalLanguage);
+            BookNewDTO bookDTO = bookService.getBookBySearchRequestAdvanced(originalLanguage);
             if (bookDTO != null) {
                 result.add(bookDTO);
             }
@@ -51,9 +45,9 @@ public class BookSearch {
         return result;
     }
 
-    public List<BookNewDTO> search(String req, Long priceFrom, Long priceTo, String yearOfEdition, Long pages, String searchBy, String category) {
+    public List<BookNewDTO> search(String req, Long priceFrom, Long priceTo, String yearOfEdition, Long pages, String searchBy, List<String> categories) {
         if (req == "") {
-            return bookService.getBooksBySearchParameters(priceFrom, priceTo, yearOfEdition, pages, searchBy, category);
+            return bookService.getBooksBySearchParameters(priceFrom, priceTo, yearOfEdition, pages, categories);
         }
 
         List<OriginalLanguage> results = getOriginalLanguageList(req);
@@ -61,12 +55,15 @@ public class BookSearch {
 
         for (OriginalLanguage originalLanguage : results) {
             String name = "";
-            if (originalLanguage.getName().toLowerCase().contains(req.toLowerCase())) {
+            String translitName = "";
+            if (originalLanguage.getName().toLowerCase().contains(req.toLowerCase()) || originalLanguage.getNameTranslit().toLowerCase().contains(req.toLowerCase())) {
                 name = originalLanguage.getName();
-            } else if (originalLanguage.getAuthor().toLowerCase().contains(req.toLowerCase())) {
+                translitName = originalLanguage.getNameTranslit();
+            } else if (originalLanguage.getAuthor().toLowerCase().contains(req.toLowerCase()) || originalLanguage.getAuthorTranslit().toLowerCase().contains(req.toLowerCase())) {
                 name = originalLanguage.getAuthor();
+                translitName = originalLanguage.getAuthorTranslit();
             }
-            BookNewDTO bookDTO = bookService.getBookBySearchRequest(name, originalLanguage, priceFrom, priceTo, yearOfEdition, pages, searchBy, category);
+            BookNewDTO bookDTO = bookService.getBookBySearchRequest(name, translitName, originalLanguage, priceFrom, priceTo, yearOfEdition, pages, searchBy, categories);
             if (bookDTO != null) {
                 result.add(bookDTO);
             }

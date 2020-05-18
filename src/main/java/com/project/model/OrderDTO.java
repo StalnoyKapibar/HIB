@@ -21,6 +21,8 @@ public class OrderDTO {
     private Status status;
     private UserAccount userAccount;
     private UserDTO userDTO;
+    private ContactsOfOrderDTO contacts;
+    private String comment;
 
     @Transient
     public Order getOder() {
@@ -38,6 +40,8 @@ public class OrderDTO {
             cartItems.add(new CartItem(cartItemDTO.getId(), book));
         }
         order.setItems(cartItems);
+        order.setContacts(new ContactsOfOrder(contacts));
+        order.setComment(comment);
         order.setUserAccount(userAccount);
         return order;
     }

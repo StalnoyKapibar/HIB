@@ -1,6 +1,7 @@
 var currentLang = '';
 var bottom = '';
 var addToshoppingCart = '';
+let editBook = '';
 var addedToshoppingCart = '';
 var deleteBottom = '';
 let welcomeBlock = $("#welcome");
@@ -9,18 +10,22 @@ let currentPage = 0;
 let amountBooksInPage = 0;
 let amountBooksInDb;
 let ddmAmountBook = $("#ddmAmountBook");
+let isAdmin = false;
 
 $(document).ready(function () {
-
+    getAUTH();
     getLanguage();
     setLocaleFields();
     amountBooksInPage = ddmAmountBook.text();
     getPageWithBooks(ddmAmountBook.text(), currentPage++);
     openModalLoginWindowOnFailure();
-    showSizeCart();
+    if(!isAdmin){
+        showSizeCart();
+        showOrderSize();
+    }
     loadWelcome(currentLang);
-    showOrderSize();
 });
+
 
 
 function getQuantityPage() {
@@ -33,13 +38,6 @@ function getQuantityPage() {
   async function addBooksToPage(books) {
       let listOrdersOfCart = [];
       listOrdersOfCart = await getListOrdersOfCart();
-      // GET("/cart")
-      //    .then(json)
-      //    .then(function (data) {
-      //        $.each(data, function (index) {
-      //            listOrdersOfCart[index] = data[index].book.id;
-      //        });
-      //    });
       $('#cardcolumns').empty();
       $("#rowForPagination").empty();
       $.each(books, function (index) {
@@ -52,19 +50,38 @@ function getQuantityPage() {
                                             <h5 class="card-title">${convertOriginalLanguageRows(books[index].nameAuthorDTOLocale, books[index].authorTranslit)}</h5>
                                             <h6 class="card-text text-muted">${convertOriginalLanguageRows(books[index].nameBookDTOLocale, books[index].nameTranslit)}</h6>
                                             <h5 class="card-footer bg-transparent text-left pl-0">${covertPrice(books[index].price) + currencyIcon}</h5>
-                                            <div class="card-footer bg-transparent"></div>
+                                            
                                         </div>
                                     </a>
-                                    <div style="position: absolute; bottom: 5px; left: 15px; right: 15px" id="bottomInCart" type="button" 
-                                            class="btn ${cssOfBtn} btn-metro"  data-id="${books[index].id}">
-                                            
-                                        ${textOfBtn}
-                                    </div>
+                                    ${isAdmin ? `<div style="position: absolute; bottom: 5px; left: 15px; right: 15px" id="bottomEditBook" type="button" 
+                                                    class="btn btn-info"
+                                                    onclick="openEdit(${books[index].id})"
+                                                  >                        
+                                                    ${editBook}
+                                                  </div>`:
+                                                `<div style="position: absolute; bottom: 5px; left: 15px; right: 15px" id="bottomInCart" type="button" 
+                                                      class="btn ${cssOfBtn} btn-metro"  data-id="${books[index].id}">                        
+                                                    ${textOfBtn}
+                                                </div>`}
                                 </div>`;
           $('#cardcolumns').append(card);
       });
       addPagination();
   }
+
+function openEdit(id) {
+    localStorage.setItem('tmpEditBookId', id);
+    window.open('/edit', '_blank');
+}
+
+async function getAUTH() {
+    await GET("/api/current-user")
+        .then(status)
+        .then(json)
+        .then(function (resp) {
+            isAdmin = resp.roles.authority === 'ROLE_ADMIN';
+        });
+}
 
 function addPagination() {
     let numberOfPagesInPagination = 7;
