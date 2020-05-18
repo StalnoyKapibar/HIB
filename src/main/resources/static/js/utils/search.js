@@ -4,9 +4,6 @@ let id = "";
 $(document).ready(function () {
     setPageFields();
     getCategoryTree();
-    $(".custom-control-input").change(function() {
-        alert("!!");
-    });
 });
 
 function getCategoryTree() {
