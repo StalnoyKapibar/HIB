@@ -145,6 +145,17 @@ public class StorageServiceImpl implements StorageService {
     }
 
     @Override
+    public void copyDefaultPhotoToFolder(String namePaper) {
+        try {
+            File folder = new File("src/main/resources/static/images/book.jpg");
+            Path destDir = Paths.get("img/book" + namePaper);
+            Files.copy(folder.toPath(), destDir.resolve(folder.getName()), StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public void clearPaperTmp() {
         for (File myFile : new File(String.valueOf(path)).listFiles()) {
             if (myFile.isFile()) {
