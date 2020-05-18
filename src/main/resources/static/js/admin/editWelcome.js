@@ -78,9 +78,14 @@ async function pageBook(x) {
             var htmlTempPager = '';
             for (var i = 0; i < resp_tmp.totalPages; i++) {
                 var z = 1 + i;
-                htmlTempPager += `<li class='page-item'><a class='page-link' href='#' onclick='pageBook(${i})'>${z}</a></li>`;
+                let isCurrent = x === i;
+                htmlTempPager += `<li class='page-item ${isCurrent ? 'currentItem' : ''}'>
+                                     <a class='page-link ${isCurrent ? 'currentLink' : ''}' href='#' onclick='pageBook(${i})'>${z}</a>
+                                  </li>`;
             }
             $('#pagination00').html(htmlTempPager);
+            $('#pagination01').html(htmlTempPager);
+
             let htmlAddPage = varBookDTO;
             nameObjectOfLocaleStringWithId = Object.values(htmlAddPage);
             nameObjectOfLocaleString = nameObjectOfLocaleStringWithId.filter(t => t !== "id");
@@ -181,6 +186,7 @@ function chanLang(x) {
 
 async function searchBook() {
     $('#pagination00').empty();
+    $('#pagination01').empty();
     $('#extra').empty();
     let searchWord = $('#search-input-admin').val();
     await fetch("/api/admin/searchResult?request=" + searchWord + "&Show=" + toggleShowDisabled.is(':checked'), {
