@@ -40,11 +40,14 @@ public class ShoppingCartController {
     @PostMapping(value = "/cart")
     public List<CartItemDTO> getShoppingCart(HttpSession session) {
         Long cartId = (Long) session.getAttribute("cartId");
+        ShoppingCartDTO shoppingCart = (ShoppingCartDTO) session.getAttribute("shoppingcart");
         if (cartId != null) {
             return cartService.getCartById(cartId).getCartItems();
+        } if(shoppingCart != null) {
+            return shoppingCart.getCartItems();
+        } else {
+            return null;
         }
-        ShoppingCartDTO shoppingCart = (ShoppingCartDTO) session.getAttribute("shoppingcart");
-        return shoppingCart.getCartItems();
     }
 
     @PostMapping("/cart/{id}")
