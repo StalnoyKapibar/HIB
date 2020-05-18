@@ -3,7 +3,7 @@ let iconOfPrice = " €";
 let statusOfOrder = "Processing";
 let btnDisplay = "d-inline";
 
-$( window ).on( "load", function() {
+$(window).on("load", function () {
     showListOrders();
     $('#statusCheckbox').change(function () {
         if ($(this).prop('checked') === true) {
@@ -79,7 +79,35 @@ function showModalOfOrder(index) {
                  <tr><td></td><td></td><td>Total :</td><td>${convertPrice(order.itemsCost + order.shippingCost)}${iconOfPrice}</td></tr>`;
     $('#modalBody').html(html);
 
+    let htmlContact = ``;
+    htmlContact += `<div class="panel panel-primary">
+                        <div class="panel-body">
+                            <div class="container mt-2">
+                                <div class="col-8 p-4 mb-4  alert alert-info" role="alert">
+                                    <h6>User <strong>contacts </strong></h6>
+                                </div>`;
+    for (let key in order.contacts) {
+        if (order.contacts[key] !== "" && key !== "id" && key !== "comment") {
+            htmlContact += `<div class="form-group row">
+                        <label class="control-label col-sm-2 col-form-label">${key}</label>
+                        <div class="col-md-5 pl-0 pr-1">
+                            <input class="form-control" readonly  placeholder=${order.contacts[key]}>
+                        </div>
+                    </div>`;
+        }
+    }
+    if (order.comment !== " ") {
+        htmlContact += `<div class="form-group row">
+                        <label class="control-label col-sm-2 col-form-label">Comment</label>
+                        <div class="col-md-6 pl-0">
+                            <textarea class="form-control" readonly  rows="5" placeholder="${order.comment}" ></textarea>
+                        </div>
+                    </div>`;
+    }
 
+    htmlContact += `</div></div>`;
+
+    $('#contactsOfUser').html(htmlContact);
 }
 
 function orderComplete(id) {

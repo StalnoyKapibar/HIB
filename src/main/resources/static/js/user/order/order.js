@@ -1,6 +1,7 @@
 let saveAddressAlert = $('#saveAddressAlert');
 let savedAddressesSelect = $("#addressSelect");
 let savedAddresses = [];
+let contacts;
 
 function setCurrentPageToCookie() {
     let cookie = `CURRENT_PAGE = ${window.location.pathname}; path = /; max-age = 60`;
@@ -9,18 +10,23 @@ function setCurrentPageToCookie() {
 
 async function confirmAddress() {
     let isAuth = false;
-    await POST('/order/confirmaddress')
-        .then(json)
-        .then((data) => {
-            isAuth = true;
-            order = data;
-        }, () => {
-        $("#signModal").modal('show');
-        setCurrentPageToCookie();
-    });
-    if (!isAuth) return;
-    showSummary();
-    showOrderSum();
+        await POST('/api/user/order/confirmaddress')
+            .then(json)
+            .then((data) => {
+                isAuth = true;
+                order = data;
+            }, () => {
+                $("#signModal").modal('show');
+                setCurrentPageToCookie();
+            });
+        // if (!isAuth === null ) return;
+        if(order.items[0].id === null){
+            alert("No books to buy")
+            return
+        } else {
+        showContacts();
+        }
+
 }
 
 async function saveAddress() {
@@ -84,3 +90,22 @@ function showSummary() {
     $('#cartTab a[href="#Summary"]').tab('show');
 }
 
+function showContacts() {
+    $('#email').val(order.userAccount.name);
+    $('#cartTab a[href="#contacts"]').tab('show');
+}
+
+async function confirmContacts() {
+     contacts = {
+        email: $("#email").val(),
+        phone: $("#phone").val(),
+        comment: $("#comment").val(),
+    };
+    await POST("/api/user/order/confirmContacts", JSON.stringify(contacts), JSON_HEADER);
+
+    showSummary();
+    showOrderSum();
+}
+function showHome() {
+    $('#cartTab a[href="#home"]').tab('show');
+}
