@@ -73,6 +73,7 @@ function setChilds(category, count) {
     let row = '';
     for (let i in category) {
         if (category[i].childrens === undefined) {
+            id += (count + "-");
             row +=
                 `<div class="category">
                     <div class="custom-control custom-checkbox form-check-inline" id="heading-${id}${i}">
