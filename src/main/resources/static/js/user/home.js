@@ -42,7 +42,7 @@ function getQuantityPage() {
       $("#rowForPagination").empty();
       $.each(books, function (index) {
           let textOfBtn = listOrdersOfCart.includes(books[index].id) ? addedToshoppingCart : addToshoppingCart;
-          let cssOfBtn = listOrdersOfCart.includes(books[index].id) ? "btn-outline-success disabled" : "btn-success";
+          let cssOfBtn = listOrdersOfCart.includes(books[index].id) ? "disabled" : "addToCartBtn";
           let card = `<div class="col mb-4">
                                     <a class="card border-0" href="/page/${books[index].id}" style="color: black">
                                         <img class="card-img-top mb-1" src="images/book${books[index].id}/${books[index].coverImage}" alt="Card image cap">
@@ -60,7 +60,7 @@ function getQuantityPage() {
                                                     ${editBook}
                                                   </div>`:
                                                 `<div style="position: absolute; bottom: 5px; left: 15px; right: 15px" id="bottomInCart" type="button" 
-                                                      class="btn ${cssOfBtn} btn-metro"  data-id="${books[index].id}">                        
+                                                      class="btn btn-success ${cssOfBtn} btn-metro"  data-id="${books[index].id}">                        
                                                     ${textOfBtn}
                                                 </div>`}
                                 </div>`;
@@ -183,11 +183,12 @@ async function showOrderSize() {
 }
 
 $(document).ready(function () {
-    $("body").on('click', '.btn-success', function () {
+    $("body").on('click', '.addToCartBtn', function () {
         let id = $(this).attr("data-id");
         addToCart(id);
-        $(this).removeClass("btn-success")
-            .addClass("btn-outline-success disabled")
+        $(this).removeClass("addToCartBtn")
+            .addClass("disabled")
+            .attr('disabled', 'true')
             .text(addedToshoppingCart);
         setTimeout(function () {
             showSizeCart();
