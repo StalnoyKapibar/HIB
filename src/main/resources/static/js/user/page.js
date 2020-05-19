@@ -163,16 +163,6 @@ $(document).ready(function () {
     });
 });
 
-// $("body").on('click', '#addToCart', function () {
-//     let id = $(this).attr("data-id");
-//     addToCart(id);
-//     $('#addToCart').removeClass("btn-info").addClass("btn-primary disabled").text(addedToshoppingCart);
-//     setTimeout(function () {
-//         showSizeCart();
-//     }, 20)
-//
-// });
-
 function openEdit() {
     localStorage.setItem('tmpEditBookId', tmpEditBookId);
     window.open('/edit', '_blank');
