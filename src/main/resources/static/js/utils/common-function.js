@@ -33,6 +33,12 @@ function setLocaleFields() {
             $('#links').text(localeFields['links']);
             $('#made_by').text(localeFields['madeby']);
             $('#link_search_page_header').text(localeFields['searchPage']);
+            $('#author-search-page').text(localeFields['authorSearchPage']);
+            $('#name-search-page').text(localeFields['nameSearchPage']);
+            $('#pages-search-page').text(localeFields['pageSearchPage']);
+            $('#edition-search-page').text(localeFields['editionSearchPage']);
+            $('#price-search-page').text(localeFields['priceSearchPage']);
+            $('#category-search-page').text(localeFields['categorySearchPage']);
             $('#link_main_header').text(localeFields['main']);
             $('#link_books_header').text(localeFields['books']);
             $('#categories').text(localeFields['category']);
@@ -42,7 +48,7 @@ function setLocaleFields() {
             editBook = localeFields['editBook'];
             deleteBottom = localeFields['deleteBottom'];
             $('#modalClose').text(localeFields['close']);
-            $('#buttonBookPage').text(localeFields['pageofBook']);
+            $('.page-of-book-localize').text(localeFields['pageofBook']);
             $('#dropdownclose').text(localeFields['dropdownclose']);
             $('#toshoppingcart').text(localeFields['toshoppingcart']);
             $('#bottomInCart').text(localeFields['addToshoppingCart']);
