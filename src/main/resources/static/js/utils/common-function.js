@@ -149,6 +149,8 @@ function getLanguage() {
         })
 }
 
+
+
 function getURLVariable() {
     return new URLSearchParams(document.location.search);
 }

@@ -5,6 +5,7 @@ $(document).ready(function () {
     setPageFields();
     getCategoryTree();
     setLocaleFields();
+    getLanguage();
 });
 
 function getCategoryTree() {
