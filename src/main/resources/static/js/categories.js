@@ -2,10 +2,9 @@ let currentPath, categoryName, path, pathForBreadCrumbs, card, categoryId, categ
 path = window.location.pathname.replace('/category', '');
 currentPath = window.location.pathname.split('/');
 currentPath.splice(0, 2);
-let textOfBtn = '';
-let cssOfBtn = '';
-let attrOfBtn = '';
+let textOfBtn = '', cssOfBtn = '', attrOfBtn = '';
 
+setLocaleFields();
 setBreadCrumbs();
 showBooksByCategory();
 
