@@ -270,11 +270,13 @@ function addNewBook() {
         book["price"] = price.val();
         book["originalLanguageName"] = originalLanguage.val();
         book["show"] = disabledCheckBox.is(':checked');
-        book["coverImage"] = divAvatar.find("img")[0].id;
-        let allImages = $("#allImage").find("img");
         let imageList = [];
-        for (let img of allImages) {
-            imageList.push(img.id);
+        if(divAvatar.find("img")[0] != null) {
+            book["coverImage"] = divAvatar.find("img")[0].id;
+            let allImages = $("#allImage").find("img");
+            for (let img of allImages) {
+                imageList.push(img.id);
+            }
         }
         book["listImage"] = imageList;
         fetch('/admin/add', {
