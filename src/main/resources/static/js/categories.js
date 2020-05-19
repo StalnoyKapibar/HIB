@@ -45,8 +45,6 @@ function showBooksByCategory() {
                         textOfBtn = addToshoppingCart;
                         cssOfBtn = "btn-success addToCartBtn";
                     }
-                     textOfBtn = listOrdersOfCart.includes(books[i].id) ? addedToshoppingCart : addToshoppingCart;
-                     cssOfBtn = listOrdersOfCart.includes(books[i].id) ? "disabled" : "addToCartBtn";
                     card =
                         `<div class="col-md-3 col-sm-6">
       			<img class="card-img" width="250" height="360" src="/images/book${books[i].id}/${books[i].coverImage}" alt="...">
