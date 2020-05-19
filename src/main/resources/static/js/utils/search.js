@@ -5,6 +5,14 @@ let isCheckedCategory = false;
 $(document).ready(function () {
     setPageFields();
     getCategoryTree();
+    $('#input-categories').on('click', '.custom-control-input', function() {
+
+        if ($(this).is(':checked')) {
+            $(this).parent().parent().find('.custom-control-input').prop('checked', true);
+        } else {
+            $(this).parent().parent().find('.custom-control-input').prop('checked', false);
+        }
+    });
 });
 
 $(document).ready(function () {
