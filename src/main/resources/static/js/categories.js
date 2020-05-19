@@ -4,7 +4,6 @@ currentPath = window.location.pathname.split('/');
 currentPath.splice(0, 2);
 let textOfBtn = '', cssOfBtn = '', attrOfBtn = '';
 
-setLocaleFields();
 setBreadCrumbs();
 showBooksByCategory();
 
@@ -37,11 +36,11 @@ function showBooksByCategory() {
                 for (let i in books) {
                     if (listOrdersOfCart.includes(books[i].id)){
                         attrOfBtn = 'disabled';
-                        textOfBtn =  addedToshoppingCart ;
+                        textOfBtn =  'Added' ;
                         cssOfBtn = "disabled";
                     } else {
                         attrOfBtn = '';
-                        textOfBtn = addToshoppingCart;
+                        textOfBtn = "Add to cart";
                         cssOfBtn = "btn-success addToCartBtn";
                     }
                     card =
