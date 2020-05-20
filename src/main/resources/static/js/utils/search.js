@@ -9,14 +9,11 @@ $(document).ready(function () {
 
 $(document).ready(function () {
     $('#input-categories').on('click', '.custom-control-input', function() {
-        let category = $(this).parent().parent();
+        let $category = $(this).closest('.category');
         if ($(this).is(':checked')) {
-            category.find('.custom-control-input').prop('checked', true);
+            $category.find('.custom-control-input').prop('checked', true);
         } else {
-            category.find('.custom-control-input').prop('checked', false);
-        }
-        if (category.find('.custom-control-input').length === category.find('.custom-control-input:checked').length) {
-
+            $category.find('.custom-control-input').prop('checked', false);
         }
     });
     $('#input-categories').on('click', 'label', function() {
