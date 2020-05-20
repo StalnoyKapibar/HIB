@@ -4,12 +4,25 @@ let id = "";
 $(document).ready(function () {
     setPageFields();
     getCategoryTree();
-    $('#input-categories').on('click', '.custom-control-input', function() {
+});
 
+$(document).ready(function () {
+    $('#input-categories').on('click', '.custom-control-input', function() {
+        let category = $(this).parent().parent();
         if ($(this).is(':checked')) {
-            $(this).parent().parent().find('.custom-control-input').prop('checked', true);
+            category.find('.custom-control-input').prop('checked', true);
         } else {
-            $(this).parent().parent().find('.custom-control-input').prop('checked', false);
+            category.find('.custom-control-input').prop('checked', false);
+        }
+        if (category.find('.custom-control-input').length === category.find('.custom-control-input:checked').length) {
+
+        }
+    });
+    $('#input-categories').on('click', 'label', function() {
+        if ($(this).is('.collapsed')) {
+            $(this).children('i').removeClass('fa fa-plus-square-o').addClass('far fa-minus-square');
+        } else {
+            $(this).children('i').removeClass('far fa-minus-square').addClass('fa fa-plus-square-o');
         }
     });
 });
@@ -61,7 +74,7 @@ function setTreeView(category) {
                 <div class="custom-control custom-checkbox form-check-inline" id="heading-${i}">
                     <input class="custom-control-input" type="checkbox" id="check-${i}" value="${category[i].categoryName}">
                     <label class="custom-control-label" for="check-${i}"></label>
-                    <label data-toggle="collapse" data-target="#collapse-${i}" aria-expanded="false" aria-controls="collapse-${i}">
+                    <label class="collapsed" data-toggle="collapse" data-target="#collapse-${i}" aria-expanded="false" aria-controls="collapse-${i}">
                        ${category[i].categoryName}
                        <i class="fa fa-plus-square-o" aria-hidden="true"></i>
                     </label>
@@ -97,7 +110,7 @@ function setChilds(category, count) {
                     <div class="custom-control custom-checkbox form-check-inline" id="heading-${id}${i}">
                         <input class="custom-control-input" type="checkbox" id="check-${id}${i}" value="${category[i].categoryName}">
                         <label class="custom-control-label" for="check-${id}${i}"></label>
-                        <label data-toggle="collapse" data-target="#collapse-${id}${i}" aria-expanded="false" aria-controls="collapse-${id}${i}">
+                        <label class="collapsed" data-toggle="collapse" data-target="#collapse-${id}${i}" aria-expanded="false" aria-controls="collapse-${id}${i}">
                            ${category[i].categoryName}
                            <i class="fa fa-plus-square-o" aria-hidden="true"></i>
                         </label>
