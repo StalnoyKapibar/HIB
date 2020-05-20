@@ -39,12 +39,12 @@ public class CategoryRestController {
     }
 
     @GetMapping("/getcount")
-    public int getCountBooksByPath(@RequestParam("path") String path) {
-        List<BookDTOForCategories> books = new ArrayList<>();
+    public Long getCountBooksByPath(@RequestParam("path") String path) {
+        long i = 0;
         for (Long id : categoryService.getallChildsIdByPath(path)) {
-            books.addAll(bookService.getBooksByCategoryId(id, "en"));
+            i+= bookService.getCountBooksByCategoryId(id);
         }
-        return books.size();
+        return i;
     }
 
 }
