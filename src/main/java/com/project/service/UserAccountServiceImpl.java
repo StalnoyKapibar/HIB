@@ -5,6 +5,7 @@ import com.project.dao.abstraction.UserRoleDao;
 import com.project.mail.MailService;
 import com.project.model.RegistrationUserDTO;
 import com.project.model.Role;
+import com.project.model.ShoppingCart;
 import com.project.model.UserAccount;
 import com.project.service.abstraction.UserAccountService;
 import lombok.AllArgsConstructor;
@@ -55,7 +56,8 @@ public class UserAccountServiceImpl implements UserAccountService {
                 .regDate(Instant.now().getEpochSecond())
                 .provider("local")
                 .locale(httpSession.getAttribute("LANG").toString())
-                .isEnabled(false)
+                .isEnabled(true)
+                .cart(new ShoppingCart())
                 .tokenToConfirmEmail(UUID.randomUUID().toString())
                 .roles(new Role(1L, "ROLE_USER"))
                 .build();

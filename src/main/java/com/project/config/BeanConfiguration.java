@@ -24,6 +24,8 @@ public class BeanConfiguration {
         return new LocaleHolder();
     }
 
+
+
     @Bean("checkAndCreateImg")
         public void checkAndCreateImg() {
         if (!Files.exists(Paths.get("img"))) {
