@@ -43,11 +43,12 @@ public class ShoppingCartController {
         ShoppingCartDTO shoppingCart = (ShoppingCartDTO) session.getAttribute("shoppingcart");
         if (cartId != null) {
             return cartService.getCartById(cartId).getCartItems();
-        } if(shoppingCart != null) {
-            return shoppingCart.getCartItems();
-        } else {
-            return null;
         }
+        if(shoppingCart == null) {
+            session.setAttribute("shoppingcart", new ShoppingCartDTO());
+            shoppingCart = (ShoppingCartDTO) session.getAttribute("shoppingcart");
+        }
+        return shoppingCart.getCartItems();
     }
 
     @PostMapping("/cart/{id}")
