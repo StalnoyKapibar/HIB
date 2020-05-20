@@ -9,8 +9,7 @@ $(document).ready(function () {
 });
 
 function getCategoryTree() {
-    fetch('/categories/gettree', {
-    })    .then(function (response) {
+    fetch('/categories/gettree', {}).then(function (response) {
         return response.json()
     })
         .then(function (json) {
@@ -35,11 +34,11 @@ function getCategoryTree() {
 
 function getUnflatten(arr, parentid) {
     let output = [];
-    for(const category of arr) {
-        if(category.parentId == parentid) {
+    for (const category of arr) {
+        if (category.parentId == parentid) {
             let children = getUnflatten(arr, category.id);
 
-            if(children.length) {
+            if (children.length) {
                 category.childrens = children
             }
             output.push(category)
@@ -56,7 +55,7 @@ async function setTreeView(category) {
                     <input class="custom-control-input collapsed" type="checkbox" id="check-${i}" value="${category[i].categoryName}">
                     <label class="custom-control-label" for="check-${i}"></label>
                     <label data-toggle="collapse" data-target="#collapse-${i}" aria-expanded="false" aria-controls="collapse-${i}">
-                       ${category[i].categoryName}(${await getCountBooksByCat(countBooksByCat)})
+                       ${category[i].categoryName}(${await getCountBooksByCat(category[i].path)})
                        <i class="fa fa-plus-square-o" aria-hidden="true"></i>
                     </label>
                 </div>
@@ -80,7 +79,7 @@ async function setChilds(category, count) {
                     <div class="custom-control custom-checkbox form-check-inline" id="heading-${id}${i}">
                         <input class="custom-control-input collapsed" type="checkbox" id="check-${id}${i}" value="${category[i].categoryName}">
                         <label class="custom-control-label" for="check-${id}${i}">
-                            ${category[i].categoryName}(${await getCountBooksByCat(countBooksByChildCat)})
+                            ${category[i].categoryName}(${await getCountBooksByCat(category[i].path)})
                         </label>
                     </div>
                 </div>`;
@@ -91,7 +90,7 @@ async function setChilds(category, count) {
                         <input class="custom-control-input collapsed" type="checkbox" id="check-${id}${i}" value="${category[i].categoryName}">
                         <label class="custom-control-label" for="check-${id}${i}"></label>
                         <label data-toggle="collapse" data-target="#collapse-${id}${i}" aria-expanded="false" aria-controls="collapse-${id}${i}">
-                           ${category[i].categoryName}(${await getCountBooksByCat(countBooksByCat)})
+                           ${category[i].categoryName}(${await getCountBooksByCat(category[i].path)})
                            <i class="fa fa-plus-square-o" aria-hidden="true"></i>
                         </label>
                     </div>
@@ -114,12 +113,12 @@ function advancedSearch() {
     let yearOfEdition = $('#input-year-edition').val();
     let pages = $('#input-pages').val();
     let searchBy = $('#search-by input:checked').val();
-    let categories = $("#input-categories input:checked").map(function(){
+    let categories = $("#input-categories input:checked").map(function () {
         return $(this).val();
     }).get();
     let categoryRequest = "";
     for (let i in categories) {
-        categoryRequest += "&categories="+categories[i];
+        categoryRequest += "&categories=" + categories[i];
     }
     fetch("/searchAdvanced?request=" + request + "&searchBy=" + searchBy + categoryRequest +
         "&priceFrom=" + priceFrom + "&priceTo=" + priceTo + "&yearOfEdition=" + yearOfEdition + "&pages=" + pages, {
@@ -225,6 +224,6 @@ function addFindeBooks(data) {
 }
 
 async function getCountBooksByCat(category) {
-    return "" + category;
-    // return await GET("/api/booksSearchPage?categories=" + category);
+        // return "" + category;
+    return "" + await fetch("/categories/getcount?path=" + category).then(json);
 }
