@@ -5,12 +5,25 @@ let isCheckedCategory = false;
 $(document).ready(function () {
     setPageFields();
     getCategoryTree();
-    $('#input-categories').on('click', '.custom-control-input', function() {
+});
 
+$(document).ready(function () {
+    $('#input-categories').on('click', '.custom-control-input', function() {
+        let category = $(this).parent().parent();
         if ($(this).is(':checked')) {
-            $(this).parent().parent().find('.custom-control-input').prop('checked', true);
+            category.find('.custom-control-input').prop('checked', true);
         } else {
-            $(this).parent().parent().find('.custom-control-input').prop('checked', false);
+            category.find('.custom-control-input').prop('checked', false);
+        }
+        if (category.find('.custom-control-input').length === category.find('.custom-control-input:checked').length) {
+
+        }
+    });
+    $('#input-categories').on('click', 'label', function() {
+        if ($(this).is('.collapsed')) {
+            $(this).children('i').removeClass('fa fa-plus-square-o').addClass('far fa-minus-square');
+        } else {
+            $(this).children('i').removeClass('far fa-minus-square').addClass('fa fa-plus-square-o');
         }
     });
 });
