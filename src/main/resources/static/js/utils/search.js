@@ -1,5 +1,7 @@
 let row, primary;
 let id = "";
+let countBooksByCat = 10;
+let countBooksByChildCat = 5;
 
 $(document).ready(function () {
     setPageFields();
@@ -46,7 +48,7 @@ function getUnflatten(arr, parentid) {
     return output
 }
 
-function setTreeView(category) {
+async function setTreeView(category) {
     for (let i in category) {
         row =
             `<div class="category">
@@ -54,13 +56,13 @@ function setTreeView(category) {
                     <input class="custom-control-input collapsed" type="checkbox" id="check-${i}" value="${category[i].categoryName}">
                     <label class="custom-control-label" for="check-${i}"></label>
                     <label data-toggle="collapse" data-target="#collapse-${i}" aria-expanded="false" aria-controls="collapse-${i}">
-                       ${category[i].categoryName}
+                       ${category[i].categoryName}(${await getCountBooksByCat(countBooksByCat)})
                        <i class="fa fa-plus-square-o" aria-hidden="true"></i>
                     </label>
                 </div>
                 <div class="ml-3">
                     <div id="collapse-${i}" class="collapse" aria-labelledby="heading-${i}" data-parent="#accordionExample">
-                    ${setChilds(category[i].childrens, i)}
+                    ${await setChilds(category[i].childrens, i)}
                     </div>
                 </div>
             </div>`;
@@ -68,7 +70,7 @@ function setTreeView(category) {
     }
 }
 
-function setChilds(category, count) {
+async function setChilds(category, count) {
     id += (count + "-");
     let row = '';
     for (let i in category) {
@@ -78,7 +80,7 @@ function setChilds(category, count) {
                     <div class="custom-control custom-checkbox form-check-inline" id="heading-${id}${i}">
                         <input class="custom-control-input collapsed" type="checkbox" id="check-${id}${i}" value="${category[i].categoryName}">
                         <label class="custom-control-label" for="check-${id}${i}">
-                            ${category[i].categoryName}
+                            ${category[i].categoryName}(${await getCountBooksByCat(countBooksByChildCat)})
                         </label>
                     </div>
                 </div>`;
@@ -89,13 +91,13 @@ function setChilds(category, count) {
                         <input class="custom-control-input collapsed" type="checkbox" id="check-${id}${i}" value="${category[i].categoryName}">
                         <label class="custom-control-label" for="check-${id}${i}"></label>
                         <label data-toggle="collapse" data-target="#collapse-${id}${i}" aria-expanded="false" aria-controls="collapse-${id}${i}">
-                           ${category[i].categoryName}
+                           ${category[i].categoryName}(${await getCountBooksByCat(countBooksByCat)})
                            <i class="fa fa-plus-square-o" aria-hidden="true"></i>
                         </label>
                     </div>
                     <div class="ml-3">
                         <div id="collapse-${id}${i}" class="collapse" aria-labelledby="heading-${id}${i}" data-parent="#accordionExample">
-                            ${setChilds(category[i].childrens, i)}
+                            ${await setChilds(category[i].childrens, i)}
                         </div>
                     </div>
                 </div>`;
@@ -220,4 +222,9 @@ function addFindeBooks(data) {
         );
     }
     $('table').append($(tr.join('')));
+}
+
+async function getCountBooksByCat(category) {
+    return "" + category;
+    // return await GET("/api/booksSearchPage?categories=" + category);
 }
