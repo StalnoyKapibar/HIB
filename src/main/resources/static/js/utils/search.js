@@ -1,5 +1,6 @@
 let row, primary;
 let id = "";
+let isCheckedCategory = false;
 
 $(document).ready(function () {
     setPageFields();
@@ -21,6 +22,31 @@ $(document).ready(function () {
         } else {
             $(this).children('i').removeClass('far fa-minus-square').addClass('fa fa-plus-square-o');
         }
+    });
+    $('#input-categories').on('change', '.custom-control-input', function() {
+        const getCheckedSiblings = (nearCategory) => {
+            let isCheckedSibling = false;
+            nearCategory.siblings().each((i, elem) => {
+                if ($(elem).children().children("input").prop("checked")){
+                    isCheckedSibling = true;
+                    return;
+                }
+            })
+            return isCheckedSibling;
+        }
+        const isChecked = $(this).is(':checked');
+        let nearCategory = $(this).parent().parent();
+        let isCheckedSiblings = getCheckedSiblings(nearCategory);
+        do {
+            if (isCheckedSiblings) {
+                return;
+            }
+            nearCategory = nearCategory.parent().parent().parent();
+            nearCategory.children().children("input").prop("checked", isChecked);
+            isCheckedSiblings = getCheckedSiblings(nearCategory);
+        } while (nearCategory.parent().parent().parent().hasClass("category"));
+        let $checkboxes = $('#input-categories');
+        isCheckedCategory = $checkboxes.find('.custom-control-input').filter( ':checked' ).length > 0;
     });
 });
 
@@ -125,15 +151,22 @@ async function setChilds(category, count) {
 }
 
 function advancedSearch() {
-    let request = $('#search-input').val();
+    let request = $('#search-input').val().toLowerCase();
     let priceFrom = $('#input-price-from').val() * 100;
     let priceTo = $('#input-price-to').val() * 100;
     let yearOfEdition = $('#input-year-edition').val();
     let pages = $('#input-pages').val();
     let searchBy = $('#search-by input:checked').val();
-    let categories = $("#input-categories input:checked").map(function(){
-        return $(this).val();
-    }).get();
+    let categories;
+    if (!isCheckedCategory) {
+        categories = $("#input-categories input").map(function() {
+            return $(this).val();
+        }).get();
+    } else {
+        categories = $("#input-categories input:checked").map(function() {
+            return $(this).val();
+        }).get();
+    }
     let categoryRequest = "";
     for (let i in categories) {
         categoryRequest += "&categories="+categories[i];

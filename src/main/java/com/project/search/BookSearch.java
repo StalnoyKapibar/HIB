@@ -5,6 +5,7 @@ import com.project.model.OriginalLanguage;
 import com.project.service.abstraction.BookService;
 import lombok.AllArgsConstructor;
 import org.apache.lucene.search.Query;
+import org.hibernate.search.SearchFactory;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.FullTextQuery;
 import org.hibernate.search.jpa.Search;
@@ -95,12 +96,13 @@ public class BookSearch {
 
         Query query = queryBuilder
                 .keyword()
-                .fuzzy()
-                .withEditDistanceUpTo(1)
-                .withPrefixLength(0)
+                .wildcard()
+                //.fuzzy()
+                //.withEditDistanceUpTo(1)
+                //.withPrefixLength(0)
                 .onFields("author", "name", "edition",
                         "authorTranslit", "nameTranslit", "editionTranslit")
-                .matching(req)
+                .matching(req + "*")
                 .createQuery();
 
         FullTextQuery jpaQuery = fullTextEntityManager.createFullTextQuery(query, OriginalLanguage.class);
