@@ -279,7 +279,6 @@ function setCheckedCategory(el) {
         if(isCheckedSiblings){
             return
         }
-
         nearCategory = nearCategory.parent().parent().parent()
         nearCategory.children().children("input").prop("checked", isChecked);
         isCheckedSiblings = getCheckedSiblings(nearCategory)
