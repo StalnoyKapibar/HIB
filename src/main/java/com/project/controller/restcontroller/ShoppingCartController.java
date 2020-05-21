@@ -44,7 +44,7 @@ public class ShoppingCartController {
         if (cartId != null) {
             return cartService.getCartById(cartId).getCartItems();
         }
-        if(shoppingCart == null) {
+        if (shoppingCart == null) {
             session.setAttribute("shoppingcart", new ShoppingCartDTO());
             shoppingCart = (ShoppingCartDTO) session.getAttribute("shoppingcart");
         }
