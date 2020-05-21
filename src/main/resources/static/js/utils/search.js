@@ -157,7 +157,7 @@ function advancedSearch() {
     let yearOfEdition = $('#input-year-edition').val();
     let pages = $('#input-pages').val();
     let searchBy = $('#search-by input:checked').val();
-    let categories
+    let categories;
     if (!isCheckedCategory) {
         categories = $("#input-categories input").map(function() {
             return $(this).val();
