@@ -125,7 +125,7 @@ function setChilds(category, count) {
 }
 
 function advancedSearch() {
-    let request = $('#search-input').val();
+    let request = $('#search-input').val().toLowerCase();
     let priceFrom = $('#input-price-from').val() * 100;
     let priceTo = $('#input-price-to').val() * 100;
     let yearOfEdition = $('#input-year-edition').val();
@@ -228,7 +228,6 @@ function setCheckedCategory(el) {
         if(isCheckedSiblings){
             return
         }
-
         nearCategory = nearCategory.parent().parent().parent()
         nearCategory.children().children("input").prop("checked", isChecked);
         isCheckedSiblings = getCheckedSiblings(nearCategory)
