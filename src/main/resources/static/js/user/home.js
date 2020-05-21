@@ -2,6 +2,7 @@ var currentLang = '';
 var bottom = '';
 var addToshoppingCart = '';
 let editBook = '';
+var addedToshoppingCart = '';
 var deleteBottom = '';
 let welcomeBlock = $("#welcome");
 let currencyIcon = ' €';
@@ -34,14 +35,18 @@ function getQuantityPage() {
     return Math.ceil(amountBooksInDb / amountBooksInPage);
 }
 
-function addBooksToPage(books) {
-    $('#cardcolumns').empty();
-    $("#rowForPagination").empty();
-    $.each(books, function (index) {
-        let card = `<div class="col mb-4">
+  async function addBooksToPage(books) {
+      let listOrdersOfCart = [];
+      listOrdersOfCart = await getListOrdersOfCart();
+      $('#cardcolumns').empty();
+      $("#rowForPagination").empty();
+      $.each(books, function (index) {
+          let textOfBtn = listOrdersOfCart.includes(books[index].id) ? addedToshoppingCart : addToshoppingCart;
+          let cssOfBtn = listOrdersOfCart.includes(books[index].id) ? "disabled" : "addToCartBtn";
+          let card = `<div class="col mb-4">
                                     <a class="card border-0" href="/page/${books[index].id}" style="color: black">
-                                        <img class="card-img-top mb-1" src="images/book${books[index].id}/${books[index].coverImage}" alt="Card image cap">
-                                        <div class="card-body">
+                                        <img class="card-img-top mb-1" src="images/book${books[index].id}/${books[index].coverImage}" style="object-fit: contain; height: 400px; " alt="Card image cap">
+                                        <div class="card-body" style="padding-bottom: 30px">
                                             <h5 class="card-title">${convertOriginalLanguageRows(books[index].nameAuthorDTOLocale, books[index].authorTranslit)}</h5>
                                             <h6 class="card-text text-muted">${convertOriginalLanguageRows(books[index].nameBookDTOLocale, books[index].nameTranslit)}</h6>
                                             <h5 class="card-footer bg-transparent text-left pl-0">${covertPrice(books[index].price) + currencyIcon}</h5>
@@ -55,14 +60,14 @@ function addBooksToPage(books) {
                                                     ${editBook}
                                                   </div>`:
                                                 `<div style="position: absolute; bottom: 5px; left: 15px; right: 15px" id="bottomInCart" type="button" 
-                                                      class="btn btn-success btn-metro"  data-id="${books[index].id}">                        
-                                                    ${addToshoppingCart}
+                                                      class="btn btn-success ${cssOfBtn} btn-metro"  data-id="${books[index].id}">                        
+                                                    ${textOfBtn}
                                                 </div>`}
                                 </div>`;
-        $('#cardcolumns').append(card);
-    });
-    addPagination();
-}
+          $('#cardcolumns').append(card);
+      });
+      addPagination();
+  }
 
 function openEdit(id) {
     localStorage.setItem('tmpEditBookId', id);
@@ -144,46 +149,39 @@ function covertPrice(price) {
     return price / 100;
 }
 
-async function showSizeCart() {
-    await fetch("/cart/size")
-        .then(status)
-        .then(json)
+function showSizeCart() {
+     fetch("/cart/size")
+        .then(response => response.text())
         .then(function (data) {
-            if (data != 0) {
-                $("#bucketIn").empty();
-                $("#bucketIn1").empty();
-                $("#bucketIn").append(data)
-                $("#bucketIn1").append(data)
-            } else {
-                $('#bucketIn').empty();
+            if (data !== "0") {
+                $("#bucketIn").html(`${data}`);
+                $("#bucketIn1").html(`${data}`);
             }
         });
 }
 
-async function showOrderSize() {
-    await fetch("/order/size")
-        .then(status)
-        .then(json)
+function showOrderSize() {
+     fetch("/order/size")
+        .then(response => response.text())
         .then(function (data) {
-            if (data != 0) {
-                $("#orders-quantity").empty();
-                $("#orders-quantity1").empty();
-                $("#orders-quantity").append(data)
-                $("#orders-quantity1").append(data)
-
-            } else {
-                $('#orders-quantity').empty();
+            if (data !== "0") {
+                $("#orders-quantity").html(`${data}`);
+                $("#orders-quantity1").html(`${data}`);
             }
         });
 }
 
 $(document).ready(function () {
-    $("body").on('click', '.btn-success', function () {
+    $("body").on('click', '.addToCartBtn', function () {
         let id = $(this).attr("data-id");
         addToCart(id);
+        $(this).removeClass("addToCartBtn")
+            .addClass("disabled")
+            .attr('disabled', 'true')
+            .text(addedToshoppingCart);
         setTimeout(function () {
             showSizeCart();
-        }, 20)
+        }, 100)
 
     })
 });
@@ -242,4 +240,16 @@ async function loadWelcome(locale) {
         .then((welcome) => {
             welcomeBlock.html(welcome.bodyWelcome);
         })
+}
+
+async function getListOrdersOfCart() {
+    let listOrdersOfCart = [];
+    await POST("/cart")
+        .then(json)
+        .then(function (data) {
+            $.each(data, function (index) {
+                listOrdersOfCart[index] = data[index].book.id;
+            });
+        });
+    return listOrdersOfCart;
 }

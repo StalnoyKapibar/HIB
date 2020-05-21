@@ -40,10 +40,14 @@ public class ShoppingCartController {
     @PostMapping(value = "/cart")
     public List<CartItemDTO> getShoppingCart(HttpSession session) {
         Long cartId = (Long) session.getAttribute("cartId");
+        ShoppingCartDTO shoppingCart = (ShoppingCartDTO) session.getAttribute("shoppingcart");
         if (cartId != null) {
             return cartService.getCartById(cartId).getCartItems();
         }
-        ShoppingCartDTO shoppingCart = (ShoppingCartDTO) session.getAttribute("shoppingcart");
+        if (shoppingCart == null) {
+            session.setAttribute("shoppingcart", new ShoppingCartDTO());
+            shoppingCart = (ShoppingCartDTO) session.getAttribute("shoppingcart");
+        }
         return shoppingCart.getCartItems();
     }
 
