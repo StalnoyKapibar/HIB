@@ -27,11 +27,15 @@ function showBooksByCategory() {
     })    .then(function (response) {
         return response.json()
     })
-        .then(function (books) {
+        .then( async function (books) {
+            let listOrdersOfCart = [];
+            listOrdersOfCart = await getListOrdersOfCart();
             if (books.length === 0) {
                 $('#books').append('<h3>There are no books in this category</h3>');
             } else {
                 for (let i in books) {
+                    let textOfBtn =await listOrdersOfCart.includes(books[i].id) ? addedToshoppingCart : addToshoppingCart;
+                    let cssOfBtn = await listOrdersOfCart.includes(books[i].id) ? "btn-outline-success disabled" : "btn-success";
                     card =
                 `<div class="col-md-3 col-sm-6">
       			<img class="card-img" width="250" height="360" src="/images/book${books[i].id}/${books[i].coverImage}" alt="...">
@@ -46,7 +50,7 @@ function showBooksByCategory() {
       					<button class="btn btn-primary right" onclick="document.location='/page/${books[i].id}'">Read more</button>
       				</div>
       				<div class="col-md-6 col-sm-6">
-      					<button class="btn btn-success right" id="buttonToCart" data-id="${books[i].id}">Add to cart</button>
+      					<button class="btn ${cssOfBtn} right" id="buttonToCart" data-id="${books[i].id}">${textOfBtn}</button>
       				</div>
       			</div>
   		</div>`;

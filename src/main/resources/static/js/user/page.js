@@ -22,9 +22,14 @@ function setPageFields() {
     console.log(currentLang);
     fetch("/api/book/" + $("#bookid").attr("value") + "?locale=" + currentLang)
         .then(status)
-        .then(json).then(function (data) {
+        .then(json).then(async function (data) {
         objectBook = data;
         tmpEditBookId = data.id;
+        let listOrdersOfCart = [];
+        listOrdersOfCart = await getListOrdersOfCart();
+        if (listOrdersOfCart.includes(data.id)){
+            $('#addToCart').removeClass("btn-info").addClass("btn-primary disabled").text(addedToshoppingCart);
+        }
         $('title').text(data.name);
         $('#book-name').text(convertOriginalLanguageRows(data.name, data.nameTranslit));
         $('#book-author').text(convertOriginalLanguageRows(data.author, data.authorTranslit));
@@ -161,6 +166,7 @@ $(document).ready(function () {
 $("body").on('click', '#addToCart', function () {
     let id = $(this).attr("data-id");
     addToCart(id);
+    $('#addToCart').removeClass("btn-info").addClass("btn-primary disabled").text(addedToshoppingCart);
     setTimeout(function () {
         showSizeCart();
     }, 20)
