@@ -69,7 +69,7 @@ function setTreeView(category) {
         row =
             `<div class="category">
                 <div class="custom-control custom-checkbox form-check-inline" id="heading-${i}">
-                    <input class="custom-control-input" type="checkbox" id="check-${i}" value="${category[i].categoryName}">
+                    <input class="custom-control-input" type="checkbox" id="check-${i}" value="${category[i].categoryName}" onchange="setCheckedCategory(this.id)">
                     <label class="custom-control-label" for="check-${i}"></label>
                     <label class="collapsed" data-toggle="collapse" data-target="#collapse-${i}" aria-expanded="false" aria-controls="collapse-${i}">
                        ${category[i].categoryName}
@@ -95,7 +95,7 @@ function setChilds(category, count) {
             row +=
                 `<div class="category">
                     <div class="custom-control custom-checkbox form-check-inline" id="heading-${id}${i}">
-                        <input class="custom-control-input" type="checkbox" id="check-${id}${i}" value="${category[i].categoryName}">
+                        <input class="custom-control-input" type="checkbox" id="check-${id}${i}" value="${category[i].categoryName}" onchange="setCheckedCategory(this.id)">
                         <label class="custom-control-label" for="check-${id}${i}">
                             ${category[i].categoryName}
                         </label>
@@ -105,7 +105,7 @@ function setChilds(category, count) {
             row +=
                 `<div class="category">
                     <div class="custom-control custom-checkbox form-check-inline" id="heading-${id}${i}">
-                        <input class="custom-control-input" type="checkbox" id="check-${id}${i}" value="${category[i].categoryName}">
+                        <input class="custom-control-input" type="checkbox" id="check-${id}${i}" value="${category[i].categoryName}" onchange="setCheckedCategory(this.id)">
                         <label class="custom-control-label" for="check-${id}${i}"></label>
                         <label class="collapsed" data-toggle="collapse" data-target="#collapse-${id}${i}" aria-expanded="false" aria-controls="collapse-${id}${i}">
                            ${category[i].categoryName}
@@ -217,4 +217,28 @@ function addFindeBooks(data) {
         );
     }
     $('table').append($(tr.join('')));
+}
+
+function setCheckedCategory(el) {
+    const element = $("#" + el)
+    const isChecked = element.prop("checked")
+    let nearCategory = element.parent().parent()
+    const isCheckedSiblings = getCheckedSiblings(nearCategory)
+    do{
+        if(isCheckedSiblings){
+            return
+        }
+        nearCategory = nearCategory.parent().parent().parent()
+        nearCategory.children().children("input").prop("checked", isChecked);
+    }while (nearCategory.parent().parent().parent().hasClass("category"))
+
+    function getCheckedSiblings(nearCategory){
+        let isCheckedSibling = false
+        nearCategory.siblings().each((i, elem) => {
+            if($(elem).children().children("input").prop("checked")){
+                isCheckedSibling = true
+            }
+        })
+        return isCheckedSibling
+    }
 }
