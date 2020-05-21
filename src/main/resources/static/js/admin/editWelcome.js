@@ -188,7 +188,7 @@ async function searchBook() {
     $('#pagination00').empty();
     $('#pagination01').empty();
     $('#extra').empty();
-    let searchWord = $('#search-input-admin').val();
+    let searchWord = $('#search-input-admin').val().toLowerCase();
     await fetch("/api/admin/searchResult?request=" + searchWord + "&Show=" + toggleShowDisabled.is(':checked'), {
         method: "POST",
         headers: {
