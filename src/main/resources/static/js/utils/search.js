@@ -25,28 +25,28 @@ $(document).ready(function () {
     });
     $('#input-categories').on('change', '.custom-control-input', function() {
         const getCheckedSiblings = (nearCategory) => {
-            let isCheckedSibling = false
+            let isCheckedSibling = false;
             nearCategory.siblings().each((i, elem) => {
                 if ($(elem).children().children("input").prop("checked")){
-                    isCheckedSibling = true
-                    return
+                    isCheckedSibling = true;
+                    return;
                 }
             })
-            return isCheckedSibling
+            return isCheckedSibling;
         }
-        const isChecked = $(this).is(':checked')
-        let nearCategory = $(this).parent().parent()
-        let isCheckedSiblings = getCheckedSiblings(nearCategory)
+        const isChecked = $(this).is(':checked');
+        let nearCategory = $(this).parent().parent();
+        let isCheckedSiblings = getCheckedSiblings(nearCategory);
         do {
-            if (isCheckedSiblings){
-                return
+            if (isCheckedSiblings) {
+                return;
             }
-            nearCategory = nearCategory.parent().parent().parent()
+            nearCategory = nearCategory.parent().parent().parent();
             nearCategory.children().children("input").prop("checked", isChecked);
-            isCheckedSiblings = getCheckedSiblings(nearCategory)
-        } while (nearCategory.parent().parent().parent().hasClass("category"))
-        let $checkboxes = $('#input-categories')
-        isCheckedCategory = $checkboxes.find('.custom-control-input').filter( ':checked' ).length > 0
+            isCheckedSiblings = getCheckedSiblings(nearCategory);
+        } while (nearCategory.parent().parent().parent().hasClass("category"));
+        let $checkboxes = $('#input-categories');
+        isCheckedCategory = $checkboxes.find('.custom-control-input').filter( ':checked' ).length > 0;
     });
 });
 
@@ -95,7 +95,7 @@ function setTreeView(category) {
         row =
             `<div class="category">
                 <div class="custom-control custom-checkbox form-check-inline" id="heading-${i}">
-                    <input class="custom-control-input" type="checkbox" id="check-${i}" value="${category[i].categoryName}" onchange="setCheckedCategory(this.id)">
+                    <input class="custom-control-input" type="checkbox" id="check-${i}" value="${category[i].categoryName}">
                     <label class="custom-control-label" for="check-${i}"></label>
                     <label class="collapsed" data-toggle="collapse" data-target="#collapse-${i}" aria-expanded="false" aria-controls="collapse-${i}">
                        ${category[i].categoryName}
@@ -121,7 +121,7 @@ function setChilds(category, count) {
             row +=
                 `<div class="category">
                     <div class="custom-control custom-checkbox form-check-inline" id="heading-${id}${i}">
-                        <input class="custom-control-input" type="checkbox" id="check-${id}${i}" value="${category[i].categoryName}" onchange="setCheckedCategory(this.id)">
+                        <input class="custom-control-input" type="checkbox" id="check-${id}${i}" value="${category[i].categoryName}">
                         <label class="custom-control-label" for="check-${id}${i}">
                             ${category[i].categoryName}
                         </label>
@@ -131,7 +131,7 @@ function setChilds(category, count) {
             row +=
                 `<div class="category">
                     <div class="custom-control custom-checkbox form-check-inline" id="heading-${id}${i}">
-                        <input class="custom-control-input" type="checkbox" id="check-${id}${i}" value="${category[i].categoryName}" onchange="setCheckedCategory(this.id)">
+                        <input class="custom-control-input" type="checkbox" id="check-${id}${i}" value="${category[i].categoryName}">
                         <label class="custom-control-label" for="check-${id}${i}"></label>
                         <label class="collapsed" data-toggle="collapse" data-target="#collapse-${id}${i}" aria-expanded="false" aria-controls="collapse-${id}${i}">
                            ${category[i].categoryName}
@@ -158,12 +158,12 @@ function advancedSearch() {
     let pages = $('#input-pages').val();
     let searchBy = $('#search-by input:checked').val();
     let categories
-    if (!isCheckedCategory){
-        categories = $("#input-categories input").map(function(){
+    if (!isCheckedCategory) {
+        categories = $("#input-categories input").map(function() {
             return $(this).val();
         }).get();
-    }else{
-        categories = $("#input-categories input:checked").map(function(){
+    } else {
+        categories = $("#input-categories input:checked").map(function() {
             return $(this).val();
         }).get();
     }
