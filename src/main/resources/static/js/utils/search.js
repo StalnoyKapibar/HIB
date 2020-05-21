@@ -223,13 +223,15 @@ function setCheckedCategory(el) {
     const element = $("#" + el)
     const isChecked = element.prop("checked")
     let nearCategory = element.parent().parent()
-    const isCheckedSiblings = getCheckedSiblings(nearCategory)
+    let isCheckedSiblings = getCheckedSiblings(nearCategory)
     do{
         if(isCheckedSiblings){
             return
         }
+
         nearCategory = nearCategory.parent().parent().parent()
         nearCategory.children().children("input").prop("checked", isChecked);
+        isCheckedSiblings = getCheckedSiblings(nearCategory)
     }while (nearCategory.parent().parent().parent().hasClass("category"))
 
     function getCheckedSiblings(nearCategory){
