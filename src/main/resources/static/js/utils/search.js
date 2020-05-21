@@ -25,49 +25,6 @@ $(document).ready(function () {
     });
 });
 
-$(document).ready(function () {
-    $('#input-categories').on('click', '.custom-control-input', function() {
-        let $category = $(this).closest('.category');
-        if ($(this).is(':checked')) {
-            $category.find('.custom-control-input').prop('checked', true);
-        } else {
-            $category.find('.custom-control-input').prop('checked', false);
-        }
-    });
-    $('#input-categories').on('click', 'label', function() {
-        if ($(this).is('.collapsed')) {
-            $(this).children('i').removeClass('fa fa-plus-square-o').addClass('far fa-minus-square');
-        } else {
-            $(this).children('i').removeClass('far fa-minus-square').addClass('fa fa-plus-square-o');
-        }
-    });
-    $('#input-categories').on('change', '.custom-control-input', function() {
-        const getCheckedSiblings = (nearCategory) => {
-            let isCheckedSibling = false;
-            nearCategory.siblings().each((i, elem) => {
-                if ($(elem).children().children("input").prop("checked")){
-                    isCheckedSibling = true;
-                    return;
-                }
-            })
-            return isCheckedSibling;
-        }
-        const isChecked = $(this).is(':checked');
-        let nearCategory = $(this).parent().parent();
-        let isCheckedSiblings = getCheckedSiblings(nearCategory);
-        do {
-            if (isCheckedSiblings) {
-                return;
-            }
-            nearCategory = nearCategory.parent().parent().parent();
-            nearCategory.children().children("input").prop("checked", isChecked);
-            isCheckedSiblings = getCheckedSiblings(nearCategory);
-        } while (nearCategory.parent().parent().parent().hasClass("category"));
-        let $checkboxes = $('#input-categories');
-        isCheckedCategory = $checkboxes.find('.custom-control-input').filter( ':checked' ).length > 0;
-    });
-});
-
 function getCategoryTree() {
     fetch('/categories/gettree', {
     })    .then(function (response) {
@@ -175,13 +132,13 @@ function advancedSearch() {
     let yearOfEdition = $('#input-year-edition').val();
     let pages = $('#input-pages').val();
     let searchBy = $('#search-by input:checked').val();
-    let categories;
-    if (!isCheckedCategory) {
-        categories = $("#input-categories input").map(function() {
+    let categories
+    if (!isCheckedCategory){
+        categories = $("#input-categories input").map(function(){
             return $(this).val();
         }).get();
-    } else {
-        categories = $("#input-categories input:checked").map(function() {
+    }else{
+        categories = $("#input-categories input:checked").map(function(){
             return $(this).val();
         }).get();
     }
@@ -271,6 +228,11 @@ function addFindeBooks(data) {
 }
 
 function setCheckedCategory(el) {
+    $("#input-categories input").each((i, elem) => {
+        if ($(elem).prop("checked")) {
+            isCheckedCategory = true
+        }
+    })
     const element = $("#" + el)
     const isChecked = element.prop("checked")
     let nearCategory = element.parent().parent()
@@ -287,7 +249,7 @@ function setCheckedCategory(el) {
     function getCheckedSiblings(nearCategory){
         let isCheckedSibling = false
         nearCategory.siblings().each((i, elem) => {
-            if($(elem).children().children("input").prop("checked")){
+            if ($(elem).children().children("input").prop("checked")){
                 isCheckedSibling = true
             }
         })
