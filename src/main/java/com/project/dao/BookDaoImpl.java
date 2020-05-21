@@ -71,8 +71,8 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
                 "((b.id = :id and :searchBy = 'name-author') OR" +
                 "((b.originalLanguage.name = :name or b.originalLanguage.nameTranslit = :translitName) and :searchBy = 'name') OR" +
                 "((b.originalLanguage.author = :name or b.originalLanguage.authorTranslit = :translitName) and :searchBy = 'author')) AND" +
-                "((b.pages >= :pagesFrom and b.pages <= :pagesTo) OR (b.pages >= :pagesFrom and :pagesTo = 0) OR " +
-                "(:pagesFrom = 0 and b.pages <= :pagesTo) OR (:pagesFrom = 0 and :pagesTo = 0)) AND " +
+                "((b.pages >= :pagesFrom and b.pages <= :pagesTo) OR (b.pages >= :pagesFrom and :pagesTo is null) OR " +
+                "(:pagesFrom is null and b.pages <= :pagesTo) OR (:pagesFrom is null and :pagesTo is null)) AND " +
                 "((b.yearOfEdition >= :yearOfEditionFrom and b.yearOfEdition <= :yearOfEditionTo) OR (b.yearOfEdition >= :yearOfEditionFrom and :yearOfEditionTo = 'null') OR " +
                 "(:yearOfEditionFrom = 'null' and b.yearOfEdition <= :yearOfEditionTo) OR (:yearOfEditionFrom = 'null' and :yearOfEditionTo = 'null')) AND " +
                 "((b.category.categoryName in :categories) or ('undefined' in :categories)) AND" +
@@ -104,8 +104,8 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
                 "b.originalLanguage.nameTranslit, b.originalLanguage.author, b.originalLanguage.authorTranslit, b.description.en, " +
                 "b.originalLanguage.edition, b.originalLanguage.editionTranslit, b.yearOfEdition, b.pages, b.price, b.originalLanguageName, b.coverImage, b.category)" +
                 "FROM Book b where b.isShow = :show AND" +
-                "((b.pages >= :pagesFrom and b.pages <= :pagesTo) OR (b.pages >= :pagesFrom and :pagesTo = 0) OR " +
-                "(:pagesFrom = 0 and b.pages <= :pagesTo) OR (:pagesFrom = 0 and :pagesTo = 0)) AND " +
+                "((b.pages >= :pagesFrom and b.pages <= :pagesTo) OR (b.pages >= :pagesFrom and :pagesTo is null) OR " +
+                "(:pagesFrom is null and b.pages <= :pagesTo) OR (:pagesFrom is null and :pagesTo is null)) AND " +
                 "((b.yearOfEdition >= :yearOfEditionFrom and b.yearOfEdition <= :yearOfEditionTo) OR (b.yearOfEdition >= :yearOfEditionFrom and :yearOfEditionTo = 'null') OR " +
                 "(:yearOfEditionFrom = 'null' and b.yearOfEdition <= :yearOfEditionTo) OR (:yearOfEditionFrom = 'null' and :yearOfEditionTo = 'null')) AND " +
                 "((b.category.categoryName in :categories) or ('undefined' in :categories)) AND" +
