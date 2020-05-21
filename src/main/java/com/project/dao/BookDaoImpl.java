@@ -191,6 +191,12 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
     }
 
     @Override
+    public Long getCountBooksByCategoryId(Long categoryId) {
+        String sql = "select count(b) from Book b WHERE b.category.id =:categoryId AND b.isShow = true";
+        return (Long) entityManager.createQuery(sql).setParameter("categoryId", categoryId).getSingleResult();
+    }
+
+    @Override
     public BookPageDto getBookPageByPageable(Pageable pageable) {
         int limitBookDTOOnPage = pageable.getPageSize();
         int minNumberId = limitBookDTOOnPage * pageable.getPageNumber();
