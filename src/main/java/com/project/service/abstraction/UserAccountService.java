@@ -19,4 +19,6 @@ public interface UserAccountService {
     UserAccount getUserById(Long id);
 
     UserAccount update(UserAccount userAccount);
+
+    UserAccount findByLogin(String login);
 }

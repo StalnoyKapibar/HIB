@@ -10,7 +10,9 @@ function setCurrentPageToCookie() {
 
 async function confirmAddress() {
     let isAuth = false;
-        await POST('/api/user/order/confirmaddress')
+
+        await POST('/api/user/order/confirmaddress'
+            ,JSON.stringify(userData))
             .then(json)
             .then((data) => {
                 isAuth = true;
@@ -19,11 +21,11 @@ async function confirmAddress() {
                 $("#signModal").modal('show');
                 setCurrentPageToCookie();
             });
-        // if (!isAuth === null ) return;
-        if(order.items[0].id === null){
+        if (!isAuth === null ) return;
+        /*if(order.items[0].id === null){
             alert("No books to buy")
             return
-        } else {
+        }*/ else {
         showContacts();
         }
 
