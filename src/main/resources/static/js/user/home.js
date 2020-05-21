@@ -149,35 +149,24 @@ function covertPrice(price) {
     return price / 100;
 }
 
-async function showSizeCart() {
-    await fetch("/cart/size")
-        .then(status)
-        .then(json)
+function showSizeCart() {
+     fetch("/cart/size")
+        .then(response => response.text())
         .then(function (data) {
-            if (data != 0) {
-                $("#bucketIn").empty();
-                $("#bucketIn1").empty();
-                $("#bucketIn").append(data)
-                $("#bucketIn1").append(data)
-            } else {
-                $('#bucketIn').empty();
+            if (data !== "0") {
+                $("#bucketIn").html(`${data}`);
+                $("#bucketIn1").html(`${data}`);
             }
         });
 }
 
-async function showOrderSize() {
-    await fetch("/order/size")
-        .then(status)
-        .then(json)
+function showOrderSize() {
+     fetch("/order/size")
+        .then(response => response.text())
         .then(function (data) {
-            if (data != 0) {
-                $("#orders-quantity").empty();
-                $("#orders-quantity1").empty();
-                $("#orders-quantity").append(data)
-                $("#orders-quantity1").append(data)
-
-            } else {
-                $('#orders-quantity').empty();
+            if (data !== "0") {
+                $("#orders-quantity").html(`${data}`);
+                $("#orders-quantity1").html(`${data}`);
             }
         });
 }
@@ -192,7 +181,7 @@ $(document).ready(function () {
             .text(addedToshoppingCart);
         setTimeout(function () {
             showSizeCart();
-        }, 20)
+        }, 100)
 
     })
 });
