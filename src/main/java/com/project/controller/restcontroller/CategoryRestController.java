@@ -38,5 +38,14 @@ public class CategoryRestController {
         return books;
     }
 
+    @GetMapping("/getcount")
+    public Long getCountBooksByPath(@RequestParam("path") String path) {
+        long i = 0;
+        for (Long id : categoryService.getallChildsIdByPath(path)) {
+            i+= bookService.getCountBooksByCategoryId(id);
+        }
+        return i;
+    }
+
 }
 

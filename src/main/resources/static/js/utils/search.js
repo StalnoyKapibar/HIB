@@ -1,5 +1,6 @@
 let row, primary;
 let id = "";
+let isCheckedCategory = false;
 
 $(document).ready(function () {
     setPageFields();
@@ -21,6 +22,31 @@ $(document).ready(function () {
         } else {
             $(this).children('i').removeClass('far fa-minus-square').addClass('fa fa-plus-square-o');
         }
+    });
+    $('#input-categories').on('change', '.custom-control-input', function() {
+        const getCheckedSiblings = (nearCategory) => {
+            let isCheckedSibling = false;
+            nearCategory.siblings().each((i, elem) => {
+                if ($(elem).children().children("input").prop("checked")){
+                    isCheckedSibling = true;
+                    return;
+                }
+            })
+            return isCheckedSibling;
+        }
+        const isChecked = $(this).is(':checked');
+        let nearCategory = $(this).parent().parent();
+        let isCheckedSiblings = getCheckedSiblings(nearCategory);
+        do {
+            if (isCheckedSiblings) {
+                return;
+            }
+            nearCategory = nearCategory.parent().parent().parent();
+            nearCategory.children().children("input").prop("checked", isChecked);
+            isCheckedSiblings = getCheckedSiblings(nearCategory);
+        } while (nearCategory.parent().parent().parent().hasClass("category"));
+        let $checkboxes = $('#input-categories');
+        isCheckedCategory = $checkboxes.find('.custom-control-input').filter( ':checked' ).length > 0;
     });
 });
 
@@ -64,7 +90,7 @@ function getUnflatten(arr, parentid) {
     return output
 }
 
-function setTreeView(category) {
+async function setTreeView(category) {
     for (let i in category) {
         row =
             `<div class="category">
@@ -72,13 +98,13 @@ function setTreeView(category) {
                     <input class="custom-control-input" type="checkbox" id="check-${i}" value="${category[i].categoryName}">
                     <label class="custom-control-label" for="check-${i}"></label>
                     <label class="collapsed" data-toggle="collapse" data-target="#collapse-${i}" aria-expanded="false" aria-controls="collapse-${i}">
-                       ${category[i].categoryName}
+                       ${category[i].categoryName}(${await getCountBooksByCat(category[i].path)})
                        <i class="fa fa-plus-square-o" aria-hidden="true"></i>
                     </label>
                 </div>
                 <div class="ml-3">
                     <div id="collapse-${i}" class="collapse" aria-labelledby="heading-${i}" data-parent="#accordionExample">
-                    ${setChilds(category[i].childrens, i)}
+                    ${await setChilds(category[i].childrens, i)}
                     </div>
                 </div>
             </div>`;
@@ -86,7 +112,7 @@ function setTreeView(category) {
     }
 }
 
-function setChilds(category, count) {
+async function setChilds(category, count) {
     id += (count + "-");
     let row = '';
     for (let i in category) {
@@ -97,7 +123,7 @@ function setChilds(category, count) {
                     <div class="custom-control custom-checkbox form-check-inline" id="heading-${id}${i}">
                         <input class="custom-control-input" type="checkbox" id="check-${id}${i}" value="${category[i].categoryName}">
                         <label class="custom-control-label" for="check-${id}${i}">
-                            ${category[i].categoryName}
+                            ${category[i].categoryName}(${await getCountBooksByCat(category[i].path)})
                         </label>
                     </div>
                 </div>`;
@@ -108,13 +134,13 @@ function setChilds(category, count) {
                         <input class="custom-control-input" type="checkbox" id="check-${id}${i}" value="${category[i].categoryName}">
                         <label class="custom-control-label" for="check-${id}${i}"></label>
                         <label class="collapsed" data-toggle="collapse" data-target="#collapse-${id}${i}" aria-expanded="false" aria-controls="collapse-${id}${i}">
-                           ${category[i].categoryName}
+                           ${category[i].categoryName}(${await getCountBooksByCat(category[i].path)})
                            <i class="fa fa-plus-square-o" aria-hidden="true"></i>
                         </label>
                     </div>
                     <div class="ml-3">
                         <div id="collapse-${id}${i}" class="collapse" aria-labelledby="heading-${id}${i}" data-parent="#accordionExample">
-                            ${setChilds(category[i].childrens, i)}
+                            ${await setChilds(category[i].childrens, i)}
                         </div>
                     </div>
                 </div>`;
@@ -125,15 +151,22 @@ function setChilds(category, count) {
 }
 
 function advancedSearch() {
-    let request = $('#search-input').val();
+    let request = $('#search-input').val().toLowerCase();
     let priceFrom = $('#input-price-from').val() * 100;
     let priceTo = $('#input-price-to').val() * 100;
     let yearOfEdition = $('#input-year-edition').val();
     let pages = $('#input-pages').val();
     let searchBy = $('#search-by input:checked').val();
-    let categories = $("#input-categories input:checked").map(function(){
-        return $(this).val();
-    }).get();
+    let categories;
+    if (!isCheckedCategory) {
+        categories = $("#input-categories input").map(function() {
+            return $(this).val();
+        }).get();
+    } else {
+        categories = $("#input-categories input:checked").map(function() {
+            return $(this).val();
+        }).get();
+    }
     let categoryRequest = "";
     for (let i in categories) {
         categoryRequest += "&categories="+categories[i];
@@ -217,4 +250,8 @@ function addFindeBooks(data) {
         );
     }
     $('table').append($(tr.join('')));
+}
+
+async function getCountBooksByCat(category) {
+    return "" + await fetch("/categories/getcount?path=" + category).then(json);
 }
