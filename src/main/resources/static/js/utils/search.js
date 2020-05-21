@@ -154,8 +154,10 @@ function advancedSearch() {
     let request = $('#search-input').val().toLowerCase();
     let priceFrom = $('#input-price-from').val() * 100;
     let priceTo = $('#input-price-to').val() * 100;
-    let yearOfEdition = $('#input-year-edition').val();
-    let pages = $('#input-pages').val();
+    let yearOfEditionFrom = $('#input-year-of-edition-from').val();
+    let yearOfEditionTo = $('#input-year-of-edition-to').val();
+    let pagesFrom = $('#input-pages-from').val();
+    let pagesTo = $('#input-pages-to').val();
     let searchBy = $('#search-by input:checked').val();
     let categories;
     if (!isCheckedCategory) {
@@ -172,7 +174,8 @@ function advancedSearch() {
         categoryRequest += "&categories="+categories[i];
     }
     fetch("/searchAdvanced?request=" + request + "&searchBy=" + searchBy + categoryRequest +
-        "&priceFrom=" + priceFrom + "&priceTo=" + priceTo + "&yearOfEdition=" + yearOfEdition + "&pages=" + pages, {
+        "&priceFrom=" + priceFrom + "&priceTo=" + priceTo + "&yearOfEditionFrom=" + yearOfEditionFrom + "&yearOfEditionTo=" + yearOfEditionTo +
+        "&pagesFrom=" + pagesFrom + "&pagesTo=" + pagesTo, {
         method: "GET",
         headers: {
             'Content-Type': 'application/json',
