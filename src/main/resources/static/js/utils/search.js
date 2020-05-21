@@ -1,5 +1,6 @@
 let row, primary;
 let id = "";
+let isCheckedCategory = false;
 
 $(document).ready(function () {
     setPageFields();
@@ -131,9 +132,16 @@ function advancedSearch() {
     let yearOfEdition = $('#input-year-edition').val();
     let pages = $('#input-pages').val();
     let searchBy = $('#search-by input:checked').val();
-    let categories = $("#input-categories input:checked").map(function(){
-        return $(this).val();
-    }).get();
+    let categories
+    if (!isCheckedCategory){
+        categories = $("#input-categories input").map(function(){
+            return $(this).val();
+        }).get();
+    }else{
+        categories = $("#input-categories input:checked").map(function(){
+            return $(this).val();
+        }).get();
+    }
     let categoryRequest = "";
     for (let i in categories) {
         categoryRequest += "&categories="+categories[i];
@@ -220,6 +228,11 @@ function addFindeBooks(data) {
 }
 
 function setCheckedCategory(el) {
+    $("#input-categories input").each((i, elem) => {
+        if ($(elem).prop("checked")) {
+            isCheckedCategory = true
+        }
+    })
     const element = $("#" + el)
     const isChecked = element.prop("checked")
     let nearCategory = element.parent().parent()
@@ -236,7 +249,7 @@ function setCheckedCategory(el) {
     function getCheckedSiblings(nearCategory){
         let isCheckedSibling = false
         nearCategory.siblings().each((i, elem) => {
-            if($(elem).children().children("input").prop("checked")){
+            if ($(elem).children().children("input").prop("checked")){
                 isCheckedSibling = true
             }
         })
