@@ -72,7 +72,7 @@ async function setTreeView(category) {
                     <input class="custom-control-input" type="checkbox" id="check-${i}" value="${category[i].categoryName}">
                     <label class="custom-control-label" for="check-${i}"></label>
                     <label class="collapsed" data-toggle="collapse" data-target="#collapse-${i}" aria-expanded="false" aria-controls="collapse-${i}">
-                       ${category[i].categoryName}
+                       ${category[i].categoryName}(${await getCountBooksByCat(category[i].path)})
                        <i class="fa fa-plus-square-o" aria-hidden="true"></i>
                     </label>
                 </div>
@@ -108,7 +108,7 @@ async function setChilds(category, count) {
                         <input class="custom-control-input" type="checkbox" id="check-${id}${i}" value="${category[i].categoryName}">
                         <label class="custom-control-label" for="check-${id}${i}"></label>
                         <label class="collapsed" data-toggle="collapse" data-target="#collapse-${id}${i}" aria-expanded="false" aria-controls="collapse-${id}${i}">
-                           ${category[i].categoryName}
+                           ${category[i].categoryName}(${await getCountBooksByCat(category[i].path)})
                            <i class="fa fa-plus-square-o" aria-hidden="true"></i>
                         </label>
                     </div>
@@ -220,6 +220,5 @@ function addFindeBooks(data) {
 }
 
 async function getCountBooksByCat(category) {
-        // return "" + category;
     return "" + await fetch("/categories/getcount?path=" + category).then(json);
 }
