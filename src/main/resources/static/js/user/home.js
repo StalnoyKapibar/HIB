@@ -19,10 +19,6 @@ $(document).ready(function () {
     amountBooksInPage = ddmAmountBook.text();
     getPageWithBooks(ddmAmountBook.text(), currentPage++);
     openModalLoginWindowOnFailure();
-    if(!isAdmin){
-        showSizeCart();
-        showOrderSize();
-    }
     loadWelcome(currentLang);
 });
 
