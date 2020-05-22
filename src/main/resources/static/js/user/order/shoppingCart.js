@@ -77,6 +77,7 @@ $(document).ready(function () {
             method: 'DELETE',
         }).then(function () {
             getShoppingCart();
+            showSizeCart();
         })
     });
     $("body").on('change', '.product-quantity input', function () {

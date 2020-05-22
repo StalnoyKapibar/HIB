@@ -15,10 +15,6 @@ public class ShoppingCartDTO {
 
     private List<CartItemDTO> cartItems = new ArrayList<>(0);
 
-    public ArrayList<CartItemDTO> getCartItems() {
-        return new ArrayList<>(cartItems);
-    }
-
     public void addCartItem(Book book) {
         for (CartItemDTO cartItem : cartItems) {
             if (cartItem.getBook().getId().equals(book.getId())){

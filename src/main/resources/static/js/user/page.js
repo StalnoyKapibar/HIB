@@ -9,7 +9,6 @@ $(document).ready(function () {
     getLanguage();
     setLocaleFields();
     setPageFields();
-    showSizeCart();
 });
 
 function getCookie(name) {
@@ -104,21 +103,6 @@ function buildCardImageOrCarousel() {
 function buildCardImage() {
     $('#CardImageOrCarousel').html(`<img id='bookImg' src=${pathImageDefault}${objectBook.id}/${objectBook.coverImage} alt='Card image cap'>`);
 }
-
-async function showSizeCart() {
-    await fetch("/cart/size")
-        .then(status)
-        .then(json)
-        .then(function (data) {
-            if (data != 0) {
-                $("#bucketIn").empty();
-                $("#bucketIn").append(data)
-            } else {
-                $('#bucketIn').empty();
-            }
-        });
-}
-
 
 function addToCart(id) {
     fetch("/cart/" + id, {

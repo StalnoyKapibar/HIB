@@ -149,28 +149,6 @@ function covertPrice(price) {
     return price / 100;
 }
 
-function showSizeCart() {
-     fetch("/cart/size")
-        .then(response => response.text())
-        .then(function (data) {
-            if (data !== "0") {
-                $("#bucketIn").html(`${data}`);
-                $("#bucketIn1").html(`${data}`);
-            }
-        });
-}
-
-function showOrderSize() {
-     fetch("/order/size")
-        .then(response => response.text())
-        .then(function (data) {
-            if (data !== "0") {
-                $("#orders-quantity").html(`${data}`);
-                $("#orders-quantity1").html(`${data}`);
-            }
-        });
-}
-
 $(document).ready(function () {
     $("body").on('click', '.addToCartBtn', function () {
         let id = $(this).attr("data-id");
