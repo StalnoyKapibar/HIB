@@ -2,7 +2,6 @@ package com.project.controller.controller;
 
 import com.project.model.FormLoginErrorMessageDTO;
 import com.project.model.RegistrationUserDTO;
-import com.project.model.UserAccount;
 import com.project.service.abstraction.FormLoginErrorMessageService;
 import com.project.service.abstraction.ResetPasswordService;
 import com.project.service.abstraction.UserAccountService;
@@ -15,14 +14,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
-import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -32,19 +29,15 @@ import java.util.Random;
 public class UserController {
     public static final String SOURCES =
             "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
-
     @Autowired
-    private ResetPasswordService resetPasswordService;
-
+    protected AuthenticationManager authenticationManager;
     @Autowired
     UserAccountService userAccountService;
 
     @Autowired
     FormLoginErrorMessageService messageService;
-
-
     @Autowired
-    protected AuthenticationManager authenticationManager;
+    private ResetPasswordService resetPasswordService;
 
     @GetMapping("/resetPassword")
     public String getResetPasswordPage() {
@@ -108,7 +101,7 @@ public class UserController {
         // generate session if one doesn't exist
         request.getSession().setAttribute("cartId1click", userAccountService.findByLogin(username).getCart().getId());
         request.getSession().setAttribute("userId", userAccountService.findByLogin(username).getId());
-       //request.getSession().setAttribute("cartItems", request.getSession().getAttribute("shoppingcart"));
+        //request.getSession().setAttribute("cartItems", request.getSession().getAttribute("shoppingcart"));
 
         token.setDetails(new WebAuthenticationDetails(request));
         Authentication authenticatedUser = authenticationManager.authenticate(token);
@@ -122,6 +115,7 @@ public class UserController {
         view.getModelMap().addAttribute("errorMessage", new FormLoginErrorMessageDTO(false, ""));
         return view;
     }
+
     @PostMapping(value = "/1clickreg", consumes =
             {MediaType.APPLICATION_FORM_URLENCODED_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public ModelAndView createNewUserAccount1Click(@Valid RegistrationUserDTO user, BindingResult result, HttpServletRequest request) {
@@ -130,6 +124,11 @@ public class UserController {
         user.setLogin(user.getEmail());
         user.setPassword(generateString(new Random(), SOURCES, 10));
         user.setConfirmPassword(user.getPassword());
+        //TODO Дописать это после согласования со славой.
+        /*if (userAccountService.findByEmail(user.getEmail() == null)) {
+            view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessage(result));
+            return view;
+        }*/
         if (result.hasErrors()) {
             view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessage(result));
             return view;
