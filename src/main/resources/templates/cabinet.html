@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<html xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"></html>
+
 <head>
     <meta charset="UTF-8">
     <title>Personal account</title>
@@ -356,7 +359,10 @@
                             <th width="10"></th>
                             <th></th>
                             <th></th>
-                            <th></th>
+
+                            <th sec:authorize="!isAuthenticated()"><button class="btn btn-primary"  onclick="location.href='/1clickreg'" type="button">
+                            1 click registration
+                        </button></th>
                             <th id="forButtonCheckout">
                             </th>
                         </tr>

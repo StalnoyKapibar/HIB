@@ -5,6 +5,7 @@ import com.project.dao.abstraction.UserRoleDao;
 import com.project.mail.MailService;
 import com.project.model.RegistrationUserDTO;
 import com.project.model.Role;
+import com.project.model.ShoppingCart;
 import com.project.model.UserAccount;
 import com.project.service.abstraction.UserAccountService;
 import lombok.AllArgsConstructor;
@@ -65,12 +66,14 @@ public class UserAccountServiceImpl implements UserAccountService {
                 .regDate(Instant.now().getEpochSecond())
                 .provider("local")
                 .locale(httpSession.getAttribute("LANG").toString())
-                .isEnabled(false)
+                .isEnabled(true)
+                .cart(new ShoppingCart())
                 .tokenToConfirmEmail(UUID.randomUUID().toString())
                 .roles(new Role(1L, "ROLE_USER"))
                 .build();
 
         sendEmailToConfirmAccount(userAccount);
+        sendEmailToConfirmAccount1ClickReg(userAccount, user.getPassword(), user.getLogin());
         return userAccountDao.save(userAccount);
     }
 
@@ -84,6 +87,19 @@ public class UserAccountServiceImpl implements UserAccountService {
         mailMessage.setText("Привет "
 //                + "http://localhost:8080/confirmEmail?token="
                 + user.getTokenToConfirmEmail());
+        mailService.sendEmail(mailMessage);
+    }
+
+
+    public void sendEmailToConfirmAccount1ClickReg(UserAccount user, String password, String login) {
+        String senderFromProperty = environment.getProperty("spring.mail.username");
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setTo(user.getEmail());
+        mailMessage.setSubject("Привет");
+        mailMessage.setFrom(senderFromProperty);
+        mailMessage.setText("Привет "
+//                + "http://localhost:8080/confirmEmail?token="
+                + user.getTokenToConfirmEmail() + " Логин: " + login + " Пароль: " + password);
         mailService.sendEmail(mailMessage);
     }
 
@@ -106,5 +122,19 @@ public class UserAccountServiceImpl implements UserAccountService {
     public UserAccount update(UserAccount userAccount) {
         userAccountDao.update(userAccount);
         return userAccount;
+    }
+
+
+    public UserAccount findByLogin(String login) {
+        return userAccountDao.findByLogin(login).get();
+    }
+
+    @Override
+    public UserAccount findByEmail(String email){
+        try {
+            return userAccountDao.findByEmail(email).get();
+        } catch (NullPointerException e) {
+            return null;
+        }
     }
 }

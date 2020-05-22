@@ -342,7 +342,7 @@ function sendUpdateBook() {
     var body02 = JSON.stringify(book);
     sendUpdateBookReq(body02);
     confirm("Edit this book?")
-    window.location.href = "http://localhost:8080/page/" + idd;
+    window.location.href = document.referrer;
 }
 
 async function sendUpdateBookReq(x) {

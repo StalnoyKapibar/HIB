@@ -4,6 +4,9 @@ import com.project.model.RegistrationUserDTO;
 import com.project.model.UserAccount;
 import org.hibernate.exception.ConstraintViolationException;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Pattern;
+
 public interface UserAccountService {
 
     UserAccount findUserByToConfirmEmail(String token);
@@ -21,4 +24,8 @@ public interface UserAccountService {
     UserAccount getUserById(Long id);
 
     UserAccount update(UserAccount userAccount);
+
+    UserAccount findByLogin(String login);
+
+    UserAccount findByEmail(String email);
 }
