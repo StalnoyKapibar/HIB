@@ -22,10 +22,7 @@ async function confirmAddress() {
                 setCurrentPageToCookie();
             });
         if (!isAuth === null ) return;
-        /*if(order.items[0].id === null){
-            alert("No books to buy")
-            return
-        }*/ else {
+        else {
         showContacts();
         }
 

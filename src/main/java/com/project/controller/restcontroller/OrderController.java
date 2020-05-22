@@ -22,14 +22,14 @@ public class OrderController {
 
     @PostMapping("/api/user/order/confirmaddress")
     private OrderDTO addOder(HttpSession httpSession) {
-        ShoppingCartDTO shoppingCartDTO=null;
+        ShoppingCartDTO shoppingCartDTO = null;
         OrderDTO order = new OrderDTO();
-        if (httpSession.getAttribute("cartId") == null){
+        if (httpSession.getAttribute("cartId") == null) {
             shoppingCartDTO = cartService.getCartById((Long) httpSession.getAttribute("cartId1click"));
             order.setItems(((ShoppingCartDTO) httpSession.getAttribute("shoppingcart")).getCartItems());
             order.setItemsCost((int) ((ShoppingCartDTO) httpSession.getAttribute("shoppingcart")).getTotalCostItems());
-        }else {
-             shoppingCartDTO = cartService.getCartById((Long) httpSession.getAttribute("cartId"));
+        } else {
+            shoppingCartDTO = cartService.getCartById((Long) httpSession.getAttribute("cartId"));
             order.setItems(shoppingCartDTO.getCartItems());
             order.setItemsCost((int) shoppingCartDTO.getTotalCostItems());
         }
@@ -51,18 +51,25 @@ public class OrderController {
 
     @PostMapping("/order")
     private void confirmOrder(HttpSession httpSession) {
-        ShoppingCartDTO shoppingCartDTO=null;
+        ShoppingCartDTO shoppingCartDTO = new ShoppingCartDTO();
         OrderDTO order = (OrderDTO) httpSession.getAttribute("order");
         ContactsOfOrderDTO contacts = (ContactsOfOrderDTO) httpSession.getAttribute("contacts");
         order.setContacts(contacts);
         order.setComment(contacts.getComment());
-        if (httpSession.getAttribute("cartId") == null){
-            shoppingCartDTO = cartService.getCartById((Long) httpSession.getAttribute("cartId1click"));
-        }else {
+        if (httpSession.getAttribute("cartId") == null) {
+
+            order.setItems(((ShoppingCartDTO) httpSession.getAttribute("shoppingcart")).getCartItems());
+            for (int i = 1; i <= ((ShoppingCartDTO) httpSession.getAttribute("shoppingcart")).getCartItems().size(); i++) {
+                order.getItems().get(i - 1).setId((long) i + cartService.getMaxIdCartItem().size());
+                shoppingCartDTO.addCartItem(order.getItems().get(i - 1).getBook());
+            }
+            cartService.updateCart(shoppingCartDTO);
+        } else {
             shoppingCartDTO = cartService.getCartById((Long) httpSession.getAttribute("cartId"));
+            shoppingCartDTO.getCartItems().clear();
+            cartService.updateCart(shoppingCartDTO);
         }
-        shoppingCartDTO.getCartItems().clear();
-        cartService.updateCart(shoppingCartDTO);
+
         orderService.addOrder(order.getOder());
         httpSession.removeAttribute("shoppingcart");
     }

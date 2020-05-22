@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @AllArgsConstructor
 @Service
@@ -45,5 +46,9 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
             request.getSession().removeAttribute("shoppingcart");
             request.getSession().setAttribute("cartId", id);
         }
+    }
+    @Override
+    public List getMaxIdCartItem(){
+       return cartDAO.getMaxIdCartItem();
     }
 }
