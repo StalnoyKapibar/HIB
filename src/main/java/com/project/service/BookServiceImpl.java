@@ -105,4 +105,9 @@ public class BookServiceImpl implements BookService {
     public List<BookNewDTO> getAllBooksSearchPage() {
         return bookDAO.getAllBooksSearchPage();
     }
+
+    @Override
+    public List<BookNewDTO> getAllLightBookDtoForSearch() {
+        return bookDAO.getAllLightBookDtoForSearch();
+    }
 }

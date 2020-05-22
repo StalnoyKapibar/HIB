@@ -26,8 +26,6 @@ $(document).ready(function () {
     loadWelcome(currentLang);
 });
 
-
-
 function getQuantityPage() {
     if (amountBooksInDb < amountBooksInPage) {
         return 1;
@@ -139,6 +137,13 @@ function getPageWithBooks(amount, page) {
         })
 }
 
+async function getAllBooksForLiveSearch() {
+    const url ='/api/allBookForLiveSearch';
+    const res = await fetch(url);
+    const data = await res.json();
+    return data;
+}
+
 function setAmountBooksInPage(amount) {
     amountBooksInPage = amount;
     ddmAmountBook.text(amount);
@@ -184,6 +189,59 @@ $(document).ready(function () {
         }, 100)
 
     })
+});
+
+//функция поиска совпадений вводимых символов
+function findEl(el, array, value) {
+    var coincidence = false;
+    el.empty();//очищаем список совпадений
+    for (var i = 0; i < array.length; i++){
+        if (array[i].match('^'+value)){//проверяем каждый елемент на совпадение побуквенно
+            el.children('li').each(function (){//проверяем есть ли совпавшие елементы среди выведенных
+                if(array[i] === $(this).text()) {
+                    coincidence = true;//если есть совпадения то true
+                }
+            });
+            if(coincidence === false){
+                el.append('<li class="js-searchInput">'+array[i]+'</li>');//если нету совпадений то добавляем уникальное название в список
+            }
+        }
+    }
+}
+
+// var filterInput = $('#filter-books'),
+var filterInput = $('#searchInput'),
+
+    filterUl = $('.ul-books');
+//проверка при каждом вводе символа
+filterInput.bind('input propertychange', async function(){
+    if($(this).val() !== ''){
+        filterUl.fadeIn(100);
+        let data = await getAllBooksForLiveSearch();
+        let array = [];
+        for (let key in data) {
+            if (data.hasOwnProperty(key)) {
+                let book = data[key];
+                for( let field in book) {
+                    const value = book[field];
+                    if(typeof value === 'string') {
+                        array.push(value);
+                    }
+                }
+            }
+        }
+        findEl(filterUl, array, $(this).val());
+    }
+    else{
+        filterUl.fadeOut(100);
+    }
+});
+//при клике на елемент выпадалки присваиваем значение в инпут и ставим триггер на его изменение
+filterUl.on('click','.js-searchInput', function(e){
+    $('#searchInput').val('');
+    filterInput.val($(this).text());
+    filterInput.trigger('change');
+    filterUl.fadeOut(100);
 });
 
 function addToCart(id) {

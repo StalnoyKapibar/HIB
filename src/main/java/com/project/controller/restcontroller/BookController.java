@@ -221,4 +221,9 @@ public class BookController {
                 Integer.parseInt(params.get("limit")), Sort.by(Sort.Order.asc("id")));
         return bookService.getBookPageByPageable(pageable);
     }
+
+    @GetMapping(value = "/api/allBookForLiveSearch")
+    public List<BookNewDTO> getAllLightBookDtoForSearch() {
+        return bookService.getAllLightBookDtoForSearch();
+    }
 }
