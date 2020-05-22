@@ -47,6 +47,16 @@ public class UserAccountServiceImpl implements UserAccountService {
     }
 
     @Override
+    public boolean emailExist(String email) {
+        try {
+            userAccountDao.findByEmail(email).isPresent();
+            return true;
+        } catch (EmptyResultDataAccessException e) {
+            return false;
+        }
+    }
+
+    @Override
     public UserAccount save(RegistrationUserDTO user) throws ConstraintViolationException {
         UserAccount userAccount = UserAccount.builder()
                 .login(user.getLogin())

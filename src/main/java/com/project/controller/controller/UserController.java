@@ -66,6 +66,10 @@ public class UserController {
             view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessageOnPasswordsDoesNotMatch());
             return view;
         }
+        if (userAccountService.emailExist(user.getEmail())) {
+            view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessageOnEmailUIndex());
+            return view;
+        }
         try {
             userAccountService.save(user);
         } catch (DataIntegrityViolationException e) {
