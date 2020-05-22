@@ -13,6 +13,8 @@ public interface UserAccountService {
 
     UserAccount save(RegistrationUserDTO user) throws ConstraintViolationException;
 
+    boolean emailExist(String email);
+
     void sendEmailToConfirmAccount(UserAccount user);
 
     void setLocaleAndAuthDate(String email, String locale, long lastAuthDate);

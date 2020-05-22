@@ -82,11 +82,29 @@
                         </div>
                         <div class="form-group sidebar-item">
                             <label for="input-year-edition" class="font-weight-bold">Year of edition</label>
-                            <input type="number" class="form-control" id="input-year-edition" name="yearOfEdition">
+                            <div class="form-row" id="input-year-edition">
+                                <div class="col-auto mb-1">
+                                    <input type="number" min="0" class="form-control" id="input-year-of-edition-from"
+                                           name="yearOfEditionFrom" placeholder="From">
+                                </div>
+                                <div class="col-auto">
+                                    <input type="number" min="0" class="form-control" id="input-year-of-edition-to"
+                                           name="yearOfEditionTo" placeholder="To">
+                                </div>
+                            </div>
                         </div>
                         <div class="form-group sidebar-item">
                             <label for="input-pages" class="font-weight-bold">Number of pages</label>
-                            <input type="number" class="form-control" id="input-pages" name="pages">
+                            <div class="form-row" id="input-pages">
+                                <div class="col-auto mb-1">
+                                    <input type="number" min="0" class="form-control" id="input-pages-from"
+                                           name="pagesFrom" placeholder="From">
+                                </div>
+                                <div class="col-auto">
+                                    <input type="number" min="0" class="form-control" id="input-pages-to"
+                                           name="pagesTo" placeholder="To">
+                                </div>
+                            </div>
                         </div>
                         <button id="search-submit" class="btn btn-block btn-success" type="button"
                                 onclick="advancedSearch()">Search

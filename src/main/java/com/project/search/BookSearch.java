@@ -46,9 +46,10 @@ public class BookSearch {
         return result;
     }
 
-    public List<BookNewDTO> search(String req, Long priceFrom, Long priceTo, String yearOfEdition, Long pages, String searchBy, List<String> categories) {
+    public List<BookNewDTO> search(String req, Long priceFrom, Long priceTo, String yearOfEditionFrom, String yearOfEditionTo, Long pagesFrom,
+                                   Long pagesTo, String searchBy, List<String> categories) {
         if (req == "") {
-            return bookService.getBooksBySearchParameters(priceFrom, priceTo, yearOfEdition, pages, categories);
+            return bookService.getBooksBySearchParameters(priceFrom, priceTo, yearOfEditionFrom, yearOfEditionTo,  pagesFrom, pagesTo, categories);
         }
 
         List<OriginalLanguage> results = getOriginalLanguageList(req);
@@ -64,7 +65,8 @@ public class BookSearch {
                 name = originalLanguage.getAuthor();
                 translitName = originalLanguage.getAuthorTranslit();
             }
-            BookNewDTO bookDTO = bookService.getBookBySearchRequest(name, translitName, originalLanguage, priceFrom, priceTo, yearOfEdition, pages, searchBy, categories);
+            BookNewDTO bookDTO = bookService.getBookBySearchRequest(name, translitName, originalLanguage, priceFrom, priceTo, yearOfEditionFrom,
+                    yearOfEditionTo, pagesFrom, pagesTo, searchBy, categories);
             if (bookDTO != null) {
                 result.add(bookDTO);
             }
