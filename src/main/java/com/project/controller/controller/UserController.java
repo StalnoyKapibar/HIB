@@ -124,11 +124,12 @@ public class UserController {
         user.setLogin(user.getEmail());
         user.setPassword(generateString(new Random(), SOURCES, 10));
         user.setConfirmPassword(user.getPassword());
-        //TODO Дописать это после согласования со славой.
-        /*if (userAccountService.findByEmail(user.getEmail() == null)) {
-            view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessage(result));
+
+        if (userAccountService.findByEmail(user.getEmail())!=null) {
+            view.getModelMap().addAttribute("errorMessage",
+                    "Такой аккаунт уже существует. Войдите под своими данными.");
             return view;
-        }*/
+        }
         if (result.hasErrors()) {
             view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessage(result));
             return view;

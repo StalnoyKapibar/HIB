@@ -115,7 +115,10 @@
                         <button type="submit" id="hiddenSingUpBtn" hidden>HiddenSingUpButton</button>
                     </form>
                 </div>
-
+                <div class="row px-4">
+                    <h5 class="col-12 p-3 rounded text-center alert-danger" th:if="${errorMessage.isHasError()}"
+                        th:text="${errorMessage.getMessage()}" id="errorMessage"></h5>
+                </div>
                 <div class="modal-footer text-right">
                     <button type="button" class="btn btn-primary col-12 mb-4 mx-0" id="singUpButton"
                             onclick="sendSingUpForm()">Sign up

@@ -118,4 +118,13 @@ public class UserAccountServiceImpl implements UserAccountService {
     public UserAccount findByLogin(String login) {
         return userAccountDao.findByLogin(login).get();
     }
+
+    @Override
+    public UserAccount findByEmail(String email){
+        try {
+            return userAccountDao.findByEmail(email).get();
+        } catch (NullPointerException e) {
+            return null;
+        }
+    }
 }
