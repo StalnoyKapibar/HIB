@@ -1,5 +1,4 @@
 let row, primary;
-let id = "";
 let isCheckedCategory = false;
 
 $(document).ready(function () {
@@ -94,17 +93,17 @@ async function setTreeView(category) {
     for (let i in category) {
         row =
             `<div class="category">
-                <div class="custom-control custom-checkbox form-check-inline" id="heading-${i}">
-                    <input class="custom-control-input" type="checkbox" id="check-${i}" value="${category[i].categoryName}">
-                    <label class="custom-control-label" for="check-${i}"></label>
-                    <label class="collapsed" data-toggle="collapse" data-target="#collapse-${i}" aria-expanded="false" aria-controls="collapse-${i}">
+                <div class="custom-control custom-checkbox form-check-inline" id="heading-${category[i].id}">
+                    <input class="custom-control-input" type="checkbox" id="check-${category[i].id}" value="${category[i].categoryName}">
+                    <label class="custom-control-label" for="check-${category[i].id}"></label>
+                    <label class="collapsed" data-toggle="collapse" data-target="#collapse-${category[i].id}" aria-expanded="false" aria-controls="collapse-${category[i].id}">
                        ${category[i].categoryName}(${await getCountBooksByCat(category[i].path)})
                        <i class="fa fa-plus-square-o" aria-hidden="true"></i>
                     </label>
                 </div>
                 <div class="ml-3">
-                    <div id="collapse-${i}" class="collapse" aria-labelledby="heading-${i}" data-parent="#accordionExample">
-                    ${await setChilds(category[i].childrens, i)}
+                    <div id="collapse-${category[i].id}" class="collapse" aria-labelledby="heading-${category[i].id}" data-parent="#accordionExample">
+                    ${await setChilds(category[i].childrens)}
                     </div>
                 </div>
             </div>`;
@@ -112,17 +111,15 @@ async function setTreeView(category) {
     }
 }
 
-async function setChilds(category, count) {
-    id += (count + "-");
+async function setChilds(category) {
     let row = '';
     for (let i in category) {
         if (category[i].childrens === undefined) {
-            id += (count + "-");
             row +=
                 `<div class="category">
-                    <div class="custom-control custom-checkbox form-check-inline" id="heading-${id}${i}">
-                        <input class="custom-control-input" type="checkbox" id="check-${id}${i}" value="${category[i].categoryName}">
-                        <label class="custom-control-label" for="check-${id}${i}">
+                    <div class="custom-control custom-checkbox form-check-inline" id="heading-${category[i].id}">
+                        <input class="custom-control-input" type="checkbox" id="check-${category[i].id}" value="${category[i].categoryName}">
+                        <label class="custom-control-label" for="check-${category[i].id}">
                             ${category[i].categoryName}(${await getCountBooksByCat(category[i].path)})
                         </label>
                     </div>
@@ -130,23 +127,22 @@ async function setChilds(category, count) {
         } else {
             row +=
                 `<div class="category">
-                    <div class="custom-control custom-checkbox form-check-inline" id="heading-${id}${i}">
-                        <input class="custom-control-input" type="checkbox" id="check-${id}${i}" value="${category[i].categoryName}">
-                        <label class="custom-control-label" for="check-${id}${i}"></label>
-                        <label class="collapsed" data-toggle="collapse" data-target="#collapse-${id}${i}" aria-expanded="false" aria-controls="collapse-${id}${i}">
+                    <div class="custom-control custom-checkbox form-check-inline" id="heading-${category[i].id}">
+                        <input class="custom-control-input" type="checkbox" id="check-${category[i].id}" value="${category[i].categoryName}">
+                        <label class="custom-control-label" for="check-${category[i].id}"></label>
+                        <label class="collapsed" data-toggle="collapse" data-target="#collapse-${category[i].id}" aria-expanded="false" aria-controls="collapse-${category[i].id}">
                            ${category[i].categoryName}(${await getCountBooksByCat(category[i].path)})
                            <i class="fa fa-plus-square-o" aria-hidden="true"></i>
                         </label>
                     </div>
                     <div class="ml-3">
-                        <div id="collapse-${id}${i}" class="collapse" aria-labelledby="heading-${id}${i}" data-parent="#accordionExample">
-                            ${await setChilds(category[i].childrens, i)}
+                        <div id="collapse-${category[i].id}" class="collapse" aria-labelledby="heading-${category[i].id}" data-parent="#accordionExample">
+                            ${await setChilds(category[i].childrens)}
                         </div>
                     </div>
                 </div>`;
         }
     }
-    id = "";
     return row;
 }
 
