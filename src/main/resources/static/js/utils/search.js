@@ -156,8 +156,10 @@ function advancedSearch() {
     let request = $('#search-input').val().toLowerCase();
     let priceFrom = $('#input-price-from').val() * 100;
     let priceTo = $('#input-price-to').val() * 100;
-    let yearOfEdition = $('#input-year-edition').val();
-    let pages = $('#input-pages').val();
+    let yearOfEditionFrom = $('#input-year-of-edition-from').val();
+    let yearOfEditionTo = $('#input-year-of-edition-to').val();
+    let pagesFrom = $('#input-pages-from').val();
+    let pagesTo = $('#input-pages-to').val();
     let searchBy = $('#search-by input:checked').val();
     let categories;
     if (!isCheckedCategory) {
@@ -174,7 +176,8 @@ function advancedSearch() {
         categoryRequest += "&categories="+categories[i];
     }
     fetch("/searchAdvanced?request=" + request + "&searchBy=" + searchBy + categoryRequest +
-        "&priceFrom=" + priceFrom + "&priceTo=" + priceTo + "&yearOfEdition=" + yearOfEdition + "&pages=" + pages, {
+        "&priceFrom=" + priceFrom + "&priceTo=" + priceTo + "&yearOfEditionFrom=" + yearOfEditionFrom + "&yearOfEditionTo=" + yearOfEditionTo +
+        "&pagesFrom=" + pagesFrom + "&pagesTo=" + pagesTo, {
         method: "GET",
         headers: {
             'Content-Type': 'application/json',
@@ -237,8 +240,8 @@ function addFindeBooks(data) {
     for (let i = 0; i < data.length; i++) {
         tr.push(`<tr>
                                 <td class="align-middle"><img src="images/book${data[i].id}/${data[i].coverImage}" style="max-width: 60px"></td>
-                                <td class="align-middle">${data[i].author} (${data[i].authorTranslit})</td>
-                                <td class="align-middle">${data[i].name} (${data[i].nameTranslit})</td>
+                                <td class="align-middle">${convertOriginalLanguageRows(data[i].author, data[i].authorTranslit)}</td>
+                                <td class="align-middle">${convertOriginalLanguageRows(data[i].name, data[i].nameTranslit)}</td>
                                 <td class="align-middle">${data[i].pages}</td>
                                 <td class="align-middle">${data[i].yearOfEdition}</td>
                                 <td class="align-middle">${data[i].price / 100}</td>

@@ -1,10 +1,7 @@
 package com.project.dao;
 
 import com.project.dao.abstraction.ShoppingCartDao;
-import com.project.model.CartItem;
-import com.project.model.CartItemDTO;
-import com.project.model.ShoppingCart;
-import com.project.model.ShoppingCartDTO;
+import com.project.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -48,5 +45,10 @@ public class ShoppingCartDaoImpl extends AbstractDao<Long, ShoppingCart> impleme
         }
         updateCart.setCartItems(items);
         entityManager.merge(updateCart);
+    }
+    @Override
+    public List getMaxIdCartItem(){
+        return entityManager.createQuery("select (cartitem.id) from CartItem cartitem").getResultList();
+
     }
 }
