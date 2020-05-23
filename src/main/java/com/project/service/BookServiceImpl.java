@@ -29,6 +29,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public void addBook(Book book) {
+        book.setLastBookOrdered(false);
         bookDAO.add(book);
     }
 
@@ -108,4 +109,15 @@ public class BookServiceImpl implements BookService {
     public List<BookNewDTO> getAllBooksSearchPage() {
         return bookDAO.getAllBooksSearchPage();
     }
+
+    @Override
+    public List<Long> getAllLastOrderedBooks() {
+        return bookDAO.getAllLastOrderedBooks();
+    }
+
+    @Override
+    public void setLastOrderedBooks(List<Long> list) {
+        bookDAO.setLastOrderedBooks(list);
+    }
+
 }

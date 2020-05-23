@@ -43,4 +43,8 @@ public interface BookService {
     BookPageDto getBookPageByPageable(Pageable pageable);
 
     List<BookNewDTO> getAllBooksSearchPage();
+
+    List<Long> getAllLastOrderedBooks();
+
+    void setLastOrderedBooks(List<Long> list);
 }

@@ -239,4 +239,21 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
                 .setParameter("isShow", isShow)
                 .getSingleResult();
     }
+
+    @Override
+    public List<Long> getAllLastOrderedBooks() {
+        String hql = "SELECT b.id FROM Book b WHERE b.lastBookOrdered = true";
+        return entityManager.createQuery(hql).getResultList();
+    }
+
+
+    @Override
+    public void setLastOrderedBooks(List<Long> list) {
+        for (Long id: list) {
+            entityManager.createQuery("update Book set lastBookOrdered = true" +
+                    " where id = :bookId")
+                    .setParameter("bookId", id)
+                    .executeUpdate();
+        }
+    }
 }
