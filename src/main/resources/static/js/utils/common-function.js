@@ -77,6 +77,7 @@ function setLocaleFields() {
             $(".load-more-btn").html(localeFields['load-more']);
             $(".displayed").html(localeFields['displayed']);
             $(".of").html(localeFields['of']);
+            
 
 
             //should be down
