@@ -203,6 +203,7 @@ public class BookController {
     public void deleteImageByFileNameByEditPage(@RequestBody String nameDeleteImageByEditPage) {
         storageService.deleteImageByFileNameByEditPage(nameDeleteImageByEditPage);
     }
+
     @PostMapping("/admin/deleteImageFromDB")
     public void deleteImageByFromDB(@RequestBody String nameDeleteImageByFromDB) {
         storageService.deleteImageByFromDB(nameDeleteImageByFromDB);
