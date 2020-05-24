@@ -1,14 +1,13 @@
 package com.project.controller.restcontroller;
 
+import com.project.dao.CategoryDAO;
 import com.project.model.BookNewDTO;
 import com.project.search.BookSearch;
 import com.project.service.abstraction.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -16,6 +15,9 @@ public class SearchController {
 
     private final BookSearch bookSearch;
     private final BookService bookService;
+
+    @Autowired
+    CategoryDAO categoryDAO;
 
     @Autowired
     public SearchController(BookSearch bookSearch, BookService bookService) {
@@ -26,6 +28,11 @@ public class SearchController {
     @PostMapping("/api/admin/searchResult")
     public List<BookNewDTO> search(@RequestParam(value = "request") String req, @RequestParam(value = "Show") boolean isShow) {
         return bookSearch.search(req, isShow);
+    }
+
+    @GetMapping("/search/byCategory")
+    public List<BookNewDTO> search(@RequestParam(value = "categoryId") Long categoryId) {
+        return bookSearch.search(categoryId);
     }
 
     @GetMapping("/searchResult")
@@ -47,6 +54,17 @@ public class SearchController {
     @GetMapping("/api/booksSearchPage")
     public List<BookNewDTO> getAllBooksSearchPage() {
         List<BookNewDTO> books = bookService.getAllBooksSearchPage();
+        return books;
+    }
+
+    @GetMapping("api/search/{categoryId}")
+    public List<BookNewDTO> getBooksByCategory(@PathVariable("categoryId") long categoryId) {
+        List ids = categoryDAO.getAllChildsIdByParentId(categoryId);
+        List<BookNewDTO> books = new ArrayList<>();
+        for (Object id : ids) {
+            Long idL = Long.parseLong(String.valueOf(id));
+            books.addAll(bookService.getBooksByCategoryId(idL));
+        }
         return books;
     }
 }

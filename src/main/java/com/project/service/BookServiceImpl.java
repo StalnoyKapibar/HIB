@@ -91,6 +91,11 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public List<BookNewDTO> getBooksByCategoryId(Long categoryId) {
+        return bookDAO.getBooksByCategoryId(categoryId);
+    }
+
+    @Override
     public List<BookDTOForCategories> getBooksByCategoryId(Long categoryId, String lang) {
         return bookDAO.getBooksByCategoryId(categoryId, lang);
     }

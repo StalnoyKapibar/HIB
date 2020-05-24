@@ -7,7 +7,7 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
-    $('#input-categories').on('click', '.custom-control-input', function() {
+    $('#input-categories').on('click', '.custom-control-input', function () {
         let $category = $(this).closest('.category');
         if ($(this).is(':checked')) {
             $category.find('.custom-control-input').prop('checked', true);
@@ -15,18 +15,18 @@ $(document).ready(function () {
             $category.find('.custom-control-input').prop('checked', false);
         }
     });
-    $('#input-categories').on('click', 'label', function() {
+    $('#input-categories').on('click', 'label', function () {
         if ($(this).is('.collapsed')) {
             $(this).children('i').removeClass('fa fa-plus-square-o').addClass('far fa-minus-square');
         } else {
             $(this).children('i').removeClass('far fa-minus-square').addClass('fa fa-plus-square-o');
         }
     });
-    $('#input-categories').on('change', '.custom-control-input', function() {
+    $('#input-categories').on('change', '.custom-control-input', function () {
         const getCheckedSiblings = (nearCategory) => {
             let isCheckedSibling = false;
             nearCategory.siblings().each((i, elem) => {
-                if ($(elem).children().children("input").prop("checked")){
+                if ($(elem).children().children("input").prop("checked")) {
                     isCheckedSibling = true;
                     return;
                 }
@@ -45,13 +45,12 @@ $(document).ready(function () {
             isCheckedSiblings = getCheckedSiblings(nearCategory);
         } while (nearCategory.parent().parent().parent().hasClass("category"));
         let $checkboxes = $('#input-categories');
-        isCheckedCategory = $checkboxes.find('.custom-control-input').filter( ':checked' ).length > 0;
+        isCheckedCategory = $checkboxes.find('.custom-control-input').filter(':checked').length > 0;
     });
 });
 
 function getCategoryTree() {
-    fetch('/categories/gettree', {
-    })    .then(function (response) {
+    fetch('/categories/gettree', {}).then(function (response) {
         return response.json()
     })
         .then(function (json) {
@@ -76,11 +75,11 @@ function getCategoryTree() {
 
 function getUnflatten(arr, parentid) {
     let output = [];
-    for(const category of arr) {
-        if(category.parentId == parentid) {
+    for (const category of arr) {
+        if (category.parentId == parentid) {
             let children = getUnflatten(arr, category.id);
 
-            if(children.length) {
+            if (children.length) {
                 category.childrens = children
             }
             output.push(category)
@@ -157,17 +156,17 @@ function advancedSearch() {
     let searchBy = $('#search-by input:checked').val();
     let categories;
     if (!isCheckedCategory) {
-        categories = $("#input-categories input").map(function() {
+        categories = $("#input-categories input").map(function () {
             return $(this).val();
         }).get();
     } else {
-        categories = $("#input-categories input:checked").map(function() {
+        categories = $("#input-categories input:checked").map(function () {
             return $(this).val();
         }).get();
     }
     let categoryRequest = "";
     for (let i in categories) {
-        categoryRequest += "&categories="+categories[i];
+        categoryRequest += "&categories=" + categories[i];
     }
     fetch("/searchAdvanced?request=" + request + "&searchBy=" + searchBy + categoryRequest +
         "&priceFrom=" + priceFrom + "&priceTo=" + priceTo + "&yearOfEditionFrom=" + yearOfEditionFrom + "&yearOfEditionTo=" + yearOfEditionTo +
@@ -184,9 +183,22 @@ function advancedSearch() {
         });
 }
 
-function setPageFields() {
-    if (window.location.search === "") {
-        fetch("/api/booksSearchPage", {
+async function setPageFields() {
+    if (window.location.search === "" && window.location.pathname.split("/").pop() === "search") {
+        await fetch("/api/booksSearchPage", {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        })
+            .then(data => data.json())
+            .then(function (data) {
+                addFindeBooks(data)
+            });
+    } else if (window.location.search === "") {
+        let path = "/api" + window.location.pathname;
+        await fetch(path, {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json',
@@ -198,7 +210,7 @@ function setPageFields() {
                 addFindeBooks(data)
             });
     } else {
-        fetch("/searchResult" + window.location.search, {
+        await fetch("/searchResult" + window.location.search, {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json',

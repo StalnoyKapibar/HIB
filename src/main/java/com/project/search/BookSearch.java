@@ -1,11 +1,11 @@
 package com.project.search;
 
+import com.project.dao.abstraction.BookDao;
 import com.project.model.BookNewDTO;
 import com.project.model.OriginalLanguage;
 import com.project.service.abstraction.BookService;
 import lombok.AllArgsConstructor;
 import org.apache.lucene.search.Query;
-import org.hibernate.search.SearchFactory;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.FullTextQuery;
 import org.hibernate.search.jpa.Search;
@@ -25,8 +25,14 @@ public class BookSearch {
 
     @PersistenceContext
     private final EntityManager entityManager;
-
     private final BookService bookService;
+    private final BookDao bookDao;
+
+    public List<BookNewDTO> search(Long categoryId) {
+        List<BookNewDTO> result =  bookDao.getBooksByCategoryId(categoryId);
+
+        return result;
+    }
 
     public List<BookNewDTO> search(String req) {
         List<BookNewDTO> result = new ArrayList<>();
