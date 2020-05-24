@@ -169,6 +169,7 @@ function buildPage() {
             <Label>Load another image</Label>
             <input type="file" class="form-control-file" id="loadAnotherImage" accept=".jpg" onchange="loadImage('loadAnotherImage','imageList')">
             <div class='car' id='imageList' style='width: 18rem;'>
+            
             </div></div></div></div></div></div>`);
     divAvatar = $("#divAvatar");
     listImages = $("#imageList");
@@ -248,11 +249,15 @@ function buildPage() {
     $('#inedition').attr("value", transliterationText("edition"));
     document.getElementById('originalLanguage').value = tmpArr.originalLanguageName;
     var myHTML = '';
-
+    var myHTMLButtonDelete = '';
     for (let key in tmpArr.listImage) {
-        myHTML += `<img src ='${pathImageDefault + idd + '/'}${tmpArr.listImage[key].nameImage}'  class="pic" alt='...'>`;
+        myHTML += `<img id="carouselImage${key}" src ='${pathImageDefault + idd + '/'}${tmpArr.listImage[key].nameImage}'  class="pic" alt='...'>`;
     }
-
+    for (let key in tmpArr.listImage) {
+        if (tmpArr.listImage[key].nameImage !== "1.jpg") {
+            myHTMLButtonDelete += '<button type="button" onclick="deleteTmpImage(' + key + ')"  class="btn btn-danger m-3">Delete</button>'
+        }
+    }
     $('#bookEditPageForImg').html(`
 <div >
               <div class="row">
@@ -261,7 +266,9 @@ function buildPage() {
               <div class='car card-body' style='width: 20rem;'>
               <div class="pic-ctn">
     ${myHTML}
+    
   </div>
+  ${myHTMLButtonDelete}
             </div></div>
               </div>
               <div class="col"> 
@@ -270,6 +277,7 @@ function buildPage() {
               <div class='car card-body' style='width: 20rem;'>
               <img id='myImage' src =''  class='card-img-top' alt='...'> 
               </div></div>
+              <p><button type="button" onclick="deleteCoverImage(nameImageCover.toString())"  class="btn btn-danger m-3">Delete</button><p>
               </div> </div>`);
 
 
@@ -342,7 +350,7 @@ function sendUpdateBook() {
     var body02 = JSON.stringify(book);
     sendUpdateBookReq(body02);
     confirm("Edit this book?")
-    window.location.href = "http://localhost:8080/page/" + idd;
+    window.location.href = document.referrer;
 }
 
 async function sendUpdateBookReq(x) {
@@ -403,10 +411,11 @@ function setImageCarousel(x) {
 }
 
 function deleteTmpImage(x) {
-    var delTmp = idd + '/' + listImages[x].nameImage;
-    var tmpForShowImage = listImages[x].nameImage;
+    var delTmp = idd + '/' + tmpArr.listImage[x].nameImage;
+    var tmpForShowImage = tmpArr.listImage[x].nameImage;
+    deleteCarouselImageFromDB(x);
     listImages.splice(x, 1);
-
+    $('#carouselImage' + x).attr("src", "");
     buildCarousel();
     fetch('/admin/deleteImageByEditPage', {
         method: 'POST',
@@ -415,6 +424,31 @@ function deleteTmpImage(x) {
         if (tmpForShowImage === nameImageCover) {
             showImage('');
         }
+    });
+}
+function deleteCarouselImageFromDB(x) {
+    var delTmp = tmpArr.listImage[x].id;
+    delete tmpArr.listImage[x];
+    fetch('/admin/deleteImageFromDB', {
+        method: 'POST',
+        body: delTmp
+    }).then(r => {
+
+    });
+}
+
+
+function deleteCoverImage(x) {
+    var delTmp = idd + '/' + x;
+
+    $('#myImage').attr("src", "");
+    $('#carouselImage' + 0).attr("src", "");
+    buildCarousel();
+    fetch('/admin/deleteImageByEditPage', {
+        method: 'POST',
+        body: delTmp
+    }).then(r => {
+
     });
 }
 

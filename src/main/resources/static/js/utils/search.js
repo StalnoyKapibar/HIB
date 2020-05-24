@@ -90,7 +90,7 @@ function getUnflatten(arr, parentid) {
     return output
 }
 
-function setTreeView(category) {
+async function setTreeView(category) {
     for (let i in category) {
         row =
             `<div class="category">
@@ -98,13 +98,13 @@ function setTreeView(category) {
                     <input class="custom-control-input" type="checkbox" id="check-${i}" value="${category[i].categoryName}">
                     <label class="custom-control-label" for="check-${i}"></label>
                     <label class="collapsed" data-toggle="collapse" data-target="#collapse-${i}" aria-expanded="false" aria-controls="collapse-${i}">
-                       ${category[i].categoryName}
+                       ${category[i].categoryName}(${await getCountBooksByCat(category[i].path)})
                        <i class="fa fa-plus-square-o" aria-hidden="true"></i>
                     </label>
                 </div>
                 <div class="ml-3">
                     <div id="collapse-${i}" class="collapse" aria-labelledby="heading-${i}" data-parent="#accordionExample">
-                    ${setChilds(category[i].childrens, i)}
+                    ${await setChilds(category[i].childrens, i)}
                     </div>
                 </div>
             </div>`;
@@ -112,7 +112,7 @@ function setTreeView(category) {
     }
 }
 
-function setChilds(category, count) {
+async function setChilds(category, count) {
     id += (count + "-");
     let row = '';
     for (let i in category) {
@@ -123,7 +123,7 @@ function setChilds(category, count) {
                     <div class="custom-control custom-checkbox form-check-inline" id="heading-${id}${i}">
                         <input class="custom-control-input" type="checkbox" id="check-${id}${i}" value="${category[i].categoryName}">
                         <label class="custom-control-label" for="check-${id}${i}">
-                            ${category[i].categoryName}
+                            ${category[i].categoryName}(${await getCountBooksByCat(category[i].path)})
                         </label>
                     </div>
                 </div>`;
@@ -134,13 +134,13 @@ function setChilds(category, count) {
                         <input class="custom-control-input" type="checkbox" id="check-${id}${i}" value="${category[i].categoryName}">
                         <label class="custom-control-label" for="check-${id}${i}"></label>
                         <label class="collapsed" data-toggle="collapse" data-target="#collapse-${id}${i}" aria-expanded="false" aria-controls="collapse-${id}${i}">
-                           ${category[i].categoryName}
+                           ${category[i].categoryName}(${await getCountBooksByCat(category[i].path)})
                            <i class="fa fa-plus-square-o" aria-hidden="true"></i>
                         </label>
                     </div>
                     <div class="ml-3">
                         <div id="collapse-${id}${i}" class="collapse" aria-labelledby="heading-${id}${i}" data-parent="#accordionExample">
-                            ${setChilds(category[i].childrens, i)}
+                            ${await setChilds(category[i].childrens, i)}
                         </div>
                     </div>
                 </div>`;
@@ -154,8 +154,10 @@ function advancedSearch() {
     let request = $('#search-input').val().toLowerCase();
     let priceFrom = $('#input-price-from').val() * 100;
     let priceTo = $('#input-price-to').val() * 100;
-    let yearOfEdition = $('#input-year-edition').val();
-    let pages = $('#input-pages').val();
+    let yearOfEditionFrom = $('#input-year-of-edition-from').val();
+    let yearOfEditionTo = $('#input-year-of-edition-to').val();
+    let pagesFrom = $('#input-pages-from').val();
+    let pagesTo = $('#input-pages-to').val();
     let searchBy = $('#search-by input:checked').val();
     let categories;
     if (!isCheckedCategory) {
@@ -172,7 +174,8 @@ function advancedSearch() {
         categoryRequest += "&categories="+categories[i];
     }
     fetch("/searchAdvanced?request=" + request + "&searchBy=" + searchBy + categoryRequest +
-        "&priceFrom=" + priceFrom + "&priceTo=" + priceTo + "&yearOfEdition=" + yearOfEdition + "&pages=" + pages, {
+        "&priceFrom=" + priceFrom + "&priceTo=" + priceTo + "&yearOfEditionFrom=" + yearOfEditionFrom + "&yearOfEditionTo=" + yearOfEditionTo +
+        "&pagesFrom=" + pagesFrom + "&pagesTo=" + pagesTo, {
         method: "GET",
         headers: {
             'Content-Type': 'application/json',
@@ -235,8 +238,8 @@ function addFindeBooks(data) {
     for (let i = 0; i < data.length; i++) {
         tr.push(`<tr>
                                 <td class="align-middle"><img src="images/book${data[i].id}/${data[i].coverImage}" style="max-width: 60px"></td>
-                                <td class="align-middle">${data[i].author} (${data[i].authorTranslit})</td>
-                                <td class="align-middle">${data[i].name} (${data[i].nameTranslit})</td>
+                                <td class="align-middle">${convertOriginalLanguageRows(data[i].author, data[i].authorTranslit)}</td>
+                                <td class="align-middle">${convertOriginalLanguageRows(data[i].name, data[i].nameTranslit)}</td>
                                 <td class="align-middle">${data[i].pages}</td>
                                 <td class="align-middle">${data[i].yearOfEdition}</td>
                                 <td class="align-middle">${data[i].price / 100}</td>
@@ -250,4 +253,8 @@ function addFindeBooks(data) {
         );
     }
     $('table').append($(tr.join('')));
+}
+
+async function getCountBooksByCat(category) {
+    return "" + await fetch("/categories/getcount?path=" + category).then(json);
 }

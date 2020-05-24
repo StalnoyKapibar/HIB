@@ -166,9 +166,11 @@ public class BookController {
     @GetMapping("/searchAdvanced")
     public List<BookNewDTO> advancedSearch(@RequestParam(value = "request") String request, @RequestParam(value = "searchBy") String searchBy,
                                           @RequestParam List<String> categories, @RequestParam(value = "priceFrom") Long priceFrom,
-                                          @RequestParam(value = "priceTo") Long priceTo,@RequestParam(value = "yearOfEdition") Long yearOfEdition,
-                                          @RequestParam(value = "pages") Long pages) {
-        List<BookNewDTO> books = bookSearch.search(request, priceFrom, priceTo, String.valueOf(yearOfEdition), pages, searchBy, categories);
+                                          @RequestParam(value = "priceTo") Long priceTo, @RequestParam(value = "yearOfEditionFrom") Long yearOfEditionFrom,
+                                           @RequestParam(value = "yearOfEditionTo") Long yearOfEditionTo, @RequestParam(value = "pagesFrom") Long pagesFrom,
+                                           @RequestParam(value = "pagesTo") Long pagesTo) {
+        List<BookNewDTO> books = bookSearch.search(request, priceFrom, priceTo, String.valueOf(yearOfEditionFrom), String.valueOf(yearOfEditionTo),
+                pagesFrom, pagesTo, searchBy, categories);
         return books;
     }
 
@@ -200,6 +202,10 @@ public class BookController {
     @PostMapping("/admin/deleteImageByEditPage")
     public void deleteImageByFileNameByEditPage(@RequestBody String nameDeleteImageByEditPage) {
         storageService.deleteImageByFileNameByEditPage(nameDeleteImageByEditPage);
+    }
+    @PostMapping("/admin/deleteImageFromDB")
+    public void deleteImageByFromDB(@RequestBody String nameDeleteImageByFromDB) {
+        storageService.deleteImageByFromDB(nameDeleteImageByFromDB);
     }
 
     @PostMapping("/admin/uploadByEditPage")

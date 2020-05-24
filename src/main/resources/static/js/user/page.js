@@ -9,7 +9,6 @@ $(document).ready(function () {
     getLanguage();
     setLocaleFields();
     setPageFields();
-    showSizeCart();
 });
 
 function getCookie(name) {
@@ -28,7 +27,7 @@ function setPageFields() {
         let listOrdersOfCart = [];
         listOrdersOfCart = await getListOrdersOfCart();
         if (listOrdersOfCart.includes(data.id)){
-            $('#addToCart').removeClass("btn-info").addClass("btn-primary disabled").text(addedToshoppingCart);
+            $('#addToCart').removeClass("addToCartBtn").addClass("disabled").text(addedToshoppingCart).attr("disabled","true");
         }
         $('title').text(data.name);
         $('#book-name').text(convertOriginalLanguageRows(data.name, data.nameTranslit));
@@ -105,21 +104,6 @@ function buildCardImage() {
     $('#CardImageOrCarousel').html(`<img id='bookImg' src=${pathImageDefault}${objectBook.id}/${objectBook.coverImage} alt='Card image cap'>`);
 }
 
-async function showSizeCart() {
-    await fetch("/cart/size")
-        .then(status)
-        .then(json)
-        .then(function (data) {
-            if (data != 0) {
-                $("#bucketIn").empty();
-                $("#bucketIn").append(data)
-            } else {
-                $('#bucketIn').empty();
-            }
-        });
-}
-
-
 function addToCart(id) {
     fetch("/cart/" + id, {
         method: "POST"
@@ -161,16 +145,6 @@ $(document).ready(function () {
             showSizeCart();
         })
     });
-});
-
-$("body").on('click', '#addToCart', function () {
-    let id = $(this).attr("data-id");
-    addToCart(id);
-    $('#addToCart').removeClass("btn-info").addClass("btn-primary disabled").text(addedToshoppingCart);
-    setTimeout(function () {
-        showSizeCart();
-    }, 20)
-
 });
 
 function openEdit() {

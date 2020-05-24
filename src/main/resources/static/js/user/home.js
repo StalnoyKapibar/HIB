@@ -19,10 +19,6 @@ $(document).ready(function () {
     amountBooksInPage = ddmAmountBook.text();
     getPageWithBooks(ddmAmountBook.text(), currentPage++);
     openModalLoginWindowOnFailure();
-    if(!isAdmin){
-        showSizeCart();
-        showOrderSize();
-    }
     loadWelcome(currentLang);
 });
 
@@ -42,11 +38,11 @@ function getQuantityPage() {
       $("#rowForPagination").empty();
       $.each(books, function (index) {
           let textOfBtn = listOrdersOfCart.includes(books[index].id) ? addedToshoppingCart : addToshoppingCart;
-          let cssOfBtn = listOrdersOfCart.includes(books[index].id) ? "btn-outline-success disabled" : "btn-success";
+          let cssOfBtn = listOrdersOfCart.includes(books[index].id) ? "disabled" : "addToCartBtn";
           let card = `<div class="col mb-4">
                                     <a class="card border-0" href="/page/${books[index].id}" style="color: black">
-                                        <img class="card-img-top mb-1" src="images/book${books[index].id}/${books[index].coverImage}" alt="Card image cap">
-                                        <div class="card-body">
+                                        <img class="card-img-top mb-1" src="images/book${books[index].id}/${books[index].coverImage}" style="object-fit: contain; height: 400px; " alt="Card image cap">
+                                        <div class="card-body" style="padding-bottom: 30px">
                                             <h5 class="card-title">${convertOriginalLanguageRows(books[index].nameAuthorDTOLocale, books[index].authorTranslit)}</h5>
                                             <h6 class="card-text text-muted">${convertOriginalLanguageRows(books[index].nameBookDTOLocale, books[index].nameTranslit)}</h6>
                                             <h5 class="card-footer bg-transparent text-left pl-0">${covertPrice(books[index].price) + currencyIcon}</h5>
@@ -60,7 +56,7 @@ function getQuantityPage() {
                                                     ${editBook}
                                                   </div>`:
                                                 `<div style="position: absolute; bottom: 5px; left: 15px; right: 15px" id="bottomInCart" type="button" 
-                                                      class="btn ${cssOfBtn} btn-metro"  data-id="${books[index].id}">                        
+                                                      class="btn btn-success ${cssOfBtn} btn-metro"  data-id="${books[index].id}">                        
                                                     ${textOfBtn}
                                                 </div>`}
                                 </div>`;
@@ -149,49 +145,17 @@ function covertPrice(price) {
     return price / 100;
 }
 
-async function showSizeCart() {
-    await fetch("/cart/size")
-        .then(status)
-        .then(json)
-        .then(function (data) {
-            if (data != 0) {
-                $("#bucketIn").empty();
-                $("#bucketIn1").empty();
-                $("#bucketIn").append(data)
-                $("#bucketIn1").append(data)
-            } else {
-                $('#bucketIn').empty();
-            }
-        });
-}
-
-async function showOrderSize() {
-    await fetch("/order/size")
-        .then(status)
-        .then(json)
-        .then(function (data) {
-            if (data != 0) {
-                $("#orders-quantity").empty();
-                $("#orders-quantity1").empty();
-                $("#orders-quantity").append(data)
-                $("#orders-quantity1").append(data)
-
-            } else {
-                $('#orders-quantity').empty();
-            }
-        });
-}
-
 $(document).ready(function () {
-    $("body").on('click', '.btn-success', function () {
+    $("body").on('click', '.addToCartBtn', function () {
         let id = $(this).attr("data-id");
         addToCart(id);
-        $(this).removeClass("btn-success")
-            .addClass("btn-outline-success disabled")
+        $(this).removeClass("addToCartBtn")
+            .addClass("disabled")
+            .attr('disabled', 'true')
             .text(addedToshoppingCart);
         setTimeout(function () {
             showSizeCart();
-        }, 20)
+        }, 100)
 
     })
 });

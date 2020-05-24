@@ -22,12 +22,19 @@ public class OrderController {
 
     @PostMapping("/api/user/order/confirmaddress")
     private OrderDTO addOder(HttpSession httpSession) {
-        ShoppingCartDTO shoppingCartDTO = cartService.getCartById((Long) httpSession.getAttribute("cartId"));
+        ShoppingCartDTO shoppingCartDTO = null;
         OrderDTO order = new OrderDTO();
-        order.setItems(shoppingCartDTO.getCartItems());
+        if (httpSession.getAttribute("cartId") == null) {
+            shoppingCartDTO = cartService.getCartById((Long) httpSession.getAttribute("cartId1click"));
+            order.setItems(((ShoppingCartDTO) httpSession.getAttribute("shoppingcart")).getCartItems());
+            order.setItemsCost((int) ((ShoppingCartDTO) httpSession.getAttribute("shoppingcart")).getTotalCostItems());
+        } else {
+            shoppingCartDTO = cartService.getCartById((Long) httpSession.getAttribute("cartId"));
+            order.setItems(shoppingCartDTO.getCartItems());
+            order.setItemsCost((int) shoppingCartDTO.getTotalCostItems());
+        }
         order.setData(LocalDate.now().toString());
         order.setShippingCost(350);
-        order.setItemsCost((int) shoppingCartDTO.getTotalCostItems());
         order.setStatus(Status.PROCESSING);
         Long userId = (Long) httpSession.getAttribute("userId");
         order.setUserAccount(userAccountService.getUserById(userId));
@@ -44,14 +51,27 @@ public class OrderController {
 
     @PostMapping("/order")
     private void confirmOrder(HttpSession httpSession) {
+        ShoppingCartDTO shoppingCartDTO = new ShoppingCartDTO();
         OrderDTO order = (OrderDTO) httpSession.getAttribute("order");
         ContactsOfOrderDTO contacts = (ContactsOfOrderDTO) httpSession.getAttribute("contacts");
         order.setContacts(contacts);
         order.setComment(contacts.getComment());
-        ShoppingCartDTO shoppingCartDTO = cartService.getCartById((Long) httpSession.getAttribute("cartId"));
-        shoppingCartDTO.getCartItems().clear();
-        cartService.updateCart(shoppingCartDTO);
+        if (httpSession.getAttribute("cartId") == null) {
+
+            order.setItems(((ShoppingCartDTO) httpSession.getAttribute("shoppingcart")).getCartItems());
+            for (int i = 1; i <= ((ShoppingCartDTO) httpSession.getAttribute("shoppingcart")).getCartItems().size(); i++) {
+                order.getItems().get(i - 1).setId((long) i + cartService.getMaxIdCartItem().size());
+                shoppingCartDTO.addCartItem(order.getItems().get(i - 1).getBook());
+            }
+            cartService.updateCart(shoppingCartDTO);
+        } else {
+            shoppingCartDTO = cartService.getCartById((Long) httpSession.getAttribute("cartId"));
+            shoppingCartDTO.getCartItems().clear();
+            cartService.updateCart(shoppingCartDTO);
+        }
+
         orderService.addOrder(order.getOder());
+        httpSession.removeAttribute("shoppingcart");
     }
 
     @GetMapping("/order/getorders")
