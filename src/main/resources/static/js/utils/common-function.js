@@ -34,12 +34,15 @@ function setLocaleFields() {
             $('#made_by').text(localeFields['madeby']);
             $('#link_search_page_header').text(localeFields['searchPage']);
             $('#author_search_page').text(localeFields['Author']);
-            $('#name_search_page').text(localeFields['name']);
+            $('#name_search_page').text(localeFields['Name']);
             $('#pages_search_page').text(localeFields['pages']);
             $('#edition_search_page').text(localeFields['yearOfEdition']);
             $('#price_search_page').text(localeFields['Price']);
             $('#category_search_page').text(localeFields['category']);
             $('#search_by_search_page_menu').text(localeFields['searchBy']);
+            $('#name_author_search_by').text(localeFields['titleAndAuthor']);
+            $('#name_search_by').text(localeFields['name']);
+            $('#author_search_by').text(localeFields['authorr']);
             $('#categories_search_page_menu').text(localeFields['category']);
             $('#price_search_page_menu').text(localeFields['price']);
             $('#edition_search_page_menu').text(localeFields['yearOfEdition']);
