@@ -43,6 +43,9 @@
             <th:block th:case="'/admin/panel/orders'">
                 <div th:replace="admin/orders :: orders"></div>
             </th:block>
+            <th:block th:case="'/gmail/admin'">
+                <div th:replace="admin/orders :: orders"></div>
+            </th:block>
             <th:block th:case="*">
                 <div th:replace="admin/not-found :: not-found"></div>
             </th:block>
