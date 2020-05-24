@@ -576,7 +576,6 @@ pre code {
     flex-wrap: wrap;
     margin-right: -15px;
     margin-left: -15px
-
 }
 
 .no-gutters {
@@ -4710,7 +4709,7 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
     background-color: #fff;
     background-clip: border-box;
     border: 1px solid rgba(0, 0, 0, .125);
-    border-radius: .25rem;
+    border-radius: .25rem
 }
 
 .card > hr {
@@ -4806,27 +4805,24 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
     right: 0;
     bottom: 0;
     left: 0;
-    padding: 1.25rem;
-    object-fit: cover;
-
+    padding: 1.25rem
 }
 
 .card-img, .card-img-bottom, .card-img-top {
-    position: relative;
-    object-fit: cover;
-    min-height: 100%;
+    -ms-flex-negative: 0;
+    flex-shrink: 10;
+    width: 100%;
+    height: 350px;
 }
 
 .card-img, .card-img-top {
     border-top-left-radius: calc(.25rem - 1px);
-    border-top-right-radius: calc(.25rem - 1px);
-    object-fit: cover;
+    border-top-right-radius: calc(.25rem - 1px)
 }
 
 .card-img, .card-img-bottom {
     border-bottom-right-radius: calc(.25rem - 1px);
-    border-bottom-left-radius: calc(.25rem - 1px);
-    object-fit: cover;
+    border-bottom-left-radius: calc(.25rem - 1px)
 }
 
 .card-deck .card {
