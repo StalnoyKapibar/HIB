@@ -228,4 +228,9 @@ public class BookController {
                 Integer.parseInt(params.get("limit")), Sort.by(Sort.Order.asc("id")));
         return bookService.getBookPageByPageable(pageable);
     }
+
+    @GetMapping("/api/book/lastOrderedBooks")
+    public List<Long> getAllLastOrderedBooks() {
+        return bookService.getAllLastOrderedBooks();
+    }
 }
