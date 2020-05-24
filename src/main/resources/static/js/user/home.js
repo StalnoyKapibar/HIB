@@ -19,10 +19,6 @@ $(document).ready(function () {
     amountBooksInPage = ddmAmountBook.text();
     getPageWithBooks(ddmAmountBook.text(), currentPage++);
     openModalLoginWindowOnFailure();
-    if(!isAdmin){
-        showSizeCart();
-        showOrderSize();
-    }
     loadWelcome(currentLang);
 });
 
@@ -45,7 +41,7 @@ function getQuantityPage() {
           let cssOfBtn = listOrdersOfCart.includes(books[index].id) ? "disabled" : "addToCartBtn";
           let card = `<div class="col mb-4">
                                     <a class="card border-0" href="/page/${books[index].id}" style="color: black">
-                                        <img class="card-img-top mb-1" src="images/book${books[index].id}/${books[index].coverImage}" style="object-fit: contain; height: 400px; " alt="Card image cap">
+                                        <img class="card-img-top mb-1" src="images/book${books[index].id}/${books[index].coverImage}" style="object-fit: cover; height: 400px; " alt="Card image cap">
                                         <div class="card-body" style="padding-bottom: 30px">
                                             <h5 class="card-title">${convertOriginalLanguageRows(books[index].nameAuthorDTOLocale, books[index].authorTranslit)}</h5>
                                             <h6 class="card-text text-muted">${convertOriginalLanguageRows(books[index].nameBookDTOLocale, books[index].nameTranslit)}</h6>
@@ -147,28 +143,6 @@ function setAmountBooksInPage(amount) {
 
 function covertPrice(price) {
     return price / 100;
-}
-
-function showSizeCart() {
-     fetch("/cart/size")
-        .then(response => response.text())
-        .then(function (data) {
-            if (data !== "0") {
-                $("#bucketIn").html(`${data}`);
-                $("#bucketIn1").html(`${data}`);
-            }
-        });
-}
-
-function showOrderSize() {
-     fetch("/order/size")
-        .then(response => response.text())
-        .then(function (data) {
-            if (data !== "0") {
-                $("#orders-quantity").html(`${data}`);
-                $("#orders-quantity1").html(`${data}`);
-            }
-        });
 }
 
 $(document).ready(function () {

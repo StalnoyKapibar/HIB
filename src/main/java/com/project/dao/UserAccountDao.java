@@ -26,11 +26,17 @@ public class UserAccountDao extends AbstractDao<Long, UserAccount> {
         }
     }
 
+
     public Optional<UserAccount> findByEmail(String email) throws EmptyResultDataAccessException {
         String sql = "SELECT * FROM users WHERE email =:email";
-        UserAccount userAccount = (UserAccount) entityManager.createNativeQuery(sql, UserAccount.class)
-                .setParameter("email", email).getSingleResult();
-        return Optional.ofNullable(userAccount);
+        try {
+            UserAccount userAccount = (UserAccount) entityManager.createNativeQuery(sql, UserAccount.class)
+                    .setParameter("email", email).getSingleResult();
+            return Optional.ofNullable(userAccount);
+        } catch (NoResultException e) {
+            return null;
+        }
+
     }
 
     public UserAccount findUserByTokenToConfirmEmail(String token) throws EmptyResultDataAccessException {

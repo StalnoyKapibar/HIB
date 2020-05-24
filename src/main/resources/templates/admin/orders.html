@@ -10,6 +10,7 @@
      th:fragment="orders">
     <script src="/static/js/admin/adminOrders.js"></script>
     <script src="/static/js/main.js"></script>
+    <script src="/static/js/gmailProperties.js"></script>
     <div class="card">
         <div class="card-header">
             <div class="row ">
@@ -21,6 +22,11 @@
                     <input type="checkbox" id="statusCheckbox"  checked data-toggle="toggle" data-on="Processing"
                            data-off="Completed" data-onstyle="warning text-white " data-offstyle="success">
                     </label>
+                </div>
+                <div>
+                    <a type="button" class="btn btn-primary" id="gmail-access" style="margin-top: 8px"
+                       href="#">
+                        gmail access</a>
                 </div>
             </div>
         </div>
@@ -37,6 +43,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
+                            <div class="container" id="chat" style="height: 200px; overflow: auto"></div>
                             <table class="table h6" id="modalBody"></table>
                             <div id="contactsOfUser"></div>
                         </div>

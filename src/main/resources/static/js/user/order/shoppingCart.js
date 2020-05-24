@@ -21,7 +21,10 @@ function convertPrice(price) {
     return price / 100;
 }
 
-function getShoppingCart() {
+async function getShoppingCart() {
+    const lastOrderedBooks = await getLastOrderedBooks();
+    let isOrderEnable = true;
+
         setTimeout(async function () {
             await POST("/cart")
                 .then(status)
@@ -38,18 +41,41 @@ function getShoppingCart() {
                         let row = $('<tr id="trr"/>');
                         let cell = $('<td width="10"></td>');
                         row.append(cell);
-                        cell = `<td class="align-middle"><img src="/images/book${book.id}/${book.coverImage}" style="max-width: 60px"></td>
-                        <td class="align-middle">${convertOriginalLanguageRows(book.originalLanguage.name, book.originalLanguage.nameTranslit)} | ${convertOriginalLanguageRows(book.originalLanguage.author, book.originalLanguage.authorTranslit)}</td>
-                        <td class="align-middle">${price + currencyIcon}</td>
-                        <td hidden id="book${book.id}">${price}</td>
-                        <td class="align-middle"><button class="btn btn-info delete"  style="background-color: #ff4500" data-id="${book.id}">${deleteBottom}</button></td>`;
+
+                        let first = `<td class="align-middle"><img src="/images/book${book.id}/${book.coverImage}" style="max-width: 60px"></td>`;
+                        let second = `<td class="align-middle">${convertOriginalLanguageRows(book.originalLanguage.name, book.originalLanguage.nameTranslit)} | ${convertOriginalLanguageRows(book.originalLanguage.author, book.originalLanguage.authorTranslit)}</td>`;
+                        if(lastOrderedBooks.includes(book.id)) {
+                            isOrderEnable = false;
+                            row.css ("opacity", "0.5");
+                            row.css("background-color", "#FFB3B3");
+                            second = `<td class="align-middle">${convertOriginalLanguageRows(book.originalLanguage.name, book.originalLanguage.nameTranslit)} | ${convertOriginalLanguageRows(book.originalLanguage.author, book.originalLanguage.authorTranslit)} 
+                            <div id="errorMessage" style ="color: red; font-weight: 900;">Book is temporary unavailable! Please, delete it or try later!</div></td>`;
+
+                        }
+                        let third = `<td class="align-middle">${price + currencyIcon}</td>`;
+                        let forth = `<td hidden id="book${book.id}">${price}</td>`;
+                        let fifth = `<td class="align-middle"><button class="btn btn-info delete"  style="background-color: #ff4500" data-id="${book.id}">${deleteBottom}</button></td>`;
+
+                        cell = first + second + third + forth + fifth;
+
                         row.append(cell);
                         row.appendTo('#newTab');
                         $('#sum').text(totalPrice + currencyIcon);
+
+
                     });
-                    $('#forButtonCheckout').html(`<div><button class="btn btn-primary" id="chechout" onclick="confirmAddress()" type="button">
+                    if(!isOrderEnable) {
+                        $('#shoppingCardOrderDisabledMessage').text('Please resolve shopping cart warnings before proceeding')
+                        $('#forButtonCheckout').html(`<div><button class="btn btn-primary" id="chechout" onclick="confirmAddress()" type="button" disabled="disabled">
                                     Checkout
                                 </button></div>`)
+                    } else {
+                        $('#shoppingCardOrderDisabledMessage').text('');
+                        $('#forButtonCheckout').html(`<div><button class="btn btn-primary" id="chechout" onclick="confirmAddress()" type="button">
+                                    Checkout
+                                </button></div>`)
+                    }
+
                 });
         }, 10);
 }
@@ -77,6 +103,7 @@ $(document).ready(function () {
             method: 'DELETE',
         }).then(function () {
             getShoppingCart();
+            showSizeCart();
         })
     });
     $("body").on('change', '.product-quantity input', function () {
@@ -265,6 +292,8 @@ async function showListOrders() {
             }
             $('#listorders').html(html);
         });
+
+
 }
 
 function showCarrentOrder(index) {
@@ -321,5 +350,17 @@ function showCarrentOrder(index) {
     html +=`</div></div>`;
     $('#contactStatus').html(html);
 }
+
+async function getLastOrderedBooks() {
+    const url = '/api/book/lastOrderedBooks';
+    const res = await fetch(url);
+    const data = await res.json();
+    return data;
+}
+
+
+
+
+
 
 
