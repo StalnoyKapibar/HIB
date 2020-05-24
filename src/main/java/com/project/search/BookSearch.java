@@ -95,7 +95,6 @@ public class BookSearch {
                 .buildQueryBuilder()
                 .forEntity(OriginalLanguage.class)
                 .get();
-//fullTextEntityManager.createFullTextQuery(queryBuilder.keyword().wildcard().onFields("author", "name", "edition","authorTranslit", "nameTranslit", "editionTranslit").matching(req + "*").createQuery(), OriginalLanguage.class).getResultList()
         Query query = queryBuilder
                 .keyword()
                 .wildcard()
