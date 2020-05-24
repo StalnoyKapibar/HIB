@@ -52,7 +52,6 @@ function setLocaleFields() {
             bottom = localeFields['bookbotom'];
             addToshoppingCart = localeFields['addToshoppingCart'];
             editBook = localeFields['editBook'];
-            addedToshoppingCart = localeFields['addedToshoppingCart'];
             deleteBottom = localeFields['deleteBottom'];
             $('#modalClose').text(localeFields['close']);
             $('.page-of-book-localize').text(localeFields['pageofBook']);
