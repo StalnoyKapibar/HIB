@@ -204,6 +204,11 @@ public class BookController {
         storageService.deleteImageByFileNameByEditPage(nameDeleteImageByEditPage);
     }
 
+    @PostMapping("/admin/deleteImageFromDB")
+    public void deleteImageByFromDB(@RequestBody String nameDeleteImageByFromDB) {
+        storageService.deleteImageByFromDB(nameDeleteImageByFromDB);
+    }
+
     @PostMapping("/admin/uploadByEditPage")
     public HttpStatus fileUploadByEditPage(@RequestBody MultipartFile file, String idPaperForSaveImages) {
         storageService.saveImageByEditBook(file, idPaperForSaveImages);
