@@ -1,6 +1,7 @@
 package com.project.controller.restcontroller;
 
 import com.project.model.*;
+import com.project.service.abstraction.BookService;
 import com.project.service.abstraction.OrderService;
 import com.project.service.abstraction.ShoppingCartService;
 import com.project.service.abstraction.UserAccountService;
@@ -19,6 +20,7 @@ public class OrderController {
     private ShoppingCartService cartService;
     private OrderService orderService;
     private UserAccountService userAccountService;
+    private BookService bookService;
 
     @PostMapping("/api/user/order/confirmaddress")
     private OrderDTO addOder(HttpSession httpSession) {
@@ -69,7 +71,11 @@ public class OrderController {
             shoppingCartDTO.getCartItems().clear();
             cartService.updateCart(shoppingCartDTO);
         }
-
+        List<Long> listOfBooksIdInOrder = new ArrayList<>();
+        for (CartItemDTO cartItem : order.getItems()) {
+            listOfBooksIdInOrder.add(cartItem.getBook().getId());
+        }
+        bookService.setLastOrderedBooks(listOfBooksIdInOrder);
         orderService.addOrder(order.getOder());
         httpSession.removeAttribute("shoppingcart");
     }

@@ -51,6 +51,7 @@ function setLocaleFields() {
             $('#headpost').text(localeFields['headpost']);
             bottom = localeFields['bookbotom'];
             addToshoppingCart = localeFields['addToshoppingCart'];
+            addedToshoppingCart = localeFields['addedToshoppingCart'];
             editBook = localeFields['editBook'];
             deleteBottom = localeFields['deleteBottom'];
             $('#modalClose').text(localeFields['close']);
@@ -88,6 +89,7 @@ function setLocaleFields() {
             $(".load-more-btn").html(localeFields['load-more']);
             $(".displayed").html(localeFields['displayed']);
             $(".of").html(localeFields['of']);
+            
 
 
             //should be down
