@@ -233,4 +233,9 @@ public class BookController {
     public List<Long> getAllLastOrderedBooks() {
         return bookService.getAllLastOrderedBooks();
     }
+
+    @GetMapping(value = "/api/allBookForLiveSearch")
+    public List<BookNewDTO> getAllLightBookDtoForSearch() {
+        return bookService.getAllLightBookDtoForSearch();
+    }
 }
