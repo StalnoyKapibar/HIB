@@ -71,14 +71,11 @@ public class OrderController {
             shoppingCartDTO.getCartItems().clear();
             cartService.updateCart(shoppingCartDTO);
         }
-
         List<Long> listOfBooksIdInOrder = new ArrayList<>();
-        for (CartItemDTO cartItem: order.getItems()
-        ) {
+        for (CartItemDTO cartItem : order.getItems()) {
             listOfBooksIdInOrder.add(cartItem.getBook().getId());
         }
         bookService.setLastOrderedBooks(listOfBooksIdInOrder);
-
         orderService.addOrder(order.getOder());
         httpSession.removeAttribute("shoppingcart");
     }

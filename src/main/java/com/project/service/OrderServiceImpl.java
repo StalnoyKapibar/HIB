@@ -33,7 +33,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void deleteOrder(Order order) {
-            for (CartItem cartItem : order.getItems()) {
+        for (CartItem cartItem : order.getItems()) {
             Book book = cartItem.getBook();
             book.setLastBookOrdered(false);
         }
