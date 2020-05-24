@@ -20,7 +20,6 @@ public class ShoppingCartController {
     private ShoppingCartService cartService;
 
     @GetMapping("/cart/size")
-    //TODO вот здесь надо правильно вернуть размер корзины
     public int getCartSize(HttpSession session, Authentication authentication) {
         Long cartId = (Long) session.getAttribute("cartId");
         if (cartId != null) {

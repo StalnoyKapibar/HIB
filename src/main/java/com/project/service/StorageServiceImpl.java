@@ -12,11 +12,13 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Stream;
 
+import com.project.dao.BookDaoImpl;
 import com.project.exceptions.StorageException;
 import com.project.exceptions.StorageFileNotFoundException;
 import com.project.model.Image;
 import com.project.service.abstraction.StorageService;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,8 @@ import org.springframework.web.multipart.MultipartFile;
 public class StorageServiceImpl implements StorageService {
 
     private final Path path = Paths.get("img/tmp/");
+    @Autowired
+    private BookDaoImpl bookDao;
 
     @Override
     public String saveImage(MultipartFile file) {
@@ -51,7 +55,7 @@ public class StorageServiceImpl implements StorageService {
     public Stream<Path> loadAll() {
         try {
             return Files.walk(this.path, 1)
-                    .filter(path -> !path.equals(this.path))
+                        .filter(path -> !path.equals(this.path))
                     .map(this.path::relativize);
         } catch (IOException e) {
             throw new StorageException("Failed to read stored files", e);
@@ -209,5 +213,10 @@ public class StorageServiceImpl implements StorageService {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public void deleteImageByFromDB(String nameDeleteImageByEditPage) {
+        bookDao.deleteImgfromDB(nameDeleteImageByEditPage);
     }
 }
