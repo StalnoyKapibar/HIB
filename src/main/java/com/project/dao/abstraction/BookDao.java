@@ -36,4 +36,8 @@ public interface BookDao extends GenericDao<Long, Book> {
     BookPageDto getBookPageByPageable(Pageable pageable);
 
     List<BookNewDTO> getAllBooksSearchPage();
+
+    List<Long> getAllLastOrderedBooks();
+
+    void setLastOrderedBooks(List<Long> list);
 }

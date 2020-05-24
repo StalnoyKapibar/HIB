@@ -173,6 +173,11 @@ public class BookController {
         storageService.deleteImageByFileNameByEditPage(nameDeleteImageByEditPage);
     }
 
+    @PostMapping("/admin/deleteImageFromDB")
+    public void deleteImageByFromDB(@RequestBody String nameDeleteImageByFromDB) {
+        storageService.deleteImageByFromDB(nameDeleteImageByFromDB);
+    }
+
     @PostMapping("/admin/uploadByEditPage")
     public HttpStatus fileUploadByEditPage(@RequestBody MultipartFile file, String idPaperForSaveImages) {
         storageService.saveImageByEditBook(file, idPaperForSaveImages);
@@ -191,5 +196,10 @@ public class BookController {
         Pageable pageable = PageRequest.of(Integer.parseInt(params.get("start")),
                 Integer.parseInt(params.get("limit")), Sort.by(Sort.Order.asc("id")));
         return bookService.getBookPageByPageable(pageable);
+    }
+
+    @GetMapping("/api/book/lastOrderedBooks")
+    public List<Long> getAllLastOrderedBooks() {
+        return bookService.getAllLastOrderedBooks();
     }
 }

@@ -5,11 +5,13 @@ import com.project.model.*;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Primary
 @Repository
+@Transactional
 public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
 
     BookDaoImpl() {
@@ -249,5 +251,29 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
                 .createQuery("SELECT COUNT (1) FROM Book WHERE isShow = :isShow", Long.class)
                 .setParameter("isShow", isShow)
                 .getSingleResult();
+    }
+
+    @Transactional
+    public void deleteImgfromDB(String idImage) {
+        entityManager.createNativeQuery("delete from book_list_image where list_image_id like :idImage").setParameter("idImage", idImage)
+                .executeUpdate();
+
+    }
+
+    @Override
+    public List<Long> getAllLastOrderedBooks() {
+        String hql = "SELECT b.id FROM Book b WHERE b.lastBookOrdered = true";
+        return entityManager.createQuery(hql).getResultList();
+    }
+
+
+    @Override
+    public void setLastOrderedBooks(List<Long> list) {
+        for (Long id : list) {
+            entityManager.createQuery("update Book set lastBookOrdered = true" +
+                    " where id = :bookId")
+                    .setParameter("bookId", id)
+                    .executeUpdate();
+        }
     }
 }

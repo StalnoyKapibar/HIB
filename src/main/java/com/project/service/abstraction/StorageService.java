@@ -43,4 +43,6 @@ public interface StorageService {
 	void createTmpFolderForImages();
 
 	boolean doesFolderTmpExist();
+
+    void deleteImageByFromDB(String nameDeleteImageByEditPage);
 }
