@@ -428,6 +428,7 @@ function deleteTmpImage(x) {
 }
 function deleteCarouselImageFromDB(x) {
     var delTmp = tmpArr.listImage[x].id;
+    delete tmpArr.listImage[x];
     fetch('/admin/deleteImageFromDB', {
         method: 'POST',
         body: delTmp

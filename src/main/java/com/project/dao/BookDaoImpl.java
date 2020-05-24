@@ -243,9 +243,7 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
     }
     @Transactional
     public void deleteImgfromDB(String idImage) {
-        long idimage1 = Long.valueOf(idImage);
-        String sql = "delete from book_list_image where list_image_id = "+idImage ;
-        entityManager.createNativeQuery(sql)
+        entityManager.createNativeQuery("delete from book_list_image where list_image_id like :idImage").setParameter("idImage",idImage)
                 .executeUpdate();
 
     }
