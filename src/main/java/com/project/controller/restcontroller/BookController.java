@@ -24,18 +24,17 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 @RestController
 public class BookController {
 
+    private final static Logger LOGGER = LoggerFactory.getLogger(BookController.class.getName());
     private final BookService bookService;
     private final BookSearch bookSearch;
     private final HibParser hibParser;
     private final StorageService storageService;
-    private final static Logger LOGGER = LoggerFactory.getLogger(BookController.class.getName());
 
     @Autowired
     public BookController(BookService bookService, BookSearch bookSearch,
@@ -110,7 +109,7 @@ public class BookController {
 
     @PostMapping("/admin/add")
     public void addBook(@RequestBody Book book) {
-        if(book.getCoverImage() == null) {
+        if (book.getCoverImage() == null) {
             book.setCoverImage("book.jpg");
             bookService.addBook(book);
             String lastId = bookService.getLastIdOfBook();
@@ -154,7 +153,7 @@ public class BookController {
     }
 
     @PostMapping("/api/admin/searchResult")
-    public List<BookNewDTO> search(@RequestParam(value = "request") String req,@RequestParam(value = "Show") boolean isShow) {
+    public List<BookNewDTO> search(@RequestParam(value = "request") String req, @RequestParam(value = "Show") boolean isShow) {
         return bookSearch.search(req, isShow);
     }
 
@@ -165,8 +164,8 @@ public class BookController {
 
     @GetMapping("/searchAdvanced")
     public List<BookNewDTO> advancedSearch(@RequestParam(value = "request") String request, @RequestParam(value = "searchBy") String searchBy,
-                                          @RequestParam List<String> categories, @RequestParam(value = "priceFrom") Long priceFrom,
-                                          @RequestParam(value = "priceTo") Long priceTo, @RequestParam(value = "yearOfEditionFrom") Long yearOfEditionFrom,
+                                           @RequestParam List<String> categories, @RequestParam(value = "priceFrom") Long priceFrom,
+                                           @RequestParam(value = "priceTo") Long priceTo, @RequestParam(value = "yearOfEditionFrom") Long yearOfEditionFrom,
                                            @RequestParam(value = "yearOfEditionTo") Long yearOfEditionTo, @RequestParam(value = "pagesFrom") Long pagesFrom,
                                            @RequestParam(value = "pagesTo") Long pagesTo) {
         List<BookNewDTO> books = bookSearch.search(request, priceFrom, priceTo, String.valueOf(yearOfEditionFrom), String.valueOf(yearOfEditionTo),
@@ -179,7 +178,6 @@ public class BookController {
         List<BookNewDTO> books = bookService.getAllBooksSearchPage();
         return books;
     }
-
 
 
     @PostMapping("/admin/upload")
@@ -203,6 +201,7 @@ public class BookController {
     public void deleteImageByFileNameByEditPage(@RequestBody String nameDeleteImageByEditPage) {
         storageService.deleteImageByFileNameByEditPage(nameDeleteImageByEditPage);
     }
+
     @PostMapping("/admin/deleteImageFromDB")
     public void deleteImageByFromDB(@RequestBody String nameDeleteImageByFromDB) {
         storageService.deleteImageByFromDB(nameDeleteImageByFromDB);

@@ -240,10 +240,12 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
                 .createQuery("SELECT COUNT (1) FROM Book WHERE isShow = :isShow", Long.class)
                 .setParameter("isShow", isShow)
                 .getSingleResult();
+
     }
+
     @Transactional
     public void deleteImgfromDB(String idImage) {
-        entityManager.createNativeQuery("delete from book_list_image where list_image_id like :idImage").setParameter("idImage",idImage)
+        entityManager.createNativeQuery("delete from book_list_image where list_image_id like :idImage").setParameter("idImage", idImage)
                 .executeUpdate();
 
     }
