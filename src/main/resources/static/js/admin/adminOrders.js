@@ -17,6 +17,15 @@ $(window).on("load", function () {
     });
 });
 
+$(document).ready(function () {
+    document.getElementById("gmail-access").href = gmailAccessUrl.fullUrl;
+
+    let url = window.location.href;
+    if (url.search("code=") !== -1 || url.search("error=") !== -1) {
+        document.getElementsByClassName("orders")[0].click();
+    }
+});
+
 function convertPrice(price) {
     return price / 100;
 }
@@ -59,11 +68,42 @@ function showListOrders() {
         });
 }
 
-function showModalOfOrder(index) {
+async function showModalOfOrder(index) {
     let order = allOrders[index];
     let items = order.items;
+    $('#modalTitle').html(`Order № ${order.id}`);
+
+    let htmlChat = ``;
+    await fetch("/gmail/" + order.contacts.email + "/messages")
+        .then(json)
+        .then((data) => {
+            if (data[0] === undefined) {
+                htmlChat += `<div id="chat-wrapper">`;
+                htmlChat += `</div>`;
+                htmlChat += `<textarea id="sent-message" class="form-control"></textarea>
+                        </div><button class="float-right col-2 button btn-primary" type="button" id="send-message" onclick="sendGmailMessage('${order.contacts.email}', ${index})">Send</button>`
+            } else {
+                if (data[0].text === "noGmailAccess") {
+                    htmlChat += `<div>
+                                <span class="h3 col-10">Confirm gmail access to open chat:</span>
+                                <a type="button" class="col-2 btn btn-primary float-right" href="${gmailAccessUrl.fullUrl}">
+                                confirm</a>
+                            </div>`
+                } else {
+                    htmlChat += `<div id="chat-wrapper">`;
+                    for (let i = 0; i < data.length; i++) {
+                        htmlChat += `<p><b>${data[i].sender}</b></p>
+                    <p>${data[i].text}</p>`
+                    }
+                    htmlChat += `</div>`;
+                    htmlChat += `<textarea id="sent-message" class="form-control"></textarea>
+                        </div><button class="float-right col-2 button btn-primary" type="button" id="send-message" onclick="sendGmailMessage('${order.contacts.email}', ${index})">Send</button>`
+                }
+            }
+        });
+    $('#chat').html(htmlChat);
+
     let html = ``;
-    $('#modalTitle').html(`Order № ${order.id}`)
     html += `<thead><tr><th>Image</th>
                              <th>Name | Author</th>
                              <th></th>
@@ -132,5 +172,27 @@ function orderDelete(id) {
             body: JSON.stringify(id),
         }).then(r => showListOrders())
     }
+}
+
+function sendGmailMessage(userId, index) {
+    let message = document.getElementById("sent-message").value;
+    if (message === "" || message == null || message == undefined) {
+        return;
+    }
+    fetch("/gmail/" + userId + "/messages", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json;charset=utf-8"
+        },
+        body: JSON.stringify(message),
+    })
+        .then(json)
+        .then((data) => {
+            let html = `<p><b>${data.sender}</b></p>
+                        <p>${data.text}</p>`
+            let wrapper = document.getElementById("chat-wrapper");
+            wrapper.insertAdjacentHTML("beforeend", html);
+            document.getElementById("sent-message").value = "";
+        });
 }
 
