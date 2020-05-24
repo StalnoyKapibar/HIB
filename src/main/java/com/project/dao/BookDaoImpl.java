@@ -5,11 +5,13 @@ import com.project.model.*;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Primary
 @Repository
+@Transactional
 public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
 
     BookDaoImpl() {
@@ -238,5 +240,13 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
                 .createQuery("SELECT COUNT (1) FROM Book WHERE isShow = :isShow", Long.class)
                 .setParameter("isShow", isShow)
                 .getSingleResult();
+    }
+    @Transactional
+    public void deleteImgfromDB(String idImage) {
+        long idimage1 = Long.valueOf(idImage);
+        String sql = "delete from book_list_image where list_image_id = "+idImage ;
+        entityManager.createNativeQuery(sql)
+                .executeUpdate();
+
     }
 }

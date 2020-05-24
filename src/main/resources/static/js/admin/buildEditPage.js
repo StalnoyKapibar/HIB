@@ -413,6 +413,7 @@ function setImageCarousel(x) {
 function deleteTmpImage(x) {
     var delTmp = idd + '/' + tmpArr.listImage[x].nameImage;
     var tmpForShowImage = tmpArr.listImage[x].nameImage;
+    deleteCarouselImageFromDB(x);
     listImages.splice(x, 1);
     $('#carouselImage' + x).attr("src", "");
     buildCarousel();
@@ -425,6 +426,16 @@ function deleteTmpImage(x) {
         }
     });
 }
+function deleteCarouselImageFromDB(x) {
+    var delTmp = tmpArr.listImage[x].id;
+    fetch('/admin/deleteImageFromDB', {
+        method: 'POST',
+        body: delTmp
+    }).then(r => {
+
+    });
+}
+
 
 function deleteCoverImage(x) {
     var delTmp = idd + '/' + x;
