@@ -32,7 +32,6 @@ import java.util.Map;
 public class BookController {
 
     private final BookService bookService;
-    private final BookSearch bookSearch;
     private final HibParser hibParser;
     private final StorageService storageService;
     private final static Logger LOGGER = LoggerFactory.getLogger(BookController.class.getName());
@@ -41,7 +40,6 @@ public class BookController {
     public BookController(BookService bookService, BookSearch bookSearch,
                           HibParser hibParser, StorageService storageService) {
         this.bookService = bookService;
-        this.bookSearch = bookSearch;
         this.hibParser = hibParser;
         this.storageService = storageService;
     }
@@ -151,33 +149,6 @@ public class BookController {
     @GetMapping(value = "/api/book/{id}", params = "locale")
     public BookNewDTO getNewBookDTOByIdAndLang(@PathVariable Long id, @RequestParam("locale") String lang) {
         return bookService.getNewBookDTOByIdAndLang(id, lang);
-    }
-
-    @PostMapping("/api/admin/searchResult")
-    public List<BookNewDTO> search(@RequestParam(value = "request") String req,@RequestParam(value = "Show") boolean isShow) {
-        return bookSearch.search(req, isShow);
-    }
-
-    @GetMapping("/searchResult")
-    public List<BookNewDTO> search(@RequestParam(value = "request") String req) {
-        return bookSearch.search(req);
-    }
-
-    @GetMapping("/searchAdvanced")
-    public List<BookNewDTO> advancedSearch(@RequestParam(value = "request") String request, @RequestParam(value = "searchBy") String searchBy,
-                                           @RequestParam List<String> categories, @RequestParam(value = "priceFrom") Long priceFrom,
-                                           @RequestParam(value = "priceTo") Long priceTo, @RequestParam(value = "yearOfEditionFrom") Long yearOfEditionFrom,
-                                           @RequestParam(value = "yearOfEditionTo") Long yearOfEditionTo, @RequestParam(value = "pagesFrom") Long pagesFrom,
-                                           @RequestParam(value = "pagesTo") Long pagesTo) {
-        List<BookNewDTO> books = bookSearch.search(request, priceFrom, priceTo, String.valueOf(yearOfEditionFrom), String.valueOf(yearOfEditionTo),
-                pagesFrom, pagesTo, searchBy, categories);
-        return books;
-    }
-
-    @GetMapping("/api/booksSearchPage")
-    public List<BookNewDTO> getAllBooksSearchPage() {
-        List<BookNewDTO> books = bookService.getAllBooksSearchPage();
-        return books;
     }
 
     @PostMapping("/admin/upload")
