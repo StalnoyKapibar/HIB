@@ -52,18 +52,18 @@ public class BookSearch {
             return bookService.getBooksBySearchParameters(priceFrom, priceTo, yearOfEditionFrom, yearOfEditionTo,  pagesFrom, pagesTo, categories);
         }
 
-        List<OriginalLanguage> results = getOriginalLanguageList(req);
+        List<OriginalLanguage> results = getOriginalLanguageList(req, searchBy);
         List<BookNewDTO> result = new ArrayList<>();
 
         for (OriginalLanguage originalLanguage : results) {
-            String name = "";
-            String translitName = "";
-            if (originalLanguage.getName().toLowerCase().contains(req.toLowerCase()) || originalLanguage.getNameTranslit().toLowerCase().contains(req.toLowerCase())) {
-                name = originalLanguage.getName();
-                translitName = originalLanguage.getNameTranslit();
-            } else if (originalLanguage.getAuthor().toLowerCase().contains(req.toLowerCase()) || originalLanguage.getAuthorTranslit().toLowerCase().contains(req.toLowerCase())) {
+            String name;
+            String translitName;
+            if (searchBy.equals("author")) {
                 name = originalLanguage.getAuthor();
                 translitName = originalLanguage.getAuthorTranslit();
+            } else {
+                name = originalLanguage.getName();
+                translitName = originalLanguage.getNameTranslit();
             }
             BookNewDTO bookDTO = bookService.getBookBySearchRequest(name, translitName, originalLanguage, priceFrom, priceTo, yearOfEditionFrom,
                     yearOfEditionTo, pagesFrom, pagesTo, searchBy, categories);
@@ -95,7 +95,7 @@ public class BookSearch {
                 .buildQueryBuilder()
                 .forEntity(OriginalLanguage.class)
                 .get();
-
+//fullTextEntityManager.createFullTextQuery(queryBuilder.keyword().wildcard().onFields("author", "name", "edition","authorTranslit", "nameTranslit", "editionTranslit").matching(req + "*").createQuery(), OriginalLanguage.class).getResultList()
         Query query = queryBuilder
                 .keyword()
                 .wildcard()
@@ -104,6 +104,40 @@ public class BookSearch {
                 //.withPrefixLength(0)
                 .onFields("author", "name", "edition",
                         "authorTranslit", "nameTranslit", "editionTranslit")
+                .matching(req + "*")
+                .createQuery();
+
+        FullTextQuery jpaQuery = fullTextEntityManager.createFullTextQuery(query, OriginalLanguage.class);
+        return jpaQuery.getResultList();
+    }
+
+    private List<OriginalLanguage> getOriginalLanguageList(String req, String searchBy) {
+        FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
+        String []fields;
+
+        switch (searchBy) {
+            case "name": fields = new String[]{"name", "nameTranslit"};
+            break;
+
+            case "author": fields = new String[]{"author", "authorTranslit"};
+            break;
+
+            default: fields = new String[]{"name", "nameTranslit", "author", "authorTranslit"};
+            break;
+        }
+
+        QueryBuilder queryBuilder = fullTextEntityManager
+                .getSearchFactory()
+                .buildQueryBuilder()
+                .forEntity(OriginalLanguage.class)
+                .get();
+        Query query = queryBuilder
+                .keyword()
+                .wildcard()
+                //.fuzzy()
+                //.withEditDistanceUpTo(1)
+                //.withPrefixLength(0)
+                .onFields(fields)
                 .matching(req + "*")
                 .createQuery();
 

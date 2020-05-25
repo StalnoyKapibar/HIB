@@ -1,6 +1,7 @@
 package com.project.controller.restcontroller;
 
 import com.project.model.*;
+import com.project.service.abstraction.BookService;
 import com.project.service.abstraction.OrderService;
 import com.project.service.abstraction.ShoppingCartService;
 import com.project.service.abstraction.UserAccountService;
@@ -12,6 +13,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @RestController
 @AllArgsConstructor
 public class OrderController {
@@ -19,6 +21,7 @@ public class OrderController {
     private ShoppingCartService cartService;
     private OrderService orderService;
     private UserAccountService userAccountService;
+    private BookService bookService;
 
     @PostMapping("/api/user/order/confirmaddress")
     private OrderDTO addOder(HttpSession httpSession) {
@@ -48,7 +51,6 @@ public class OrderController {
         return contacts;
     }
 
-
     @PostMapping("/order")
     private void confirmOrder(HttpSession httpSession) {
         ShoppingCartDTO shoppingCartDTO = new ShoppingCartDTO();
@@ -69,7 +71,11 @@ public class OrderController {
             shoppingCartDTO.getCartItems().clear();
             cartService.updateCart(shoppingCartDTO);
         }
-
+        List<Long> listOfBooksIdInOrder = new ArrayList<>();
+        for (CartItemDTO cartItem : order.getItems()) {
+            listOfBooksIdInOrder.add(cartItem.getBook().getId());
+        }
+        bookService.setLastOrderedBooks(listOfBooksIdInOrder);
         orderService.addOrder(order.getOder());
         httpSession.removeAttribute("shoppingcart");
     }
@@ -99,6 +105,18 @@ public class OrderController {
             orderDTOS.add(order.getOrderDTOForAdmin());
         }
         return orderDTOS;
+    }
+
+
+    @GetMapping("/api/admin/order-count")
+    private int getOrdersCount(HttpSession session) {
+        Integer orderCount = (Integer) session.getAttribute("orderCount");
+        if (orderCount != null) {
+            return orderService.getAllOrders().size() - orderCount;
+        } else {
+            session.setAttribute("orderCount", orderService.getAllOrders().size());
+            return 0;
+        }
     }
 
     @PatchMapping("/api/admin/completeOrder/{id}")

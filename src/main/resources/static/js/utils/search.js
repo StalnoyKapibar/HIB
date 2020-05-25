@@ -5,10 +5,12 @@ let isCheckedCategory = false;
 $(document).ready(function () {
     setPageFields();
     getCategoryTree();
+    setLocaleFields();
+    getLanguage();
 });
 
 $(document).ready(function () {
-    $('#input-categories').on('click', '.custom-control-input', function() {
+    $('#input-categories').on('click', '.custom-control-input', function () {
         let $category = $(this).closest('.category');
         if ($(this).is(':checked')) {
             $category.find('.custom-control-input').prop('checked', true);
@@ -16,18 +18,18 @@ $(document).ready(function () {
             $category.find('.custom-control-input').prop('checked', false);
         }
     });
-    $('#input-categories').on('click', 'label', function() {
+    $('#input-categories').on('click', 'label', function () {
         if ($(this).is('.collapsed')) {
             $(this).children('i').removeClass('fa fa-plus-square-o').addClass('far fa-minus-square');
         } else {
             $(this).children('i').removeClass('far fa-minus-square').addClass('fa fa-plus-square-o');
         }
     });
-    $('#input-categories').on('change', '.custom-control-input', function() {
+    $('#input-categories').on('change', '.custom-control-input', function () {
         const getCheckedSiblings = (nearCategory) => {
             let isCheckedSibling = false;
             nearCategory.siblings().each((i, elem) => {
-                if ($(elem).children().children("input").prop("checked")){
+                if ($(elem).children().children("input").prop("checked")) {
                     isCheckedSibling = true;
                     return;
                 }
@@ -46,13 +48,12 @@ $(document).ready(function () {
             isCheckedSiblings = getCheckedSiblings(nearCategory);
         } while (nearCategory.parent().parent().parent().hasClass("category"));
         let $checkboxes = $('#input-categories');
-        isCheckedCategory = $checkboxes.find('.custom-control-input').filter( ':checked' ).length > 0;
+        isCheckedCategory = $checkboxes.find('.custom-control-input').filter(':checked').length > 0;
     });
 });
 
 function getCategoryTree() {
-    fetch('/categories/gettree', {
-    })    .then(function (response) {
+    fetch('/categories/gettree', {}).then(function (response) {
         return response.json()
     })
         .then(function (json) {
@@ -77,11 +78,11 @@ function getCategoryTree() {
 
 function getUnflatten(arr, parentid) {
     let output = [];
-    for(const category of arr) {
-        if(category.parentId == parentid) {
+    for (const category of arr) {
+        if (category.parentId == parentid) {
             let children = getUnflatten(arr, category.id);
 
-            if(children.length) {
+            if (children.length) {
                 category.childrens = children
             }
             output.push(category)
@@ -150,8 +151,36 @@ async function setChilds(category, count) {
     return row;
 }
 
+function parse_query_string(query) {
+    var vars = query.split("&");
+    var query_string = {};
+    for (var i = 0; i < vars.length; i++) {
+        var pair = vars[i].split("=");
+        var key = decodeURIComponent(pair[0]);
+        var value = decodeURIComponent(pair[1]);
+        // If first entry with this name
+        if (typeof query_string[key] === "undefined") {
+            query_string[key] = decodeURIComponent(value);
+            // If second entry with this name
+        } else if (typeof query_string[key] === "string") {
+            var arr = [query_string[key], decodeURIComponent(value)];
+            query_string[key] = arr;
+            // If third or later entry with this name
+        } else {
+            query_string[key].push(decodeURIComponent(value));
+        }
+    }
+    return query_string;
+}
+
 function advancedSearch() {
-    let request = $('#search-input').val().toLowerCase();
+    let request;
+    if ($('#search-input').val().toLowerCase() === "") {
+        request = window.location.search.substring(9);
+        window.location.search = "";
+    } else {
+        request = $('#search-input').val().toLowerCase();
+    }
     let priceFrom = $('#input-price-from').val() * 100;
     let priceTo = $('#input-price-to').val() * 100;
     let yearOfEditionFrom = $('#input-year-of-edition-from').val();
@@ -161,17 +190,17 @@ function advancedSearch() {
     let searchBy = $('#search-by input:checked').val();
     let categories;
     if (!isCheckedCategory) {
-        categories = $("#input-categories input").map(function() {
+        categories = $("#input-categories input").map(function () {
             return $(this).val();
         }).get();
     } else {
-        categories = $("#input-categories input:checked").map(function() {
+        categories = $("#input-categories input:checked").map(function () {
             return $(this).val();
         }).get();
     }
     let categoryRequest = "";
     for (let i in categories) {
-        categoryRequest += "&categories="+categories[i];
+        categoryRequest += "&categories=" + categories[i];
     }
     fetch("/searchAdvanced?request=" + request + "&searchBy=" + searchBy + categoryRequest +
         "&priceFrom=" + priceFrom + "&priceTo=" + priceTo + "&yearOfEditionFrom=" + yearOfEditionFrom + "&yearOfEditionTo=" + yearOfEditionTo +
@@ -184,8 +213,10 @@ function advancedSearch() {
     })
         .then(data => data.json())
         .then(function (data) {
+            setLocaleFields()
             addFindeBooks(data)
         });
+
 }
 
 function setPageFields() {
@@ -199,6 +230,7 @@ function setPageFields() {
         })
             .then(data => data.json())
             .then(function (data) {
+                setLocaleFields()
                 addFindeBooks(data)
             });
     } else {
@@ -211,6 +243,7 @@ function setPageFields() {
         })
             .then(data => data.json())
             .then(function (data) {
+                setLocaleFields()
                 addFindeBooks(data)
             });
     }
@@ -222,12 +255,12 @@ function addFindeBooks(data) {
     table.push(`<thead>
                         <tr>
                             <th></th>
-                            <th>Author</th>
-                            <th>Name</th>
-                            <th>Pages</th>
-                            <th>Year of edition</th>
-                            <th>Price, €</th>
-                            <th>Category</th>
+                            <th id="author_search_page">Author</th>
+                            <th id="name_search_page">Name</th>
+                            <th id="pages_search_page">Pages</th>
+                            <th id="edition_search_page">Year of edition</th>
+                            <th id="price_search_page">Price, €</th>
+                            <th id="category_search_page">Category</th>
                             <th></th>
                         </tr>
                         </thead>
@@ -244,10 +277,12 @@ function addFindeBooks(data) {
                                 <td class="align-middle">${data[i].yearOfEdition}</td>
                                 <td class="align-middle">${data[i].price / 100}</td>
                                 <td class="align-middle">${data[i].category.categoryName}</td>
-                                <td class="align-middle"><form id="bookButton" method="get" action="/page/${data[i].id}">
-                                    <button class="btn btn-primary pageOfBook" id="buttonBookPage" name="bookPage">
-                                        A page of book
-                                    </button>
+                                <td class="align-middle">
+                                    <form id="bookButton${i}" method="get" action="/page/${data[i].id}">
+                                        <button class="btn btn-primary page-of-book-localize" id="buttonBookPage${i}" name="bookPage">
+                                            A page of book
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>`
         );
