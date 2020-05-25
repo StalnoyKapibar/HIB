@@ -213,6 +213,7 @@ function advancedSearch() {
     })
         .then(data => data.json())
         .then(function (data) {
+            setLocaleFields()
             addFindeBooks(data)
         });
 
@@ -229,6 +230,7 @@ function setPageFields() {
         })
             .then(data => data.json())
             .then(function (data) {
+                setLocaleFields()
                 addFindeBooks(data)
             });
     } else {
@@ -241,6 +243,7 @@ function setPageFields() {
         })
             .then(data => data.json())
             .then(function (data) {
+                setLocaleFields()
                 addFindeBooks(data)
             });
     }
@@ -275,7 +278,7 @@ function addFindeBooks(data) {
                                 <td class="align-middle">${data[i].price / 100}</td>
                                 <td class="align-middle">${data[i].category.categoryName}</td>
                                 <td class="align-middle">
-                                    <form id="bookButton" method="get" action="/page/${data[i].id}">
+                                    <form id="bookButton${i}" method="get" action="/page/${data[i].id}">
                                         <button class="btn btn-primary page-of-book-localize" id="buttonBookPage${i}" name="bookPage">
                                             A page of book
                                         </button>
