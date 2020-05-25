@@ -15,15 +15,15 @@ function uploadMultiplyFiles() {
     fetch("/api/admin/upload-multiply-files", {
         method: 'POST',
         body: files
-    });
-    $("#uploadMultiplyFilesHidden").trigger('click');
-
+    })
+        .then($("#uploadMultiplyFilesHidden").trigger('click'))
+        .then($(this).tab('show'));
 }
 
 function editHibFile() {
     addPage();
     loadBookFile();
-    addBookTab.tab('show');
+    $('#add-hib-files').tab('show');
 }
 
 function renderHibFilesTable() {
