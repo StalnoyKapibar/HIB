@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @RestController
 @AllArgsConstructor
 public class OrderController {
@@ -49,7 +50,6 @@ public class OrderController {
         httpSession.setAttribute("contacts", contacts);
         return contacts;
     }
-
 
     @PostMapping("/order")
     private void confirmOrder(HttpSession httpSession) {
@@ -105,6 +105,18 @@ public class OrderController {
             orderDTOS.add(order.getOrderDTOForAdmin());
         }
         return orderDTOS;
+    }
+
+
+    @GetMapping("/api/admin/order-count")
+    private int getOrdersCount(HttpSession session) {
+        Integer orderCount = (Integer) session.getAttribute("orderCount");
+        if (orderCount != null) {
+            return orderService.getAllOrders().size() - orderCount;
+        } else {
+            session.setAttribute("orderCount", orderService.getAllOrders().size());
+            return 0;
+        }
     }
 
     @PatchMapping("/api/admin/completeOrder/{id}")
