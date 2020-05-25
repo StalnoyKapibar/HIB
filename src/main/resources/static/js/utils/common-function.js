@@ -69,6 +69,10 @@ function setLocaleFields() {
             $('#book_author').text(localeFields['book_author']);
             $('#totalPrice').text(localeFields['totalprice']);
             $('#headershoppingcart').text(localeFields['headershoppingcart']);
+            $('#home-tab').text(localeFields['YourContacts']);
+            $('#contacts-tab').text(localeFields['YourShoppingCart']);
+            $('#summary-tab').text(localeFields['Summary']);
+            $('#enter_your_contacts').text(localeFields['EnterYourContactsAndIfYouWantYouCanLeaveAComment']);
             $('#chechout').text(localeFields['chechout']);
             $('#shoppingcart').text(localeFields['headershoppingcart']);
             $('.myprof-loc').text(localeFields['myprofile']);
