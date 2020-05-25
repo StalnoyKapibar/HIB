@@ -13,6 +13,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.HtmlUtils;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RestController
@@ -25,7 +26,7 @@ public class FeedbackRequestController {
     private final Environment env;
     private final BookService bookService;
 
-    @PostMapping(value ="/api/feedback-request", params = "book_id")
+    @PostMapping(value = "/api/feedback-request", params = "book_id")
     public FeedbackRequest sendNewFeedBackRequest(@RequestBody FeedbackRequest feedbackRequest, @RequestParam("book_id") String bookId) {
         LOGGER.debug("POST request '/feedback-request' with {}", feedbackRequest);
         feedbackRequest.setId(null);
@@ -40,7 +41,7 @@ public class FeedbackRequestController {
     }
 
     @PostMapping("/api/admin/feedback-request/{id}/{replied}")
-    public void markFeedbackAsRead(@PathVariable Long id, @PathVariable Boolean replied){
+    public void markFeedbackAsRead(@PathVariable Long id, @PathVariable Boolean replied) {
         FeedbackRequest feedbackRequest = feedbackRequestService.getById(id);
         feedbackRequest.setReplied(!replied);
         feedbackRequestService.save(feedbackRequest);
@@ -71,5 +72,16 @@ public class FeedbackRequestController {
     @GetMapping("/api/admin/feedback-request/{id}")
     public FeedbackRequest getById(@PathVariable Long id) {
         return feedbackRequestService.getById(id);
+    }
+
+    @GetMapping(value = "/api/admin/feedback-request-count")
+    public int getFeedbackRequestCount(HttpSession session) {
+        Integer feedbackCount = (Integer) session.getAttribute("feedbackCount");
+        if (feedbackCount != null) {
+            return feedbackRequestService.findAll().size() - feedbackCount;
+        } else {
+            session.setAttribute("feedbackCount", feedbackRequestService.findAll().size());
+            return 0;
+        }
     }
 }

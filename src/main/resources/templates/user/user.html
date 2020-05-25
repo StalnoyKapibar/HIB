@@ -16,6 +16,7 @@
     <link href="/static/css/user/sidebar/main.css" rel="stylesheet">
     <link href="/static/css/style.css" rel="stylesheet">
     <link href="/static/css/user/sidebar/sidebar-themes.css" rel="stylesheet">
+    <link href="/static/css/user/modal/mail.css" rel="stylesheet">
     <link href="/static/css/bootstrap.min.css" rel="stylesheet">
     <link href="/static/css/themify-icons.css" rel="stylesheet">
     <link href="/static/css/bootstrap-social.css" rel="stylesheet"/>
@@ -250,6 +251,10 @@
                     </form>
                 </div>
                 <div class="modal-footer">
+                    <img id="img-close" src="../../static/images/redClose.png" width="15px" height="15px" onclick="deleteBookFromRequest()">
+                    <img alt="ask-interested-book" height="80" width="55"
+                                                                      id="ask-interested-image"
+                                                                      src="">
                     <button class="btn btn-secondary closeModalBtn" data-dismiss="modal" type="button">Close
                     </button>
                     <button class="btn btn-primary" id="send-feedback-request" type="button">Send message</button>
