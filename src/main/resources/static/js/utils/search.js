@@ -5,6 +5,8 @@ let isCheckedCategory = false;
 $(document).ready(function () {
     setPageFields();
     getCategoryTree();
+    setLocaleFields();
+    getLanguage();
 });
 
 $(document).ready(function () {
@@ -211,6 +213,7 @@ function advancedSearch() {
     })
         .then(data => data.json())
         .then(function (data) {
+            setLocaleFields()
             addFindeBooks(data)
         });
 
@@ -227,6 +230,7 @@ function setPageFields() {
         })
             .then(data => data.json())
             .then(function (data) {
+                setLocaleFields()
                 addFindeBooks(data)
             });
     } else {
@@ -239,6 +243,7 @@ function setPageFields() {
         })
             .then(data => data.json())
             .then(function (data) {
+                setLocaleFields()
                 addFindeBooks(data)
             });
     }
@@ -250,12 +255,12 @@ function addFindeBooks(data) {
     table.push(`<thead>
                         <tr>
                             <th></th>
-                            <th>Author</th>
-                            <th>Name</th>
-                            <th>Pages</th>
-                            <th>Year of edition</th>
-                            <th>Price, €</th>
-                            <th>Category</th>
+                            <th id="author_search_page">Author</th>
+                            <th id="name_search_page">Name</th>
+                            <th id="pages_search_page">Pages</th>
+                            <th id="edition_search_page">Year of edition</th>
+                            <th id="price_search_page">Price, €</th>
+                            <th id="category_search_page">Category</th>
                             <th></th>
                         </tr>
                         </thead>
@@ -272,10 +277,12 @@ function addFindeBooks(data) {
                                 <td class="align-middle">${data[i].yearOfEdition}</td>
                                 <td class="align-middle">${data[i].price / 100}</td>
                                 <td class="align-middle">${data[i].category.categoryName}</td>
-                                <td class="align-middle"><form id="bookButton" method="get" action="/page/${data[i].id}">
-                                    <button class="btn btn-primary pageOfBook" id="buttonBookPage" name="bookPage">
-                                        A page of book
-                                    </button>
+                                <td class="align-middle">
+                                    <form id="bookButton${i}" method="get" action="/page/${data[i].id}">
+                                        <button class="btn btn-primary page-of-book-localize" id="buttonBookPage${i}" name="bookPage">
+                                            A page of book
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>`
         );
