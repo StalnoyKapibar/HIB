@@ -33,6 +33,21 @@ function setLocaleFields() {
             $('#links').text(localeFields['links']);
             $('#made_by').text(localeFields['madeby']);
             $('#link_search_page_header').text(localeFields['searchPage']);
+            $('#author_search_page').text(localeFields['Author']);
+            $('#name_search_page').text(localeFields['Name']);
+            $('#pages_search_page').text(localeFields['pages']);
+            $('#edition_search_page').text(localeFields['yearOfEdition']);
+            $('#price_search_page').text(localeFields['Price']);
+            $('#category_search_page').text(localeFields['category']);
+            $('#search_by_search_page_menu').text(localeFields['searchBy']);
+            $('#name_author_search_by').text(localeFields['titleAndAuthor']);
+            $('#name_search_by').text(localeFields['name']);
+            $('#author_search_by').text(localeFields['authorr']);
+            $('#categories_search_page_menu').text(localeFields['category']);
+            $('#price_search_page_menu').text(localeFields['price']);
+            $('#edition_search_page_menu').text(localeFields['yearOfEdition']);
+            $('#pages_search_page_menu').text(localeFields['numberOfpages']);
+            $('#search-submit').text(localeFields['search']);
             $('#link_main_header').text(localeFields['main']);
             $('#link_books_header').text(localeFields['books']);
             $('#categories').text(localeFields['category']);
@@ -43,7 +58,7 @@ function setLocaleFields() {
             editBook = localeFields['editBook'];
             deleteBottom = localeFields['deleteBottom'];
             $('#modalClose').text(localeFields['close']);
-            $('#buttonBookPage').text(localeFields['pageofBook']);
+            $('.page-of-book-localize').text(localeFields['pageofBook']);
             $('#dropdownclose').text(localeFields['dropdownclose']);
             $('#toshoppingcart').text(localeFields['toshoppingcart']);
             $('#bottomInCart').text(localeFields['addToshoppingCart']);
@@ -54,6 +69,10 @@ function setLocaleFields() {
             $('#book_author').text(localeFields['book_author']);
             $('#totalPrice').text(localeFields['totalprice']);
             $('#headershoppingcart').text(localeFields['headershoppingcart']);
+            $('#home-tab').text(localeFields['YourContacts']);
+            $('#contacts-tab').text(localeFields['YourShoppingCart']);
+            $('#summary-tab').text(localeFields['Summary']);
+            $('#enter_your_contacts').text(localeFields['EnterYourContactsAndIfYouWantYouCanLeaveAComment']);
             $('#chechout').text(localeFields['chechout']);
             $('#shoppingcart').text(localeFields['headershoppingcart']);
             $('.myprof-loc').text(localeFields['myprofile']);
@@ -144,6 +163,8 @@ function getLanguage() {
             //                     alt="" height="20" width="16" class="lang-image">`);
         })
 }
+
+
 
 function getURLVariable() {
     return new URLSearchParams(document.location.search);

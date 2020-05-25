@@ -40,4 +40,7 @@ public interface BookDao extends GenericDao<Long, Book> {
     List<Long> getAllLastOrderedBooks();
 
     void setLastOrderedBooks(List<Long> list);
+
+    List<BookNewDTO> getAllLightBookDtoForSearch();
+
 }

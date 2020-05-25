@@ -1,4 +1,4 @@
-let divAvatar;
+let divAvatar, categoryName, selectedCategoryName, category, categoryHelper, categoryTab, categoryTreeDiv, categoryHelperDiv;
 let listImages;
 let yearOfEdition;
 let pages;
@@ -48,7 +48,7 @@ function addPartsOfBook(partsOfBook) {
             }
 
             if(partsOfBook === "description") {
-                
+
                 for (let tmpNameVar of nameVarOfLocaleString) {
                     html += `<div class="shadow p-4 mb-4 bg-white">
                 <div class='form-group mx-5'>
@@ -95,6 +95,58 @@ function addPartsOfBook(partsOfBook) {
     }
 }
 
+function getCategoryName(event) {
+    $('.btn-outline-primary').removeClass('active');
+    $(event).addClass('active');
+    selectedCategoryName = event.innerText;
+    id = event.getAttribute('data-id');
+    category = {
+        id: id,
+    };
+    $('#selectedCategory').empty().append('Selected category: ' + selectedCategoryName);
+
+}
+
+function addCategory() {
+    let row =
+        `<div class="shadow p-4 mb-4 bg-white text-center">
+                <h4 id="selectedCategory">Select category</h4>
+                <h4 id="categoryHelper"></h4><hr>
+                <div id="categoryTree"></div>`;
+    categoryTab.append(row);
+    categoryHelperDiv = $("#categoryHelper");
+    categoryTreeDiv = $("#categoryTree");
+    getTree();
+}
+function getTree() {
+    fetch('/admin/categories/getadmintree')
+        .then(function (response) {
+            return response.json()
+        })
+        .then(function (json) {
+            cateroryArr = [];
+            for (let i in json) {
+                categoryId = json[i][0];
+                categoryName = json[i][1];
+                categoryPath = json[i][2];
+                categoryParent = json[i][3];
+                viewOrder = json[i][4];
+                const category = {
+                    id: categoryId,
+                    categoryName: categoryName,
+                    path: categoryPath,
+                    parentId: categoryParent,
+                    viewOrder: viewOrder
+                };
+                cateroryArr.push(category);
+            }
+            let tree = getUnflatten(cateroryArr, null);
+            categoryTreeDiv.append(setTreeView(tree));
+        });
+}
+
+
+
 function addPage() {
     getVarBookDTO();
     getAllLocales();
@@ -111,39 +163,46 @@ function addPage() {
              ${addPartsOfBook("description")}</div>
              <div class="tab-pane fade" id="edition" role="tabpanel" aria-labelledby="edition-tab">
              ${addPartsOfBook("edition")}</div>
-            <div class="tab-pane fade" id="other" role="tabpanel" aria-labelledby="other-tab">
-            <div class="shadow p-4 mb-4 bg-white">
-            <h5> Year Of Edition </h5>
-            <input type="text" id="yearOfEdition" placeholder="Year Of Edition"><br><br>
-            </div>
-            <div class="shadow p-4 mb-4 bg-white">
-            <h5> Pages </h5>
-            <input type="number" id="pages" ><br><br>
-            </div>
-            <div class="shadow p-4 mb-4 bg-white">
-            <h5> Price </h5>
-            <input type="number" id="price" ><br><br>
-            </div>
-            <div class="shadow p-4 mb-4 bg-white">
-            <h5> Original Language </h5>
-            <select id="originalLanguage" >
-            </select><br><br>
-            </div>
-            <div id = "allImage">
-            <div class="shadow p-4 mb-4 bg-white">
-            <div id="divLoadAvatar">
-            <h4>Avatar</h4>
-            <Label>Load avatar</Label>
-            <input type="file" class="form-control-file" id="avatar" accept=".jpg" onchange="loadImage('avatar','divAvatar')">
-            </div>
-            <div class='car' id='divAvatar' style='width: 18rem;'>
-            </div><br><br></div>
-            <div class="shadow p-4 mb-4 bg-white">
-            <h4>Another Image</h4>
-            <Label>Load another image</Label>
-            <input type="file" class="form-control-file" id="loadAnotherImage" accept=".jpg" onchange="loadImage('loadAnotherImage','imageList')">
-            <div class='car' id='imageList' style='width: 18rem;'>
-            </div></div></div></div></div>`);
+                <div class="tab-pane fade" id="other" role="tabpanel" aria-labelledby="other-tab">
+                    <div class="shadow p-4 mb-4 bg-white">
+                        <h5> Year Of Edition </h5>
+                        <input type="text" id="yearOfEdition" placeholder="Year Of Edition"><br><br>
+                    </div>
+                    <div class="shadow p-4 mb-4 bg-white">
+                        <h5> Pages </h5>
+                        <input type="number" id="pages" ><br><br>
+                    </div>
+                    <div class="shadow p-4 mb-4 bg-white">
+                        <h5> Price </h5>
+                        <input type="number" id="price" ><br><br>
+                    </div>
+                    <div class="shadow p-4 mb-4 bg-white">
+                    <h5> Original Language </h5>
+                        <select id="originalLanguage" >
+                        </select><br><br>
+                    </div>
+                    <div id = "allImage">
+                        <div class="shadow p-4 mb-4 bg-white">
+                        <div id="divLoadAvatar">
+                            <h4>Avatar</h4>
+                            <Label>Load avatar</Label>
+                            <input type="file" class="form-control-file" id="avatar" accept=".jpg" onchange="loadImage('avatar','divAvatar')">
+                        </div>
+                        <div class='car' id='divAvatar' style='width: 18rem;'>
+                        </div><br><br>
+                        </div>
+                        <div class="shadow p-4 mb-4 bg-white">
+                            <h4>Another Image</h4>
+                            <Label>Load another image</Label>
+                            <input type="file" class="form-control-file" id="loadAnotherImage" accept=".jpg" onchange="loadImage('loadAnotherImage','imageList')">
+                        <div class='car' id='imageList' style='width: 18rem;'>
+                        </div>
+                        </div>
+                    </div>
+                </div> 
+             <div class="tab-pane fade" id="category" role="tabpanel" aria-labelledby="category-tab">
+             </div>
+            </div>`);
 
     divAvatar = $("#divAvatar");
     listImages = $("#imageList");
@@ -151,7 +210,8 @@ function addPage() {
     pages = $("#pages");
     price = $("#price");
     originalLanguage = $("#originalLanguage");
-
+    categoryTab = $("#category");
+    addCategory();
     for (let tmpNameVar of nameVarOfLocaleString) {
         originalLanguage.append(
             `<option value=${tmpNameVar.toUpperCase()}>${tmpNameVar.toUpperCase()}</option>`
@@ -225,6 +285,7 @@ function addValueToFields(book) {
             $("#inp" + tmpNameObject + tmpNameVar).val(book[tmpNameObject][tmpNameVar]);
         }
     }
+    categoryHelperDiv.append('Note: ' + book.category.categoryName);
     yearOfEdition.val(`${book.yearOfEdition}`);
     pages.val(`${book.pages}`);
     price.val(`${book.price}`);
@@ -270,6 +331,7 @@ function addNewBook() {
         book["price"] = price.val();
         book["originalLanguageName"] = originalLanguage.val();
         book["show"] = disabledCheckBox.is(':checked');
+        book['category'] = category;
         let imageList = [];
         if(divAvatar.find("img")[0] != null) {
             book["coverImage"] = divAvatar.find("img")[0].id;
@@ -286,7 +348,7 @@ function addNewBook() {
             },
             body: JSON.stringify(book)
         });
-        clearFields();
+        location.reload();
     }
     if (uploadedBookName) {
         sendDeleteRequest(uploadedBookName);
@@ -294,25 +356,64 @@ function addNewBook() {
     }
 }
 
-function clearFields() {
-    for (let tmpNameObject of nameObjectOfLocaleString) {
-        for (let tmpNameVar of nameVarOfLocaleString) {
-            $("#inp" + tmpNameObject + tmpNameVar).val('');
-        }
-        if (tmpNameObject !== "description") {
-            $("#inpt" + tmpNameObject).val('');
-            $("#in" + tmpNameObject).val('');
-        }
-    }
-    yearOfEdition.val(``);
-    pages.val(``);
-    price.val(``);
-    originalLanguage.val(``);
-    divAvatar.empty();
-    listImages.empty();
-}
 
 function doesFolderTmpExist() {
     fetch("admin/doesFolderTmpExist");
 }
 
+
+function getUnflatten(arr, parentId) {
+    let output = [];
+    for(const category of arr) {
+        if(category.parentId == parentId) {
+            let children = getUnflatten(arr, category.id);
+            if(children.length) {
+                category.childrens = children
+            }
+            output.push(category)
+        }
+    }
+    return output;
+}
+
+function setTreeView(category) {
+    let treeRow = '';
+    for (let i in category) {
+        treeRow =
+            `<figure id="${category[i].categoryName}">
+                <ul class="col-12 tree">
+                    <li class="col-12">
+                        <code parent="${category[i].parentId}" view-order="${category[i].viewOrder}"
+                        data-id="${category[i].id}" path="${category[i].path}" class="btn-outline-primary" onclick="getCategoryName(this)">${category[i].categoryName}
+                        </code>
+                        <ul>
+                         ${setChilds(category[i].childrens)}
+                        </ul>
+                    </li>
+                </ul>
+            </figure><br>`;
+        categoryTreeDiv.append(treeRow);
+    }
+}
+
+
+function setChilds(category) {
+    let row = '';
+    for (let i in category) {
+        if (category[i].childrens === undefined) {
+            row +=
+                `<li>
+                        <code class="btn-outline-primary" parent="${category[i].parentId}" view-order="${category[i].viewOrder}"
+                        data-id="${category[i].id}" path="${category[i].path}" onclick="getCategoryName(this)">${category[i].categoryName}</code>
+                    </li>`;
+        } else {
+            row +=
+                `<li>
+                        <code class="btn-outline-primary" parent="${category[i].parentId}" view-order="${category[i].viewOrder}"
+                        data-id="${category[i].id}" path="${category[i].path}" onclick="getCategoryName(this)">${category[i].categoryName}</code>
+                        <ul>${setChilds(category[i].childrens)}</ul>
+                    </li>`;
+        }
+    }
+    return row;
+}

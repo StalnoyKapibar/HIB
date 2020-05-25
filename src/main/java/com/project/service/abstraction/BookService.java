@@ -49,4 +49,6 @@ public interface BookService {
     List<Long> getAllLastOrderedBooks();
 
     void setLastOrderedBooks(List<Long> list);
+
+    List<BookNewDTO>getAllLightBookDtoForSearch();
 }

@@ -30,6 +30,7 @@ public class AddressRestController {
      * @param user
      * @return users addresses
      */
+
     @GetMapping
     public Set<Address> getUserAddresses(@AuthenticationPrincipal UserAccount user) {
         return addressService.getAddressByUserId(user.getId());
