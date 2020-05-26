@@ -31,15 +31,17 @@ import java.util.Map;
 @RestController
 public class BookController {
 
+    private final static Logger LOGGER = LoggerFactory.getLogger(BookController.class.getName());
     private final BookService bookService;
+    private final BookSearch bookSearch;
     private final HibParser hibParser;
     private final StorageService storageService;
-    private final static Logger LOGGER = LoggerFactory.getLogger(BookController.class.getName());
 
     @Autowired
     public BookController(BookService bookService, BookSearch bookSearch,
                           HibParser hibParser, StorageService storageService) {
         this.bookService = bookService;
+        this.bookSearch = bookSearch;
         this.hibParser = hibParser;
         this.storageService = storageService;
     }
@@ -108,7 +110,7 @@ public class BookController {
 
     @PostMapping("/admin/add")
     public void addBook(@RequestBody Book book) {
-        if(book.getCoverImage() == null) {
+        if (book.getCoverImage() == null) {
             book.setCoverImage("book.jpg");
             bookService.addBook(book);
             String lastId = bookService.getLastIdOfBook();
@@ -172,7 +174,6 @@ public class BookController {
     public void deleteImageByFileNameByEditPage(@RequestBody String nameDeleteImageByEditPage) {
         storageService.deleteImageByFileNameByEditPage(nameDeleteImageByEditPage);
     }
-
     @PostMapping("/admin/deleteImageFromDB")
     public void deleteImageByFromDB(@RequestBody String nameDeleteImageByFromDB) {
         storageService.deleteImageByFromDB(nameDeleteImageByFromDB);

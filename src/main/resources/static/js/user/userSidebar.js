@@ -9,8 +9,7 @@ $('#sidebar').mouseleave(() => {
     $('#page-wrapper').addClass('pinned');
 });
 
-fetch('/categories/getnullparent', {
-})
+fetch('/categories/getnullparent', {})
     .then(function (response) {
         return response.json()
     })
@@ -25,7 +24,7 @@ fetch('/categories/getnullparent', {
     });
 
 $(document).on('click', '#searchIcon', async () => {
-    document.location = `/search?request=${$("#searchInput").val()}`
+    document.location = `/search?request=${$("#searchInput").val().toLowerCase().split(" ")[0]}`
 });
 
 jQuery(function ($) {

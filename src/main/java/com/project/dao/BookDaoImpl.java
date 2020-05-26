@@ -280,6 +280,7 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
                 .createQuery("SELECT COUNT (1) FROM Book WHERE isShow = :isShow", Long.class)
                 .setParameter("isShow", isShow)
                 .getSingleResult();
+
     }
 
     @Transactional
