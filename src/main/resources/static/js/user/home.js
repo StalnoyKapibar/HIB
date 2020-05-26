@@ -29,15 +29,15 @@ function getQuantityPage() {
     return Math.ceil(amountBooksInDb / amountBooksInPage);
 }
 
-  async function addBooksToPage(books) {
-      let listOrdersOfCart = [];
-      listOrdersOfCart = await getListOrdersOfCart();
-      $('#cardcolumns').empty();
-      $("#rowForPagination").empty();
-      $.each(books, function (index) {
-          let textOfBtn = listOrdersOfCart.includes(books[index].id) ? addedToshoppingCart : addToshoppingCart;
-          let cssOfBtn = listOrdersOfCart.includes(books[index].id) ? "disabled" : "addToCartBtn";
-          let card = `<div class="col mb-4">
+async function addBooksToPage(books) {
+    let listOrdersOfCart = [];
+    listOrdersOfCart = await getListOrdersOfCart();
+    $('#cardcolumns').empty();
+    $("#rowForPagination").empty();
+    $.each(books, function (index) {
+        let textOfBtn = listOrdersOfCart.includes(books[index].id) ? addedToshoppingCart : addToshoppingCart;
+        let cssOfBtn = listOrdersOfCart.includes(books[index].id) ? "disabled" : "addToCartBtn";
+        let card = `<div class="col mb-4">
                                     <a class="card border-0" href="/page/${books[index].id}" style="color: black">
                                         <img class="card-img-top mb-1" src="images/book${books[index].id}/${books[index].coverImage}" style="object-fit: cover; height: 400px; " alt="Card image cap">
                                         <div class="card-body" style="padding-bottom: 30px">
@@ -52,16 +52,16 @@ function getQuantityPage() {
                                                     onclick="openEdit(${books[index].id})"
                                                   >                        
                                                     ${editBook}
-                                                  </div>`:
-                                                `<div style="position: absolute; bottom: 5px; left: 15px; right: 15px" id="bottomInCart" type="button" 
+                                                  </div>` :
+            `<div style="position: absolute; bottom: 5px; left: 15px; right: 15px" id="bottomInCart" type="button" 
                                                       class="btn btn-success ${cssOfBtn} btn-metro"  data-id="${books[index].id}">                        
                                                     ${textOfBtn}
                                                 </div>`}
                                 </div>`;
-          $('#cardcolumns').append(card);
-      });
-      addPagination();
-  }
+        $('#cardcolumns').append(card);
+    });
+    addPagination();
+}
 
 function openEdit(id) {
     localStorage.setItem('tmpEditBookId', id);
@@ -133,7 +133,7 @@ function getPageWithBooks(amount, page) {
 }
 
 async function getAllBooksForLiveSearch() {
-    const url ='/api/allBookForLiveSearch';
+    const url = '/api/allBookForLiveSearch';
     const res = await fetch(url);
     const data = await res.json();
     return data;
@@ -164,12 +164,13 @@ $(document).ready(function () {
 });
 
 /* Live Search on home page */
+
 // Функция поиска совпадений вводимых символов
 function findEl(el, array, value) {
     var coincidence = false;
     el.empty();    // Очищаем список совпадений
     for (var i = 0; i < array.length; i++) {
-        if (array[i].match('^'+value)) {    // Проверяем каждый эллемент на совпадение побуквенно
+        if (array[i].match('^' + value) || array[i].toLowerCase().match('^' + value)) {    // Проверяем каждый эллемент на совпадение побуквенно
             el.children('li').each(function () {    // Проверка на совпадающие эллементы среди выведенных
                 if (array[i] === $(this).text()) {
                     coincidence = true;    // Если есть совпадения, то true
@@ -184,7 +185,7 @@ function findEl(el, array, value) {
 
 var filterInput = $('#searchInput'),
     filterUl = $('.ul-books');
-    
+
 // Проверка при каждом вводе символа
 filterInput.bind('input propertychange', async function () {
     if ($(this).val() !== '') {
@@ -209,7 +210,7 @@ filterInput.bind('input propertychange', async function () {
 });
 
 //  При клике на эллемент выпадающего списка, присваиваем значение в инпут и ставим триггер на его изменение
-filterUl.on('click','.js-searchInput', function (e) {
+filterUl.on('click', '.js-searchInput', function (e) {
     $('#searchInput').val('');
     filterInput.val($(this).text());
     filterInput.trigger('change');
