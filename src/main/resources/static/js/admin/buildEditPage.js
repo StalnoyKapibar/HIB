@@ -341,10 +341,23 @@ function sendUpdateBook() {
     for (let img of allImages) {
         imageList.push(img.id);
     }
+    let imageListTmpPattern = [];
+    for (let index = 0; index < imageList.length; index++) {
+        imageListTmpPattern[index] = JSON.parse(JSON.stringify(tmpArr.listImage[0]));
+    }
+    for (let index = 0; index < imageListTmpPattern.length; index++) {
+        imageListTmpPattern[index].id = 0;
+        imageListTmpPattern[index].nameImage = imageList[index];
+    }
+
     if (allImages.length == 0) {
         book["listImage"] = tmpArr.listImage;
     } else {
-        book["listImage"] = imageList;
+        let indexListImage = tmpArr.listImage.length;
+        for (let index = tmpArr.listImage.length + 1; index <= imageListTmpPattern.length + indexListImage; index++) {
+            tmpArr.listImage.push(imageListTmpPattern[index - indexListImage - 1]);
+        }
+        book["listImage"] = tmpArr.listImage;
     }
 
     var body02 = JSON.stringify(book);
@@ -426,6 +439,7 @@ function deleteTmpImage(x) {
         }
     });
 }
+
 function deleteCarouselImageFromDB(x) {
     var delTmp = tmpArr.listImage[x].id;
     delete tmpArr.listImage[x];
@@ -477,6 +491,7 @@ function uploadImageNew() {
 function loadImage(nameId, div) {
     const formData = new FormData();
     let fileImg = $("#" + nameId).prop('files')[0];
+
     formData.append('file', fileImg);
     fetch('/admin/upload', {
         method: 'POST',
