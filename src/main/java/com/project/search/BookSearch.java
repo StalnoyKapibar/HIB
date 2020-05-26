@@ -58,25 +58,10 @@ public class BookSearch {
             return bookService.getBooksBySearchParameters(priceFrom, priceTo, yearOfEditionFrom, yearOfEditionTo,  pagesFrom, pagesTo, categories);
         }
 
-        List<OriginalLanguage> results = getOriginalLanguageList(req, searchBy);
-        List<BookNewDTO> result = new ArrayList<>();
 
-        for (OriginalLanguage originalLanguage : results) {
-            String name;
-            String translitName;
-            if (searchBy.equals("author")) {
-                name = originalLanguage.getAuthor();
-                translitName = originalLanguage.getAuthorTranslit();
-            } else {
-                name = originalLanguage.getName();
-                translitName = originalLanguage.getNameTranslit();
-            }
-            BookNewDTO bookDTO = bookService.getBookBySearchRequest(name, translitName, originalLanguage, priceFrom, priceTo, yearOfEditionFrom,
-                    yearOfEditionTo, pagesFrom, pagesTo, searchBy, categories);
-            if (bookDTO != null) {
-                result.add(bookDTO);
-            }
-        }
+        List<BookNewDTO> result = bookDao.getBookBySearchRequest(req, priceFrom, priceTo, yearOfEditionFrom,
+                yearOfEditionTo, pagesFrom, pagesTo, searchBy, categories);
+
         return result;
     }
 
