@@ -25,7 +25,7 @@ fetch('/categories/getnullparent', {
     });
 
 $(document).on('click', '#searchIcon', async () => {
-    document.location = `/search?request=${$("#searchInput").val()}`
+    document.location = `/search?request=${$("#searchInput").val().toLowerCase().split(" ")[0]}`
 });
 
 jQuery(function ($) {

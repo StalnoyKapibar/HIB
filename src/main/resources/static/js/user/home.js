@@ -169,7 +169,7 @@ function findEl(el, array, value) {
     var coincidence = false;
     el.empty();    // Очищаем список совпадений
     for (var i = 0; i < array.length; i++) {
-        if (array[i].match('^'+value)) {    // Проверяем каждый эллемент на совпадение побуквенно
+        if (array[i].match('^'+value) || array[i].toLowerCase().match('^'+value) ) {    // Проверяем каждый эллемент на совпадение побуквенно
             el.children('li').each(function () {    // Проверка на совпадающие эллементы среди выведенных
                 if (array[i] === $(this).text()) {
                     coincidence = true;    // Если есть совпадения, то true
