@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 
@@ -27,6 +26,12 @@ public class ViewController {
     @GetMapping("/")
     public String redirectToHome() {
         return "redirect:/home";
+    }
+
+    @GetMapping("/search/{categoryId}")
+    public ModelAndView getSearchPage(@PathVariable("categoryId") long categoryId, ModelAndView modelAndView) {
+        modelAndView.setViewName("/user/user");
+        return modelAndView;
     }
 
     @GetMapping("/page/{id}")

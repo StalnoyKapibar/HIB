@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.model.Book;
+import com.project.model.Category;
 import com.project.model.Image;
 import com.project.model.LocaleString;
 import com.project.service.abstraction.BookService;
@@ -69,6 +70,9 @@ public class HibParser {
             listImage.add(new Image(0, i + ".jpg"));
         }
 
+        Category category = new Category();
+        category.setCategoryName(jsonNode.get("category").asText());
+
         return Book.builder()
                 .id(id)
                 .name(initLocaleString(jsonNode.get("name")))
@@ -80,7 +84,8 @@ public class HibParser {
                 .price(jsonNode.get("price").asLong())
                 .originalLanguageName(jsonNode.get("originalLanguage").asText())
                 .coverImage(AVATAR)
-                .listImage(listImage).build();
+                .listImage(listImage)
+                .category(category).build();
     }
 
     public void saveBooks(List<String> booksAsJson) {

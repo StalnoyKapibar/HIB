@@ -29,6 +29,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public void addBook(Book book) {
+        book.setLastBookOrdered(false);
         bookDAO.add(book);
     }
 
@@ -73,7 +74,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookNewDTO getBookBySearchRequest(String name, String translitName, OriginalLanguage originalLanguage, Long priceFrom, Long priceTo,
+    public BookNewDTO  getBookBySearchRequest(String name, String translitName, OriginalLanguage originalLanguage, Long priceFrom, Long priceTo,
                                              String yearOfEditionFrom, String yearOfEditionTo, Long pagesFrom, Long pagesTo, String searchBy, List<String> categories) {
         return bookDAO.getBookBySearchRequest(name, translitName, originalLanguage, priceFrom, priceTo, yearOfEditionFrom, yearOfEditionTo, pagesFrom,
                 pagesTo, searchBy, categories);
@@ -88,6 +89,11 @@ public class BookServiceImpl implements BookService {
     @Override
     public Book getBookById(Long id) {
         return bookDAO.findById(id);
+    }
+
+    @Override
+    public List<BookNewDTO> getBooksByCategoryId(Long categoryId) {
+        return bookDAO.getBooksByCategoryId(categoryId);
     }
 
     @Override
@@ -107,5 +113,20 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<BookNewDTO> getAllBooksSearchPage() {
         return bookDAO.getAllBooksSearchPage();
+    }
+
+    @Override
+    public List<Long> getAllLastOrderedBooks() {
+        return bookDAO.getAllLastOrderedBooks();
+    }
+
+    @Override
+    public void setLastOrderedBooks(List<Long> list) {
+        bookDAO.setLastOrderedBooks(list);
+    }
+    
+    @Override
+    public List<BookNewDTO> getAllLightBookDtoForSearch() {
+        return bookDAO.getAllLightBookDtoForSearch();
     }
 }

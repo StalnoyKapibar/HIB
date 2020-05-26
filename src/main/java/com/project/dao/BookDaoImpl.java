@@ -156,6 +156,17 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
     }
 
     @Override
+    public List<BookNewDTO> getAllLightBookDtoForSearch() {
+        String hql = ("SELECT new com.project.model.BookNewDTO(b.id, b.originalLanguage.name, " +
+                "b.originalLanguage.nameTranslit, b.originalLanguage.author, b.originalLanguage.authorTranslit, b.originalLanguage.edition, b.originalLanguage.editionTranslit, b.description.en )" +
+                "FROM Book b WHERE b.isShow = :show");
+        List<BookNewDTO> list = entityManager.createQuery(hql, BookNewDTO.class)
+                .setParameter("show", true)
+                .getResultList();
+        return list;
+    }
+
+    @Override
     public List<BookDTO> get20BookDTO(String locale) {
         String hql = ("SELECT new com.project.model.BookDTO(b.id, b.name.LOC, b.author.LOC, b.price, b.coverImage)" +
                 "FROM Book b WHERE b.isShow = true or b.isShow = null ORDER BY RAND()")
@@ -194,6 +205,16 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
     }
 
     @Override
+    public List<BookNewDTO> getBooksByCategoryId(Long categoryId) {
+        String hql = ("SELECT new com.project.model.BookNewDTO(b.id, b.originalLanguage.name," +
+                "b.originalLanguage.nameTranslit, b.originalLanguage.author, b.originalLanguage.authorTranslit, b.description.en," +
+                "b.originalLanguage.edition, b.originalLanguage.editionTranslit, b.yearOfEdition, b.pages, b.price, b.originalLanguageName, b.coverImage, b.category)" +
+                "FROM Book b WHERE b.category.id =:categoryId AND b.isShow = true");
+
+        return entityManager.createQuery(hql, BookNewDTO.class).setParameter("categoryId", categoryId).getResultList();
+    }
+
+    @Override
     public List<BookDTOForCategories> getBooksByCategoryId(Long categoryId, String lang) {
         String hql = "SELECT new com.project.model.BookDTOForCategories(b.id, b.name.en, " +
                 "b.author.en, b.edition.en, b.yearOfEdition, b.price, b.pages, " +
@@ -201,6 +222,7 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
 
         return entityManager.createQuery(hql, BookDTOForCategories.class).setParameter("categoryId", categoryId).getResultList();
     }
+
 
     @Override
     public Long getCountBooksByCategoryId(Long categoryId) {
@@ -248,5 +270,22 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
         entityManager.createNativeQuery("delete from book_list_image where list_image_id like :idImage").setParameter("idImage", idImage)
                 .executeUpdate();
 
+    }
+
+    @Override
+    public List<Long> getAllLastOrderedBooks() {
+        String hql = "SELECT b.id FROM Book b WHERE b.lastBookOrdered = true";
+        return entityManager.createQuery(hql).getResultList();
+    }
+
+
+    @Override
+    public void setLastOrderedBooks(List<Long> list) {
+        for (Long id : list) {
+            entityManager.createQuery("update Book set lastBookOrdered = true" +
+                    " where id = :bookId")
+                    .setParameter("bookId", id)
+                    .executeUpdate();
+        }
     }
 }

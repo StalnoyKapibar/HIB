@@ -50,7 +50,7 @@ public class OAuthUserService extends DefaultOAuth2UserService {
             Optional<UserAccount> userOptional = userAccountDao.findByEmail(oAuth2UserInfo.getEmail());
             user = userOptional.get();
             user = updateExistingUser(user, oAuth2UserInfo);
-        } catch (EmptyResultDataAccessException e) {
+        } catch (EmptyResultDataAccessException | NullPointerException e) {
             user = registerNewUser(oAuth2UserRequest, oAuth2UserInfo);
         }
         return create(user, oAuth2User.getAttributes());

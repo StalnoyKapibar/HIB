@@ -24,6 +24,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -201,7 +202,6 @@ public class BookController {
     public void deleteImageByFileNameByEditPage(@RequestBody String nameDeleteImageByEditPage) {
         storageService.deleteImageByFileNameByEditPage(nameDeleteImageByEditPage);
     }
-
     @PostMapping("/admin/deleteImageFromDB")
     public void deleteImageByFromDB(@RequestBody String nameDeleteImageByFromDB) {
         storageService.deleteImageByFromDB(nameDeleteImageByFromDB);
@@ -225,5 +225,15 @@ public class BookController {
         Pageable pageable = PageRequest.of(Integer.parseInt(params.get("start")),
                 Integer.parseInt(params.get("limit")), Sort.by(Sort.Order.asc("id")));
         return bookService.getBookPageByPageable(pageable);
+    }
+
+    @GetMapping("/api/book/lastOrderedBooks")
+    public List<Long> getAllLastOrderedBooks() {
+        return bookService.getAllLastOrderedBooks();
+    }
+
+    @GetMapping(value = "/api/allBookForLiveSearch")
+    public List<BookNewDTO> getAllLightBookDtoForSearch() {
+        return bookService.getAllLightBookDtoForSearch();
     }
 }

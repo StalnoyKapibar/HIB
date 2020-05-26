@@ -8,6 +8,7 @@
 <div aria-labelledby="v-pills-profile-tab"
      class="tab-pane fade show active" id="v-pills-profile" role="tabpanel"
      th:fragment="books">
+    <link href="/static/css/admin/adminTree.css" rel="stylesheet">
     <nav>
         <div class="nav nav-tabs" id="nav-tab1" role="tablist">
             <a aria-controls="nav-home" aria-selected="true" class="nav-item nav-link active" data-toggle="tab"
@@ -28,7 +29,7 @@
                     <br>
                     <div class="container-fluid">
                         <div class="row">
-                            <h3 class="lead offset-1">Show unsold books
+                            <h3 class="lead offset-1">Show disabled book
                             </h3>
                             <div class="offset-1">
                                 <input data-size="md" data-toggle="toggle" id="toggleShowDisabled" type="checkbox" checked>
@@ -94,7 +95,7 @@
                     <div class="container-fluid col-6">
                         <div class="row">
                             <h3 class="col-6">
-                                Disabled
+                                Is disabled:
                             </h3>
                             <input type="checkbox" id="disabled" checked data-toggle="toggle">
                         </div>
@@ -118,6 +119,9 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="other-tab" data-toggle="tab" href="#other" role="tab" aria-controls="contact" aria-selected="false">Add other</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="category-tab" data-toggle="tab" href="#category" role="tab" aria-controls="contact" aria-selected="false">Category</a>
                     </li>
                 </ul>
             </div>
