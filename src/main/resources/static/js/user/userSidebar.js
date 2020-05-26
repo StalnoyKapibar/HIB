@@ -9,8 +9,7 @@ $('#sidebar').mouseleave(() => {
     $('#page-wrapper').addClass('pinned');
 });
 
-fetch('/categories/getnullparent', {
-})
+fetch('/categories/getnullparent', {})
     .then(function (response) {
         return response.json()
     })
