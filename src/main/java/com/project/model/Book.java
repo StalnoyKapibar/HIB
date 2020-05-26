@@ -62,6 +62,8 @@ public class Book {
 
     private boolean isShow;
 
+    private boolean lastBookOrdered;
+
     @OneToOne
     private Category category;
 }

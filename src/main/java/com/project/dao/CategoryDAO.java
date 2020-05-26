@@ -95,6 +95,21 @@ public class CategoryDAO extends AbstractDao<Long, Category> {
         return entityManager.createNativeQuery(sql).getResultList();
     }
 
+    public List getAllChildsIdByParentId(Long parentId) {
+        String sql = "WITH RECURSIVE cte AS\n" +
+                "(\n" +
+                "SELECT id, category_name, 0 AS stack\n" +
+                "FROM category where parent_id = :parentId\n" +
+                "UNION ALL\n" +
+                "SELECT c.id, c.category_name, cte.stack + 1\n" +
+                "FROM cte cte, category c\n" +
+                "WHERE c.parent_id = cte.id\n" +
+                ")\n" +
+                "SELECT id FROM cte order by id, stack";
+
+        return  entityManager.createNativeQuery(sql).setParameter("parentId", parentId).getResultList();
+    }
+
     public void parentChange(Long id, Long parentId) {
         String sql = "UPDATE category SET parent_id =:parentId WHERE id =:id";
         entityManager.createNativeQuery(sql).setParameter("id", id).setParameter("parentId", parentId).executeUpdate();

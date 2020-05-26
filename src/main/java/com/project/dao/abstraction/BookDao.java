@@ -27,6 +27,8 @@ public interface BookDao extends GenericDao<Long, Book> {
 
     BookNewDTO getNewBookDTObyIdAndLang(Long id, String lang);
 
+    List<BookNewDTO> getBooksByCategoryId(Long categoryId);
+
     List<BookDTOForCategories> getBooksByCategoryId(Long categoryId, String lang);
 
     Long getCountBooksByCategoryId(Long categoryId);
@@ -34,4 +36,11 @@ public interface BookDao extends GenericDao<Long, Book> {
     BookPageDto getBookPageByPageable(Pageable pageable);
 
     List<BookNewDTO> getAllBooksSearchPage();
+
+    List<Long> getAllLastOrderedBooks();
+
+    void setLastOrderedBooks(List<Long> list);
+
+    List<BookNewDTO> getAllLightBookDtoForSearch();
+
 }
