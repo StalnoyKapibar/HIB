@@ -65,7 +65,8 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
 
     @Override
     public BookNewDTO getBookBySearchRequest(String name, String translitName, OriginalLanguage originalLanguage, Long priceFrom, Long priceTo,
-                                             String yearOfEditionFrom, String yearOfEditionTo, Long pagesFrom, Long pagesTo, String searchBy, List<String> categories) {
+                                             String yearOfEditionFrom, String yearOfEditionTo, Long pagesFrom, Long pagesTo,
+                                             String searchBy, List<String> categories, Pageable pageable) {
         String hql = ("SELECT new com.project.model.BookNewDTO(b.id, b.originalLanguage.name," +
                 "b.originalLanguage.nameTranslit, b.originalLanguage.author, b.originalLanguage.authorTranslit, b.description.en," +
                 "b.originalLanguage.edition, b.originalLanguage.editionTranslit, b.yearOfEdition, b.pages, b.price, b.originalLanguageName, b.coverImage, b.category)" +
@@ -100,8 +101,14 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
     }
 
     @Override
-    public List<BookNewDTO> getBooksBySearchParameters(Long priceFrom, Long priceTo, String yearOfEditionFrom, String yearOfEditionTo, Long pagesFrom,
-                                                       Long pagesTo, List<String> categories) {
+    public BookSearchPageDTO getBooksBySearchParametersByPageable(Long priceFrom, Long priceTo, String yearOfEditionFrom, String yearOfEditionTo, Long pagesFrom,
+                                                                    Long pagesTo, List<String> categories, Pageable pageable) {
+        int limitBookOnPage = pageable.getPageSize();
+        int minNumberId = limitBookOnPage * pageable.getPageNumber();
+        String amountOfBooks = getQuantityOfBooksByIsShow(true).toString();
+        String sortTypeTmp = String.valueOf(pageable.getSort());
+        String sortingObject = sortTypeTmp.split(":")[0];
+        String typeOfSorting = sortTypeTmp.split(" ")[1];
         String hql = ("SELECT new com.project.model.BookNewDTO(b.id, b.originalLanguage.name, " +
                 "b.originalLanguage.nameTranslit, b.originalLanguage.author, b.originalLanguage.authorTranslit, b.description.en, " +
                 "b.originalLanguage.edition, b.originalLanguage.editionTranslit, b.yearOfEdition, b.pages, b.price, b.originalLanguageName, b.coverImage, b.category)" +
@@ -112,8 +119,10 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
                 "(:yearOfEditionFrom = 'null' and b.yearOfEdition <= :yearOfEditionTo) OR (:yearOfEditionFrom = 'null' and :yearOfEditionTo = 'null')) AND " +
                 "((b.category.categoryName in :categories) or ('undefined' in :categories)) AND" +
                 "((b.price >= :priceFrom and b.price <= :priceTo) OR (b.price >= :priceFrom and :priceTo = 0) OR " +
-                "(:priceFrom = 0 and b.price <= :priceTo) OR (:priceFrom = 0 and :priceTo = 0))");
-        List<BookNewDTO> list = entityManager.createQuery(hql, BookNewDTO.class)
+                "(:priceFrom = 0 and b.price <= :priceTo) OR (:priceFrom = 0 and :priceTo = 0)) ORDER BY sortingObject typeOfSorting")
+                .replaceAll("sortingObject", sortingObject)
+                .replaceAll("typeOfSorting", typeOfSorting);
+        List<BookNewDTO> bookNewDTOListlist = entityManager.createQuery(hql, BookNewDTO.class)
                 .setParameter("show", true)
                 .setParameter("pagesFrom", pagesFrom)
                 .setParameter("pagesTo", pagesTo)
@@ -122,8 +131,17 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
                 .setParameter("priceFrom", priceFrom)
                 .setParameter("priceTo", priceTo)
                 .setParameter("categories", categories)
+                .setFirstResult(minNumberId)
+                .setMaxResults(limitBookOnPage)
                 .getResultList();
-        return list;
+
+        BookSearchPageDTO pageableBooks = new BookSearchPageDTO();
+        pageableBooks.setBooks(bookNewDTOListlist);
+        pageableBooks.setNumberPages(pageable.getPageNumber());
+        pageableBooks.setSize(pageable.getPageSize());
+        pageableBooks.setAmountOfBooksInDb(Long.parseLong(amountOfBooks));
+        pageableBooks.setAmountOfPages((int) Math.ceil(Float.parseFloat(amountOfBooks) / limitBookOnPage));
+        return pageableBooks;
     }
 
     @Override

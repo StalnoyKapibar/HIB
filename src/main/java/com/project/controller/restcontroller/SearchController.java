@@ -2,26 +2,35 @@ package com.project.controller.restcontroller;
 
 import com.project.dao.CategoryDAO;
 import com.project.model.BookNewDTO;
+import com.project.model.BookPageDto;
+import com.project.model.BookSearchPageDTO;
 import com.project.search.BookSearch;
+import com.project.search.BookSearchPageable;
 import com.project.service.abstraction.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class SearchController {
 
     private final BookSearch bookSearch;
+    private final BookSearchPageable bookSearchPageable;
     private final BookService bookService;
 
     @Autowired
     CategoryDAO categoryDAO;
 
     @Autowired
-    public SearchController(BookSearch bookSearch, BookService bookService) {
+    public SearchController(BookSearch bookSearch, BookSearchPageable bookSearchPageable, BookService bookService) {
         this.bookSearch = bookSearch;
+        this.bookSearchPageable = bookSearchPageable;
         this.bookService = bookService;
     }
 
@@ -41,14 +50,16 @@ public class SearchController {
     }
 
     @GetMapping("/searchAdvanced")
-    public List<BookNewDTO> advancedSearch(@RequestParam(value = "request") String request, @RequestParam(value = "searchBy") String searchBy,
+    public BookSearchPageDTO advancedSearch(@RequestParam(value = "request") String request, @RequestParam(value = "searchBy") String searchBy,
                                            @RequestParam List<String> categories, @RequestParam(value = "priceFrom") Long priceFrom,
                                            @RequestParam(value = "priceTo") Long priceTo, @RequestParam(value = "yearOfEditionFrom") Long yearOfEditionFrom,
                                            @RequestParam(value = "yearOfEditionTo") Long yearOfEditionTo, @RequestParam(value = "pagesFrom") Long pagesFrom,
-                                           @RequestParam(value = "pagesTo") Long pagesTo) {
-        List<BookNewDTO> books = bookSearch.search(request, priceFrom, priceTo, String.valueOf(yearOfEditionFrom), String.valueOf(yearOfEditionTo),
-                pagesFrom, pagesTo, searchBy, categories);
-        return books;
+                                           @RequestParam(value = "pagesTo") Long pagesTo, @RequestParam(value = "limit") int limit,
+                                           @RequestParam(value = "start") int start) {
+        Pageable pageable = PageRequest.of(start, limit, Sort.by(Sort.Order.asc("id")));
+        BookSearchPageDTO bookSearchPageDTO = bookSearchPageable.search(request, priceFrom, priceTo, String.valueOf(yearOfEditionFrom), String.valueOf(yearOfEditionTo),
+                pagesFrom, pagesTo, searchBy, categories, pageable);
+        return bookSearchPageDTO;
     }
 
     @GetMapping("/api/booksSearchPage")
@@ -66,5 +77,12 @@ public class SearchController {
             books.addAll(bookService.getBooksByCategoryId(idL));
         }
         return books;
+    }
+
+    @GetMapping(value = "/api/book", params = {"limit", "start"})
+    public BookPageDto getBookDtoByLimitAndAmountAndStart(@RequestParam Map<String, String> params) {
+        Pageable pageable = PageRequest.of(Integer.parseInt(params.get("start")),
+                Integer.parseInt(params.get("limit")), Sort.by(Sort.Order.asc("id")));
+        return bookService.getBookPageByPageable(pageable);
     }
 }
