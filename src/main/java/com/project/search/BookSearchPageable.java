@@ -60,26 +60,28 @@ public class BookSearchPageable {
             return bookDao.getBooksBySearchParametersByPageable(priceFrom, priceTo, yearOfEditionFrom, yearOfEditionTo,  pagesFrom, pagesTo, categories, pageable);
         }
 
-        List<OriginalLanguage> results = getOriginalLanguageList(req, searchBy);
+        List<OriginalLanguage> originalLanguages = getOriginalLanguageList(req, searchBy);
         List<BookNewDTO> result = new ArrayList<>();
 
-        for (OriginalLanguage originalLanguage : results) {
-            String name;
-            String translitName;
-            if (searchBy.equals("author")) {
-                name = originalLanguage.getAuthor();
-                translitName = originalLanguage.getAuthorTranslit();
-            } else {
-                name = originalLanguage.getName();
-                translitName = originalLanguage.getNameTranslit();
-            }
-            BookNewDTO bookDTO = bookService.getBookBySearchRequest(name, translitName, originalLanguage, priceFrom, priceTo, yearOfEditionFrom,
-                    yearOfEditionTo, pagesFrom, pagesTo, searchBy, categories, pageable);
-            if (bookDTO != null) {
-                result.add(bookDTO);
-            }
-        }
-        return result;
+//        for (OriginalLanguage originalLanguage : results) {
+//            String name;
+//            String translitName;
+//            if (searchBy.equals("author")) {
+//                name = originalLanguage.getAuthor();
+//                translitName = originalLanguage.getAuthorTranslit();
+//            } else {
+//                name = originalLanguage.getName();
+//                translitName = originalLanguage.getNameTranslit();
+//            }
+//            BookNewDTO bookDTO = bookService.getBookBySearchRequest(name, translitName, originalLanguage, priceFrom, priceTo, yearOfEditionFrom,
+//                    yearOfEditionTo, pagesFrom, pagesTo, searchBy, categories, pageable);
+//            if (bookDTO != null) {
+//                result.add(bookDTO);
+//            }
+//        }
+        BookSearchPageDTO bookSearchPageDTO = bookDao.getBookBySearchRequestByPageable(req, originalLanguages, priceFrom, priceTo, yearOfEditionFrom, yearOfEditionTo,  pagesFrom, pagesTo, categories, pageable)
+
+        return bookSearchPageDTO;
     }
 
     public List<BookNewDTO> search(String req, boolean isShow) {

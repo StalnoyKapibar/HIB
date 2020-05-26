@@ -63,16 +63,52 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
         return null;
     }
 
+//    @Override
+//    public BookNewDTO getBookBySearchRequest(String name, String translitName, OriginalLanguage originalLanguage, Long priceFrom, Long priceTo,
+//                                             String yearOfEditionFrom, String yearOfEditionTo, Long pagesFrom, Long pagesTo,
+//                                             String searchBy, List<String> categories, Pageable pageable) {
+//        String hql = ("SELECT new com.project.model.BookNewDTO(b.id, b.originalLanguage.name," +
+//                "b.originalLanguage.nameTranslit, b.originalLanguage.author, b.originalLanguage.authorTranslit, b.description.en," +
+//                "b.originalLanguage.edition, b.originalLanguage.editionTranslit, b.yearOfEdition, b.pages, b.price, b.originalLanguageName, b.coverImage, b.category)" +
+//                "FROM Book b where b.isShow = true AND" +
+//                "((b.id = :id and :searchBy = 'name-author') OR" +
+//                "((b.originalLanguage.name = :name or b.originalLanguage.nameTranslit = :translitName) and :searchBy = 'name') OR" +
+//                "((b.originalLanguage.author = :name or b.originalLanguage.authorTranslit = :translitName) and :searchBy = 'author')) AND" +
+//                "((b.pages >= :pagesFrom and b.pages <= :pagesTo) OR (b.pages >= :pagesFrom and :pagesTo is null) OR " +
+//                "(:pagesFrom is null and b.pages <= :pagesTo) OR (:pagesFrom is null and :pagesTo is null)) AND " +
+//                "((b.yearOfEdition >= :yearOfEditionFrom and b.yearOfEdition <= :yearOfEditionTo) OR (b.yearOfEdition >= :yearOfEditionFrom and :yearOfEditionTo = 'null') OR " +
+//                "(:yearOfEditionFrom = 'null' and b.yearOfEdition <= :yearOfEditionTo) OR (:yearOfEditionFrom = 'null' and :yearOfEditionTo = 'null')) AND " +
+//                "((b.category.categoryName in :categories) or ('undefined' in :categories)) AND" +
+//                "((b.price >= :priceFrom and b.price <= :priceTo) OR (b.price >= :priceFrom and :priceTo = 0) OR " +
+//                "(:priceFrom = 0 and b.price <= :priceTo) OR (:priceFrom = 0 and :priceTo = 0))");
+//        List<BookNewDTO> list = entityManager.createQuery(hql, BookNewDTO.class)
+//                .setParameter("id", originalLanguage.getId())
+//                .setParameter("name", name)
+//                .setParameter("translitName", translitName)
+//                .setParameter("pagesFrom", pagesFrom)
+//                .setParameter("pagesTo", pagesTo)
+//                .setParameter("yearOfEditionFrom", yearOfEditionFrom)
+//                .setParameter("yearOfEditionTo", yearOfEditionTo)
+//                .setParameter("priceFrom", priceFrom)
+//                .setParameter("priceTo", priceTo)
+//                .setParameter("categories", categories)
+//                .setParameter("searchBy", searchBy)
+//                .getResultList();
+//        if (list.size() != 0) {
+//            return list.get(0);
+//        }
+//        return null;
+//    }
+
     @Override
-    public BookNewDTO getBookBySearchRequest(String name, String translitName, OriginalLanguage originalLanguage, Long priceFrom, Long priceTo,
-                                             String yearOfEditionFrom, String yearOfEditionTo, Long pagesFrom, Long pagesTo,
-                                             String searchBy, List<String> categories, Pageable pageable) {
+    public BookNewDTO getBookBySearchRequestByPageable(String request, Long priceFrom, Long priceTo, String yearOfEditionFrom, String yearOfEditionTo, Long pagesFrom,
+                                                       Long pagesTo, String searchBy, List<String> categories, Pageable pageable) {
         String hql = ("SELECT new com.project.model.BookNewDTO(b.id, b.originalLanguage.name," +
                 "b.originalLanguage.nameTranslit, b.originalLanguage.author, b.originalLanguage.authorTranslit, b.description.en," +
-                "b.originalLanguage.edition, b.originalLanguage.editionTranslit, b.yearOfEdition, b.pages, b.price, b.originalLanguageName, b.coverImage, b.category)" +
+                "b.originalLanguage.edition, b.originalLanguage.editionTranslit, b.yearOfEdition, b.pages, b.price, b.originalLanguageName, b.coverImage, b.category)," +
                 "FROM Book b where b.isShow = true AND" +
                 "((b.id = :id and :searchBy = 'name-author') OR" +
-                "((b.originalLanguage.name = :name or b.originalLanguage.nameTranslit = :translitName) and :searchBy = 'name') OR" +
+                "(b.originalLanguage.name IN :originalLanguages and :searchBy = 'name') OR" +
                 "((b.originalLanguage.author = :name or b.originalLanguage.authorTranslit = :translitName) and :searchBy = 'author')) AND" +
                 "((b.pages >= :pagesFrom and b.pages <= :pagesTo) OR (b.pages >= :pagesFrom and :pagesTo is null) OR " +
                 "(:pagesFrom is null and b.pages <= :pagesTo) OR (:pagesFrom is null and :pagesTo is null)) AND " +
@@ -82,9 +118,8 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
                 "((b.price >= :priceFrom and b.price <= :priceTo) OR (b.price >= :priceFrom and :priceTo = 0) OR " +
                 "(:priceFrom = 0 and b.price <= :priceTo) OR (:priceFrom = 0 and :priceTo = 0))");
         List<BookNewDTO> list = entityManager.createQuery(hql, BookNewDTO.class)
-                .setParameter("id", originalLanguage.getId())
-                .setParameter("name", name)
-                .setParameter("translitName", translitName)
+                .setParameter("originalLanguages", originalLanguages)
+                .setParameter("request", request)
                 .setParameter("pagesFrom", pagesFrom)
                 .setParameter("pagesTo", pagesTo)
                 .setParameter("yearOfEditionFrom", yearOfEditionFrom)
