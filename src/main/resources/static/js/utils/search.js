@@ -49,6 +49,13 @@ $(document).ready(function () {
         let $checkboxes = $('#input-categories');
         isCheckedCategory = $checkboxes.find('.custom-control-input').filter(':checked').length > 0;
     });
+
+    $(document).keypress(function(event){
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if(keycode == '13'){
+            $('#search-submit').click();
+        }
+    });
 });
 
 function getCategoryTree() {
