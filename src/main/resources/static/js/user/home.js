@@ -73,6 +73,7 @@ async function getAUTH() {
         .then(status)
         .then(json)
         .then(function (resp) {
+            console.log(resp)
             isAdmin = resp.roles.authority === 'ROLE_ADMIN';
         });
 }
