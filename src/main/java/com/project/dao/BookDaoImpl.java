@@ -63,8 +63,14 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
     }
 
     @Override
-    public List<BookNewDTO> getBookBySearchRequest(String request, Long priceFrom, Long priceTo,
-                                                   String yearOfEditionFrom, String yearOfEditionTo, Long pagesFrom, Long pagesTo, String searchBy, List<String> categories) {
+    public BookSearchPageDTO getBookBySearchRequest(String request, Long priceFrom, Long priceTo, String yearOfEditionFrom, String yearOfEditionTo,
+                                                   Long pagesFrom, Long pagesTo, String searchBy, List<String> categories, Pageable pageable) {
+        int limitBookDTOOnPage = pageable.getPageSize();
+        int minNumberId = limitBookDTOOnPage * pageable.getPageNumber();
+        String amountOfBooks = getQuantityOfBooksByIsShow(true).toString();
+        String sortTypeTmp = String.valueOf(pageable.getSort());
+        String sortingObject = sortTypeTmp.split(":")[0];
+        String typeOfSorting = sortTypeTmp.split(" ")[1];
         String name = ("%" + request + "%");
         String hql = ("SELECT new com.project.model.BookNewDTO(b.id, b.originalLanguage.name," +
                 "b.originalLanguage.nameTranslit, b.originalLanguage.author, b.originalLanguage.authorTranslit, b.description.en," +
@@ -80,8 +86,10 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
                 "(:yearOfEditionFrom = 'null' and b.yearOfEdition <= :yearOfEditionTo) OR (:yearOfEditionFrom = 'null' and :yearOfEditionTo = 'null')) AND " +
                 "((b.category.categoryName in :categories) or ('undefined' in :categories)) AND" +
                 "((b.price >= :priceFrom and b.price <= :priceTo) OR (b.price >= :priceFrom and :priceTo = 0) OR " +
-                "(:priceFrom = 0 and b.price <= :priceTo) OR (:priceFrom = 0 and :priceTo = 0))");
-        List<BookNewDTO> list = entityManager.createQuery(hql, BookNewDTO.class)
+                "(:priceFrom = 0 and b.price <= :priceTo) OR (:priceFrom = 0 and :priceTo = 0)) ORDER BY sortingObject typeOfSorting")
+                .replaceAll("sortingObject", sortingObject)
+                .replaceAll("typeOfSorting", typeOfSorting);
+        List<BookNewDTO> bookNewDTOList = entityManager.createQuery(hql, BookNewDTO.class)
                 .setParameter("name", name)
                 .setParameter("pagesFrom", pagesFrom)
                 .setParameter("pagesTo", pagesTo)
@@ -91,8 +99,17 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
                 .setParameter("priceTo", priceTo)
                 .setParameter("categories", categories)
                 .setParameter("searchBy", searchBy)
+                .setFirstResult(minNumberId)
+                .setMaxResults(limitBookDTOOnPage)
                 .getResultList();
-        return list;
+
+        BookSearchPageDTO pageableBookSearchDTO = new BookSearchPageDTO();
+        pageableBookSearchDTO.setBooks(bookNewDTOList);
+        pageableBookSearchDTO.setNumberPages(pageable.getPageNumber());
+        pageableBookSearchDTO.setSize(pageable.getPageSize());
+        pageableBookSearchDTO.setAmountOfBooksInDb(Long.parseLong(amountOfBooks));
+        pageableBookSearchDTO.setAmountOfPages((int) Math.ceil(Float.parseFloat(amountOfBooks) / limitBookDTOOnPage));
+        return pageableBookSearchDTO;
     }
 
     @Override

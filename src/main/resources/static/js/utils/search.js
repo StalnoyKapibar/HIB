@@ -1,12 +1,85 @@
 let row, primary;
 let isCheckedCategory = false;
+let currentPage = 0;
+let amountBooksInPage = 0;
+let amountBooksInDb;
+let ddmAmountBook = $("#ddmAmountBook");
 
 $(document).ready(function () {
-    setPageFields();
+    getLanguage();
     getCategoryTree();
     setLocaleFields();
-    getLanguage();
+    amountBooksInPage = ddmAmountBook.text();
+    getPageWithBooks(ddmAmountBook.text(), currentPage++);
 });
+
+function getQuantityPage() {
+    if (amountBooksInDb < amountBooksInPage) {
+        return 1;
+    }
+    return Math.ceil(amountBooksInDb / amountBooksInPage);
+}
+
+function addPagination() {
+    let numberOfPagesInPagination = 7;
+    let quantityPage = getQuantityPage();
+    let startIter;
+    let endIter = currentPage;
+    let pag;
+    let halfPages = Math.floor(numberOfPagesInPagination / 2);
+    if (quantityPage <= numberOfPagesInPagination || quantityPage === 0) {
+        startIter = 1;
+        endIter = quantityPage;
+    } else {
+        if (currentPage - halfPages <= 0) {
+            startIter = 1;
+            endIter = numberOfPagesInPagination;
+        } else if (currentPage + halfPages > quantityPage) {
+            startIter = quantityPage - numberOfPagesInPagination + 1;
+            endIter = quantityPage;
+        } else {
+            startIter = currentPage - halfPages;
+            endIter = currentPage + halfPages;
+        }
+    }
+    pag = `<nav aria-label="Page navigation example">
+                    <ul class="pagination">`;
+    pag += currentPage === 1 ? `<li class="page-item disabled"><a class="page-link" href="#" tabindex="-1">` :
+        `<li class="page-item"><a class="page-link" onclick="loadMore(1)" href="#">`;
+    pag += `<span aria-hidden="true">&laquo;</span></a></li>`;
+    for (let i = startIter; i < endIter + 1; i++) {
+        if (currentPage === i) {
+            pag += `<li class="page-item active"><a class="page-link" onclick="loadMore(${i})">${i}</a></li>`;
+        } else {
+            pag += `<li class="page-item"><a class="page-link" onclick="loadMore(${i})">${i}</a></li>`;
+        }
+    }
+    pag += currentPage === quantityPage ? `<li class="page-item disabled">` : `<li class="page-item">`
+    pag += `<a class="page-link" onclick="loadMore(${quantityPage})" href="#"><span aria-hidden="true">&raquo;</span></a></li>
+                    </ul>
+                </nav>`;
+    $("#rowForPagination").append(pag);
+}
+
+function loadMore(pageNumber) {
+    currentPage = pageNumber;
+    getPageWithBooks(amountBooksInPage, pageNumber - 1);
+}
+
+// function getPageWithBooks(amount, page) {
+//     GET(`/api/book?limit=${amount}&start=${page}`)
+//         .then(json)
+//         .then((data) => {
+//             amountBooksInDb = data.amountOfBooksInDb;
+//             addBooksToPage(data.books);
+//         })
+// }
+
+function setAmountBooksInPage(amount) {
+    amountBooksInPage = amount;
+    ddmAmountBook.text(amount);
+    getPageWithBooks(amount, 0);
+}
 
 $(document).ready(function () {
     $('#input-categories').on('click', '.custom-control-input', function () {
@@ -154,7 +227,7 @@ async function setChilds(category) {
     return row;
 }
 
-function advancedSearch() {
+function advancedSearch(amount, page) {
     let request = $('#search-input').val();
     let priceFrom = $('#input-price-from').val() * 100;
     let priceTo = $('#input-price-to').val() * 100;
@@ -179,7 +252,7 @@ function advancedSearch() {
     }
     fetch("/searchAdvanced?request=" + request + "&searchBy=" + searchBy + categoryRequest +
         "&priceFrom=" + priceFrom + "&priceTo=" + priceTo + "&yearOfEditionFrom=" + yearOfEditionFrom + "&yearOfEditionTo=" + yearOfEditionTo +
-        "&pagesFrom=" + pagesFrom + "&pagesTo=" + pagesTo, {
+        "&pagesFrom=" + pagesFrom + "&pagesTo=" + pagesTo + "&page=" + page + "&size=" + amount, {
         method: "GET",
         headers: {
             'Content-Type': 'application/json',
@@ -189,12 +262,13 @@ function advancedSearch() {
         .then(data => data.json())
         .then(function (data) {
             setLocaleFields();
-            addFindeBooks(data)
+            amountBooksInDb = data.amountOfBooksInDb;
+            addFindeBooks(data.books)
         });
 
 }
 
-async function setPageFields() {
+async function getPageWithBooks(amount, page) {
     if (window.location.search === "" && window.location.pathname.split("/").pop() === "search") {
         await fetch("/api/booksSearchPage", {
             method: "GET",
@@ -206,7 +280,8 @@ async function setPageFields() {
             .then(data => data.json())
             .then(function (data) {
                 setLocaleFields();
-                addFindeBooks(data)
+                amountBooksInDb = data.amountOfBooksInDb;
+                addFindeBooks(data.books)
             });
     } else if (window.location.search === "") {
         await fetch("/api" + window.location.pathname, {
