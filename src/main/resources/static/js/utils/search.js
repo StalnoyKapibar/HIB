@@ -1,5 +1,4 @@
 let row, primary;
-let id = "";
 let isCheckedCategory = false;
 
 $(document).ready(function () {
@@ -50,6 +49,13 @@ $(document).ready(function () {
         let $checkboxes = $('#input-categories');
         isCheckedCategory = $checkboxes.find('.custom-control-input').filter(':checked').length > 0;
     });
+
+    $(document).keypress(function(event){
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if(keycode == '13'&& $("#search-input").val().trim() !== ''){
+            $('#search-submit').click();
+        }
+    });
 });
 
 function getCategoryTree() {
@@ -95,17 +101,17 @@ async function setTreeView(category) {
     for (let i in category) {
         row =
             `<div class="category">
-                <div class="custom-control custom-checkbox form-check-inline" id="heading-${i}">
-                    <input class="custom-control-input" type="checkbox" id="check-${i}" value="${category[i].categoryName}">
-                    <label class="custom-control-label" for="check-${i}"></label>
-                    <label class="collapsed" data-toggle="collapse" data-target="#collapse-${i}" aria-expanded="false" aria-controls="collapse-${i}">
+                <div class="custom-control custom-checkbox form-check-inline" id="heading-${category[i].id}">
+                    <input class="custom-control-input" type="checkbox" id="check-${category[i].id}" value="${category[i].categoryName}">
+                    <label class="custom-control-label" for="check-${category[i].id}"></label>
+                    <label class="collapsed" data-toggle="collapse" data-target="#collapse-${category[i].id}" aria-expanded="false" aria-controls="collapse-${category[i].id}">
                        ${category[i].categoryName}(${await getCountBooksByCat(category[i].path)})
                        <i class="fa fa-plus-square-o" aria-hidden="true"></i>
                     </label>
                 </div>
                 <div class="ml-3">
-                    <div id="collapse-${i}" class="collapse" aria-labelledby="heading-${i}" data-parent="#accordionExample">
-                    ${await setChilds(category[i].childrens, i)}
+                    <div id="collapse-${category[i].id}" class="collapse" aria-labelledby="heading-${category[i].id}" data-parent="#accordionExample">
+                    ${await setChilds(category[i].childrens)}
                     </div>
                 </div>
             </div>`;
@@ -113,17 +119,15 @@ async function setTreeView(category) {
     }
 }
 
-async function setChilds(category, count) {
-    id += (count + "-");
+async function setChilds(category) {
     let row = '';
     for (let i in category) {
         if (category[i].childrens === undefined) {
-            id += (count + "-");
             row +=
                 `<div class="category">
-                    <div class="custom-control custom-checkbox form-check-inline" id="heading-${id}${i}">
-                        <input class="custom-control-input" type="checkbox" id="check-${id}${i}" value="${category[i].categoryName}">
-                        <label class="custom-control-label" for="check-${id}${i}">
+                    <div class="custom-control custom-checkbox form-check-inline" id="heading-${category[i].id}">
+                        <input class="custom-control-input" type="checkbox" id="check-${category[i].id}" value="${category[i].categoryName}">
+                        <label class="custom-control-label" for="check-${category[i].id}">
                             ${category[i].categoryName}(${await getCountBooksByCat(category[i].path)})
                         </label>
                     </div>
@@ -131,23 +135,22 @@ async function setChilds(category, count) {
         } else {
             row +=
                 `<div class="category">
-                    <div class="custom-control custom-checkbox form-check-inline" id="heading-${id}${i}">
-                        <input class="custom-control-input" type="checkbox" id="check-${id}${i}" value="${category[i].categoryName}">
-                        <label class="custom-control-label" for="check-${id}${i}"></label>
-                        <label class="collapsed" data-toggle="collapse" data-target="#collapse-${id}${i}" aria-expanded="false" aria-controls="collapse-${id}${i}">
+                    <div class="custom-control custom-checkbox form-check-inline" id="heading-${category[i].id}">
+                        <input class="custom-control-input" type="checkbox" id="check-${category[i].id}" value="${category[i].categoryName}">
+                        <label class="custom-control-label" for="check-${category[i].id}"></label>
+                        <label class="collapsed" data-toggle="collapse" data-target="#collapse-${category[i].id}" aria-expanded="false" aria-controls="collapse-${category[i].id}">
                            ${category[i].categoryName}(${await getCountBooksByCat(category[i].path)})
                            <i class="fa fa-plus-square-o" aria-hidden="true"></i>
                         </label>
                     </div>
                     <div class="ml-3">
-                        <div id="collapse-${id}${i}" class="collapse" aria-labelledby="heading-${id}${i}" data-parent="#accordionExample">
-                            ${await setChilds(category[i].childrens, i)}
+                        <div id="collapse-${category[i].id}" class="collapse" aria-labelledby="heading-${category[i].id}" data-parent="#accordionExample">
+                            ${await setChilds(category[i].childrens)}
                         </div>
                     </div>
                 </div>`;
         }
     }
-    id = "";
     return row;
 }
 
@@ -175,11 +178,11 @@ function parse_query_string(query) {
 
 function advancedSearch() {
     let request;
-    if ($('#search-input').val().toLowerCase() === "") {
+    if ($('#search-input').val().trim().toLowerCase() === "") {
         request = window.location.search.substring(9);
         window.location.search = "";
     } else {
-        request = $('#search-input').val().toLowerCase();
+        request = $('#search-input').val().toLowerCase().trim();
     }
     let priceFrom = $('#input-price-from').val() * 100;
     let priceTo = $('#input-price-to').val() * 100;
@@ -219,9 +222,21 @@ function advancedSearch() {
 
 }
 
-function setPageFields() {
-    if (window.location.search === "") {
-        fetch("/api/booksSearchPage", {
+async function setPageFields() {
+    if (window.location.search === "" && window.location.pathname.split("/").pop() === "search") {
+        await fetch("/api/booksSearchPage", {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        })
+            .then(data => data.json())
+            .then(function (data) {
+                addFindeBooks(data)
+            });
+    } else if (window.location.search === "") {
+        await fetch("/api" + window.location.pathname, {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json',
@@ -234,7 +249,7 @@ function setPageFields() {
                 addFindeBooks(data)
             });
     } else {
-        fetch("/searchResult" + window.location.search, {
+        await fetch("/searchResult" + window.location.search, {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json',
@@ -270,7 +285,7 @@ function addFindeBooks(data) {
     let tr = [];
     for (let i = 0; i < data.length; i++) {
         tr.push(`<tr>
-                                <td class="align-middle"><img src="images/book${data[i].id}/${data[i].coverImage}" style="max-width: 60px"></td>
+                                <td class="align-middle"><img src="../images/book${data[i].id}/${data[i].coverImage}" style="max-width: 60px"></td>
                                 <td class="align-middle">${convertOriginalLanguageRows(data[i].author, data[i].authorTranslit)}</td>
                                 <td class="align-middle">${convertOriginalLanguageRows(data[i].name, data[i].nameTranslit)}</td>
                                 <td class="align-middle">${data[i].pages}</td>

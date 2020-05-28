@@ -1,5 +1,16 @@
 let categoryRow;
+let valueInput = ''
 
+$(document).ready(function () {
+    $(document).keypress(function(event){
+        let keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13'
+            && $("#searchInput").val().trim() !== ''
+            && !document.location.href.includes('search')) {
+            $('#searchIcon').click();
+        }
+    });
+});
 
 $('#sidebar').mouseenter(() => {
     $('#page-wrapper').removeClass('pinned');
@@ -9,8 +20,7 @@ $('#sidebar').mouseleave(() => {
     $('#page-wrapper').addClass('pinned');
 });
 
-fetch('/categories/getnullparent', {
-})
+fetch('/categories/getnullparent', {})
     .then(function (response) {
         return response.json()
     })
@@ -18,14 +28,14 @@ fetch('/categories/getnullparent', {
         for (let i in primaryCategories) {
             categoryRow =
                 `<li>
-                <a href="/category/${primaryCategories[i].categoryName.toLowerCase()}">${primaryCategories[i].categoryName}</a>
+                <a href="/search/${primaryCategories[i].id}">${primaryCategories[i].categoryName}</a>
                 </li>`;
             $('#primaryCategories').append(categoryRow);
         }
     });
 
 $(document).on('click', '#searchIcon', async () => {
-    document.location = `/search?request=${$("#searchInput").val()}`
+    document.location = `/search?request=${$("#searchInput").val().trim().toLowerCase().split(" ")[0]}`
 });
 
 jQuery(function ($) {

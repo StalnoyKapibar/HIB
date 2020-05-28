@@ -1,4 +1,3 @@
-var currentLang = 'en';
 let pathImageDefault = '../images/book';
 let objectBook;
 let idCoverImage;

@@ -10,6 +10,8 @@ let pathImageFinWithoutImage;
 let nameImage;
 let nameImageCover = '';
 let pathImageDefault = '../images/book';
+let categoryName, categoryIdSrc;
+let isShow = false;
 
 $(document).ready(
     getVarBookDTO()
@@ -170,9 +172,30 @@ function buildPage() {
             <input type="file" class="form-control-file" id="loadAnotherImage" accept=".jpg" onchange="loadImage('loadAnotherImage','imageList')">
             <div class='car' id='imageList' style='width: 18rem;'>
             
-            </div></div></div></div></div></div>`);
+            </div></div></div></div>
+            <div class="tab-pane fade" id="category" role="tabpanel" aria-labelledby="category-tab">
+            <div class="card card-footer">
+                <h5 class="bg-secondary p-2 text-white text-center">Category</h5>
+               <div class="row">
+               <div class="col-4" style="margin: 0 auto">
+                <div class="input-group mb-3">
+                  <input type="text" class="form-control" categoryid="${tmpArr.category.id}" id="categoryInput" readonly value="${tmpArr.category.categoryName}">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" id="selectCategory" data-toggle="modal" data-target=".bd-example-modal-lg" type="button">Change category</button>
+                  </div>
+                </div>
+               </div>
+            </div>
+            </div>
+            </div></div>`);
+    categoryName = tmpArr.category.categoryName;
+    categoryIdSrc = tmpArr.category.id;
+    $('#categoryLabel').append(categoryName);
+    $('#categoryModalBody').attr('data-id', categoryIdSrc);
+
     divAvatar = $("#divAvatar");
     listImages = $("#imageList");
+
     for (let tmpNameObject of nameObjectOfLocaleString) {
 
         html1 += `<div class="col card card-body my-2"><h5 class='bg-secondary p-2 text-white text-center'>${tmpNameObject}</h5>
@@ -304,6 +327,133 @@ function buildPage() {
     }
 }
 
+function getCategoryName(event) {
+    $('.btn-outline-primary').removeClass('active');
+    $(event).addClass('active');
+    selectedCategoryName = event.innerText;
+    categoryIdSrc = event.getAttribute('categoryid');
+    category = {
+        id: categoryIdSrc,
+    };
+    $('#categoryLabel').empty().append('Selected category: ' + selectedCategoryName);
+    $("#categoryInput").attr('categoryid', categoryIdSrc).val(selectedCategoryName);
+
+}
+
+$(document).ready(() => {
+    row =
+        `<link href="/static/css/admin/adminTree.css" rel="stylesheet">
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="categoryLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="categoryLabel">Selected category: </h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div id="categoryModalBody" class="modal-body">
+      </div>
+       <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>`;
+    $('body').append(row);
+});
+
+$(document).on('click', '#selectCategory', () => {
+    if (isShow === false) {
+        fetch('/admin/categories/getadmintree')
+            .then(function (response) {
+                return response.json()
+            })
+            .then(function (json) {
+                cateroryArr = [];
+                for (let i in json) {
+                    categoryId = json[i][0];
+                    categoryName = json[i][1];
+                    categoryPath = json[i][2];
+                    categoryParent = json[i][3];
+                    viewOrder = json[i][4];
+
+                    const category = {
+                        id: categoryId,
+                        categoryName: categoryName,
+                        path: categoryPath,
+                        parentId: categoryParent,
+                        viewOrder: viewOrder
+                    };
+                    cateroryArr.push(category);
+                }
+                let tree = getUnflatten(cateroryArr, null);
+                setTreeView(tree);
+                isShow = true;
+            });
+
+        function getUnflatten(arr, parentId) {
+            let output = [];
+            for (const category of arr) {
+                if (category.parentId == parentId) {
+                    let children = getUnflatten(arr, category.id);
+                    if (children.length) {
+                        category.childrens = children
+                    }
+                    output.push(category)
+                }
+            }
+            return output
+        }
+
+        function setTreeView(category) {
+            let treeRow;
+            for (let i in category) {
+                $('#categoryModalBody').append(`<figure id="${category[i].categoryName}"></figure><br>`);
+                treeRow =
+                    `<ul class="col-12 tree">
+                <li class="col-12">
+                    <code class="btn-outline-primary" parent="${category[i].parentId}" view-order="${category[i].viewOrder}"
+                    categoryid="${category[i].id}" onclick="getCategoryName(this)">${category[i].categoryName}
+                    </code>
+                    <ul>
+                     ${setChilds(category[i].childrens)}
+                    </ul>
+                </li>
+            </ul>`;
+                $(`#${category[i].categoryName}`).append(treeRow);
+                $(`.btn-outline-primary[categoryid="${categoryIdSrc}"]`).addClass('active');
+            }
+        }
+
+
+        function setChilds(category) {
+            let row = '';
+            for (let i in category) {
+                if (category[i].childrens === undefined) {
+                    row +=
+                        `<li>
+                    <code class="btn-outline-primary" parent="${category[i].parentId}" view-order="${category[i].viewOrder}"
+                      categoryid="${category[i].id}" onclick="getCategoryName(this)">${category[i].categoryName}</code>
+                </li>`;
+                } else {
+                    row +=
+                        `<li>
+                    <code class="btn-outline-primary"
+                     parent="${category[i].parentId}" view-order="${category[i].viewOrder}"
+                      categoryid="${category[i].id}" onclick="getCategoryName(this)">${category[i].categoryName}</code>
+                      <ul>${setChilds(category[i].childrens)}</ul>
+                </li>`;
+                }
+            }
+            $(`.btn-outline-primary[categoryid="${categoryIdSrc}"]`).addClass('active');
+            return row;
+        }
+
+    } else {
+    }
+
+});
 
 function setImgInCarousel() {
     $('#exampleFormControlFile1').trigger('click')
@@ -328,6 +478,7 @@ function sendUpdateBook() {
             otherLangFields[tmpNameObject + "Translit"] = $("#in" + tmpNameObject).val();
         }
     }
+    category = {id: $('#categoryInput').attr('categoryid')};
     book["originalLanguage"] = otherLangFields;
     book['coverImage'] = nameImageCover;
     book['show'] = (!$("#disabled").is(':checked'));
@@ -335,21 +486,35 @@ function sendUpdateBook() {
     book['pages'] = $('#pages').val();
     book['price'] = $('#price').val();
     book['originalLanguageName'] = $('#originalLanguage').val();
+    book['category'] = category;
     let allImages = $("#allImage").find("img");
     let imageList = [];
 
     for (let img of allImages) {
         imageList.push(img.id);
     }
-    if (allImages.length == 0) {
+    let imageListTmpPattern = [];
+    for (let index = 0; index < imageList.length; index++) {
+        imageListTmpPattern[index] = JSON.parse(JSON.stringify(tmpArr.listImage[0]));
+    }
+    for (let index = 0; index < imageListTmpPattern.length; index++) {
+        imageListTmpPattern[index].id = 0;
+        imageListTmpPattern[index].nameImage = imageList[index];
+    }
+
+    if (imageListTmpPattern.length == 1 && imageListTmpPattern[0].nameImage == "") {
         book["listImage"] = tmpArr.listImage;
     } else {
-        book["listImage"] = imageList;
+        let indexListImage = tmpArr.listImage.length;
+        for (let index = tmpArr.listImage.length + 1; index <= imageListTmpPattern.length + indexListImage; index++) {
+            tmpArr.listImage.push(imageListTmpPattern[index - indexListImage - 1]);
+        }
+        book["listImage"] = tmpArr.listImage;
     }
 
     var body02 = JSON.stringify(book);
     sendUpdateBookReq(body02);
-    confirm("Edit this book?")
+    confirm("Edit this book?");
     window.location.href = document.referrer;
 }
 
@@ -426,6 +591,7 @@ function deleteTmpImage(x) {
         }
     });
 }
+
 function deleteCarouselImageFromDB(x) {
     var delTmp = tmpArr.listImage[x].id;
     delete tmpArr.listImage[x];
@@ -477,6 +643,7 @@ function uploadImageNew() {
 function loadImage(nameId, div) {
     const formData = new FormData();
     let fileImg = $("#" + nameId).prop('files')[0];
+
     formData.append('file', fileImg);
     fetch('/admin/upload', {
         method: 'POST',
