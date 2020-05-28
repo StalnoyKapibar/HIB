@@ -48,6 +48,13 @@ $(document).ready(function () {
         let $checkboxes = $('#input-categories');
         isCheckedCategory = $checkboxes.find('.custom-control-input').filter(':checked').length > 0;
     });
+
+    $(document).keypress(function(event){
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if(keycode == '13'&& $("#search-input").val().trim() !== ''){
+            $('#search-submit').click();
+        }
+    });
 });
 
 function getCategoryTree() {
@@ -148,12 +155,6 @@ async function setChilds(category) {
 
 function advancedSearch() {
     let request = $('#search-input').val();
-    // if ($('#search-input').val().toLowerCase() === "") {
-    //     request = window.location.search.substring(9);
-    //     window.location.search = "";
-    // } else {
-    //     request = $('#search-input').val().toLowerCase();
-    // }
     let priceFrom = $('#input-price-from').val() * 100;
     let priceTo = $('#input-price-to').val() * 100;
     let yearOfEditionFrom = $('#input-year-of-edition-from').val();
