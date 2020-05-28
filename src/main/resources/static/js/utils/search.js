@@ -4,6 +4,7 @@ let isCheckedCategory = false;
 $(document).ready(function () {
     setPageFields();
     getCategoryTree();
+    setLocaleFields();
     getLanguage();
 });
 
@@ -187,7 +188,7 @@ function advancedSearch() {
     })
         .then(data => data.json())
         .then(function (data) {
-            setLocaleFields()
+            setLocaleFields();
             addFindeBooks(data)
         });
 
@@ -204,6 +205,7 @@ async function setPageFields() {
         })
             .then(data => data.json())
             .then(function (data) {
+                setLocaleFields();
                 addFindeBooks(data)
             });
     } else if (window.location.search === "") {
@@ -216,7 +218,7 @@ async function setPageFields() {
         })
             .then(data => data.json())
             .then(function (data) {
-                setLocaleFields()
+                setLocaleFields();
                 addFindeBooks(data)
             });
     } else {
@@ -229,7 +231,7 @@ async function setPageFields() {
         })
             .then(data => data.json())
             .then(function (data) {
-                setLocaleFields()
+                setLocaleFields();
                 addFindeBooks(data)
             });
     }
