@@ -51,9 +51,9 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
     @Override
     public List<BookNewDTO> getBookBySearchRequestAdvanced(String req) {
         String name = ("%" + req + "%");
-        String hql = ("SELECT new com.project.model.BookNewDTO(b.id, b.originalLanguage.name," +
-                "b.originalLanguage.nameTranslit, b.originalLanguage.author, b.originalLanguage.authorTranslit," +
-                "b.originalLanguage.edition, b.originalLanguage.editionTranslit, b.description.en)" +
+        String hql = ("SELECT new com.project.model.BookNewDTO(b.id, b.originalLanguage.name, " +
+                "b.originalLanguage.nameTranslit, b.originalLanguage.author, b.originalLanguage.authorTranslit, b.description.en, " +
+                "b.originalLanguage.edition, b.originalLanguage.editionTranslit, b.yearOfEdition, b.pages, b.price, b.originalLanguageName, b.coverImage, b.category)" +
                 "FROM Book b where (b.originalLanguage.name like :name OR b.originalLanguage.nameTranslit like :name OR " +
                 "b.originalLanguage.author like :name OR b.originalLanguage.authorTranslit like :name) AND (b.isShow = true)");
         List<BookNewDTO> list = entityManager.createQuery(hql, BookNewDTO.class)
