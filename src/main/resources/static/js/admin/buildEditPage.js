@@ -450,7 +450,8 @@ $(document).on('click', '#selectCategory', () => {
             return row;
         }
 
-    } else {}
+    } else {
+    }
 
 });
 
@@ -501,7 +502,7 @@ function sendUpdateBook() {
         imageListTmpPattern[index].nameImage = imageList[index];
     }
 
-    if (allImages.length == 0) {
+    if (imageListTmpPattern.length == 1 && imageListTmpPattern[0].nameImage == "") {
         book["listImage"] = tmpArr.listImage;
     } else {
         let indexListImage = tmpArr.listImage.length;

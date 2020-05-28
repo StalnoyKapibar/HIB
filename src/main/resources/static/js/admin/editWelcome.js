@@ -16,7 +16,21 @@ let welcomeText = [];
 let toggleShowDisabled = $("#toggleShowDisabled");
 let repliedOn = true;
 
-$(document).ready(getVarBookDTO(), getAllLocales(), pageBook(0), getLocales());
+$(document).ready(
+    getVarBookDTO(),
+    getAllLocales(),
+    pageBook(0),
+    getLocales()
+);
+
+$(document).ready(function () {
+    $(document).keypress(function(event){
+        let keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13'&& $("#search-input-admin").val().trim() !== ''){
+            $('#button-search-input-admin').click();
+        }
+    });
+});
 
 async function getVarBookDTO() {
     await fetch("/getVarBookDTO")
@@ -188,7 +202,7 @@ async function searchBook() {
     $('#pagination00').empty();
     $('#pagination01').empty();
     $('#extra').empty();
-    let searchWord = $('#search-input-admin').val().toLowerCase();
+    let searchWord = $('#search-input-admin').val().toLowerCase().trim();
     await fetch("/api/admin/searchResult?request=" + searchWord + "&Show=" + toggleShowDisabled.is(':checked'), {
         method: "POST",
         headers: {

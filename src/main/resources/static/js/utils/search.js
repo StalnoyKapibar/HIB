@@ -49,6 +49,13 @@ $(document).ready(function () {
         let $checkboxes = $('#input-categories');
         isCheckedCategory = $checkboxes.find('.custom-control-input').filter(':checked').length > 0;
     });
+
+    $(document).keypress(function(event){
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if(keycode == '13'&& $("#search-input").val().trim() !== ''){
+            $('#search-submit').click();
+        }
+    });
 });
 
 function getCategoryTree() {
@@ -171,11 +178,11 @@ function parse_query_string(query) {
 
 function advancedSearch() {
     let request;
-    if ($('#search-input').val().toLowerCase() === "") {
+    if ($('#search-input').val().trim().toLowerCase() === "") {
         request = window.location.search.substring(9);
         window.location.search = "";
     } else {
-        request = $('#search-input').val().toLowerCase();
+        request = $('#search-input').val().toLowerCase().trim();
     }
     let priceFrom = $('#input-price-from').val() * 100;
     let priceTo = $('#input-price-to').val() * 100;

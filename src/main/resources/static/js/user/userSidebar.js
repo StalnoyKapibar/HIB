@@ -1,5 +1,16 @@
 let categoryRow;
+let valueInput = ''
 
+$(document).ready(function () {
+    $(document).keypress(function(event){
+        let keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13'
+            && $("#searchInput").val().trim() !== ''
+            && !document.location.href.includes('search')) {
+            $('#searchIcon').click();
+        }
+    });
+});
 
 $('#sidebar').mouseenter(() => {
     $('#page-wrapper').removeClass('pinned');
@@ -24,7 +35,7 @@ fetch('/categories/getnullparent', {})
     });
 
 $(document).on('click', '#searchIcon', async () => {
-    document.location = `/search?request=${$("#searchInput").val().toLowerCase().split(" ")[0]}`
+    document.location = `/search?request=${$("#searchInput").val().trim().toLowerCase().split(" ")[0]}`
 });
 
 jQuery(function ($) {
