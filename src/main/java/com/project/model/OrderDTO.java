@@ -23,6 +23,7 @@ public class OrderDTO {
     private UserDTO userDTO;
     private ContactsOfOrderDTO contacts;
     private String comment;
+    private boolean viewed;
 
     @Transient
     public Order getOder() {
@@ -43,6 +44,7 @@ public class OrderDTO {
         order.setContacts(new ContactsOfOrder(contacts));
         order.setComment(comment);
         order.setUserAccount(userAccount);
+        order.setViewed(false);
         return order;
     }
 }

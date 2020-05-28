@@ -102,21 +102,20 @@ public class OrderController {
         List<Order> orderList = orderService.getAllOrders();
         List<OrderDTO> orderDTOS = new ArrayList<>();
         for (Order order : orderList) {
+            order.setViewed(true);
+            orderService.updateOrder(order);
             orderDTOS.add(order.getOrderDTOForAdmin());
         }
         return orderDTOS;
     }
 
 
-    @GetMapping("/api/admin/order-count")
-    private int getOrdersCount(HttpSession session) {
-        Integer orderCount = (Integer) session.getAttribute("orderCount");
-        if (orderCount != null) {
-            return orderService.getAllOrders().size() - orderCount;
-        } else {
-            session.setAttribute("orderCount", orderService.getAllOrders().size());
-            return 0;
-        }
+    @GetMapping("/api/order-count")
+    private long getOrdersCount() {
+        return orderService.getAllOrders()
+                .stream()
+                .filter(order -> !order.getViewed())
+                .count();
     }
 
     @PatchMapping("/api/admin/completeOrder/{id}")

@@ -1,5 +1,6 @@
 package com.project.model;
 
+import com.project.service.abstraction.OrderService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,6 +31,7 @@ public class Order {
     @OneToOne(cascade = CascadeType.ALL)
     private ContactsOfOrder contacts;
     private String comment;
+    private boolean viewed;
 
     public OrderDTO getOrderDTO() {
         OrderDTO orderDTO = new OrderDTO();
@@ -66,7 +68,11 @@ public class Order {
             cartItemDTOS.add(new CartItemDTO(cartItem.getId(), book));
         }
         orderDTO.setItems(cartItemDTOS);
-
+        orderDTO.setViewed(viewed);
         return orderDTO;
+    }
+
+    public boolean getViewed() {
+        return viewed;
     }
 }

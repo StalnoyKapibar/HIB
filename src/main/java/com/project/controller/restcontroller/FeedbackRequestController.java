@@ -30,6 +30,7 @@ public class FeedbackRequestController {
     public FeedbackRequest sendNewFeedBackRequest(@RequestBody FeedbackRequest feedbackRequest, @RequestParam("book_id") String bookId) {
         LOGGER.debug("POST request '/feedback-request' with {}", feedbackRequest);
         feedbackRequest.setId(null);
+        feedbackRequest.setViewed(false);
         feedbackRequest.setReplied(false);
         feedbackRequest.setSenderName(HtmlUtils.htmlEscape(feedbackRequest.getSenderName()));
         feedbackRequest.setContent(HtmlUtils.htmlEscape(feedbackRequest.getContent()));
@@ -66,7 +67,12 @@ public class FeedbackRequestController {
 
     @GetMapping("/api/admin/feedback-request")
     public List<FeedbackRequest> getByReplied(@RequestParam Boolean replied) {
-        return feedbackRequestService.getByReplied(replied);
+        List<FeedbackRequest> feedbackRequests = feedbackRequestService.getByReplied(replied);
+        for (FeedbackRequest feed : feedbackRequests) {
+            feed.setViewed(true);
+            feedbackRequestService.save(feed);
+        }
+        return feedbackRequests;
     }
 
     @GetMapping("/api/admin/feedback-request/{id}")
@@ -75,13 +81,10 @@ public class FeedbackRequestController {
     }
 
     @GetMapping(value = "/api/admin/feedback-request-count")
-    public int getFeedbackRequestCount(HttpSession session) {
-        Integer feedbackCount = (Integer) session.getAttribute("feedbackCount");
-        if (feedbackCount != null) {
-            return feedbackRequestService.findAll().size() - feedbackCount;
-        } else {
-            session.setAttribute("feedbackCount", feedbackRequestService.findAll().size());
-            return 0;
-        }
+    public long getFeedbackRequestCount() {
+        return feedbackRequestService.findAll()
+                .stream()
+                .filter(feedbackRequest -> !feedbackRequest.isViewed())
+                .count();
     }
 }
