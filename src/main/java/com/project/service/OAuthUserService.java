@@ -46,11 +46,11 @@ public class OAuthUserService extends DefaultOAuth2UserService {
                 oAuth2UserRequest.getClientRegistration()
                 .getRegistrationId(), oAuth2User.getAttributes());
         UserAccount user;
-        try {
-            Optional<UserAccount> userOptional = userAccountDao.findByEmail(oAuth2UserInfo.getEmail());
+        Optional<UserAccount> userOptional = userAccountDao.findByEmail(oAuth2UserInfo.getEmail());
+        if (userOptional.isPresent()) {
             user = userOptional.get();
             user = updateExistingUser(user, oAuth2UserInfo);
-        } catch (EmptyResultDataAccessException | NullPointerException e) {
+        } else {
             user = registerNewUser(oAuth2UserRequest, oAuth2UserInfo);
         }
         return create(user, oAuth2User.getAttributes());

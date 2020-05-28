@@ -81,7 +81,7 @@ async function showModalOfOrder(index) {
                 htmlChat += `<div id="chat-wrapper">`;
                 htmlChat += `</div>`;
                 htmlChat += `<textarea id="sent-message" class="form-control"></textarea>
-                        </div><button class="float-right col-2 button btn-primary" type="button" id="send-message" onclick="sendGmailMessage('${order.contacts.email}', ${index})">Send</button>`
+                        </div><button class="float-right col-2 button btn-primary" type="button" id="send-button" onclick="sendGmailMessage('${order.contacts.email}', ${index})">Send</button>`
             } else {
                 if (data[0].text === "noGmailAccess") {
                     htmlChat += `<div>
@@ -97,7 +97,7 @@ async function showModalOfOrder(index) {
                     }
                     htmlChat += `</div>`;
                     htmlChat += `<textarea id="sent-message" class="form-control"></textarea>
-                        </div><button class="float-right col-2 button btn-primary" type="button" id="send-message" onclick="sendGmailMessage('${order.contacts.email}', ${index})">Send</button>`
+                        </div><button class="float-right col-2 button btn-primary" type="button" id="send-button" onclick="sendGmailMessage('${order.contacts.email}', ${index})">Send</button>`
                 }
             }
         });
@@ -175,8 +175,11 @@ function orderDelete(id) {
 }
 
 function sendGmailMessage(userId, index) {
+    let sendButton = document.getElementById("send-button");
+    sendButton.disabled = true;
     let message = document.getElementById("sent-message").value;
     if (message === "" || message == null || message == undefined) {
+        sendButton.disabled = false;
         return;
     }
     fetch("/gmail/" + userId + "/messages", {
@@ -193,6 +196,8 @@ function sendGmailMessage(userId, index) {
             let wrapper = document.getElementById("chat-wrapper");
             wrapper.insertAdjacentHTML("beforeend", html);
             document.getElementById("sent-message").value = "";
+            sendButton.disabled = false;
         });
+
 }
 
