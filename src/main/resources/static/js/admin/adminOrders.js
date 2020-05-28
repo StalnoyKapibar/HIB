@@ -179,6 +179,7 @@ function sendGmailMessage(userId, index) {
     sendButton.disabled = true;
     let message = document.getElementById("sent-message").value;
     if (message === "" || message == null || message == undefined) {
+        sendButton.disabled = false;
         return;
     }
     fetch("/gmail/" + userId + "/messages", {
@@ -195,7 +196,8 @@ function sendGmailMessage(userId, index) {
             let wrapper = document.getElementById("chat-wrapper");
             wrapper.insertAdjacentHTML("beforeend", html);
             document.getElementById("sent-message").value = "";
+            sendButton.disabled = false;
         });
-    sendButton.disabled = false;
+
 }
 
