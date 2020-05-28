@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
@@ -15,11 +15,11 @@
 <div class="d-flex">
     <header th:replace="home-old :: nav-bar"></header>
 
-    <!--    page container    -->
+    <!--    Page container    -->
     <div class="container page-content" th:fragment="book-page">
         <link href="/static/css/style.css" rel="stylesheet">
         <link href="/static/css/bootstrap.min.css" rel="stylesheet">
-        <link href="/static/css/bootstrap-social.css" rel="stylesheet"/>
+        <link href="/static/css/bootstrap-social.css" rel="stylesheet" />
         <link href="/static/fonts/font-awesome.css" rel="stylesheet">
         <link href="/static/fonts/font.css" rel="stylesheet">
         <link href="/static/css/style.css" rel="stylesheet">
@@ -29,10 +29,7 @@
         <script src="/static/js/lib/popper.min.js"></script>
         <script src="/static/js/lib/bootstrap.min.js"></script>
         <script crossorigin="anonymous" src="https://kit.fontawesome.com/db08edad0b.js"></script>
-
-
         <div class="book-background w-auto p-3">
-
             <div class="col-sm-8 col-md-9 ml-auto col-xl-10">
                 <div class="row">
                     <div class="col-3 h-100">
@@ -78,7 +75,6 @@
                             </div>
                             <br><br><br><br><br><br>
                             <div class="col-12">
-
                                 <div class="container-fluid">
                                     <div class="row">
                                         <div class="col-2">
@@ -92,8 +88,7 @@
                                                     <th:block sec:authorize="!hasRole('ADMIN')">
                                                         <button class="btn btn-info col-5 btn-metro btn-info-inverse"
                                                                 id="ask-question"
-                                                                type="button">Ask a
-                                                            question
+                                                                type="button">Ask a question
                                                         </button>
                                                         <button class="btn btn-info col-5 offset-1 btn-metro addToCartBtn"
                                                                 id="addToCart"
@@ -118,7 +113,7 @@
             </div>
             <a hidden id="bookid" th:value="${book}"></a>
         </div>
-        <!--        footer       -->
+        <!--    Footer    -->
         <div class="footer pt-3 p-0 container-fluid text-center" th:replace="home-old :: footer">
         </div>
         <script src="/static/js/utils/common-function.js"></script>
@@ -126,19 +121,14 @@
         <script src="/static/js/user/page.js"></script>
         <script src="/static/js/footerBuilder.js"></script>
         <script src="/static/js/utils/liveSearch.js"></script>
-
-
     </div>
-
 </div>
-
 
 <div class="modal fade" id="signModal" role="dialog" tabindex="-1" th:replace="home-old :: sign-in-modal"
      aria-labelledby="exampleModalLabel">
 </div>
 
 <div th:replace="home-old :: contact-button"></div>
-
 
 </body>
 </html>

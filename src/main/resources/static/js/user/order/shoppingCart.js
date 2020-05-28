@@ -95,7 +95,6 @@ async function updateQuantity(quatity, id) {
     })
 }
 
-
 $(document).ready(function () {
     $("body").on('click', '.delete', function () {
         let id = $(this).attr("data-id");
@@ -357,10 +356,3 @@ async function getLastOrderedBooks() {
     const data = await res.json();
     return data;
 }
-
-
-
-
-
-
-

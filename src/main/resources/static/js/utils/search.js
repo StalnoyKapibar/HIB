@@ -32,9 +32,9 @@ $(document).ready(function () {
                     isCheckedSibling = true;
                     return;
                 }
-            })
+            });
             return isCheckedSibling;
-        }
+        };
         const isChecked = $(this).is(':checked');
         let nearCategory = $(this).parent().parent();
         let isCheckedSiblings = getCheckedSiblings(nearCategory);
@@ -50,9 +50,9 @@ $(document).ready(function () {
         isCheckedCategory = $checkboxes.find('.custom-control-input').filter(':checked').length > 0;
     });
 
-    $(document).keypress(function(event){
+    $(document).keypress(function (event) {
         var keycode = (event.keyCode ? event.keyCode : event.which);
-        if(keycode == '13'&& $("#search-input").val().trim() !== ''){
+        if (keycode == '13'&& $("#search-input").val().trim() !== '') {
             $('#search-submit').click();
         }
     });
@@ -87,7 +87,6 @@ function getUnflatten(arr, parentid) {
     for (const category of arr) {
         if (category.parentId == parentid) {
             let children = getUnflatten(arr, category.id);
-
             if (children.length) {
                 category.childrens = children
             }
@@ -219,7 +218,6 @@ function advancedSearch() {
             setLocaleFields()
             addFindeBooks(data)
         });
-
 }
 
 async function setPageFields() {
