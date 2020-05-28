@@ -5,7 +5,7 @@
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
-    <title>Ruseller Email Newsletter</title>
+    <title>Order</title>
 
     <style type="text/css">
 
@@ -114,12 +114,12 @@
 
                             <tr>
 
-                                <td width="570" bgcolor="D1ECF1"><h1>Hello dear reader</h1></td>
+                                <td width="570" bgcolor="D1ECF1"><h1>Your purchases</h1></td>
 
                             </tr>
 
                             <tr>
-                                <td width="570" bgcolor="D1ECF1"><h2>ID user</h2></td>
+                                <td width="570" height="55" bgcolor="D1ECF1"></td>
                             </tr>
 
                         </table><!-- header -->
@@ -142,30 +142,29 @@
                         <table id="content-1" cellpadding="0" cellspacing="0" align="left">
 
                             <tr>
+                                <td width="100" valign="top" th:each="item : ${orders.getItems()}">
 
+                                    <table cellpadding="5" cellspacing="0">
 
-                                <td width="55"></td>
+                                        <tr>
+                                            <td bgcolor="F9F8F8"><img
+                                                    th:src="|http://localhost:8080/images/book${item.book.id}/*{item.book.coverImage}|"
+                                                    width="100" alt=""/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td th:text="${item.book.name.en}"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <button>
+                                                    <a th:href="|http://localhost:8080/page/${item.book.id}|">HIB</a>
+                                                </button>
 
-                                <td valign="top" colspan="3">
+                                            </td>
+                                        </tr>
+                                    </table>
 
-                                    <h4>
-                                        <strong> Your login:</strong> <span> Login</span> <br>
-                                    </h4>
-
-                                    <h4>
-                                    <strong> Your password:</strong> <span>Password</span> <br>
-                                    </h4>
-                                </td>
-                                <td width="15"></td>
-
-                            </tr>
-                            <tr>
-                                <td width="15"></td>
-                                <td>
-                                    <br>
-                                    <button>
-                                        <a href="home">View in Browser</a>
-                                    </button>
                                 </td>
                             </tr>
 
@@ -182,8 +181,23 @@
                         <table id="content-2" cellpadding="0" cellspacing="0" align="center">
 
                             <tr>
-
-
+                                <td>
+                                    <span>	Total price: </span>
+                                    <span th:text="${orders.getItemsCost()/100.00}"></span>
+                                    <span>€</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span> Order status: </span>
+                                    <span th:text="${orders.getStatus().toString()}"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span> Date of order: </span>
+                                    <span th:text="${orders.getData()}"></span>
+                                </td>
                             </tr>
 
                         </table><!-- content-2 -->
