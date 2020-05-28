@@ -4,7 +4,7 @@ $(document).ready(function () {
 });
 
 function startCountOfOrder() {
-    fetch("/api/order-count")
+    fetch("/api/admin/order-count")
         .then(response => response.json())
         .then(function (data) {
             if (data !== 0 && data > 0) {

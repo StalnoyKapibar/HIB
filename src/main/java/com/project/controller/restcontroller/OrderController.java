@@ -110,7 +110,7 @@ public class OrderController {
     }
 
 
-    @GetMapping("/api/order-count")
+    @GetMapping("/api/admin/order-count")
     private long getOrdersCount() {
         return orderService.getAllOrders()
                 .stream()
