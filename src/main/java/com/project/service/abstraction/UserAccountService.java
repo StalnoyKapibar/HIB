@@ -4,6 +4,7 @@ import com.project.model.RegistrationUserDTO;
 import com.project.model.UserAccount;
 import org.hibernate.exception.ConstraintViolationException;
 
+import javax.mail.MessagingException;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;
 
@@ -14,8 +15,6 @@ public interface UserAccountService {
     UserAccount save(RegistrationUserDTO user) throws ConstraintViolationException;
 
     boolean emailExist(String email);
-
-    void sendEmailToConfirmAccount(UserAccount user);
 
     void setLocaleAndAuthDate(String email, String locale, long lastAuthDate);
 

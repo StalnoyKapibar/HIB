@@ -1,5 +1,6 @@
 package com.project.service;
 
+import com.project.controller.controller.DocHTMLController;
 import com.project.dao.UserAccountDao;
 import com.project.dao.abstraction.UserRoleDao;
 import com.project.mail.MailService;
@@ -7,6 +8,7 @@ import com.project.model.RegistrationUserDTO;
 import com.project.model.Role;
 import com.project.model.ShoppingCart;
 import com.project.model.UserAccount;
+import com.project.service.abstraction.SendEmailService;
 import com.project.service.abstraction.UserAccountService;
 import lombok.AllArgsConstructor;
 import org.hibernate.exception.ConstraintViolationException;
@@ -17,6 +19,8 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.thymeleaf.context.Context;
+import sun.plugin.dom.html.HTMLDocument;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -37,7 +41,7 @@ public class UserAccountServiceImpl implements UserAccountService {
 
     HttpSession httpSession;
 
-    MailService mailService;
+    SendEmailService sendEmailService;
 
     Environment environment;
 
@@ -75,53 +79,15 @@ public class UserAccountServiceImpl implements UserAccountService {
                 .roles(new Role(1L, "ROLE_USER"))
                 .build();
 
-        sendEmailToConfirmAccount(userAccount);
         try {
-            sendEmailToConfirmAccount1ClickReg(userAccount, user.getPassword(), user.getLogin());
+            sendEmailService.confirmAccount(userAccount);
+            sendEmailService.confirmAccount1ClickReg(userAccount, user.getPassword(), user.getLogin());
         } catch (MessagingException e) {
             e.printStackTrace();
         }
         return userAccountDao.save(userAccount);
     }
 
-    @Override
-    public void sendEmailToConfirmAccount(UserAccount user) {
-        String senderFromProperty = environment.getProperty("spring.mail.username");
-        SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setTo(user.getEmail());
-        mailMessage.setSubject("Привет");
-        mailMessage.setFrom(senderFromProperty);
-        mailMessage.setText("Привет "
-//                + "http://localhost:8080/confirmEmail?token="
-                + user.getTokenToConfirmEmail());
-        mailService.sendEmail(mailMessage);
-    }
-
-
-//    public void sendEmailToConfirmAccount1ClickReg(UserAccount user, String password, String login) {
-//        String senderFromProperty = environment.getProperty("spring.mail.username");
-//        SimpleMailMessage mailMessage = new SimpleMailMessage();
-//        mailMessage.setTo(user.getEmail());
-//        mailMessage.setSubject("Привет");
-//        mailMessage.setFrom(senderFromProperty);
-//        mailMessage.setText("Привет "
-////                + "http://localhost:8080/confirmEmail?token="
-//                + user.getTokenToConfirmEmail() + " Логин: " + login + " Пароль: " + password);
-//        mailService.sendEmail(mailMessage);
-//    }
-
-    public void sendEmailToConfirmAccount1ClickReg(UserAccount user, String password, String login) throws MessagingException {
-        String senderFromProperty = environment.getProperty("spring.mail.username");
-        MimeMessage message = mailService.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message, "utf-8");
-        helper.setTo(user.getEmail());
-        helper.setSubject("Привет");
-        helper.setFrom(senderFromProperty);
-        helper.setText("Привет "
-//                + "http://localhost:8080/confirmEmail?token="
-                + user.getTokenToConfirmEmail() + " Логин: " + login + " Пароль: " + password);
-        mailService.sendEmail(message);
-    }
 
     @Override
     public void setLocaleAndAuthDate(String email, String locale, long lastAuthDate) {

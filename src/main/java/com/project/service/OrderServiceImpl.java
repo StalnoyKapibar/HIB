@@ -1,6 +1,7 @@
 package com.project.service;
 
 import com.project.dao.abstraction.OrderDao;
+import com.project.mail.MailService;
 import com.project.model.*;
 import com.project.service.abstraction.OrderService;
 import lombok.AllArgsConstructor;
@@ -15,10 +16,12 @@ import java.util.List;
 public class OrderServiceImpl implements OrderService {
 
     private OrderDao orderDAO;
+    private MailService mailService;
 
     @Override
     public void addOrder(Order order) {
         orderDAO.add(order);
+
     }
 
     @Override
