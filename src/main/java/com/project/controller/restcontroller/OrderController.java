@@ -1,15 +1,13 @@
 package com.project.controller.restcontroller;
 
 import com.project.model.*;
-import com.project.service.abstraction.BookService;
-import com.project.service.abstraction.OrderService;
-import com.project.service.abstraction.ShoppingCartService;
-import com.project.service.abstraction.UserAccountService;
+import com.project.service.DataEnterInAdminPanelService;
+import com.project.service.abstraction.*;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.time.LocalDate;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +20,7 @@ public class OrderController {
     private OrderService orderService;
     private UserAccountService userAccountService;
     private BookService bookService;
+    private DataEnterInAdminPanelService dataEnterInAdminPanelService;
 
     @PostMapping("/api/user/order/confirmaddress")
     private OrderDTO addOder(HttpSession httpSession) {
@@ -36,7 +35,7 @@ public class OrderController {
             order.setItems(shoppingCartDTO.getCartItems());
             order.setItemsCost((int) shoppingCartDTO.getTotalCostItems());
         }
-        order.setData(LocalDate.now().toString());
+        order.setDate(Instant.now().getEpochSecond());
         order.setShippingCost(350);
         order.setStatus(Status.PROCESSING);
         Long userId = (Long) httpSession.getAttribute("userId");
@@ -98,24 +97,30 @@ public class OrderController {
     }
 
     @GetMapping("/api/admin/getAllOrders")
-    private List<OrderDTO> getAllOrders() {
+    private List<OrderDTO> getAllOrders(HttpSession session) {
         List<Order> orderList = orderService.getAllOrders();
         List<OrderDTO> orderDTOS = new ArrayList<>();
         for (Order order : orderList) {
-            order.setViewed(true);
-            orderService.updateOrder(order);
             orderDTOS.add(order.getOrderDTOForAdmin());
         }
+
+        DataEnterInAdminPanel data = (DataEnterInAdminPanel) session.getAttribute("data");
+        data.setDataEnterInOrders(Instant.now().getEpochSecond());
+        dataEnterInAdminPanelService.update(data);
+        session.setAttribute("data", data);
         return orderDTOS;
     }
 
-
     @GetMapping("/api/admin/order-count")
-    private long getOrdersCount() {
-        return orderService.getAllOrders()
-                .stream()
-                .filter(order -> !order.getViewed())
-                .count();
+    private long getOrdersCount(HttpSession session) {
+        if (session.getAttribute("data") == null) {
+            session.setAttribute("data", dataEnterInAdminPanelService.findById(1L));
+            DataEnterInAdminPanel data = (DataEnterInAdminPanel) session.getAttribute("data");
+            return orderService.getCountOfOrders(data.getDataEnterInOrders());
+        } else {
+            DataEnterInAdminPanel data = (DataEnterInAdminPanel) session.getAttribute("data");
+            return orderService.getCountOfOrders(data.getDataEnterInOrders());
+        }
     }
 
     @PatchMapping("/api/admin/completeOrder/{id}")

@@ -20,4 +20,6 @@ public interface OrderService {
     List<Order> getOdersByStatus(String status);
 
     void completeOrder(Long id);
+
+    int getCountOfOrders(long lastAuthDate);
 }

@@ -66,4 +66,10 @@ public class OrderServiceImpl implements OrderService {
         }
         orderDAO.update(order);
     }
+
+    @Override
+    public int getCountOfOrders(long lastAuthDate) {
+
+        return orderDAO.getCountOfOrders(lastAuthDate);
+    }
 }

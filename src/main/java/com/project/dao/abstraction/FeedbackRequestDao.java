@@ -9,4 +9,6 @@ public interface FeedbackRequestDao extends GenericDao<Long, FeedbackRequest> {
     List<FeedbackRequest> findAllByOrderByRepliedAsc();
 
     List<FeedbackRequest> getByReplied(Boolean replied);
+
+    int getCountOfFeedBack(long lastAuthDate);
 }

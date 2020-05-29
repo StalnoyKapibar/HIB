@@ -6,7 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @AllArgsConstructor
@@ -17,7 +19,7 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String data;
+    private long data;
     @OneToMany(cascade = CascadeType.MERGE)
     private List<CartItem> items;
     @OneToOne(cascade = CascadeType.ALL)
@@ -31,12 +33,11 @@ public class Order {
     @OneToOne(cascade = CascadeType.ALL)
     private ContactsOfOrder contacts;
     private String comment;
-    private boolean viewed;
 
     public OrderDTO getOrderDTO() {
         OrderDTO orderDTO = new OrderDTO();
         orderDTO.setId(id);
-        orderDTO.setData(data);
+        orderDTO.setData(getFormatData(data));
         orderDTO.setItemsCost(itemsCost);
         orderDTO.setTrackingNumber(trackingNumber);
         orderDTO.setStatus(status);
@@ -68,11 +69,12 @@ public class Order {
             cartItemDTOS.add(new CartItemDTO(cartItem.getId(), book));
         }
         orderDTO.setItems(cartItemDTOS);
-        orderDTO.setViewed(viewed);
         return orderDTO;
     }
 
-    public boolean getViewed() {
-        return viewed;
-    }
+  private String getFormatData (long data){
+      Date date = new Date(data * 1000);
+      SimpleDateFormat simpleDateFormat = new SimpleDateFormat(" d.MM.yyyy ");
+      return simpleDateFormat.format(date);
+  }
 }

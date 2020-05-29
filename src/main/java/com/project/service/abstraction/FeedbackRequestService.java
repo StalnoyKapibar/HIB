@@ -14,4 +14,6 @@ public interface FeedbackRequestService {
     FeedbackRequest save(FeedbackRequest feedbackRequest);
 
     List<FeedbackRequest> getByReplied(Boolean replied);
+
+    int getCountOfFeedBack(long lastAuthDate);
 }

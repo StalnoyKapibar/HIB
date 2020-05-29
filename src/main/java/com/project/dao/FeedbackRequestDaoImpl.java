@@ -24,4 +24,13 @@ public class FeedbackRequestDaoImpl extends AbstractDao<Long, FeedbackRequest> i
                 .createQuery("FROM FeedbackRequest f WHERE replied = :replied", FeedbackRequest.class)
                 .setParameter("replied", replied).getResultList();
     }
+
+    @Override
+    public int getCountOfFeedBack(long lastAuthDate) {
+        return entityManager
+                .createQuery("FROM FeedbackRequest  where data>=:data", FeedbackRequest.class)
+                .setParameter("data", lastAuthDate)
+                .getResultList()
+                .size();
+    }
 }

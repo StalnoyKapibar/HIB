@@ -2,17 +2,16 @@ package com.project.dao;
 
 import com.project.dao.abstraction.OrderDao;
 import com.project.model.Order;
-import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
 public class OrderDaoImpl extends AbstractDao<Long, Order> implements OrderDao {
 
-    OrderDaoImpl(){super(Order.class);}
+    OrderDaoImpl() {
+        super(Order.class);
+    }
 
     @Override
     public List<Order> getOrdersByUserId(Long id) {
@@ -22,5 +21,14 @@ public class OrderDaoImpl extends AbstractDao<Long, Order> implements OrderDao {
     @Override
     public List<Order> getOrdersByStatus(String status) {
         return entityManager.createQuery("SELECT b FROM orders b where b.status=:status", Order.class).setParameter("status", status).getResultList();
+    }
+
+    @Override
+    public int getCountOfOrders(long lastAuthDate) {
+        return entityManager
+                .createQuery("SELECT b FROM orders b where b.data>=:data", Order.class)
+                .setParameter("data", lastAuthDate)
+                .getResultList()
+                .size();
     }
 }
