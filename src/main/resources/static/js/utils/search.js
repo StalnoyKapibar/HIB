@@ -226,8 +226,10 @@ async function setChilds(category) {
     }
     return row;
 }
-
-function advancedSearch(amount, page) {
+//amount, page
+function advancedSearch() {
+    let amount = 4;
+    let page = 1;
     let request = $('#search-input').val();
     let priceFrom = $('#input-price-from').val() * 100;
     let priceTo = $('#input-price-to').val() * 100;

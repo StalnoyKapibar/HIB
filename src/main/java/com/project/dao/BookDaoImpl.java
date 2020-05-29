@@ -68,9 +68,6 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
         int limitBookDTOOnPage = pageable.getPageSize();
         int minNumberId = limitBookDTOOnPage * pageable.getPageNumber();
         String amountOfBooks = getQuantityOfBooksByIsShow(true).toString();
-        String sortTypeTmp = String.valueOf(pageable.getSort());
-        String sortingObject = sortTypeTmp.split(":")[0];
-        String typeOfSorting = sortTypeTmp.split(" ")[1];
         String name = ("%" + request + "%");
         String hql = ("SELECT new com.project.model.BookNewDTO(b.id, b.originalLanguage.name," +
                 "b.originalLanguage.nameTranslit, b.originalLanguage.author, b.originalLanguage.authorTranslit, b.description.en," +
@@ -86,9 +83,7 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
                 "(:yearOfEditionFrom = 'null' and b.yearOfEdition <= :yearOfEditionTo) OR (:yearOfEditionFrom = 'null' and :yearOfEditionTo = 'null')) AND " +
                 "((b.category.categoryName in :categories) or ('undefined' in :categories)) AND" +
                 "((b.price >= :priceFrom and b.price <= :priceTo) OR (b.price >= :priceFrom and :priceTo = 0) OR " +
-                "(:priceFrom = 0 and b.price <= :priceTo) OR (:priceFrom = 0 and :priceTo = 0)) ORDER BY sortingObject typeOfSorting")
-                .replaceAll("sortingObject", sortingObject)
-                .replaceAll("typeOfSorting", typeOfSorting);
+                "(:priceFrom = 0 and b.price <= :priceTo) OR (:priceFrom = 0 and :priceTo = 0)) ORDER BY b.id ASC");
         List<BookNewDTO> bookNewDTOList = entityManager.createQuery(hql, BookNewDTO.class)
                 .setParameter("name", name)
                 .setParameter("pagesFrom", pagesFrom)
