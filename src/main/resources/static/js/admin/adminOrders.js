@@ -59,12 +59,14 @@ function showListOrders() {
                          <td>${order.status} </td>`;
                     html += `<td><a  href="#" data-toggle="modal" data-target="#adminOrderModal" onclick="showModalOfOrder(${index})" > Show details </a></td>
                           <td><button class="btn btn-danger " onclick=orderDelete(${order.id})>Delete</button></td>
-                          <td><button class="btn btn-success ${btnDisplay} " onclick=orderComplete(${order.id})>Complete</button></td></tr>`;
-
+                          <td><button class="btn btn-success ${btnDisplay} " onclick=orderComplete(${order.id})>Complete</button></td>`;
+                    if (order.status === "COMPLETED") {
+                        html += `<td><button class="btn btn-success" onclick=orderUnComplete(${order.id})>Uncomplete</button></td>`;
+                    }
+                    html += `</tr>`;
                     $('#adminListOrders').html(html);
                 }
             });
-
         });
 }
 
@@ -162,6 +164,18 @@ function orderComplete(id) {
     }
 }
 
+function orderUnComplete(id) {
+    if (confirm('Do you really want to UNCOMPLETE order?')) {
+        fetch("/api/admin/unCompleteOrder/" + id, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json;charset=utf-8"
+            },
+            body: JSON.stringify(id),
+        }).then(r => showListOrders())
+    }
+}
+
 function orderDelete(id) {
     if (confirm('Do you really want to DELETE order?')) {
         fetch("/api/admin/deleteOrder/" + id, {
@@ -198,6 +212,5 @@ function sendGmailMessage(userId, index) {
             document.getElementById("sent-message").value = "";
             sendButton.disabled = false;
         });
-
 }
 
