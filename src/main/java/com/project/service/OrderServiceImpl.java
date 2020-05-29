@@ -68,6 +68,18 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public void unCompleteOrder(Long id) {
+        Order order = getOrderById(id);
+        order.setStatus(Status.PROCESSING);
+        for (CartItem cartItem : order.getItems()) {
+            Book book = cartItem.getBook();
+            book.setShow(true);
+            book.setLastBookOrdered(true);
+        }
+        orderDAO.update(order);
+    }
+
+    @Override
     public int getCountOfOrders(long lastAuthDate) {
 
         return orderDAO.getCountOfOrders(lastAuthDate);

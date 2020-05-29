@@ -22,4 +22,6 @@ public interface OrderService {
     void completeOrder(Long id);
 
     int getCountOfOrders(long lastAuthDate);
+
+    void unCompleteOrder(Long id);
 }

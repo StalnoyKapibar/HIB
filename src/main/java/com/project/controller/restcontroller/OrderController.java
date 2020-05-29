@@ -128,6 +128,11 @@ public class OrderController {
         orderService.completeOrder(id);
     }
 
+    @PatchMapping("/api/admin/unCompleteOrder/{id}")
+    private void orderUnComplete(@PathVariable Long id) {
+        orderService.unCompleteOrder(id);
+    }
+
     @PostMapping("/api/admin/deleteOrder/{id}")
     private void orderDelete(@PathVariable Long id) {
         orderService.deleteOrder(orderService.getOrderById(id));
