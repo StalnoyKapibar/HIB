@@ -13,10 +13,13 @@ import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
 import java.time.Instant;
 import java.util.UUID;
@@ -73,7 +76,11 @@ public class UserAccountServiceImpl implements UserAccountService {
                 .build();
 
         sendEmailToConfirmAccount(userAccount);
-        sendEmailToConfirmAccount1ClickReg(userAccount, user.getPassword(), user.getLogin());
+        try {
+            sendEmailToConfirmAccount1ClickReg(userAccount, user.getPassword(), user.getLogin());
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
         return userAccountDao.save(userAccount);
     }
 
@@ -91,16 +98,29 @@ public class UserAccountServiceImpl implements UserAccountService {
     }
 
 
-    public void sendEmailToConfirmAccount1ClickReg(UserAccount user, String password, String login) {
+//    public void sendEmailToConfirmAccount1ClickReg(UserAccount user, String password, String login) {
+//        String senderFromProperty = environment.getProperty("spring.mail.username");
+//        SimpleMailMessage mailMessage = new SimpleMailMessage();
+//        mailMessage.setTo(user.getEmail());
+//        mailMessage.setSubject("Привет");
+//        mailMessage.setFrom(senderFromProperty);
+//        mailMessage.setText("Привет "
+////                + "http://localhost:8080/confirmEmail?token="
+//                + user.getTokenToConfirmEmail() + " Логин: " + login + " Пароль: " + password);
+//        mailService.sendEmail(mailMessage);
+//    }
+
+    public void sendEmailToConfirmAccount1ClickReg(UserAccount user, String password, String login) throws MessagingException {
         String senderFromProperty = environment.getProperty("spring.mail.username");
-        SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setTo(user.getEmail());
-        mailMessage.setSubject("Привет");
-        mailMessage.setFrom(senderFromProperty);
-        mailMessage.setText("Привет "
+        MimeMessage message = mailService.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, "utf-8");
+        helper.setTo(user.getEmail());
+        helper.setSubject("Привет");
+        helper.setFrom(senderFromProperty);
+        helper.setText("Привет "
 //                + "http://localhost:8080/confirmEmail?token="
                 + user.getTokenToConfirmEmail() + " Логин: " + login + " Пароль: " + password);
-        mailService.sendEmail(mailMessage);
+        mailService.sendEmail(message);
     }
 
     @Override
