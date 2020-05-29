@@ -53,11 +53,19 @@ public class SendEmailServiceImpl implements SendEmailService {
         helper.setFrom(senderFromProperty);
         helper.setText(mailService.getTemplate("mailForm/oneClickReg.html", context), true);
         mailService.sendEmail(message);
-
     }
 
     @Override
     public void orderPresent(Order order) throws MessagingException {
-
+        Context context = new Context();
+        context.setVariable("orders", order);
+        String senderFromProperty = environment.getProperty("spring.mail.username");
+        MimeMessage message = mailService.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, "utf-8");
+        helper.setTo(order.getUserAccount().getEmail());
+        helper.setSubject("Заказ");
+        helper.setFrom(senderFromProperty);
+        helper.setText(mailService.getTemplate("mailForm/order.html", context), true);
+        mailService.sendEmail(message);
     }
 }

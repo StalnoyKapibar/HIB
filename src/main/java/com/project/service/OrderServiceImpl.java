@@ -4,10 +4,12 @@ import com.project.dao.abstraction.OrderDao;
 import com.project.mail.MailService;
 import com.project.model.*;
 import com.project.service.abstraction.OrderService;
+import com.project.service.abstraction.SendEmailService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.mail.MessagingException;
 import java.util.List;
 
 @Service
@@ -16,12 +18,16 @@ import java.util.List;
 public class OrderServiceImpl implements OrderService {
 
     private OrderDao orderDAO;
-    private MailService mailService;
+    private SendEmailService sendEmailService;
 
     @Override
-    public void addOrder(Order order) {
+    public void addOrder(Order order)  {
         orderDAO.add(order);
-
+        try {
+            sendEmailService.orderPresent(order);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
