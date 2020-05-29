@@ -32,9 +32,9 @@ $(document).ready(function () {
                     isCheckedSibling = true;
                     return;
                 }
-            })
+            });
             return isCheckedSibling;
-        }
+        };
         const isChecked = $(this).is(':checked');
         let nearCategory = $(this).parent().parent();
         let isCheckedSiblings = getCheckedSiblings(nearCategory);
@@ -50,9 +50,9 @@ $(document).ready(function () {
         isCheckedCategory = $checkboxes.find('.custom-control-input').filter(':checked').length > 0;
     });
 
-    $(document).keypress(function(event){
+    $(document).keypress(function (event) {
         var keycode = (event.keyCode ? event.keyCode : event.which);
-        if(keycode == '13'&& $("#search-input").val().trim() !== ''){
+        if (keycode == '13'&& $("#search-input").val().trim() !== '') {
             $('#search-submit').click();
         }
     });
@@ -87,7 +87,6 @@ function getUnflatten(arr, parentid) {
     for (const category of arr) {
         if (category.parentId == parentid) {
             let children = getUnflatten(arr, category.id);
-
             if (children.length) {
                 category.childrens = children
             }
@@ -154,36 +153,8 @@ async function setChilds(category) {
     return row;
 }
 
-function parse_query_string(query) {
-    var vars = query.split("&");
-    var query_string = {};
-    for (var i = 0; i < vars.length; i++) {
-        var pair = vars[i].split("=");
-        var key = decodeURIComponent(pair[0]);
-        var value = decodeURIComponent(pair[1]);
-        // If first entry with this name
-        if (typeof query_string[key] === "undefined") {
-            query_string[key] = decodeURIComponent(value);
-            // If second entry with this name
-        } else if (typeof query_string[key] === "string") {
-            var arr = [query_string[key], decodeURIComponent(value)];
-            query_string[key] = arr;
-            // If third or later entry with this name
-        } else {
-            query_string[key].push(decodeURIComponent(value));
-        }
-    }
-    return query_string;
-}
-
 function advancedSearch() {
-    let request;
-    if ($('#search-input').val().trim().toLowerCase() === "") {
-        request = window.location.search.substring(9);
-        window.location.search = "";
-    } else {
-        request = $('#search-input').val().toLowerCase().trim();
-    }
+    let request = $('#search-input').val();
     let priceFrom = $('#input-price-from').val() * 100;
     let priceTo = $('#input-price-to').val() * 100;
     let yearOfEditionFrom = $('#input-year-of-edition-from').val();
@@ -216,10 +187,9 @@ function advancedSearch() {
     })
         .then(data => data.json())
         .then(function (data) {
-            setLocaleFields()
+            setLocaleFields();
             addFindeBooks(data)
         });
-
 }
 
 async function setPageFields() {
@@ -233,6 +203,7 @@ async function setPageFields() {
         })
             .then(data => data.json())
             .then(function (data) {
+                setLocaleFields();
                 addFindeBooks(data)
             });
     } else if (window.location.search === "") {
@@ -245,7 +216,7 @@ async function setPageFields() {
         })
             .then(data => data.json())
             .then(function (data) {
-                setLocaleFields()
+                setLocaleFields();
                 addFindeBooks(data)
             });
     } else {
@@ -258,7 +229,7 @@ async function setPageFields() {
         })
             .then(data => data.json())
             .then(function (data) {
-                setLocaleFields()
+                setLocaleFields();
                 addFindeBooks(data)
             });
     }

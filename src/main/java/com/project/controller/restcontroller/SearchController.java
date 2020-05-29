@@ -15,38 +15,37 @@ public class SearchController {
 
     private final BookSearch bookSearch;
     private final BookService bookService;
+    private final CategoryDAO categoryDAO;
 
     @Autowired
-    CategoryDAO categoryDAO;
-
-    @Autowired
-    public SearchController(BookSearch bookSearch, BookService bookService) {
+    public SearchController(BookSearch bookSearch, BookService bookService, CategoryDAO categoryDAO) {
         this.bookSearch = bookSearch;
         this.bookService = bookService;
+        this.categoryDAO = categoryDAO;
     }
 
     @PostMapping("/api/admin/searchResult")
-    public List<BookNewDTO> search(@RequestParam(value = "request") String req, @RequestParam(value = "Show") boolean isShow) {
-        return bookSearch.search(req, isShow);
+    public List<BookNewDTO> BooksSearchAdmin(@RequestParam(value = "request") String req, @RequestParam(value = "Show") boolean isShow) {
+        return bookSearch.searchAdmin(req, isShow);
     }
 
     @GetMapping("/search/byCategory")
-    public List<BookNewDTO> search(@RequestParam(value = "categoryId") Long categoryId) {
-        return bookSearch.search(categoryId);
+    public List<BookNewDTO> BooksByCategory(@RequestParam(value = "categoryId") Long categoryId) {
+        return bookSearch.searchByCategory(categoryId);
     }
 
     @GetMapping("/searchResult")
-    public List<BookNewDTO> search(@RequestParam(value = "request") String req) {
-        return bookSearch.search(req);
+    public List<BookNewDTO> BooksSearchSidebar(@RequestParam(value = "request") String req) {
+        return bookSearch.searchSidebar(req);
     }
 
     @GetMapping("/searchAdvanced")
-    public List<BookNewDTO> advancedSearch(@RequestParam(value = "request") String request, @RequestParam(value = "searchBy") String searchBy,
+    public List<BookNewDTO> BooksSearchByParameters(@RequestParam(value = "request") String request, @RequestParam(value = "searchBy") String searchBy,
                                            @RequestParam List<String> categories, @RequestParam(value = "priceFrom") Long priceFrom,
                                            @RequestParam(value = "priceTo") Long priceTo, @RequestParam(value = "yearOfEditionFrom") Long yearOfEditionFrom,
                                            @RequestParam(value = "yearOfEditionTo") Long yearOfEditionTo, @RequestParam(value = "pagesFrom") Long pagesFrom,
                                            @RequestParam(value = "pagesTo") Long pagesTo) {
-        List<BookNewDTO> books = bookSearch.search(request, priceFrom, priceTo, String.valueOf(yearOfEditionFrom), String.valueOf(yearOfEditionTo),
+        List<BookNewDTO> books = bookSearch.searchByParameters(request, priceFrom, priceTo, String.valueOf(yearOfEditionFrom), String.valueOf(yearOfEditionTo),
                 pagesFrom, pagesTo, searchBy, categories);
         return books;
     }
