@@ -291,20 +291,21 @@ public class TestDataInit {
                 "Main", "Principale", "Principale",
                 "Zuhause", "Domu", "αρχική σελίδα"), "/home"));
         links.add(new Link(null, new LocaleString("Руководство пользователя",
-                "User's Manual", "Principale", "Principale",
-                "Zuhause", "Domu", "αρχική σελίδα"), "#"));
-        links.add(new Link(null, new LocaleString("Главная",
-                "How to order", "Principale", "Principale",
-                "Zuhause", "Domu", "αρχική σελίδα"), "#"));
-        links.add(new Link(null, new LocaleString("Главная",
-                "Authors list", "Principale", "Principale",
-                "Zuhause", "Domu", "αρχική σελίδα"), "#"));
-        links.add(new Link(null, new LocaleString("Главная",
-                "Theme links", "Principale", "Principale",
-                "Zuhause", "Domu", "αρχική σελίδα"), "#"));
-        links.add(new Link(null, new LocaleString("Главная",
-                "Contact - Locations", "Principale", "Principale",
-                "Zuhause", "Domu", "αρχική σελίδα"), "#"));
+                "User's Manual", "Manuel d'utilisation", "Istruzioni per l'uso",
+                "Gebrauchsanweisung", "Pokyny", "Εγχειρίδιο χρήστη"), "#"));
+        links.add(new Link(null, new LocaleString("Как заказать",
+                "How to order", "Comment commander", "Come ordinare",
+                "So bestellen Sie", "Jak objednat", "να παραγγείλετε"), "#"));
+        links.add(new Link(null, new LocaleString("Список авторов",
+                "Authors list", "Liste des auteurs", "Elenco degli autori",
+                "Liste der Autoren", "Autor", "συγγραφείς"), "#"));
+        links.add(new Link(null, new LocaleString("Тематические ссылки",
+                "Theme links", "Liens utiles", "Link utili",
+                "Referenzen", "Odkaz", "Θεματικοί δεσμοί"), "#"));
+        links.add(new Link(null, new LocaleString("Как нас найти",
+                "Contact - Locations", "Contactez nous", "Contattaci",
+                "Kontaktieren Sie uns", "Kontakty - jak nás najít", "επαφές"), "#"));
+
         footer.setUpdateDate(new Date().getTime());
         footer.setLinks(links);
         footerService.createFooter(footer);

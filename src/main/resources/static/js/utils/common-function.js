@@ -26,12 +26,28 @@ function setLocaleFields() {
         .then(status)
         .then(json)
         .then(function (localeFields) {
-            $('#link_instruction').text(localeFields['instruction']);
-            $('#link_authors').text(localeFields['authors']);
+            //footer
+            /*$('#link_instruction').text(localeFields['instruction']);
             $('#link_order').text(localeFields['order']);
-            $('#link_contacts').text(localeFields['contacts']);
+            $('#link_authors').text(localeFields['authors']);
             $('#links').text(localeFields['links']);
+            $('#link_contacts').text(localeFields['contacts']);
+            $('#made_by').text(localeFields['madeby']);*/
+            $('#main-footer').text(localeFields['main1']);
+            $('#users-manual-footer').text(localeFields['instruction']);
+            $('#how-to-order-footer').text(localeFields['order']);
+            $('#authors-list-footer').text(localeFields['authors']);
+            $('#theme-links-footer').text(localeFields['links']);
+            $('#contact-locations-footer').text(localeFields['contacts']);
             $('#made_by').text(localeFields['madeby']);
+            //general-category-sidebar
+            $('#History-sidebar').text(localeFields['history-sb']);
+            $('#Documents-sidebar').text(localeFields['documents-sb']);
+            $('#Magazines-sidebar').text(localeFields['magazines-sb']);
+            $('#Culture-sidebar').text(localeFields['culture-sb']);
+            //other
+            $('#header-general-loc').text(localeFields['general']);
+            $('#header-settings-loc').text(localeFields['settings']);
             $('#link_search_page_header').text(localeFields['searchPage']);
             $('#author_search_page').text(localeFields['Author']);
             $('#name_search_page').text(localeFields['Name']);
@@ -68,13 +84,14 @@ function setLocaleFields() {
             $('#price').text(localeFields['price']);
             $('#book_author').text(localeFields['book_author']);
             $('#totalPrice').text(localeFields['totalprice']);
-            $('#headershoppingcart').text(localeFields['headershoppingcart']);
-            $('#home-tab').text(localeFields['YourContacts']);
-            $('#contacts-tab').text(localeFields['YourShoppingCart']);
+            $('#h3-shoppingCart').text(localeFields['ShoppingCart']);
+            $('#headerShoppingCart').text(localeFields['headershoppingcart']);
+            $('#home-tab').text(localeFields['YourShoppingCart']);
+            $('#contacts-tab').text(localeFields['YourContacts']);
             $('#summary-tab').text(localeFields['Summary']);
             $('#enter_your_contacts').text(localeFields['EnterYourContactsAndIfYouWantYouCanLeaveAComment']);
-            $('#chechout').text(localeFields['chechout']);
-            $('#shoppingcart').text(localeFields['headershoppingcart']);
+            $('#checkout').text(localeFields['checkout']);
+            $('#shoppingcart').text(localeFields['ShoppingCart']);
             $('.myprof-loc').text(localeFields['myprofile']);
             $('#oders').text(localeFields['oders']);
             $('#settingprofile').text(localeFields['settingprofile']);

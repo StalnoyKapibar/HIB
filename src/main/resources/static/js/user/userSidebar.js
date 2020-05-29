@@ -28,7 +28,7 @@ fetch('/categories/getnullparent', {})
         for (let i in primaryCategories) {
             categoryRow =
                 `<li>
-                <a href="/search/${primaryCategories[i].id}">${primaryCategories[i].categoryName}</a>
+                <a href="/search/${primaryCategories[i].id}" id="${primaryCategories[i].categoryName}-sidebar">${primaryCategories[i].categoryName}</a>
                 </li>`;
             $('#primaryCategories').append(categoryRow);
         }

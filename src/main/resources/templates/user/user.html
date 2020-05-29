@@ -107,7 +107,7 @@
             <div class="sidebar-item sidebar-menu">
                 <ul>
                     <li class="header-menu">
-                        <span>General</span>
+                        <span id="header-general-loc">General</span>
                     </li>
                     <li th:classappend="${#httpServletRequest.getRequestURI() == '/home' ? 'active' : ''}">
                         <a href="/home">
@@ -140,7 +140,7 @@
                         <li th:classappend="${#httpServletRequest.getRequestURI() == '/shopping-cart' ? 'active' : ''}">
                             <a href="/shopping-cart">
                                 <i class="fa fa-shopping-cart"><span class="badgeCart" id="bucketIn1"></span></i>
-                                <span class="menu-text" id="headershoppingcart">Shopping cart</span>
+                                <span class="menu-text" id="headerShoppingCart">Shopping cart</span>
                                 <span class="badge badge-pill badge-danger" id="bucketIn"></span>
                             </a>
                         </li>
@@ -157,7 +157,7 @@
                         </li>
                     </th:block>
                     <li class="header-menu">
-                        <span>Settings</span>
+                        <span id="header-settings-loc">Settings</span>
                     </li>
                     <th:block sec:authorize="hasRole('USER')">
                         <li th:classappend="${#httpServletRequest.getRequestURI() == '/profile/settings' ? 'active' : ''}">
@@ -396,4 +396,5 @@
 </script>
 <script src="/static/js/user/profile/profile.js"></script>
 </body>
+<!--user.html-->
 </html>

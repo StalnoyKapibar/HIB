@@ -46,6 +46,11 @@ async function getFooter() {
 async function buildFooter() {
     footerMenu.empty();
     for (let link of this.footer.links) {
-        footerMenu.append(`<a href="${link.link}" class="footer_link p-2" id="link_main_footer">${link.text[currentLang]}</a>`)
+        console.log(link);
+        let id = link.text['en'].toLowerCase().replace(/\s/ig, "-")
+            .replace("'", "")
+            .replace(/-+/, "-");
+
+        footerMenu.append(`<a href="${link.link}" class="footer_link p-2" id="${id}-footer">${link.text[currentLang]}</a>`)
     }
 }
