@@ -287,7 +287,7 @@ async function showListOrders() {
                          <td>${order.data}</td> 
                          <td>${order.status}</td>
                          <td>${convertPrice(order.itemsCost)} ${currencyIcon}</td>
-                         <td><a href="#" data-toggle="modal" data-target="#ordermodal"  onclick="showCarrentOrder(${key})">Show</a></td></tr>`;
+                         <td><button type="button" class="btn btn-info" data-toggle="modal" data-target="#ordermodal"  onclick="showCarrentOrder(${key})">Show</button></td></tr>`;
             }
             $('#listorders').html(html);
         });
