@@ -80,8 +80,10 @@ public class UserAccountServiceImpl implements UserAccountService {
                 .build();
 
         try {
-            sendEmailService.confirmAccount(userAccount);
-            sendEmailService.confirmAccount1ClickReg(userAccount, user.getPassword(), user.getLogin());
+            if (userAccount != null) {
+                sendEmailService.confirmAccount(userAccount);
+                sendEmailService.confirmAccount1ClickReg(userAccount, user.getPassword(), user.getLogin());
+            }
         } catch (MessagingException e) {
             e.printStackTrace();
         }
