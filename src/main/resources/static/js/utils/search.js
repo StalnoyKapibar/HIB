@@ -10,7 +10,7 @@ $(document).ready(function () {
     getCategoryTree();
     setLocaleFields();
     amountBooksInPage = ddmAmountBook.text();
-    getPageWithBooks(ddmAmountBook.text(), currentPage++);
+    //getPageWithBooks(ddmAmountBook.text(), currentPage++);
 });
 
 function getQuantityPage() {
@@ -58,7 +58,7 @@ function addPagination() {
     pag += `<a class="page-link" onclick="loadMore(${quantityPage})" href="#"><span aria-hidden="true">&raquo;</span></a></li>
                     </ul>
                 </nav>`;
-    $("#rowForPagination").append(pag);
+    $("#rowForPagination").html(pag);
 }
 
 function loadMore(pageNumber) {
@@ -226,10 +226,8 @@ async function setChilds(category) {
     }
     return row;
 }
-//amount, page
+
 function advancedSearch() {
-    let amount = 4;
-    let page = 1;
     let request = $('#search-input').val();
     let priceFrom = $('#input-price-from').val() * 100;
     let priceTo = $('#input-price-to').val() * 100;
@@ -254,7 +252,7 @@ function advancedSearch() {
     }
     fetch("/searchAdvanced?request=" + request + "&searchBy=" + searchBy + categoryRequest +
         "&priceFrom=" + priceFrom + "&priceTo=" + priceTo + "&yearOfEditionFrom=" + yearOfEditionFrom + "&yearOfEditionTo=" + yearOfEditionTo +
-        "&pagesFrom=" + pagesFrom + "&pagesTo=" + pagesTo + "&page=" + page + "&size=" + amount, {
+        "&pagesFrom=" + pagesFrom + "&pagesTo=" + pagesTo + "&page=" + currentPage + "&size=" + ddmAmountBook.text(), {
         method: "GET",
         headers: {
             'Content-Type': 'application/json',
@@ -353,6 +351,7 @@ function addFindeBooks(data) {
         );
     }
     $('table').append($(tr.join('')));
+    addPagination();
 }
 
 async function getCountBooksByCat(category) {
