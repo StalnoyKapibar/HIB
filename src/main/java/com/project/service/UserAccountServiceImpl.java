@@ -12,11 +12,14 @@ import lombok.AllArgsConstructor;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.mail.MailSendException;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.NoResultException;
 import javax.servlet.http.HttpSession;
 import java.time.Instant;
 import java.util.UUID;
@@ -58,7 +61,7 @@ public class UserAccountServiceImpl implements UserAccountService {
     }
 
     @Override
-    public UserAccount save(RegistrationUserDTO user) throws ConstraintViolationException {
+    public UserAccount save(RegistrationUserDTO user) throws ConstraintViolationException, MailSendException {
         UserAccount userAccount = UserAccount.builder()
                 .login(user.getLogin())
                 .email(user.getEmail())
@@ -78,7 +81,7 @@ public class UserAccountServiceImpl implements UserAccountService {
     }
 
     @Override
-    public void sendEmailToConfirmAccount(UserAccount user) {
+    public void sendEmailToConfirmAccount(UserAccount user) throws MailSendException {
         String senderFromProperty = environment.getProperty("spring.mail.username");
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(user.getEmail());
@@ -125,7 +128,7 @@ public class UserAccountServiceImpl implements UserAccountService {
     }
 
 
-    public UserAccount findByLogin(String login) {
+    public UserAccount findByLogin(String login) throws UsernameNotFoundException, NoResultException {
         return userAccountDao.findByLogin(login).get();
     }
 

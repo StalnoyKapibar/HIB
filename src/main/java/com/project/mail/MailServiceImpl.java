@@ -1,6 +1,7 @@
 package com.project.mail;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailSendException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
@@ -17,7 +18,7 @@ public class MailServiceImpl implements MailService {
     }
 
     @Async
-    public void sendEmail(SimpleMailMessage email) {
+    public void sendEmail(SimpleMailMessage email) throws MailSendException {
         javaMailSender.send(email);
     }
 
