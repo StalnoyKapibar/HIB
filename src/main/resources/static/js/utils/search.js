@@ -105,7 +105,7 @@ async function setTreeView(category) {
                     <input class="custom-control-input" type="checkbox" id="check-${category[i].id}" value="${category[i].categoryName}">
                     <label class="custom-control-label" for="check-${category[i].id}"></label>
                     <label class="collapsed" data-toggle="collapse" data-target="#collapse-${category[i].id}" aria-expanded="false" aria-controls="collapse-${category[i].id}">
-                       ${category[i].categoryName}(${await getCountBooksByCat(category[i].path)})
+                       <label id="${category[i].categoryName.toLowerCase()}-rightbar">${category[i].categoryName}</label>(${await getCountBooksByCat(category[i].path)})
                        <i class="fa fa-plus-square-o" aria-hidden="true"></i>
                     </label>
                 </div>
@@ -117,6 +117,7 @@ async function setTreeView(category) {
             </div>`;
         $('#input-categories').append(row);
     }
+    setLocaleFields();
 }
 
 async function setChilds(category) {
@@ -128,7 +129,7 @@ async function setChilds(category) {
                     <div class="custom-control custom-checkbox form-check-inline" id="heading-${category[i].id}">
                         <input class="custom-control-input" type="checkbox" id="check-${category[i].id}" value="${category[i].categoryName}">
                         <label class="custom-control-label" for="check-${category[i].id}">
-                            ${category[i].categoryName}(${await getCountBooksByCat(category[i].path)})
+                            <label class="${category[i].categoryName.toLowerCase()}-rightbar">${category[i].categoryName}</label>(${await getCountBooksByCat(category[i].path)})
                         </label>
                     </div>
                 </div>`;
@@ -139,7 +140,7 @@ async function setChilds(category) {
                         <input class="custom-control-input" type="checkbox" id="check-${category[i].id}" value="${category[i].categoryName}">
                         <label class="custom-control-label" for="check-${category[i].id}"></label>
                         <label class="collapsed" data-toggle="collapse" data-target="#collapse-${category[i].id}" aria-expanded="false" aria-controls="collapse-${category[i].id}">
-                           ${category[i].categoryName}(${await getCountBooksByCat(category[i].path)})
+                           <label class="${category[i].categoryName.toLowerCase()}-rightbar">${category[i].categoryName}</label>(${await getCountBooksByCat(category[i].path)})
                            <i class="fa fa-plus-square-o" aria-hidden="true"></i>
                         </label>
                     </div>
@@ -151,6 +152,9 @@ async function setChilds(category) {
                 </div>`;
         }
     }
+
+    setLocaleFields();
+
     return row;
 }
 
@@ -295,7 +299,7 @@ function addFindeBooks(data) {
                                 <td class="align-middle">
                                     <form id="bookButton${i}" method="get" action="/page/${data[i].id}">
                                         <button class="btn btn-primary page-of-book-localize" id="buttonBookPage${i}" name="bookPage">
-                                            A page of book
+                                            Book's page
                                         </button>
                                     </form>
                                 </td>

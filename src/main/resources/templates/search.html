@@ -18,7 +18,7 @@
 
             <div class="col-10 main">
                 <div class="input-group mb-1">
-                    <input class="form-control" id="search-input" placeholder="Search..." type="text">
+                    <input class="form-control search-input-dots-loc" id="search-input" placeholder="Search..." type="text">
                     <div class="input-group-append">
                                 <span class="input-group-text" onclick="advancedSearch()">
                                     <i aria-hidden="true" class="fa fa-search"></i>
@@ -71,11 +71,11 @@
                             <label for="input-price" class="font-weight-bold" id="price_search_page_menu">Price, €</label>
                             <div class="form-row" id="input-price">
                                 <div class="col-auto mb-1">
-                                    <input type="number" step="any" min="0" class="form-control" id="input-price-from"
+                                    <input type="number" step="any" min="0" class="form-control from-form" id="input-price-from"
                                            name="priceFrom" placeholder="From">
                                 </div>
                                 <div class="col-auto">
-                                    <input type="number" step="any" min="0" class="form-control" id="input-price-to"
+                                    <input type="number" step="any" min="0" class="form-control to-form" id="input-price-to"
                                            name="priceTo" placeholder="To">
                                 </div>
                             </div>
@@ -84,11 +84,11 @@
                             <label for="input-year-edition" class="font-weight-bold" id="edition_search_page_menu">Year of edition</label>
                             <div class="form-row" id="input-year-edition">
                                 <div class="col-auto mb-1">
-                                    <input type="number" min="0" class="form-control" id="input-year-of-edition-from"
+                                    <input type="number" min="0" class="form-control from-form" id="input-year-of-edition-from"
                                            name="yearOfEditionFrom" placeholder="From">
                                 </div>
                                 <div class="col-auto">
-                                    <input type="number" min="0" class="form-control" id="input-year-of-edition-to"
+                                    <input type="number" min="0" class="form-control to-form" id="input-year-of-edition-to"
                                            name="yearOfEditionTo" placeholder="To">
                                 </div>
                             </div>
@@ -97,16 +97,16 @@
                             <label for="input-pages" class="font-weight-bold" id="pages_search_page_menu">Number of pages</label>
                             <div class="form-row" id="input-pages">
                                 <div class="col-auto mb-1">
-                                    <input type="number" min="0" class="form-control" id="input-pages-from"
+                                    <input type="number" min="0" class="form-control from-form" id="input-pages-from"
                                            name="pagesFrom" placeholder="From">
                                 </div>
                                 <div class="col-auto">
-                                    <input type="number" min="0" class="form-control" id="input-pages-to"
+                                    <input type="number" min="0" class="form-control to-form" id="input-pages-to"
                                            name="pagesTo" placeholder="To">
                                 </div>
                             </div>
                         </div>
-                        <button id="search-submit" class="btn btn-block btn-success" type="button"
+                        <button id="search-submit" class="btn btn-block btn-success search-submit-loc" type="button"
                                 onclick="advancedSearch()">Search
                         </button>
                     </form>
@@ -120,4 +120,5 @@
     <script src="/static/js/utils/search.js"></script>
 </div>
 </body>
+<!--search.html-->
 </html>

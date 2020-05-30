@@ -46,7 +46,6 @@ async function getFooter() {
 async function buildFooter() {
     footerMenu.empty();
     for (let link of this.footer.links) {
-        console.log(link);
         let id = link.text['en'].toLowerCase().replace(/\s/ig, "-")
             .replace("'", "")
             .replace(/-+/, "-");

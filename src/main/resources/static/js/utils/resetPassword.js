@@ -43,23 +43,24 @@ function sendEmail() {
             .then(function (resp) {
 
                 if (resp === "invalid format email") {
-                    showError('Invalid format email!');
+                    showError('Invalid format email!', 'invalidEmailFormat');
                     setTimeout(hideError, 5000);
                 } else {
                     if (resp === "noEmail") {
-                        showError('This email address is not registered!');
+                        showError('This email address is not registered!', 'notRegistredEmail');
                         setTimeout(hideError, 5000);
                     } else {
-                        showModal('Check your email', 'success');
+                        showModal('Check your email', 'success', 'checkEmail');
                         setTimeout(hideModal, 2000);
                     }
                 }
+                setLocaleFields();
             });
     }
 }
 
-function showModal(x, y) {
-    $('#idMessagesSuccess').attr('class', 'alert alert-' + y);
+function showModal(x, y, className) {
+    $('#idMessagesSuccess').addClass('alert alert-' + y).addClass(className);
     $('#idMessagesSuccess').text(x);
     $('#staticBackdrop').modal();
 }
@@ -74,8 +75,8 @@ function redir() {
     setTimeout("document.location.href='/'", delay);
 }
 
-function showError(x) {
-    $('#errorMessagePassword').text(x);
+function showError(x, className) {
+    $('#errorMessagePassword').addClass(className).text(x);
     $('#collapsePassword').attr('class', 'collapse show');
 }
 
