@@ -47,16 +47,17 @@ public class UserAccountServiceImpl implements UserAccountService {
         }
     }
 
+
+
     @Override
     public boolean emailExist(String email) {
         try {
             userAccountDao.findByEmail(email).isPresent();
             return true;
-        } catch (EmptyResultDataAccessException e) {
+        } catch (NullPointerException e) {
             return false;
         }
     }
-
     @Override
     public UserAccount save(RegistrationUserDTO user) throws ConstraintViolationException {
         UserAccount userAccount = UserAccount.builder()
@@ -66,13 +67,29 @@ public class UserAccountServiceImpl implements UserAccountService {
                 .regDate(Instant.now().getEpochSecond())
                 .provider("local")
                 .locale(httpSession.getAttribute("LANG").toString())
-                .isEnabled(true)
                 .cart(new ShoppingCart())
                 .tokenToConfirmEmail(UUID.randomUUID().toString())
                 .roles(new Role(1L, "ROLE_USER"))
                 .build();
 
         sendEmailToConfirmAccount(userAccount);
+        return userAccountDao.save(userAccount);
+    }
+
+    @Override
+    public UserAccount save1Clickreg(RegistrationUserDTO user) throws ConstraintViolationException {
+        UserAccount userAccount = UserAccount.builder()
+                .login(user.getLogin())
+                .email(user.getEmail())
+                .password(encoder.encode(user.getPassword()))
+                .regDate(Instant.now().getEpochSecond())
+                .provider("local")
+                .locale(httpSession.getAttribute("LANG").toString())
+                .cart(new ShoppingCart())
+                .tokenToConfirmEmail(UUID.randomUUID().toString())
+                .roles(new Role(1L, "ROLE_USER"))
+                .build();
+
         sendEmailToConfirmAccount1ClickReg(userAccount, user.getPassword(), user.getLogin());
         return userAccountDao.save(userAccount);
     }
