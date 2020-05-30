@@ -108,16 +108,12 @@ public class UserController {
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
 
         // generate session if one doesn't exist
-        try {
             request.getSession().setAttribute("cartId1click", userAccountService.findByLogin(username).getCart().getId());
             request.getSession().setAttribute("userId", userAccountService.findByLogin(username).getId());
             token.setDetails(new WebAuthenticationDetails(request));
             Authentication authenticatedUser = authenticationManager.authenticate(token);
             SecurityContextHolder.getContext().setAuthentication(authenticatedUser);
-        }
-        catch (NoResultException | UsernameNotFoundException e) {
-            e.printStackTrace();
-        }
+
         //request.getSession().setAttribute("cartItems", request.getSession().getAttribute("shoppingcart"));
 
     }
@@ -162,10 +158,14 @@ public class UserController {
             }
             return view;
         } catch (MailSendException e) {
-            view.setViewName("redirect:/1clickreg");
+            view.setViewName("redirect:/errors/not_found");
         }
-        authenticateUserAndSetSession(user, request, response);
-        view.setViewName("redirect:/shopping-cart");
+        try {
+            authenticateUserAndSetSession(user, request, response);
+            view.setViewName("redirect:/shopping-cart");
+        } catch (NoResultException | UsernameNotFoundException e) {
+            view.setViewName("redirect:/errors/not_found");
+        }
         return view;
     }
 
