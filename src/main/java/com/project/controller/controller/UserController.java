@@ -146,9 +146,9 @@ public class UserController {
             userAccountService.save1Clickreg(user);
         } catch (DataIntegrityViolationException e) {
             if (e.getCause().getCause().getMessage().contains("login")) {
-              //  view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessageOnLoginUIndex());
+                view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessageOnLoginUIndex());
             } else {
-            //    view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessageOnEmailUIndex());
+                view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessageOnEmailUIndex());
             }
             return view;
         }
