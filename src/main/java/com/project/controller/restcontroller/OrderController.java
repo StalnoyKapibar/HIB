@@ -59,7 +59,6 @@ public class OrderController {
         order.setContacts(contacts);
         order.setComment(contacts.getComment());
         if (httpSession.getAttribute("cartId") == null) {
-
             order.setItems(((ShoppingCartDTO) httpSession.getAttribute("shoppingcart")).getCartItems());
             for (int i = 1; i <= ((ShoppingCartDTO) httpSession.getAttribute("shoppingcart")).getCartItems().size(); i++) {
                 order.getItems().get(i - 1).setId((long) i + cartService.getMaxIdCartItem().size());
