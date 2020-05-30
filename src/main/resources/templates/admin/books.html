@@ -35,7 +35,7 @@
                                 <input data-size="md" data-toggle="toggle" id="toggleShowDisabled" type="checkbox" checked>
                             </div>
                         </div>
-                        <form class="form-inline mr-lg-2 mb-2 mt-2 mr-md-2" id="search-form-admin">
+                        <form class="form-inline mr-lg-2 mb-2 mt-2 mr-md-2" id="search-form-admin" onsubmit="return false;">
                             <div class="input-group">
                                   <!--  old search that uses languages -->
 <!--                                <div class="input-group-prepend ">-->
@@ -51,7 +51,7 @@
                                 <input aria-label="" class="form-control border" id="search-input-admin" placeholder=""
                                        type="text">
                                 <div class="input-group-append">
-                                    <button class="btn border" type="button" onclick="searchBook()">
+                                    <button class="btn border" id="button-search-input-admin" type="button" onclick="searchBook()">
                                         <i class="fas fa-search"></i>
                                     </button>
                                 </div>
