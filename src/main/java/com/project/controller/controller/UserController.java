@@ -91,7 +91,6 @@ public class UserController {
         }
         //After successfully Creating user
 
-        authenticateUserAndSetSession(user, request);
         view.setViewName("redirect:/home");
 
         return view;
@@ -129,21 +128,22 @@ public class UserController {
         user.setPassword(generateString(new Random(), SOURCES, 10));
         user.setConfirmPassword(user.getPassword());
 
-        if (userAccountService.findByEmail(user.getEmail())!=null) {
-            view.getModelMap().addAttribute("errorMessage",
-                    "Такой аккаунт уже существует. Войдите под своими данными.");
-            return view;
-        }
         if (result.hasErrors()) {
             view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessage(result));
             return view;
         }
+        if (userAccountService.emailExist(user.getEmail())) {
+            view.getModelMap().addAttribute("errorMessage",
+                    messageService.getErrorMessageOnEmailUIndex());
+            return view;
+        }
+
         if (!user.getPassword().equals(user.getConfirmPassword())) {
             view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessageOnPasswordsDoesNotMatch());
             return view;
         }
         try {
-            userAccountService.save(user);
+            userAccountService.save1Clickreg(user);
         } catch (DataIntegrityViolationException e) {
             if (e.getCause().getCause().getMessage().contains("login")) {
                 view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessageOnLoginUIndex());
@@ -152,7 +152,6 @@ public class UserController {
             }
             return view;
         }
-        authenticateUserAndSetSession(user, request);
         view.setViewName("redirect:/shopping-cart");
         return view;
     }
