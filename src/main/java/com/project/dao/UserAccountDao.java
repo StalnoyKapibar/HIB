@@ -30,7 +30,7 @@ public class UserAccountDao extends AbstractDao<Long, UserAccount> {
                     .setParameter("email", email).getSingleResult();
             return Optional.ofNullable(userAccount);
         } catch (NoResultException e) {
-            return null;
+            return Optional.empty();
         }
 
     }

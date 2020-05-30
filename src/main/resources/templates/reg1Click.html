@@ -104,14 +104,11 @@
 
                 <div class="col-12">
                     <form th:action="@{/1clickreg}" th:object="${user}" method="post" name="registration-form">
-
-                        <br>
                         <div class="form-group">
-                            <label for="emailInputField">Enter email</label>
+                            <label for="emailInputField">Email</label>
                             <input type="email" class="form-control" id="emailInputField" name="email"
                                    placeholder="Email" required th:field="*{email}">
                         </div>
-
                         <button type="submit" id="hiddenSingUpBtn" hidden>HiddenSingUpButton</button>
                     </form>
                 </div>
@@ -126,7 +123,6 @@
                 </div>
             </div>
         </div>
-        <script src="/static/js/utils/common-function.js"></script>
 
 
         <!--        footer       -->

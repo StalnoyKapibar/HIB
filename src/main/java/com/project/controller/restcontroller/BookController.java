@@ -33,15 +33,12 @@ public class BookController {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(BookController.class.getName());
     private final BookService bookService;
-    private final BookSearch bookSearch;
     private final HibParser hibParser;
     private final StorageService storageService;
 
     @Autowired
-    public BookController(BookService bookService, BookSearch bookSearch,
-                          HibParser hibParser, StorageService storageService) {
+    public BookController(BookService bookService, HibParser hibParser, StorageService storageService) {
         this.bookService = bookService;
-        this.bookSearch = bookSearch;
         this.hibParser = hibParser;
         this.storageService = storageService;
     }
