@@ -16,6 +16,7 @@ public class UserDTO {
     private String lastName;
     private boolean isOauth2Acc;
     private Role roles;
+    private String phone;
 
     public UserDTO(String firstName, String lastName, String email) {
         this.firstName = firstName;

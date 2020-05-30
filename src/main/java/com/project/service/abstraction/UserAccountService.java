@@ -28,6 +28,4 @@ public interface UserAccountService {
     UserAccount update(UserAccount userAccount);
 
     UserAccount findByLogin(String login);
-
-    UserAccount findByEmail(String email);
 }

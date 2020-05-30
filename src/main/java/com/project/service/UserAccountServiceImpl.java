@@ -47,16 +47,11 @@ public class UserAccountServiceImpl implements UserAccountService {
         }
     }
 
-
-
     @Override
     public boolean emailExist(String email) {
-        try {
-            userAccountDao.findByEmail(email).isPresent();
-            return true;
-        } catch (NullPointerException e) {
-            return false;
-        }
+
+        return  userAccountDao.findByEmail(email).isPresent();
+
     }
     @Override
     public UserAccount save(RegistrationUserDTO user) throws ConstraintViolationException {
@@ -146,12 +141,4 @@ public class UserAccountServiceImpl implements UserAccountService {
         return userAccountDao.findByLogin(login).get();
     }
 
-    @Override
-    public UserAccount findByEmail(String email){
-        try {
-            return userAccountDao.findByEmail(email).get();
-        } catch (NullPointerException e) {
-            return null;
-        }
-    }
 }

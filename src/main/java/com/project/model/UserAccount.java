@@ -31,6 +31,7 @@ public class UserAccount implements UserDetails, OAuth2User {
     private long lastAuthDate;
     private String provider;
     private String locale;
+    private String phone;
     private boolean isEnabled = false;
     private String tokenToConfirmEmail;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
