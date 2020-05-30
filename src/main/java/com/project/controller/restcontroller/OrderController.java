@@ -94,7 +94,11 @@ public class OrderController {
     @GetMapping("/order/size")
     private int getOrderSize(HttpSession httpSession) {
         Long userId = (Long) httpSession.getAttribute("userId");
-        return orderService.getOrdersByUserId(userId).size();
+        return (int) orderService
+                .getOrdersByUserId(userId)
+                .stream()
+                .filter(order -> order.getStatus() == Status.PROCESSING)
+                .count();
     }
 
     @GetMapping("/api/admin/getAllOrders")
