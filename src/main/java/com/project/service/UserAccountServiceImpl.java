@@ -26,6 +26,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
 import java.time.Instant;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Service
@@ -121,7 +122,7 @@ public class UserAccountServiceImpl implements UserAccountService {
     public UserAccount findByEmail(String email){
         try {
             return userAccountDao.findByEmail(email).get();
-        } catch (NullPointerException e) {
+        } catch (NoSuchElementException e) {
             return null;
         }
     }
