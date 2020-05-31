@@ -11,11 +11,6 @@ import org.springframework.http.MediaType;
 import org.springframework.mail.MailSendException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,11 +18,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.persistence.NoResultException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.io.IOException;
 import java.util.Random;
 
 @Controller
@@ -95,27 +88,10 @@ public class UserController {
             return view;
         }
         //After successfully Creating user
-      
-        authenticateUserAndSetSession(user, request, response);
+
         view.setViewName("redirect:/home");
 
         return view;
-    }
-
-    private void authenticateUserAndSetSession(RegistrationUserDTO user, HttpServletRequest request, HttpServletResponse response) {
-        String username = user.getLogin();
-        String password = user.getPassword();
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
-
-        // generate session if one doesn't exist
-            request.getSession().setAttribute("cartId1click", userAccountService.findByLogin(username).getCart().getId());
-            request.getSession().setAttribute("userId", userAccountService.findByLogin(username).getId());
-            token.setDetails(new WebAuthenticationDetails(request));
-            Authentication authenticatedUser = authenticationManager.authenticate(token);
-            SecurityContextHolder.getContext().setAuthentication(authenticatedUser);
-
-        //request.getSession().setAttribute("cartItems", request.getSession().getAttribute("shoppingcart"));
-
     }
 
     @GetMapping("/1clickreg")
@@ -134,6 +110,7 @@ public class UserController {
         user.setLogin(user.getEmail());
         user.setPassword(generateString(new Random(), SOURCES, 10));
         user.setConfirmPassword(user.getPassword());
+        user.setAutoReg(true);
 
         if (result.hasErrors()) {
             view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessage(result));
@@ -144,6 +121,7 @@ public class UserController {
                     messageService.getErrorMessageOnEmailUIndex());
             return view;
         }
+
         if (!user.getPassword().equals(user.getConfirmPassword())) {
             view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessageOnPasswordsDoesNotMatch());
             return view;
@@ -160,12 +138,7 @@ public class UserController {
         } catch (MailSendException e) {
             view.setViewName("redirect:/errors/not_found");
         }
-        try {
-            authenticateUserAndSetSession(user, request, response);
-            view.setViewName("redirect:/shopping-cart");
-        } catch (NoResultException | UsernameNotFoundException e) {
-            view.setViewName("redirect:/errors/not_found");
-        }
+        view.setViewName("redirect:/reqapprove");
         return view;
     }
 
@@ -175,6 +148,12 @@ public class UserController {
             text[i] = characters.charAt(random.nextInt(characters.length()));
         }
         return new String(text);
+    }
+
+    @GetMapping("/reqapprove")
+    public ModelAndView requestApproveAuth(RegistrationUserDTO user) {
+        ModelAndView view = new ModelAndView("requestApproveAuth");
+        return view;
     }
 
 
