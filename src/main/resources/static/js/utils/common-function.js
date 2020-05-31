@@ -15,6 +15,7 @@ $(document).ready(function () {
 
 function sendSignInForm() {
     $('#hidden_submit_btn').click();
+    setLocaleFields();
 }
 
 function sendSingUpForm() {
@@ -26,23 +27,17 @@ async function setLocaleFields() {
         .then(status)
         .then(json)
         .then(function (localeFields) {
-            //Со страницы 1-click-reg
-            $('#link_instruction').text(localeFields['instruction']);
-            $('#link_order').text(localeFields['order']);
-            $('#link_authors').text(localeFields['authors']);
-            $('#links').text(localeFields['links']);
-            $('#link_contacts').text(localeFields['contacts']);
-
             //footer
-            $('#main-footer').text(localeFields['main1']);
-            $('#users-manual-footer').text(localeFields['instruction']);
-            $('#how-to-order-footer').text(localeFields['order']);
-            $('#authors-list-footer').text(localeFields['authors']);
-            $('#theme-links-footer').text(localeFields['links']);
-            $('#contact-locations-footer').text(localeFields['contacts']);
+            $('.main-footer').text(localeFields['mainFooter']);
+            $('.users-manual-footer').text(localeFields['instruction']);
+            $('.how-to-order-footer').text(localeFields['order']);
+            $('.authors-list-footer').text(localeFields['authors']);
+            $('.theme-links-footer').text(localeFields['links']);
+            $('.contact-locations-footer').text(localeFields['contacts']);
+            $('.made-by').text(localeFields['madeby']);
             $('#made_by').text(localeFields['madeby']);
 
-            //Левый sidebar на главной
+            //Left sidebar on mainpage
             $('#history-sidebar').text(localeFields['history-sb']);
             $('#documents-sidebar').text(localeFields['documents-sb']);
             $('#magazines-sidebar').text(localeFields['magazines-sb']);
@@ -59,11 +54,11 @@ async function setLocaleFields() {
             $('.from-form').attr('placeholder', localeFields['from']);
             $('.to-form').attr('placeholder', localeFields['to']);
 
-            //Админ
+            //Admin left sidebar  on mainpage
             $('.admin-loc').text(localeFields['admin']);
             $('.admin-panel-loc').text(localeFields['adminPanel']);
 
-            //Кусок с показом заказанного перед покупкой, либо просмотр заказа в обработке
+            //Кусок с показом заказанного перед покупкой, либо модальное окно заказа в обработке
             $('.back-btn').text(localeFields['back']);
             $('.next-btn').text(localeFields['next']);
             $('.items-loc').text(localeFields['items']);
@@ -89,6 +84,7 @@ async function setLocaleFields() {
             $('.old-pass-loc').text(localeFields['oldPass']);   //Enter old password
             $('.new-pass-loc').text(localeFields['newPass']);     //Enter new password
             $('.again-pass-loc').text(localeFields['againPass']);     //Enter new password again
+            //Text and placeholders for email/phone/comment
             $('.email').attr('placeholder', localeFields['email']);
             $('.email-label').text(localeFields['email']);
             $('.phone').attr('placeholder', localeFields['phone']);
@@ -128,15 +124,16 @@ async function setLocaleFields() {
             $(".show-btn").text(localeFields['show']);
 
             //Регистрация
-            //$('#exampleModalLabel').text(localeFields['signin']);
             $('.signin-loc').text(localeFields['signin']);
             $('.login-input-loc').attr('placeholder', localeFields['login']);
             $('.password-input-loc').attr('placeholder', localeFields['password']);
             $('.password-input-label').text(localeFields['password']);
             $('.register-new-btn').text(localeFields['registerNew']);
             $('.forgot-pass-btn').text(localeFields['forgotPass']);
-            $('.signup-google-btn').text(localeFields['signupGoogle']);
-            $('.signup-fb-btn').text(localeFields['signupFB']);
+            $('.signup-google-btn').text(localeFields['signUpGoogle']);
+            $('.signup-btn').text(localeFields['signUp']);
+            $('.signup-fb-btn').text(localeFields['signUpFB']);
+            $('.create-new-profile-loc').text(localeFields['registerNew']);
 
             //search.html and search.js
             $('#search_by_search_page_menu').text(localeFields['searchBy']);
@@ -158,11 +155,15 @@ async function setLocaleFields() {
 
             //other
             $('#header-general-loc').text(localeFields['general']);
+            $('#engText').text(localeFields['engText']);
             $('#header-settings-loc').text(localeFields['settings']);
             $('#link_search_page_header').text(localeFields['searchPage']);
             $('#link_main_header').text(localeFields['main']);
+            $('.main-header-loc').text(localeFields['main']);
             $('#link_books_header').text(localeFields['books']);
+            $('.books-header-loc').text(localeFields['books']);
             $('#categories').text(localeFields['category']);
+            $('.categories-loc').text(localeFields['category']);
             $('#headpost').text(localeFields['headpost']);
             bottom = localeFields['bookbotom'];
             addToshoppingCart = localeFields['addToshoppingCart'];
@@ -186,17 +187,18 @@ async function setLocaleFields() {
             $('#contacts-tab').text(localeFields['YourContacts']);
             $('#summary-tab').text(localeFields['Summary']);
             $('#enter_your_contacts').text(localeFields['EnterYourContactsAndIfYouWantYouCanLeaveAComment']);
-            //$('#chechout').text(localeFields['checkout']);
             $('.checkout-btn').text(localeFields['checkout']);
             $('.resolveShopCart').text(localeFields['resolveShopCart']);
             $('#shoppingcart').text(localeFields['ShoppingCart']);
             $('#settingprofile').text(localeFields['settingprofile']);
             $('#enter-name').text(localeFields['enter-name']);
             $('#enter-email').text(localeFields['enter-email']);
+            $('.enter-email-label').text(localeFields['enter-email']);
             $('#enter-message').text(localeFields['enter-message']);
             $('.closeModalBtn').text(localeFields['close']);
             $('#send-feedback-request').text(localeFields['send-feedback-request']);
             $('#logout-modal-title').text(localeFields['logout']);
+            $('.logout-loc').text(localeFields['logoutShort']);
             $('#sender-message').val(localeFields['hello-interested']);
             let title = $(".title");
             let author = $(".author");

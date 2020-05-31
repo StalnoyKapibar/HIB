@@ -50,6 +50,6 @@ async function buildFooter() {
             .replace("'", "")
             .replace(/-+/, "-");
 
-        footerMenu.append(`<a href="${link.link}" class="footer_link p-2" id="${id}-footer">${link.text[currentLang]}</a>`)
+        footerMenu.append(`<a href="${link.link}" class="footer_link p-2 ${id}-footer">${link.text[currentLang]}</a>`)
     }
 }

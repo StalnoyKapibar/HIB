@@ -43,15 +43,15 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <button class="btn pl-2 btn-header" id="link_main_header"
+                        <button class="btn pl-2 btn-header main-header-loc" id="link_main_header"
                                 onclick="document.location.href='/home'">Main
                         </button>
                     </li>
                     <li class="nav-item">
-                        <button class="btn pl-2 btn-header" id="link_books_header">Books</button>
+                        <button class="btn pl-2 btn-header books-header-loc" id="link_books_header">Books</button>
                     </li>
                     <li class="nav-item">
-                        <button class="btn pl-2 btn-header" id="menu-toggle">Category</button>
+                        <button class="btn pl-2 btn-header categories-loc" id="menu-toggle">Category</button>
                     </li>
                 </ul>
                 <div class="dropdown mr-2 mb-2 mt-2">
@@ -77,13 +77,13 @@
                         <form action="#" class="m-0 ml-sm-0">
                             <button type="button" class="btn btn-header border m-0" data-toggle="modal"
                                     data-target="#signModal">
-                                <span id="signin_btn_text">Sign In</span>
+                                <span id="signin_btn_text" class="signin-loc">Sign In</span>
                             </button>
                         </form>
                     </div>
                     <div sec:authorize="isAuthenticated()">
                         <form action="/logout" class="m-0 ml-sm-0">
-                            <button type="submit" class="btn btn-header border m-0" id="logoutButton">
+                            <button type="submit" class="btn btn-header border m-0 logout-loc" id="logoutButton">
                                 Logout
                             </button>
                         </form>
@@ -99,7 +99,7 @@
         <div class="container mt-0 col-sm-12 col-lg-6 col-md-8 rounded-pill">
             <div class="col-12 shadow form-border-radius">
                 <div class="modal-header">
-                    <h4 class="my-2">Create new profile</h4>
+                    <h4 class="my-2 create-new-profile-loc">Create new profile</h4>
                 </div>
 
                 <div class="col-12">
@@ -107,8 +107,8 @@
 
                         <br>
                         <div class="form-group">
-                            <label for="emailInputField">Enter email</label>
-                            <input type="email" class="form-control" id="emailInputField" name="email"
+                            <label class="enter-email-label" for="emailInputField">Enter email</label>
+                            <input type="email" class="form-control email" id="emailInputField" name="email"
                                    placeholder="Email" required th:field="*{email}">
                         </div>
 
@@ -120,7 +120,7 @@
                         th:text="${errorMessage.getMessage()}" id="errorMessage"></h5>
                 </div>
                 <div class="modal-footer text-right">
-                    <button type="button" class="btn btn-primary col-12 mb-4 mx-0" id="singUpButton"
+                    <button type="button" class="btn btn-primary col-12 mb-4 mx-0 signup-btn" id="singUpButton"
                             onclick="sendSingUpForm()">Sign up
                     </button>
                 </div>
@@ -132,14 +132,14 @@
         <!--        footer       -->
         <div class="container-fluid text-center footer pt-3 p-0 ">
             <div class="footer_menu">
-                <a href="#" class="footer_link p-2" id="link_main_footer">Main</a>
-                <a href="#" class="footer_link p-2" id="link_instruction">Instruction</a>
-                <a href="#" class="footer_link p-2" id="link_order">Order</a>
-                <a href="#" class="footer_link p-2" id="link_authors">Authors</a>
-                <a href="#" class="footer_link p-2" id="links">Links</a>
-                <a href="#" class="footer_link p-2" id="link_contacts">Contacts</a>
+                <a href="#" class="footer_link p-2 main-footer">Main</a>
+                <a href="#" class="footer_link p-2 users-manual-footer">Instruction</a>
+                <a href="#" class="footer_link p-2 how-to-order-footer">Order</a>
+                <a href="#" class="footer_link p-2 authors-list-footer">Authors</a>
+                <a href="#" class="footer_link p-2 theme-links-footer">Links</a>
+                <a href="#" class="footer_link p-2 contact-locations-footer">Contacts</a>
             </div>
-            <div class="footer_made_by pt-2"><a id="made_by">Created by JavaMentor® Team</a></div>
+            <div class="footer_made_by pt-2"><a id="made_by" class="made-by">Created by JavaMentor® Team</a></div>
         </div>
     </div>
 </div>
@@ -151,7 +151,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header mx-3">
-                <h5 class="header-title-sign-in mb-0" id="exampleModalLabel">Sign in</h5>
+                <h5 class="header-title-sign-in mb-0 signin-loc" id="exampleModalLabel">Sign in</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -159,37 +159,37 @@
             <div class="modal-body mx-lg-2 mx-sm-1">
                 <form action="/login" th:action="@{/login}" role="form" method="post" id="form-login" name="form-login">
                     <div class="form-group">
-                        <label for="loginInput">Login</label>
-                        <input type="text" class="form-control" id="loginInput" name="username" placeholder="Login"
+                        <label class="login-loc" for="loginInput">Login</label>
+                        <input type="text" class="form-control login-input-loc" id="loginInput" name="username" placeholder="Login"
                                required>
                     </div>
                     <div class="form-group">
-                        <label for="passwordInput">Password</label>
-                        <input type="password" class="form-control" id="passwordInput" name="password"
+                        <label class="password-input-label" for="passwordInput">Password</label>
+                        <input type="password" class="form-control password-input-loc" id="passwordInput" name="password"
                                placeholder="Password" required>
                     </div>
                     <div class="custom-control custom-checkbox mb-2">
                         <input type="checkbox" class="custom-control-input" id="checkboxRememberMe">
-                        <label class="custom-control-label" for="checkboxRememberMe">Remember me</label>
+                        <label class="custom-control-label checkboxRememberMe-loc" for="checkboxRememberMe">Remember me</label>
                     </div>
                     <button type="submit" hidden id="hidden_submit_btn">HiddenButtonToSubmitLoginForm</button>
                 </form>
                 <div class="row">
                     <div class="col-lg-6 col-sm-12 pr-lg-1 mt-1">
                         <a class="btn btn-block btn-social btn-google text-white">
-                            <span class="fa fa-google mr-2"></span>Sign up with Google
+                            <span class="fa fa-google mr-2"></span><span class="signup-google-btn">Sign up with Google</span>
                         </a>
                     </div>
                     <div class="col-lg-6 col-sm-12 pl-lg-1 mt-1">
                         <a class="btn btn-block btn-social btn-facebook text-white">
-                            <span class="fa fa-facebook-f"></span>Sign up with Facebook
+                            <span class="fa fa-facebook-f"></span><span class="signup-fb-btn">Sign up with Facebook</span>
                         </a>
                     </div>
                 </div>
             </div>
             <div class="modal-footer mx-3">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="sign_in_btn" onclick="sendSignInForm()">Sign in
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="modalClose">Close</button>
+                <button type="button" class="btn btn-primary signin-loc" id="sign_in_btn" onclick="sendSignInForm()">Sign in
                 </button>
             </div>
 
