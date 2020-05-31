@@ -127,6 +127,7 @@ public class UserController {
         user.setLogin(user.getEmail());
         user.setPassword(generateString(new Random(), SOURCES, 10));
         user.setConfirmPassword(user.getPassword());
+        user.setAutoReg(true);
 
         if (result.hasErrors()) {
             view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessage(result));
@@ -152,7 +153,7 @@ public class UserController {
             }
             return view;
         }
-        view.setViewName("redirect:/shopping-cart");
+        view.setViewName("redirect:/reqapprove");
         return view;
     }
 
@@ -162,6 +163,12 @@ public class UserController {
             text[i] = characters.charAt(random.nextInt(characters.length()));
         }
         return new String(text);
+    }
+
+    @GetMapping("/reqapprove")
+    public ModelAndView requestApproveAuth(RegistrationUserDTO user) {
+        ModelAndView view = new ModelAndView("requestApproveAuth");
+        return view;
     }
 
 

@@ -84,6 +84,7 @@ public class UserAccountServiceImpl implements UserAccountService {
                 .cart(new ShoppingCart())
                 .tokenToConfirmEmail(UUID.randomUUID().toString())
                 .roles(new Role(1L, "ROLE_USER"))
+                .autoReg(user.isAutoReg())
                 .build();
 
         sendEmailToConfirmAccount1ClickReg(userAccount, user.getPassword(), user.getLogin());

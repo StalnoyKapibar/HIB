@@ -15,6 +15,7 @@ $(document).ready(function () {
     getShoppingCart();
     showListOrders().then(r => {
     });
+
 });
 
 function convertPrice(price) {

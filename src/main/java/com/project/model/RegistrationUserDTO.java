@@ -40,4 +40,6 @@ public class RegistrationUserDTO {
 
     private String provider;
 
+    private boolean autoReg;
+
 }

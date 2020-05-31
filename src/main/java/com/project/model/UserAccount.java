@@ -33,6 +33,7 @@ public class UserAccount implements UserDetails, OAuth2User {
     private String locale;
     private String phone;
     private boolean isEnabled = false;
+    private boolean autoReg = false;
     private String tokenToConfirmEmail;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private ShoppingCart cart = new ShoppingCart();
@@ -78,5 +79,8 @@ public class UserAccount implements UserDetails, OAuth2User {
     @Override
     public String getName() {
         return email;
+    }
+
+    public boolean getAutoReg() { return autoReg;
     }
 }
