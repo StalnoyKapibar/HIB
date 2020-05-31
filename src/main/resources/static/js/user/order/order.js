@@ -25,7 +25,6 @@ async function confirmAddress() {
         else {
         showContacts();
         }
-
 }
 
 async function saveAddress() {
@@ -104,6 +103,18 @@ async function confirmContacts() {
 
     showSummary();
     showOrderSum();
+}
+async function confirmContactsFor1Click() {
+    contacts = {
+        email: $("#email").val(),
+        phone: $("#phone").val(),
+        comment: $("#comment").val(),
+    };
+    await POST("/api/user/order/confirmContacts", JSON.stringify(contacts), JSON_HEADER);
+
+    showSummary();
+    showOrderSum();
+    confirmPurchase();
 }
 function showHome() {
     $('#cartTab a[href="#home"]').tab('show');

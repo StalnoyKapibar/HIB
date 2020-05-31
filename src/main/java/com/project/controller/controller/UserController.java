@@ -96,21 +96,6 @@ public class UserController {
         return view;
     }
 
-    private void authenticateUserAndSetSession(RegistrationUserDTO user, HttpServletRequest request) {
-        String username = user.getLogin();
-        String password = user.getPassword();
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
-
-        // generate session if one doesn't exist
-        request.getSession().setAttribute("cartId1click", userAccountService.findByLogin(username).getCart().getId());
-        request.getSession().setAttribute("userId", userAccountService.findByLogin(username).getId());
-        //request.getSession().setAttribute("cartItems", request.getSession().getAttribute("shoppingcart"));
-
-        token.setDetails(new WebAuthenticationDetails(request));
-        Authentication authenticatedUser = authenticationManager.authenticate(token);
-        SecurityContextHolder.getContext().setAuthentication(authenticatedUser);
-    }
-
     @GetMapping("/1clickreg")
     public ModelAndView get1ClickRegistrationPage(RegistrationUserDTO user) {
         ModelAndView view = new ModelAndView("reg1Click");
