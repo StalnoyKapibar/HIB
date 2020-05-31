@@ -292,12 +292,14 @@ function getPageWithBooks(amount, page) {
             history.pushState(null, null, url);
             advancedSearch(amount, page);
         } else {
-            let checkId = window.location.pathname.split("/").pop();
-            let url = window.location.search;
-            history.pushState(null, null, url);
-            let tmp = '#check-' + checkId;
-            $(tmp).click();
+            let checkId = '#check-' + window.location.pathname.split("/").pop();
+            $(checkId).click();
             advancedSearch(amount, page);
+            let tmp = [];
+            tmp = window.location.pathname.split("/");
+            tmp.length = tmp.length - 1;
+            let url = tmp.join("/");
+            history.pushState(null, null, url);
         }
     },2000);
 
