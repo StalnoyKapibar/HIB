@@ -14,7 +14,9 @@ import lombok.AllArgsConstructor;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.mail.MailSendException;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.context.Context;
 import sun.plugin.dom.html.HTMLDocument;
 
+import javax.mail.MessagingException;
+import javax.persistence.NoResultException;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
@@ -57,16 +61,11 @@ public class UserAccountServiceImpl implements UserAccountService {
 
     @Override
     public boolean emailExist(String email) {
-        try {
-            userAccountDao.findByEmail(email).isPresent();
-            return true;
-        } catch (EmptyResultDataAccessException e) {
-            return false;
-        }
+        return userAccountDao.findByEmail(email).isPresent();
     }
 
     @Override
-    public UserAccount save(RegistrationUserDTO user) throws ConstraintViolationException {
+    public UserAccount save(RegistrationUserDTO user) throws ConstraintViolationException, MailSendException {
         UserAccount userAccount = UserAccount.builder()
                 .login(user.getLogin())
                 .email(user.getEmail())
@@ -74,7 +73,6 @@ public class UserAccountServiceImpl implements UserAccountService {
                 .regDate(Instant.now().getEpochSecond())
                 .provider("local")
                 .locale(httpSession.getAttribute("LANG").toString())
-                .isEnabled(true)
                 .cart(new ShoppingCart())
                 .tokenToConfirmEmail(UUID.randomUUID().toString())
                 .roles(new Role(1L, "ROLE_USER"))
@@ -83,14 +81,62 @@ public class UserAccountServiceImpl implements UserAccountService {
         try {
             if (userAccount != null) {
                 sendEmailService.confirmAccount(userAccount);
-                sendEmailService.confirmAccount1ClickReg(userAccount, user.getPassword(), user.getLogin());
-            }
+          }
         } catch (MessagingException e) {
             e.printStackTrace();
         }
         return userAccountDao.save(userAccount);
     }
 
+    @Override
+    public UserAccount save1Clickreg(RegistrationUserDTO user) throws ConstraintViolationException {
+        UserAccount userAccount = UserAccount.builder()
+                .login(user.getLogin())
+                .email(user.getEmail())
+                .password(encoder.encode(user.getPassword()))
+                .regDate(Instant.now().getEpochSecond())
+                .provider("local")
+                .locale(httpSession.getAttribute("LANG").toString())
+                .cart(new ShoppingCart())
+                .tokenToConfirmEmail(UUID.randomUUID().toString())
+                .roles(new Role(1L, "ROLE_USER"))
+                .autoReg(user.isAutoReg())
+                .build();
+
+        try {
+            if (userAccount != null) {
+                 sendEmailService.confirmAccount1ClickReg(userAccount, user.getPassword(), user.getLogin());
+            }
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }        return userAccountDao.save(userAccount);
+    }
+
+//    @Override
+//    public void sendEmailToConfirmAccount(UserAccount user) throws MailSendException {
+//        String senderFromProperty = environment.getProperty("spring.mail.username");
+//        SimpleMailMessage mailMessage = new SimpleMailMessage();
+//        mailMessage.setTo(user.getEmail());
+//        mailMessage.setSubject("Привет");
+//        mailMessage.setFrom(senderFromProperty);
+//        mailMessage.setText("Привет "
+////                + "http://localhost:8080/confirmEmail?token="
+//                + user.getTokenToConfirmEmail());
+//        mailService.sendEmail(mailMessage);
+//    }
+//
+//
+//    public void sendEmailToConfirmAccount1ClickReg(UserAccount user, String password, String login) {
+//        String senderFromProperty = environment.getProperty("spring.mail.username");
+//        SimpleMailMessage mailMessage = new SimpleMailMessage();
+//        mailMessage.setTo(user.getEmail());
+//        mailMessage.setSubject("Привет");
+//        mailMessage.setFrom(senderFromProperty);
+//        mailMessage.setText("Привет "
+////                + "http://localhost:8080/confirmEmail?token="
+//                + user.getTokenToConfirmEmail() + " Логин: " + login + " Пароль: " + password);
+//        mailService.sendEmail(mailMessage);
+//    }
 
     @Override
     public void setLocaleAndAuthDate(String email, String locale, long lastAuthDate) {
@@ -114,16 +160,8 @@ public class UserAccountServiceImpl implements UserAccountService {
     }
 
 
-    public UserAccount findByLogin(String login) {
+    public UserAccount findByLogin(String login) throws UsernameNotFoundException, NoResultException {
         return userAccountDao.findByLogin(login).get();
     }
 
-    @Override
-    public UserAccount findByEmail(String email){
-        try {
-            return userAccountDao.findByEmail(email).get();
-        } catch (NoSuchElementException e) {
-            return null;
-        }
-    }
 }
