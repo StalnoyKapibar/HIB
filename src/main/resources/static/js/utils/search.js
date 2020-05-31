@@ -12,6 +12,14 @@ $(document).ready(async function () {
     setLocaleFields();
     amountBooksInPage = ddmAmountBook.text();
     getPageWithBooks(ddmAmountBook.text(), currentPage++);
+    $(document).ready(function () {
+        setTimeout(() => {
+            $(".preloader").show("slow");
+        }, 300)
+        setTimeout(() => {
+            $(".preloader").hide("slow");
+        }, 1700)
+    });
 });
 
 function getQuantityPage() {
@@ -77,9 +85,10 @@ function loadMore(pageNumber) {
 // }
 
 function setAmountBooksInPage(amount) {
+    currentPage = 0;
     amountBooksInPage = amount;
     ddmAmountBook.text(amount);
-    getPageWithBooks(amount, 0);
+    advancedSearch(amount, 0);
 }
 
 function setListeners () {
@@ -290,7 +299,7 @@ function getPageWithBooks(amount, page) {
             $(tmp).click();
             advancedSearch(amount, page);
         }
-    },1500);
+    },2000);
 
 }
 
