@@ -15,15 +15,11 @@ public class UserAccountDao extends AbstractDao<Long, UserAccount> {
         super(UserAccount.class);
     }
 
-    public Optional<UserAccount> findByLogin(String login) {
+    public Optional<UserAccount> findByLogin(String login) throws UsernameNotFoundException, NoResultException {
         String sql = "SELECT * FROM users WHERE login =:login";
-        try {
-            UserAccount userAccount = (UserAccount) entityManager.createNativeQuery(sql, UserAccount.class)
-                    .setParameter("login", login).getSingleResult();
-            return Optional.ofNullable(userAccount);
-        } catch (NoResultException e) {
-            throw new UsernameNotFoundException(login);
-        }
+        UserAccount userAccount = (UserAccount) entityManager.createNativeQuery(sql, UserAccount.class)
+                .setParameter("login", login).getSingleResult();
+        return Optional.ofNullable(userAccount);
     }
 
 
@@ -34,7 +30,7 @@ public class UserAccountDao extends AbstractDao<Long, UserAccount> {
                     .setParameter("email", email).getSingleResult();
             return Optional.ofNullable(userAccount);
         } catch (NoResultException e) {
-            return null;
+            return Optional.empty();
         }
 
     }

@@ -8,12 +8,9 @@ import com.project.service.abstraction.UserAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
+import org.springframework.mail.MailSendException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.Random;
 
@@ -63,7 +61,7 @@ public class UserController {
 
     @PostMapping(value = "/registration", consumes =
             {MediaType.APPLICATION_FORM_URLENCODED_VALUE, MediaType.APPLICATION_JSON_VALUE})
-    public ModelAndView createNewUserAccount(@Valid RegistrationUserDTO user, BindingResult result, HttpServletRequest request) {
+    public ModelAndView createNewUserAccount(@Valid RegistrationUserDTO user, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
         ModelAndView view = new ModelAndView("registration");
         view.getModelMap().addAttribute("user", user);
 
@@ -91,25 +89,9 @@ public class UserController {
         }
         //After successfully Creating user
 
-        authenticateUserAndSetSession(user, request);
         view.setViewName("redirect:/home");
 
         return view;
-    }
-
-    private void authenticateUserAndSetSession(RegistrationUserDTO user, HttpServletRequest request) {
-        String username = user.getLogin();
-        String password = user.getPassword();
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
-
-        // generate session if one doesn't exist
-        request.getSession().setAttribute("cartId1click", userAccountService.findByLogin(username).getCart().getId());
-        request.getSession().setAttribute("userId", userAccountService.findByLogin(username).getId());
-        //request.getSession().setAttribute("cartItems", request.getSession().getAttribute("shoppingcart"));
-
-        token.setDetails(new WebAuthenticationDetails(request));
-        Authentication authenticatedUser = authenticationManager.authenticate(token);
-        SecurityContextHolder.getContext().setAuthentication(authenticatedUser);
     }
 
     @GetMapping("/1clickreg")
@@ -122,28 +104,30 @@ public class UserController {
 
     @PostMapping(value = "/1clickreg", consumes =
             {MediaType.APPLICATION_FORM_URLENCODED_VALUE, MediaType.APPLICATION_JSON_VALUE})
-    public ModelAndView createNewUserAccount1Click(@Valid RegistrationUserDTO user, BindingResult result, HttpServletRequest request) {
+    public ModelAndView createNewUserAccount1Click(@Valid RegistrationUserDTO user, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
         ModelAndView view = new ModelAndView("reg1Click");
         view.getModelMap().addAttribute("user", user);
         user.setLogin(user.getEmail());
         user.setPassword(generateString(new Random(), SOURCES, 10));
         user.setConfirmPassword(user.getPassword());
+        user.setAutoReg(true);
 
-        if (userAccountService.findByEmail(user.getEmail())!=null) {
-            view.getModelMap().addAttribute("errorMessage",
-                    "Такой аккаунт уже существует. Войдите под своими данными.");
-            return view;
-        }
         if (result.hasErrors()) {
             view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessage(result));
             return view;
         }
+        if (userAccountService.emailExist(user.getEmail())) {
+            view.getModelMap().addAttribute("errorMessage",
+                    messageService.getErrorMessageOnEmailUIndex());
+            return view;
+        }
+
         if (!user.getPassword().equals(user.getConfirmPassword())) {
             view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessageOnPasswordsDoesNotMatch());
             return view;
         }
         try {
-            userAccountService.save(user);
+            userAccountService.save1Clickreg(user);
         } catch (DataIntegrityViolationException e) {
             if (e.getCause().getCause().getMessage().contains("login")) {
                 view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessageOnLoginUIndex());
@@ -151,9 +135,10 @@ public class UserController {
                 view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessageOnEmailUIndex());
             }
             return view;
+        } catch (MailSendException e) {
+            view.setViewName("redirect:/errors/not_found");
         }
-        authenticateUserAndSetSession(user, request);
-        view.setViewName("redirect:/shopping-cart");
+        view.setViewName("redirect:/reqapprove");
         return view;
     }
 
@@ -163,6 +148,12 @@ public class UserController {
             text[i] = characters.charAt(random.nextInt(characters.length()));
         }
         return new String(text);
+    }
+
+    @GetMapping("/reqapprove")
+    public ModelAndView requestApproveAuth(RegistrationUserDTO user) {
+        ModelAndView view = new ModelAndView("requestApproveAuth");
+        return view;
     }
 
 

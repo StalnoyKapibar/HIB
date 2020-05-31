@@ -39,7 +39,6 @@ $(document).on('click', '#searchIcon', async () => {
 });
 
 jQuery(function ($) {
-
     // Dropdown menu
     $(".sidebar-dropdown > a").click(function () {
         $(".sidebar-submenu").slideUp(200);
@@ -51,17 +50,16 @@ jQuery(function ($) {
             $(this).next(".sidebar-submenu").slideDown(200);
             $(this).parent().addClass("active");
         }
-
     });
 
-    //toggle sidebar
+    // Toggle sidebar
     $("#toggle-sidebar").click(function () {
         $(".page-wrapper").toggleClass("toggled");
     });
-    //Pin sidebar
+    // Pin sidebar
     $("#pin-sidebar").click(function () {
         if ($(".page-wrapper").hasClass("pinned")) {
-            // unpin sidebar when hovered
+            // Unpin sidebar when hovered
             $(".page-wrapper").removeClass("pinned");
             $("#sidebar").unbind("hover");
         } else {
@@ -76,17 +74,15 @@ jQuery(function ($) {
                     $(".page-wrapper").removeClass("sidebar-hovered");
                 }
             )
-
         }
     });
 
-
-    //toggle sidebar overlay
+    // Toggle sidebar overlay
     $("#overlay").click(function () {
         $(".page-wrapper").toggleClass("toggled");
     });
 
-    //switch between themes 
+    // Switch between themes 
     var themes = "default-theme legacy-theme chiller-theme ice-theme cool-theme light-theme";
     $('[data-theme]').click(function () {
         $('[data-theme]').removeClass("selected");
@@ -95,7 +91,7 @@ jQuery(function ($) {
         $('.page-wrapper').addClass($(this).attr('data-theme'));
     });
 
-    // switch between background images
+    // Switch between background images
     var bgs = "bg1 bg2 bg3 bg4";
     $('[data-bg]').click(function () {
         $('[data-bg]').removeClass("selected");
@@ -104,19 +100,19 @@ jQuery(function ($) {
         $('.page-wrapper').addClass($(this).attr('data-bg'));
     });
 
-    // toggle background image
+    // Toggle background image
     $("#toggle-bg").change(function (e) {
         e.preventDefault();
         $('.page-wrapper').toggleClass("sidebar-bg");
     });
 
-    // toggle border radius
+    // Toggle border radius
     $("#toggle-border-radius").change(function (e) {
         e.preventDefault();
         $('.page-wrapper').toggleClass("border-radius-on");
     });
 
-    //custom scroll bar is only used on desktop
+    // Custom scroll bar is only used on desktop
     if (!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
         $(".sidebar-content").mCustomScrollbar({
             axis: "y",
@@ -124,7 +120,5 @@ jQuery(function ($) {
             scrollInertia: 300
         });
         $(".sidebar-content").addClass("desktop");
-
     }
 });
-
