@@ -5,7 +5,7 @@ let amountBooksInPage = 0;
 let amountBooksInDb;
 let ddmAmountBook = $("#ddmAmountBook");
 
-$(document).ready(function () {
+$(document).ready(async function () {
     getLanguage();
     getCategoryTree();
     setListeners();
@@ -257,7 +257,7 @@ async function advancedSearch(amount, page) {
     for (let i in categories) {
         categoryRequest += "&categories=" + categories[i];
     }
-    await fetch("/searchAdvanced?request=" + request + "&searchBy=" + searchBy + categoryRequest +
+    fetch("/searchAdvanced?request=" + request + "&searchBy=" + searchBy + categoryRequest +
         "&priceFrom=" + priceFrom + "&priceTo=" + priceTo + "&yearOfEditionFrom=" + yearOfEditionFrom + "&yearOfEditionTo=" + yearOfEditionTo +
         "&pagesFrom=" + pagesFrom + "&pagesTo=" + pagesTo + "&page=" + page + "&size=" + amount, {
         method: "GET",
@@ -275,21 +275,24 @@ async function advancedSearch(amount, page) {
 
 }
 
-async function getPageWithBooks(amount, page) {
-    if (window.location.pathname.split("/").pop() === "search") {
-        let request = decodeURIComponent(window.location.search).split("=").pop();
-        $('#search-input').val(request);
-        let url = window.location.pathname;
-        history.pushState(null, null, url);
-        await advancedSearch(amount, page);
-    } else {
-        let checkId = window.location.pathname.split("/").pop();
-        let url = window.location.search;
-        history.pushState(null, null, url);
-        let tmp = '#check-' + checkId;
-        $(tmp).click();
-        await advancedSearch(amount, page);
-    }
+function getPageWithBooks(amount, page) {
+    setTimeout(function(){
+        if (window.location.pathname.split("/").pop() === "search") {
+            let request = decodeURIComponent(window.location.search).split("=").pop();
+            $('#search-input').val(request);
+            let url = window.location.pathname;
+            history.pushState(null, null, url);
+            advancedSearch(amount, page);
+        } else {
+            let checkId = window.location.pathname.split("/").pop();
+            let url = window.location.search;
+            history.pushState(null, null, url);
+            let tmp = '#check-' + checkId;
+            $(tmp).click();
+            advancedSearch(amount, page);
+        }
+    },1000);
+
 }
 
 async function addFindeBooks(data) {
