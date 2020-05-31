@@ -8,11 +8,13 @@ import com.project.service.abstraction.UserAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
+import org.springframework.mail.MailSendException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -21,8 +23,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.persistence.NoResultException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.Random;
 
 @Controller
@@ -63,7 +68,7 @@ public class UserController {
 
     @PostMapping(value = "/registration", consumes =
             {MediaType.APPLICATION_FORM_URLENCODED_VALUE, MediaType.APPLICATION_JSON_VALUE})
-    public ModelAndView createNewUserAccount(@Valid RegistrationUserDTO user, BindingResult result, HttpServletRequest request) {
+    public ModelAndView createNewUserAccount(@Valid RegistrationUserDTO user, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
         ModelAndView view = new ModelAndView("registration");
         view.getModelMap().addAttribute("user", user);
 
@@ -106,7 +111,7 @@ public class UserController {
 
     @PostMapping(value = "/1clickreg", consumes =
             {MediaType.APPLICATION_FORM_URLENCODED_VALUE, MediaType.APPLICATION_JSON_VALUE})
-    public ModelAndView createNewUserAccount1Click(@Valid RegistrationUserDTO user, BindingResult result, HttpServletRequest request) {
+    public ModelAndView createNewUserAccount1Click(@Valid RegistrationUserDTO user, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
         ModelAndView view = new ModelAndView("reg1Click");
         view.getModelMap().addAttribute("user", user);
         user.setLogin(user.getEmail());
@@ -137,6 +142,8 @@ public class UserController {
                 view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessageOnEmailUIndex());
             }
             return view;
+        } catch (MailSendException e) {
+            view.setViewName("redirect:/errors/not_found");
         }
         view.setViewName("redirect:/reqapprove");
         return view;
