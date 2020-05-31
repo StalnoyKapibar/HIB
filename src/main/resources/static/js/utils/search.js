@@ -8,9 +8,10 @@ let ddmAmountBook = $("#ddmAmountBook");
 $(document).ready(function () {
     getLanguage();
     getCategoryTree();
+    setListeners();
     setLocaleFields();
     amountBooksInPage = ddmAmountBook.text();
-    //getPageWithBooks(ddmAmountBook.text(), currentPage++);
+    getPageWithBooks(ddmAmountBook.text(), currentPage++);
 });
 
 function getQuantityPage() {
@@ -20,7 +21,7 @@ function getQuantityPage() {
     return Math.ceil(amountBooksInDb / amountBooksInPage);
 }
 
-function addPagination() {
+async function addPagination() {
     let numberOfPagesInPagination = 7;
     let quantityPage = getQuantityPage();
     let startIter;
@@ -63,7 +64,7 @@ function addPagination() {
 
 function loadMore(pageNumber) {
     currentPage = pageNumber;
-    getPageWithBooks(amountBooksInPage, pageNumber - 1);
+    advancedSearch(amountBooksInPage, pageNumber - 1)
 }
 
 // function getPageWithBooks(amount, page) {
@@ -81,7 +82,12 @@ function setAmountBooksInPage(amount) {
     getPageWithBooks(amount, 0);
 }
 
-$(document).ready(function () {
+function setListeners () {
+    $('.search-submit').on('click', () => {
+        currentPage = 0;
+        advancedSearch(ddmAmountBook.text(), currentPage++)
+    });
+
     $('#input-categories').on('click', '.custom-control-input', function () {
         let $category = $(this).closest('.category');
         if ($(this).is(':checked')) {
@@ -129,9 +135,9 @@ $(document).ready(function () {
             $('#search-submit').click();
         }
     });
-});
+}
 
-function getCategoryTree() {
+async function getCategoryTree() {
     fetch('/categories/gettree', {}).then(function (response) {
         return response.json()
     })
@@ -153,6 +159,7 @@ function getCategoryTree() {
             let tree = getUnflatten(categoryArr, null);
             setTreeView(tree);
         })
+        .then()
 }
 
 function getUnflatten(arr, parentid) {
@@ -227,7 +234,7 @@ async function setChilds(category) {
     return row;
 }
 
-function advancedSearch() {
+async function advancedSearch(amount, page) {
     let request = $('#search-input').val();
     let priceFrom = $('#input-price-from').val() * 100;
     let priceTo = $('#input-price-to').val() * 100;
@@ -250,9 +257,9 @@ function advancedSearch() {
     for (let i in categories) {
         categoryRequest += "&categories=" + categories[i];
     }
-    fetch("/searchAdvanced?request=" + request + "&searchBy=" + searchBy + categoryRequest +
+    await fetch("/searchAdvanced?request=" + request + "&searchBy=" + searchBy + categoryRequest +
         "&priceFrom=" + priceFrom + "&priceTo=" + priceTo + "&yearOfEditionFrom=" + yearOfEditionFrom + "&yearOfEditionTo=" + yearOfEditionTo +
-        "&pagesFrom=" + pagesFrom + "&pagesTo=" + pagesTo + "&page=" + currentPage + "&size=" + ddmAmountBook.text(), {
+        "&pagesFrom=" + pagesFrom + "&pagesTo=" + pagesTo + "&page=" + page + "&size=" + amount, {
         method: "GET",
         headers: {
             'Content-Type': 'application/json',
@@ -269,50 +276,23 @@ function advancedSearch() {
 }
 
 async function getPageWithBooks(amount, page) {
-    if (window.location.search === "" && window.location.pathname.split("/").pop() === "search") {
-        await fetch("/api/booksSearchPage", {
-            method: "GET",
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            }
-        })
-            .then(data => data.json())
-            .then(function (data) {
-                setLocaleFields();
-                amountBooksInDb = data.amountOfBooksInDb;
-                addFindeBooks(data.books)
-            });
-    } else if (window.location.search === "") {
-        await fetch("/api" + window.location.pathname, {
-            method: "GET",
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            }
-        })
-            .then(data => data.json())
-            .then(function (data) {
-                setLocaleFields();
-                addFindeBooks(data)
-            });
+    if (window.location.pathname.split("/").pop() === "search") {
+        let request = decodeURIComponent(window.location.search).split("=").pop();
+        $('#search-input').val(request);
+        let url = window.location.pathname;
+        history.pushState(null, null, url);
+        await advancedSearch(amount, page);
     } else {
-        await fetch("/searchResult" + window.location.search, {
-            method: "GET",
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            }
-        })
-            .then(data => data.json())
-            .then(function (data) {
-                setLocaleFields();
-                addFindeBooks(data)
-            });
+        let checkId = window.location.pathname.split("/").pop();
+        let url = window.location.search;
+        history.pushState(null, null, url);
+        let tmp = '#check-' + checkId;
+        $(tmp).click();
+        await advancedSearch(amount, page);
     }
 }
 
-function addFindeBooks(data) {
+async function addFindeBooks(data) {
     $('table').empty();
     let table = [];
     table.push(`<thead>
