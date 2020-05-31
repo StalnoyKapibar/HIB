@@ -26,11 +26,6 @@ public class BookSearch {
         return result;
     }
 
-    public List<BookNewDTO> searchSidebar(String req) {
-        List<BookNewDTO> result = bookDao.getBookBySearchRequestAdvanced(req.trim());
-        return result;
-    }
-
     public BookSearchPageDTO searchByParameters(String req, Long priceFrom, Long priceTo, String yearOfEditionFrom, String yearOfEditionTo, Long pagesFrom,
                                                 Long pagesTo, String searchBy, List<String> categories, Pageable pageable) {
         BookSearchPageDTO result = bookDao.getBookBySearchRequest(req.trim(), priceFrom, priceTo, yearOfEditionFrom, yearOfEditionTo, pagesFrom, pagesTo, searchBy, categories, pageable);

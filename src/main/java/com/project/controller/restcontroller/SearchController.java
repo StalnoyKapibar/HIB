@@ -38,11 +38,6 @@ public class SearchController {
         return bookSearch.searchByCategory(categoryId);
     }
 
-    @GetMapping("/searchResult")
-    public List<BookNewDTO> BooksSearchSidebar(@RequestParam(value = "request") String req) {
-        return bookSearch.searchSidebar(req);
-    }
-
     @GetMapping("/searchAdvanced")
     public BookSearchPageDTO BooksSearchByParameters(@RequestParam(value = "request") String request, @RequestParam(value = "searchBy") String searchBy,
                                                      @RequestParam List<String> categories, @RequestParam(value = "priceFrom") Long priceFrom,
@@ -52,12 +47,6 @@ public class SearchController {
         Pageable pageable = PageRequest.of(page, size);
         BookSearchPageDTO books = bookSearch.searchByParameters(request, priceFrom, priceTo, String.valueOf(yearOfEditionFrom), String.valueOf(yearOfEditionTo),
                 pagesFrom, pagesTo, searchBy, categories, pageable);
-        return books;
-    }
-
-    @GetMapping("/api/booksSearchPage")
-    public List<BookNewDTO> getAllBooksSearchPage() {
-        List<BookNewDTO> books = bookService.getAllBooksSearchPage();
         return books;
     }
 

@@ -9,8 +9,6 @@ public interface BookDao extends GenericDao<Long, Book> {
 
     List<BookDTO> get20BookDTO(String locale);
 
-    List<BookNewDTO> getBookBySearchRequestAdvanced(String req);
-
     long getQuantityBooksBySearchRequest(String request, Long priceFrom, Long priceTo,
                                         String yearOfEditionFrom, String yearOfEditionTo, Long pagesFrom, Long pagesTo, String searchBy, List<String> categories);
 
