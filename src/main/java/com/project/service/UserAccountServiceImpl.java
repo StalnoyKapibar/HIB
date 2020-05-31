@@ -1,9 +1,7 @@
 package com.project.service;
 
-import com.project.controller.controller.DocHTMLController;
 import com.project.dao.UserAccountDao;
 import com.project.dao.abstraction.UserRoleDao;
-import com.project.mail.MailService;
 import com.project.model.RegistrationUserDTO;
 import com.project.model.Role;
 import com.project.model.ShoppingCart;
@@ -15,22 +13,15 @@ import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.mail.MailSendException;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.thymeleaf.context.Context;
-import sun.plugin.dom.html.HTMLDocument;
 
 import javax.mail.MessagingException;
 import javax.persistence.NoResultException;
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
 import java.time.Instant;
-import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Service
