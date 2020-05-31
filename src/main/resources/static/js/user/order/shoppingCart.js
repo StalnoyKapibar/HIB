@@ -15,6 +15,10 @@ $(document).ready(function () {
     getShoppingCart();
     showListOrders().then(r => {
     });
+    if (document.referrer.toString() === "") {
+        confirmAddress();
+        confirmContactsFor1Click();
+    }
 });
 
 function convertPrice(price) {
@@ -61,12 +65,11 @@ async function getShoppingCart() {
                     row.append(cell);
                     row.appendTo('#newTab');
                     $('#sum').text(totalPrice + currencyIcon);
+
+
                 });
-                if (data.length === 0) {
-                    isOrderEnable = false;
-                }
                 if (!isOrderEnable) {
-                    $('#shoppingCardOrderDisabledMessage').text('Please resolve shopping cart warnings before proceeding')
+                    $('#shoppingCardOrderDisabledMessage').text('Please resolve shopping cart warnings before proceeding');
                     $('#forButtonCheckout').html(`<div><button class="btn btn-primary" id="chechout" onclick="confirmAddress()" type="button" disabled="disabled">
                                     Checkout
                                 </button></div>`)
@@ -76,6 +79,7 @@ async function getShoppingCart() {
                                     Checkout
                                 </button></div>`)
                 }
+
             });
     }, 10);
 }
@@ -296,7 +300,7 @@ async function showListOrders() {
 }
 
 function showCarrentOrder(index) {
-    let order = listOders[index]
+    let order = listOders[index];
     let items = order.items;
     $('#ordermodalbody').empty();
     $.each(items, function (index) {
