@@ -49,9 +49,7 @@ public class UserAccountServiceImpl implements UserAccountService {
 
     @Override
     public boolean emailExist(String email) {
-
         return userAccountDao.findByEmail(email).isPresent();
-
     }
 
     @Override
