@@ -21,7 +21,7 @@ async function confirmAddress() {
             $("#signModal").modal('show');
             setCurrentPageToCookie();
         });
-    if (!isAuth === null)
+    if (!isAuth === null) return;
     else {
         showContacts();
     }
