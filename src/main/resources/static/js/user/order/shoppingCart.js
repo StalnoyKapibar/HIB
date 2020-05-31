@@ -69,7 +69,7 @@ async function getShoppingCart() {
 
                 });
                 if (!isOrderEnable) {
-                    $('#shoppingCardOrderDisabledMessage').text('Please resolve shopping cart warnings before proceeding')
+                    $('#shoppingCardOrderDisabledMessage').text('Please resolve shopping cart warnings before proceeding');
                     $('#forButtonCheckout').html(`<div><button class="btn btn-primary" id="chechout" onclick="confirmAddress()" type="button" disabled="disabled">
                                     Checkout
                                 </button></div>`)
@@ -300,7 +300,7 @@ async function showListOrders() {
 }
 
 function showCarrentOrder(index) {
-    let order = listOders[index]
+    let order = listOders[index];
     let items = order.items;
     $('#ordermodalbody').empty();
     $.each(items, function (index) {
