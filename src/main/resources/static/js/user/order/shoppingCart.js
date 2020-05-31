@@ -68,6 +68,9 @@ async function getShoppingCart() {
 
 
                 });
+                if (data.length === 0) {
+                    isOrderEnable = false;
+                }
                 if (!isOrderEnable) {
                     $('#shoppingCardOrderDisabledMessage').text('Please resolve shopping cart warnings before proceeding');
                     $('#forButtonCheckout').html(`<div><button class="btn btn-primary" id="chechout" onclick="confirmAddress()" type="button" disabled="disabled">
