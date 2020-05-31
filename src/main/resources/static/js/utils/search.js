@@ -158,8 +158,7 @@ async function getCategoryTree() {
             }
             let tree = getUnflatten(categoryArr, null);
             setTreeView(tree);
-        })
-        .then()
+        });
 }
 
 function getUnflatten(arr, parentid) {
@@ -291,7 +290,7 @@ function getPageWithBooks(amount, page) {
             $(tmp).click();
             advancedSearch(amount, page);
         }
-    },1000);
+    },1500);
 
 }
 
