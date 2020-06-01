@@ -10,4 +10,6 @@ public interface ShoppingCartDao {
     void updateCart(ShoppingCartDTO cart);
 
     List getMaxIdCartItem();
+
+    int getCartSize(Long cartId);
 }

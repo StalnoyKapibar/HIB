@@ -22,7 +22,7 @@ public class ShoppingCartDaoImpl extends AbstractDao<Long, ShoppingCart> impleme
         ShoppingCart shoppingCart = entityManager.find(ShoppingCart.class, id);
         ShoppingCartDTO cartDTO = new ShoppingCartDTO();
         cartDTO.setId(shoppingCart.getId());
-        cartDTO.setId(shoppingCart.getId());
+//        cartDTO.setId(shoppingCart.getId());
         List<CartItemDTO> itemDTO = new ArrayList<>();
         for (CartItem cartItem : shoppingCart.getCartItems()) {
             itemDTO.add(new CartItemDTO(cartItem.getId(), bookDAO.findById(cartItem.getBook().getId())));
@@ -49,6 +49,11 @@ public class ShoppingCartDaoImpl extends AbstractDao<Long, ShoppingCart> impleme
     @Override
     public List getMaxIdCartItem(){
         return entityManager.createQuery("select (cartitem.id) from CartItem cartitem").getResultList();
+    }
 
+    @Override
+    public int getCartSize(Long cartId){
+        String hql = "select count (c) from ShoppingCart c where id = :cartId";
+        return (int) entityManager.createQuery(hql).setParameter("cartId", cartId).getSingleResult();
     }
 }

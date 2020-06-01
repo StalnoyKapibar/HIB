@@ -1,6 +1,7 @@
 package com.project.controller.restcontroller;
 
 import com.project.model.Book;
+import com.project.model.CartItem;
 import com.project.model.CartItemDTO;
 import com.project.model.ShoppingCartDTO;
 import com.project.service.abstraction.BookService;
@@ -24,7 +25,15 @@ public class ShoppingCartController {
         Long cartId = (Long) session.getAttribute("cartId");
         if (cartId != null) {
             session.setAttribute("cartId", cartId);
-            return cartService.getCartById(cartId).getCartItems().size();
+
+            return cartService.getCartSize(cartId);
+
+//            List<CartItemDTO> cartItems = cartService.getCartById(cartId).getCartItems();
+//            int i = cartItems.size();
+//            return i;
+
+
+//            return cartService.getCartById(cartId).getCartItems().size();
         } else {
             session.removeAttribute("cartId");
         }
@@ -63,7 +72,7 @@ public class ShoppingCartController {
             ShoppingCartDTO shoppingCartDTO = cartService.getCartById(cartId);
             shoppingCartDTO.addCartItem(book);
             cartService.updateCart(shoppingCartDTO);
-        }  else {
+        } else {
             ShoppingCartDTO shoppingCart = (ShoppingCartDTO) session.getAttribute("shoppingcart");
             shoppingCart.addCartItem(book);
             session.setAttribute("shoppingcart", shoppingCart);
