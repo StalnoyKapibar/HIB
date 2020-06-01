@@ -1,0 +1,42 @@
+version: '3.7'
+services:
+  hib-web-application:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    restart: always
+    depends_on:
+      - mysql 
+    environment:
+      RDS_HOSTNAME: mysql
+      RDS_PORT: 3306
+      RDS_DB_NAME: hib
+      RDS_USERNAME: root
+      RDS_PASSWORD: root
+    networks:
+      - hib-web-application-network
+
+  mysql:
+    image: mysql:5.7
+    command: --default-character-set=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    ports:
+      - "3306:3306"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_DATABASE: hib
+    volumes:
+      - mysql-database-data-volume:/var/lib/mysql
+    networks:
+      - hib-web-application-network
+  
+# Volumes
+volumes:
+  mysql-database-data-volume:
+
+networks:
+  hib-web-application-network:
