@@ -255,6 +255,15 @@ function addFindeBooks(data) {
     $('table').append($(table.join('')));
     let tr = [];
     for (let i = 0; i < data.length; i++) {
+        if (data[i].yearOfEdition == null) {
+            data[i].yearOfEdition = "-";
+        } if(data[i].category.categoryName == null) {
+            data[i].category.categoryName = "-";
+        } if(data[i].pages == null) {
+            data[i].pages = "-";
+        } if(data[i].price == null) {
+            data[i].price = "-";
+        }
         tr.push(`<tr>
                                 <td class="align-middle"><img src="../images/book${data[i].id}/${data[i].coverImage}" style="max-width: 60px"></td>
                                 <td class="align-middle">${convertOriginalLanguageRows(data[i].author, data[i].authorTranslit)}</td>
