@@ -35,7 +35,7 @@ public class ErrorController extends AbstractErrorController {
 
     @ExceptionHandler(NotFoundException.class)
     public ModelAndView notFound() throws IOException {
-        ModelAndView view = new ModelAndView(new RedirectView("/errors/not_found"));
+        ModelAndView view = new ModelAndView(new RedirectView("/errors/not-found"));
         return view;
     }
 
@@ -55,7 +55,7 @@ public class ErrorController extends AbstractErrorController {
 
     @ExceptionHandler(HttpServerErrorException.class)
     public ModelAndView serverError() throws IOException {
-        ModelAndView view = new ModelAndView(new RedirectView("errors/server_error"));
+        ModelAndView view = new ModelAndView(new RedirectView("errors/server-error"));
         return view;
     }
 
