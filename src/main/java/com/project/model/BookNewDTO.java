@@ -88,4 +88,8 @@ public class BookNewDTO {
         this.coverImage = coverImage;
         this.category = category;
     }
+
+    public BookNewDTO(long id) {
+        this.id = id;
+    }
 }

@@ -1,14 +1,102 @@
 let row, primary;
 let isCheckedCategory = false;
+let currentPage = 0;
+let amountBooksInPage = 0;
+let amountBooksInDb;
+let ddmAmountBook = $("#ddmAmountBook");
 
-$(document).ready(function () {
-    setPageFields();
-    getCategoryTree();
-    setLocaleFields();
+$(document).ready(async function () {
     getLanguage();
+    getCategoryTree();
+    setListeners();
+    setLocaleFields();
+    amountBooksInPage = ddmAmountBook.text();
+    getPageWithBooks(ddmAmountBook.text(), currentPage++);
+    $(document).ready(function () {
+        setTimeout(() => {
+            $(".preloader").show("slow");
+        }, 300)
+        setTimeout(() => {
+            $(".preloader").hide("slow");
+        }, 1700)
+    });
 });
 
-$(document).ready(function () {
+function getQuantityPage() {
+    if (amountBooksInDb < amountBooksInPage) {
+        return 1;
+    }
+    return Math.ceil(amountBooksInDb / amountBooksInPage);
+}
+
+async function addPagination() {
+    let numberOfPagesInPagination = 7;
+    let quantityPage = getQuantityPage();
+    let startIter;
+    let endIter = currentPage;
+    let pag;
+    let halfPages = Math.floor(numberOfPagesInPagination / 2);
+    if (quantityPage <= numberOfPagesInPagination || quantityPage === 0) {
+        startIter = 1;
+        endIter = quantityPage;
+    } else {
+        if (currentPage - halfPages <= 0) {
+            startIter = 1;
+            endIter = numberOfPagesInPagination;
+        } else if (currentPage + halfPages > quantityPage) {
+            startIter = quantityPage - numberOfPagesInPagination + 1;
+            endIter = quantityPage;
+        } else {
+            startIter = currentPage - halfPages;
+            endIter = currentPage + halfPages;
+        }
+    }
+    pag = `<nav aria-label="Page navigation example">
+                    <ul class="pagination">`;
+    pag += currentPage === 1 ? `<li class="page-item disabled"><a class="page-link" href="#" tabindex="-1">` :
+        `<li class="page-item"><a class="page-link" onclick="loadMore(1)" href="#">`;
+    pag += `<span aria-hidden="true">&laquo;</span></a></li>`;
+    for (let i = startIter; i < endIter + 1; i++) {
+        if (currentPage === i) {
+            pag += `<li class="page-item active"><a class="page-link" onclick="loadMore(${i})">${i}</a></li>`;
+        } else {
+            pag += `<li class="page-item"><a class="page-link" onclick="loadMore(${i})">${i}</a></li>`;
+        }
+    }
+    pag += currentPage === quantityPage ? `<li class="page-item disabled">` : `<li class="page-item">`
+    pag += `<a class="page-link" onclick="loadMore(${quantityPage})" href="#"><span aria-hidden="true">&raquo;</span></a></li>
+                    </ul>
+                </nav>`;
+    $("#rowForPagination").html(pag);
+}
+
+function loadMore(pageNumber) {
+    currentPage = pageNumber;
+    advancedSearch(amountBooksInPage, pageNumber - 1)
+}
+
+// function getPageWithBooks(amount, page) {
+//     GET(`/api/book?limit=${amount}&start=${page}`)
+//         .then(json)
+//         .then((data) => {
+//             amountBooksInDb = data.amountOfBooksInDb;
+//             addBooksToPage(data.books);
+//         })
+// }
+
+function setAmountBooksInPage(amount) {
+    currentPage = 0;
+    amountBooksInPage = amount;
+    ddmAmountBook.text(amount);
+    advancedSearch(amount, 0);
+}
+
+function setListeners () {
+    $('.search-submit').on('click', () => {
+        currentPage = 0;
+        advancedSearch(ddmAmountBook.text(), currentPage++)
+    });
+
     $('#input-categories').on('click', '.custom-control-input', function () {
         let $category = $(this).closest('.category');
         if ($(this).is(':checked')) {
@@ -56,9 +144,9 @@ $(document).ready(function () {
             $('#search-submit').click();
         }
     });
-});
+}
 
-function getCategoryTree() {
+async function getCategoryTree() {
     fetch('/categories/gettree', {}).then(function (response) {
         return response.json()
     })
@@ -79,7 +167,7 @@ function getCategoryTree() {
             }
             let tree = getUnflatten(categoryArr, null);
             setTreeView(tree);
-        })
+        });
 }
 
 function getUnflatten(arr, parentid) {
@@ -153,7 +241,7 @@ async function setChilds(category) {
     return row;
 }
 
-function advancedSearch() {
+async function advancedSearch(amount, page) {
     let request = $('#search-input').val();
     let priceFrom = $('#input-price-from').val() * 100;
     let priceTo = $('#input-price-to').val() * 100;
@@ -178,7 +266,7 @@ function advancedSearch() {
     }
     fetch("/searchAdvanced?request=" + request + "&searchBy=" + searchBy + categoryRequest +
         "&priceFrom=" + priceFrom + "&priceTo=" + priceTo + "&yearOfEditionFrom=" + yearOfEditionFrom + "&yearOfEditionTo=" + yearOfEditionTo +
-        "&pagesFrom=" + pagesFrom + "&pagesTo=" + pagesTo, {
+        "&pagesFrom=" + pagesFrom + "&pagesTo=" + pagesTo + "&page=" + page + "&size=" + amount, {
         method: "GET",
         headers: {
             'Content-Type': 'application/json',
@@ -188,54 +276,34 @@ function advancedSearch() {
         .then(data => data.json())
         .then(function (data) {
             setLocaleFields();
-            addFindeBooks(data)
+            amountBooksInDb = data.amountOfBooksInDb;
+            addFindeBooks(data.books)
         });
 }
 
-async function setPageFields() {
-    if (window.location.search === "" && window.location.pathname.split("/").pop() === "search") {
-        await fetch("/api/booksSearchPage", {
-            method: "GET",
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            }
-        })
-            .then(data => data.json())
-            .then(function (data) {
-                setLocaleFields();
-                addFindeBooks(data)
-            });
-    } else if (window.location.search === "") {
-        await fetch("/api" + window.location.pathname, {
-            method: "GET",
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            }
-        })
-            .then(data => data.json())
-            .then(function (data) {
-                setLocaleFields();
-                addFindeBooks(data)
-            });
-    } else {
-        await fetch("/searchResult" + window.location.search, {
-            method: "GET",
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            }
-        })
-            .then(data => data.json())
-            .then(function (data) {
-                setLocaleFields();
-                addFindeBooks(data)
-            });
-    }
+function getPageWithBooks(amount, page) {
+    setTimeout(function(){
+        if (window.location.pathname.split("/").pop() === "search") {
+            let request = decodeURIComponent(window.location.search).split("=").pop();
+            $('#search-input').val(request);
+            let url = window.location.pathname;
+            history.pushState(null, null, url);
+            advancedSearch(amount, page);
+        } else {
+            let checkId = '#check-' + window.location.pathname.split("/").pop();
+            $(checkId).click();
+            advancedSearch(amount, page);
+            let tmp = [];
+            tmp = window.location.pathname.split("/");
+            tmp.length = tmp.length - 1;
+            let url = tmp.join("/");
+            history.pushState(null, null, url);
+        }
+    },2000);
+
 }
 
-function addFindeBooks(data) {
+async function addFindeBooks(data) {
     $('table').empty();
     let table = [];
     table.push(`<thead>
@@ -274,6 +342,7 @@ function addFindeBooks(data) {
         );
     }
     $('table').append($(tr.join('')));
+    addPagination();
 }
 
 async function getCountBooksByCat(category) {

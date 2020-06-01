@@ -10,6 +10,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.NoResultException;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,7 +22,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
     UserAccountDao userAccountDao;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, NoResultException {
         return userAccountDao.findByLogin(username).get();
     }
 }

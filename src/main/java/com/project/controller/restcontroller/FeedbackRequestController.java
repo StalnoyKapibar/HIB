@@ -36,6 +36,7 @@ public class FeedbackRequestController {
         feedbackRequest.setId(null);
         feedbackRequest.setData(Instant.now().getEpochSecond());
         feedbackRequest.setReplied(false);
+        feedbackRequest.setViewed(false);
         feedbackRequest.setSenderName(HtmlUtils.htmlEscape(feedbackRequest.getSenderName()));
         feedbackRequest.setContent(HtmlUtils.htmlEscape(feedbackRequest.getContent()));
         feedbackRequest.setSenderEmail(HtmlUtils.htmlEscape(feedbackRequest.getSenderEmail()));
@@ -60,6 +61,7 @@ public class FeedbackRequestController {
         simpleMailMessage.setTo(feedbackRequest.getSenderEmail());
         simpleMailMessage.setFrom(env.getProperty("spring.mail.username"));
         feedbackRequest.setReplied(true);
+        feedbackRequest.setViewed(true);
         feedbackRequestService.save(feedbackRequest);
         mailService.sendEmail(simpleMailMessage);
     }

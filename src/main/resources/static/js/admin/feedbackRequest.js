@@ -28,10 +28,8 @@ function markAsRead(id, replied) {
     if (confirm(message)) {
         fetch("/api/admin/feedback-request/" + id + "/" + replied, {
             method: 'POST'
-        });
+        }).then(r => getFeedbackRequestTable(replied));
     }
-    getFeedbackRequestTable(replied).then(r => {
-    });
 }
 
 async function getFeedbackRequestTable(replied) {
@@ -45,28 +43,42 @@ async function getFeedbackRequestTable(replied) {
                 let senderEmail = data[i].senderEmail;
                 let content = data[i].content;
                 let bookId = null;
-                let bookName =null;
+                let bookName = null;
                 let bookCoverImage = null;
                 if (data[i].book !== null) {
                     bookId = data[i].book.id;
                     bookName = data[i].book.name.en;
                     bookCoverImage = data[i].book.coverImage;
                 }
-                let replied = data[i].replied ? '<input type="checkbox" disabled checked>'
-                    : `<button type="button"
-                       class="btn btn-info btn-reply"
-                        id="replyBtn"
-                        data-id="${id}"
-                        data-sender="${senderName}"
-                        data-email="${senderEmail}"
-                        data-message="${content}"
-                        data-bookId="${bookId}"
-                        data-bookName="${bookName}"
-                        data-bookCoverImage="${bookCoverImage}">Reply</button>`;
-                let mark = `<button type="button"
-                class="btn btn-info "           
-                onclick="markAsRead(${id},${data[i].replied})">`;
-                mark += (data[i].replied ? `Unread</button>` : `Read</button>`);
+                let replied;
+                let mark;
+                if (data[i].replied === false) {
+                    replied = `<button type="button"
+                               class="btn btn-info btn-reply"
+                               id="replyBtn"
+                               data-id="${id}"
+                               data-sender="${senderName}"
+                               data-email="${senderEmail}"
+                               data-message="${content}"
+                               data-bookId="${bookId}"
+                               data-bookName="${bookName}"
+                               data-bookCoverImage="${bookCoverImage}">Reply</button>`;
+                    mark = `<button type="button"
+                            class="btn btn-info "           
+                            onclick="markAsRead(${id},${data[i].replied})">Read</button>`;
+                }
+                 else if (data[i].replied === true && data[i].viewed === true) {
+                    replied = `<input type="checkbox" disabled checked>`;
+                    mark = `<button type="button"
+                            class="btn btn-info "           
+                            onclick="markAsRead(${id},${data[i].replied})">Unread</button>`;
+                }
+                 else if (data[i].replied === true && data[i].viewed === false) {
+                    replied = `<input type="checkbox" disabled unchecked>`;
+                    mark = `<button type="button"
+                            class="btn btn-info "           
+                            onclick="markAsRead(${id},${data[i].replied})">Unread</button>`;
+                }
                 let tr = $("<tr/>");
                 tr.append(`
                             <td>${id}</td>
@@ -112,7 +124,8 @@ $(document).on('click', '#submit-btn', async () => {
         }
     });
     theModal.modal('hide');
-    await getFeedbackRequestTable();
+    getFeedbackRequestTable(false).then(r => {
+    });
 });
 
 function showInterestedBook(bookId, bookName, bookCoverImage) {

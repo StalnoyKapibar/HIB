@@ -49,26 +49,55 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
     }
 
     @Override
-    public List<BookNewDTO> getBookBySearchRequestAdvanced(String req) {
-        String name = ("%" + req + "%");
-        String hql = ("SELECT new com.project.model.BookNewDTO(b.id, b.originalLanguage.name, " +
-                "b.originalLanguage.nameTranslit, b.originalLanguage.author, b.originalLanguage.authorTranslit, b.description.en, " +
-                "b.originalLanguage.edition, b.originalLanguage.editionTranslit, b.yearOfEdition, b.pages, b.price, b.originalLanguageName, b.coverImage, b.category)" +
-                "FROM Book b where (b.originalLanguage.name like :name OR b.originalLanguage.nameTranslit like :name OR " +
-                "b.originalLanguage.author like :name OR b.originalLanguage.authorTranslit like :name) AND (b.isShow = true)");
-        List<BookNewDTO> list = entityManager.createQuery(hql, BookNewDTO.class)
-                .setParameter("name", name)
-                .getResultList();
-        return list;
-    }
-
-    @Override
-    public List<BookNewDTO> getBookBySearchRequest(String request, Long priceFrom, Long priceTo,
-                                                   String yearOfEditionFrom, String yearOfEditionTo, Long pagesFrom, Long pagesTo, String searchBy, List<String> categories) {
+    public BookSearchPageDTO getBookBySearchRequest(String request, Long priceFrom, Long priceTo, String yearOfEditionFrom, String yearOfEditionTo,
+                                                   Long pagesFrom, Long pagesTo, String searchBy, List<String> categories, Pageable pageable) {
+        int limitBookDTOOnPage = pageable.getPageSize();
+        int minNumberId = limitBookDTOOnPage * pageable.getPageNumber();
+        long amountOfBooks = getQuantityBooksBySearchRequest(request, priceFrom, priceTo, yearOfEditionFrom, yearOfEditionTo, pagesFrom, pagesTo, searchBy, categories);
         String name = ("%" + request + "%");
         String hql = ("SELECT new com.project.model.BookNewDTO(b.id, b.originalLanguage.name," +
                 "b.originalLanguage.nameTranslit, b.originalLanguage.author, b.originalLanguage.authorTranslit, b.description.en," +
-                "b.originalLanguage.edition, b.originalLanguage.editionTranslit, b.yearOfEdition, b.pages, b.price, b.originalLanguageName, b.coverImage, b.category)" +
+                "b.originalLanguage.edition, b.originalLanguage.editionTranslit, b.yearOfEdition, b.pages, b.price, b.originalLanguageName, b.coverImage, b.category) " +
+                "FROM Book b where b.isShow = true AND " +
+                "(((b.originalLanguage.name LIKE :name or b.originalLanguage.nameTranslit LIKE :name or " +
+                "b.originalLanguage.author LIKE :name or b.originalLanguage.authorTranslit LIKE :name) and :searchBy = 'name-author') OR" +
+                "((b.originalLanguage.name LIKE :name or b.originalLanguage.nameTranslit LIKE :name) and :searchBy = 'name') OR" +
+                "((b.originalLanguage.author LIKE :name or b.originalLanguage.authorTranslit LIKE :name) and :searchBy = 'author')) AND" +
+                "((b.pages >= :pagesFrom and b.pages <= :pagesTo) OR (b.pages >= :pagesFrom and :pagesTo is null) OR " +
+                "(:pagesFrom is null and b.pages <= :pagesTo) OR (:pagesFrom is null and :pagesTo is null)) AND " +
+                "((b.yearOfEdition >= :yearOfEditionFrom and b.yearOfEdition <= :yearOfEditionTo) OR (b.yearOfEdition >= :yearOfEditionFrom and :yearOfEditionTo = 'null') OR " +
+                "(:yearOfEditionFrom = 'null' and b.yearOfEdition <= :yearOfEditionTo) OR (:yearOfEditionFrom = 'null' and :yearOfEditionTo = 'null')) AND " +
+                "((b.category.categoryName in :categories) or ('undefined' in :categories)) AND" +
+                "((b.price >= :priceFrom and b.price <= :priceTo) OR (b.price >= :priceFrom and :priceTo = 0) OR " +
+                "(:priceFrom = 0 and b.price <= :priceTo) OR (:priceFrom = 0 and :priceTo = 0)) ORDER BY b.id ASC");
+        List<BookNewDTO> bookNewDTOList = entityManager.createQuery(hql, BookNewDTO.class)
+                .setParameter("name", name)
+                .setParameter("pagesFrom", pagesFrom)
+                .setParameter("pagesTo", pagesTo)
+                .setParameter("yearOfEditionFrom", yearOfEditionFrom)
+                .setParameter("yearOfEditionTo", yearOfEditionTo)
+                .setParameter("priceFrom", priceFrom)
+                .setParameter("priceTo", priceTo)
+                .setParameter("categories", categories)
+                .setParameter("searchBy", searchBy)
+                .setFirstResult(minNumberId)
+                .setMaxResults(limitBookDTOOnPage)
+                .getResultList();
+
+        BookSearchPageDTO pageableBookSearchDTO = new BookSearchPageDTO();
+        pageableBookSearchDTO.setBooks(bookNewDTOList);
+        pageableBookSearchDTO.setNumberPages(pageable.getPageNumber());
+        pageableBookSearchDTO.setSize(pageable.getPageSize());
+        pageableBookSearchDTO.setAmountOfBooksInDb(amountOfBooks);
+        pageableBookSearchDTO.setAmountOfPages((int) Math.ceil(Float.valueOf(amountOfBooks) / limitBookDTOOnPage));
+        return pageableBookSearchDTO;
+    }
+
+    @Override
+    public long getQuantityBooksBySearchRequest(String request, Long priceFrom, Long priceTo,
+                                               String yearOfEditionFrom, String yearOfEditionTo, Long pagesFrom, Long pagesTo, String searchBy, List<String> categories) {
+        String name = ("%" + request + "%");
+        String hql = ("SELECT new com.project.model.BookNewDTO(b.id)" +
                 "FROM Book b where b.isShow = true AND " +
                 "(((b.originalLanguage.name LIKE :name or b.originalLanguage.nameTranslit LIKE :name or " +
                 "b.originalLanguage.author LIKE :name or b.originalLanguage.authorTranslit LIKE :name) and :searchBy = 'name-author') OR" +
@@ -92,7 +121,7 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
                 .setParameter("categories", categories)
                 .setParameter("searchBy", searchBy)
                 .getResultList();
-        return list;
+        return Long.valueOf(list.size());
     }
 
     @Override

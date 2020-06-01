@@ -2,9 +2,13 @@ package com.project.controller.restcontroller;
 
 import com.project.dao.CategoryDAO;
 import com.project.model.BookNewDTO;
+import com.project.model.BookSearchPageDTO;
 import com.project.search.BookSearch;
 import com.project.service.abstraction.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -34,25 +38,15 @@ public class SearchController {
         return bookSearch.searchByCategory(categoryId);
     }
 
-    @GetMapping("/searchResult")
-    public List<BookNewDTO> BooksSearchSidebar(@RequestParam(value = "request") String req) {
-        return bookSearch.searchSidebar(req);
-    }
-
     @GetMapping("/searchAdvanced")
-    public List<BookNewDTO> BooksSearchByParameters(@RequestParam(value = "request") String request, @RequestParam(value = "searchBy") String searchBy,
-                                           @RequestParam List<String> categories, @RequestParam(value = "priceFrom") Long priceFrom,
-                                           @RequestParam(value = "priceTo") Long priceTo, @RequestParam(value = "yearOfEditionFrom") Long yearOfEditionFrom,
-                                           @RequestParam(value = "yearOfEditionTo") Long yearOfEditionTo, @RequestParam(value = "pagesFrom") Long pagesFrom,
-                                           @RequestParam(value = "pagesTo") Long pagesTo) {
-        List<BookNewDTO> books = bookSearch.searchByParameters(request, priceFrom, priceTo, String.valueOf(yearOfEditionFrom), String.valueOf(yearOfEditionTo),
-                pagesFrom, pagesTo, searchBy, categories);
-        return books;
-    }
-
-    @GetMapping("/api/booksSearchPage")
-    public List<BookNewDTO> getAllBooksSearchPage() {
-        List<BookNewDTO> books = bookService.getAllBooksSearchPage();
+    public BookSearchPageDTO BooksSearchByParameters(@RequestParam(value = "request") String request, @RequestParam(value = "searchBy") String searchBy,
+                                                     @RequestParam List<String> categories, @RequestParam(value = "priceFrom") Long priceFrom,
+                                                     @RequestParam(value = "priceTo") Long priceTo, @RequestParam(value = "yearOfEditionFrom") Long yearOfEditionFrom,
+                                                     @RequestParam(value = "yearOfEditionTo") Long yearOfEditionTo, @RequestParam(value = "pagesFrom") Long pagesFrom,
+                                                     @RequestParam(value = "pagesTo") Long pagesTo, @RequestParam(value = "page") int page, @RequestParam(value = "size") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        BookSearchPageDTO books = bookSearch.searchByParameters(request, priceFrom, priceTo, String.valueOf(yearOfEditionFrom), String.valueOf(yearOfEditionTo),
+                pagesFrom, pagesTo, searchBy, categories, pageable);
         return books;
     }
 

@@ -58,7 +58,6 @@ public class OrderController {
         order.setContacts(contacts);
         order.setComment(contacts.getComment());
         if (httpSession.getAttribute("cartId") == null) {
-
             order.setItems(((ShoppingCartDTO) httpSession.getAttribute("shoppingcart")).getCartItems());
             for (int i = 1; i <= ((ShoppingCartDTO) httpSession.getAttribute("shoppingcart")).getCartItems().size(); i++) {
                 order.getItems().get(i - 1).setId((long) i + cartService.getMaxIdCartItem().size());
@@ -93,7 +92,11 @@ public class OrderController {
     @GetMapping("/order/size")
     private int getOrderSize(HttpSession httpSession) {
         Long userId = (Long) httpSession.getAttribute("userId");
-        return orderService.getOrdersByUserId(userId).size();
+        return (int) orderService
+                .getOrdersByUserId(userId)
+                .stream()
+                .filter(order -> order.getStatus() == Status.PROCESSING)
+                .count();
     }
 
     @GetMapping("/api/admin/getAllOrders")
