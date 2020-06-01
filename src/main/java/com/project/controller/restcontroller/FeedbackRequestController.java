@@ -1,7 +1,9 @@
 package com.project.controller.restcontroller;
 
 import com.project.mail.MailService;
+import com.project.model.DataEnterInAdminPanel;
 import com.project.model.FeedbackRequest;
+import com.project.service.DataEnterInAdminPanelService;
 import com.project.service.abstraction.BookService;
 import com.project.service.abstraction.FeedbackRequestService;
 import lombok.AllArgsConstructor;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.HtmlUtils;
 
 import javax.servlet.http.HttpSession;
+import java.time.Instant;
 import java.util.List;
 
 @RestController
@@ -25,11 +28,13 @@ public class FeedbackRequestController {
     private final MailService mailService;
     private final Environment env;
     private final BookService bookService;
+    private DataEnterInAdminPanelService dataEnterInAdminPanelService;
 
     @PostMapping(value = "/api/feedback-request", params = "book_id")
     public FeedbackRequest sendNewFeedBackRequest(@RequestBody FeedbackRequest feedbackRequest, @RequestParam("book_id") String bookId) {
         LOGGER.debug("POST request '/feedback-request' with {}", feedbackRequest);
         feedbackRequest.setId(null);
+        feedbackRequest.setData(Instant.now().getEpochSecond());
         feedbackRequest.setReplied(false);
         feedbackRequest.setViewed(false);
         feedbackRequest.setSenderName(HtmlUtils.htmlEscape(feedbackRequest.getSenderName()));
@@ -67,7 +72,11 @@ public class FeedbackRequestController {
     }
 
     @GetMapping("/api/admin/feedback-request")
-    public List<FeedbackRequest> getByReplied(@RequestParam Boolean replied) {
+    public List<FeedbackRequest> getByReplied(HttpSession session, @RequestParam Boolean replied) {
+        DataEnterInAdminPanel data = (DataEnterInAdminPanel) session.getAttribute("data");
+        data.setDataEnterInFeedback(Instant.now().getEpochSecond());
+        dataEnterInAdminPanelService.update(data);
+        session.setAttribute("data", data);
         return feedbackRequestService.getByReplied(replied);
     }
 
@@ -77,13 +86,14 @@ public class FeedbackRequestController {
     }
 
     @GetMapping(value = "/api/admin/feedback-request-count")
-    public int getFeedbackRequestCount(HttpSession session) {
-        Integer feedbackCount = (Integer) session.getAttribute("feedbackCount");
-        if (feedbackCount != null) {
-            return feedbackRequestService.findAll().size() - feedbackCount;
+    public long getFeedbackRequestCount(HttpSession session) {
+        if (session.getAttribute("data") == null) {
+            session.setAttribute("data", dataEnterInAdminPanelService.findById(1L));
+            DataEnterInAdminPanel data = (DataEnterInAdminPanel) session.getAttribute("data");
+            return feedbackRequestService.getCountOfFeedBack(data.getDataEnterInFeedback());
         } else {
-            session.setAttribute("feedbackCount", feedbackRequestService.findAll().size());
-            return 0;
+            DataEnterInAdminPanel data = (DataEnterInAdminPanel) session.getAttribute("data");
+            return feedbackRequestService.getCountOfFeedBack(data.getDataEnterInFeedback());
         }
     }
 }

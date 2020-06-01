@@ -33,4 +33,6 @@ public class FeedbackRequest {
 
     @Column(name = "viewed")
     private Boolean viewed;
+
+    private long data;
 }
