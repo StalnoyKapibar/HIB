@@ -13,10 +13,12 @@ $(document).ready(function () {
 });
 
 $('#sidebar').mouseenter(() => {
+    $('#mainNameInPage').text('History in books');
     $('#page-wrapper').removeClass('pinned');
 });
 
 $('#sidebar').mouseleave(() => {
+    $('#mainNameInPage').text('HIB');
     $('#page-wrapper').addClass('pinned');
 });
 
