@@ -30,4 +30,7 @@ public class FeedbackRequest {
 
     @OneToOne(cascade = CascadeType.MERGE)
     private Book book;
+
+    @Column(name = "viewed")
+    private Boolean viewed;
 }

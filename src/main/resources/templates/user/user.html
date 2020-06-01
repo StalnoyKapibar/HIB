@@ -22,6 +22,7 @@
     <link href="/static/fonts/font.css" rel="stylesheet">
     <link href="/static/fonts/font-awesome.css" rel="stylesheet">
     <link href="/static/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/error.css">
     <script src="/static/js/lib/jquery.min.js"></script>
     <script src="/static/js/lib/popper.min.js"></script>
     <script src="/static/js/lib/bootstrap.min.js"></script>
@@ -46,7 +47,7 @@
         <div class="sidebar-content">
             <!--    Sidebar-brand    -->
             <div class="sidebar-item sidebar-brand">
-                <a href="/home">History in books</a>
+                <a id="mainNameInPage" href="/home"></a>
             </div>
             <!--    Sidebar-header    -->
             <div class="sidebar-menu sidebar-header d-flex flex-nowrap">
@@ -326,7 +327,7 @@
     <script src="/static/js/utils/common-function.js"></script>
         <!--    Page-content    -->
         <th:block
-                th:if="${#httpServletRequest.getRequestURI() == '/home' || #httpServletRequest.getRequestURI().contains('error')}">
+                th:if="${#httpServletRequest.getRequestURI() == '/home'}">
             <th:block th:include="home :: page-content">
             </th:block>
         </th:block>
@@ -353,6 +354,15 @@
         <th:block th:if="${#httpServletRequest.getRequestURI().contains('/search')}">
             <th:block th:include="search :: search-page">
             </th:block>
+        </th:block>
+        <th:block th:if="${#httpServletRequest.getRequestURI().contains('not-found')}">
+            <th:block th:exclude="">
+             <th:block th:include="error :: not-found">
+             </th:block>
+        </th:block>
+        <th:block th:if="${#httpServletRequest.getRequestURI().contains('errors/server-error')}">
+            <th:block th:include="error :: server-error">
+             </th:block>
         </th:block>
     </div>
 

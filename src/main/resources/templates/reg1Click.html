@@ -105,6 +105,16 @@
                 <div class="col-12">
                     <form th:action="@{/1clickreg}" th:object="${user}" method="post" name="registration-form">
                         <div class="form-group">
+                            <label for="firstNameInputField">Name</label>
+                            <input type="name" class="form-control" id="firstNameInputField" name="firstName"
+                                   placeholder="Name" required th:field="*{firstName}">
+                        </div>
+                        <div class="form-group">
+                            <label for="phoneInputField">Phone</label>
+                            <input type="phone" class="form-control" id="phoneInputField" name="phone"
+                                   placeholder="Phone" required th:field="*{phone}">
+                        </div>
+                        <div class="form-group">
                             <label for="emailInputField">Email</label>
                             <input type="email" class="form-control" id="emailInputField" name="email"
                                    placeholder="Email" required th:field="*{email}">

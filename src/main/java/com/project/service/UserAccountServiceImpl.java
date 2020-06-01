@@ -92,6 +92,8 @@ public class UserAccountServiceImpl implements UserAccountService {
                 .tokenToConfirmEmail(UUID.randomUUID().toString())
                 .roles(new Role(1L, "ROLE_USER"))
                 .autoReg(user.isAutoReg())
+                .phone(user.getPhone())
+                .firstName(user.getFirstName())
                 .build();
 
         try {

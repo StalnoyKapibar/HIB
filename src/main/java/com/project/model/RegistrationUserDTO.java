@@ -42,4 +42,6 @@ public class RegistrationUserDTO {
 
     private boolean autoReg;
 
+    private String phone;
+
 }
