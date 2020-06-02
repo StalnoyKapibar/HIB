@@ -89,7 +89,7 @@ public class UserController {
         }
         //After successfully Creating user
 
-        view.setViewName("redirect:/home");
+        view.setViewName("redirect:/reqapprove");
 
         return view;
     }
