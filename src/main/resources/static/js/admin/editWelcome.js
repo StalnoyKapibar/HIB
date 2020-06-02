@@ -316,13 +316,9 @@ function buildEditBook(xx) {
     }
 }
 
-function openEdit(id) {
-    localStorage.setItem('tmpEditBookId', id);
-}
 
 function openEdit(id) {
-    localStorage.setItem('tmpEditBookId', id);
-    window.open('/edit', '_blank');
+    window.open("/edit/" + id, '_blank');
 }
 
 function uploadImageNew() {
