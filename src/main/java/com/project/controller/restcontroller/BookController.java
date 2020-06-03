@@ -2,7 +2,6 @@ package com.project.controller.restcontroller;
 
 import com.project.HIBParser.HibParser;
 import com.project.model.*;
-import com.project.search.BookSearch;
 import com.project.service.abstraction.BookService;
 import com.project.service.abstraction.StorageService;
 import com.project.util.BookDTOWithFieldsForTable;
@@ -24,7 +23,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -204,5 +202,10 @@ public class BookController {
     @GetMapping(value = "/api/allBookForLiveSearch")
     public List<BookNewDTO> getAllLightBookDtoForSearch() {
         return bookService.getAllLightBookDtoForSearch();
+    }
+
+    @GetMapping("/api/admin/book-count")
+    public int getTotalBooks() {
+        return bookService.getSizeOfTotalBooks();
     }
 }

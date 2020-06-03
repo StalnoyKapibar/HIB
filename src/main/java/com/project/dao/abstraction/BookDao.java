@@ -42,4 +42,6 @@ public interface BookDao extends GenericDao<Long, Book> {
 
     List<BookNewDTO> getAllLightBookDtoForSearch();
 
+    int getSizeOfTotalBooks();
+
 }
