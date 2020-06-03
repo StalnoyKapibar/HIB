@@ -189,7 +189,7 @@ async function setTreeView(category) {
         row =
             `<div class="category">
                 <div class="custom-control custom-checkbox form-check-inline" id="heading-${category[i].id}">
-                    <input class="custom-control-input" type="checkbox" id="check-${category[i].id}" value="${category[i].categoryName}">
+                    <input class="custom-control-input" type="checkbox" id="check-${category[i].id}" value="${category[i].id}">
                     <label class="custom-control-label" for="check-${category[i].id}"></label>
                     <label class="collapsed" data-toggle="collapse" data-target="#collapse-${category[i].id}" aria-expanded="false" aria-controls="collapse-${category[i].id}">
                        ${category[i].categoryName}(${await getCountBooksByCat(category[i].path)})
@@ -213,7 +213,7 @@ async function setChilds(category) {
             row +=
                 `<div class="category">
                     <div class="custom-control custom-checkbox form-check-inline" id="heading-${category[i].id}">
-                        <input class="custom-control-input" type="checkbox" id="check-${category[i].id}" value="${category[i].categoryName}">
+                        <input class="custom-control-input" type="checkbox" id="check-${category[i].id}" value="${category[i].id}">
                         <label class="custom-control-label" for="check-${category[i].id}">
                             ${category[i].categoryName}(${await getCountBooksByCat(category[i].path)})
                         </label>
@@ -223,7 +223,7 @@ async function setChilds(category) {
             row +=
                 `<div class="category">
                     <div class="custom-control custom-checkbox form-check-inline" id="heading-${category[i].id}">
-                        <input class="custom-control-input" type="checkbox" id="check-${category[i].id}" value="${category[i].categoryName}">
+                        <input class="custom-control-input" type="checkbox" id="check-${category[i].id}" value="${category[i].id}">
                         <label class="custom-control-label" for="check-${category[i].id}"></label>
                         <label class="collapsed" data-toggle="collapse" data-target="#collapse-${category[i].id}" aria-expanded="false" aria-controls="collapse-${category[i].id}">
                            ${category[i].categoryName}(${await getCountBooksByCat(category[i].path)})
