@@ -155,7 +155,7 @@
                                     <h4>
                                     <strong> Your password:</strong> <span th:text="${password}">Password</span> <br>
                                     </h4>
-                                    <button><a th:href="|http://localhost:8080/confirmEmail?token=${id}|"> Подтвердить аккаунт</a> </button>
+                                    <button><a th:href="@{http://localhost:8080/confirmEmail(token=${id})}"> Подтвердить аккаунт</a> </button>
                                 </td>
                                 <td width="15"></td>
 
