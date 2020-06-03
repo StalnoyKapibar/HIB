@@ -12,6 +12,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -34,7 +35,7 @@ public class ErrorController extends AbstractErrorController {
 
     @ExceptionHandler(NotFoundException.class)
     public ModelAndView notFound() throws IOException {
-        ModelAndView view = new ModelAndView(new RedirectView("home"));
+        ModelAndView view = new ModelAndView(new RedirectView("/errors/not-found"));
         return view;
     }
 
@@ -49,6 +50,12 @@ public class ErrorController extends AbstractErrorController {
     public ModelAndView badCredential() {
         ModelAndView view = new ModelAndView("user/user");
         view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessageOnBadCredential());
+        return view;
+    }
+
+    @ExceptionHandler(HttpServerErrorException.class)
+    public ModelAndView serverError() throws IOException {
+        ModelAndView view = new ModelAndView(new RedirectView("errors/server-error"));
         return view;
     }
 
@@ -74,7 +81,7 @@ public class ErrorController extends AbstractErrorController {
                     throw new NoValuePresentException("Can`t find UserAccount with this credential");
                 }
             } else {
-                throw new NotFoundException("Can`t to determine exception");
+                throw new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
         return ResponseEntity.status(status).body(getErrorAttributes(request, false));

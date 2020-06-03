@@ -12,7 +12,6 @@
     <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
           integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" rel="stylesheet">
     <link href="//malihu.github.io/custom-scrollbar/jquery.mCustomScrollbar.min.css" rel="stylesheet">
-
     <link href="/static/css/user/sidebar/main.css" rel="stylesheet">
     <link href="/static/css/style.css" rel="stylesheet">
     <link href="/static/css/user/sidebar/sidebar-themes.css" rel="stylesheet">
@@ -23,6 +22,7 @@
     <link href="/static/fonts/font.css" rel="stylesheet">
     <link href="/static/fonts/font-awesome.css" rel="stylesheet">
     <link href="/static/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/error.css">
     <script src="/static/js/lib/jquery.min.js"></script>
     <script src="/static/js/lib/popper.min.js"></script>
     <script src="/static/js/lib/bootstrap.min.js"></script>
@@ -30,6 +30,7 @@
     <script crossorigin="anonymous" src="https://kit.fontawesome.com/db08edad0b.js"></script>
 </head>
 <body>
+
 <div id="page-wrapper" class="page-wrapper default-theme sidebar-bg bg1 toggled pinned">
     <div class="wide top">
         <h2 id="greekText"></h2>
@@ -44,11 +45,11 @@
     </div>
     <nav class="sidebar-wrapper" id="sidebar">
         <div class="sidebar-content">
-            <!-- sidebar-brand  -->
+            <!--    Sidebar-brand    -->
             <div class="sidebar-item sidebar-brand">
-                <a href="/home">History in books</a>
+                <a id="mainNameInPage" href="/home"></a>
             </div>
-            <!-- sidebar-header  -->
+            <!--    Sidebar-header    -->
             <div class="sidebar-menu sidebar-header d-flex flex-nowrap">
                 <th:block sec:authorize="!isAuthenticated()">
                     <ul>
@@ -61,7 +62,6 @@
                         </li>
                     </ul>
                 </th:block>
-
                 <th:block sec:authorize="isAuthenticated()">
                     <div class="user-info">
                         <span class="user-name">
@@ -77,10 +77,11 @@
                     <i class="fa fa-power-off text-center"></i>
                 </a>
             </th:block>
-            <!-- sidebar-search  -->
+            <!--    Sidebar-search    -->
             <div class="sidebar-item sidebar-search">
                 <div>
                     <div class="input-group">
+
                         <input class="form-control search-menu search-input-dots-loc" id="searchInput" placeholder="Search..." type="text">
 
                         <div class="input-group-append">
@@ -89,7 +90,6 @@
                                 </span>
                         </div>
                     </div>
-
                 </div>
                 <ul class="ul-books" style="color: #c7c7c7"></ul>
             </div>
@@ -103,7 +103,7 @@
                     </li>
                 </ul>
             </div>
-            <!-- sidebar-menu  -->
+            <!--    Sidebar-menu    -->
             <div class="sidebar-item sidebar-menu">
                 <ul>
                     <li class="header-menu">
@@ -199,9 +199,8 @@
                     </th:block>
                 </ul>
             </div>
-            <!-- sidebar-menu  -->
         </div>
-        <!-- sidebar-footer  -->
+<!-- sidebar-footer  -->
 <!--        <div class="sidebar-footer">-->
 <!--            <div class="pinned-footer">-->
 <!--                <a href="#">-->
@@ -210,7 +209,6 @@
 <!--            </div>-->
 <!--        </div>-->
     </nav>
-
     <div aria-hidden="true" aria-labelledby="staticBackdropLabel" class="modal fade" data-backdrop="static"
          id="staticBackdrop"
          role="dialog" tabindex="-1">
@@ -221,7 +219,6 @@
             </div>
         </div>
     </div>
-
     <div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="feedback-modal" role="dialog"
          tabindex="-1">
         <div class="modal-dialog" role="document">
@@ -262,7 +259,6 @@
             </div>
         </div>
     </div>
-
     <div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="signModal" role="dialog"
          tabindex="-1"
          th:fragment="sign-in-modal">
@@ -317,17 +313,13 @@
                             </a>
                         </div>
                     </div>
-                    <div>
-
-                    </div>
                     <div class="modal-footer mt-3">
                         <a class="btn col-12 border mt-3 register-new-btn" href="/registration" role="button"
                            style="background-color: #AEC5EB">Register new
                             profile</a>
                         <button class="btn btn-warning col-12 border mt-3 forgot-pass-btn" onclick="forgotPassword()"
                                 style="background-color: #E9AFA3"
-                                type="button">Forgot
-                            your password ?
+                                type="button">Forgot your password?
                         </button>
                     </div>
                 </div>
@@ -335,9 +327,9 @@
         </div>
     </div>
     <script src="/static/js/utils/common-function.js"></script>
-        <!-- page-content  -->
+        <!--    Page-content    -->
         <th:block
-                th:if="${#httpServletRequest.getRequestURI() == '/home' || #httpServletRequest.getRequestURI().contains('error')}">
+                th:if="${#httpServletRequest.getRequestURI() == '/home'}">
             <th:block th:include="home :: page-content">
             </th:block>
         </th:block>
@@ -364,6 +356,15 @@
         <th:block th:if="${#httpServletRequest.getRequestURI().contains('/search')}">
             <th:block th:include="search :: search-page">
             </th:block>
+        </th:block>
+        <th:block th:if="${#httpServletRequest.getRequestURI().contains('not-found')}">
+            <th:block th:exclude="">
+             <th:block th:include="error :: not-found">
+             </th:block>
+        </th:block>
+        <th:block th:if="${#httpServletRequest.getRequestURI().contains('errors/server-error')}">
+            <th:block th:include="error :: server-error">
+             </th:block>
         </th:block>
     </div>
 
@@ -394,7 +395,9 @@
         }, 300)
     });
 </script>
+
 <script src="/static/js/user/profile/profile.js"></script>
+
 </body>
 <!--user.html-->
 </html>

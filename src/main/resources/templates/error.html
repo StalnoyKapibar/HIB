@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Internal Server Error</title>
+</head>
+<body>
+<div class="vc-container" th:fragment="server-error">>
+    <div class="vc-content">
+        <h1 class="vc-heading">500</h1>
+        <p class="vc-sub-heading">Internal Server <span class="blink-infinite">Error</span></p>
+    </div>
+</div>
+<div class="vc-container" th:fragment="not-found">>
+    <div class="vc-content">
+        <h1 class="vc-heading">404</h1>
+        <p class="vc-sub-heading">Not <span class="blink-infinite">Found</span></p>
+    </div>
+</div>
+</body>
+</html>

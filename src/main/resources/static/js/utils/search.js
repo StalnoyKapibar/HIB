@@ -1,14 +1,102 @@
 let row, primary;
 let isCheckedCategory = false;
+let currentPage = 0;
+let amountBooksInPage = 0;
+let amountBooksInDb;
+let ddmAmountBook = $("#ddmAmountBook");
 
-$(document).ready(function () {
-    setPageFields();
-    getCategoryTree();
-    setLocaleFields();
+$(document).ready(async function () {
     getLanguage();
+    getCategoryTree();
+    setListeners();
+    setLocaleFields();
+    amountBooksInPage = ddmAmountBook.text();
+    getPageWithBooks(ddmAmountBook.text(), currentPage++);
+    $(document).ready(function () {
+        setTimeout(() => {
+            $(".preloader").show("slow");
+        }, 300)
+        setTimeout(() => {
+            $(".preloader").hide("slow");
+        }, 1700)
+    });
 });
 
-$(document).ready(function () {
+function getQuantityPage() {
+    if (amountBooksInDb < amountBooksInPage) {
+        return 1;
+    }
+    return Math.ceil(amountBooksInDb / amountBooksInPage);
+}
+
+async function addPagination() {
+    let numberOfPagesInPagination = 7;
+    let quantityPage = getQuantityPage();
+    let startIter;
+    let endIter = currentPage;
+    let pag;
+    let halfPages = Math.floor(numberOfPagesInPagination / 2);
+    if (quantityPage <= numberOfPagesInPagination || quantityPage === 0) {
+        startIter = 1;
+        endIter = quantityPage;
+    } else {
+        if (currentPage - halfPages <= 0) {
+            startIter = 1;
+            endIter = numberOfPagesInPagination;
+        } else if (currentPage + halfPages > quantityPage) {
+            startIter = quantityPage - numberOfPagesInPagination + 1;
+            endIter = quantityPage;
+        } else {
+            startIter = currentPage - halfPages;
+            endIter = currentPage + halfPages;
+        }
+    }
+    pag = `<nav aria-label="Page navigation example">
+                    <ul class="pagination">`;
+    pag += currentPage === 1 ? `<li class="page-item disabled"><a class="page-link" href="#" tabindex="-1">` :
+        `<li class="page-item"><a class="page-link" onclick="loadMore(1)" href="#">`;
+    pag += `<span aria-hidden="true">&laquo;</span></a></li>`;
+    for (let i = startIter; i < endIter + 1; i++) {
+        if (currentPage === i) {
+            pag += `<li class="page-item active"><a class="page-link" onclick="loadMore(${i})">${i}</a></li>`;
+        } else {
+            pag += `<li class="page-item"><a class="page-link" onclick="loadMore(${i})">${i}</a></li>`;
+        }
+    }
+    pag += currentPage === quantityPage ? `<li class="page-item disabled">` : `<li class="page-item">`
+    pag += `<a class="page-link" onclick="loadMore(${quantityPage})" href="#"><span aria-hidden="true">&raquo;</span></a></li>
+                    </ul>
+                </nav>`;
+    $("#rowForPagination").html(pag);
+}
+
+function loadMore(pageNumber) {
+    currentPage = pageNumber;
+    advancedSearch(amountBooksInPage, pageNumber - 1)
+}
+
+// function getPageWithBooks(amount, page) {
+//     GET(`/api/book?limit=${amount}&start=${page}`)
+//         .then(json)
+//         .then((data) => {
+//             amountBooksInDb = data.amountOfBooksInDb;
+//             addBooksToPage(data.books);
+//         })
+// }
+
+function setAmountBooksInPage(amount) {
+    currentPage = 0;
+    amountBooksInPage = amount;
+    ddmAmountBook.text(amount);
+    advancedSearch(amount, 0);
+}
+
+function setListeners () {
+    $('.search-submit').on('click', () => {
+        currentPage = 0;
+        advancedSearch(ddmAmountBook.text(), currentPage++)
+    });
+
     $('#input-categories').on('click', '.custom-control-input', function () {
         let $category = $(this).closest('.category');
         if ($(this).is(':checked')) {
@@ -32,9 +120,9 @@ $(document).ready(function () {
                     isCheckedSibling = true;
                     return;
                 }
-            })
+            });
             return isCheckedSibling;
-        }
+        };
         const isChecked = $(this).is(':checked');
         let nearCategory = $(this).parent().parent();
         let isCheckedSiblings = getCheckedSiblings(nearCategory);
@@ -50,15 +138,15 @@ $(document).ready(function () {
         isCheckedCategory = $checkboxes.find('.custom-control-input').filter(':checked').length > 0;
     });
 
-    $(document).keypress(function(event){
+    $(document).keypress(function (event) {
         var keycode = (event.keyCode ? event.keyCode : event.which);
-        if(keycode == '13'&& $("#search-input").val().trim() !== ''){
+        if (keycode == '13'&& $("#search-input").val().trim() !== '') {
             $('#search-submit').click();
         }
     });
-});
+}
 
-function getCategoryTree() {
+async function getCategoryTree() {
     fetch('/categories/gettree', {}).then(function (response) {
         return response.json()
     })
@@ -79,7 +167,7 @@ function getCategoryTree() {
             }
             let tree = getUnflatten(categoryArr, null);
             setTreeView(tree);
-        })
+        });
 }
 
 function getUnflatten(arr, parentid) {
@@ -87,7 +175,6 @@ function getUnflatten(arr, parentid) {
     for (const category of arr) {
         if (category.parentId == parentid) {
             let children = getUnflatten(arr, category.id);
-
             if (children.length) {
                 category.childrens = children
             }
@@ -100,7 +187,7 @@ function getUnflatten(arr, parentid) {
 async function setTreeView(category) {
     for (let i in category) {
         row =
-            `<div class="category">
+            `<div class="category text-nowrap">
                 <div class="custom-control custom-checkbox form-check-inline" id="heading-${category[i].id}">
                     <input class="custom-control-input" type="checkbox" id="check-${category[i].id}" value="${category[i].categoryName}">
                     <label class="custom-control-label" for="check-${category[i].id}"></label>
@@ -125,7 +212,7 @@ async function setChilds(category) {
     for (let i in category) {
         if (category[i].childrens === undefined) {
             row +=
-                `<div class="category">
+                `<div class="category text-nowrap">
                     <div class="custom-control custom-checkbox form-check-inline" id="heading-${category[i].id}">
                         <input class="custom-control-input" type="checkbox" id="check-${category[i].id}" value="${category[i].categoryName}">
                         <label class="custom-control-label" for="check-${category[i].id}">
@@ -135,7 +222,7 @@ async function setChilds(category) {
                 </div>`;
         } else {
             row +=
-                `<div class="category">
+                `<div class="category text-nowrap">
                     <div class="custom-control custom-checkbox form-check-inline" id="heading-${category[i].id}">
                         <input class="custom-control-input" type="checkbox" id="check-${category[i].id}" value="${category[i].categoryName}">
                         <label class="custom-control-label" for="check-${category[i].id}"></label>
@@ -158,36 +245,8 @@ async function setChilds(category) {
     return row;
 }
 
-function parse_query_string(query) {
-    var vars = query.split("&");
-    var query_string = {};
-    for (var i = 0; i < vars.length; i++) {
-        var pair = vars[i].split("=");
-        var key = decodeURIComponent(pair[0]);
-        var value = decodeURIComponent(pair[1]);
-        // If first entry with this name
-        if (typeof query_string[key] === "undefined") {
-            query_string[key] = decodeURIComponent(value);
-            // If second entry with this name
-        } else if (typeof query_string[key] === "string") {
-            var arr = [query_string[key], decodeURIComponent(value)];
-            query_string[key] = arr;
-            // If third or later entry with this name
-        } else {
-            query_string[key].push(decodeURIComponent(value));
-        }
-    }
-    return query_string;
-}
-
-function advancedSearch() {
-    let request;
-    if ($('#search-input').val().trim().toLowerCase() === "") {
-        request = window.location.search.substring(9);
-        window.location.search = "";
-    } else {
-        request = $('#search-input').val().toLowerCase().trim();
-    }
+async function advancedSearch(amount, page) {
+    let request = $('#search-input').val();
     let priceFrom = $('#input-price-from').val() * 100;
     let priceTo = $('#input-price-to').val() * 100;
     let yearOfEditionFrom = $('#input-year-of-edition-from').val();
@@ -211,7 +270,7 @@ function advancedSearch() {
     }
     fetch("/searchAdvanced?request=" + request + "&searchBy=" + searchBy + categoryRequest +
         "&priceFrom=" + priceFrom + "&priceTo=" + priceTo + "&yearOfEditionFrom=" + yearOfEditionFrom + "&yearOfEditionTo=" + yearOfEditionTo +
-        "&pagesFrom=" + pagesFrom + "&pagesTo=" + pagesTo, {
+        "&pagesFrom=" + pagesFrom + "&pagesTo=" + pagesTo + "&page=" + page + "&size=" + amount, {
         method: "GET",
         headers: {
             'Content-Type': 'application/json',
@@ -220,55 +279,35 @@ function advancedSearch() {
     })
         .then(data => data.json())
         .then(function (data) {
-            setLocaleFields()
-            addFindeBooks(data)
+            setLocaleFields();
+            amountBooksInDb = data.amountOfBooksInDb;
+            addFindeBooks(data.books)
         });
+}
+
+function getPageWithBooks(amount, page) {
+    setTimeout(function(){
+        if (window.location.pathname.split("/").pop() === "search") {
+            let request = decodeURIComponent(window.location.search).split("=").pop();
+            $('#search-input').val(request);
+            let url = window.location.pathname;
+            history.pushState(null, null, url);
+            advancedSearch(amount, page);
+        } else {
+            let checkId = '#check-' + window.location.pathname.split("/").pop();
+            $(checkId).click();
+            advancedSearch(amount, page);
+            let tmp = [];
+            tmp = window.location.pathname.split("/");
+            tmp.length = tmp.length - 1;
+            let url = tmp.join("/");
+            history.pushState(null, null, url);
+        }
+    },2000);
 
 }
 
-async function setPageFields() {
-    if (window.location.search === "" && window.location.pathname.split("/").pop() === "search") {
-        await fetch("/api/booksSearchPage", {
-            method: "GET",
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            }
-        })
-            .then(data => data.json())
-            .then(function (data) {
-                addFindeBooks(data)
-            });
-    } else if (window.location.search === "") {
-        await fetch("/api" + window.location.pathname, {
-            method: "GET",
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            }
-        })
-            .then(data => data.json())
-            .then(function (data) {
-                setLocaleFields()
-                addFindeBooks(data)
-            });
-    } else {
-        await fetch("/searchResult" + window.location.search, {
-            method: "GET",
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            }
-        })
-            .then(data => data.json())
-            .then(function (data) {
-                setLocaleFields()
-                addFindeBooks(data)
-            });
-    }
-}
-
-function addFindeBooks(data) {
+async function addFindeBooks(data) {
     $('table').empty();
     let table = [];
     table.push(`<thead>
@@ -288,6 +327,15 @@ function addFindeBooks(data) {
     $('table').append($(table.join('')));
     let tr = [];
     for (let i = 0; i < data.length; i++) {
+        if (data[i].yearOfEdition == null) {
+            data[i].yearOfEdition = "-";
+        } if(data[i].category.categoryName == null) {
+            data[i].category.categoryName = "-";
+        } if(data[i].pages == null) {
+            data[i].pages = "-";
+        } if(data[i].price == null) {
+            data[i].price = "-";
+        }
         tr.push(`<tr>
                                 <td class="align-middle"><img src="../images/book${data[i].id}/${data[i].coverImage}" style="max-width: 60px"></td>
                                 <td class="align-middle">${convertOriginalLanguageRows(data[i].author, data[i].authorTranslit)}</td>
@@ -307,6 +355,7 @@ function addFindeBooks(data) {
         );
     }
     $('table').append($(tr.join('')));
+    addPagination();
 }
 
 async function getCountBooksByCat(category) {

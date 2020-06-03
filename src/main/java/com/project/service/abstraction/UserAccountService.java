@@ -15,7 +15,8 @@ public interface UserAccountService {
 
     boolean emailExist(String email);
 
-    void sendEmailToConfirmAccount(UserAccount user);
+    UserAccount save1Clickreg(RegistrationUserDTO user) throws ConstraintViolationException;
+
 
     void setLocaleAndAuthDate(String email, String locale, long lastAuthDate);
 
@@ -26,6 +27,4 @@ public interface UserAccountService {
     UserAccount update(UserAccount userAccount);
 
     UserAccount findByLogin(String login);
-
-    UserAccount findByEmail(String email);
 }
