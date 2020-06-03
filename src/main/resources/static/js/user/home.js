@@ -64,7 +64,7 @@ async function addBooksToPage(books) {
 }
 
 function openEdit(id) {
-    window.open("/edit/" + id, '_blank');
+    window.open('/admin/edit' + id, '_blank');
 }
 
 async function getAUTH() {

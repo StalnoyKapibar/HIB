@@ -711,7 +711,7 @@ function getAllLocales() {
             nameVarOfLocaleStringWithId = resp;
             nameVarOfLocaleStringWithId.unshift("id");
             nameVarOfLocaleString = nameVarOfLocaleStringWithId.filter(t => t !== "id");
-            getBookDTOById(idd = last_segment);
+            getBookDTOById(idd = last_segment.substr(last_segment.length - 1));
         });
 }
 

@@ -24,9 +24,9 @@ $(document).ready(
 );
 
 $(document).ready(function () {
-    $(document).keypress(function(event){
+    $(document).keypress(function (event) {
         let keycode = (event.keyCode ? event.keyCode : event.which);
-        if (keycode == '13'&& $("#search-input-admin").val().trim() !== ''){
+        if (keycode == '13' && $("#search-input-admin").val().trim() !== '') {
             $('#button-search-input-admin').click();
         }
     });
@@ -160,6 +160,7 @@ function chanLang(x) {
     $('#search-input-admin').val('');
     pageBook(idPageable);
 }
+
 <!--  old search that uses languages -->
 // async function searchBook() {
 //     $('#pagination00').empty();
