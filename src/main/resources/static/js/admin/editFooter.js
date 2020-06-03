@@ -14,6 +14,7 @@ let currentLangIcon = $('#dd_menu_link');
 $(document).ready(function () {
     renderLangPanel().then(r => {
     });
+    setLocaleFields();
 });
 
 async function checkForAllLocalesExist(link) {
@@ -218,7 +219,7 @@ async function showSaveAlert() {
     saveBtn.hide();
     alertFooterContainer.empty();
     alertFooterContainer.append(`<div class="alert alert-success alert-dismissible fade show" role="alert">
-                                    <strong>Changes saved</strong> Changes will take effect in a few seconds.
+                                    <strong class="changes-saved-loc">Changes saved</strong> <div class="changes-will-longphrase-loc">Changes will take effect in a few seconds.</div>
                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -230,7 +231,7 @@ async function showWarningAlert() {
     saveBtn.show();
     alertFooterContainer.empty();
     alertFooterContainer.append(`<div class="alert alert-warning fade show" role="alert">
-                                    <strong>Warning</strong> You have unsaved changes
+                                    <strong class="warning-loc">Warning</strong> <div class="you-have-unsaved-changes-loc">You have unsaved changes</div>
                                 </div>`)
 }
 

@@ -74,14 +74,14 @@ function savePersonalInformationRequest(personalInformation) {
         .then(text)
         .then(function (resp) {
             if (resp === "error") {
-                showError(' This email address is used by another user!', 'emailUsedByUser');
+                showError(' This email address is used by another user!', 'email-used-by-user-loc');
                 setTimeout(hideError, 5000);
             } else {
                 if (resp === "synError") {
-                    showError('Invalid email format!', 'invalidEmailFormat');
+                    showError('Invalid email format!', 'invalid-email-format-loc');
                     setTimeout(hideError, 5000);
                 } else {
-                    showSuccess('Changes to personal information are successfully saved!', 'messSuccess');
+                    showSuccess('Changes to personal information are successfully saved!', 'mess-success-loc');
                     setTimeout(hideSuccess, 2000);
                 }
             }
@@ -126,7 +126,7 @@ function savePassword() {
     if (password0 === password1) {
         savePasswordReq(password0);
     } else {
-        showErrorPassword('Passwords don\'t match!', 'dontMatchPass');
+        showErrorPassword('Passwords don\'t match!', 'dont-match-pass-loc');
         setTimeout(hideErrorPassword, 5000);
     }
 }
@@ -153,14 +153,14 @@ function savePasswordReq(newPassword) {
         .then(function (resp) {
             if (resp === "passError") {
                 showErrorPassword('The password must be between 8 and 64 and can contain numbers and characters in the upper and lower registers, without spaces!',
-                    'incorrectDataPassword');
+                    'incorrect-data-password-loc');
                 setTimeout(hideErrorPassword, 5000);
             } else {
                 if (resp === "wrongPassword") {
-                    showErrorPassword('Wrong current password!', 'wrongCurrentPass');
+                    showErrorPassword('Wrong current password!', 'wrong-current-pass-loc');
                     setTimeout(hideErrorPassword, 5000);
                 } else {
-                    showSuccess('Password successfully saved!', 'passSuccessSaved');
+                    showSuccess('Password successfully saved!', 'pass-success-saved-loc');
                     setTimeout(hideSuccess, 2000);
                 }
             }

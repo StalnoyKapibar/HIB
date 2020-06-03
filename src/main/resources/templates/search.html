@@ -36,39 +36,39 @@
                 <div class="flex-column" id="search-sidebar" aria-orientation="vertical">
                     <form id="search-form">
                         <div class="form-group sidebar-item">
-                            <label for="input-pages" class="font-weight-bold" id="search_by_search_page_menu">Search by...</label>
+                            <label for="input-pages" class="font-weight-bold search-by-dots-loc" id="search_by_search_page_menu">Search by...</label>
                             <div class="form-group" id="search-by">
                                 <div class="custom-control custom-radio">
                                     <input class="custom-control-input" type="radio" name="searchBy"
                                            id="search-by-name-author" value="name-author" checked>
-                                    <label class="custom-control-label" for="search-by-name-author" id="name_author_search_by">
+                                    <label class="custom-control-label name-and-author-loc" for="search-by-name-author" id="name_author_search_by">
                                         name and author
                                     </label>
                                 </div>
                                 <div class="custom-control custom-radio">
                                     <input class="custom-control-input" type="radio" name="searchBy" id="search-by-name"
                                            value="name">
-                                    <label class="custom-control-label" for="search-by-name" id="name_search_by">
+                                    <label class="custom-control-label name-loc" for="search-by-name" id="name_search_by">
                                         name
                                     </label>
                                 </div>
                                 <div class="custom-control custom-radio">
                                     <input class="custom-control-input" type="radio" name="searchBy"
                                            id="search-by-author" value="author">
-                                    <label class="custom-control-label" for="search-by-author" id="author_search_by">
+                                    <label class="custom-control-label author-loc" for="search-by-author" id="author_search_by">
                                         author
                                     </label>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group sidebar-item">
-                            <label for="input-categories" class="font-weight-bold" id="categories_search_page_menu">Categories</label>
+                            <label for="input-categories" class="font-weight-bold categories-loc" id="categories_search_page_menu">Categories</label>
                             <div id="input-categories">
 
                             </div>
                         </div>
                         <div class="form-group sidebar-item">
-                            <label for="input-price" class="font-weight-bold" id="price_search_page_menu">Price, €</label>
+                            <label for="input-price" class="font-weight-bold" id="price_search_page_menu"><div class="price-loc">Price</div> , €</label>
                             <div class="form-row" id="input-price">
                                 <div class="col-auto mb-1">
                                     <input type="number" step="any" min="0" class="form-control from-form" id="input-price-from"
@@ -81,7 +81,7 @@
                             </div>
                         </div>
                         <div class="form-group sidebar-item">
-                            <label for="input-year-edition" class="font-weight-bold" id="edition_search_page_menu">Year of edition</label>
+                            <label for="input-year-edition" class="font-weight-bold year-of-edition-loc" id="edition_search_page_menu">Year of edition</label>
                             <div class="form-row" id="input-year-edition">
                                 <div class="col-auto mb-1">
                                     <input type="number" min="0" class="form-control from-form" id="input-year-of-edition-from"
@@ -94,7 +94,7 @@
                             </div>
                         </div>
                         <div class="form-group sidebar-item">
-                            <label for="input-pages" class="font-weight-bold" id="pages_search_page_menu">Number of pages</label>
+                            <label for="input-pages" class="font-weight-bold number-of-pages-loc" id="pages_search_page_menu">Number of pages</label>
                             <div class="form-row" id="input-pages">
                                 <div class="col-auto mb-1">
                                     <input type="number" min="0" class="form-control from-form" id="input-pages-from"

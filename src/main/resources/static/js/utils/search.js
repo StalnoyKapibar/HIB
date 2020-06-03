@@ -274,12 +274,12 @@ function addFindeBooks(data) {
     table.push(`<thead>
                         <tr>
                             <th></th>
-                            <th id="author_search_page">Author</th>
-                            <th id="name_search_page">Name</th>
-                            <th id="pages_search_page">Pages</th>
-                            <th id="edition_search_page">Year of edition</th>
-                            <th id="price_search_page">Price, €</th>
-                            <th id="category_search_page">Category</th>
+                            <th id="author_search_page" class="author-loc">Author</th>
+                            <th id="name_search_page" class="name-loc">Name</th>
+                            <th id="pages_search_page" class="pages-loc">Pages</th>
+                            <th id="edition_search_page" class="year-of-edition-loc">Year of edition</th>
+                            <th id="price_search_page"><div class="price-loc">Price</div> , €</th>
+                            <th id="category_search_page" class="categories-loc">Category</th>
                             <th></th>
                         </tr>
                         </thead>

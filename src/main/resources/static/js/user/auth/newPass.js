@@ -35,7 +35,7 @@ function sendNewPass() {
         let tmpSend = JSON.stringify(tmp);
         sendNewPassReq(tmpSend);
     } else {
-        showErrorPassword('Passwords don\'t match!', 'dontMatchPass');
+        showErrorPassword('Passwords don\'t match!', 'dont-match-pass-loc');
         setTimeout(hideErrorPassword, 5000);
     }
 
@@ -64,14 +64,14 @@ function sendNewPassReq(x) {
         .then(function (resp) {
             if (resp === "passError") {
                 showErrorPassword('The password must be between 8 and 64 and must contain numbers and characters in the upper and lower registers, without spaces!',
-                    'incorrectDataPassword');
+                    'incorrect-data-password-loc');
                 setTimeout(hideErrorPassword, 5000);
             } else {
                 if (resp === "notValid") {
-                    showModal('Not valid url', 'danger','notValidUrl');
+                    showModal('Not valid url', 'danger','not-valid-url-loc');
                     setTimeout(hideModal, 5000);
                 } else {
-                    showModal('Password successfully saved!', 'success','passSuccessSaved');
+                    showModal('Password successfully saved!', 'success','pass-success-saved-loc');
                     setTimeout(hideModal, 2000);
                 }
             }

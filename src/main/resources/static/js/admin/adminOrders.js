@@ -14,6 +14,7 @@ $(window).on("load", function () {
             btnDisplay = "d-none";
         }
         showListOrders();
+        setLocaleFields();
     });
 });
 
@@ -24,6 +25,7 @@ $(document).ready(function () {
     if (url.search("code=") !== -1 || url.search("error=") !== -1) {
         document.getElementsByClassName("orders")[0].click();
     }
+    setLocaleFields();
 });
 
 function convertPrice(price) {
@@ -38,13 +40,13 @@ function showListOrders() {
             allOrders = data;
             let order;
             let html = `<thead ><tr><th>№</th>
-                             <th>Email</th>
-                             <th>First name</th>
-                             <th>Last Name</th>
-                             <th>Date of Order</th>
-                             <th>Status</th>
-                             <th>Details of Order</th>
-                             <th>Edit</th>
+                             <th class="email-label">Email</th>
+                             <th class="first-name-loc">First name</th>
+                             <th class="last-name-loc">Last Name</th>
+                             <th class="date-of-order-loc">Date of Order</th>
+                             <th class="status-loc">Status</th>
+                             <th class="details-of-order-loc">Details of Order</th>
+                             <th class="edit-loc">Edit</th>
                              <th></th></tr></thead>`;
             $.each(data, function (index) {
                 order = data[index];
@@ -57,15 +59,16 @@ function showListOrders() {
                     }
                     html += `<td>${order.data}</td>
                          <td>${order.status} </td>`;
-                    html += `<td><a  href="#" data-toggle="modal" data-target="#adminOrderModal" onclick="showModalOfOrder(${index})" > Show details </a></td>
-                          <td><button class="btn btn-danger " onclick=orderDelete(${order.id})>Delete</button></td>
-                          <td><button class="btn btn-success ${btnDisplay} " onclick=orderComplete(${order.id})>Complete</button></td></tr>`;
+                    html += `<td><a  href="#" data-toggle="modal" class="show-details-loc" data-target="#adminOrderModal" onclick="showModalOfOrder(${index})" > Show details </a></td>
+                          <td><button class="btn btn-danger delete-loc" onclick=orderDelete(${order.id})>Delete</button></td>
+                          <td><button class="btn btn-success ${btnDisplay} complete-loc" onclick=orderComplete(${order.id})>Complete</button></td></tr>`;
 
                     $('#adminListOrders').html(html);
                 }
             });
 
         });
+    setLocaleFields();
 }
 
 async function showModalOfOrder(index) {
@@ -81,13 +84,13 @@ async function showModalOfOrder(index) {
                 htmlChat += `<div id="chat-wrapper">`;
                 htmlChat += `</div>`;
                 htmlChat += `<textarea id="sent-message" class="form-control"></textarea>
-                        </div><button class="float-right col-2 button btn-primary" type="button" id="send-message" onclick="sendGmailMessage('${order.contacts.email}', ${index})">Send</button>`
+                        </div><button class="float-right col-2 button btn-primary send-loc" type="button" id="send-message" onclick="sendGmailMessage('${order.contacts.email}', ${index})">Send</button>`
             } else {
                 if (data[0].text === "noGmailAccess") {
                     htmlChat += `<div>
-                                <span class="h3 col-10">Confirm gmail access to open chat:</span>
-                                <a type="button" class="col-2 btn btn-primary float-right" href="${gmailAccessUrl.fullUrl}">
-                                confirm</a>
+                                <span class="h3 col-10 confirm-gmail-longphrase-loc">Confirm gmail access to open chat:</span>
+                                <a type="button" class="col-2 btn btn-primary float-right confirm-loc" href="${gmailAccessUrl.fullUrl}">
+                                Confirm</a>
                             </div>`
                 } else {
                     htmlChat += `<div id="chat-wrapper">`;
@@ -97,17 +100,17 @@ async function showModalOfOrder(index) {
                     }
                     htmlChat += `</div>`;
                     htmlChat += `<textarea id="sent-message" class="form-control"></textarea>
-                        </div><button class="float-right col-2 button btn-primary" type="button" id="send-message" onclick="sendGmailMessage('${order.contacts.email}', ${index})">Send</button>`
+                        </div><button class="float-right col-2 button btn-primary send-loc" type="button" id="send-message" onclick="sendGmailMessage('${order.contacts.email}', ${index})">Send</button>`
                 }
             }
         });
     $('#chat').html(htmlChat);
 
     let html = ``;
-    html += `<thead><tr><th>Image</th>
-                             <th>Name | Author</th>
+    html += `<thead><tr><th class="image-loc">Image</th>
+                             <th class="name-author-loc">Name | Author</th>
                              <th></th>
-                             <th>Price</th></tr></thead>`;
+                             <th class="price-loc">Price</th></tr></thead>`;
     $.each(items, function (index) {
         let book = items[index].book;
         html += `<tr><td class="align-middle"><img src="/images/book${book.id}/${book.coverImage}" style="max-width: 80px"></td>
@@ -115,8 +118,8 @@ async function showModalOfOrder(index) {
                              <td></td>
                              <td>${convertPrice(book.price)}${iconOfPrice}</td></tr>`;
     });
-    html += `<tr><td></td><td></td><td>Subtotal :</td><td> ${convertPrice(order.itemsCost)}${iconOfPrice}</td></tr>
-                 <tr><td></td><td></td><td>Total :</td><td>${convertPrice(order.itemsCost + order.shippingCost)}${iconOfPrice}</td></tr>`;
+    html += `<tr><td></td><td></td><td><span class="subtotal-loc">Subtotal</span> :</td><td> ${convertPrice(order.itemsCost)}${iconOfPrice}</td></tr>
+                 <tr><td></td><td></td><td><span class="total-loc">Total</span> :</td><td>${convertPrice(order.itemsCost + order.shippingCost)}${iconOfPrice}</td></tr>`;
     $('#modalBody').html(html);
 
     let htmlContact = ``;
@@ -124,7 +127,7 @@ async function showModalOfOrder(index) {
                         <div class="panel-body">
                             <div class="container mt-2">
                                 <div class="col-8 p-4 mb-4  alert alert-info" role="alert">
-                                    <h6>User <strong>contacts </strong></h6>
+                                    <h6 class="user-loc">User </h6><span><strong class="contacts-loc">contacts</strong></span>
                                 </div>`;
     for (let key in order.contacts) {
         if (order.contacts[key] !== "" && key !== "id" && key !== "comment") {
@@ -148,6 +151,7 @@ async function showModalOfOrder(index) {
     htmlContact += `</div></div>`;
 
     $('#contactsOfUser').html(htmlContact);
+    setLocaleFields();
 }
 
 function orderComplete(id) {

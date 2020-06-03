@@ -1,5 +1,9 @@
 let button, row, id, categoryName, path, level, parentRow;
 
+$(document).ready(function () {
+    setLocaleFields();
+});
+
 fetch('/categories/getadmintree')
     .then(function (response) {
         return response.json()

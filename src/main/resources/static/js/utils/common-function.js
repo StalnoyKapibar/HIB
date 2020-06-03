@@ -11,6 +11,7 @@ $(document).ready(function () {
             currentLang = 'en';
         }
     }
+    setLocaleFields();
 })
 
 function sendSignInForm() {
@@ -54,10 +55,6 @@ async function setLocaleFields() {
             $('.from-form').attr('placeholder', localeFields['from']);
             $('.to-form').attr('placeholder', localeFields['to']);
 
-            //Admin left sidebar  on mainpage
-            $('.admin-loc').text(localeFields['admin']);
-            $('.admin-panel-loc').text(localeFields['adminPanel']);
-
             //Кусок с показом заказанного перед покупкой, либо модальное окно заказа в обработке
             $('.back-btn').text(localeFields['back']);
             $('.next-btn').text(localeFields['next']);
@@ -97,18 +94,17 @@ async function setLocaleFields() {
             $('.checkEmail').text(localeFields['checkEmail']);
 
             //profile.js and newPass.js
-            $('.messSuccess').text(localeFields['messSuccess']);
-            $('.incorrectDataPassword').text(localeFields['incorrectDataPassword']);
-            $('.wrongCurrentPass').text(localeFields['wrongCurrentPass']);
-            $('.passSuccessSaved').text(localeFields['passSuccessSaved']);
-            $('.emailUsedByUser').text(localeFields['emailUsedByUser']);
-            $('.invalidEmailFormat').text(localeFields['invalidEmailFormat']);
-            $('.dontMatchPass').text(localeFields['dontMatchPass']);
-            $('.notValidUrl').text(localeFields['notValidUrl']);
+            $('.mess-success-loc').text(localeFields['messSuccess']);
+            $('.incorrect-data-password-loc').text(localeFields['incorrectDataPassword']);
+            $('.wrong-current-pass-loc').text(localeFields['wrongCurrentPass']);
+            $('.pass-success-saved-loc').text(localeFields['passSuccessSaved']);
+            $('.email-used-by-user-loc').text(localeFields['emailUsedByUser']);
+            $('.invalid-email-format-loc').text(localeFields['invalidEmailFormat']);
+            $('.dont-match-pass-loc').text(localeFields['dontMatchPass']);
+            $('.not-valid-url-loc').text(localeFields['notValidUrl']);
 
 
             //user.html
-            $('.signin-loc').text(localeFields['signin']);
             $('.my-orders-loc').text(localeFields['oders']);
             $('.myprof-loc').text(localeFields['myprofile']);
             $('.checkboxRememberMe-loc').text(localeFields['rememberMe']);
@@ -136,28 +132,115 @@ async function setLocaleFields() {
             $('.create-new-profile-loc').text(localeFields['registerNew']);
 
             //search.html and search.js
-            $('#search_by_search_page_menu').text(localeFields['searchBy']);
-            $('#name_author_search_by').text(localeFields['titleAndAuthor']);
+            $('.search-by-dots-loc').text(localeFields['searchBy']);
+            $('.name-and-author-loc').text(localeFields['titleAndAuthor']);
             $('.search-input-dots-loc').attr('placeholder', localeFields['searchDots']);
-            $('#name_search_by').text(localeFields['name']);
-            $('#author_search_by').text(localeFields['authorr']);
-            $('#categories_search_page_menu').text(localeFields['category']);
-            $('#price_search_page_menu').text(localeFields['price']);
-            $('#edition_search_page_menu').text(localeFields['yearOfEdition']);
-            $('#pages_search_page_menu').text(localeFields['numberOfpages']);
+            $('.year-of-edition-loc').text(localeFields['yearOfEdition']);
+            $('.number-of-pages-loc').text(localeFields['numberOfpages']);
             $('.search-submit-loc').text(localeFields['search']);
-            $('#author_search_page').text(localeFields['Author']);
-            $('#name_search_page').text(localeFields['Name']);
-            $('#pages_search_page').text(localeFields['pages']);
-            $('#edition_search_page').text(localeFields['yearOfEdition']);
-            $('#price_search_page').text(localeFields['Price']);
-            $('#category_search_page').text(localeFields['category']);
+
+            //Admin left sidebar  on mainpage
+            $('.admin-loc').text(localeFields['admin']);
+            $('.admin-panel-loc').text(localeFields['adminPanel']);
+            //Admin Panel
+            $('.edit-loc').text(localeFields['edit']);
+            $('.delete-loc').text(localeFields['delete']);
+            $('.home-loc').text(localeFields['home']);
+            $('.orders-loc').text(localeFields['orders']);
+            $('.edit-welcome-loc').text(localeFields['editWelcome']);
+            $('.books-loc').text(localeFields['books']);
+            $('.feedback-request-loc').text(localeFields['feedbackRequest']);
+            $('.edit-footer-loc').text(localeFields['editFooter']);
+            //addBooks.js
+            $('.years-of-edition-loc').text(localeFields['yearsOfEdition']);
+            $('.pages-loc').text(localeFields['pages']);
+            $('.price-loc').text(localeFields['Price']);
+            $('.original-lang-loc').text(localeFields['originalLang']);
+            $('.avatar-loc').text(localeFields['avatar']);
+            $('.select-category-loc').text(localeFields['selectCategory']);
+            $('.load-avatar-loc').text(localeFields['loadAvatar']);
+            $('.another-image-loc').text(localeFields['anotherImage']);
+            $('.load-another-image-loc').text(localeFields['loadAnotherImage']);
+            //books.html
+            $('.all-books-loc').text(localeFields['allBooks']);
+            $('.add-books-loc').text(localeFields['addBooks']);
+            $('.add-hib-files-loc').text(localeFields['addHibFiles']);
+            $('.show-disabled-book-loc').text(localeFields['showDisabledBook']);
+            $('.add-new-book-loc').text(localeFields['addNewBook']);
+            $('.is-disabled-dots-loc').text(localeFields['isDisabledDots']);
+            $('.add-name-loc').text(localeFields['addName']);
+            $('.add-author-loc').text(localeFields['addAuthor']);
+            $('.add-description-loc').text(localeFields['addDescription']);
+            $('.add-addition-loc').text(localeFields['addAddition']);
+            $('.add-other-loc').text(localeFields['addOther']);
+            $('.category-loc').text(localeFields['Category']);
+            $('.update-one-book-loc').text(localeFields['updateOneBook']);
+            $('.edit-and-upload-loc').text(localeFields['editAndUpload']);
+            $('.upload-several-longphrase-loc').text(localeFields['uploadSeveralLongphrase']);
+            $('.upload-to-server-loc').text(localeFields['uploadToServer']);
+            $('.edit-book-loc').text(localeFields['edit-Book']);
+            //edit-footer-welcome-html
+            $('.category-tree-loc').text(localeFields['categoryTree']);
+            $('.create-new-primary-category-loc').text(localeFields['createNewPrimaryCategory']);
+            $('.create-loc').text(localeFields['create']);
+            $('.english-text-loc').text(localeFields['englishText']);
+            $('.link-loc').text(localeFields['link']);
+            //feedback.html
+            $('.show-replied-messages-loc').text(localeFields['showRepliedMessages']);
+            $('.sender-name-loc').text(localeFields['senderName']);
+            $('.content-loc').text(localeFields['content']);
+            $('.reply-loc').text(localeFields['reply']);
+            $('.mark-as-loc').text(localeFields['markAs']);
+            $('.recipient-dots-loc').text(localeFields['recipientDots']);
+            $('.message-loc').text(localeFields['message']);
+            $('.interested-book-loc').text(localeFields['interestedBook']);
+            $('.subject-loc').text(localeFields['subject']);
+            $('.reply-message-loc').text(localeFields['replyMessage']);
+            $('.send-message-to-email-loc').text(localeFields['sendMessageToEmail']);
+            $('.order-with-status-loc').text(localeFields['orderWithStatus']);
+            $('.name-loc').text(localeFields['Name']);
+            $('.author-loc').text(localeFields['Author']);
+            //adminOrders.js
+            $('.description-loc').text(localeFields['description']);
+            $('.delete-image-loc').text(localeFields['deleteImage']);
+            $('.date-of-order-loc').text(localeFields['dateOfOrder']);
+            $('.status-loc').text(localeFields['status']);
+            $('.details-of-order-loc').text(localeFields['detailsOfOrder']);
+            $('.show-details-loc').text(localeFields['showDetails']);
+            $('.complete-loc').text(localeFields['complete']);
+            $('.send-loc').text(localeFields['send']);
+            $('.confirm-gmail-longphrase-loc').text(localeFields['confirmGmailLongphrase']);
+            $('.confirm-loc').text(localeFields['confirm']);
+            $('.user-loc').text(localeFields['user']);
+            //buildEditPage.js
+            $('.transl-from-this-lang-loc').text(localeFields['translFromThisLang']);
+            $('.into-this-lang-loc').text(localeFields['intoThisLang']);
+            $('.translate-loc').text(localeFields['translate']);
+            $('.of-other-lang-loc').text(localeFields['ofOtherLang']); //small letter and down
+            $('.transliterate-loc').text(localeFields['transliterate']);
+            $('.big-transliterate-loc').text(localeFields['bigTransliterate']);
+            $('.book-old-loc').text(localeFields['bookOld']);
+            $('.change-category-loc').text(localeFields['changeCategory']);
+            $('.selected-category-dots-loc').text(localeFields['selectedCategoryDots']);
+            $('.change-image-cover-loc').text(localeFields['changeImageCover']);
+            //editFooter.js
+            $('.changes-saved-loc').text(localeFields['changesSaved']);
+            $('.changes-will-longphrase-loc').text(localeFields['changesWillLongphrase']); //Changes will take effect in a few seconds.
+            $('.you-have-unsaved-changes-loc').text(localeFields['youHaveUnsavedChanges']);
+            $('.warning-loc').text(localeFields['warning']);
+            //feedbackRequest.js
+            $('.read-loc').text(localeFields['read']);
+            $('.unread-loc').text(localeFields['unread']);
+            //realEditWelcome.js
+            $('.submit-loc').text(localeFields['submit']);
+            $('.upload-for-sale').text(localeFields['uploadForSale']);
 
             //other
             $('#header-general-loc').text(localeFields['general']);
             $('#engText').text(localeFields['engText']);
             $('#header-settings-loc').text(localeFields['settings']);
             $('#link_search_page_header').text(localeFields['searchPage']);
+
             $('#link_main_header').text(localeFields['main']);
             $('.main-header-loc').text(localeFields['main']);
             $('#link_books_header').text(localeFields['books']);
@@ -165,11 +248,13 @@ async function setLocaleFields() {
             $('#categories').text(localeFields['category']);
             $('.categories-loc').text(localeFields['category']);
             $('#headpost').text(localeFields['headpost']);
+
             bottom = localeFields['bookbotom'];
             addToshoppingCart = localeFields['addToshoppingCart'];
             addedToshoppingCart = localeFields['addedToshoppingCart'];
             editBook = localeFields['editBook'];
             deleteBottom = localeFields['deleteBottom'];
+
             $('#modalClose').text(localeFields['close']);
             $('#book-on-page-loc').text(localeFields['bookOnPage']);
             $('.page-of-book-localize').text(localeFields['pageofBook']);
@@ -181,7 +266,10 @@ async function setLocaleFields() {
             $('#quantity').text(localeFields['quantity']);
             $('#price').text(localeFields['price']);
             $('#book_author').text(localeFields['book_author']);
+            $('.name-author-loc').text(localeFields['book_author']);
             $('#totalPrice').text(localeFields['totalprice']);
+            $('.total-loc').text(localeFields['totalPrice']);
+            $('#gmail-access').text(localeFields['gmailAccess']);
             $('#headerShoppingCart').text(localeFields['headershoppingcart']);
             $('#home-tab').text(localeFields['YourShoppingCart']);
             $('#contacts-tab').text(localeFields['YourContacts']);
@@ -196,6 +284,7 @@ async function setLocaleFields() {
             $('.enter-email-label').text(localeFields['enter-email']);
             $('#enter-message').text(localeFields['enter-message']);
             $('.closeModalBtn').text(localeFields['close']);
+            $('.close-btn').text(localeFields['close']);
             $('#send-feedback-request').text(localeFields['send-feedback-request']);
             $('#logout-modal-title').text(localeFields['logout']);
             $('.logout-loc').text(localeFields['logoutShort']);

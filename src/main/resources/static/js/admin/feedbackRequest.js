@@ -20,6 +20,7 @@ $(document).ready(function () {
         getFeedbackRequestTable(false).then(r => {
         });
     }
+    setLocaleFields();
 });
 
 function markAsRead(id, replied) {
@@ -54,7 +55,7 @@ async function getFeedbackRequestTable(replied) {
                 }
                 let replied = data[i].replied ? '<input type="checkbox" disabled checked>'
                     : `<button type="button"
-                       class="btn btn-info btn-reply"
+                       class="btn btn-info btn-reply reply-loc"
                         id="replyBtn"
                         data-id="${id}"
                         data-sender="${senderName}"
@@ -64,9 +65,10 @@ async function getFeedbackRequestTable(replied) {
                         data-bookName="${bookName}"
                         data-bookCoverImage="${bookCoverImage}">Reply</button>`;
                 let mark = `<button type="button"
-                class="btn btn-info "           
+                class="btn btn-info ${(data[i].replied ? `unread-loc` : `read-loc`)}"           
                 onclick="markAsRead(${id},${data[i].replied})">`;
                 mark += (data[i].replied ? `Unread</button>` : `Read</button>`);
+
                 let tr = $("<tr/>");
                 tr.append(`
                             <td>${id}</td>
@@ -79,6 +81,7 @@ async function getFeedbackRequestTable(replied) {
                 tableBody.append(tr);
             }
         })
+    setLocaleFields();
 }
 
 $(document).on('click', '.btn-reply', function () {
