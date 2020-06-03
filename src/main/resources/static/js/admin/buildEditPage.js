@@ -171,7 +171,6 @@ function buildPage() {
             <Label>Load another image</Label>
             <input type="file" class="form-control-file" id="loadAnotherImage" accept=".jpg" onchange="loadImage('loadAnotherImage','imageList')">
             <div class='car' id='imageList' style='width: 18rem;'>
-            
             </div></div></div></div>
             <div class="tab-pane fade" id="category" role="tabpanel" aria-labelledby="category-tab">
             <div class="card card-footer">
@@ -702,14 +701,17 @@ function getVarBookDTO() {
 }
 
 function getAllLocales() {
-    fetch("lang")
+    var full_url = document.URL; // Get current url
+    var url_array = full_url.split('/')
+    var last_segment = url_array[url_array.length-1];
+    fetch("/lang")
         .then(status)
         .then(json)
         .then(function (resp) {
             nameVarOfLocaleStringWithId = resp;
             nameVarOfLocaleStringWithId.unshift("id");
             nameVarOfLocaleString = nameVarOfLocaleStringWithId.filter(t => t !== "id");
-            getBookDTOById(idd = localStorage.getItem('tmpEditBookId'));
+            getBookDTOById(idd = last_segment);
         });
 }
 
