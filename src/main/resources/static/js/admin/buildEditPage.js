@@ -171,6 +171,7 @@ function buildPage() {
             <Label>Load another image</Label>
             <input type="file" class="form-control-file" id="loadAnotherImage" accept=".jpg" onchange="loadImage('loadAnotherImage','imageList')">
             <div class='car' id='imageList' style='width: 18rem;'>
+            
             </div></div></div></div>
             <div class="tab-pane fade" id="category" role="tabpanel" aria-labelledby="category-tab">
             <div class="card card-footer">
