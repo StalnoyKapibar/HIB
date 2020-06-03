@@ -144,6 +144,10 @@ function setListeners () {
             $('#search-submit').click();
         }
     });
+
+    $('#search-input').on('input', function () {
+        $('#search-submit').click();
+    })
 }
 
 async function getCategoryTree() {
