@@ -140,7 +140,7 @@ function setListeners () {
 
     $(document).keypress(function (event) {
         var keycode = (event.keyCode ? event.keyCode : event.which);
-        if (keycode == '13'&& $("#search-input").val().trim() !== '') {
+        if (keycode == '13') {
             $('#search-submit').click();
         }
     });
