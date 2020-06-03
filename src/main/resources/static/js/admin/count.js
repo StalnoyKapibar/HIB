@@ -1,8 +1,9 @@
 $(document).ready(function () {
-startCount();
+    startCountOfOrder();
+    startCountOfFeedback();
 });
 
-function startCount() {
+function startCountOfOrder() {
     fetch("/api/admin/order-count")
         .then(response => response.json())
         .then(function (data) {
@@ -12,7 +13,9 @@ function startCount() {
                 $("#countOfOrder").html(``);
             }
         });
+}
 
+function startCountOfFeedback() {
     fetch("/api/admin/feedback-request-count")
         .then(response => response.json())
         .then(function (data) {

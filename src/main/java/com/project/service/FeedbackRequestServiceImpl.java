@@ -44,4 +44,9 @@ public class FeedbackRequestServiceImpl implements FeedbackRequestService {
     public List<FeedbackRequest> getByReplied(Boolean replied) {
         return feedbackRequestDAO.getByReplied(replied);
     }
+
+    @Override
+    public int getCountOfFeedBack(long lastAuthDate) {
+        return feedbackRequestDAO.getCountOfFeedBack(lastAuthDate);
+    }
 }

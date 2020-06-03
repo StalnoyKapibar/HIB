@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 public class OrderDTO {
     private Long id;
-    private String data;
+    private long date;
     private List<CartItemDTO> items;
     private Integer itemsCost;
     private Integer shippingCost;
@@ -23,6 +23,7 @@ public class OrderDTO {
     private UserDTO userDTO;
     private ContactsOfOrderDTO contacts;
     private String comment;
+    private String data;
 
     @Transient
     public Order getOder() {
@@ -30,7 +31,7 @@ public class OrderDTO {
         if (id != null) {
             order.setId(id);
         }
-        order.setData(data);
+        order.setData(date);
         order.setItemsCost(itemsCost);
         order.setTrackingNumber(trackingNumber);
         order.setStatus(status);

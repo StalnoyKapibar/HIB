@@ -1,7 +1,9 @@
 package com.project.config.initializer;
 
+import com.project.model.DataEnterInAdminPanel;
 import com.project.model.UserAccount;
 import com.project.model.Role;
+import com.project.service.DataEnterInAdminPanelService;
 import com.project.service.abstraction.UserAccountService;
 import com.project.service.abstraction.UserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,9 @@ public class TestUserAccounts {
 
     @Autowired
     PasswordEncoder encoder;
+
+    @Autowired
+    DataEnterInAdminPanelService dataEnterInAdminPanelService;
 
 
     public void init() {
@@ -41,6 +46,7 @@ public class TestUserAccounts {
         account1.setEnabled(true);
         account1.setRoles(adminRole);
 
+
         userAccountService.save(account1);
 
         // Simple user. (username = "user", password = "user") ROLE:USER
@@ -55,6 +61,8 @@ public class TestUserAccounts {
         account2.setEnabled(true);
         account2.setRoles(role);
         userAccountService.save(account2);
+
+        dataEnterInAdminPanelService.add(new DataEnterInAdminPanel(0L,0L));
     }
 
 }
