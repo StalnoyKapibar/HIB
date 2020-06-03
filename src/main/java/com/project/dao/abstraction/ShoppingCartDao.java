@@ -11,5 +11,5 @@ public interface ShoppingCartDao {
 
     List getMaxIdCartItem();
 
-    int getCartSize(Long cartId);
+    long getCartSize(Long cartId);
 }

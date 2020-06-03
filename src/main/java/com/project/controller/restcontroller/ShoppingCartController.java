@@ -21,19 +21,16 @@ public class ShoppingCartController {
     private ShoppingCartService cartService;
 
     @GetMapping("/cart/size")
-    public int getCartSize(HttpSession session, Authentication authentication) {
+    public long getCartSize(HttpSession session, Authentication authentication) {
         Long cartId = (Long) session.getAttribute("cartId");
         if (cartId != null) {
             session.setAttribute("cartId", cartId);
-
-            return cartService.getCartSize(cartId);
-
+//            return cartService.getCartSize(cartId);
 //            List<CartItemDTO> cartItems = cartService.getCartById(cartId).getCartItems();
 //            int i = cartItems.size();
 //            return i;
-
-
 //            return cartService.getCartById(cartId).getCartItems().size();
+            return cartService.getCartSize(cartId);
         } else {
             session.removeAttribute("cartId");
         }

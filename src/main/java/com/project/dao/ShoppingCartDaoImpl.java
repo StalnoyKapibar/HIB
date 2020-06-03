@@ -52,8 +52,8 @@ public class ShoppingCartDaoImpl extends AbstractDao<Long, ShoppingCart> impleme
     }
 
     @Override
-    public int getCartSize(Long cartId){
-        String hql = "select count (c) from ShoppingCart c where id = :cartId";
-        return (int) entityManager.createQuery(hql).setParameter("cartId", cartId).getSingleResult();
+    public long getCartSize(Long cartId){
+        ShoppingCart shoppingCart = entityManager.find(ShoppingCart.class, cartId);
+        return shoppingCart.getCartItems().size();
     }
 }

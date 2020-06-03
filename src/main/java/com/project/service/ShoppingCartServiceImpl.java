@@ -53,7 +53,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
-    public int getCartSize(Long cartId){
+    public long getCartSize(Long cartId){
         return cartDAO.getCartSize(cartId);
     }
 }

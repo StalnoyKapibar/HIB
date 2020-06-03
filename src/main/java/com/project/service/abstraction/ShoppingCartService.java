@@ -16,5 +16,5 @@ public interface ShoppingCartService {
 
     List getMaxIdCartItem();
 
-    int getCartSize(Long cartId);
+    long getCartSize(Long cartId);
 }
