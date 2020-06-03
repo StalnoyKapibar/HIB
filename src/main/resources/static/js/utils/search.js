@@ -187,7 +187,7 @@ function getUnflatten(arr, parentid) {
 async function setTreeView(category) {
     for (let i in category) {
         row =
-            `<div class="category">
+            `<div class="category text-nowrap">
                 <div class="custom-control custom-checkbox form-check-inline" id="heading-${category[i].id}">
                     <input class="custom-control-input" type="checkbox" id="check-${category[i].id}" value="${category[i].id}">
                     <label class="custom-control-label" for="check-${category[i].id}"></label>
@@ -211,7 +211,7 @@ async function setChilds(category) {
     for (let i in category) {
         if (category[i].childrens === undefined) {
             row +=
-                `<div class="category">
+                `<div class="category text-nowrap">
                     <div class="custom-control custom-checkbox form-check-inline" id="heading-${category[i].id}">
                         <input class="custom-control-input" type="checkbox" id="check-${category[i].id}" value="${category[i].id}">
                         <label class="custom-control-label" for="check-${category[i].id}">
@@ -221,7 +221,7 @@ async function setChilds(category) {
                 </div>`;
         } else {
             row +=
-                `<div class="category">
+                `<div class="category text-nowrap">
                     <div class="custom-control custom-checkbox form-check-inline" id="heading-${category[i].id}">
                         <input class="custom-control-input" type="checkbox" id="check-${category[i].id}" value="${category[i].id}">
                         <label class="custom-control-label" for="check-${category[i].id}"></label>
