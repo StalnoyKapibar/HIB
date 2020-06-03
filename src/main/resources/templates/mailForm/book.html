@@ -1,0 +1,243 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+    <title>Ruseller Email Newsletter</title>
+
+    <style type="text/css">
+
+        a {
+            color: #000000;
+            text-decoration: none;
+        }
+
+        body, #header h1, #header h2, p {
+            margin: 0;
+            padding: 0;
+        }
+
+        #main {
+            border: 1px solid #cfcece;
+        }
+
+        img {
+            display: block;
+        }
+
+        #top-message p, #bottom-message p {
+            color: #3f4042;
+            font-size: 12px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        #header h1 {
+            color: #246771 !important;
+            font-family: "Lucida Grande", "Lucida Sans", "Lucida Sans Unicode", sans-serif;
+            font-size: 24px;
+            margin-bottom: 0 !important;
+            padding-bottom: 0;
+        }
+
+        #header h2 {
+            color: #246771 !important;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 24px;
+            margin-bottom: 0 !important;
+            padding-bottom: 0;
+        }
+
+        #header p {
+            color: #ffffff !important;
+            font-family: "Lucida Grande", "Lucida Sans", "Lucida Sans Unicode", sans-serif;
+            font-size: 12px;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            margin: 0 0 0.8em 0;
+        }
+
+        h3 {
+            font-size: 28px;
+            color: #444444 !important;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        h4 {
+            font-size: 22px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        h5 {
+            font-size: 18px;
+            color: #444444 !important;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        p {
+            font-size: 12px;
+            color: #444444 !important;
+            font-family: "Lucida Grande", "Lucida Sans", "Lucida Sans Unicode", sans-serif;
+            line-height: 1.5;
+        }
+
+    </style>
+
+</head>
+<body>
+<div th:object="${book}">
+
+    <table width="100%" cellpadding="0" cellspacing="0" bgcolor="ffffff">
+        <tr>
+            <td>
+                <table id="top-message" cellpadding="20" cellspacing="0" width="600" align="center">
+                    <tr>
+                        <td align="center">
+
+
+
+                            <p>Trouble viewing this email? <a th:href="@{http://localhost:8080/page/{idBook}(idBook=*{id})}">View in Browser</a></p>
+
+                        </td>
+
+                    </tr>
+
+                </table><!-- top message -->
+
+                <table id="main" width="600" align="center" cellpadding="0" cellspacing="15" bgcolor="F9F8F8">
+
+                    <tr>
+
+                        <td>
+
+                            <table id="header" cellpadding="10" cellspacing="0" align="center" bgcolor="8fb3e9">
+
+                                <tr>
+
+                                    <td width="570" bgcolor="D1ECF1"><h1 th:utext="*{name.en}">Name of Book</h1></td>
+
+                                </tr>
+
+                                <tr>
+                                    <td width="570" bgcolor="D1ECF1"><h2 th:utext="*{author.en}">Author</h2></td>
+                                </tr>
+
+                            </table><!-- header -->
+
+                        </td>
+
+                    </tr><!-- header -->
+
+
+                    <tr>
+
+                        <td></td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>
+
+                            <table id="content-1" cellpadding="0" cellspacing="0" align="center">
+
+                                <tr>
+
+                                    <td width="170" valign="top">
+
+                                        <table cellpadding="5" cellspacing="0">
+
+                                            <tr>
+                                                <td bgcolor="d0d0d0"><img
+                                                        th:src="@{http://localhost:8080/images/book{id}/{coverImage}(id=*{id}, coverImage=*{coverImage})}"
+                                                        width="170" alt=""/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <button>
+                                                    <a th:href="@{http://localhost:8080/page/{id}(id=*{id})}">View in Browser</a>
+                                                    </button>
+
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                    </td>
+
+                                    <td width="15"></td>
+
+                                    <td width="375" valign="top" colspan="3">
+
+                                        <strong> Title:</strong> <span th:utext="*{name.en}"></span> <br>
+                                        <strong> Author:</strong> <span th:utext="*{author.en}"></span> <br>
+                                        <strong> Edition:</strong> <span th:utext="*{edition.en}"></span> <br>
+                                        <strong> Original Language:</strong> <span
+                                            th:utext="*{originalLanguageName}"></span> <br>
+                                        <strong> Amount of Pages:</strong> <span th:utext="*{pages}"></span> <br>
+                                        <strong> Year of edition:</strong> <span th:utext="*{yearOfEdition}"></span>
+                                        <br>
+
+                                        <br>
+                                        <br>
+                                        <p>
+                                            <span th:utext="*{description.en}"></span>
+                                        </p>
+                                    </td>
+
+                                </tr>
+
+                            </table><!-- content 1 -->
+
+                        </td>
+
+                    </tr><!-- content 1 -->
+
+                    <tr>
+
+                        <td>
+
+                            <table id="content-2" cellpadding="0" cellspacing="0" align="center">
+
+                                <tr>
+
+
+                                </tr>
+
+                            </table><!-- content-2 -->
+
+                        </td>
+
+                    </tr><!-- content-2 -->
+
+                </table><!-- main -->
+
+                <table id="bottom-message" cellpadding="20" cellspacing="0" width="600" align="center">
+
+                    <tr>
+
+                        <td align="center">
+
+<!--                            <p>You are receiving this email because you signed up for updates</p>-->
+
+<!--                            <p><a href="#">Unsubscribe instantly</a> | <a href="#">Forward to a friend</a> | <a-->
+<!--                                    href="#">View-->
+<!--                                in Browser</a></p>-->
+
+                        </td>
+
+                    </tr>
+
+                </table><!-- top message -->
+
+            </td>
+        </tr>
+    </table><!-- wrapper -->
+
+</div>
+</body>
+
+</html>
+
