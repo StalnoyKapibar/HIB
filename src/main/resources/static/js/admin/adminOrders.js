@@ -73,6 +73,9 @@ function showListOrders() {
 }
 
 async function showModalOfOrder(index) {
+    $('#chat').empty();
+    $('#modalBody').empty();
+    $('#contactsOfUser').empty();
     orderIndex = index;
     let order = allOrders[index];
     let items = order.items;
