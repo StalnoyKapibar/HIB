@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class MessageDTO {
-    private String messageThreadId;
+    private String messageId;
     private String sender;
     private String text;
 }
