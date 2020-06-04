@@ -108,7 +108,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public int getSizeOfTotalBooks() {
+    public Long getSizeOfTotalBooks() {
         return bookDAO.getSizeOfTotalBooks();
     }
 }

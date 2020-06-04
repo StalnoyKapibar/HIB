@@ -42,5 +42,5 @@ public interface BookService {
 
     List<BookNewDTO>getAllLightBookDtoForSearch();
 
-    int getSizeOfTotalBooks();
+    Long getSizeOfTotalBooks();
 }

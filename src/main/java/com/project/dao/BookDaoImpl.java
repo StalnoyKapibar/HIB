@@ -164,11 +164,10 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
     }
 
     @Override
-    public int getSizeOfTotalBooks() {
-        return entityManager
-                .createQuery("SELECT b.id FROM Book b")
-                .getResultList()
-                .size();
+    public Long getSizeOfTotalBooks() {
+        return (Long) entityManager
+                .createQuery("SELECT count (b.id) FROM Book b ")
+                .getSingleResult();
     }
 
     @Override

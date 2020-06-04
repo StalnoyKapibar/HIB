@@ -205,7 +205,7 @@ public class BookController {
     }
 
     @GetMapping("/api/admin/book-count")
-    public int getTotalBooks() {
+    public Long getTotalBooks() {
         return bookService.getSizeOfTotalBooks();
     }
 }
