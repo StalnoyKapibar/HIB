@@ -9,7 +9,7 @@ let pathImageFin;
 let pathImageFinWithoutImage;
 let nameImage;
 let nameImageCover = '';
-let pathImageDefault = '../images/book';
+let pathImageDefault = '/images/book';
 let categoryName, categoryIdSrc;
 let isShow = false;
 
