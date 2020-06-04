@@ -22,7 +22,6 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 
-
 @Configuration
 @EnableWebSecurity
 @AllArgsConstructor
@@ -65,7 +64,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(filterSession, BasicAuthenticationFilter.class);
 
         //Страницы доступные для админа
-        http.authorizeRequests().antMatchers("/admin/**", "/admin", "/api/admin/**","/edit**")
+        http.authorizeRequests().antMatchers("/admin/**", "/admin", "/api/admin/**")
                 .hasRole("ADMIN");
         //Страницы доступные для юзеров
         http.authorizeRequests().antMatchers("/user", "/logout", "/cabinet", "/api/user/**", "/profile/**")

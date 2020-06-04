@@ -11,7 +11,7 @@ public class AdminController {
         return "admin/admin";
     }
 
-    @GetMapping("/edit{id}")
+    @GetMapping("/admin/edit/{id}")
     public String getEditPage() {
         return "editPageBook";
     }
