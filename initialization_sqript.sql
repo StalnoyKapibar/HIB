@@ -54,7 +54,7 @@ create index FKpgggddil6mt83hm9ibdi1uckm
   on book (edition_id);
 
 create table  book_list_image
-(
+( 
   book_id bigint not null,
   list_image_id bigint not null,
   constraint UK_d475d9qoj8j1k8jboa4c93smm
