@@ -39,7 +39,7 @@ public class UserController {
 
     @GetMapping("/resetPassword")
     public String getResetPasswordPage() {
-        return "resetPassword";
+        return "/user/user";
     }
 
     @GetMapping("/resPass")
@@ -53,7 +53,7 @@ public class UserController {
 
     @GetMapping("/registration")
     public ModelAndView getRegistrationPage(RegistrationUserDTO user) {
-        ModelAndView view = new ModelAndView("registration");
+        ModelAndView view = new ModelAndView("/user/user");
         view.getModelMap().addAttribute("user", new RegistrationUserDTO());
         view.getModelMap().addAttribute("errorMessage", new FormLoginErrorMessageDTO(false, ""));
         return view;
@@ -62,7 +62,7 @@ public class UserController {
     @PostMapping(value = "/registration", consumes =
             {MediaType.APPLICATION_FORM_URLENCODED_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public ModelAndView createNewUserAccount(@Valid RegistrationUserDTO user, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
-        ModelAndView view = new ModelAndView("registration");
+        ModelAndView view = new ModelAndView("/user/user");
         view.getModelMap().addAttribute("user", user);
 
         if (result.hasErrors()) {
@@ -89,14 +89,14 @@ public class UserController {
         }
         //After successfully Creating user
 
-        view.setViewName("redirect:/home");
+        view.setViewName("redirect:/reqapprove");
 
         return view;
     }
 
     @GetMapping("/1clickreg")
     public ModelAndView get1ClickRegistrationPage(RegistrationUserDTO user) {
-        ModelAndView view = new ModelAndView("reg1Click");
+        ModelAndView view = new ModelAndView("/user/user");
         view.getModelMap().addAttribute("user", new RegistrationUserDTO());
         view.getModelMap().addAttribute("errorMessage", new FormLoginErrorMessageDTO(false, ""));
         return view;
@@ -105,7 +105,7 @@ public class UserController {
     @PostMapping(value = "/1clickreg", consumes =
             {MediaType.APPLICATION_FORM_URLENCODED_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public ModelAndView createNewUserAccount1Click(@Valid RegistrationUserDTO user, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
-        ModelAndView view = new ModelAndView("reg1Click");
+        ModelAndView view = new ModelAndView("/user/user");
         view.getModelMap().addAttribute("user", user);
         user.setLogin(user.getEmail());
         user.setPassword(generateString(new Random(), SOURCES, 10));

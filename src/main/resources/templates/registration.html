@@ -20,9 +20,9 @@
 <body>
 
 <div class="d-flex">
-    <div class="sidebar" id="wrapper">
+    <div class="sidebar"  hidden id="wrapper">
         <div class="bg-light border-right sidebar-margin" id="sidebar-wrapper">
-            <div class="sidebar-heading mt-auto text-center">Category</div>
+            <div hidden class="sidebar-heading mt-auto text-center">Category</div>
             <div class="list-group list-group-flush">
                 <a href="#" class="list-group-item list-group-item-action bg-light">Item_1</a>
                 <a href="#" class="list-group-item list-group-item-action bg-light">Item_2</a>
@@ -94,7 +94,7 @@
     </header>
 
     <!--    page container    -->
-
+<div th:fragment="register">
     <div class="container page-content">
         <div class="container mt-0 col-sm-12 col-lg-6 col-md-8 rounded-pill">
             <div class="col-12 shadow form-border-radius">
@@ -138,7 +138,7 @@
                 </div>
             </div>
         </div>
-
+    </div>
 
         <!--        footer       -->
         <div class="container-fluid text-center footer pt-3 p-0 ">
@@ -152,8 +152,10 @@
             </div>
             <div class="footer_made_by pt-2"><a id="made_by">Created by JavaMentor® Team</a></div>
         </div>
+    <script src="../static/js/utils/common-function.js"></script>
+    <script src="../static/js/user/auth/registration.js"></script>
     </div>
-</div>
+
 
 <!--modal window for sing in-->
 
@@ -208,7 +210,5 @@
     </div>
 </div>
 
-<script src="../static/js/utils/common-function.js"></script>
-<script src="../static/js/user/auth/registration.js"></script>
 </body>
 </html>
