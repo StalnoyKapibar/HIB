@@ -319,7 +319,7 @@ function buildEditBook(xx) {
 
 
 function openEdit(id) {
-    window.open('/edit/' + id, '_blank');
+    window.open('/admin/edit/' + id, '_blank');
 }
 
 function uploadImageNew() {
