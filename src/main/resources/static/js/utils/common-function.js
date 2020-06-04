@@ -181,7 +181,7 @@ async function setLocaleFields() {
             $('.edit-book-loc').text(localeFields['edit-Book']);
             //edit-footer-welcome-html
             $('.category-tree-loc').text(localeFields['categoryTree']);
-            $('.create-new-primary-category-loc').text(localeFields['createNewPrimaryCategory']);
+            $('.create-new-primary-category-loc').attr('placeholder', localeFields['createNewPrimaryCategory']);
             $('.create-loc').text(localeFields['create']);
             $('.english-text-loc').text(localeFields['englishText']);
             $('.link-loc').text(localeFields['link']);
@@ -198,7 +198,8 @@ async function setLocaleFields() {
             $('.reply-message-loc').text(localeFields['replyMessage']);
             $('.send-message-to-email-loc').text(localeFields['sendMessageToEmail']);
             $('.order-with-status-loc').text(localeFields['orderWithStatus']);
-            $('.name-loc').text(localeFields['Name']);
+            $('.name-loc').text(localeFields['firstName']);
+            $('.name-field').attr('placeholder', localeFields['firstName']);
             $('.author-loc').text(localeFields['Author']);
             //adminOrders.js
             $('.description-loc').text(localeFields['description']);

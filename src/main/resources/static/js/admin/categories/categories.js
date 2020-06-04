@@ -1,9 +1,5 @@
 let button, row, id, categoryName, path, level, parentRow;
 
-$(document).ready(function () {
-    setLocaleFields();
-});
-
 fetch('/categories/getadmintree')
     .then(function (response) {
         return response.json()
@@ -29,6 +25,18 @@ fetch('/categories/getadmintree')
             $('#category_add_parent').append(parentRow);
         }
     });
+
+$(document).ready(function () {
+    if (currentLang === '') {
+        if (getCookieByName("lang")) {
+            currentLang = getCookieByName("lang");
+        } else {
+            currentLang = 'en';
+        }
+    }
+    getLanguage();
+    setLocaleFields();
+})
 
 function addNewCategory() {
     let category = {
