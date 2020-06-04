@@ -40,7 +40,7 @@ public class SearchController {
 
     @GetMapping("/searchAdvanced")
     public BookSearchPageDTO BooksSearchByParameters(@RequestParam(value = "request") String request, @RequestParam(value = "searchBy") String searchBy,
-                                                     @RequestParam List<String> categories, @RequestParam(value = "priceFrom") Long priceFrom,
+                                                     @RequestParam List<Long> categories, @RequestParam(value = "priceFrom") Long priceFrom,
                                                      @RequestParam(value = "priceTo") Long priceTo, @RequestParam(value = "yearOfEditionFrom") Long yearOfEditionFrom,
                                                      @RequestParam(value = "yearOfEditionTo") Long yearOfEditionTo, @RequestParam(value = "pagesFrom") Long pagesFrom,
                                                      @RequestParam(value = "pagesTo") Long pagesTo, @RequestParam(value = "page") int page, @RequestParam(value = "size") int size) {
