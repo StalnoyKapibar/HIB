@@ -199,6 +199,11 @@ async function confirmPurchase() {
     document.location.href = '/profile/orders';
 }
 
+$("#butToBuy").one('click',function() {
+    POST('/order').then(r => getShoppingCart());
+    document.location.href = '/profile/orders';
+});
+
 function enterData() {
     let data = '';
     if ($("#street_number").val() == '') {
