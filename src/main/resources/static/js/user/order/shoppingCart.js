@@ -15,7 +15,7 @@ $(document).ready(function () {
     getShoppingCart();
     showListOrders().then(r => {
     });
-    if (document.referrer.toString() === "") {
+    if (document.referrer.toString() === "" && userData.oauth2Acc === false) {
         confirmAddress();
         confirmContactsFor1Click();
     }
