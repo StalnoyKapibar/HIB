@@ -83,6 +83,7 @@ async function getLocales() {
 }
 
 async function pageBook(x) {
+    totalNumberOfBooks();
     idPageable = x;
     await fetch(`/api/admin/pageable/${x}?disabled=${repliedOn}`)
         .then(status)
