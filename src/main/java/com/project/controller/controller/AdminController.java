@@ -10,7 +10,7 @@ public class AdminController {
         return "admin/admin";
     }
 
-    @GetMapping("/edit")
+    @GetMapping("/admin/edit/{id}")
     public String getEditPage() {
         return "editPageBook";
     }

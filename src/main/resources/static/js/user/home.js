@@ -64,8 +64,7 @@ async function addBooksToPage(books) {
 }
 
 function openEdit(id) {
-    localStorage.setItem('tmpEditBookId', id);
-    window.open('/edit', '_blank');
+    window.open('/admin/edit/' + id, '_blank');
 }
 
 async function getAUTH() {
