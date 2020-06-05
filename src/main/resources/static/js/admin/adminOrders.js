@@ -2,6 +2,8 @@ let allOrders;
 let iconOfPrice = " €";
 let statusOfOrder = "Processing";
 let btnDisplay = "d-inline";
+let messagePackIndex;
+let orderIndex;
 
 $(window).on("load", function () {
     showListOrders();
@@ -76,12 +78,18 @@ function showListOrders() {
 }
 
 async function showModalOfOrder(index) {
+    $('#chat').empty();
+    $('#modalBody').empty();
+    $('#contactsOfUser').empty();
+    orderIndex = index;
     let order = allOrders[index];
     let items = order.items;
     $('#modalTitle').html(`Order № ${order.id}`);
+    messagePackIndex = 0;
+    document.getElementById("chat").setAttribute('onscroll', 'scrolling()');
 
     let htmlChat = ``;
-    await fetch("/gmail/" + order.contacts.email + "/messages")
+    await fetch("/gmail/" + order.contacts.email + "/messages/" + "0")
         .then(json)
         .then((data) => {
             if (data[0] === undefined) {
@@ -100,7 +108,7 @@ async function showModalOfOrder(index) {
                             </div>`
                 } else {
                     htmlChat += `<div id="chat-wrapper">`;
-                    for (let i = 0; i < data.length; i++) {
+                    for (let i = data.length - 1; i > -1; i--) {
                         htmlChat += `<p><b>${data[i].sender}</b></p>
                     <p>${data[i].text}</p>`
                     }
@@ -113,6 +121,7 @@ async function showModalOfOrder(index) {
             }
         });
     $('#chat').html(htmlChat);
+    $('#chat').scrollTop(1000);
 
     let html = ``;
     html += `<thead><tr><th class="image-loc">Image</th>
@@ -160,6 +169,26 @@ async function showModalOfOrder(index) {
 
     $('#contactsOfUser').html(htmlContact);
     setLocaleFields();
+}
+
+async function scrolling() {
+    let order = allOrders[orderIndex];
+    if ($('#chat').scrollTop() < 2) {
+        messagePackIndex++;
+        await fetch("/gmail/" + order.contacts.email + "/messages/" + messagePackIndex)
+            .then(json)
+            .then((data) => {
+                if (data[0].text === "chat end") {
+                    document.getElementById("chat").removeAttribute('onscroll');
+                    return;
+                }
+                for (let i = 0; i < data.length; i++) {
+                    let html = `<p><b>${data[i].sender}</b></p>
+                    <p>${data[i].text}</p>`
+                    document.getElementById("chat-wrapper").insertAdjacentHTML("afterbegin", html);
+                }
+            });
+    }
 }
 
 function orderComplete(id) {
