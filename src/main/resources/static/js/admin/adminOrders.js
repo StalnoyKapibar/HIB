@@ -75,7 +75,7 @@ async function showModalOfOrder(index) {
     let items = order.items;
     $('#modalTitle').html(`Order № ${order.id}`);
 
-    if(order.contacts.email == "") {
+    if (order.contacts.email == "") {
         order.contacts.email = order.userDTO.email;
     }
     let htmlChat = ``;
