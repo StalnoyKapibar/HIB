@@ -10,7 +10,7 @@ let bookId;
 let interestedBookClose = $('#img-close');
 let interestedBookImage = $("#ask-interested-image");
 let bookCoverImage;
-const messageTemplate = "Hello, I m interested in the book ";
+let messageTemplate = "Hello, I m interested in the book ";
 
 $(document).ready(getUserData());
 
@@ -61,7 +61,7 @@ $(document).on('click', '#ask-question', async () => {
             index++;
         }
     }
-    senderMessageInput.val(messageTemplate + '' + location.substr(0, location.indexOf("?")));
+    //senderMessageInput.val(messageTemplate + '' + location.substr(0, location.indexOf("?")));
 
     if (bookId !== null) {
         await fetch(`/api/book/${bookId}`)

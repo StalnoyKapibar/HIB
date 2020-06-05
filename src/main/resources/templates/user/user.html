@@ -57,7 +57,7 @@
                             <a data-target="#signModal"
                                data-toggle="modal" id="signModalBtn" onclick="setCurrentPageToCookie()">
                                 <i class="iconify"></i>
-                                <span class="menu-text">Sign In</span>
+                                <span class="menu-text signin-loc">Sign In</span>
                             </a>
                         </li>
                     </ul>
@@ -81,7 +81,10 @@
             <div class="sidebar-item sidebar-search">
                 <div>
                     <div class="input-group">
-                        <input class="form-control search-menu" id="searchInput" placeholder="Search..." type="text">
+
+                        <input class="form-control search-menu search-input-dots-loc" id="searchInput"
+                               placeholder="Search..." type="text">
+
                         <div class="input-group-append">
                                 <span class="input-group-text" id="searchIcon">
                                     <i aria-hidden="true" class="fa fa-search"></i>
@@ -105,7 +108,7 @@
             <div class="sidebar-item sidebar-menu">
                 <ul>
                     <li class="header-menu">
-                        <span>General</span>
+                        <span id="header-general-loc">General</span>
                     </li>
                     <li th:classappend="${#httpServletRequest.getRequestURI() == '/home' ? 'active' : ''}">
                         <a href="/home">
@@ -130,33 +133,35 @@
                         <li sec:authorize="hasRole('USER')"
                             th:classappend="${#httpServletRequest.getRequestURI() == '/profile/orders' ? 'active' : ''}">
                             <a href="/profile/orders">
+
                                 <i class="fas fa-shopping-bag"><span class="badgeOrder"
                                                                      id="orders-quantity1"></span></i>
-                                <span class="menu-text" id="oders">My orders</span>
+                                <span class="menu-text my-orders-loc" id="oders">My orders</span>
+
                                 <span class="badge badge-pill badge-danger" id="orders-quantity"></span>
                             </a>
                         </li>
                         <li th:classappend="${#httpServletRequest.getRequestURI() == '/shopping-cart' ? 'active' : ''}">
                             <a href="/shopping-cart">
                                 <i class="fa fa-shopping-cart"><span class="badgeCart" id="bucketIn1"></span></i>
-                                <span class="menu-text" id="headershoppingcart">Shopping cart</span>
+                                <span class="menu-text" id="headerShoppingCart">Shopping cart</span>
                                 <span class="badge badge-pill badge-danger" id="bucketIn"></span>
                             </a>
                         </li>
                     </th:block>
                     <th:block sec:authorize="hasRole('ADMIN')">
                         <li class="header-menu">
-                            <span>Admin</span>
+                            <span class="admin-loc">Admin</span>
                         </li>
                         <li>
                             <a href="/admin/panel/books">
                                 <i class="fas fa-users-cog"></i>
-                                <span class="menu-text">Admin panel</span>
+                                <span class="menu-text admin-panel-loc">Admin panel</span>
                             </a>
                         </li>
                     </th:block>
                     <li class="header-menu">
-                        <span>Settings</span>
+                        <span id="header-settings-loc">Settings</span>
                     </li>
                     <th:block sec:authorize="hasRole('USER')">
                         <li th:classappend="${#httpServletRequest.getRequestURI() == '/profile/settings' ? 'active' : ''}">
@@ -169,7 +174,7 @@
                     <li class="sidebar-dropdown">
                         <a href="#">
                             <i class="fas fa-language"></i>
-                            <span class="menu-text">Language</span>
+                            <span class="menu-text" id="language-left-panel">Language</span>
                         </a>
                         <div class="sidebar-submenu">
                             <ul id="sidebarLanguages">
@@ -192,7 +197,7 @@
                         <li>
                             <a data-target="#feedback-modal" data-toggle="modal" href="">
                                 <i class="far fa-comment-dots"></i>
-                                <span id="ask-question">Ask a question</span>
+                                <span class="ask-question-loc">Ask a question</span>
                             </a>
                         </li>
                     </th:block>
@@ -265,7 +270,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header mx-3">
-                    <h5 class="header-title-sign-in mb-0" id="exampleModalLabel">Sign in</h5>
+                    <h5 class="header-title-sign-in mb-0 signin-loc" id="exampleModalLabel">Sign in</h5>
                     <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -274,20 +279,22 @@
                     <form action="/login" id="form-login" method="post" name="form-login" role="form"
                           th:action="@{/login}">
                         <div class="form-group">
-                            <label for="loginInput">Login</label>
-                            <input class="form-control" id="loginInput" name="username"
+                            <label id="login-input-label" class="login-loc" for="loginInput">Login</label>
+                            <input class="form-control login-input-loc" id="loginInput" name="username"
                                    placeholder="Login"
                                    required type="text">
                         </div>
                         <div class="form-group">
-                            <label for="passwordInput">Password</label>
-                            <input class="form-control" id="passwordInput" name="password"
+                            <label id="password-input-label" class="password-input-label"
+                                   for="passwordInput">Password</label>
+                            <input class="form-control password-input-loc" id="passwordInput" name="password"
                                    placeholder="Password" required type="password">
                         </div>
                         <div class="custom-control custom-checkbox mb-4">
                             <input class="custom-control-input" id="checkboxRememberMe" type="checkbox">
-                            <label class="custom-control-label" for="checkboxRememberMe">Remember me</label>
-                            <button class="btn btn-primary btn-block col-6 pull-right mr-1"
+                            <label class="custom-control-label checkboxRememberMe-loc" for="checkboxRememberMe">Remember
+                                me</label>
+                            <button class="btn btn-primary btn-block col-6 pull-right mr-1 signin-loc"
                                     id="sign_in_btn"
                                     onclick="sendSignInForm()" type="button">Sign in
                             </button>
@@ -303,23 +310,27 @@
                         <div class="col-lg-6 col-sm-12 pr-lg-1 mt-1">
                             <a class="btn btn-block btn-social btn-google text-white"
                                th:href="@{/oauth2/authorize/google}">
-                                <span class="fa fa-google mr-2"></span>Sign up with Google
+                                <span class="fa fa-google mr-2"></span>
+                                <div class="signup-google-btn">Sign up with Google</div>
                             </a>
                         </div>
                         <div class="col-lg-6 col-sm-12 pl-lg-1 mt-1">
                             <a class="btn btn-block btn-social btn-facebook text-white"
                                th:href="@{/oauth2/authorize/facebook}">
-                                <span class="fa fa-facebook-f"></span>Sign up with Facebook
+                                <span class="fa fa-facebook-f"></span>
+                                <div class="signup-fb-btn">Sign up with Facebook</div>
                             </a>
                         </div>
                     </div>
                     <div class="modal-footer mt-3">
-                        <a class="btn col-12 border mt-3" href="/registration" role="button"
+                        <a class="btn col-12 border mt-3 register-new-btn" href="/registration" role="button"
                            style="background-color: #AEC5EB">Register new
                             profile</a>
-                        <a class="btn btn-warning col-12 border mt-3" href="/resetPassword"
-                                style="background-color: #E9AFA3"
-                                type="button">Forgot your password?
+
+                        <a class="btn btn-warning col-12 border mt-3 forgot-pass-btn" href="/resetPassword"
+
+                           style="background-color: #E9AFA3"
+                           type="button">Forgot your password?
                         </a>
                     </div>
                 </div>
@@ -344,8 +355,16 @@
         <th:block th:include="reg1Click:: register">
         </th:block>
     </th:block>
+    <th:block th:if="${#httpServletRequest.getRequestURI().contains('not-found')}">
+        <th:block th:include="error :: not-found">
+        </th:block>
+    </th:block>
+    <th:block th:if="${#httpServletRequest.getRequestURI().contains('err/server-error')}">
+        <th:block th:include="error :: server-error">
+        </th:block>
+    </th:block>
     <th:block
-            th:if="${#httpServletRequest.getRequestURI() == '/home'}">
+            th:if="${#httpServletRequest.getRequestURI() == '/home' || #httpServletRequest.getRequestURI().contains('/error')}">
         <th:block th:include="home :: page-content">
         </th:block>
     </th:block>
@@ -373,15 +392,6 @@
         <th:block th:include="search :: search-page">
         </th:block>
     </th:block>
-    <th:block th:if="${#httpServletRequest.getRequestURI().contains('not-found')}">
-        <th:block th:exclude="">
-            <th:block th:include="error :: not-found">
-            </th:block>
-        </th:block>
-        <th:block th:if="${#httpServletRequest.getRequestURI().contains('errors/server-error')}">
-            <th:block th:include="error :: server-error">
-            </th:block>
-        </th:block>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -415,4 +425,5 @@
 <script src="/static/js/user/profile/profile.js"></script>
 
 </body>
+<!--user.html-->
 </html>

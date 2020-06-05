@@ -53,8 +53,8 @@ async function addBooksToPage(books) {
                                                   >                        
                                                     ${editBook}
                                                   </div>` :
-            `<div style="position: absolute; bottom: 5px; left: 15px; right: 15px" id="bottomInCart" type="button" 
-                                                      class="btn btn-success ${cssOfBtn} btn-metro"  data-id="${books[index].id}">                        
+            `<div style="position: absolute; bottom: 5px; left: 15px; right: 15px" id="" type="button" 
+                                                      class="btn btn-success ${cssOfBtn} btn-metro bottomInCart"  data-id="${books[index].id}">                        
                                                     ${textOfBtn}
                                                 </div>`}
                                 </div>`;
@@ -64,8 +64,7 @@ async function addBooksToPage(books) {
 }
 
 function openEdit(id) {
-    localStorage.setItem('tmpEditBookId', id);
-    window.open('/edit', '_blank');
+    window.open('/admin/edit/' + id, '_blank');
 }
 
 async function getAUTH() {
