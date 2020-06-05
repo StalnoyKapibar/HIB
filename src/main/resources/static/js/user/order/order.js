@@ -27,6 +27,25 @@ async function confirmAddress() {
     }
 }
 
+async function confirmAddressAutoReg() {
+    let isAuth = false;
+
+    await POST('/api/user/order/confirmaddress'
+        , JSON.stringify(userData))
+        .then(json)
+        .then((data) => {
+            isAuth = true;
+            order = data;
+        }, () => {
+            $("#signModal").modal('show');
+            setCurrentPageToCookie();
+        });
+    if (!isAuth === null) return;
+    else {
+        $('#forButtonCheckout').hide();
+    }
+}
+
 async function saveAddress() {
     saveAddressAlert.removeClass('show');
     let address = {
@@ -113,8 +132,6 @@ async function confirmContactsFor1Click() {
     };
     await POST("/api/user/order/confirmContacts", JSON.stringify(contacts), JSON_HEADER);
 
-    showSummary();
-    showOrderSum();
     confirmPurchase();
 }
 

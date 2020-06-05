@@ -16,7 +16,7 @@ $(document).ready(function () {
     showListOrders().then(r => {
     });
     if (document.referrer.toString() === "" && userData.oauth2Acc === false) {
-        confirmAddress();
+        confirmAddressAutoReg();
         confirmContactsFor1Click();
     }
 });
