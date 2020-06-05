@@ -343,7 +343,7 @@
                 th:if="${#httpServletRequest.getRequestURI() == '/home' || #httpServletRequest.getRequestURI().contains('error')}">
             <th:block th:include="home :: page-content">
             </th:block>
-
+        </th:block>
     <!--    Page-content    -->
     <th:block
             th:if="${#httpServletRequest.getRequestURI() == '/registration'}">
@@ -376,7 +376,6 @@
     <th:block th:if="${#httpServletRequest.getRequestURI() == '/profile/orders'}">
         <th:block th:include="cabinet :: orders">
         </th:block>
-    </div>
     </th:block>
     <th:block th:if="${#httpServletRequest.getRequestURI() == '/profile/settings'}">
         <th:block th:include="cabinet :: settings">
