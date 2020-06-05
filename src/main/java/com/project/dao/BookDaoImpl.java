@@ -50,7 +50,7 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
 
     @Override
     public BookSearchPageDTO getBookBySearchRequest(String request, Long priceFrom, Long priceTo, String yearOfEditionFrom, String yearOfEditionTo,
-                                                   Long pagesFrom, Long pagesTo, String searchBy, List<String> categories, Pageable pageable) {
+                                                    Long pagesFrom, Long pagesTo, String searchBy, List<Long> categories, Pageable pageable) {
         int limitBookDTOOnPage = pageable.getPageSize();
         int minNumberId = limitBookDTOOnPage * pageable.getPageNumber();
         long amountOfBooks = getQuantityBooksBySearchRequest(request, priceFrom, priceTo, yearOfEditionFrom, yearOfEditionTo, pagesFrom, pagesTo, searchBy, categories);
@@ -67,7 +67,7 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
                 "(:pagesFrom is null and b.pages <= :pagesTo) OR (:pagesFrom is null and :pagesTo is null)) AND " +
                 "((b.yearOfEdition >= :yearOfEditionFrom and b.yearOfEdition <= :yearOfEditionTo) OR (b.yearOfEdition >= :yearOfEditionFrom and :yearOfEditionTo = 'null') OR " +
                 "(:yearOfEditionFrom = 'null' and b.yearOfEdition <= :yearOfEditionTo) OR (:yearOfEditionFrom = 'null' and :yearOfEditionTo = 'null')) AND " +
-                "((b.category.categoryName in :categories) or ('undefined' in :categories)) AND" +
+                "((b.category.id in :categories) or ('undefined' in :categories)) AND" +
                 "((b.price >= :priceFrom and b.price <= :priceTo) OR (b.price >= :priceFrom and :priceTo = 0) OR " +
                 "(:priceFrom = 0 and b.price <= :priceTo) OR (:priceFrom = 0 and :priceTo = 0)) ORDER BY b.id ASC");
         List<BookNewDTO> bookNewDTOList = entityManager.createQuery(hql, BookNewDTO.class)
@@ -95,7 +95,7 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
 
     @Override
     public long getQuantityBooksBySearchRequest(String request, Long priceFrom, Long priceTo,
-                                               String yearOfEditionFrom, String yearOfEditionTo, Long pagesFrom, Long pagesTo, String searchBy, List<String> categories) {
+                                                String yearOfEditionFrom, String yearOfEditionTo, Long pagesFrom, Long pagesTo, String searchBy, List<Long> categories) {
         String name = ("%" + request + "%");
         String hql = ("SELECT new com.project.model.BookNewDTO(b.id)" +
                 "FROM Book b where b.isShow = true AND " +
@@ -107,7 +107,7 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
                 "(:pagesFrom is null and b.pages <= :pagesTo) OR (:pagesFrom is null and :pagesTo is null)) AND " +
                 "((b.yearOfEdition >= :yearOfEditionFrom and b.yearOfEdition <= :yearOfEditionTo) OR (b.yearOfEdition >= :yearOfEditionFrom and :yearOfEditionTo = 'null') OR " +
                 "(:yearOfEditionFrom = 'null' and b.yearOfEdition <= :yearOfEditionTo) OR (:yearOfEditionFrom = 'null' and :yearOfEditionTo = 'null')) AND " +
-                "((b.category.categoryName in :categories) or ('undefined' in :categories)) AND" +
+                "((b.category.id in :categories) or ('undefined' in :categories)) AND" +
                 "((b.price >= :priceFrom and b.price <= :priceTo) OR (b.price >= :priceFrom and :priceTo = 0) OR " +
                 "(:priceFrom = 0 and b.price <= :priceTo) OR (:priceFrom = 0 and :priceTo = 0))");
         List<BookNewDTO> list = entityManager.createQuery(hql, BookNewDTO.class)
@@ -161,6 +161,13 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
                 .setParameter("show", true)
                 .getResultList();
         return list;
+    }
+
+    @Override
+    public Long getSizeOfTotalBooks() {
+        return (Long) entityManager
+                .createQuery("SELECT count (b.id) FROM Book b ")
+                .getSingleResult();
     }
 
     @Override

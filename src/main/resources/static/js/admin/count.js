@@ -26,3 +26,11 @@ function startCountOfFeedback() {
             }
         });
 }
+
+function totalNumberOfBooks() {
+    fetch("/api/admin/book-count")
+        .then(response => response.json())
+        .then(function (data) {
+            $("#countOfBooks").html(`${data}`);
+        });
+}
