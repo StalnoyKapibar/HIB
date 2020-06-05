@@ -82,7 +82,8 @@
                 <div>
                     <div class="input-group">
 
-                        <input class="form-control search-menu search-input-dots-loc" id="searchInput" placeholder="Search..." type="text">
+                        <input class="form-control search-menu search-input-dots-loc" id="searchInput"
+                               placeholder="Search..." type="text">
 
                         <div class="input-group-append">
                                 <span class="input-group-text" id="searchIcon">
@@ -284,13 +285,15 @@
                                    required type="text">
                         </div>
                         <div class="form-group">
-                            <label id="password-input-label" class="password-input-label" for="passwordInput">Password</label>
+                            <label id="password-input-label" class="password-input-label"
+                                   for="passwordInput">Password</label>
                             <input class="form-control password-input-loc" id="passwordInput" name="password"
                                    placeholder="Password" required type="password">
                         </div>
                         <div class="custom-control custom-checkbox mb-4">
                             <input class="custom-control-input" id="checkboxRememberMe" type="checkbox">
-                            <label class="custom-control-label checkboxRememberMe-loc" for="checkboxRememberMe">Remember me</label>
+                            <label class="custom-control-label checkboxRememberMe-loc" for="checkboxRememberMe">Remember
+                                me</label>
                             <button class="btn btn-primary btn-block col-6 pull-right mr-1 signin-loc"
                                     id="sign_in_btn"
                                     onclick="sendSignInForm()" type="button">Sign in
@@ -307,13 +310,15 @@
                         <div class="col-lg-6 col-sm-12 pr-lg-1 mt-1">
                             <a class="btn btn-block btn-social btn-google text-white"
                                th:href="@{/oauth2/authorize/google}">
-                                <span class="fa fa-google mr-2" ></span><div class="signup-google-btn">Sign up with Google</div>
+                                <span class="fa fa-google mr-2"></span>
+                                <div class="signup-google-btn">Sign up with Google</div>
                             </a>
                         </div>
                         <div class="col-lg-6 col-sm-12 pl-lg-1 mt-1">
                             <a class="btn btn-block btn-social btn-facebook text-white"
                                th:href="@{/oauth2/authorize/facebook}">
-                                <span class="fa fa-facebook-f"></span><div class="signup-fb-btn">Sign up with Facebook</div>
+                                <span class="fa fa-facebook-f"></span>
+                                <div class="signup-fb-btn">Sign up with Facebook</div>
                             </a>
                         </div>
                     </div>
@@ -324,8 +329,8 @@
 
                         <a class="btn btn-warning col-12 border mt-3 forgot-pass-btn" href="/resetPassword"
 
-                                style="background-color: #E9AFA3"
-                                type="button">Forgot your password?
+                           style="background-color: #E9AFA3"
+                           type="button">Forgot your password?
                         </a>
                     </div>
                 </div>
@@ -350,8 +355,16 @@
         <th:block th:include="reg1Click:: register">
         </th:block>
     </th:block>
+    <th:block th:if="${#httpServletRequest.getRequestURI().contains('not-found')}">
+        <th:block th:include="error :: not-found">
+        </th:block>
+    </th:block>
+    <th:block th:if="${#httpServletRequest.getRequestURI().contains('err/server-error')}">
+        <th:block th:include="error :: server-error">
+        </th:block>
+    </th:block>
     <th:block
-            th:if="${#httpServletRequest.getRequestURI() == '/home'}">
+            th:if="${#httpServletRequest.getRequestURI() == '/home' || #httpServletRequest.getRequestURI().contains('/error')}">
         <th:block th:include="home :: page-content">
         </th:block>
     </th:block>
@@ -379,15 +392,6 @@
         <th:block th:include="search :: search-page">
         </th:block>
     </th:block>
-    <th:block th:if="${#httpServletRequest.getRequestURI().contains('not-found')}">
-        <th:block th:exclude="">
-            <th:block th:include="error :: not-found">
-            </th:block>
-        </th:block>
-        <th:block th:if="${#httpServletRequest.getRequestURI().contains('errors/server-error')}">
-            <th:block th:include="error :: server-error">
-            </th:block>
-        </th:block>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
