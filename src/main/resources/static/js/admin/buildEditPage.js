@@ -9,7 +9,7 @@ let pathImageFin;
 let pathImageFinWithoutImage;
 let nameImage;
 let nameImageCover = '';
-let pathImageDefault = '../images/book';
+let pathImageDefault = '/images/book';
 let categoryName, categoryIdSrc;
 let isShow = false;
 
@@ -115,6 +115,27 @@ function addPartsOfBook(partsOfBook) {
 function buildPage() {
     let disabled = tmpArr.show ? '' : 'checked';
     var html1 = '';
+    var htmlCategory = '';
+    if (tmpArr.category === null) {
+
+    } else {
+        htmlCategory = '<div class="tab-pane fade" id="category" role="tabpanel" aria-labelledby="category-tab">\n' +
+            '            <div class="card card-footer">\n' +
+            '                <h5 class="bg-secondary p-2 text-white text-center">Category</h5>\n' +
+            '               <div class="row">\n' +
+            '               <div class="col-4" style="margin: 0 auto">\n' +
+            '                <div class="input-group mb-3">\n' +
+            '                  <input type="text" class="form-control" categoryid="' + tmpArr.category.id + '" id="categoryInput" readonly value="' + tmpArr.category.categoryName + '">\n' +
+            '                  <div class="input-group-append">\n' +
+            '                    <button class="btn btn-outline-secondary" id="selectCategory" data-toggle="modal" data-target=".bd-example-modal-lg" type="button">Change category</button>\n' +
+            '                  </div>\n' +
+            '                </div>\n' +
+            '               </div>\n' +
+            '            </div>\n' +
+            '            </div>\n' +
+            '            </div></div>';
+    }
+
     html1 += `<div class="card card-header">
               <div class="row">
               <div class="col-1">
@@ -171,24 +192,16 @@ function buildPage() {
             <Label>Load another image</Label>
             <input type="file" class="form-control-file" id="loadAnotherImage" accept=".jpg" onchange="loadImage('loadAnotherImage','imageList')">
             <div class='car' id='imageList' style='width: 18rem;'>
+            
             </div></div></div></div>
-            <div class="tab-pane fade" id="category" role="tabpanel" aria-labelledby="category-tab">
-            <div class="card card-footer">
-                <h5 class="bg-secondary p-2 text-white text-center">Category</h5>
-               <div class="row">
-               <div class="col-4" style="margin: 0 auto">
-                <div class="input-group mb-3">
-                  <input type="text" class="form-control" categoryid="${tmpArr.category.id}" id="categoryInput" readonly value="${tmpArr.category.categoryName}">
-                  <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" id="selectCategory" data-toggle="modal" data-target=".bd-example-modal-lg" type="button">Change category</button>
-                  </div>
-                </div>
-               </div>
-            </div>
-            </div>
-            </div></div>`);
-    categoryName = tmpArr.category.categoryName;
-    categoryIdSrc = tmpArr.category.id;
+            ${htmlCategory}`);
+    if (tmpArr.category === null) {
+
+    } else {
+        categoryName = tmpArr.category.categoryName;
+        categoryIdSrc = tmpArr.category.id;
+    }
+
     $('#categoryLabel').append(categoryName);
     $('#categoryModalBody').attr('data-id', categoryIdSrc);
 
@@ -703,7 +716,7 @@ function getVarBookDTO() {
 function getAllLocales() {
     var full_url = document.URL; // Get current url
     var url_array = full_url.split('/')
-    var last_segment = url_array[url_array.length-1];
+    var last_segment = url_array[url_array.length - 1];
     fetch("/lang")
         .then(status)
         .then(json)
