@@ -140,10 +140,14 @@ function setListeners () {
 
     $(document).keypress(function (event) {
         var keycode = (event.keyCode ? event.keyCode : event.which);
-        if (keycode == '13'&& $("#search-input").val().trim() !== '') {
+        if (keycode == '13') {
             $('#search-submit').click();
         }
     });
+
+    $('#search-input').on('input', function () {
+        $('#search-submit').click();
+    })
 }
 
 async function getCategoryTree() {
@@ -189,7 +193,7 @@ async function setTreeView(category) {
         row =
             `<div class="category text-nowrap">
                 <div class="custom-control custom-checkbox form-check-inline" id="heading-${category[i].id}">
-                    <input class="custom-control-input" type="checkbox" id="check-${category[i].id}" value="${category[i].categoryName}">
+                    <input class="custom-control-input" type="checkbox" id="check-${category[i].id}" value="${category[i].id}">
                     <label class="custom-control-label" for="check-${category[i].id}"></label>
                     <label class="collapsed" data-toggle="collapse" data-target="#collapse-${category[i].id}" aria-expanded="false" aria-controls="collapse-${category[i].id}">
                        ${category[i].categoryName}(${await getCountBooksByCat(category[i].path)})
@@ -213,7 +217,7 @@ async function setChilds(category) {
             row +=
                 `<div class="category text-nowrap">
                     <div class="custom-control custom-checkbox form-check-inline" id="heading-${category[i].id}">
-                        <input class="custom-control-input" type="checkbox" id="check-${category[i].id}" value="${category[i].categoryName}">
+                        <input class="custom-control-input" type="checkbox" id="check-${category[i].id}" value="${category[i].id}">
                         <label class="custom-control-label" for="check-${category[i].id}">
                             ${category[i].categoryName}(${await getCountBooksByCat(category[i].path)})
                         </label>
@@ -223,7 +227,7 @@ async function setChilds(category) {
             row +=
                 `<div class="category text-nowrap">
                     <div class="custom-control custom-checkbox form-check-inline" id="heading-${category[i].id}">
-                        <input class="custom-control-input" type="checkbox" id="check-${category[i].id}" value="${category[i].categoryName}">
+                        <input class="custom-control-input" type="checkbox" id="check-${category[i].id}" value="${category[i].id}">
                         <label class="custom-control-label" for="check-${category[i].id}"></label>
                         <label class="collapsed" data-toggle="collapse" data-target="#collapse-${category[i].id}" aria-expanded="false" aria-controls="collapse-${category[i].id}">
                            ${category[i].categoryName}(${await getCountBooksByCat(category[i].path)})
