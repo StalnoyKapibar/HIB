@@ -14,7 +14,7 @@
             <!--    Main    -->
             <div class="col-lg-10 col-md-12 main">
                 <div class="input-group mb-1">
-                    <input class="form-control" id="search-input" placeholder="Search..." type="text">
+                    <input class="form-control search-input-dots-loc" id="search-input" placeholder="Search..." type="text">
                     <div class="input-group-append">
                                 <span class="input-group-text search-submit">
                                     <i aria-hidden="true" class="fa fa-search"></i>
@@ -24,85 +24,88 @@
                 <table class="table table-striped table-sm bg-white text-center">
                 </table>
             </div>
+
             <!--    Sidebar    -->
             <div class="col-lg-2 col-md-12 sidebar">
                 <div class="flex-column" id="search-sidebar">
                     <form id="search-form" class="container-fluid">
                         <div class="row">
                             <div class="form-group sidebar-item col-lg-12 col-md-4">
-                                <label for="input-pages" class="font-weight-bold" id="search_by_search_page_menu">Search by...</label>
+                                <label for="input-pages" class="font-weight-bold search-by-dots-loc" id="search_by_search_page_menu">Search by...</label>
                                 <div class="form-group" id="search-by">
                                     <div class="custom-control custom-radio">
                                         <input class="custom-control-input" type="radio" name="searchBy"
                                                id="search-by-name-author" value="name-author" checked>
-                                        <label class="custom-control-label" for="search-by-name-author" id="name_author_search_by">
+                                        <label class="custom-control-label name-and-author-loc" for="search-by-name-author" id="name_author_search_by">
                                             name and author
                                         </label>
                                     </div>
                                     <div class="custom-control custom-radio">
-                                        <input class="custom-control-input" type="radio" name="searchBy" id="search-by-name"
+                                        <input class="custom-control-input " type="radio" name="searchBy" id="search-by-name"
                                                value="name">
-                                        <label class="custom-control-label" for="search-by-name" id="name_search_by">
+                                        <label class="custom-control-label name-loc" for="search-by-name" id="name_search_by">
                                             name
                                         </label>
                                     </div>
                                     <div class="custom-control custom-radio">
                                         <input class="custom-control-input" type="radio" name="searchBy"
                                                id="search-by-author" value="author">
-                                        <label class="custom-control-label" for="search-by-author" id="author_search_by">
+                                        <label class="custom-control-label author-loc" for="search-by-author" id="author_search_by">
                                             author
                                         </label>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group sidebar-item col-lg-12 col-md-4 col-sm-6 col-12">
-                                <label for="input-categories" class="font-weight-bold" id="categories_search_page_menu">Categories</label>
+                                <label for="input-categories" class="font-weight-bold categories-loc" id="categories_search_page_menu">Categories</label>
                                 <div id="input-categories">
                                 </div>
                             </div>
                             <div class="form-group sidebar-item col-lg-12 col-md-4 col-sm-6 col-12">
-                                <label for="input-price" class="font-weight-bold" id="price_search_page_menu">Price, €</label>
+                                <label for="input-price" class="font-weight-bold " id="price_search_page_menu"><div class="price-loc">Price</div> , €</label>
                                 <div class="form-row" id="input-price">
                                     <div class="col-auto mb-1">
-                                        <input type="number" step="any" min="0" class="form-control" id="input-price-from"
+                                        <input type="number" step="any" min="0" class="form-control from-form" id="input-price-from"
                                                name="priceFrom" placeholder="From">
                                     </div>
                                     <div class="col-auto">
-                                        <input type="number" step="any" min="0" class="form-control" id="input-price-to"
+                                        <input type="number" step="any" min="0" class="form-control to-form" id="input-price-to"
                                                name="priceTo" placeholder="To">
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group sidebar-item col-lg-12 col-md-4 col-sm-6 col-12">
-                                <label for="input-year-edition" class="font-weight-bold" id="edition_search_page_menu">Year of edition</label>
+                                <label for="input-year-edition" class="font-weight-bold year-of-edition-loc" id="edition_search_page_menu">Year of edition</label>
                                 <div class="form-row" id="input-year-edition">
                                     <div class="col-auto mb-1">
-                                        <input type="number" min="0" class="form-control" id="input-year-of-edition-from"
+                                        <input type="number" min="0" class="form-control from-form" id="input-year-of-edition-from"
                                                name="yearOfEditionFrom" placeholder="From">
                                     </div>
                                     <div class="col-auto">
-                                        <input type="number" min="0" class="form-control" id="input-year-of-edition-to"
+                                        <input type="number" min="0" class="form-control to-form" id="input-year-of-edition-to"
                                                name="yearOfEditionTo" placeholder="To">
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group sidebar-item col-lg-12 col-md-4 col-sm-6 col-12">
-                                <label for="input-pages" class="font-weight-bold" id="pages_search_page_menu">Number of pages</label>
+                                <label for="input-pages" class="font-weight-bold number-of-pages-loc" id="pages_search_page_menu">Number of pages</label>
                                 <div class="form-row" id="input-pages">
                                     <div class="col-auto mb-1">
-                                        <input type="number" min="0" class="form-control" id="input-pages-from"
+                                        <input type="number" min="0" class="form-control from-form" id="input-pages-from"
                                                name="pagesFrom" placeholder="From">
                                     </div>
                                     <div class="col-auto">
-                                        <input type="number" min="0" class="form-control" id="input-pages-to"
+                                        <input type="number" min="0" class="form-control to-form" id="input-pages-to"
                                                name="pagesTo" placeholder="To">
                                     </div>
+
                                 </div>
                             </div>
                             <button id="search-submit" class="btn btn-block btn-success search-submit" type="button">
                                 Search
                             </button>
                         </div>
+
                     </form>
                 </div>
             </div>
@@ -129,4 +132,5 @@
     <script src="/static/js/utils/liveSearch.js"></script>
 </div>
 </body>
+<!--search.html-->
 </html>

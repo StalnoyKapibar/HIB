@@ -13,9 +13,10 @@ let pathImageDefault = '/images/book';
 let categoryName, categoryIdSrc;
 let isShow = false;
 
-$(document).ready(
-    getVarBookDTO()
-);
+$(document).ready(function () {
+    setLocaleFields();
+    getVarBookDTO();
+});
 
 function status(response) {
     if (response.status >= 200 && response.status < 300) {
@@ -49,17 +50,17 @@ function addPartsOfBook(partsOfBook) {
                 <div class="row">
                 <div class="col-0" for=${tmpNameObject}${tmpNameVar}>${tmpNameObject} ${tmpNameVar}</div>
                 <div class="col-2 mr-1">
-                <input type="radio" name="rb${tmpNameObject}" id="rb${tmpNameObject}${tmpNameVar}" value="${tmpNameVar}" autocomplete="off"> Translate from this language
+                <input type="radio" class="transl-from-this-lang-loc" name="rb${tmpNameObject}" id="rb${tmpNameObject}${tmpNameVar}" value="${tmpNameVar}" autocomplete="off"> Translate from this language
                 </div>
                 <div class="col">
                 <textarea type='text' class='form-control' id='inp${tmpNameObject}${tmpNameVar}'
                 placeholder='${tmpNameObject} ${tmpNameVar}'></textarea>
                 </div>
                 <div class="col">
-                <input type="checkbox" checked name="cb${tmpNameObject}" value="${tmpNameVar}" autocomplete="off"> Into this language
+                <input class="into-this-lang-loc" type="checkbox" checked name="cb${tmpNameObject}" value="${tmpNameVar}" autocomplete="off"> Into this language
                 </div></div></div></div>`;
                     if (tmpNameVar === "gr") {
-                        html += `<button type="button" onclick="translateText('${tmpNameObject}')" class="btn btn-primary mx-3">Translate</button></div>`
+                        html += `<button type="button" onclick="translateText('${tmpNameObject}')" class="btn btn-primary mx-3 translate-loc">Translate</button></div>`
                     }
                 }
 
@@ -68,18 +69,16 @@ function addPartsOfBook(partsOfBook) {
                     `<div class="shadow p-4 mb-4 bg-white">
                 <div class='form-group mx-5 my-3'>
                 <div class="row">
-                <div class="col-0" for=${tmpNameObject}>${tmpNameObject} of other lang </div>
-                <div class="col-5 pl-5 ml-5  "><input type='text'  class='form-control '  id='inpt${tmpNameObject}'
-                placeholder='${tmpNameObject} of other  lang '>
+                <div class="col-0" for=${tmpNameObject}>${tmpNameObject} <div class="of-other-lang-loc">of other lang</div> </div>
+                <div class="col-5 pl-5 ml-5  "><input type='text'  class='form-control '  id='inpt${tmpNameObject}'>
                 </div> </div>
                 <div class="row my-2">
-                <div class="col-0" for=${tmpNameObject}>${tmpNameObject} transliterate&nbsp;&nbsp; </div>
+                <div class="col-0" for=${tmpNameObject}>${tmpNameObject} <div class="transliterate-loc">transliterate</div>&nbsp;&nbsp; </div>
                 <div class="col-5 pl-5 ml-5  mr-1 ">
-                <input type='text' class='form-control ' id='in${tmpNameObject}'
-                >
+                <input type='text' class='form-control ' id='in${tmpNameObject}'>
                 </div> </div>
                 </div>
-                <button id="yourDivId" type="button" onclick="transliterationText('${tmpNameObject}')" class="btn btn-primary mx-3">Transliterate</button>
+                    <button id="yourDivId" type="button" onclick="transliterationText('${tmpNameObject}')" class="btn btn-primary mx-3 big-transliterate-loc">Transliterate</button>
                 </div>`;
 
 
@@ -90,17 +89,17 @@ function addPartsOfBook(partsOfBook) {
                 <div class="row">
                 <div class="col-0" for=${tmpNameObject}${tmpNameVar}>${tmpNameObject} ${tmpNameVar}</div>
                 <div class="col-2 mr-1">
-                <input type="radio" name="rb${tmpNameObject}" id="rb${tmpNameObject}${tmpNameVar}" value="${tmpNameVar}" autocomplete="off"> Translate from this language
+                <input type="radio" class="transl-from-this-lang-loc" name="rb${tmpNameObject}" id="rb${tmpNameObject}${tmpNameVar}" value="${tmpNameVar}" autocomplete="off"> Translate from this language
                 </div>
                 <div class="col">
                 <input type='text' class='form-control' id='inp${tmpNameObject}${tmpNameVar}'
                 placeholder='${tmpNameObject} ${tmpNameVar}'>
                 </div>
                 <div class="col">
-                <input type="checkbox" checked name="cb${tmpNameObject}" value="${tmpNameVar}" autocomplete="off"> Into this language
+                <input type="checkbox" class="into-this-lang-loc" checked name="cb${tmpNameObject}" value="${tmpNameVar}" autocomplete="off"> Into this language
                 </div></div></div></div>`;
                     if (tmpNameVar === "gr") {
-                        html += `<button type="button" onclick="translateText('${tmpNameObject}')" class="btn btn-primary mx-3">Translate</button></div>`
+                        html += `<button type="button" onclick="translateText('${tmpNameObject}')" class="btn btn-primary mx-3 translate-loc">Translate</button></div>`
                     }
                 }
 
@@ -139,7 +138,7 @@ function buildPage() {
     html1 += `<div class="card card-header">
               <div class="row">
               <div class="col-1">
-              <h4 >Book sold</h4></div>
+              <h4 class="book-old-loc">Book sold</h4></div>
               <div class="col"> <input id="disabled" class="big-checkbox"  type="checkbox" ${disabled}></div></div></div>`;
 
     $('#bookEditPage').html(`<div class="card card-header">
@@ -158,42 +157,43 @@ function buildPage() {
              ${addPartsOfBook("edition")}</div>
             <div class="tab-pane fade" id="other" role="tabpanel" aria-labelledby="other-tab">
             <div class="shadow p-4 mb-4 bg-white">
-            <h5> Year Of Edition </h5>
-            <input type="text" id="yearOfEdition" placeholder="Year Of Edition"><br><br>
+            <h5 class="year-of-edition-loc"> Year Of Edition </h5>
+            <input type="text" id="yearOfEdition"><br><br>
             </div>
             <div class="shadow p-4 mb-4 bg-white">
-            <h5> Pages </h5>
+            <h5 class="pages-loc"> Pages </h5>
             <input type="number" id="pages" ><br><br>
             </div>
             <div class="shadow p-4 mb-4 bg-white">
-            <h5> Price </h5>
+            <h5 class="price-loc"> Price </h5>
             <input type="number" id="price" ><br><br>
             </div>
             <div class="shadow p-4 mb-4 bg-white">
-            <h5> Original Language </h5>
-            <select id="originalLanguage" >
+            <h5 class="original-lang-loc"> Original Language </h5>
+            <select id="originalLanguage">
             </select><br><br>
             </div>
             <div id = "allImage">
             <div class="shadow p-4 mb-4 bg-white">
             <div id="divLoadAvatar">
-            <h4>Avatar</h4>
+            <h4 class="avatar-loc">Avatar</h4>
             <div class="form-control-file" style="width: 18rem"">
               <div id="carouselExampleCaptions"  class="carousel card-body slide w-50" data-ride="carousel">
               <ol class="carousel-indicators" style="width: 18rem" id='test0'> </ol>
               <div class="carousel-inner" style="width: 18rem" id='test1'></div></div>
-              <Label>Load cover</Label><br>
-              <input type="button" value="Choose file" style="width: 6rem" accept=".jpg"   onclick="setImgInCarousel()" ></input>
+              <Label class="load-cover-loc">Load cover</Label><br>
+              <input type="button" value="Choose file" style="width: 6rem" accept=".jpg"   onclick="setImgInCarousel()">
               </div>
             </div>
             </div><br><br>
             <div class="shadow p-4 mb-4 bg-white">
-            <h4>Another Image</h4>
-            <Label>Load another image</Label>
+            <h4 class="another-image-loc">Another Image</h4>
+            <Label class="load-another-image-loc">Load another image</Label>
             <input type="file" class="form-control-file" id="loadAnotherImage" accept=".jpg" onchange="loadImage('loadAnotherImage','imageList')">
             <div class='car' id='imageList' style='width: 18rem;'>
             
             </div></div></div></div>
+
             ${htmlCategory}`);
     if (tmpArr.category === null) {
 
@@ -201,6 +201,7 @@ function buildPage() {
         categoryName = tmpArr.category.categoryName;
         categoryIdSrc = tmpArr.category.id;
     }
+
 
     $('#categoryLabel').append(categoryName);
     $('#categoryModalBody').attr('data-id', categoryIdSrc);
@@ -290,7 +291,7 @@ function buildPage() {
     }
     for (let key in tmpArr.listImage) {
         if (tmpArr.listImage[key].nameImage !== "1.jpg") {
-            myHTMLButtonDelete += '<button type="button" onclick="deleteTmpImage(' + key + ')"  class="btn btn-danger m-3">Delete</button>'
+            myHTMLButtonDelete += '<button type="button" onclick="deleteTmpImage(' + key + ')"  class="btn btn-danger m-3 delete-loc">Delete</button>'
         }
     }
     $('#bookEditPageForImg').html(`
@@ -312,7 +313,7 @@ function buildPage() {
               <div class='car card-body' style='width: 20rem;'>
               <img id='myImage' src =''  class='card-img-top' alt='...'> 
               </div></div>
-              <p><button type="button" onclick="deleteCoverImage(nameImageCover.toString())"  class="btn btn-danger m-3">Delete</button><p>
+              <p><button type="button" onclick="deleteCoverImage(nameImageCover.toString())"  class="btn btn-danger m-3 delete-loc">Delete</button><p>
               </div> </div>`);
 
 
@@ -359,7 +360,7 @@ $(document).ready(() => {
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="categoryLabel">Selected category: </h4>
+        <h4 class="modal-title selected-category-dots-loc" id="categoryLabel">Selected category: </h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">×</span>
         </button>
@@ -367,7 +368,7 @@ $(document).ready(() => {
       <div id="categoryModalBody" class="modal-body">
       </div>
        <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Confirm</button>
+        <button type="button" class="btn btn-secondary confirm-loc" data-dismiss="modal">Confirm</button>
       </div>
     </div>
   </div>
@@ -556,8 +557,8 @@ function buildCarousel() {
                     `<div id="qw${i}" class='carousel-item active'>` +
                     `<img src=${pathImageDefault}${idd}/${listImages[i].nameImage} class='d-block w-100' alt='...'>` +
                     `<div class='carousel-caption d-none d-md-block'>` +
-                    `<button type="button" onclick="setImageCover(${i})" class="btn btn-success">Change image cover</button>` +
-                    `<p><button type="button" onclick="deleteTmpImage(${i})" class="btn btn-danger m-3">Delete</button><p>` +
+                    `<button type="button" onclick="setImageCover(${i})" class="btn btn-success change-image-cover-loc">Change image cover</button>` +
+                    `<p><button type="button" onclick="deleteTmpImage(${i})" class="btn btn-danger m-3 delete-loc">Delete</button><p>` +
                     `</div>` +
                     `</div>`;
             } else {
@@ -567,8 +568,8 @@ function buildCarousel() {
                     ` <div id="qw${i}" class="carousel-item">` +
                     `<img src=${pathImageDefault}${idd}/${listImages[i].nameImage} class='d-block w-100' alt="...">` +
                     `<div class='carousel-caption d-none d-md-block'>` +
-                    `<button type="button" onclick="setImageCover(${i})" class="btn btn-success">Change image cover</button>` +
-                    `<p><button type="button" onclick="deleteTmpImage(${i})" class="btn btn-danger m-3">Delete</button><p>` +
+                    `<button type="button" onclick="setImageCover(${i})" class="btn btn-success change-image-cover-loc">Change image cover</button>` +
+                    `<p><button type="button" onclick="deleteTmpImage(${i})" class="btn btn-danger m-3 delete-loc">Delete</button><p>` +
                     `</div>` +
                     `</div>`;
             }
@@ -682,7 +683,7 @@ function addImageInDiv(fileName, divId) {
 function addImgAvatarAndBtn(divId, path) {
     divAvatar.append(
         `<img src=${path} class='card-img-top' id=${divId} alt='...'>
-        <button type="button" onclick="deleteImage('divAvatar')" class="btn btn-primary mx-3">Delete image</button>`
+        <button type="button" onclick="deleteImage('divAvatar')" class="btn btn-primary mx-3 delete-image-loc">Delete image</button>`
     )
 }
 
@@ -690,7 +691,7 @@ function addImgToListAndBtn(divId, path) {
     listImages.append(
         `<div class="shadow p-4 mb-4 bg-white" id="${divId}">               
                 <img src=${path} id=${divId} class='card-img-top'  alt='...'>
-                <button type="button" onclick="deleteImage('${divId}')" class="btn btn-primary mx-3">Delete image</button><br>              
+                <button type="button" onclick="deleteImage('${divId}')" class="btn btn-primary mx-3 delete-image-loc">Delete image</button><br>              
                 </div>`
     )
 }
