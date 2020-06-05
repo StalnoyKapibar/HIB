@@ -22,7 +22,6 @@
     <link href="/static/fonts/font.css" rel="stylesheet">
     <link href="/static/fonts/font-awesome.css" rel="stylesheet">
     <link href="/static/css/style.css" rel="stylesheet">
-    <link rel="stylesheet" href="/static/css/error.css">
     <script src="/static/js/lib/jquery.min.js"></script>
     <script src="/static/js/lib/popper.min.js"></script>
     <script src="/static/js/lib/bootstrap.min.js"></script>
@@ -47,7 +46,7 @@
         <div class="sidebar-content">
             <!--    Sidebar-brand    -->
             <div class="sidebar-item sidebar-brand">
-                <a id="mainNameInPage" href="/home"></a>
+                <a id="mainNameInPage" href="/home">HIB</a>
             </div>
             <!--    Sidebar-header    -->
             <div class="sidebar-menu sidebar-header d-flex flex-nowrap">
@@ -339,6 +338,12 @@
     </div>
 
     <script src="/static/js/utils/common-function.js"></script>
+        <!--    Page-content    -->
+        <th:block
+                th:if="${#httpServletRequest.getRequestURI() == '/home' || #httpServletRequest.getRequestURI().contains('error')}">
+            <th:block th:include="home :: page-content">
+            </th:block>
+
     <!--    Page-content    -->
     <th:block
             th:if="${#httpServletRequest.getRequestURI() == '/registration'}">
@@ -371,6 +376,7 @@
     <th:block th:if="${#httpServletRequest.getRequestURI() == '/profile/orders'}">
         <th:block th:include="cabinet :: orders">
         </th:block>
+    </div>
     </th:block>
     <th:block th:if="${#httpServletRequest.getRequestURI() == '/profile/settings'}">
         <th:block th:include="cabinet :: settings">
@@ -393,6 +399,7 @@
         </th:block>
     </th:block>
 </div>
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script crossorigin="anonymous"

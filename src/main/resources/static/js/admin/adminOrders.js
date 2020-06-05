@@ -88,6 +88,9 @@ async function showModalOfOrder(index) {
     messagePackIndex = 0;
     document.getElementById("chat").setAttribute('onscroll', 'scrolling()');
 
+    if (order.contacts.email == "") {
+        order.contacts.email = order.userDTO.email;
+    }
     let htmlChat = ``;
     await fetch("/gmail/" + order.contacts.email + "/messages/" + "0")
         .then(json)
