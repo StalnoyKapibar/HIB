@@ -164,6 +164,13 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
     }
 
     @Override
+    public Long getSizeOfTotalBooks() {
+        return (Long) entityManager
+                .createQuery("SELECT count (b.id) FROM Book b ")
+                .getSingleResult();
+    }
+
+    @Override
     public List<BookDTO> get20BookDTO(String locale) {
         String hql = ("SELECT new com.project.model.BookDTO(b.id, b.name.LOC, b.author.LOC, b.price, b.coverImage)" +
                 "FROM Book b WHERE b.isShow = true or b.isShow = null ORDER BY RAND()")
