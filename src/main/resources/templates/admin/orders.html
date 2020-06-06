@@ -8,9 +8,6 @@
 <div aria-labelledby="v-pills-orders-tab"
      class="tab-pane fade mt-3 show active" id="v-pills-orders" role="tabpanel"
      th:fragment="orders">
-    <script src="/static/js/admin/adminOrders.js"></script>
-    <script src="/static/js/main.js"></script>
-    <script src="/static/js/gmailProperties.js"></script>
     <div class="card">
         <div class="card-header">
             <div class="row ">
@@ -43,9 +40,9 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <div class="container" id="chat" style="height: 200px; overflow: auto"></div>
-                            <table class="table h6" id="modalBody"></table>
                             <div id="contactsOfUser"></div>
+                            <div class="container" id="chat"></div>
+                            <table class="table h6" id="modalBody"></table>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary close-btn" data-dismiss="modal">Close</button>
@@ -56,6 +53,9 @@
 
         </div>
     </div>
+    <script src="/static/js/admin/adminOrders.js"></script>
+    <script src="/static/js/main.js"></script>
+    <script src="/static/js/gmailProperties.js"></script>
 </div>
 
 </body>
