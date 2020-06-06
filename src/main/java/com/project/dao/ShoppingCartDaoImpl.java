@@ -54,6 +54,7 @@ public class ShoppingCartDaoImpl extends AbstractDao<Long, ShoppingCart> impleme
     @Override
     public long getCartSize(Long cartId){
         ShoppingCart shoppingCart = entityManager.find(ShoppingCart.class, cartId);
-        return shoppingCart.getCartItems().size();
+        long l =  shoppingCart.getCartItems().size();
+        return l;
     }
 }
