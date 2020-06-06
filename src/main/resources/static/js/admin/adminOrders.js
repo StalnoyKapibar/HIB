@@ -4,6 +4,7 @@ let statusOfOrder = "Processing";
 let btnDisplay = "d-inline";
 let messagePackIndex;
 let orderIndex;
+let scrollOn = true;
 
 $(window).on("load", function () {
     showListOrders();
@@ -81,16 +82,34 @@ async function showModalOfOrder(index) {
     $('#chat').empty();
     $('#modalBody').empty();
     $('#contactsOfUser').empty();
+    scrollOn = true;
     orderIndex = index;
     let order = allOrders[index];
     let items = order.items;
     $('#modalTitle').html(`Order № ${order.id}`);
     messagePackIndex = 0;
-    document.getElementById("chat").setAttribute('onscroll', 'scrolling()');
 
     if (order.contacts.email == "") {
         order.contacts.email = order.userDTO.email;
     }
+
+    let htmlContact = ``;
+    let emailModal = order.contacts.email;
+    let phoneModal = order.contacts.phone;
+    let commentModal = order.comment;
+    htmlContact += `<div class="panel panel-primary">
+                        <div class="panel-body">
+                            <div class="container mt-0 mb-0">
+                                <div class="row" id="contacts">
+                                    <div class="pl-3 pr-3 col-4" id="container-left">
+                                        <div><h5>${emailModal}</h5></div>
+                                        <div><span id="phoneModal">${phoneModal}</span></div>
+                                    </div>
+                                    <div class="pl-1 col-8" id="container-right"><span id="commentModal">${commentModal}</span></div>
+                                </div>`;
+    htmlContact += `</div></div></div>`;
+    $('#contactsOfUser').html(htmlContact);
+
     let htmlChat = ``;
     await fetch("/gmail/" + order.contacts.email + "/messages/" + "0")
         .then(json)
@@ -100,7 +119,7 @@ async function showModalOfOrder(index) {
                 htmlChat += `</div>`;
                 htmlChat += `<textarea id="sent-message" class="form-control"></textarea>
 
-                        </div><button class="float-right col-2 button btn-primary send-loc" type="button" id="send-button" onclick="sendGmailMessage('${order.contacts.email}', ${index})">Send</button>`
+                        </div><button class="float-right col-2 btn btn-primary send-loc" type="button" id="send-button" onclick="sendGmailMessage('${order.contacts.email}', ${index})">Send</button>`
 
             } else {
                 if (data[0].text === "noGmailAccess") {
@@ -112,19 +131,24 @@ async function showModalOfOrder(index) {
                 } else {
                     htmlChat += `<div id="chat-wrapper">`;
                     for (let i = data.length - 1; i > -1; i--) {
-                        htmlChat += `<p><b>${data[i].sender}</b></p>
-                    <p>${data[i].text}</p>`
+                        if (data[i].sender === "me") {
+                            htmlChat += `<div class="row"><div class="col-5"></div><div id="chat-mes" class="rounded col-7"><p><span>${data[i].sender}</span></p>
+                                    <p>${data[i].text}</p></div></div>`
+                        } else {
+                            htmlChat += `<div class="row"><div id="chat-mes" class="rounded col-7"><p><span>${data[i].sender}</span></p>
+                                                                            <p>${data[i].text}</p></div><div class="col-5"></div></div>`
+                        }
                     }
                     htmlChat += `</div>`;
                     htmlChat += `<textarea id="sent-message" class="form-control"></textarea>
 
-                        </div><button class="float-right col-2 button btn-primary send-loc" type="button" id="send-button" onclick="sendGmailMessage('${order.contacts.email}', ${index})">Send</button>`
+                        </div><button class="float-right col-2 btn btn-primary send-loc" type="button" id="send-button" onclick="sendGmailMessage('${order.contacts.email}', ${index})">Send</button>`
 
                 }
             }
         });
     $('#chat').html(htmlChat);
-    $('#chat').scrollTop(1000);
+    $('#chat').scrollTop(2000);
 
     let html = ``;
     html += `<thead><tr><th class="image-loc">Image</th>
@@ -141,56 +165,41 @@ async function showModalOfOrder(index) {
     html += `<tr><td></td><td></td><td><span class="subtotal-loc">Subtotal</span> :</td><td> ${convertPrice(order.itemsCost)}${iconOfPrice}</td></tr>
                  <tr><td></td><td></td><td><span class="total-loc">Total</span> :</td><td>${convertPrice(order.itemsCost + order.shippingCost)}${iconOfPrice}</td></tr>`;
     $('#modalBody').html(html);
+    document.getElementById("chat").setAttribute('onscroll', 'scrolling()');
 
-    let htmlContact = ``;
-    htmlContact += `<div class="panel panel-primary">
-                        <div class="panel-body">
-                            <div class="container mt-2">
-                                <div class="col-8 p-4 mb-4  alert alert-info" role="alert">
-                                    <h6 class="user-loc">User </h6><span><strong class="contacts-loc">contacts</strong></span>
-                                </div>`;
-    for (let key in order.contacts) {
-        if (order.contacts[key] !== "" && key !== "id" && key !== "comment") {
-            htmlContact += `<div class="form-group row">
-                        <label class="control-label col-sm-2 col-form-label">${key}</label>
-                        <div class="col-md-5 pl-0 pr-1">
-                            <input class="form-control" readonly  placeholder=${order.contacts[key]}>
-                        </div>
-                    </div>`;
-        }
-    }
-    if (order.comment !== " ") {
-        htmlContact += `<div class="form-group row">
-                        <label class="control-label col-sm-2 col-form-label">Comment</label>
-                        <div class="col-md-6 pl-0">
-                            <textarea class="form-control" readonly  rows="5" placeholder="${order.comment}" ></textarea>
-                        </div>
-                    </div>`;
-    }
-
-    htmlContact += `</div></div>`;
-
-    $('#contactsOfUser').html(htmlContact);
     setLocaleFields();
 }
 
 async function scrolling() {
+    document.getElementById("chat").removeAttribute('onscroll');
     let order = allOrders[orderIndex];
-    if ($('#chat').scrollTop() < 2) {
+    if ($('#chat').scrollTop() < 5 && $('#chat').scrollTop() > 0) {
+        $('#chat').scrollTop(10);
         messagePackIndex++;
         await fetch("/gmail/" + order.contacts.email + "/messages/" + messagePackIndex)
             .then(json)
             .then((data) => {
                 if (data[0].text === "chat end") {
-                    document.getElementById("chat").removeAttribute('onscroll');
+                    scrollOn = false;
                     return;
                 }
+                let html;
                 for (let i = 0; i < data.length; i++) {
-                    let html = `<p><b>${data[i].sender}</b></p>
-                    <p>${data[i].text}</p>`
+                    if (data[i].sender === "me") {
+                        html = `<div class="row"><div class="col-5"></div><div id="chat-mes" class="rounded col-7"><p><h6><b>${data[i].sender}</b></h6></p>
+                                    <p>${data[i].text}</p></div></div>`;
+                    } else {
+                        html = `<div class="row"><div id="chat-mes" class="rounded col-7"><p><h6><b>${data[i].sender}</b></h6></p>
+                                                                            <p>${data[i].text}</p></div><div class="col-5"></div></div>`;
+                    }
                     document.getElementById("chat-wrapper").insertAdjacentHTML("afterbegin", html);
                 }
             });
+    }
+    if (scrollOn) {
+        document.getElementById("chat").setAttribute('onscroll', 'scrolling()');
+    } else {
+        document.getElementById("chat").removeAttribute('onscroll');
     }
 }
 
@@ -247,8 +256,8 @@ function sendGmailMessage(userId, index) {
     })
         .then(json)
         .then((data) => {
-            let html = `<p><b>${data.sender}</b></p>
-                        <p>${data.text}</p>`
+            let html = `<div class="row"><div class="col-5"></div><div id="chat-mes" class="rounded col-7"><p><h6><b>${data.sender}</b></h6></p>
+                                    <p>${data.text}</p></div></div>`;
             let wrapper = document.getElementById("chat-wrapper");
             wrapper.insertAdjacentHTML("beforeend", html);
             document.getElementById("sent-message").value = "";
