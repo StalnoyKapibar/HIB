@@ -20,8 +20,7 @@ $(document).ready(
     getVarBookDTO(),
     getAllLocales(),
     pageBook(0),
-    getLocales(),
-    setLocaleFields()
+    getLocales()
 );
 
 $(document).ready(function () {
