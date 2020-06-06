@@ -25,8 +25,8 @@ function setPageFields() {
         tmpEditBookId = data.id;
         let listOrdersOfCart = [];
         listOrdersOfCart = await getListOrdersOfCart();
-        if (listOrdersOfCart.includes(data.id)){
-            $('#addToCart').removeClass("addToCartBtn").addClass("disabled").text(addedToshoppingCart).attr("disabled","true");
+        if (listOrdersOfCart.includes(data.id)) {
+            $('#addToCart').removeClass("addToCartBtn").addClass("disabled").text(addedToshoppingCart).attr("disabled", "true");
         }
         $('title').text(data.name);
         $('#book-name').text(convertOriginalLanguageRows(data.name, data.nameTranslit));
@@ -147,8 +147,10 @@ $(document).ready(function () {
 });
 
 function openEdit() {
-    localStorage.setItem('tmpEditBookId', tmpEditBookId);
-    window.open('/edit', '_blank');
+    var full_url = document.URL; // Get current url
+    var url_array = full_url.split('/')
+    var last_segment = url_array[url_array.length - 1];
+    window.open('/edit/' + last_segment.substr(last_segment.length - 1), '_blank');
 }
 
 function checkParams() {
@@ -158,6 +160,7 @@ function checkParams() {
         $('#sign_in_btn').attr('hidden', 'hidden');
     }
 }
+
 function doesFolderTmpExist() {
     fetch("admin/doesFolderTmpExist");
 }

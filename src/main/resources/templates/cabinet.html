@@ -28,7 +28,7 @@
                 <li class="nav-item">
                     <a class="nav-link" id="Orders-tab" data-toggle="tab" href="#Orders" role="tab"
                        aria-controls="Orders">
-                        <h5 id="oders" onclick="showListOrders()"> Orders</h5>
+                        <h5 id="oders" class="my-orders-loc" onclick="showListOrders()"> Orders</h5>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -61,25 +61,25 @@
                     <div class="col-md-3">
                         <div class="my-profile-data">
                             <h3 class="h5" id="profile-orders">##</h3>
-                            <h3 class="h5">Orders</h3>
+                            <h3 class="h5 orders-loc">Orders</h3>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="my-profile-data">
                             <h3 class="h5" id="profile-in-progress">##</h3>
-                            <h3 class="h5">In progress</h3>
+                            <h3 class="h5 in-progress-loc">In progress</h3>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="my-profile-data">
                             <h3 class="h5" id="profile-delivered">##</h3>
-                            <h3 class="h5">Delivered</h3>
+                            <h3 class="h5 delivered-loc">Delivered</h3>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="my-profile-data" id="last-cell">
                             <h3 class="h5" id="profile-bucket">##</h3>
-                            <h3 class="h5">Shopping cart</h3>
+                            <h3 class="h5 shopping-cart-loc">Shopping cart</h3>
                         </div>
                     </div>
                 </div>
@@ -98,7 +98,7 @@
             <div class="modal-dialog modal-dialog-centered modal-lg " role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id='modalHeader'>Заказ номер 1</h5>
+                        <h5 class="modal-title" id='modalHeader'></h5>
                         <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -106,13 +106,13 @@
                     <div class="modal-body" id="modalBody">
                         <table class="table table-sm table-sm bg-white">
                             <div class="col-8 p-4 mb-4  alert alert-info" role="alert">
-                                <h6 class="align-content-center mt-2">YOUR PURCHASES</h6> </div>
+                                <h6 class="align-content-center mt-2 purchase-loc">YOUR PURCHASES</h6> </div>
                             <thead>
                             <tr height="50">
                                 <th width="10"></th>
                                 <th></th>
-                                <th>Items</th>
-                                <th>Unit price</th>
+                                <th class="items-loc">Items</th>
+                                <th class="unit-price-loc">Unit price</th>
                             </tr>
                             </thead>
                             <tbody id='ordermodalbody'>
@@ -125,7 +125,7 @@
                                 <th width="10"></th>
                                 <th></th>
                                 <th>
-                                    <a>Subtotal:</a>
+                                    <a class="subtotal-loc">Subtotal:</a>
                                 </th>
                                 <th>
                                     <a id="subtotalordermodal"></a>
@@ -136,7 +136,7 @@
                             <tr height="50">
                                 <th width="10"></th>
                                 <th></th>
-                                <th>Total price:</th>
+                                <th class="pricetotal-loc">Total price:</th>
                                 <th id="pricetotalordermodal"></th>
                             </tr>
                             </tr>
@@ -160,17 +160,17 @@
         <main role="main" class="page-content offset-1 col-10"  style="margin-top: 50px">
             <div class="card" >
                 <div class="card-header">
-                    <h3 class="align-content-center mt-3">Orders</h3></div>
+                    <h3 class="align-content-center mt-3 orders-loc">Orders</h3></div>
                 <div class="card-body">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <table class="table table-sm table-sm bg-white">
                     <thead>
                     <tr height="50">
                         <th width="10"></th>
-                        <th>Order No.</th>
-                        <th>Date of order</th>
-                        <th>Order status</th>
-                        <th>Total price</th>
+                        <th class="orderNo-loc">Order No.</th>
+                        <th class="dateOfOrder-loc">Date of order</th>
+                        <th class="orderStatus-loc">Order status</th>
+                        <th class="pricetotal-loc">Total price</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -209,17 +209,17 @@
         <script crossorigin="anonymous" src="https://kit.fontawesome.com/db08edad0b.js"></script>
         <main role="main" class="page-content offset-1 col-10"  style="margin-top: 50px; margin-left: 25rem">
             <div class="card-body card col-md-5">
-            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2">Settings Profile</h1>
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottombottom">
+                <h1 class="h2 setting-profile-loc">Settings Profile</h1>
             </div>
             <ul class="nav nav-pills mb-3" id="Settings-tab" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active" id="PersonalInformation-tab" data-toggle="pill"
+                    <a class="nav-link active personal-info-loc" id="PersonalInformation-tab" data-toggle="pill"
                        href="#PersonalInformation" role="tab" aria-controls="PersonalInformation" aria-selected="true">Personal
                         Information</a>
                 </li>
                 <li class="nav-item">
-                    <a hidden class="nav-link" id="PasswordChange-tab" data-toggle="pill" href="#PasswordChange" role="tab"
+                    <a hidden class="nav-link password-change-loc" id="PasswordChange-tab" data-toggle="pill" href="#PasswordChange" role="tab"
                        aria-controls="PasswordChange" aria-selected="false">Password Change</a>
                 </li>
             </ul>
@@ -229,38 +229,38 @@
                     <form>
                         <div class="teswt112">
                             <div class="form-group col-md-9 pl-0 pr-1">
-                                <label for="fieldEmail">Email address</label>
-                                <input type="email" class="form-control" id="fieldEmail" aria-describedby="emailHelp">
+                                <label class="email-label" for="fieldEmail">Email address</label>
+                                <input type="email" class="form-control email" id="fieldEmail" aria-describedby="emailHelp">
                             </div>
                             <div class="collapse" id="collapseExample">
                                 <div class="alert alert-danger" role="alert" id="errorMessageEmail">
                                 </div>
                             </div>
                             <div class="form-group col-md-9 pl-0 pr-1">
-                                <label for="fieldFirstName">First Name</label>
+                                <label class="first-name-loc" for="fieldFirstName">First Name</label>
                                 <input type="text" class="form-control" id="fieldFirstName">
                             </div>
                             <div class="form-group col-md-9 pl-0 pr-1">
-                                <label for="fieldLastName">Last Name</label>
+                                <label class="last-name-loc" for="fieldLastName">Last Name</label>
                                 <input type="text" class="form-control" id="fieldLastName">
                             </div>
                         </div>
                     </form>
-                    <button type="submit" onclick="savePersonalInformation()" class="btn btn-block btn-primary">Save</button>
+                    <button type="submit" onclick="savePersonalInformation()" class="btn btn-block btn-primary save-loc">Save</button>
                 </div>
                 <div class="tab-pane fade" id="PasswordChange" role="tabpanel" aria-labelledby="PasswordChange-tab">
                     <form>
                         <div class="teswt112">
                             <div class="form-group col-md-9 pl-0 pr-1">
-                                <label for="oldPassword">Enter old password</label>
+                                <label class="old-pass-loc" for="oldPassword">Enter old password</label>
                                 <input type="password" class="form-control" id="oldPassword">
                             </div>
                             <div class="form-group col-md-9 pl-0 pr-1">
-                                <label for="enterPassword">Enter new password</label>
+                                <label class="new-pass-loc" for="enterPassword">Enter new password</label>
                                 <input type="password" class="form-control" id="enterPassword">
                             </div>
                             <div class="form-group col-md-9 pl-0 pr-1">
-                                <label for="enterPasswordAgain">Enter new password again</label>
+                                <label class="again-pass-loc" for="enterPasswordAgain">Enter new password again</label>
                                 <input type="password" class="form-control" id="enterPasswordAgain">
                             </div>
                             <div class="collapse" id="collapsePassword">
@@ -269,7 +269,7 @@
                             </div>
                         </div>
                     </form>
-                    <button type="submit" onclick="savePassword()" class="btn btn-block btn-primary">Save</button>
+                    <button type="submit" onclick="savePassword()" class="btn btn-block btn-primary save-loc">Save</button>
                 </div>
             </div>
             </div>
@@ -312,7 +312,7 @@
         <br>
         <main role="main" class="page-content offset-1 col-10" style="margin-top: 0px;">
             <div class="card card-body">
-            <h3 class="h2" id="headershoppingcart">Shopping cart</h3>
+            <h3 class="h2 shopping-cart-loc" id="h3-shoppingCart">Shopping cart</h3>
             <ul class="nav nav-tabs" id="cartTab" role="tablist" >
                 <li class="nav-item">
                     <a class="nav-link active" id="home-tab" href="#home" style="pointer-events: none; color: #333333">Your shopping
@@ -360,8 +360,8 @@
                             <th></th>
                             <th id="shoppingCardOrderDisabledMessage"></th>
 
-                            <th sec:authorize="!isAuthenticated()"><button class="btn btn-primary"  onclick="location.href='/1clickreg'" type="button">
-                            1 click registration
+                            <th sec:authorize="!isAuthenticated()"><button class="btn btn-primary" id="1click-reg-btn" onclick="location.href='/1clickreg'" type="button">
+                            Buy without sign up
                         </button></th>
                             <th id="forButtonCheckout">
                             </th>
@@ -380,30 +380,30 @@
                                         if you want you can leave a <strong>comment ... </strong></h6>
                                 </div>
                     <div class="form-group row">
-                        <label class="control-label col-sm-2 col-form-label">Email</label>
+                        <label class="control-label col-sm-2 col-form-label email-label" id="email-label">Email</label>
                         <div class="col-md-5 pl-0 pr-1">
-                            <input class="form-control" type="email" id="email" placeholder="Email">
+                            <input class="form-control email" type="email" id="email" placeholder="Email">
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="control-label col-sm-2 col-form-label">Phone</label>
+                        <label class="control-label col-sm-2 col-form-label phone-label" id="phone-label">Phone</label>
                         <div class="col-sm-5 pl-0 pr-1">
-                            <input class="form-control field" type="tel" id="phone" placeholder="Phone">
+                            <input class="form-control field phone" type="tel" id="phone" placeholder="Phone">
                         </div>
 
                     </div>
                     <div class="form-group row">
-                        <label class="control-label col-sm-2 col-form-label">Comment</label>
+                        <label class="control-label col-sm-2 col-form-label comment-label" id="comment-label">Comment</label>
                         <div class="col-md-6 pl-0">
-                            <textarea class="form-control" id="comment" rows="5" placeholder="Comment"> </textarea>
+                            <textarea class="form-control comment" id="comment" rows="5" placeholder="Comment"> </textarea>
                         </div>
                     </div>
                                 <div class="form-group row">
-                                    <div class="col" ><button class="btn btn-secondary"  onclick="showHome()" type="button">
+                                    <div class="col" ><button class="btn btn-secondary back-btn"  onclick="showHome()" type="button">
                                         Back
                                     </button></div>
                                     <div class="col">
-                    <button class="btn btn-primary"  onclick="confirmContacts()" type="button">
+                    <button class="btn btn-primary next-btn"  onclick="confirmContacts()" type="button">
                         Next
                     </button>
                                     </div>
@@ -418,13 +418,13 @@
                         <div class="card card-body">
                         <table class="table table-sm table-sm bg-white">
                             <div class="col-9 p-4 mb-4  alert alert-info" role="alert">
-                                <h6 class="align-content-center  mt-2">YOUR PURCHASES</h6></div>
+                                <h6 class="align-content-center mt-2 purchase-loc">YOUR PURCHASES</h6></div>
                             <thead>
                             <tr height="50">
                                 <th width="10"></th>
                                 <th></th>
-                                <th>Items</th>
-                                <th>Unit price</th>
+                                <th class="items-loc">Items</th>
+                                <th class="unit-price-loc">Unit price</th>
                             </tr>
                             </thead>
                             <tbody id='orderTab'>
@@ -437,7 +437,7 @@
                                 <th width="10"></th>
                                 <th></th>
                                 <th>
-                                    <a>Subtotal:</a>
+                                    <a class="subtotal-loc">Subtotal:</a>
                                 </th>
                                 <th>
                                     <a id="subtotal"></a>
@@ -448,7 +448,7 @@
                             <tr height="50">
                                 <th width="10"></th>
                                 <th></th>
-                                <th>Total price:</th>
+                                <th class="pricetotal-loc">Total price:</th>
                                 <th id="pricetotal"></th>
                             </tr>
                             </tr>
@@ -460,13 +460,13 @@
                         <div class="card-footer my-4 ">
                         <div class="form-group  row mt-2 ml-0" >
                             <div class=" col-4">
-                                <button class="btn btn-secondary btn-block" onclick="showContacts()" type="button">
+                                <button class="btn btn-secondary btn-block back-btn" onclick="showContacts()" type="button">
                                         Back
                                 </button>
                             </div>
                             <div class="col-4 ">
-                                <button class="btn bt-lg btn-block btn-success"
-                                        onclick="confirmPurchase()"
+                                <button class="btn bt-lg btn-block btn-success buynow-btn"
+                                        id="butToBuy"
                                         type="button">Buy Now
                                 </button>
                             </div>
@@ -514,4 +514,5 @@
 <script src="/static/js/utils/common-function.js"></script>
 <script th:attr="src=*{key}" async defer></script>
 </body>
+<!--cabinet.html-->
 </html>

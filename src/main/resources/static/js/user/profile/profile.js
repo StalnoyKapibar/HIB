@@ -43,13 +43,14 @@ function firstLastNames() {
     }
 }
 
-function refreshUserNames(firstName, lastName) {
+function refreshUserNames(firstName, lastName, email) {
     if (lastName === null) {
         document.getElementById("first-last-name").innerHTML = firstName;
     }
     else {
         document.getElementById("first-last-name").innerHTML = firstName + ' ' + lastName;
     }
+    document.getElementById("user-email").innerHTML = email;
 }
 
 function savePersonalInformation() {
@@ -64,7 +65,8 @@ function savePersonalInformation() {
     tmp['lastName'] = lastName;
     let tmpSend = JSON.stringify(tmp);
     savePersonalInformationRequest(tmpSend);
-    refreshUserNames(firstName, lastName);
+    refreshUserNames(firstName, lastName, email);
+    setLocaleFields();
 }
 
 function savePersonalInformationRequest(personalInformation) {
@@ -73,14 +75,14 @@ function savePersonalInformationRequest(personalInformation) {
         .then(text)
         .then(function (resp) {
             if (resp === "error") {
-                showError(' This email address is used by another user!');
+                showError(' This email address is used by another user!', 'email-used-by-user-loc');
                 setTimeout(hideError, 5000);
             } else {
                 if (resp === "synError") {
-                    showError('Invalid email format!');
+                    showError('Invalid email format!', 'invalid-email-format-loc');
                     setTimeout(hideError, 5000);
                 } else {
-                    showSuccess('Changes to personal information are successfully saved!');
+                    showSuccess('Changes to personal information are successfully saved!', 'mess-success-loc');
                     setTimeout(hideSuccess, 2000);
                 }
             }
@@ -99,18 +101,20 @@ function text(response) {
     return response.text()
 }
 
-function showError(message) {
-    $('#errorMessageEmail').text(message);
+function showError(message, className) {
+    $('#errorMessageEmail').addClass(className).text(message);
     $('#collapseExample').attr('class', 'collapse show');
+    setLocaleFields();
 }
 
 function hideError() {
     $('#collapseExample').attr('class', 'collapse');
 }
 
-function showSuccess(message) {
-    $('#idMessagesSuccess').text(message);
+function showSuccess(message, className) {
+    $('#idMessagesSuccess').addClass(className).text(message);
     $('#staticBackdrop').modal();
+    setLocaleFields();
 }
 
 function hideSuccess() {
@@ -123,14 +127,15 @@ function savePassword() {
     if (password0 === password1) {
         savePasswordReq(password0);
     } else {
-        showErrorPassword('Passwords don\'t match!');
+        showErrorPassword('Passwords don\'t match!', 'dont-match-pass-loc');
         setTimeout(hideErrorPassword, 5000);
     }
 }
 
-function showErrorPassword(message) {
-    $('#errorMessagePassword').text(message);
+function showErrorPassword(message, className) {
+    $('#errorMessagePassword').addClass(className).text(message);
     $('#collapsePassword').attr('class', 'collapse show');
+    setLocaleFields();
 }
 
 function hideErrorPassword() {
@@ -148,14 +153,15 @@ function savePasswordReq(newPassword) {
         .then(text)
         .then(function (resp) {
             if (resp === "passError") {
-                showErrorPassword('The password must be between 5 and 64 and can contain numbers and characters in the upper and lower registers, without spaces!');
+                showErrorPassword('The password must be between 8 and 64 and can contain numbers and characters in the upper and lower registers, without spaces!',
+                    'incorrect-data-password-loc');
                 setTimeout(hideErrorPassword, 5000);
             } else {
                 if (resp === "wrongPassword") {
-                    showErrorPassword('Wrong current password!');
+                    showErrorPassword('Wrong current password!', 'wrong-current-pass-loc');
                     setTimeout(hideErrorPassword, 5000);
                 } else {
-                    showSuccess('Password successfully saved!');
+                    showSuccess('Password successfully saved!', 'pass-success-saved-loc');
                     setTimeout(hideSuccess, 2000);
                 }
             }

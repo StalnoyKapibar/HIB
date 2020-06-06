@@ -3,6 +3,7 @@ var bottom = '';
 var addToshoppingCart = '';
 let editBook = '';
 var addedToshoppingCart = '';
+var boughtBook = '';
 var deleteBottom = '';
 let welcomeBlock = $("#welcome");
 let currencyIcon = ' €';
@@ -34,12 +35,26 @@ async function addBooksToPage(books) {
     listOrdersOfCart = await getListOrdersOfCart();
     $('#cardcolumns').empty();
     $("#rowForPagination").empty();
+    const existBook = await getLastOrderedBooks();
+
     $.each(books, function (index) {
         let textOfBtn = listOrdersOfCart.includes(books[index].id) ? addedToshoppingCart : addToshoppingCart;
         let cssOfBtn = listOrdersOfCart.includes(books[index].id) ? "disabled" : "addToCartBtn";
+        let valueToButtom;
+        if(!existBook.includes(books[index].id)) {
+            valueToButtom = `<div style="position: absolute; bottom: 5px; left: 15px; right: 15px" id="bottomInCart" type="button" 
+                                                      class="btn btn-success ${cssOfBtn} btn-metro"  data-id="${books[index].id}">                        
+                                                    ${textOfBtn}
+                                                </div>`;
+        } else {
+            valueToButtom = `<div style="position: absolute; bottom: 5px; left: 15px; right: 15px" id="bottomBoughtBook" type="text" 
+                                                      class="btn btn-danger btn-metro" data-id="${books[index].id}">                        
+            ${boughtBook}
+            </div>`;
+        }
         let card = `<div class="col mb-4">
                                     <a class="card border-0" href="/page/${books[index].id}" style="color: black">
-                                        <img class="card-img-top mb-1" src="images/book${books[index].id}/${books[index].coverImage}" style="object-fit: cover; height: 400px; " alt="Card image cap">
+                                        <img class="card-img-top mb-1" src="images/book${books[index].id}/${books[index].coverImage}" style="object-fit: contain; height: 400px; " alt="Card image cap">
                                         <div class="card-body" style="padding-bottom: 30px">
                                             <h5 class="card-title">${convertOriginalLanguageRows(books[index].nameAuthorDTOLocale, books[index].authorTranslit)}</h5>
                                             <h6 class="card-text text-muted">${convertOriginalLanguageRows(books[index].nameBookDTOLocale, books[index].nameTranslit)}</h6>
@@ -52,20 +67,23 @@ async function addBooksToPage(books) {
                                                     onclick="openEdit(${books[index].id})"
                                                   >                        
                                                     ${editBook}
-                                                  </div>` :
-            `<div style="position: absolute; bottom: 5px; left: 15px; right: 15px" id="bottomInCart" type="button" 
-                                                      class="btn btn-success ${cssOfBtn} btn-metro"  data-id="${books[index].id}">                        
-                                                    ${textOfBtn}
-                                                </div>`}
+                                                  </div>` : valueToButtom}
+
                                 </div>`;
         $('#cardcolumns').append(card);
     });
     addPagination();
 }
 
+async function getLastOrderedBooks() {
+    const url = '/api/book/lastOrderedBooks';
+    const res = await fetch(url);
+    const data = await res.json();
+    return data;
+}
+
 function openEdit(id) {
-    localStorage.setItem('tmpEditBookId', id);
-    window.open('/edit', '_blank');
+    window.open('/admin/edit/' + id, '_blank');
 }
 
 async function getAUTH() {

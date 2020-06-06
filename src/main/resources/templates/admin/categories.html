@@ -6,14 +6,18 @@
 </head>
 <body>
 <div id="adminTree" th:fragment="categories">
+    <script src="/static/js/main.js"></script>
+    <script src="/static/js/utils/common-function.js"></script>
     <link href="/static/css/admin/adminTree.css" rel="stylesheet">
     <script src="/static/js/admin/categories/adminCategoryTree.js"></script>
+
+
     <div class="row">
-        <div class="col-8"><h4>Category tree</h4></div>
+        <div class="col-8"><h4 class="category-tree-loc">Category tree</h4></div>
     <div class="input-group pull-right col-4">
-        <input type="text" class="form-control" name="primaryCategoryName" placeholder="Create new primary category" aria-label="Create new primary category" aria-describedby="basic-addon2">
+        <input type="text" class="form-control create-new-primary-category-loc" name="primaryCategoryName" placeholder="Create new primary category" aria-label="Create new primary category" aria-describedby="basic-addon2">
         <div class="input-group-append">
-            <button class="btn btn-success" id="addPrimary" type="button">Create</button>
+            <button class="btn btn-success create-loc" id="addPrimary" type="button">Create</button>
         </div>
     </div>
     </div><hr>
@@ -27,5 +31,6 @@
         </div>
     </div>
 </div>
+
 </body>
 </html>

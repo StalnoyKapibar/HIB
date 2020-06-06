@@ -25,23 +25,30 @@ public class GmailRestController {
 
     public static Gmail gmail;
 
-    @GetMapping(value = "/gmail/{userId}/messages")
-    public List<MessageDTO> getMessages(@PathVariable("userId") String userId) throws IOException {
+    private ArrayList<MessageDTO> fullchat;
+
+    @GetMapping(value = "/gmail/{userId}/messages/{part}")
+    public List<MessageDTO> getMessages(@PathVariable("userId") String userId, @PathVariable("part") String part) throws IOException {
         if (gmail == null) {
             List<MessageDTO> gmailErrorMessage = new ArrayList<>();
             gmailErrorMessage.add(new MessageDTO("", "", "noGmailAccess"));
             return gmailErrorMessage;
         }
+        if (part.equals("0")) {
+            ListMessagesResponse responseFromUser = gmail.users().messages().list("me").setQ("from:" + userId).execute();
+            ListMessagesResponse responseFromAdmin = gmail.users().messages().list("me").setQ("to:" + userId).execute();
+            List<Message> messagesFromUser = new ArrayList<>();
+            List<Message> messagesFromAdmin = new ArrayList<>();
+            Map<String, MessageDTO> messages = new TreeMap<>(Collections.reverseOrder());
 
-        ListMessagesResponse responseFromUser = gmail.users().messages().list("me").setQ("from:" + userId).execute();
-        ListMessagesResponse responseFromAdmin = gmail.users().messages().list("me").setQ("to:" + userId).execute();
-        List<Message> messagesFromUser = new ArrayList<>();
-        List<Message> messagesFromAdmin = new ArrayList<>();
-        Map<String, MessageDTO> messageMap = new TreeMap<>();
+            fillMessageMap(responseFromUser, messagesFromUser, messages, userId);
+            fillMessageMap(responseFromAdmin, messagesFromAdmin, messages, gmail.users().getProfile("me").getUserId());
+            fullchat = new ArrayList<>(messages.values());
+        }
 
-        fillMessageMap(responseFromUser, messagesFromUser, messageMap, userId);
-        fillMessageMap(responseFromAdmin, messagesFromAdmin, messageMap, gmail.users().getProfile("me").getUserId());
-        return formChat(messageMap);
+        List<MessageDTO> chat = formChat(part);
+
+        return chat;
     }
 
     @PostMapping(value = "/gmail/{userId}/messages")
@@ -54,7 +61,7 @@ public class GmailRestController {
         message.setRaw(encodedEmail);
         message = gmail.users().messages().send("me", message).execute();
         message = gmail.users().messages().get("me", message.getId()).execute();
-        MessageDTO messageDTO = new MessageDTO(message.getThreadId(), "me", messageText);
+        MessageDTO messageDTO = new MessageDTO(message.getId(), "me", messageText);
         return messageDTO;
     }
 
@@ -70,26 +77,40 @@ public class GmailRestController {
             }
         }
         for (Message message : messages) {
-            map.put(message.getThreadId(), new MessageDTO(message.getId(), userId, ""));
+            map.put(message.getId(), new MessageDTO(message.getId(), userId, ""));
         }
         return map;
     }
 
-    private List<MessageDTO> formChat(Map<String, MessageDTO> map) throws IOException {
+    private List<MessageDTO> formChat(String part) throws IOException {
+        String text;
+        int startId = Integer.parseInt(part) * 10;
+        int endIdExclude = startId + 10;
         List<MessageDTO> chat = new ArrayList<>();
 
-        for (MessageDTO message : map.values()) {
-            Message fullMessage = gmail.users().messages().get("me", message.getMessageThreadId()).execute();
-
-            Base64URL base64URL;
-            if (fullMessage.getPayload().getParts() != null) {
-                base64URL = new Base64URL(fullMessage.getPayload().getParts().get(0).getBody().getData());
-            } else {
-                base64URL = new Base64URL(fullMessage.getPayload().getBody().getData());
+        for (int i = startId; i < endIdExclude; i++) {
+            if (i < fullchat.size()) {
+                MessageDTO messageDTO = fullchat.get(i);
+                Message fullMessage = gmail.users().messages().get("me", messageDTO.getMessageId()).execute();
+                Base64URL base64URL;
+                if (fullMessage.getPayload().getParts() != null) {
+                    base64URL = new Base64URL(fullMessage.getPayload().getParts().get(0).getBody().getData());
+                    text = base64URL.decodeToString();
+                } else {
+                    base64URL = new Base64URL(fullMessage.getPayload().getBody().getData());
+                    text = base64URL.decodeToString();
+                    if (text.substring(0, 1).equals("\"")) {
+                        text = text.substring(1, text.length()-1);
+                    }
+                }
+                messageDTO.setText(text);
+                chat.add(messageDTO);
             }
-            message.setText(base64URL.decodeToString());
-
-            chat.add(message);
+        }
+        if (chat.isEmpty()) {
+            List<MessageDTO> endChat = new ArrayList<>();
+            endChat.add(new MessageDTO("0", "", "chat end"));
+            return endChat;
         }
         return chat;
     }
