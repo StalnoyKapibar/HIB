@@ -43,13 +43,14 @@ function firstLastNames() {
     }
 }
 
-function refreshUserNames(firstName, lastName) {
+function refreshUserNames(firstName, lastName, email) {
     if (lastName === null) {
         document.getElementById("first-last-name").innerHTML = firstName;
     }
     else {
         document.getElementById("first-last-name").innerHTML = firstName + ' ' + lastName;
     }
+    document.getElementById("user-email").innerHTML = email;
 }
 
 function savePersonalInformation() {
@@ -64,7 +65,7 @@ function savePersonalInformation() {
     tmp['lastName'] = lastName;
     let tmpSend = JSON.stringify(tmp);
     savePersonalInformationRequest(tmpSend);
-    refreshUserNames(firstName, lastName);
+    refreshUserNames(firstName, lastName, email);
     setLocaleFields();
 }
 
