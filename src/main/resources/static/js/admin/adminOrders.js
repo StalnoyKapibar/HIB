@@ -1,21 +1,15 @@
 let allOrders;
 let iconOfPrice = " €";
-let statusOfOrder = "Processing";
-let btnDisplay = "d-inline";
+let statusOfOrder = "Unprocessed";
 let messagePackIndex;
 let orderIndex;
 let scrollOn = true;
 
+
 $(window).on("load", function () {
     showListOrders();
-    $('#statusCheckbox').change(function () {
-        if ($(this).prop('checked') === true) {
-            statusOfOrder = "Processing";
-            btnDisplay = "d-inline";
-        } else {
-            statusOfOrder = "Completed";
-            btnDisplay = "d-none";
-        }
+    $('#statusSelector').change(function () {
+        statusOfOrder = $(this).children("option:selected").val();
         showListOrders();
         setLocaleFields();
     });
@@ -64,10 +58,16 @@ function showListOrders() {
                          <td>${order.status} </td>`;
 
                     html += `<td><a  href="#" data-toggle="modal" class="show-details-loc" data-target="#adminOrderModal" onclick="showModalOfOrder(${index})" > Show details </a></td>
-                          <td><button class="btn btn-danger delete-loc" onclick=orderDelete(${order.id})>Delete</button></td>
-                          <td><button class="btn btn-success ${btnDisplay} complete-loc" onclick=orderComplete(${order.id})>Complete</button></td>`;
+                          <td><button class="btn btn-danger delete-loc" onclick=orderDelete(${order.id})>Delete</button></td>`;
+
+                    if (order.status === "PROCESSING") {
+                        html += `<td><button class="btn btn-success complete-loc" onclick=orderComplete(${order.id})>Complete</button></td>`;
+                    }
                     if (order.status === "COMPLETED") {
                         html += `<td><button class="btn btn-success uncomplete-loc" onclick=orderUnComplete(${order.id})>Uncomplete</button></td>`;
+                    }
+                    if (order.status === "UNPROCESSED") {
+                        html += `<td><button class="btn btn-success uncomplete-loc" onclick=orderProcess(${order.id})>Process</button></td>`;
                     }
                     html += `</tr>`;
 
@@ -206,6 +206,18 @@ async function scrolling() {
 function orderComplete(id) {
     if (confirm('Do you really want to COMPLETE order?')) {
         fetch("/api/admin/completeOrder/" + id, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json;charset=utf-8"
+            },
+            body: JSON.stringify(id),
+        }).then(r => showListOrders())
+    }
+}
+
+function orderProcess(id) {
+    if (confirm('Do you really want to PROCESS order?')) {
+        fetch("/api/admin/processOrder/" + id, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json;charset=utf-8"
