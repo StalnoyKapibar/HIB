@@ -17,7 +17,6 @@ $(window).on("load", function () {
             btnDisplay = "d-none";
         }
         showListOrders();
-        //setLocaleFields();
     });
 });
 
