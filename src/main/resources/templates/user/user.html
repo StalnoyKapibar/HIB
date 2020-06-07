@@ -133,7 +133,7 @@
                             th:classappend="${#httpServletRequest.getRequestURI() == '/profile/orders' ? 'active' : ''}">
                             <a href="/profile/orders">
 
-                                <i class="fas fa-shopping-bag"><span class="badgeOrder"
+                                <i class="fas fa-shopping-bag"><span class="badgeStyle"
                                                                      id="orders-quantity1"></span></i>
                                 <span class="menu-text my-orders-loc" id="oders">My orders</span>
 
@@ -142,7 +142,7 @@
                         </li>
                         <li th:classappend="${#httpServletRequest.getRequestURI() == '/shopping-cart' ? 'active' : ''}">
                             <a href="/shopping-cart">
-                                <i class="fa fa-shopping-cart"><span class="badgeCart" id="bucketIn1"></span></i>
+                                <i class="fa fa-shopping-cart"><span class="badgeStyle" id="bucketIn1"></span></i>
                                 <span class="menu-text" id="headerShoppingCart">Shopping cart</span>
                                 <span class="badge badge-pill badge-danger" id="bucketIn"></span>
                             </a>
