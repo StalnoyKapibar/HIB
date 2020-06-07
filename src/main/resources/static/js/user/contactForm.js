@@ -12,7 +12,19 @@ let interestedBookImage = $("#ask-interested-image");
 let bookCoverImage;
 let messageTemplate = "Hello, I m interested in the book ";
 
-$(document).ready(getUserData());
+$(document).ready(function () {
+    getUserData();
+    if (currentLang === '') {
+        if (getCookieByName("lang")) {
+            currentLang = getCookieByName("lang");
+        } else {
+            currentLang = 'en';
+        }
+    }
+    getLanguage();
+    setLocaleFields();
+
+})
 
 function getUserData() {
     fetch("/api/current-user")

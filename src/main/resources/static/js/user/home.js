@@ -14,13 +14,22 @@ let ddmAmountBook = $("#ddmAmountBook");
 let isAdmin = false;
 
 $(document).ready(function () {
-    getAUTH();
+    if (currentLang === '') {
+        if (getCookieByName("lang")) {
+            currentLang = getCookieByName("lang");
+        } else {
+            currentLang = 'en';
+        }
+    }
     getLanguage();
     setLocaleFields();
+
+    getAUTH();
     amountBooksInPage = ddmAmountBook.text();
     getPageWithBooks(ddmAmountBook.text(), currentPage++);
     openModalLoginWindowOnFailure();
     loadWelcome(currentLang);
+
 });
 
 function getQuantityPage() {

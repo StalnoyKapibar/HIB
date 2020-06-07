@@ -6,19 +6,23 @@ let order = '';
 var htmlForModalBody = ``;
 
 $(document).ready(function () {
-    if (currentLang == '') {
-        currentLang = $('#dd_menu_link').data('currentLang');
-    }
-    getLanguage();
-    setLocaleFields();
     openModalLoginWindowOnFailure();
     getShoppingCart();
     showListOrders().then(r => {
     });
+
     if (document.referrer.toString() === "") {
         confirmAddress();
         confirmContactsFor1Click();
     }
+
+    if (currentLang == '') {
+        currentLang = $('#dd_menu_link').data('currentLang');
+    }
+
+    getLanguage();
+    setLocaleFields();
+
 });
 
 function convertPrice(price) {
@@ -290,7 +294,7 @@ function showOrderSum() {
     html += `</div></div>`;
     $('#shippingaddress').html(html);
 
-        setLocaleFields();
+    setLocaleFields();
 
 }
 
