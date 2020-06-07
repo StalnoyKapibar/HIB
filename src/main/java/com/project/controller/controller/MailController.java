@@ -34,6 +34,7 @@ public class MailController {
         if (user != null) {
             if (tokenToConfirm.equals(user.getTokenToConfirmEmail())) {
                 user.setEnabled(true);
+                user.setTokenToConfirmEmail(null);
                 userAccountService.save(user);
             }
         } else {
