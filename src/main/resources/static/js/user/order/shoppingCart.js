@@ -48,14 +48,6 @@ async function getShoppingCart() {
 
                     let first = `<td class="align-middle"><img src="/images/book${book.id}/${book.coverImage}" style="max-width: 60px"></td>`;
                     let second = `<td class="align-middle">${convertOriginalLanguageRows(book.originalLanguage.name, book.originalLanguage.nameTranslit)} | ${convertOriginalLanguageRows(book.originalLanguage.author, book.originalLanguage.authorTranslit)}</td>`;
-                    if (lastOrderedBooks.includes(book.id)) {
-                        isOrderEnable = false;
-                        row.css("opacity", "0.5");
-                        row.css("background-color", "#FFB3B3");
-                        second = `<td class="align-middle">${convertOriginalLanguageRows(book.originalLanguage.name, book.originalLanguage.nameTranslit)} | ${convertOriginalLanguageRows(book.originalLanguage.author, book.originalLanguage.authorTranslit)} 
-                            <div id="errorMessage" style ="color: red; font-weight: 900;">Book is temporary unavailable! Please, delete it or try later!</div></td>`;
-
-                    }
                     let third = `<td class="align-middle">${price + currencyIcon}</td>`;
                     let forth = `<td hidden id="book${book.id}">${price}</td>`;
                     let fifth = `<td class="align-middle"><button class="btn btn-info delete"  style="background-color: #ff4500" data-id="${book.id}">${deleteBottom}</button></td>`;
@@ -198,11 +190,6 @@ async function confirmPurchase() {
     await POST('/order').then(r => getShoppingCart());
     document.location.href = '/profile/orders';
 }
-
-$("#butToBuy").one('click',function() {
-    POST('/order').then(r => getShoppingCart());
-    document.location.href = '/profile/orders';
-});
 
 function enterData() {
     let data = '';

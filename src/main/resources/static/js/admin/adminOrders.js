@@ -149,6 +149,7 @@ async function showModalOfOrder(index) {
         });
     $('#chat').html(htmlChat);
     $('#chat').scrollTop(2000);
+    const orderedBooks = await getOrderedBooks();
 
     let html = ``;
     html += `<thead><tr><th class="image-loc">Image</th>
@@ -157,10 +158,24 @@ async function showModalOfOrder(index) {
                              <th class="price-loc">Price</th></tr></thead>`;
     $.each(items, function (index) {
         let book = items[index].book;
+        let countUsers = 0;
+        let isLastOrder = `<td width="350">${convertOriginalLanguageRows(book.originalLanguage.name, book.originalLanguage.nameTranslit)} | ${convertOriginalLanguageRows(book.originalLanguage.author, book.originalLanguage.authorTranslit)}</td>`;
+        for (let i = 0; i < orderedBooks.length; i++) {
+            for (let j = 0; j < orderedBooks[i].items.length; j++) {
+                let numberOfBook = orderedBooks[i].items[j].book.originalLanguage;
+                if (book.originalLanguage.id == numberOfBook.id) {
+                    countUsers++;
+                    if (countUsers >= 2) {
+                        isLastOrder = `<td width="350">${convertOriginalLanguageRows(book.originalLanguage.name, book.originalLanguage.nameTranslit)} | ${convertOriginalLanguageRows(book.originalLanguage.author, book.originalLanguage.authorTranslit)}
+                        <div style ="color: red; font-weight: 900;">This book was ordered by several people!</div></td>`
+                    }
+                }
+            }
+        }
         html += `<tr><td class="align-middle"><img src="/images/book${book.id}/${book.coverImage}" style="max-width: 80px"></td>
-                             <td width="350">${convertOriginalLanguageRows(book.originalLanguage.name, book.originalLanguage.nameTranslit)} | ${convertOriginalLanguageRows(book.originalLanguage.author, book.originalLanguage.authorTranslit)}</td>
-                             <td></td>
-                             <td>${convertPrice(book.price)}${iconOfPrice}</td></tr>`;
+            ${isLastOrder}
+            <td></td>
+            <td>${convertPrice(book.price)}${iconOfPrice}</td></tr>`;
     });
     html += `<tr><td></td><td></td><td><span class="subtotal-loc">Subtotal</span> :</td><td> ${convertPrice(order.itemsCost)}${iconOfPrice}</td></tr>
                  <tr><td></td><td></td><td><span class="total-loc">Total</span> :</td><td>${convertPrice(order.itemsCost + order.shippingCost)}${iconOfPrice}</td></tr>`;
@@ -168,6 +183,14 @@ async function showModalOfOrder(index) {
     document.getElementById("chat").setAttribute('onscroll', 'scrolling()');
 
     setLocaleFields();
+}
+
+async function getOrderedBooks() {
+    const url = '/api/admin/getAllOrders';
+    const res = await fetch(url);
+    const data = await res.json();
+    console.log(data);
+    return data;
 }
 
 async function scrolling() {

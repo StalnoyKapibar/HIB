@@ -2,7 +2,6 @@ var currentLang = '';
 var bottom = '';
 var addToshoppingCart = '';
 var deleteBottom = '';
-var boughtBook = '';
 
 $(document).ready(function () {
     if (currentLang === '') {
@@ -254,7 +253,6 @@ async function setLocaleFields() {
             bottom = localeFields['bookbotom'];
             addToshoppingCart = localeFields['addToshoppingCart'];
             addedToshoppingCart = localeFields['addedToshoppingCart'];
-            boughtBook = localeFields['boughtBook'];
             editBook = localeFields['editBook'];
             deleteBottom = localeFields['deleteBottom'];
 
@@ -264,7 +262,6 @@ async function setLocaleFields() {
             $('#dropdownclose').text(localeFields['dropdownclose']);
             $('#toshoppingcart').text(localeFields['toshoppingcart']);
             $('#bottomInCart').text(localeFields['addToshoppingCart']);
-            $('#bottomBoughtBook').text(localeFields['boughtBook']);
             $('#addToCart').text(localeFields['addToshoppingCart']);
             $('.bottomInCart').text(localeFields['addToshoppingCart']);
             $('.addToCart').text(localeFields['addToshoppingCart']);
