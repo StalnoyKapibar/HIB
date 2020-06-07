@@ -12,6 +12,7 @@ let interestedBookImage = $("#interested-image");
 let interestedBookTitle = $("#interested-title");
 let toggleReplied = $("#toggle-replied");
 const localStorageToggleKey = "request-toggle";
+let getAllOrders;
 
 $(document).ready(function () {
     if (localStorage.getItem(localStorageToggleKey) === "true") {
@@ -20,6 +21,7 @@ $(document).ready(function () {
         getFeedbackRequestTable(false).then(r => {
         });
     }
+    getOrders();
     setLocaleFields();
 });
 
@@ -64,18 +66,17 @@ async function getFeedbackRequestTable(replied) {
                                data-message="${content}"
                                data-bookId="${bookId}"
                                data-bookName="${bookName}"
-                               data-bookCoverImage="${bookCoverImage}">Reply</button>`;
+                               data-bookCoverImage="${bookCoverImage}"
+                               onclick="showModalOfOrder(${id})">Reply</button>`
                     mark = `<button type="button"
                             class="btn btn-info read-loc"           
                             onclick="markAsRead(${id},${data[i].replied})">Read</button>`;
-                }
-                 else if (data[i].replied === true && data[i].viewed === true) {
+                } else if (data[i].replied === true && data[i].viewed === true) {
                     replied = `<input type="checkbox" disabled checked>`;
                     mark = `<button type="button"
                             class="btn btn-info unread-loc"           
                             onclick="markAsRead(${id},${data[i].replied})">Unread</button>`;
-                }
-                 else if (data[i].replied === true && data[i].viewed === false) {
+                } else if (data[i].replied === true && data[i].viewed === false) {
                     replied = `<input type="checkbox" disabled unchecked>`;
                     mark = `<button type="button"
                             class="btn btn-info unread-loc"           
@@ -162,4 +163,83 @@ toggleReplied.change(() => {
     localStorage.setItem(localStorageToggleKey, repliedOn.toString());
     getFeedbackRequestTable(repliedOn).catch();
 });
+
+async function showModalOfOrder(index) {
+    $('#chat').empty();
+    $('#modalBody').empty();
+    $('#contactsOfUser').empty();
+    orderIndex = index;
+    let order = getFeedbackRequestbyId[index];
+
+    messagePackIndex = 0;
+    document.getElementById("chat").setAttribute('onscroll', 'scrolling()');
+
+    if (order.contacts.email == "") {
+        order.contacts.email = order.userDTO.email;
+    }
+    let htmlChat = ``;
+    await fetch("/gmail/" + order.contacts.email + "/messages/" + "0")
+        .then(json)
+        .then((data) => {
+            if (data[0] === undefined) {
+                htmlChat += `<div id="chat-wrapper">`;
+                htmlChat += `</div>`;
+                htmlChat += `<textarea id="sent-message" class="form-control"></textarea>
+
+                        </div><button class="float-right col-2 button btn-primary send-loc" type="button" id="send-button" onclick="sendGmailMessage('${order.contacts.email}', ${index})">Send</button>`
+
+            } else {
+                if (data[0].text === "noGmailAccess") {
+                    htmlChat += `<div>
+                                <span class="h3 col-10 confirm-gmail-longphrase-loc">Confirm gmail access to open chat:</span>
+                                <a type="button" class="col-2 btn btn-primary float-right confirm-loc" href="${gmailAccessUrl.fullUrl}">
+                                Confirm</a>
+                            </div>`
+                } else {
+                    htmlChat += `<div id="chat-wrapper">`;
+                    for (let i = data.length - 1; i > -1; i--) {
+                        htmlChat += `<p><b>${data[i].sender}</b></p>
+                    <p>${data[i].text}</p>`
+                    }
+                    htmlChat += `</div>`;
+                    htmlChat += `<textarea id="sent-message" class="form-control"></textarea>
+
+                        </div><button class="float-right col-2 button btn-primary send-loc" type="button" id="send-button" onclick="sendGmailMessage('${order.contacts.email}', ${index})">Send</button>`
+
+                }
+            }
+        });
+    $('#chat').html(htmlChat);
+    $('#chat').scrollTop(1000);
+
+}
+
+async function scrolling() {
+    let order = allOrders[orderIndex];
+    if ($('#chat').scrollTop() < 2) {
+        messagePackIndex++;
+        await fetch("/gmail/" + order.contacts.email + "/messages/" + messagePackIndex)
+            .then(json)
+            .then((data) => {
+                if (data[0].text === "chat end") {
+                    document.getElementById("chat").removeAttribute('onscroll');
+                    return;
+                }
+                for (let i = 0; i < data.length; i++) {
+                    let html = `<p><b>${data[i].sender}</b></p>
+                    <p>${data[i].text}</p>`
+                    document.getElementById("chat-wrapper").insertAdjacentHTML("afterbegin", html);
+                }
+            });
+    }
+}
+
+function getFeedbackRequestbyId(id) {
+    fetch("/api/admin/feedback-request/" + id)
+        .then(json)
+        .then(function(data) {
+        console.log(data);
+    } )
+}
+
 
