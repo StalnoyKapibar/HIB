@@ -275,7 +275,7 @@ async function addBookReq(x) {
 
 function delBook(x) {
     if (confirm('Do you really want to DELETE book?')) {
-        fetch("admin/del/" + x);
+        fetch("/admin/del/" + x).then(() => totalNumberOfBooks());
         var elem = document.getElementById(x);
         elem.parentNode.removeChild(elem);
     }
