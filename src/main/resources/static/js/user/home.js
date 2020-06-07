@@ -3,7 +3,6 @@ var bottom = '';
 var addToshoppingCart = '';
 let editBook = '';
 var addedToshoppingCart = '';
-var boughtBook = '';
 var deleteBottom = '';
 let welcomeBlock = $("#welcome");
 let currencyIcon = ' €';
@@ -35,23 +34,10 @@ async function addBooksToPage(books) {
     listOrdersOfCart = await getListOrdersOfCart();
     $('#cardcolumns').empty();
     $("#rowForPagination").empty();
-    const existBook = await getLastOrderedBooks();
 
     $.each(books, function (index) {
         let textOfBtn = listOrdersOfCart.includes(books[index].id) ? addedToshoppingCart : addToshoppingCart;
         let cssOfBtn = listOrdersOfCart.includes(books[index].id) ? "disabled" : "addToCartBtn";
-        let valueToButtom;
-        if(!existBook.includes(books[index].id)) {
-            valueToButtom = `<div style="position: absolute; bottom: 5px; left: 15px; right: 15px" id="bottomInCart" type="button" 
-                                                      class="btn btn-success ${cssOfBtn} btn-metro"  data-id="${books[index].id}">                        
-                                                    ${textOfBtn}
-                                                </div>`;
-        } else {
-            valueToButtom = `<div style="position: absolute; bottom: 5px; left: 15px; right: 15px" id="bottomBoughtBook" type="text" 
-                                                      class="btn btn-danger btn-metro" data-id="${books[index].id}">                        
-            ${boughtBook}
-            </div>`;
-        }
         let card = `<div class="col mb-4">
                                     <a class="card border-0" href="/page/${books[index].id}" style="color: black">
                                         <img class="card-img-top mb-1" src="images/book${books[index].id}/${books[index].coverImage}" style="object-fit: contain; height: 400px; " alt="Card image cap">
@@ -67,19 +53,17 @@ async function addBooksToPage(books) {
                                                     onclick="openEdit(${books[index].id})"
                                                   >                        
                                                     ${editBook}
-                                                  </div>` : valueToButtom}
+                                                  </div>` :
+                                                `<div style="position: absolute; bottom: 5px; left: 15px; right: 15px" id="bottomInCart" type="button" 
+                                                      class="btn btn-success ${cssOfBtn} btn-metro"  data-id="${books[index].id}">                        
+                                                    ${textOfBtn}
+                                                </div>`
+                                    }
 
                                 </div>`;
         $('#cardcolumns').append(card);
     });
     addPagination();
-}
-
-async function getLastOrderedBooks() {
-    const url = '/api/book/lastOrderedBooks';
-    const res = await fetch(url);
-    const data = await res.json();
-    return data;
 }
 
 function openEdit(id) {
