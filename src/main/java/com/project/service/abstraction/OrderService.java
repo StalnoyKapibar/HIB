@@ -17,8 +17,6 @@ public interface OrderService {
 
     List<Order> getOrdersByUserId(Long id);
 
-    List<Order> getOrdersByStatus(String status);
-
     void completeOrder(Long id);
 
     int getCountOfOrders(long lastAuthDate);

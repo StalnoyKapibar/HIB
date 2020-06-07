@@ -62,11 +62,6 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> getOrdersByStatus(String status) {
-        return orderDAO.getOrdersByStatus(status);
-    }
-
-    @Override
     public void completeOrder(Long id) {
         Order order = getOrderById(id);
         order.setStatus(Status.COMPLETED);
