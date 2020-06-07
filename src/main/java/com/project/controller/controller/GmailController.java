@@ -7,6 +7,7 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.gmail.Gmail;
 import com.project.controller.restcontroller.GmailRestController;
+import com.project.util.ParseGmail;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
@@ -38,8 +39,9 @@ public class GmailController {
                 .setClientSecrets(clientId, clientSecret)
                 .build()
                 .setFromTokenResponse(googleTokenResponse);
-
-        GmailRestController.gmail = new Gmail.Builder(new NetHttpTransport(), new JacksonFactory(), googleCredential).build();
+        Gmail buildGmail = new Gmail.Builder(new NetHttpTransport(), new JacksonFactory(), googleCredential).build();
+        GmailRestController.gmail = buildGmail;
+        ParseGmail.gmail = buildGmail;
         return "/admin/admin";
     }
 

@@ -26,6 +26,7 @@ $(document).ready(
 
 $(document).ready(function () {
     $(document).keypress(function (event) {
+        console.log("ready enter")
         let keycode = (event.keyCode ? event.keyCode : event.which);
         if (keycode == '13' && $("#search-input-admin").val().trim() !== '') {
             $('#button-search-input-admin').click();
