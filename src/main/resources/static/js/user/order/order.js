@@ -8,6 +8,18 @@ function setCurrentPageToCookie() {
     document.cookie = cookie;
 }
 
+$(document).ready(function () {
+    if (currentLang === '') {
+        if (getCookieByName("lang")) {
+            currentLang = getCookieByName("lang");
+        } else {
+            currentLang = 'en';
+        }
+    }
+    getLanguage();
+    setLocaleFields();
+})
+
 async function confirmAddress() {
     let isAuth = false;
 

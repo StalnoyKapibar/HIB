@@ -20,8 +20,7 @@ $(document).ready(
     getVarBookDTO(),
     getAllLocales(),
     pageBook(0),
-    getLocales(),
-    setLocaleFields()
+    getLocales()
 );
 
 $(document).ready(function () {
@@ -31,6 +30,7 @@ $(document).ready(function () {
             $('#button-search-input-admin').click();
         }
     });
+    setLocaleFields();
 });
 
 async function getVarBookDTO() {
@@ -145,7 +145,7 @@ async function pageBook(x) {
         });
     $('#search-admin-local-id').html(idChangeLang);
     getLocales().then(buildChangeLang);
-    setLocaleFields();
+    //setLocaleFields();
 }
 
 function buildChangeLang() {

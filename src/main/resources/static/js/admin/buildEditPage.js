@@ -13,10 +13,7 @@ let pathImageDefault = '/images/book';
 let categoryName, categoryIdSrc;
 let isShow = false;
 
-$(document).ready(function () {
-    setLocaleFields();
-    getVarBookDTO();
-});
+$(document).ready(getVarBookDTO());
 
 function status(response) {
     if (response.status >= 200 && response.status < 300) {
@@ -106,9 +103,11 @@ function addPartsOfBook(partsOfBook) {
             }
 
 
+
             return html;
         }
     }
+
 }
 
 function buildPage() {

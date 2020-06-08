@@ -11,7 +11,6 @@ $(window).on("load", function () {
     $('#statusSelector').change(function () {
         statusOfOrder = $(this).children("option:selected").val();
         showListOrders();
-        setLocaleFields();
     });
 });
 
