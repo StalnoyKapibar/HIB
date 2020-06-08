@@ -11,12 +11,12 @@
     <link href="/static/css/admin/adminTree.css" rel="stylesheet">
     <nav>
         <div class="nav nav-tabs" id="nav-tab1" role="tablist">
-            <a aria-controls="nav-home" aria-selected="true" class="nav-item nav-link active all-books-loc" data-toggle="tab"
-               href="#nav-home1" id="nav-home-tab1" role="tab">All Books</a>
-            <a aria-controls="nav-profile" aria-selected="false" class="nav-item nav-link add-books-loc" data-toggle="tab"
+            <a aria-controls="nav-home" aria-selected="true" class="nav-item nav-link active" data-toggle="tab"
+               href="#nav-home1" id="nav-home-tab1" role="tab">AllBooks</a>
+            <a aria-controls="nav-profile" aria-selected="false" class="nav-item nav-link" data-toggle="tab"
                href="#nav-profile1"
                id="nav-profile-tab1" onclick="addPage()" role="tab">Add Book</a>
-            <a aria-controls="nav-profile" aria-selected="false" class="nav-item nav-link add-hib-files-loc" data-toggle="tab"
+            <a aria-controls="nav-profile" aria-selected="false" class="nav-item nav-link" data-toggle="tab"
                href="#add-hib-files" id="add-hib-files-tab" role="tab">Add hib files</a>
         </div>
     </nav>
@@ -25,15 +25,14 @@
              role="tabpanel">
             <div class="table">
                 <ul class="list-group">
-
-                    <li class="list-group-item list-group-item-light"><span class="total-number-of-books-loc">Total number of books</span>
+                    <li class="list-group-item list-group-item-light">Total number of books
                         <span class="badge badge-pill badge-info" id="countOfBooks"></span></li>
-
 
                     <br>
                     <div class="container-fluid">
                         <div class="row">
-                            <h3 class="lead offset-1 show-disabled-book-loc">Show disabled book</h3>
+                            <h3 class="lead offset-1">Show disabled book
+                            </h3>
                             <div class="offset-1">
                                 <input data-size="md" data-toggle="toggle" id="toggleShowDisabled" type="checkbox" checked>
                             </div>
@@ -91,40 +90,40 @@
         </div>
         <div aria-labelledby="nav-profile-tab1" class="tab-pane fade" id="nav-profile1" role="tabpanel">
             <ul class="list-group">
-                <li class="list-group-item list-group-item-light add-new-book-loc">Add new Book</li>
+                <li class="list-group-item list-group-item-light">Add new Book</li>
             </ul>
             <div class="container-fluid">
                 <div class="row">
                     <div class="container-fluid col-6">
                         <div class="row">
-                            <h3 class="col-6 is-disabled-dots-loc">
+                            <h3 class="col-6">
                                 Is disabled:
                             </h3>
                             <input type="checkbox" id="disabled" checked data-toggle="toggle">
                         </div>
                     </div>
-                    <button class='btn btn-primary col-4 btn-metro offset-2 add-new-book-loc' onclick='addNewBook()' type='submit'>Add
+                    <button class='btn btn-primary col-4 btn-metro offset-2' onclick='addNewBook()' type='submit'>Add
                         new Book
                     </button>
                 </div>
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link active add-name-loc" id="name-tab" data-toggle="tab" href="#name" role="tab" aria-controls="home" aria-selected="true">Add name</a>
+                        <a class="nav-link active" id="name-tab" data-toggle="tab" href="#name" role="tab" aria-controls="home" aria-selected="true">Add name</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link add-author-loc" id="author-tab" data-toggle="tab" href="#author" role="tab" aria-controls="profile" aria-selected="false">Add author</a>
+                        <a class="nav-link" id="author-tab" data-toggle="tab" href="#author" role="tab" aria-controls="profile" aria-selected="false">Add author</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link add-description-loc" id="description-tab" data-toggle="tab" href="#description" role="tab" aria-controls="contact" aria-selected="false">Add description</a>
+                        <a class="nav-link" id="description-tab" data-toggle="tab" href="#description" role="tab" aria-controls="contact" aria-selected="false">Add description</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link add-addition-loc" id="edition-tab" data-toggle="tab" href="#edition" role="tab" aria-controls="contact" aria-selected="false">Add edition</a>
+                        <a class="nav-link" id="edition-tab" data-toggle="tab" href="#edition" role="tab" aria-controls="contact" aria-selected="false">Add edition</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link add-other-loc" id="other-tab" data-toggle="tab" href="#other" role="tab" aria-controls="contact" aria-selected="false">Add other</a>
+                        <a class="nav-link" id="other-tab" data-toggle="tab" href="#other" role="tab" aria-controls="contact" aria-selected="false">Add other</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link category-loc" id="category-tab " data-toggle="tab" href="#category" role="tab" aria-controls="contact" aria-selected="false">Category</a>
+                        <a class="nav-link" id="category-tab" data-toggle="tab" href="#category" role="tab" aria-controls="contact" aria-selected="false">Category</a>
                     </li>
                 </ul>
             </div>
@@ -137,7 +136,7 @@
                 <div class="col-sm-4 offset-2">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title update-one-book-loc">Upload one Book</h5>
+                            <h5 class="card-title">Upload one Book</h5>
                             <form action="/api/admin/upload-multiply-files" enctype="multipart/form-data" method="POST">
                                 <input accept=".hib" class="form-control-file" id="add-hib-file-input" name="files"
                                        type="file">
@@ -145,7 +144,7 @@
                             </form>
                         </div>
                         <div class="card-footer text-center">
-                            <button class="btn btn-success btn-metro col-5 edit-and-upload-loc" onclick="editHibFile()">Edit and
+                            <button class="btn btn-success btn-metro col-5" onclick="editHibFile()">Edit and
                                 Upload
                             </button>
                         </div>
@@ -154,7 +153,7 @@
                 <div class="col-sm-4">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title upload-several-longphrase-loc">Upload several books for further processing</h5>
+                            <h5 class="card-title">Upload several books for further processing</h5>
                             <form action="/api/admin/upload-multiply-files" enctype="multipart/form-data" method="POST">
                                 <input accept=".hib" class="form-control-file" id="add-hib-files-input" multiple
                                        name="files" type="file">
@@ -162,7 +161,7 @@
                             </form>
                         </div>
                         <div class="card-footer text-center">
-                            <button class="btn btn-info btn-metro upload-to-server-loc" onclick="uploadMultiplyFiles()">Upload to server
+                            <button class="btn btn-info btn-metro" onclick="uploadMultiplyFiles()">Upload to server
                             </button>
                         </div>
                     </div>
@@ -196,7 +195,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title edit-book-loc" id="exampleModalLabel">Edit Book</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Edit Book</h5>
                 <button aria-label="Close" class="close" data-dismiss="modal"
                         type="button">
                     <span aria-hidden="true">&times;</span>

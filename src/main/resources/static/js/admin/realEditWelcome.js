@@ -28,9 +28,8 @@ $(document).ready(getAllLocales());
                         `<textarea type='text' class='form-control' id='${tmp_html}' ` +
                         `aria-describedby='emailHelp'>${welcomeText[i + 1]}</textarea>`;
                 }
-                $('#form_id').html(html + `<button type='submit' onclick='funcStart()' class='btn btn-primary submit-loc'>Submit</button>`);
+                $('#form_id').html(html + `<button type='submit' onclick='funcStart()' class='btn btn-primary'>Submit</button>`);
             })
-        setLocaleFields();
     }
 
 

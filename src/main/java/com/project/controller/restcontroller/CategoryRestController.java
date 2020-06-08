@@ -4,10 +4,10 @@ import com.project.model.*;
 import com.project.service.CategoryService;
 import com.project.service.abstraction.BookService;
 import lombok.AllArgsConstructor;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -20,13 +20,11 @@ public class CategoryRestController {
     BookService bookService;
 
     @GetMapping("/getnullparent")
-    @Cacheable(value = "noParentCategory")
     public List<Category> getNoParentCategories() {
         return categoryService.getNoParentCategories();
     }
 
     @GetMapping("/gettree")
-    @Cacheable(value = "categoryTree")
     public List getCategoryTree() {
         return categoryService.getCategoryTree();
     }

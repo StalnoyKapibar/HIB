@@ -10,16 +10,6 @@ $(document).ready(function () {
             $('#searchIcon').click();
         }
     });
-
-    if (currentLang === '') {
-        if (getCookieByName("lang")) {
-            currentLang = getCookieByName("lang");
-        } else {
-            currentLang = 'en';
-        }
-    }
-    getLanguage();
-    setLocaleFields();
 });
 
 $('#sidebar').mouseenter(() => {
@@ -40,7 +30,7 @@ fetch('/categories/getnullparent', {})
         for (let i in primaryCategories) {
             categoryRow =
                 `<li>
-                <a href="/search/${primaryCategories[i].id}" id="${primaryCategories[i].categoryName.toLowerCase()}-sidebar">${primaryCategories[i].categoryName}</a>
+                <a href="/search/${primaryCategories[i].id}">${primaryCategories[i].categoryName}</a>
                 </li>`;
             $('#primaryCategories').append(categoryRow);
         }

@@ -20,7 +20,6 @@ $(document).ready(function () {
         getFeedbackRequestTable(false).then(r => {
         });
     }
-    setLocaleFields();
 });
 
 function markAsRead(id, replied) {
@@ -51,12 +50,11 @@ async function getFeedbackRequestTable(replied) {
                     bookName = data[i].book.name.en;
                     bookCoverImage = data[i].book.coverImage;
                 }
-
                 let replied;
                 let mark;
                 if (data[i].replied === false) {
                     replied = `<button type="button"
-                               class="btn btn-info btn-reply reply-loc"
+                               class="btn btn-info btn-reply"
                                id="replyBtn"
                                data-id="${id}"
                                data-sender="${senderName}"
@@ -66,22 +64,21 @@ async function getFeedbackRequestTable(replied) {
                                data-bookName="${bookName}"
                                data-bookCoverImage="${bookCoverImage}">Reply</button>`;
                     mark = `<button type="button"
-                            class="btn btn-info read-loc"           
+                            class="btn btn-info "           
                             onclick="markAsRead(${id},${data[i].replied})">Read</button>`;
                 }
                  else if (data[i].replied === true && data[i].viewed === true) {
                     replied = `<input type="checkbox" disabled checked>`;
                     mark = `<button type="button"
-                            class="btn btn-info unread-loc"           
+                            class="btn btn-info "           
                             onclick="markAsRead(${id},${data[i].replied})">Unread</button>`;
                 }
                  else if (data[i].replied === true && data[i].viewed === false) {
                     replied = `<input type="checkbox" disabled unchecked>`;
                     mark = `<button type="button"
-                            class="btn btn-info unread-loc"           
+                            class="btn btn-info "           
                             onclick="markAsRead(${id},${data[i].replied})">Unread</button>`;
                 }
-
                 let tr = $("<tr/>");
                 tr.append(`
                             <td>${id}</td>
@@ -94,7 +91,6 @@ async function getFeedbackRequestTable(replied) {
                 tableBody.append(tr);
             }
         })
-    setLocaleFields();
 }
 
 $(document).on('click', '.btn-reply', function () {

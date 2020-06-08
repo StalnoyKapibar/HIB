@@ -19,7 +19,7 @@ public class LoginFailureHandlerImpl implements AuthenticationFailureHandler {
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
-        if (exception.getMessage().contains("No value") || exception.getMessage().contains("No entity")) {
+        if (exception.getMessage().contains("No value")) {
             response.sendRedirect("/error?failure=NoValuePresentException");
         }
         if (exception.getMessage().contains("Bad credential")) {

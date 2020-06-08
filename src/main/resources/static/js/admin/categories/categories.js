@@ -26,18 +26,6 @@ fetch('/categories/getadmintree')
         }
     });
 
-$(document).ready(function () {
-    if (currentLang === '') {
-        if (getCookieByName("lang")) {
-            currentLang = getCookieByName("lang");
-        } else {
-            currentLang = 'en';
-        }
-    }
-    getLanguage();
-    setLocaleFields();
-})
-
 function addNewCategory() {
     let category = {
         categoryName : $('#categoryName').val(),

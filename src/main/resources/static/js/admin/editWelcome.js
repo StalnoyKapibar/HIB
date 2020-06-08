@@ -31,7 +31,6 @@ $(document).ready(function () {
             $('#button-search-input-admin').click();
         }
     });
-    setLocaleFields();
 });
 
 async function getVarBookDTO() {
@@ -109,11 +108,11 @@ async function pageBook(x) {
             let htmlTable = `<th scope='col'>id </th>`;
 
             htmlTable +=
-                `<th scope="col" class="name-loc">Name</th>` +
-                `<th scope="col" class="author-loc">Author</th>` +
-                `<th scope="col" ><span class="description-loc">Description</span> ${idChangeLang}</th>` +
-                `<th scope='col' class='edit-loc'>Edit</th>` +
-                `<th scope='col' class='delete-loc'>Delete</th>`;
+                `<th scope="col">Name</th>` +
+                `<th scope="col">Author</th>` +
+                `<th scope="col">Description ${idChangeLang}</th>` +
+                `<th scope='col'>Edit</th>` +
+                `<th scope='col'>Delete</th>`;
             $('#table0').html(htmlTable);
             var html = '';
             for (let tmp_html of resp_tmp.listBookDTO) {
@@ -128,15 +127,14 @@ async function pageBook(x) {
                         html += `<td width="600" id='n${tmp_html.id}'>${ad}</td>`;
                     }
                 }
-
                 html +=
                     `<td>` +
-                    `<button class="btn btn-info edit-loc" onclick="openEdit(${tmp_html.id})"> ` +
+                    `<button class="btn btn-info" onclick="openEdit(${tmp_html.id})"> ` +
                     `Edit` +
                     `</button>` +
                     `</td>` +
                     `<td>` +
-                    `<button type='button'  onclick='delBook(${tmp_html.id})'  class='btn btn-danger delete-loc'>` +
+                    `<button type='button'  onclick='delBook(${tmp_html.id})'  class='btn btn-danger'>` +
                     `Delete` +
                     `</button>` +
                     `</td>` +
@@ -146,7 +144,7 @@ async function pageBook(x) {
         });
     $('#search-admin-local-id').html(idChangeLang);
     getLocales().then(buildChangeLang);
-    //setLocaleFields();
+
 }
 
 function buildChangeLang() {
@@ -225,8 +223,8 @@ async function searchBook() {
                              <td style="width: 20%">${book.name}<br>(${book.nameTranslit})</td>
                              <td style="width: 15%">${book.author}<br>(${book.authorTranslit})</td>
                              <td style="width: 50%" > ${book.desc}</td> 
-                             <td> <button class="btn btn-info edit-loc" onclick="openEdit(${book.id})"> Edit </button></td>
-                             <td> <button type='button'  onclick="delBook(${book.id})"  class='btn btn-danger delete-loc'> Delete</button> </td>
+                             <td> <button class="btn btn-info" onclick="openEdit(${book.id})"> Edit </button></td>
+                             <td> <button type='button'  onclick="delBook(${book.id})"  class='btn btn-danger'> Delete</button> </td>
                          </tr>`;
             }
             $('#extra').html(html)
@@ -276,7 +274,7 @@ async function addBookReq(x) {
 
 function delBook(x) {
     if (confirm('Do you really want to DELETE book?')) {
-        fetch("/admin/del/" + x).then(() => totalNumberOfBooks());
+        fetch("admin/del/" + x);
         var elem = document.getElementById(x);
         elem.parentNode.removeChild(elem);
     }
@@ -300,7 +298,7 @@ function buildEditBook(xx) {
         html1 += `</div>` +
             `</div>`;
     }
-    html1 += `<button type='submit' onclick='openEdit(${tmpEditBookId})' data-dismiss='modal' class='btn btn-primary custom-centered m-3 edit-book-loc'>` +
+    html1 += `<button type='submit' onclick='openEdit(${tmpEditBookId})' data-dismiss='modal' class='btn btn-primary custom-centered m-3'>` +
         `Edit Book` +
         `</button>`;
     $('#editBookForm').html(html1);
@@ -360,8 +358,8 @@ function buildCarousel() {
                     `<div id="qw${i}" class='carousel-item active'>` +
                     `<img src=${pathImageDefault}${arrNameImageNew[i]} class='d-block w-100' alt='...'>` +
                     `<div class='carousel-caption d-none d-md-block'>` +
-                    `<button type="button" onclick="setImageCover(${i})" class="btn btn-success change-image-cover-loc">Change image cover</button>` +
-                    `<p><button type="button" onclick="deleteTmpImage(${i})" class="btn btn-danger m-3 delete-loc">Delete</button><p>` +
+                    `<button type="button" onclick="setImageCover(${i})" class="btn btn-success">Change image cover</button>` +
+                    `<p><button type="button" onclick="deleteTmpImage(${i})" class="btn btn-danger m-3">Delete</button><p>` +
                     `</div>` +
                     `</div>`;
             } else {
@@ -371,8 +369,8 @@ function buildCarousel() {
                     ` <div id="qw${i}" class="carousel-item">` +
                     `<img src=${pathImageDefault}${arrNameImageNew[i]} class='d-block w-100' alt="...">` +
                     `<div class='carousel-caption d-none d-md-block'>` +
-                    `<button type="button" onclick="setImageCover(${i})" class="btn btn-success change-image-cover-loc">Change image cover</button>` +
-                    `<p><button type="button" onclick="deleteTmpImage(${i})" class="btn btn-danger m-3 delete-loc">Delete</button><p>` +
+                    `<button type="button" onclick="setImageCover(${i})" class="btn btn-success">Change image cover</button>` +
+                    `<p><button type="button" onclick="deleteTmpImage(${i})" class="btn btn-danger m-3">Delete</button><p>` +
                     `</div>` +
                     `</div>`;
             }

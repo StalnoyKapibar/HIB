@@ -4,7 +4,6 @@ let hibFilesTableBody = $("#hibFilesTable tbody");
 
 $(document).ready(function () {
     renderHibFilesTable();
-    setLocaleFields();
 });
 
 function uploadOneFile() {
@@ -41,7 +40,7 @@ function renderHibFilesTable() {
                            <td class="align-middle"><img src="data:image/png;base64,${avatar}" style="max-width: 60px"></td>
                            <td class="align-middle">${name}</td>
                            <td class="align-middle"><button data-filename="${fileName}" class="btn btn-metro btn-info upload-for-sale">Upload for sale</button></td>
-                           <td class="align-middle"><button data-filename="${fileName}" class="btn btn-info delete-hib-file delete-loc" style="background-color: #ff4500" data-id="5">Delete</button></td>`)
+                           <td class="align-middle"><button data-filename="${fileName}" class="btn btn-info delete-hib-file" style="background-color: #ff4500" data-id="5">Delete</button></td>`)
                 hibFilesTableBody.append(tr);
             }
         });
