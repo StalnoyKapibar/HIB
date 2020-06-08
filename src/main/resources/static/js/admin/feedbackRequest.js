@@ -12,7 +12,7 @@ let interestedBookImage = $("#interested-image");
 let interestedBookTitle = $("#interested-title");
 let toggleReplied = $("#toggle-replied");
 const localStorageToggleKey = "request-toggle";
-let allOrders;
+let allFeedBack;
 
 $(document).ready(function () {
     if (localStorage.getItem(localStorageToggleKey) === "true") {
@@ -21,7 +21,8 @@ $(document).ready(function () {
         getFeedbackRequestTable(false).then(r => {
         });
     }
-    showListOrders();
+    getFeedbackAll(false);
+    message.val($(this).attr("data-message"));
 });
 
 function markAsRead(id, replied) {
@@ -65,20 +66,17 @@ async function getFeedbackRequestTable(replied) {
                                data-bookId="${bookId}"
                                data-bookName="${bookName}"
                                data-bookCoverImage="${bookCoverImage}"
-                               onclick="showModalOfOrder(${id})">Reply</button>
-         `
-                                ;
+                               onclick="showModalOfFeedBack(${id})">Reply</button>
+         `;
                     mark = `<button type="button"
                             class="btn btn-info "           
                             onclick="markAsRead(${id},${data[i].replied})">Read</button>`;
-                }
-                 else if (data[i].replied === true && data[i].viewed === true) {
+                } else if (data[i].replied === true && data[i].viewed === true) {
                     replied = `<input type="checkbox" disabled checked>`;
                     mark = `<button type="button"
                             class="btn btn-info "           
                             onclick="markAsRead(${id},${data[i].replied})">Unread</button>`;
-                }
-                 else if (data[i].replied === true && data[i].viewed === false) {
+                } else if (data[i].replied === true && data[i].viewed === false) {
                     replied = `<input type="checkbox" disabled unchecked>`;
                     mark = `<button type="button"
                             class="btn btn-info "           
@@ -164,26 +162,30 @@ toggleReplied.change(() => {
     getFeedbackRequestTable(repliedOn).catch();
 });
 
-async function showModalOfOrder(index) {
+async function showModalOfFeedBack(index) {
+    let htmlChat = ``;
     $('#chat').empty();
     $('#modalBody').empty();
     $('#contactsOfUser').empty();
-    orderIndex = index;
-    let order = allOrders[index-1];
-    let items = order.items;
-    $('#modalTitle').html(`Order № ${order.id}`);
-    messagePackIndex = 0;
+    let senderNameTemp;
+    let feedBack = allFeedBack[index];
     document.getElementById("chat").setAttribute('onscroll', 'scrolling()');
-
-    let htmlChat = ``;
-    await fetch("/gmail/" + order.contacts.email + "/messages/" + "0")
+    await fetch("/api/admin/feedback-request/" + index)
+        .then(json)
+        .then((data) => {
+            /*senderNameTemp = data.senderEmail;*/
+            senderNameTemp = "orlov.leo12@gmail.com";
+            console.log(data.content);
+            htmlChat += data.content;
+        });
+    await fetch("/gmail/" + senderNameTemp + "/messages/" + "0")
         .then(json)
         .then((data) => {
             if (data[0] === undefined) {
                 htmlChat += `<div id="chat-wrapper">`;
                 htmlChat += `</div>`;
                 htmlChat += `<textarea id="sent-message" class="form-control"></textarea>
-                        </div><button class="float-right col-2 button btn-primary" type="button" id="send-button" onclick="sendGmailMessage('${order.contacts.email}', ${index})">Send</button>`
+                        </div><button class="float-right col-2 button btn-primary" type="button" id="send-button" onclick="sendGmailMessage('${senderNameTemp}', ${index})">Send</button>`
             } else {
                 if (data[0].text === "noGmailAccess") {
                     htmlChat += `<div>
@@ -199,7 +201,7 @@ async function showModalOfOrder(index) {
                     }
                     htmlChat += `</div>`;
                     htmlChat += `<textarea id="sent-message" class="form-control"></textarea>
-                        </div><button class="float-right col-2 button btn-primary" type="button" id="send-button" onclick="sendGmailMessage('${order.contacts.email}', ${index})">Send</button>`
+                        </div><button class="float-right col-2 button btn-primary" type="button" id="send-button" onclick="sendGmailMessage('${senderNameTemp}', ${index})">Send</button>`
                 }
             }
         });
@@ -254,7 +256,7 @@ async function showModalOfOrder(index) {
 }
 
 async function scrolling() {
-    let order = allOrders[orderIndex];
+    let order = allFeedBack[orderIndex];
     if ($('#chat').scrollTop() < 2) {
         messagePackIndex++;
         await fetch("/gmail/" + order.contacts.email + "/messages/" + messagePackIndex)
@@ -273,12 +275,37 @@ async function scrolling() {
     }
 }
 
-function showListOrders() {
-    fetch("/api/admin/getAllOrders")
-        .then(json)
-        .then(function (data) {
 
-            allOrders = data;
+async function getFeedbackAll(replied) {
+    await fetch("/api/admin/feedback-request?replied=" + replied)
+        .then(json)
+        .then((data) => {
+            allFeedBack = data;
+        })
+}
+
+function sendGmailMessage(userId, index) {
+    let sendButton = document.getElementById("send-button");
+    sendButton.disabled = true;
+    let subject = "Feedback #" + index + "&nbsp";
+    let message = document.getElementById("sent-message").value;
+    let messageComplite = subject+message;
+
+    fetch("/gmailFeedBack/" + userId + "/messages", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json;charset=utf-8"
+        },
+        body: JSON.stringify(messageComplite),
+    })
+        .then(json)
+        .then((data) => {
+            let html = `<p><b>${data.sender}</b></p>
+                        <p>${data.text}</p>`
+            let wrapper = document.getElementById("chat-wrapper");
+            wrapper.insertAdjacentHTML("beforeend", html);
+            document.getElementById("sent-message").value = "";
+            sendButton.disabled = false;
         });
 }
 

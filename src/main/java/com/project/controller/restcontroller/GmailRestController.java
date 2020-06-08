@@ -77,7 +77,7 @@ public class GmailRestController {
             }
         }
         for (Message message : messages) {
-            map.put(message.getThreadId(), new MessageDTO(message.getId(), userId, ""));
+            map.put(message.getId(), new MessageDTO(message.getId(), userId, ""));
         }
         return map;
     }
@@ -117,5 +117,22 @@ public class GmailRestController {
         mimeMessage.setContent(text, "text/plain");
         mimeMessage.setRecipient(javax.mail.Message.RecipientType.TO, new InternetAddress(to));
         return mimeMessage;
+    }
+
+    @PostMapping(value = "/gmailFeedBack/{userId}/messages")
+    public MessageDTO sendMessageFeedBack(@PathVariable("userId") String userId, @RequestBody String messageText) throws IOException, MessagingException {
+        String subjectTextResult = messageText.split("&nbsp")[0].substring(1);
+        String messageTextResult = messageText.split("&nbsp")[1].substring(0,messageText.split("&nbsp")[1].length()-1);
+        MimeMessage mimeMessage = getMessage(gmail.users().getProfile("me").getUserId(), userId, messageTextResult);
+        mimeMessage.setSubject(subjectTextResult, "UTF-8");
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        mimeMessage.writeTo(baos);
+        String encodedEmail = Base64URL.encode(baos.toByteArray()).toString();
+        Message message = new Message();
+        message.setRaw(encodedEmail);
+        message = gmail.users().messages().send("me", message).execute();
+        message = gmail.users().messages().get("me", message.getId()).execute();
+        MessageDTO messageDTO = new MessageDTO(message.getThreadId(), "me", messageText);
+        return messageDTO;
     }
 }
