@@ -53,6 +53,7 @@ public class GmailRestController {
 
     @PostMapping(value = "/gmail/{userId}/messages")
     public MessageDTO sendMessage(@PathVariable("userId") String userId, @RequestBody String messageText) throws IOException, MessagingException {
+        messageText = messageText.substring(1, messageText.length() - 1);
         MimeMessage mimeMessage = getMessage(gmail.users().getProfile("me").getUserId(), userId, messageText);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         mimeMessage.writeTo(baos);
@@ -94,14 +95,24 @@ public class GmailRestController {
                 Message fullMessage = gmail.users().messages().get("me", messageDTO.getMessageId()).execute();
                 Base64URL base64URL;
                 if (fullMessage.getPayload().getParts() != null) {
-                    base64URL = new Base64URL(fullMessage.getPayload().getParts().get(0).getBody().getData());
+                    if (fullMessage.getPayload().getParts().get(0).getBody().getData() == null) {
+                        break;
+                    }
+                    if (fullMessage.getPayload().getParts().get(1).getBody().getData() == null) {
+                        base64URL = new Base64URL(fullMessage.getPayload().getParts().get(0).getBody().getData());
+                    } else {
+                        base64URL = new Base64URL(fullMessage.getPayload().getParts().get(1).getBody().getData());
+                    }
                     text = base64URL.decodeToString();
                 } else {
+                    if (fullMessage.getPayload().getBody().getData() == null) {
+                        break;
+                    }
                     base64URL = new Base64URL(fullMessage.getPayload().getBody().getData());
                     text = base64URL.decodeToString();
-                    if (text.substring(0, 1).equals("\"")) {
-                        text = text.substring(1, text.length()-1);
-                    }
+                }
+                if (text.startsWith("\"") && text.startsWith("\"", text.length()-1)) {
+                    text = text.substring(1, text.length()-1);
                 }
                 messageDTO.setText(text);
                 chat.add(messageDTO);

@@ -122,7 +122,15 @@ async function showModalOfOrder(index) {
                         </div><button class="float-right col-2 btn btn-primary send-loc" type="button" id="send-button" onclick="sendGmailMessage('${order.contacts.email}', ${index})">Send</button>`
 
             } else {
-                if (data[0].text === "noGmailAccess") {
+                if (data[0].text === "chat end") {
+                    htmlChat += `<div id="chat-wrapper">`;
+                    htmlChat += `</div>`;
+                    htmlChat += `<textarea id="sent-message" class="form-control"></textarea>
+
+                        </div><button class="float-right col-2 btn btn-primary send-loc" type="button" id="send-button" onclick="sendGmailMessage('${order.contacts.email}', ${index})">Send</button>`
+
+                    scrollOn = false;
+                } else if (data[0].text === "noGmailAccess") {
                     htmlChat += `<div>
                                 <span class="h3 col-10 confirm-gmail-longphrase-loc">Confirm gmail access to open chat:</span>
                                 <a type="button" class="col-2 btn btn-primary float-right confirm-loc" href="${gmailAccessUrl.fullUrl}">
