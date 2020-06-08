@@ -9,13 +9,13 @@ import java.util.Date;
 
 public class ParseGmail {
 
-    private static long currentTimestamp = new Date().getTime();
+    private static long currentTimestamp = new Date().getTime() - 60000 * 60;
     private static int interval = 60000;
 
     public static void start(Gmail gmail) throws IOException {
         //gmail.users().messages().list("me").setQ("after:" + 1591618537).execute()
         //gmail.users().messages().list("me").setQ("after:" + 1591618537).execute().getMessages().get(3)
-        //gmail.users().messages().get("me", "172943d02e20989f").execute()
+        //gmail.users().messages().get("me", "17294a2dde08f030").execute()
         //base64URL = new Base64URL(fullMessage.getPayload().getParts().get(0).getBody().getData());
         //text = base64URL.decodeToString();
         gmail.users().messages().list("me").setQ("after:" + currentTimestamp).execute();
