@@ -15,8 +15,8 @@ $(document).ready(function () {
     getShoppingCart();
     showListOrders().then(r => {
     });
-    if (document.referrer.toString() === "") {
-        confirmAddress();
+    if (document.referrer.toString() === "" && userData.oauth2Acc === false) {
+        confirmAddressAutoReg();
         confirmContactsFor1Click();
     }
 });
