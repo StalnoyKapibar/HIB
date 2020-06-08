@@ -99,29 +99,29 @@
         <div class="container mt-0 col-sm-12 col-lg-6 col-md-8 rounded-pill">
             <div class="col-12 shadow form-border-radius">
                 <div class="modal-header">
-                    <h4 class="my-2 create-new-profile-loc">Create new profile</h4>
+                    <h4 class="my-2">Create new profile</h4>
                 </div>
 
                 <div class="col-12">
                     <form th:action="@{/registration}" th:object="${user}" method="post" name="registration-form">
                         <div class="form-group mt-3">
-                            <label for="loginInputField" class="login-label">Login</label>
-                            <input type="text" class="form-control login" id="loginInputField" name="login"
+                            <label for="loginInputField">Login</label>
+                            <input type="text" class="form-control" id="loginInputField" name="login"
                                    placeholder="Login" required th:field="*{login}">
                         </div>
                         <div class="form-group">
-                            <label for="emailInputField" class="email-label">Email</label>
-                            <input type="email" class="form-control email" id="emailInputField" name="email"
+                            <label for="emailInputField">Email</label>
+                            <input type="email" class="form-control" id="emailInputField" name="email"
                                    placeholder="Email" required th:field="*{email}">
                         </div>
                         <div class="form-group">
-                            <label for="passInputField" class="password-label">Password</label>
-                            <input type="password" class="form-control password" id="passInputField" name="password"
+                            <label for="passInputField">Password</label>
+                            <input type="password" class="form-control" id="passInputField" name="password"
                                    placeholder="Password" required>
                         </div>
                         <div class="form-group">
-                            <label for="confirmPassInputField" class="confirm-password-label">Confirm password</label>
-                            <input type="password" class="form-control confirm-password" id="confirmPassInputField"
+                            <label for="confirmPassInputField">Confirm password</label>
+                            <input type="password" class="form-control" id="confirmPassInputField"
                                    name="confirmPassword" placeholder="Confirm password" required>
                         </div>
                         <button type="submit" id="hiddenSingUpBtn" hidden>HiddenSingUpButton</button>
@@ -132,7 +132,7 @@
                         th:text="${errorMessage.getMessage()}" id="errorMessage"></h5>
                 </div>
                 <div class="modal-footer text-right">
-                    <button type="button" class="btn btn-primary col-12 mb-4 mx-0 signup-btn" id="singUpButton"
+                    <button type="button" class="btn btn-primary col-12 mb-4 mx-0" id="singUpButton"
                             onclick="sendSingUpForm()">Sign up
                     </button>
                 </div>
@@ -143,12 +143,12 @@
         <!--        footer       -->
         <div class="container-fluid text-center footer pt-3 p-0 ">
             <div class="footer_menu">
-                <a href="#" class="footer_link p-2 main-footer" id="link_main_footer">Main</a>
-                <a href="#" class="footer_link p-2 users-manual-footer" id="link_instruction">Instruction</a>
-                <a href="#" class="footer_link p-2 how-to-order-footer" id="link_order">Order</a>
-                <a href="#" class="footer_link p-2 authors-list-footer" id="link_authors">Authors</a>
-                <a href="#" class="footer_link p-2 theme-links-footer" id="links">Links</a>
-                <a href="#" class="footer_link p-2 contact-locations-footer" id="link_contacts">Contacts</a>
+                <a href="#" class="footer_link p-2" id="link_main_footer">Main</a>
+                <a href="#" class="footer_link p-2" id="link_instruction">Instruction</a>
+                <a href="#" class="footer_link p-2" id="link_order">Order</a>
+                <a href="#" class="footer_link p-2" id="link_authors">Authors</a>
+                <a href="#" class="footer_link p-2" id="links">Links</a>
+                <a href="#" class="footer_link p-2" id="link_contacts">Contacts</a>
             </div>
             <div class="footer_made_by pt-2"><a id="made_by">Created by JavaMentor® Team</a></div>
         </div>

@@ -33,15 +33,17 @@ function addPartsOfBook(partsOfBook) {
                     `<div class="shadow p-4 mb-4 bg-white">
                 <div class='form-group mx-5 my-3'>
                 <div class="row">
-                <div class="col-0" for=${tmpNameObject}>${tmpNameObject} <div class="of-other-lang-loc">of other lang</div> </div>
-                <div class="col-5 pl-5 ml-5  "><input type='text'  class='form-control '  id='inpt${tmpNameObject}'>
+                <div class="col-0" for=${tmpNameObject}>${tmpNameObject} of other lang </div>
+                <div class="col-5 pl-5 ml-5  "><input type='text'  class='form-control '  id='inpt${tmpNameObject}'
+                placeholder='${tmpNameObject} of other  lang '>
                 </div> </div>
                 <div class="row my-2">
-                <div class="col-0" for=${tmpNameObject}>${tmpNameObject} <div class="transliterate-loc">transliterate</div>&nbsp;&nbsp; </div>
-                <div class="col-5 pl-5 ml-5  mr-1 "><input type='text' class='form-control ' id='in${tmpNameObject}'>
+                <div class="col-0" for=${tmpNameObject}>${tmpNameObject} transliterate&nbsp;&nbsp; </div>
+                <div class="col-5 pl-5 ml-5  mr-1 "><input type='text' class='form-control ' id='in${tmpNameObject}'
+                placeholder='${tmpNameObject} transliterate '>
                 </div> </div>
                 </div>
-                <button type="button" onclick="transliterationText('${tmpNameObject}')" class="btn btn-primary mx-3 big-transliterate-loc">Transliterate</button>
+                <button type="button" onclick="transliterationText('${tmpNameObject}')" class="btn btn-primary mx-3">Transliterate</button>
                 </div>`;
             }
 
@@ -53,19 +55,17 @@ function addPartsOfBook(partsOfBook) {
                 <div class="row">
                 <div class="col-0" for=${tmpNameObject}${tmpNameVar}>${tmpNameObject} ${tmpNameVar}</div>
                 <div class="col-2 mr-1">
-                <input type="radio" name="rb${tmpNameObject}" id="rb${tmpNameObject}${tmpNameVar}" value="${tmpNameVar}" autocomplete="off"> 
-                <div class="transl-from-this-lang-loc">Translate from this language</div> 
+                <input type="radio" name="rb${tmpNameObject}" id="rb${tmpNameObject}${tmpNameVar}" value="${tmpNameVar}" autocomplete="off"> Translate from this language
                 </div>
                 <div class="col-6">
                 <textarea type='text' class='form-control' rows="10"  id='inp${tmpNameObject}${tmpNameVar}'
                 placeholder='${tmpNameObject} ${tmpNameVar}'> </textarea>
                 </div>
                 <div class="col">
-                <input type="checkbox" checked name="cb${tmpNameObject}" value="${tmpNameVar}" autocomplete="off"> 
-                <div class="into-this-lang-loc">Into this language</div>
+                <input type="checkbox" checked name="cb${tmpNameObject}" value="${tmpNameVar}" autocomplete="off"> Into this language
                 </div></div></div></div>`;
                     if (tmpNameVar === "gr") {
-                        html += `<button type="button" onclick="translateText('${tmpNameObject}')" class="btn btn-primary mx-3 translate-loc">Translate</button></div>`
+                        html += `<button type="button" onclick="translateText('${tmpNameObject}')" class="btn btn-primary mx-3">Translate</button></div>`
                     }
                 }
 
@@ -76,19 +76,17 @@ function addPartsOfBook(partsOfBook) {
                 <div class="row">
                 <div class="col-0" for=${tmpNameObject}${tmpNameVar}>${tmpNameObject} ${tmpNameVar}</div>
                 <div class="col-2 mr-1">
-                <input type="radio" name="rb${tmpNameObject}" id="rb${tmpNameObject}${tmpNameVar}" value="${tmpNameVar}" autocomplete="off"> 
-                <div class="transl-from-this-lang-loc">Translate from this language</div> 
+                <input type="radio" name="rb${tmpNameObject}" id="rb${tmpNameObject}${tmpNameVar}" value="${tmpNameVar}" autocomplete="off"> Translate from this language
                 </div>
                 <div class="col">
                 <input type='text' class='form-control'  id='inp${tmpNameObject}${tmpNameVar}'
                 placeholder='${tmpNameObject} ${tmpNameVar}'> 
                 </div>
                 <div class="col">
-                <input type="checkbox" checked name="cb${tmpNameObject}" value="${tmpNameVar}" autocomplete="off"> 
-                <div class="into-this-lang-loc">Into this language</div>
+                <input type="checkbox" checked name="cb${tmpNameObject}" value="${tmpNameVar}" autocomplete="off"> Into this language
                 </div></div></div></div>`;
                     if (tmpNameVar === "gr") {
-                        html += `<button type="button" onclick="translateText('${tmpNameObject}')" class="btn btn-primary mx-3 translate-loc">Translate</button></div>`
+                        html += `<button type="button" onclick="translateText('${tmpNameObject}')" class="btn btn-primary mx-3">Translate</button></div>`
                     }
                 }
             }
@@ -112,7 +110,7 @@ function getCategoryName(event) {
 function addCategory() {
     let row =
         `<div class="shadow p-4 mb-4 bg-white text-center">
-                <h4 class="select-category-loc" id="selectedCategory">Select category</h4>
+                <h4 id="selectedCategory">Select category</h4>
                 <h4 id="categoryHelper"></h4><hr>
                 <div id="categoryTree"></div>`;
     categoryTab.append(row);
@@ -120,7 +118,6 @@ function addCategory() {
     categoryTreeDiv = $("#categoryTree");
     getTree();
 }
-
 function getTree() {
     fetch('/admin/categories/getadmintree')
         .then(function (response) {
@@ -148,6 +145,8 @@ function getTree() {
         });
 }
 
+
+
 function addPage() {
     getVarBookDTO();
     getAllLocales();
@@ -166,35 +165,35 @@ function addPage() {
              ${addPartsOfBook("edition")}</div>
                 <div class="tab-pane fade" id="other" role="tabpanel" aria-labelledby="other-tab">
                     <div class="shadow p-4 mb-4 bg-white">
-                        <h5 class="years-of-edition-loc"> Year Of Edition </h5>
-                        <input class="years-of-edition-loc" type="text" id="yearOfEdition" ><br><br>
+                        <h5> Year Of Edition </h5>
+                        <input type="text" id="yearOfEdition" placeholder="Year Of Edition"><br><br>
                     </div>
                     <div class="shadow p-4 mb-4 bg-white">
-                        <h5 class="pages-loc"> Pages </h5>
+                        <h5> Pages </h5>
                         <input type="number" id="pages" ><br><br>
                     </div>
                     <div class="shadow p-4 mb-4 bg-white">
-                        <h5 class="price-loc"> Price </h5>
+                        <h5> Price </h5>
                         <input type="number" id="price" ><br><br>
                     </div>
                     <div class="shadow p-4 mb-4 bg-white">
-                    <h5 class="original-lang-loc"> Original Language </h5>
+                    <h5> Original Language </h5>
                         <select id="originalLanguage" >
                         </select><br><br>
                     </div>
                     <div id = "allImage">
                         <div class="shadow p-4 mb-4 bg-white">
                         <div id="divLoadAvatar">
-                            <h4 class="avatar-loc">Avatar</h4>
-                            <Label class="load-avatar-loc">Load avatar</Label>
+                            <h4>Avatar</h4>
+                            <Label>Load avatar</Label>
                             <input type="file" class="form-control-file" id="avatar" accept=".jpg" onchange="loadImage('avatar','divAvatar')">
                         </div>
                         <div class='car' id='divAvatar' style='width: 18rem;'>
                         </div><br><br>
                         </div>
                         <div class="shadow p-4 mb-4 bg-white">
-                            <h4 class="another-image-loc">Another Image</h4>
-                            <Label class="load-another-image-loc">Load another image</Label>
+                            <h4>Another Image</h4>
+                            <Label>Load another image</Label>
                             <input type="file" class="form-control-file" id="loadAnotherImage" accept=".jpg" onchange="loadImage('loadAnotherImage','imageList')">
                         <div class='car' id='imageList' style='width: 18rem;'>
                         </div>
@@ -218,9 +217,7 @@ function addPage() {
             `<option value=${tmpNameVar.toUpperCase()}>${tmpNameVar.toUpperCase()}</option>`
         )
     }
-    originalLanguage.append(`<option value="OTHER">OTHER</option>`);
-
-    setLocaleFields(); //need
+    originalLanguage.append(`<option value="OTHER">OTHER</option>`)
 }
 
 function loadImage(nameId, div) {
@@ -252,7 +249,7 @@ function addImageInDiv(fileName, divId) {
 function addImgAvatarAndBtn(divId, path) {
     divAvatar.append(
         `<img src=${path} class='card-img-top' id=${divId} alt='...'>
-        <button type="button" onclick="deleteImage('divAvatar')" class="btn btn-primary mx-3 delete-image-loc">Delete image</button>`
+        <button type="button" onclick="deleteImage('divAvatar')" class="btn btn-primary mx-3">Delete image</button>`
     )
 }
 
@@ -260,7 +257,7 @@ function addImgToListAndBtn(divId, path) {
     listImages.append(
         `<div class="shadow p-4 mb-4 bg-white" id="${divId}">               
                 <img src=${path} id=${divId} class='card-img-top'  alt='...'>
-                <button type="button" onclick="deleteImage('${divId}')" class="btn btn-primary mx-3 delete-image-loc">Delete image</button><br>              
+                <button type="button" onclick="deleteImage('${divId}')" class="btn btn-primary mx-3">Delete image</button><br>              
                 </div>`
     )
 }

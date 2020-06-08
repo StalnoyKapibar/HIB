@@ -18,7 +18,7 @@ public class ViewController {
     FormLoginErrorMessageService messageService;
     BookService bookService;
 
-    @GetMapping({"/home", "/profile/**", "/category/**", "/shopping-cart", "/search", "/err/**"})
+    @GetMapping({"/home", "/profile/**", "/category/**", "/shopping-cart", "/search", "/errors/**"})
     public String getHomePage() {
         return "/user/user";
     }

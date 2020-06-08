@@ -1,23 +1,10 @@
 let AU;
 
 $(document).ready(function () {
-
     let tabhash = document.location.hash;
-
     if (tabhash == '#cart') {
         $('#myTab a[href="#Basket"]').tab('show');
     }
-
-    if (currentLang === '') {
-        if (getCookieByName("lang")) {
-            currentLang = getCookieByName("lang");
-        } else {
-            currentLang = 'en';
-        }
-    }
-
-    getLanguage();
-    setLocaleFields();
 });
 
 function showShoppingCart() {
@@ -56,14 +43,13 @@ function firstLastNames() {
     }
 }
 
-function refreshUserNames(firstName, lastName, email) {
+function refreshUserNames(firstName, lastName) {
     if (lastName === null) {
         document.getElementById("first-last-name").innerHTML = firstName;
     }
     else {
         document.getElementById("first-last-name").innerHTML = firstName + ' ' + lastName;
     }
-    document.getElementById("user-email").innerHTML = email;
 }
 
 function savePersonalInformation() {
@@ -78,8 +64,7 @@ function savePersonalInformation() {
     tmp['lastName'] = lastName;
     let tmpSend = JSON.stringify(tmp);
     savePersonalInformationRequest(tmpSend);
-    refreshUserNames(firstName, lastName, email);
-    setLocaleFields();
+    refreshUserNames(firstName, lastName);
 }
 
 function savePersonalInformationRequest(personalInformation) {
@@ -88,14 +73,14 @@ function savePersonalInformationRequest(personalInformation) {
         .then(text)
         .then(function (resp) {
             if (resp === "error") {
-                showError(' This email address is used by another user!', 'email-used-by-user-loc');
+                showError(' This email address is used by another user!');
                 setTimeout(hideError, 5000);
             } else {
                 if (resp === "synError") {
-                    showError('Invalid email format!', 'invalid-email-format-loc');
+                    showError('Invalid email format!');
                     setTimeout(hideError, 5000);
                 } else {
-                    showSuccess('Changes to personal information are successfully saved!', 'mess-success-loc');
+                    showSuccess('Changes to personal information are successfully saved!');
                     setTimeout(hideSuccess, 2000);
                 }
             }
@@ -114,20 +99,18 @@ function text(response) {
     return response.text()
 }
 
-function showError(message, className) {
-    $('#errorMessageEmail').addClass(className).text(message);
+function showError(message) {
+    $('#errorMessageEmail').text(message);
     $('#collapseExample').attr('class', 'collapse show');
-    setLocaleFields();
 }
 
 function hideError() {
     $('#collapseExample').attr('class', 'collapse');
 }
 
-function showSuccess(message, className) {
-    $('#idMessagesSuccess').addClass(className).text(message);
+function showSuccess(message) {
+    $('#idMessagesSuccess').text(message);
     $('#staticBackdrop').modal();
-    setLocaleFields();
 }
 
 function hideSuccess() {
@@ -140,15 +123,14 @@ function savePassword() {
     if (password0 === password1) {
         savePasswordReq(password0);
     } else {
-        showErrorPassword('Passwords don\'t match!', 'dont-match-pass-loc');
+        showErrorPassword('Passwords don\'t match!');
         setTimeout(hideErrorPassword, 5000);
     }
 }
 
-function showErrorPassword(message, className) {
-    $('#errorMessagePassword').addClass(className).text(message);
+function showErrorPassword(message) {
+    $('#errorMessagePassword').text(message);
     $('#collapsePassword').attr('class', 'collapse show');
-    setLocaleFields();
 }
 
 function hideErrorPassword() {
@@ -166,15 +148,14 @@ function savePasswordReq(newPassword) {
         .then(text)
         .then(function (resp) {
             if (resp === "passError") {
-                showErrorPassword('The password must be between 8 and 64 and can contain numbers and characters in the upper and lower registers, without spaces!',
-                    'incorrect-data-password-loc');
+                showErrorPassword('The password must be between 5 and 64 and can contain numbers and characters in the upper and lower registers, without spaces!');
                 setTimeout(hideErrorPassword, 5000);
             } else {
                 if (resp === "wrongPassword") {
-                    showErrorPassword('Wrong current password!', 'wrong-current-pass-loc');
+                    showErrorPassword('Wrong current password!');
                     setTimeout(hideErrorPassword, 5000);
                 } else {
-                    showSuccess('Password successfully saved!', 'pass-success-saved-loc');
+                    showSuccess('Password successfully saved!');
                     setTimeout(hideSuccess, 2000);
                 }
             }

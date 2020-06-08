@@ -1,0 +1,16 @@
+@media (max-width: 1000px) {
+    #search-page {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    #search-input-container {
+        order: 1;
+    }
+    #search-table {
+        order: 3;
+    }
+    #search-sidebar-container {
+        order: 2;
+    }
+}

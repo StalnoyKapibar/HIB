@@ -8,18 +8,6 @@ var componentForm = {
     postal_code: 'short_name'
 };
 
-$(document).ready(function () {
-    if (currentLang === '') {
-        if (getCookieByName("lang")) {
-            currentLang = getCookieByName("lang");
-        } else {
-            currentLang = 'en';
-        }
-    }
-    getLanguage();
-    setLocaleFields();
-})
-
 function initAutocomplete() {
     // Create the autocomplete object, restricting the search to geographical
     // location types.

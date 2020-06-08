@@ -1,19 +1,7 @@
 $(document).ready(function () {
-
     let fields = ['profile-name', 'profile-in-progress', 'profile-delivered', 'profile-orders', 'profile-bucket'];
     let fieldDataSources = [getUserName, getInProgressOrders, getDeliveredOrders, getSummOrders, getBooksInBucket];
     handleProfile(fields, fieldDataSources);
-
-    if (currentLang === '') {
-        if (getCookieByName("lang")) {
-            currentLang = getCookieByName("lang");
-        } else {
-            currentLang = 'en';
-        }
-    }
-
-    getLanguage();
-    setLocaleFields();
 });
 
 $(document).on('click', ".myprof-loc",function () {

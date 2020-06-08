@@ -6,24 +6,19 @@ let order = '';
 var htmlForModalBody = ``;
 
 $(document).ready(function () {
+    if (currentLang == '') {
+        currentLang = $('#dd_menu_link').data('currentLang');
+    }
+    getLanguage();
+    setLocaleFields();
     openModalLoginWindowOnFailure();
     getShoppingCart();
     showListOrders().then(r => {
     });
-
-    if (document.referrer.toString() === "" && userData.oauth2Acc === false) {
-        confirmAddressAutoReg();
-
+    if (document.referrer.toString() === "") {
+        confirmAddress();
         confirmContactsFor1Click();
     }
-
-    if (currentLang == '') {
-        currentLang = $('#dd_menu_link').data('currentLang');
-    }
-
-    getLanguage();
-    setLocaleFields();
-
 });
 
 function convertPrice(price) {
@@ -53,6 +48,14 @@ async function getShoppingCart() {
 
                     let first = `<td class="align-middle"><img src="/images/book${book.id}/${book.coverImage}" style="max-width: 60px"></td>`;
                     let second = `<td class="align-middle">${convertOriginalLanguageRows(book.originalLanguage.name, book.originalLanguage.nameTranslit)} | ${convertOriginalLanguageRows(book.originalLanguage.author, book.originalLanguage.authorTranslit)}</td>`;
+                    if (lastOrderedBooks.includes(book.id)) {
+                        isOrderEnable = false;
+                        row.css("opacity", "0.5");
+                        row.css("background-color", "#FFB3B3");
+                        second = `<td class="align-middle">${convertOriginalLanguageRows(book.originalLanguage.name, book.originalLanguage.nameTranslit)} | ${convertOriginalLanguageRows(book.originalLanguage.author, book.originalLanguage.authorTranslit)} 
+                            <div id="errorMessage" style ="color: red; font-weight: 900;">Book is temporary unavailable! Please, delete it or try later!</div></td>`;
+
+                    }
                     let third = `<td class="align-middle">${price + currencyIcon}</td>`;
                     let forth = `<td hidden id="book${book.id}">${price}</td>`;
                     let fifth = `<td class="align-middle"><button class="btn btn-info delete"  style="background-color: #ff4500" data-id="${book.id}">${deleteBottom}</button></td>`;
@@ -64,24 +67,21 @@ async function getShoppingCart() {
                     $('#sum').text(totalPrice + currencyIcon);
 
 
-
                 });
                 if (data.length === 0) {
                     isOrderEnable = false;
                 }
                 if (!isOrderEnable) {
-                    $('#shoppingCardOrderDisabledMessage').addClass('resolveShopCart').text('Please resolve shopping cart warnings before proceeding');
-                    $('#forButtonCheckout').html(`<div><button class="btn btn-primary checkout-btn" id="chechout" onclick="confirmAddress()" type="button" disabled="disabled">
+                    $('#shoppingCardOrderDisabledMessage').text('Please resolve shopping cart warnings before proceeding');
+                    $('#forButtonCheckout').html(`<div><button class="btn btn-primary" id="chechout" onclick="confirmAddress()" type="button" disabled="disabled">
                                     Checkout
                                 </button></div>`)
                 } else {
                     $('#shoppingCardOrderDisabledMessage').text('');
-                    $('#forButtonCheckout').html(`<div><button class="btn btn-primary checkout-btn" id="chechout" onclick="confirmAddress()" type="button">
+                    $('#forButtonCheckout').html(`<div><button class="btn btn-primary" id="chechout" onclick="confirmAddress()" type="button">
                                     Checkout
                                 </button></div>`)
                 }
-          setLocaleFields();
-
 
             });
     }, 10);
@@ -248,23 +248,19 @@ function showOrderSum() {
                         <div class="panel-body">
                             <div class="container mt-2">
                                 <div class="col-8 p-4 mb-4  alert alert-info" role="alert">
-                                    <h6><label class="your-loc">Your</label> <strong class="contacts-loc">contacts </strong></h6>
+                                    <h6>Your <strong>contacts </strong></h6>
                                 </div>`;
-
     if (contacts.email !== '') {
         html += `<div class="form-group  row">
-                        <label class="control-label col-sm-2 col-form-label email-label">Email</label>
-
+                        <label class="control-label col-sm-2 col-form-label">Email</label>
                         <div class="col-md-5 pl-0 pr-1">
                             <input class="form-control" readonly  placeholder=${contacts.email}>
                         </div>
                     </div>`;
-
     }
     if (contacts.phone !== '') {
         html += `<div class="form-group row">
-                        <label class="control-label col-sm-2 col-form-label phone-label">Phone</label>
-
+                        <label class="control-label col-sm-2 col-form-label">Phone</label>
                         <div class="col-sm-5 pl-0 pr-1">
                             <input class="form-control field" readonly  placeholder=${contacts.phone}>
                         </div></div>`;
@@ -272,7 +268,7 @@ function showOrderSum() {
     if (contacts.comment !== " ") {
         html += `
                     <div class="form-group row">
-                        <label class="control-label col-sm-2 col-form-label comment-label">Comment</label>
+                        <label class="control-label col-sm-2 col-form-label">Comment</label>
                         <div class="col-md-6 pl-0">
                             <textarea class="form-control" readonly  rows="5" placeholder="${contacts.comment}" ></textarea>
                         </div>
@@ -281,8 +277,6 @@ function showOrderSum() {
 
     html += `</div></div>`;
     $('#shippingaddress').html(html);
-
-    setLocaleFields();
 
 }
 
@@ -300,9 +294,7 @@ async function showListOrders() {
                          <td>${order.data}</td> 
                          <td>${order.status}</td>
                          <td>${convertPrice(order.itemsCost)} ${currencyIcon}</td>
-
-                         <td><button type="button" class="btn btn-info show-btn" data-toggle="modal" data-target="#ordermodal"  onclick="showCarrentOrder(${key})">Show</button></td></tr>`;
-
+                         <td><button type="button" class="btn btn-info" data-toggle="modal" data-target="#ordermodal"  onclick="showCarrentOrder(${key})">Show</button></td></tr>`;
             }
             $('#listorders').html(html);
         });
@@ -325,7 +317,7 @@ function showCarrentOrder(index) {
         row.append(cell);
         row.appendTo('#ordermodalbody');
     });
-    $('#modalHeader').html('<label class="orderNo-loc">Order No.</label>' + order.id);
+    $('#modalHeader').text('Order No. ' + order.id);
     $('#ordertrack').text(order.trackingNumber);
     $('#subtotalordermodal').text(convertPrice(order.itemsCost) + currencyIcon);
     $('#pricetotalordermodal').text(convertPrice(order.itemsCost) + currencyIcon);
@@ -335,11 +327,11 @@ function showCarrentOrder(index) {
                         <div class="panel-body">
                             <div class="container mt-2">
                                 <div class="col-8 p-4 mb-4  alert alert-info" role="alert">
-                                    <h6><label class="your-loc">Your</label> <strong class="contacts-loc">contacts </strong></h6>
+                                    <h6>Your <strong>contacts </strong></h6>
                                 </div>`;
     if (order.contacts.email !== '') {
         html += `<div class="form-group row">
-                       <label class="control-label col-sm-2 col-form-label email-label">Email</label>
+                       <label class="control-label col-sm-2 col-form-label">Email</label>
                         <div class="col-md-5 pl-0 pr-1">
                             <input class="form-control" readonly  placeholder=${order.contacts.email}>
                         </div>
@@ -347,14 +339,14 @@ function showCarrentOrder(index) {
     }
     if (order.contacts.phone !== '') {
         html += `<div class="form-group row">
-                        <label class="control-label col-sm-2 col-form-label phone-label">Phone</label>
+                        <label class="control-label col-sm-2 col-form-label">Phone</label>
                         <div class="col-sm-5 pl-0 pr-1">
                             <input class="form-control field" readonly  placeholder=${order.contacts.phone}>
                         </div></div>`;
     }
     if (order.comment !== " ") {
         html += `<div class="form-group row">
-                        <label class="control-label col-sm-2 col-form-label comment-label">Comment</label>
+                        <label class="control-label col-sm-2 col-form-label">Comment</label>
                         <div class="col-md-6 pl-0">
                             <textarea class="form-control" readonly  rows="5" placeholder="${order.comment}" ></textarea>
                         </div>
@@ -363,7 +355,6 @@ function showCarrentOrder(index) {
 
     html += `</div></div>`;
     $('#contactStatus').html(html);
-    setLocaleFields();
 }
 
 async function getLastOrderedBooks() {
