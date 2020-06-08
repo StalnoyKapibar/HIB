@@ -17,7 +17,9 @@ $(document).ready(function () {
     getLanguage();
     setLocaleFields();
     amountBooksInPage = ddmAmountBook.text();
-    getPageWithBooks(ddmAmountBook.text(), currentPage++);
+    if($.isNumeric(ddmAmountBook.text())){
+        getPageWithBooks(ddmAmountBook.text(), currentPage++);
+    }
     openModalLoginWindowOnFailure();
     loadWelcome(currentLang);
 });
