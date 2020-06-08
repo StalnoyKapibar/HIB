@@ -62,9 +62,9 @@ public class BeanConfiguration {
     }
 
     @Bean("userDetailsService")
-    public UserDetailsService getUserDetailsService(){ return new UserDetailServiceImpl();
-    }
+    public UserDetailsService getUserDetailsService(){ return new UserDetailServiceImpl(); }
 
     @Bean("parseGmail")
-    public ParseGmail initParseGmail() {return new ParseGmail();}
+    public ParseGmail initParseGmail() { return new ParseGmail(); }
+
 }

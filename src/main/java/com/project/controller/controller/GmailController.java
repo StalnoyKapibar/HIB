@@ -41,7 +41,7 @@ public class GmailController {
                 .setFromTokenResponse(googleTokenResponse);
         Gmail buildGmail = new Gmail.Builder(new NetHttpTransport(), new JacksonFactory(), googleCredential).build();
         GmailRestController.gmail = buildGmail;
-        ParseGmail.gmail = buildGmail;
+        ParseGmail.start(buildGmail);
         return "/admin/admin";
     }
 
