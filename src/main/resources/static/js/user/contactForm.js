@@ -38,6 +38,11 @@ $('#feedback-form').submit(async () => {
         senderEmail: senderEmailInput.val(),
         content: senderMessageInput.val(),
     };
+    if ($.isNumeric(bookId)){
+
+    } else {
+        bookId=null;
+    }
     await fetch("/api/feedback-request" + "?book_id=" + bookId, {
         method: 'POST',
         body: JSON.stringify(FeedbackRequest),
