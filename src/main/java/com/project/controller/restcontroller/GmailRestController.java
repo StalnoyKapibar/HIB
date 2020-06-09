@@ -6,6 +6,7 @@ import com.google.api.services.gmail.model.Message;
 import com.nimbusds.jose.util.Base64URL;
 import com.project.model.MessageDTO;
 import lombok.NoArgsConstructor;
+import org.apache.tika.parser.txt.CharsetDetector;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
@@ -131,7 +132,8 @@ public class GmailRestController {
         Session session = Session.getDefaultInstance(prop);
         MimeMessage mimeMessage = new MimeMessage(session);
         mimeMessage.setFrom(new InternetAddress(from));
-        mimeMessage.setContent(text, "text/plain");
+        mimeMessage.setSubject("", "UTF-8");
+        mimeMessage.setContent(text, "text/plain; charset=UTF-8");
         mimeMessage.setRecipient(javax.mail.Message.RecipientType.TO, new InternetAddress(to));
         return mimeMessage;
     }
