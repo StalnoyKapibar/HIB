@@ -8,6 +8,7 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.gmail.Gmail;
 import com.project.controller.restcontroller.GmailRestController;
 import com.project.util.ParseGmail;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
@@ -27,6 +28,9 @@ public class GmailController {
     @Value("${redirectUri}")
     private String redirectUri;
 
+    @Autowired
+    ParseGmail parseGmail;
+
     @GetMapping(value = "/gmail/admin", params = "code")
     public String handleGoogleAccess(@RequestParam("code") String response) throws IOException {
         GmailRestController.code = response;
@@ -41,7 +45,7 @@ public class GmailController {
                 .setFromTokenResponse(googleTokenResponse);
         Gmail buildGmail = new Gmail.Builder(new NetHttpTransport(), new JacksonFactory(), googleCredential).build();
         GmailRestController.gmail = buildGmail;
-        ParseGmail.start(buildGmail);
+        parseGmail.start(buildGmail);
         return "/admin/admin";
     }
 
