@@ -1,24 +1,27 @@
 package com.project.util;
 
 import com.google.api.services.gmail.Gmail;
+import com.google.api.services.gmail.model.ListMessagesResponse;
 import com.nimbusds.jose.util.Base64URL;
 import net.minidev.json.JSONUtil;
 
 import java.io.IOException;
-import java.util.Date;
+import java.time.Instant;
 
 public class ParseGmail {
 
-    private static long currentTimestamp = new Date().getTime() - 60000 * 60;
+    private static long currentTimestamp = Instant.now().getEpochSecond() - (60 * 60 * 60);
     private static int interval = 60000;
 
     public static void start(Gmail gmail) throws IOException {
         //gmail.users().messages().list("me").setQ("after:" + 1591618537).execute()
         //gmail.users().messages().list("me").setQ("after:" + 1591618537).execute().getMessages().get(3)
-        //gmail.users().messages().get("me", "17294a2dde08f030").execute()
+        //gmail.users().messages().get("me", "17295a3db4e1e8a4").execute()
         //base64URL = new Base64URL(fullMessage.getPayload().getParts().get(0).getBody().getData());
         //text = base64URL.decodeToString();
-        gmail.users().messages().list("me").setQ("after:" + currentTimestamp).execute();
+        ListMessagesResponse messagesResponse = gmail.users().messages().list("me").setQ("after:" + currentTimestamp).execute();
+        if (messagesResponse.getResultSizeEstimate() > 1) {
+        }
 
         /*while (true) {
             setTimeout(() -> {
