@@ -10,9 +10,9 @@
 <div class="d-flex" th:fragment="search-page">>
     <!--    Page container    -->
     <div class="container-fluid page-content offset-1 col-10">
-        <div class="row" id="search-page">
+        <div class="row">
             <!--    Main    -->
-            <div class="col-lg-10 col-md-12 main" id="search-input-container">
+            <div class="col-lg-10 col-md-12 main">
                 <div class="input-group mb-1">
                     <input class="form-control search-input-dots-loc" id="search-input" placeholder="Search..." type="text">
                     <div class="input-group-append">
@@ -21,17 +21,16 @@
                                 </span>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-10 col-md-12" id="search-table">
                 <table class="table table-striped table-sm bg-white text-center">
                 </table>
             </div>
+
             <!--    Sidebar    -->
-            <div class="col-lg-2 col-md-12 sidebar" id="search-sidebar-container">
+            <div class="col-lg-2 col-md-12 sidebar">
                 <div class="flex-column" id="search-sidebar">
                     <form id="search-form" class="container-fluid">
                         <div class="row">
-                            <div class="form-group sidebar-item col-lg-12 col-md-6 col-12">
+                            <div class="form-group sidebar-item col-lg-12 col-md-4">
                                 <label for="input-pages" class="font-weight-bold search-by-dots-loc" id="search_by_search_page_menu">Search by...</label>
                                 <div class="form-group" id="search-by">
                                     <div class="custom-control custom-radio">
@@ -57,12 +56,12 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group sidebar-item col-lg-12 col-md-6 col-12">
+                            <div class="form-group sidebar-item col-lg-12 col-md-4 col-sm-6 col-12">
                                 <label for="input-categories" class="font-weight-bold categories-loc" id="categories_search_page_menu">Categories</label>
                                 <div id="input-categories">
                                 </div>
                             </div>
-                            <div class="form-group sidebar-item col-lg-12 col-md-4 col-12">
+                            <div class="form-group sidebar-item col-lg-12 col-md-4 col-sm-6 col-12">
                                 <label for="input-price" class="font-weight-bold " id="price_search_page_menu"><span class="price-loc">Price</span>, €</label>
                                 <div class="form-row" id="input-price">
                                     <div class="col-auto mb-1">
@@ -75,7 +74,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group sidebar-item col-lg-12 col-md-4 col-12">
+                            <div class="form-group sidebar-item col-lg-12 col-md-4 col-sm-6 col-12">
                                 <label for="input-year-edition" class="font-weight-bold year-of-edition-loc" id="edition_search_page_menu">Year of edition</label>
                                 <div class="form-row" id="input-year-edition">
                                     <div class="col-auto mb-1">
@@ -88,7 +87,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group sidebar-item col-lg-12 col-md-4 col-12">
+                            <div class="form-group sidebar-item col-lg-12 col-md-4 col-sm-6 col-12">
                                 <label for="input-pages" class="font-weight-bold number-of-pages-loc" id="pages_search_page_menu">Number of pages</label>
                                 <div class="form-row" id="input-pages">
                                     <div class="col-auto mb-1">
