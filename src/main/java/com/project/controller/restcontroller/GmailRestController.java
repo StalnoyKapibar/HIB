@@ -6,7 +6,6 @@ import com.google.api.services.gmail.model.Message;
 import com.nimbusds.jose.util.Base64URL;
 import com.project.model.MessageDTO;
 import lombok.NoArgsConstructor;
-import org.apache.tika.parser.txt.CharsetDetector;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
