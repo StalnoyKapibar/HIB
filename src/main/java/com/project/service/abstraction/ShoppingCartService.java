@@ -6,9 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface ShoppingCartService {
-    default ShoppingCartDTO getCartById(Long id) {
-        return null;
-    }
+    ShoppingCartDTO getCartById(Long id);
 
     void updateCart(ShoppingCartDTO cart);
 

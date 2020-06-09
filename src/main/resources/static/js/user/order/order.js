@@ -8,6 +8,18 @@ function setCurrentPageToCookie() {
     document.cookie = cookie;
 }
 
+$(document).ready(function () {
+    if (currentLang === '') {
+        if (getCookieByName("lang")) {
+            currentLang = getCookieByName("lang");
+        } else {
+            currentLang = 'en';
+        }
+    }
+    getLanguage();
+    setLocaleFields();
+})
+
 async function confirmAddress() {
     let isAuth = false;
 
@@ -24,6 +36,25 @@ async function confirmAddress() {
     if (!isAuth === null) return;
     else {
         showContacts();
+    }
+}
+
+async function confirmAddressAutoReg() {
+    let isAuth = false;
+
+    await POST('/api/user/order/confirmaddress'
+        , JSON.stringify(userData))
+        .then(json)
+        .then((data) => {
+            isAuth = true;
+            order = data;
+        }, () => {
+            $("#signModal").modal('show');
+            setCurrentPageToCookie();
+        });
+    if (!isAuth === null) return;
+    else {
+        $('#forButtonCheckout').hide();
     }
 }
 
@@ -113,8 +144,6 @@ async function confirmContactsFor1Click() {
     };
     await POST("/api/user/order/confirmContacts", JSON.stringify(contacts), JSON_HEADER);
 
-    showSummary();
-    showOrderSum();
     confirmPurchase();
 }
 

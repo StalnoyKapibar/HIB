@@ -53,6 +53,7 @@ public class GmailRestController {
 
     @PostMapping(value = "/gmail/{userId}/messages")
     public MessageDTO sendMessage(@PathVariable("userId") String userId, @RequestBody String messageText) throws IOException, MessagingException {
+        messageText = messageText.substring(1, messageText.length() - 1);
         MimeMessage mimeMessage = getMessage(gmail.users().getProfile("me").getUserId(), userId, messageText);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         mimeMessage.writeTo(baos);
@@ -61,7 +62,7 @@ public class GmailRestController {
         message.setRaw(encodedEmail);
         message = gmail.users().messages().send("me", message).execute();
         message = gmail.users().messages().get("me", message.getId()).execute();
-        MessageDTO messageDTO = new MessageDTO(message.getThreadId(), "me", messageText);
+        MessageDTO messageDTO = new MessageDTO(message.getId(), "me", messageText);
         return messageDTO;
     }
 
@@ -77,14 +78,15 @@ public class GmailRestController {
             }
         }
         for (Message message : messages) {
-            map.put(message.getThreadId(), new MessageDTO(message.getId(), userId, ""));
+            map.put(message.getId(), new MessageDTO(message.getId(), userId, ""));
         }
         return map;
     }
 
     private List<MessageDTO> formChat(String part) throws IOException {
-        int startId = Integer.parseInt(part) * 3;
-        int endIdExclude = startId + 3;
+        String text;
+        int startId = Integer.parseInt(part) * 10;
+        int endIdExclude = startId + 10;
         List<MessageDTO> chat = new ArrayList<>();
 
         for (int i = startId; i < endIdExclude; i++) {
@@ -93,11 +95,26 @@ public class GmailRestController {
                 Message fullMessage = gmail.users().messages().get("me", messageDTO.getMessageId()).execute();
                 Base64URL base64URL;
                 if (fullMessage.getPayload().getParts() != null) {
-                    base64URL = new Base64URL(fullMessage.getPayload().getParts().get(0).getBody().getData());
+                    if (fullMessage.getPayload().getParts().get(0).getBody().getData() == null) {
+                        break;
+                    }
+                    if (fullMessage.getPayload().getParts().get(1).getBody().getData() == null) {
+                        base64URL = new Base64URL(fullMessage.getPayload().getParts().get(0).getBody().getData());
+                    } else {
+                        base64URL = new Base64URL(fullMessage.getPayload().getParts().get(1).getBody().getData());
+                    }
+                    text = base64URL.decodeToString();
                 } else {
+                    if (fullMessage.getPayload().getBody().getData() == null) {
+                        break;
+                    }
                     base64URL = new Base64URL(fullMessage.getPayload().getBody().getData());
+                    text = base64URL.decodeToString();
                 }
-                messageDTO.setText(base64URL.decodeToString());
+                if (text.startsWith("\"") && text.startsWith("\"", text.length()-1)) {
+                    text = text.substring(1, text.length()-1);
+                }
+                messageDTO.setText(text);
                 chat.add(messageDTO);
             }
         }
