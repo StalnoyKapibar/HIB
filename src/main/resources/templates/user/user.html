@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <html xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
@@ -368,11 +369,11 @@
         <th:block th:include="error :: server-error">
         </th:block>
     </th:block>
-    <th:block
+    <!--<th:block
             th:if="${#httpServletRequest.getRequestURI() == '/home' || #httpServletRequest.getRequestURI().contains('/error')}">
         <th:block th:include="home :: page-content">
         </th:block>
-    </th:block>
+    </th:block>-->
     <th:block th:if="${#httpServletRequest.getRequestURI() == '/profile/orders'}">
         <th:block th:include="cabinet :: orders">
         </th:block>
