@@ -34,7 +34,6 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void updateOrder(Order order) {
         orderDAO.update(order);
-
     }
 
     @Override
@@ -63,17 +62,13 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> getOdersByStatus(String status) {
-        return orderDAO.getOrdersByStatus(status);
-    }
-
-    @Override
     public void completeOrder(Long id) {
         Order order = getOrderById(id);
         order.setStatus(Status.COMPLETED);
         for (CartItem cartItem : order.getItems()) {
             Book book = cartItem.getBook();
             book.setShow(false);
+            book.setLastBookOrdered(false);
         }
         orderDAO.update(order);
     }
@@ -91,8 +86,18 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public int getCountOfOrders(long lastAuthDate) {
+    public void processOrder(Long id) {
+        Order order = getOrderById(id);
+        order.setStatus(Status.PROCESSING);
+        for (CartItem cartItem : order.getItems()) {
+            Book book = cartItem.getBook();
+            book.setLastBookOrdered(true);
+        }
+        orderDAO.update(order);
+    }
 
+    @Override
+    public int getCountOfOrders(long lastAuthDate) {
         return orderDAO.getCountOfOrders(lastAuthDate);
     }
 }

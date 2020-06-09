@@ -26,6 +26,18 @@ fetch('/admin/categories/getadmintree')
         setTreeView(tree);
     });
 
+$(document).ready(function () {
+    if (currentLang === '') {
+        if (getCookieByName("lang")) {
+            currentLang = getCookieByName("lang");
+        } else {
+            currentLang = 'en';
+        }
+    }
+    getLanguage();
+    setLocaleFields();
+})
+
 function getUnflatten(arr, parentId) {
     let output = [];
     for(const category of arr) {

@@ -1,6 +1,16 @@
 $(document).ready(function () {
     showSizeCart();
     showOrderSize();
+    if (currentLang === '') {
+        if (getCookieByName("lang")) {
+            currentLang = getCookieByName("lang");
+        } else {
+            currentLang = 'en';
+        }
+    }
+
+    getLanguage();
+    setLocaleFields();
 })
 
 function showSizeCart() {

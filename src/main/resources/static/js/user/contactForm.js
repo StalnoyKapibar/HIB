@@ -10,9 +10,21 @@ let bookId;
 let interestedBookClose = $('#img-close');
 let interestedBookImage = $("#ask-interested-image");
 let bookCoverImage;
-const messageTemplate = "Hello, I m interested in the book ";
+let messageTemplate = "Hello, I m interested in the book ";
 
-$(document).ready(getUserData());
+$(document).ready(function () {
+    getUserData();
+    if (currentLang === '') {
+        if (getCookieByName("lang")) {
+            currentLang = getCookieByName("lang");
+        } else {
+            currentLang = 'en';
+        }
+    }
+    getLanguage();
+    setLocaleFields();
+
+})
 
 function getUserData() {
     fetch("/api/current-user")
@@ -50,7 +62,7 @@ $('#feedback-form').submit(async () => {
     bookCoverImage = null;
 });
 
-$(document).on('click', '#ask-question', async () => {
+$(document).on('click', '.ask-question-loc', async () => {
     let location = window.location + '';
     bookId = null;
     if (location.includes("/page/")) {
@@ -61,8 +73,8 @@ $(document).on('click', '#ask-question', async () => {
             index++;
         }
     }
-    senderMessageInput.val(messageTemplate + '' + location.substr(0, location.indexOf("?")));
-
+    //senderMessageInput.val(messageTemplate + '' + location.substr(0, location.indexOf("?")));
+    console.log(bookId);
     if (bookId !== null) {
         await fetch(`/api/book/${bookId}`)
             .then(json)

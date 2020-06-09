@@ -1,0 +1,35 @@
+.modal-header {
+    background-color: #a3e3b1;
+}
+
+.modal-body {
+    padding: 0 !important;
+}
+
+.container#chat {
+    height: 500px;
+    overflow: auto;
+    border-top: 1px solid #dee2e6;
+    margin-top: 0px;
+}
+
+#contacts {
+    background-color: #ededed;
+}
+
+#phoneModal {
+    font-weight: bold;
+    color: #808080;
+}
+
+#commentModal {
+    font-style: italic;
+}
+
+#chat-mes p span {
+    font-weight: bold;
+}
+
+#chat-mes p {
+    margin-bottom: 3px !important;
+}
