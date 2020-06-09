@@ -131,7 +131,8 @@ public class GmailRestController {
         Session session = Session.getDefaultInstance(prop);
         MimeMessage mimeMessage = new MimeMessage(session);
         mimeMessage.setFrom(new InternetAddress(from));
-        mimeMessage.setContent(text, "text/plain");
+        mimeMessage.setSubject("", "UTF-8");
+        mimeMessage.setContent(text, "text/plain; charset=UTF-8");
         mimeMessage.setRecipient(javax.mail.Message.RecipientType.TO, new InternetAddress(to));
         return mimeMessage;
     }
