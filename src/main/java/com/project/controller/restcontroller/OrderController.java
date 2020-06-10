@@ -138,6 +138,6 @@ public class OrderController {
 
     @PostMapping("/api/admin/deleteOrder/{id}")
     private void orderDelete(@PathVariable Long id) {
-        orderService.deleteOrder(orderService.getOrderById(id));
+        orderService.deleteOrder(id);
     }
 }
