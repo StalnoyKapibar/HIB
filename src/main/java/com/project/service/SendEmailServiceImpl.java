@@ -6,7 +6,6 @@ import com.project.model.UserAccount;
 import com.project.service.abstraction.SendEmailService;
 import lombok.AllArgsConstructor;
 import org.springframework.core.env.Environment;
-import org.springframework.mail.MailSendException;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
