@@ -57,7 +57,7 @@ public class SendEmailServiceImpl implements SendEmailService {
     }
 
     @Override
-    public void orderPresent(Order order) throws MessagingException, MailSendException {
+    public void orderPresent(Order order) throws MessagingException {
         Context context = new Context();
         context.setVariable("orders", order);
         String senderFromProperty = environment.getProperty("spring.mail.username");
