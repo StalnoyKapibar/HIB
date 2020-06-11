@@ -56,9 +56,11 @@ function showListOrders() {
                     html += `<td>${order.data}</td>
                          <td>${order.status} </td>`;
 
-                    html += `<td><a  href="#" data-toggle="modal" class="show-details-loc" data-target="#adminOrderModal" onclick="showModalOfOrder(${index})" > Show details </a></td>
-                          <td><button class="btn btn-danger delete-loc" onclick=orderDelete(${order.id})>Delete</button></td>`;
+                    html += `<td><a  href="#" data-toggle="modal" class="show-details-loc" data-target="#adminOrderModal" onclick="showModalOfOrder(${index})" > Show details </a></td>`
 
+                    if (order.status !== "DELETED") {
+                        html += `<td><button class="btn btn-danger delete-loc" onclick=orderDelete(${order.id})>Delete</button></td>`;
+                    }
                     if (order.status === "PROCESSING") {
                         html += `<td><button class="btn btn-success complete-loc" onclick=orderComplete(${order.id})>Complete</button></td>`;
                     }

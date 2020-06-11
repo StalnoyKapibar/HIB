@@ -15,6 +15,8 @@ import javax.mail.internet.MimeMessage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 @RestController
@@ -53,6 +55,7 @@ public class GmailRestController {
 
     @PostMapping(value = "/gmail/{userId}/messages")
     public MessageDTO sendMessage(@PathVariable("userId") String userId, @RequestBody String messageText) throws IOException, MessagingException {
+        messageText = messageText.replace("\\n", "\r\n");
         messageText = messageText.substring(1, messageText.length() - 1);
         MimeMessage mimeMessage = getMessage(gmail.users().getProfile("me").getUserId(), userId, messageText);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -62,6 +65,7 @@ public class GmailRestController {
         message.setRaw(encodedEmail);
         message = gmail.users().messages().send("me", message).execute();
         message = gmail.users().messages().get("me", message.getId()).execute();
+        messageText = messageText.replace("\r\n", "<br>");
         MessageDTO messageDTO = new MessageDTO(message.getId(), "me", messageText);
         return messageDTO;
     }
@@ -131,7 +135,8 @@ public class GmailRestController {
         Session session = Session.getDefaultInstance(prop);
         MimeMessage mimeMessage = new MimeMessage(session);
         mimeMessage.setFrom(new InternetAddress(from));
-        mimeMessage.setContent(text, "text/plain");
+        mimeMessage.setSubject("", "UTF-8");
+        mimeMessage.setContent(text, "text/plain; charset=UTF-8");
         mimeMessage.setRecipient(javax.mail.Message.RecipientType.TO, new InternetAddress(to));
         return mimeMessage;
     }
