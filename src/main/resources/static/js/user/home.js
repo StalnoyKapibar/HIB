@@ -46,6 +46,8 @@ async function addBooksToPage(books) {
     $('#cardcolumns').empty();
     $("#rowForPagination").empty();
 
+    console.log(books);
+
     $.each(books, function (index) {
         let textOfBtn = listOrdersOfCart.includes(books[index].id) ? addedToshoppingCart : addToshoppingCart;
         let cssOfBtn = listOrdersOfCart.includes(books[index].id) ? "disabled" : "addToCartBtn";

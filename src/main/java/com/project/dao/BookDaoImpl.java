@@ -244,20 +244,24 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
         String typeOfSorting = sortTypeTmp.split(" ")[1];
         String hql = ("SELECT new com.project.model.BookDTO(b.id, b.originalLanguage.name, " +
                 "b.originalLanguage.nameTranslit, b.originalLanguage.author, b.originalLanguage.authorTranslit, " +
-                "b.price, b.coverImage) FROM Book b WHERE b.isShow = :show ORDER BY sortingObject typeOfSorting")
+                "b.price, b.coverImage, b.isShow) FROM Book b ORDER BY sortingObject typeOfSorting")
                 .replaceAll("sortingObject", sortingObject)
                 .replaceAll("typeOfSorting", typeOfSorting);
+        //WHERE b.isShow = :show
+
         List<BookDTO> bookDTOList = entityManager.createQuery(hql, BookDTO.class)
-                .setParameter("show", true)
+                //.setParameter("show", true)
                 .setFirstResult(minNumberId)
                 .setMaxResults(limitBookDTOOnPage)
                 .getResultList();
+
         BookPageDto pageableBookDTO = new BookPageDto();
         pageableBookDTO.setBooks(bookDTOList);
         pageableBookDTO.setNumberPages(pageable.getPageNumber());
         pageableBookDTO.setSize(pageable.getPageSize());
         pageableBookDTO.setAmountOfBooksInDb(Long.parseLong(amountOfBooks));
         pageableBookDTO.setAmountOfPages((int) Math.ceil(Float.parseFloat(amountOfBooks) / limitBookDTOOnPage));
+
         return pageableBookDTO;
     }
 

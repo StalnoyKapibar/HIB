@@ -18,12 +18,14 @@ public class BookDTO {
     private String authorTranslit;
     private Long price;
     private String coverImage;
+    private boolean isShow;
 
-    public BookDTO(long id, String nameAuthorDTOLocale, String nameBookDTOLocale, Long price, String coverImage) {
+    public BookDTO(long id, String nameAuthorDTOLocale, String nameBookDTOLocale, Long price, String coverImage, boolean isShow) {
         this.id = id;
         this.nameAuthorDTOLocale = nameAuthorDTOLocale;
         this.nameBookDTOLocale = nameBookDTOLocale;
         this.price = price;
         this.coverImage = coverImage;
+        this.isShow = isShow;
     }
 }
