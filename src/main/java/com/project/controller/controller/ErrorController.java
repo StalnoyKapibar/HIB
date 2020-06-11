@@ -47,7 +47,7 @@ public class ErrorController extends AbstractErrorController {
     }
 
     @GetMapping("error/book_not_found")
-    public ModelAndView bookNotFound(){
+    public ModelAndView bookNotFound() {
         ModelAndView view = new ModelAndView();
         view.setViewName("/admin/not-found");
         return view;
