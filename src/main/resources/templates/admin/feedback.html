@@ -12,12 +12,12 @@
         <div id="alert-container">
         </div>
         <div class="card-header">
-            <h3>Feedback requests</h3>
+            <h3 class="feedback-request-loc">Feedback requests</h3>
         </div>
         <div class="card-body">
             <div class="container-fluid">
                 <div class="row">
-                    <h3 class="lead">Show replied messages</h3>
+                    <h3 class="lead show-replied-messages-loc">Show replied messages</h3>
                     <div class="offset-9">
                         <input data-size="md" data-toggle="toggle" id="toggle-replied" type="checkbox">
                     </div>
@@ -28,11 +28,11 @@
                 <thead id="getFeedbackRequestTable">
                 <tr>
                     <th>ID</th>
-                    <th>Sender name</th>
-                    <th>E-mail</th>
-                    <th>Content</th>
-                    <th>Reply</th>
-                    <th>Mark as</th>
+                    <th class="sender-name-loc">Sender name</th>
+                    <th class="email-label">E-mail</th>
+                    <th class="content-loc">Content</th>
+                    <th class="reply-loc">Reply</th>
+                    <th class="mark-as-loc">Mark as</th>
                 </tr>
                 </thead>
                 <tbody></tbody>
@@ -48,7 +48,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Reply</h5>
+                <h5 class="modal-title reply-loc">Reply</h5>
                 <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -62,7 +62,7 @@
                 </form>
                 <div class="container" id="chat" style="height: 200px; overflow: auto"></div>
                 <div class="container" id="interested-book" style="display: none">
-                    <label>Interested book:</label>
+                    <label class="interested-book-loc">Interested book:</label>
                     <div class="row">
                         <img alt="interested book" class="col-sm-3" height="150"
                              id="interested-image"
@@ -76,23 +76,23 @@
                 <br>
                 <form id="reply-form">
                     <div class="form-group">
-                        <label class="col-form-label" for="sender-email">E-mail:</label>
+                        <label class="col-form-label email-label" for="sender-email">E-mail:</label>
                         <input class="form-control" disabled id="sender-email" type="email">
                     </div>
                     <div class="form-group">
-                        <label class="col-form-label" for="reply-message-subject">Subject:</label>
+                        <label class="col-form-label subject-loc" for="reply-message-subject">Subject:</label>
                         <input class="form-control" id="reply-message-subject" type="text">
                     </div>
                     <div class="form-group">
-                        <label class="col-form-label" for="reply-message-text">Reply Message:</label>
+                        <label class="col-form-label reply-message-loc" for="reply-message-text">Reply Message:</label>
                         <textarea class="form-control" id="reply-message-text"></textarea>
                     </div>
                     <input id="reply-id" type="hidden">
                 </form>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
-                <button class="btn btn-primary" id="submit-btn" onclick="" type="button">Send message to
+                <button class="btn btn-secondary close-loc" data-dismiss="modal" type="button">Close</button>
+                <button class="btn btn-primary send-message-to-email-loc" id="submit-btn" onclick="" type="button">Send message to
                     email
                 </button>
             </div>

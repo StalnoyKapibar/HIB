@@ -136,7 +136,7 @@ public class UserController {
             }
             return view;
         } catch (MailSendException e) {
-            view.setViewName("redirect:/errors/not_found");
+            view.setViewName("redirect:/err/not_found");
         }
         view.setViewName("redirect:/reqapprove");
         return view;
@@ -153,6 +153,12 @@ public class UserController {
     @GetMapping("/reqapprove")
     public ModelAndView requestApproveAuth(RegistrationUserDTO user) {
         ModelAndView view = new ModelAndView("requestApproveAuth");
+        return view;
+    }
+
+    @GetMapping("/reqOperation")
+    public ModelAndView requestOperation(RegistrationUserDTO user) {
+        ModelAndView view = new ModelAndView("requestOperation");
         return view;
     }
 

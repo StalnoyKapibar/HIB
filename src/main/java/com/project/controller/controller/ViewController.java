@@ -18,7 +18,7 @@ public class ViewController {
     FormLoginErrorMessageService messageService;
     BookService bookService;
 
-    @GetMapping({"/home", "/profile/**", "/category/**", "/shopping-cart", "/search", "/errors/**"})
+    @GetMapping({"/home", "/profile/**", "/category/**", "/shopping-cart", "/search", "/err/**"})
     public String getHomePage() {
         return "/user/user";
     }
@@ -37,11 +37,15 @@ public class ViewController {
     @GetMapping("/page/{id}")
     public ModelAndView getPage(@PathVariable("id") long id, ModelAndView modelAndView) {
         Book book = bookService.getBookById(id);
+        if (book == null) {
+            modelAndView.setViewName("redirect:/error/book_not_found");
+            return modelAndView;
+        }
         if (book.isShow()) {
             modelAndView.addObject("book", id);
             modelAndView.setViewName("/user/user");
-        }else {
-            modelAndView .setViewName("redirect:/home");
+        } else {
+            modelAndView.setViewName("redirect:/home");
         }
         return modelAndView;
     }

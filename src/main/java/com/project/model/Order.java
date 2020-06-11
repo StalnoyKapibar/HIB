@@ -32,6 +32,7 @@ public class Order {
     private UserAccount userAccount;
     @OneToOne(cascade = CascadeType.ALL)
     private ContactsOfOrder contacts;
+    @Column(columnDefinition = "varchar(350)")
     private String comment;
 
     public OrderDTO getOrderDTO() {

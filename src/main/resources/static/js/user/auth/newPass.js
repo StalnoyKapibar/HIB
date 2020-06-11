@@ -35,14 +35,16 @@ function sendNewPass() {
         let tmpSend = JSON.stringify(tmp);
         sendNewPassReq(tmpSend);
     } else {
-        showErrorPassword('Passwords don\'t match!');
+        showErrorPassword('Passwords don\'t match!', 'dont-match-pass-loc');
         setTimeout(hideErrorPassword, 5000);
     }
+
 }
 
-function showErrorPassword(x) {
-    $('#errorMessagePassword').text(x);
+function showErrorPassword(message, className) {
+    $('#errorMessagePassword').addClass(className).text(message);
     $('#collapsePassword').attr('class', 'collapse show');
+    //setLocaleFields();
 }
 
 function hideErrorPassword() {
@@ -61,24 +63,26 @@ function sendNewPassReq(x) {
         .then(text)
         .then(function (resp) {
             if (resp === "passError") {
-                showErrorPassword('The password must be between 8 and 64 and must contain numbers and characters in the upper and lower registers, without spaces!');
+                showErrorPassword('The password must be between 8 and 64 and must contain numbers and characters in the upper and lower registers, without spaces!',
+                    'incorrect-data-password-loc');
                 setTimeout(hideErrorPassword, 5000);
             } else {
                 if (resp === "notValid") {
-                    showModal('Not valid url', 'danger');
+                    showModal('Not valid url', 'danger','not-valid-url-loc');
                     setTimeout(hideModal, 5000);
                 } else {
-                    showModal('Password successfully saved!', 'success');
+                    showModal('Password successfully saved!', 'success','pass-success-saved-loc');
                     setTimeout(hideModal, 2000);
                 }
             }
         });
 }
 
-function showModal(x, y) {
-    $('#idMessagesSuccess').attr('class', 'alert alert-' + y);
+function showModal(x, y, className) {
+    $('#idMessagesSuccess').addClass('alert alert-' + y).addClass(className);
     $('#idMessagesSuccess').text(x);
     $('#staticBackdrop').modal();
+    //setLocaleFields();
 }
 
 function hideModal() {

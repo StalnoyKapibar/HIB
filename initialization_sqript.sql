@@ -54,7 +54,7 @@ create index FKpgggddil6mt83hm9ibdi1uckm
   on book (edition_id);
 
 create table  book_list_image
-( 
+(
   book_id bigint not null,
   list_image_id bigint not null,
   constraint UK_d475d9qoj8j1k8jboa4c93smm
@@ -195,7 +195,7 @@ create table orders
 (
   id bigint auto_increment
     primary key,
-  comment varchar(255) null,
+  comment varchar(350) null,
   data varchar(255) null,
   items_cost int null,
   status int null,

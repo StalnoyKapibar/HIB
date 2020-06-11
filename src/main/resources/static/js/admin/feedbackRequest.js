@@ -23,6 +23,7 @@ $(document).ready(function () {
     }
     getFeedbackAll(false);
     message.val($(this).attr("data-message"));
+    setLocaleFields();
 });
 
 function markAsRead(id, replied) {
@@ -53,11 +54,12 @@ async function getFeedbackRequestTable(replied) {
                     bookName = data[i].book.name.en;
                     bookCoverImage = data[i].book.coverImage;
                 }
+
                 let replied;
                 let mark;
                 if (data[i].replied === false) {
                     replied = `<button type="button"
-                               class="btn btn-info btn-reply"
+                               class="btn btn-info btn-reply reply-loc"
                                id="replyBtn"
                                data-id="${id}"
                                data-sender="${senderName}"
@@ -69,19 +71,20 @@ async function getFeedbackRequestTable(replied) {
                                onclick="showModalOfFeedBack(${id})">Reply</button>
          `;
                     mark = `<button type="button"
-                            class="btn btn-info "           
+                            class="btn btn-info read-loc"           
                             onclick="markAsRead(${id},${data[i].replied})">Read</button>`;
                 } else if (data[i].replied === true && data[i].viewed === true) {
                     replied = `<input type="checkbox" disabled checked>`;
                     mark = `<button type="button"
-                            class="btn btn-info "           
+                            class="btn btn-info unread-loc"           
                             onclick="markAsRead(${id},${data[i].replied})">Unread</button>`;
                 } else if (data[i].replied === true && data[i].viewed === false) {
                     replied = `<input type="checkbox" disabled unchecked>`;
                     mark = `<button type="button"
-                            class="btn btn-info "           
+                            class="btn btn-info unread-loc"           
                             onclick="markAsRead(${id},${data[i].replied})">Unread</button>`;
                 }
+
                 let tr = $("<tr/>");
                 tr.append(`
                             <td>${id}</td>
@@ -94,6 +97,7 @@ async function getFeedbackRequestTable(replied) {
                 tableBody.append(tr);
             }
         })
+    setLocaleFields();
 }
 
 $(document).on('click', '.btn-reply', function () {

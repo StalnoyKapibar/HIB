@@ -35,7 +35,7 @@ public class ErrorController extends AbstractErrorController {
 
     @ExceptionHandler(NotFoundException.class)
     public ModelAndView notFound() throws IOException {
-        ModelAndView view = new ModelAndView(new RedirectView("/errors/not-found"));
+        ModelAndView view = new ModelAndView(new RedirectView("/err/not-found"));
         return view;
     }
 
@@ -43,6 +43,13 @@ public class ErrorController extends AbstractErrorController {
     public ModelAndView noValuePresent() throws IOException {
         ModelAndView view = new ModelAndView("user/user");
         view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessageOnNoValuePresent());
+        return view;
+    }
+
+    @GetMapping("error/book_not_found")
+    public ModelAndView bookNotFound() {
+        ModelAndView view = new ModelAndView();
+        view.setViewName("/admin/not-found");
         return view;
     }
 
@@ -55,7 +62,7 @@ public class ErrorController extends AbstractErrorController {
 
     @ExceptionHandler(HttpServerErrorException.class)
     public ModelAndView serverError() throws IOException {
-        ModelAndView view = new ModelAndView(new RedirectView("errors/server-error"));
+        ModelAndView view = new ModelAndView(new RedirectView("err/server-error"));
         return view;
     }
 

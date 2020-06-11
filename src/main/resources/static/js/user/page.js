@@ -4,11 +4,17 @@ let idCoverImage;
 let tmpEditBookId;
 
 $(document).ready(function () {
-
+    if (currentLang === '') {
+        if (getCookieByName("lang")) {
+            currentLang = getCookieByName("lang");
+        } else {
+            currentLang = 'en';
+        }
+    }
     getLanguage();
     setLocaleFields();
     setPageFields();
-});
+})
 
 function getCookie(name) {
     let value = "; " + document.cookie;

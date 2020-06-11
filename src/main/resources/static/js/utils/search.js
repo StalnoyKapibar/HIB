@@ -141,12 +141,12 @@ function setListeners () {
     $(document).keypress(function (event) {
         var keycode = (event.keyCode ? event.keyCode : event.which);
         if (keycode == '13') {
-            $('#search-submit').click();
+            $('.search-submit').click();
         }
     });
 
     $('#search-input').on('input', function () {
-        $('#search-submit').click();
+        $('.search-submit').click();
     })
 }
 
@@ -196,7 +196,7 @@ async function setTreeView(category) {
                     <input class="custom-control-input" type="checkbox" id="check-${category[i].id}" value="${category[i].id}">
                     <label class="custom-control-label" for="check-${category[i].id}"></label>
                     <label class="collapsed" data-toggle="collapse" data-target="#collapse-${category[i].id}" aria-expanded="false" aria-controls="collapse-${category[i].id}">
-                       ${category[i].categoryName}(${await getCountBooksByCat(category[i].path)})
+                       <label id="${category[i].categoryName.toLowerCase()}-rightbar">${category[i].categoryName}</label>(${await getCountBooksByCat(category[i].path)})
                        <i class="fa fa-plus-square-o" aria-hidden="true"></i>
                     </label>
                 </div>
@@ -208,6 +208,7 @@ async function setTreeView(category) {
             </div>`;
         $('#input-categories').append(row);
     }
+    setLocaleFields();
 }
 
 async function setChilds(category) {
@@ -219,7 +220,7 @@ async function setChilds(category) {
                     <div class="custom-control custom-checkbox form-check-inline" id="heading-${category[i].id}">
                         <input class="custom-control-input" type="checkbox" id="check-${category[i].id}" value="${category[i].id}">
                         <label class="custom-control-label" for="check-${category[i].id}">
-                            ${category[i].categoryName}(${await getCountBooksByCat(category[i].path)})
+                            <label class="${category[i].categoryName.toLowerCase()}-rightbar">${category[i].categoryName}</label>(${await getCountBooksByCat(category[i].path)})
                         </label>
                     </div>
                 </div>`;
@@ -230,7 +231,7 @@ async function setChilds(category) {
                         <input class="custom-control-input" type="checkbox" id="check-${category[i].id}" value="${category[i].id}">
                         <label class="custom-control-label" for="check-${category[i].id}"></label>
                         <label class="collapsed" data-toggle="collapse" data-target="#collapse-${category[i].id}" aria-expanded="false" aria-controls="collapse-${category[i].id}">
-                           ${category[i].categoryName}(${await getCountBooksByCat(category[i].path)})
+                           <label class="${category[i].categoryName.toLowerCase()}-rightbar">${category[i].categoryName}</label>(${await getCountBooksByCat(category[i].path)})
                            <i class="fa fa-plus-square-o" aria-hidden="true"></i>
                         </label>
                     </div>
@@ -242,6 +243,9 @@ async function setChilds(category) {
                 </div>`;
         }
     }
+
+    setLocaleFields();
+
     return row;
 }
 
@@ -313,12 +317,12 @@ async function addFindeBooks(data) {
     table.push(`<thead>
                         <tr>
                             <th></th>
-                            <th id="author_search_page">Author</th>
-                            <th id="name_search_page">Name</th>
-                            <th id="pages_search_page">Pages</th>
-                            <th id="edition_search_page">Year of edition</th>
-                            <th id="price_search_page">Price, €</th>
-                            <th id="category_search_page">Category</th>
+                            <th id="author_search_page" class="author-loc">Author</th>
+                            <th id="name_search_page" class="name-loc">Name</th>
+                            <th id="pages_search_page" class="pages-loc">Pages</th>
+                            <th id="edition_search_page" class="year-of-edition-loc">Year of edition</th>
+                            <th id="price_search_page"><div class="price-loc">Price</div> , €</th>
+                            <th id="category_search_page" class="categories-loc">Category</th>
                             <th></th>
                         </tr>
                         </thead>
@@ -347,7 +351,7 @@ async function addFindeBooks(data) {
                                 <td class="align-middle">
                                     <form id="bookButton${i}" method="get" action="/page/${data[i].id}">
                                         <button class="btn btn-primary page-of-book-localize" id="buttonBookPage${i}" name="bookPage">
-                                            A page of book
+                                            Book's page
                                         </button>
                                     </form>
                                 </td>
