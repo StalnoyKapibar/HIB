@@ -6,19 +6,24 @@ let order = '';
 var htmlForModalBody = ``;
 
 $(document).ready(function () {
-    if (currentLang == '') {
-        currentLang = $('#dd_menu_link').data('currentLang');
-    }
-    getLanguage();
-    setLocaleFields();
     openModalLoginWindowOnFailure();
     getShoppingCart();
     showListOrders().then(r => {
     });
-    if (document.referrer.toString() === "") {
-        confirmAddress();
+
+    if (document.referrer.toString() === "" && userData.oauth2Acc === false) {
+        confirmAddressAutoReg();
+
         confirmContactsFor1Click();
     }
+
+    if (currentLang == '') {
+        currentLang = $('#dd_menu_link').data('currentLang');
+    }
+
+    getLanguage();
+    setLocaleFields();
+
 });
 
 function convertPrice(price) {
@@ -48,14 +53,6 @@ async function getShoppingCart() {
 
                     let first = `<td class="align-middle"><img src="/images/book${book.id}/${book.coverImage}" style="max-width: 60px"></td>`;
                     let second = `<td class="align-middle">${convertOriginalLanguageRows(book.originalLanguage.name, book.originalLanguage.nameTranslit)} | ${convertOriginalLanguageRows(book.originalLanguage.author, book.originalLanguage.authorTranslit)}</td>`;
-                    if (lastOrderedBooks.includes(book.id)) {
-                        isOrderEnable = false;
-                        row.css("opacity", "0.5");
-                        row.css("background-color", "#FFB3B3");
-                        second = `<td class="align-middle">${convertOriginalLanguageRows(book.originalLanguage.name, book.originalLanguage.nameTranslit)} | ${convertOriginalLanguageRows(book.originalLanguage.author, book.originalLanguage.authorTranslit)} 
-                            <div id="errorMessage" style ="color: red; font-weight: 900;">Book is temporary unavailable! Please, delete it or try later!</div></td>`;
-
-                    }
                     let third = `<td class="align-middle">${price + currencyIcon}</td>`;
                     let forth = `<td hidden id="book${book.id}">${price}</td>`;
                     let fifth = `<td class="align-middle"><button class="btn btn-info delete"  style="background-color: #ff4500" data-id="${book.id}">${deleteBottom}</button></td>`;
@@ -195,13 +192,13 @@ function geolocate() {
 }
 
 async function confirmPurchase() {
-    await POST('/order').then(r => getShoppingCart());
-    document.location.href = '/profile/orders';
+    document.location.href = '/reqOperation';
+    await POST('/order')
+        .then(r => getShoppingCart());
 }
 
 $("#butToBuy").one('click',function() {
-    POST('/order').then(r => getShoppingCart());
-    document.location.href = '/profile/orders';
+    confirmPurchase();
 });
 
 function enterData() {
@@ -290,7 +287,7 @@ function showOrderSum() {
     html += `</div></div>`;
     $('#shippingaddress').html(html);
 
-        setLocaleFields();
+    setLocaleFields();
 
 }
 

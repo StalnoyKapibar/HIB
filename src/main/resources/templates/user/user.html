@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <html xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
@@ -133,7 +134,7 @@
                             th:classappend="${#httpServletRequest.getRequestURI() == '/profile/orders' ? 'active' : ''}">
                             <a href="/profile/orders">
 
-                                <i class="fas fa-shopping-bag"><span class="badgeOrder"
+                                <i class="fas fa-shopping-bag"><span class="badgeStyle"
                                                                      id="orders-quantity1"></span></i>
                                 <span class="menu-text my-orders-loc" id="oders">My orders</span>
 
@@ -142,7 +143,7 @@
                         </li>
                         <li th:classappend="${#httpServletRequest.getRequestURI() == '/shopping-cart' ? 'active' : ''}">
                             <a href="/shopping-cart">
-                                <i class="fa fa-shopping-cart"><span class="badgeCart" id="bucketIn1"></span></i>
+                                <i class="fa fa-shopping-cart"><span class="badgeStyle" id="bucketIn1"></span></i>
                                 <span class="menu-text" id="headerShoppingCart">Shopping cart</span>
                                 <span class="badge badge-pill badge-danger" id="bucketIn"></span>
                             </a>
@@ -336,8 +337,10 @@
             </div>
         </div>
     </div>
-
+    
     <script src="/static/js/utils/common-function.js"></script>
+    <script src="/static/js/utils/liveSearch.js"></script>
+    
         <!--    Page-content    -->
         <th:block
                 th:if="${#httpServletRequest.getRequestURI() == '/home' || #httpServletRequest.getRequestURI().contains('error')}">
@@ -368,11 +371,11 @@
         <th:block th:include="error :: server-error">
         </th:block>
     </th:block>
-    <th:block
+    <!--<th:block
             th:if="${#httpServletRequest.getRequestURI() == '/home' || #httpServletRequest.getRequestURI().contains('/error')}">
         <th:block th:include="home :: page-content">
         </th:block>
-    </th:block>
+    </th:block>-->
     <th:block th:if="${#httpServletRequest.getRequestURI() == '/profile/orders'}">
         <th:block th:include="cabinet :: orders">
         </th:block>

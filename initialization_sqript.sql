@@ -195,7 +195,7 @@ create table orders
 (
   id bigint auto_increment
     primary key,
-  comment varchar(255) null,
+  comment varchar(350) null,
   data varchar(255) null,
   items_cost int null,
   status int null,

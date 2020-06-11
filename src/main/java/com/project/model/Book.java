@@ -10,6 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 @Entity
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Table(name = "book")
 public class Book {
 
@@ -27,6 +28,7 @@ public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long id;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

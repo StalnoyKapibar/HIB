@@ -1,10 +1,23 @@
 let AU;
 
 $(document).ready(function () {
+
     let tabhash = document.location.hash;
+
     if (tabhash == '#cart') {
         $('#myTab a[href="#Basket"]').tab('show');
     }
+
+    if (currentLang === '') {
+        if (getCookieByName("lang")) {
+            currentLang = getCookieByName("lang");
+        } else {
+            currentLang = 'en';
+        }
+    }
+
+    getLanguage();
+    setLocaleFields();
 });
 
 function showShoppingCart() {

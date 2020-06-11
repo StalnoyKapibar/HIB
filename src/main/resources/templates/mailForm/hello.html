@@ -114,13 +114,15 @@
 
                             <tr>
 
-                                <td width="570" bgcolor="D1ECF1"><h1>Hello dear reader</h1></td>
+                                <td width="570" bgcolor="D1ECF1"><h1 class="hello-dear-reader-loc">Hello dear reader</h1></td>
 
                             </tr>
 
-                            <tr>
+                            <!--<tr> Зачем пользователю видеть свой токен напрямую?
                                 <td width="570" bgcolor="D1ECF1"><h2 th:text="${id}">ID user</h2></td>
-                            </tr>
+                            </tr>-->
+
+                            <button><a th:href="@{http://localhost:8080/confirmEmail(token=${id})}" class="confirm-account-loc">Confirm account</a> </button>
 
                         </table><!-- header -->
 
@@ -188,6 +190,10 @@
 </table><!-- wrapper -->
 
 </div>
+
+<script src="/static/js/utils/common-function.js"></script>
+<script src="../static/js/main.js"></script>
+
 </body>
 
 </html>

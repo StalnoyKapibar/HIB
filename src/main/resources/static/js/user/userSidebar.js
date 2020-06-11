@@ -10,6 +10,16 @@ $(document).ready(function () {
             $('#searchIcon').click();
         }
     });
+
+    if (currentLang === '') {
+        if (getCookieByName("lang")) {
+            currentLang = getCookieByName("lang");
+        } else {
+            currentLang = 'en';
+        }
+    }
+    getLanguage();
+    setLocaleFields();
 });
 
 $('#sidebar').mouseenter(() => {

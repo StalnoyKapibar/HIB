@@ -16,9 +16,15 @@
                 </div>
                 <div class="col my-2">
 
-                    <input type="checkbox" id="statusCheckbox"  checked data-toggle="toggle" data-on="Processing"
-                           data-off="Completed" data-onstyle="warning text-white " data-offstyle="success">
-                    </label>
+                    <div class="form-group">
+
+                        <select class="form-control" id="statusSelector">
+                            <option selected value="Unprocessed">Unprocessed</option>
+                            <option value="Processing">Processing</option>
+                            <option value="Completed">Completed</option>
+                            <option value="Deleted">Deleted</option>
+                        </select>
+                    </div>
                 </div>
                 <div>
                     <a type="button" class="btn btn-primary" id="gmail-access" style="margin-top: 8px"
@@ -45,7 +51,8 @@
                             <table class="table h6" id="modalBody"></table>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary close-btn" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-secondary close-btn" data-dismiss="modal">Close
+                            </button>
                         </div>
                     </div>
                 </div>
