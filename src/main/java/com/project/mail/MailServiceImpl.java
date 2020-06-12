@@ -34,7 +34,11 @@ public class MailServiceImpl implements MailService {
 
     @Async
     public void sendEmail(MimeMessage email) {
-        javaMailSender.send(email);
+        try {
+            javaMailSender.send(email);
+        } catch (MailSendException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

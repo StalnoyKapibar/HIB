@@ -192,9 +192,14 @@ function geolocate() {
 }
 
 async function confirmPurchase() {
-    await POST('/order').then(r => getShoppingCart());
-    document.location.href = '/profile/orders';
+    document.location.href = '/reqOperation';
+    await POST('/order')
+        .then(r => getShoppingCart());
 }
+
+$("#butToBuy").one('click',function() {
+    confirmPurchase();
+});
 
 function enterData() {
     let data = '';
