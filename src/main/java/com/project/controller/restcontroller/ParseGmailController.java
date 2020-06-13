@@ -44,10 +44,13 @@ public class ParseGmailController {
             List<String> ids = new ArrayList<>();
             ModifyMessageRequest mods = new ModifyMessageRequest().setRemoveLabelIds(new ArrayList<String>(Arrays.asList("UNREAD")));
             gmail.users().messages().list("me").setQ("from:" + email + " is:unread").execute()
-            .getMessages().stream().forEach(message -> ids.add(message.getId()));
-            for (String id: ids) {
-                gmail.users().messages().modify("me", id, mods).execute();
-            }
+            .getMessages().stream().forEach(message -> {
+                try {
+                    gmail.users().messages().modify("me", message.getId(), mods).execute();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
             markAsRead.put("markasread", true);
         } else {
             markAsRead.put("gmailAccess", false);
