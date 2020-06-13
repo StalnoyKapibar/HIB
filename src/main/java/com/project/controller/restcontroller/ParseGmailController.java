@@ -41,7 +41,6 @@ public class ParseGmailController {
     Map<String, Boolean> markAsRead (@PathParam("email") String email) throws IOException {
         Map<String, Boolean> markAsRead = new HashMap<>();
         if (gmail != null){
-            List<String> ids = new ArrayList<>();
             ModifyMessageRequest mods = new ModifyMessageRequest().setRemoveLabelIds(new ArrayList<String>(Arrays.asList("UNREAD")));
             gmail.users().messages().list("me").setQ("from:" + email + " is:unread").execute()
             .getMessages().stream().forEach(message -> {
