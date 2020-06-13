@@ -6,7 +6,6 @@ import com.project.config.initializer.TestDataInit;
 import com.project.config.initializer.TestUserAccounts;
 import com.project.service.UserDetailServiceImpl;
 import com.project.util.LocaleHolder;
-import com.project.util.ParseGmail;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
