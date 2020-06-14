@@ -92,7 +92,7 @@ function setAmountBooksInPage(amount) {
 }
 
 function setListeners () {
-    $('.search-submit').on('click', () => {
+    $('.search-submit-loc').on('click', () => {
         currentPage = 0;
         advancedSearch(ddmAmountBook.text(), currentPage++)
     });
@@ -141,12 +141,12 @@ function setListeners () {
     $(document).keypress(function (event) {
         var keycode = (event.keyCode ? event.keyCode : event.which);
         if (keycode == '13') {
-            $('.search-submit').click();
+            $('.search-submit-loc').click();
         }
     });
 
     $('#search-input').on('input', function () {
-        $('.search-submit').click();
+        $('.search-submit-loc').click();
     })
 }
 
@@ -285,7 +285,8 @@ async function advancedSearch(amount, page) {
         .then(function (data) {
             setLocaleFields();
             amountBooksInDb = data.amountOfBooksInDb;
-            addFindeBooks(data.books)
+            addFindeBooks(data.books);
+            console.log(data.books);
         });
 }
 

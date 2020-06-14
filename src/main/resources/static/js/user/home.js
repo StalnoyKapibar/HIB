@@ -65,20 +65,24 @@ async function addBooksToPage(books) {
                                     </a>
                                     ${isAdmin ? `<div style="position: absolute; bottom: 5px; left: 15px; right: 15px" id="bottomEditBook" type="button" 
                                                     class="btn btn-info"
-                                                    onclick="openEdit(${books[index].id})"
-                                                  >                        
+                                                    onclick="openEdit(${books[index].id})">                        
                                                     ${editBook}
-                                                  </div>` :
-                                                `<div style="position: absolute; bottom: 5px; left: 15px; right: 15px" id="bottomInCart" type="button" 
+                                                  </div>` 
+                                              : books[index].show === true 
+                                                ? `<div style="position: absolute; bottom: 5px; left: 15px; right: 15px" id="bottomInCart" type="button" 
                                                       class="btn btn-success ${cssOfBtn} btn-metro"  data-id="${books[index].id}">                        
                                                     ${textOfBtn}
                                                 </div>`
+                                                : `<div style="position: absolute; bottom: 5px; left: 15px; right: 15px" id="bottomInCart" type="button" 
+                                                      class="btn btn-light btn-metro bought-btn-loc"  data-id="${books[index].id}">                        
+                                                    Out of stock
+                                                </div>`
                                     }
-
-                                </div>`;
+                                 </div>`;
         $('#cardcolumns').append(card);
     });
     addPagination();
+    setLocaleFields();
 }
 
 function openEdit(id) {
