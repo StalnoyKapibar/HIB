@@ -201,7 +201,7 @@ async function showModalOfFeedBack(index) {
                              src=/images/book${book.id}/${book.coverImage}
                              width="33">
                             <div class="col-sm-10" id="interested-title-container">
-                                <a href="" id="interested-title" target="_blank">
+                                <a href="http://localhost:8080/page/8" id="interested-title" target="_blank">
                                     ${convertOriginalLanguageRows(book.originalLanguage.name, book.originalLanguage.nameTranslit)} | ${convertOriginalLanguageRows(book.originalLanguage.author, book.originalLanguage.authorTranslit)}
                                 </a>
                             </div>
