@@ -286,7 +286,6 @@ async function advancedSearch(amount, page) {
             setLocaleFields();
             amountBooksInDb = data.amountOfBooksInDb;
             addFindeBooks(data.books);
-            console.log(data.books);
         });
 }
 
@@ -342,7 +341,10 @@ async function addFindeBooks(data) {
             data[i].price = "-";
         }
         tr.push(`<tr>
-                                <td class="align-middle"><img src="../images/book${data[i].id}/${data[i].coverImage}" style="max-width: 60px"></td>
+                                <td class="align-middle">
+                                    <img src="../images/book${data[i].id}/${data[i].coverImage}" style="max-width: 60px; ${data[i].show === true ? '' : 'opacity: 0.3'}">
+                                    ${data[i].show === true ? '' : '<img src="../../static/images/outOfStock.png" style="max-width: 35px;">'}
+                                </td>
                                 <td class="align-middle">${convertOriginalLanguageRows(data[i].author, data[i].authorTranslit)}</td>
                                 <td class="align-middle">${convertOriginalLanguageRows(data[i].name, data[i].nameTranslit)}</td>
                                 <td class="align-middle">${data[i].pages}</td>

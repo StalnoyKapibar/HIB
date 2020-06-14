@@ -17,4 +17,5 @@ public class BookSearchPageDTO {
     private Integer numberPages;
     private Integer size;
     private Long amountOfBooksInDb;
+    private boolean isShow;
 }

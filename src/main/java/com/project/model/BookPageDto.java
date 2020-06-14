@@ -17,4 +17,5 @@ public class BookPageDto {
     private Integer numberPages;
     private Integer size;
     private Long amountOfBooksInDb;
+    private boolean isShow;
 }

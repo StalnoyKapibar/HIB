@@ -14,4 +14,5 @@ public class BookPageAdminDto {
     private int TotalPages;
     private int numberPages;
     private int pageableSize;
+    private boolean isShow;
 }
