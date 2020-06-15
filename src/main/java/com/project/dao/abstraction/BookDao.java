@@ -31,7 +31,7 @@ public interface BookDao extends GenericDao<Long, Book> {
 
     List<BookDTOForCategories> getBooksByCategoryId(Long categoryId, String lang);
 
-    Long getCountBooksByCategoryId(Long categoryId);
+    Long getCountBooksByCategoryId(Long categoryId, boolean isShow);
 
     BookPageDto getBookPageByPageable(Pageable pageable);
 

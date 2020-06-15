@@ -238,10 +238,13 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
 
 
     @Override
-    public Long getCountBooksByCategoryId(Long categoryId) {
-        String sql = "select count(b) from Book b WHERE b.category.id =:categoryId AND b.isShow = true";
+    public Long getCountBooksByCategoryId(Long categoryId, boolean isShow) {
+        String sql = "select count(b) from Book b WHERE b.category.id =:categoryId AND (b.isShow = true or b.isShow = :isShow)";
         // AND b.isShow = true
-        return (Long) entityManager.createQuery(sql).setParameter("categoryId", categoryId).getSingleResult();
+        return (Long) entityManager.createQuery(sql)
+                .setParameter("categoryId", categoryId)
+                .setParameter("isShow", isShow)
+                .getSingleResult();
     }
 
     @Override

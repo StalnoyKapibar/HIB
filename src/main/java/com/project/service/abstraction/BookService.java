@@ -26,7 +26,7 @@ public interface BookService {
 
     List<BookDTOForCategories> getBooksByCategoryId(Long categoryId, String lang);
 
-    Long getCountBooksByCategoryId(Long categoryId);
+    Long getCountBooksByCategoryId(Long categoryId, boolean isShow);
 
     String getLastIdOfBook();
 
