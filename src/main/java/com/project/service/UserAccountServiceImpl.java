@@ -53,11 +53,6 @@ public class UserAccountServiceImpl implements UserAccountService {
     }
 
     @Override
-    public UserAccount getUserByEmail(String email) {
-        return userAccountDao.findByEmail(email).get();
-    }
-
-    @Override
     public UserAccount save(RegistrationUserDTO user) throws ConstraintViolationException, MailSendException {
         UserAccount userAccount = UserAccount.builder()
                 .login(user.getLogin())

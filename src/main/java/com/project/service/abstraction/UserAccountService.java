@@ -15,8 +15,6 @@ public interface UserAccountService {
 
     boolean emailExist(String email);
 
-    UserAccount getUserByEmail(String email);
-
     UserAccount save1Clickreg(RegistrationUserDTO user) throws ConstraintViolationException;
 
 
