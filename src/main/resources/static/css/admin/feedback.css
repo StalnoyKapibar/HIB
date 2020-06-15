@@ -1,0 +1,28 @@
+#interested-image:hover {
+    z-index: 1;
+    transform: scale(5) translate(13px, 13px);
+}
+
+#contacts-feedback #interested-title-container {
+    background-color: #ededed;
+}
+
+#email-modal-feedback {
+    font-weight: bold;
+    color: #808080;
+}
+
+.container#chat {
+    height: 500px;
+    overflow: auto;
+    border-top: 1px solid #dee2e6;
+    margin-top: 0px;
+}
+
+#chat-mes p span {
+    font-weight: bold;
+}
+
+#chat-mes p {
+    margin-bottom: 3px !important;
+}

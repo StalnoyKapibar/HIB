@@ -112,7 +112,7 @@ async function showModalOfOrder(index) {
     $('#contactsOfUser').html(htmlContact);
 
     let htmlChat = ``;
-    await fetch("/gmail/" + order.contacts.email + "/messages/" + "0")
+    await fetch("/gmail/" + order.contacts.email + "/Order №" + order.id + "/" + "0")
         .then(json)
         .then((data) => {
             if (data[0] === undefined) {
@@ -120,7 +120,7 @@ async function showModalOfOrder(index) {
                 htmlChat += `</div>`;
                 htmlChat += `<textarea id="sent-message" class="form-control"></textarea>
 
-                        </div><button class="float-right col-2 btn btn-primary send-loc" type="button" id="send-button" onclick="sendGmailMessage('${order.contacts.email}', ${index})">Send</button>`
+                        </div><button class="float-right col-2 btn btn-primary send-loc" type="button" id="send-button" onclick="sendGmailMessage('${order.contacts.email}', ${allOrders[orderIndex].id})">Send</button>`
 
             } else {
                 if (data[0].text === "chat end") {
@@ -128,7 +128,7 @@ async function showModalOfOrder(index) {
                     htmlChat += `</div>`;
                     htmlChat += `<textarea id="sent-message" class="form-control"></textarea>
 
-                        </div><button class="float-right col-2 btn btn-primary send-loc" type="button" id="send-button" onclick="sendGmailMessage('${order.contacts.email}', ${index})">Send</button>`
+                        </div><button class="float-right col-2 btn btn-primary send-loc" type="button" id="send-button" onclick="sendGmailMessage('${order.contacts.email}', ${allOrders[orderIndex].id})">Send</button>`
 
                     scrollOn = false;
                 } else if (data[0].text === "noGmailAccess") {
@@ -151,7 +151,7 @@ async function showModalOfOrder(index) {
                     htmlChat += `</div>`;
                     htmlChat += `<textarea id="sent-message" class="form-control"></textarea>
 
-                        </div><button class="float-right col-2 btn btn-primary send-loc" type="button" id="send-button" onclick="sendGmailMessage('${order.contacts.email}', ${index})">Send</button>`
+                        </div><button class="float-right col-2 btn btn-primary send-loc" type="button" id="send-button" onclick="sendGmailMessage('${order.contacts.email}', ${allOrders[orderIndex].id})">Send</button>`
 
                 }
             }
@@ -208,7 +208,7 @@ async function scrolling() {
     if ($('#chat').scrollTop() < 5 && $('#chat').scrollTop() > 0) {
         $('#chat').scrollTop(10);
         messagePackIndex++;
-        await fetch("/gmail/" + order.contacts.email + "/messages/" + messagePackIndex)
+        await fetch("/gmail/" + order.contacts.email + "/Order №" + order.id + "/" + messagePackIndex)
             .then(json)
             .then((data) => {
                 if (data[0].text === "chat end") {
@@ -283,7 +283,7 @@ function orderDelete(id) {
     }
 }
 
-function sendGmailMessage(userId, index) {
+function sendGmailMessage(userId, orderId) {
     let sendButton = document.getElementById("send-button");
     sendButton.disabled = true;
     let message = document.getElementById("sent-message").value;
@@ -291,7 +291,7 @@ function sendGmailMessage(userId, index) {
         sendButton.disabled = false;
         return;
     }
-    fetch("/gmail/" + userId + "/messages", {
+    fetch("/gmail/" + userId + "/Order №" + orderId, {
         method: "POST",
         headers: {
             "Content-Type": "application/json;charset=utf-8"

@@ -15,8 +15,6 @@ import javax.mail.internet.MimeMessage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 
 @RestController
@@ -29,16 +27,16 @@ public class GmailRestController {
 
     private ArrayList<MessageDTO> fullchat;
 
-    @GetMapping(value = "/gmail/{userId}/messages/{part}")
-    public List<MessageDTO> getMessages(@PathVariable("userId") String userId, @PathVariable("part") String part) throws IOException {
+    @GetMapping(value = "/gmail/{userId}/{subject}/{part}")
+    public List<MessageDTO> getMessages(@PathVariable("userId") String userId, @PathVariable("subject") String subject, @PathVariable("part") String part) throws IOException {
         if (gmail == null) {
             List<MessageDTO> gmailErrorMessage = new ArrayList<>();
             gmailErrorMessage.add(new MessageDTO("", "", "noGmailAccess"));
             return gmailErrorMessage;
         }
         if (part.equals("0")) {
-            ListMessagesResponse responseFromUser = gmail.users().messages().list("me").setQ("from:" + userId).execute();
-            ListMessagesResponse responseFromAdmin = gmail.users().messages().list("me").setQ("to:" + userId).execute();
+            ListMessagesResponse responseFromUser = gmail.users().messages().list("me").setQ("(" + "subject:" + "\"" + subject + "\"" + "from:" + userId + ")").execute();
+            ListMessagesResponse responseFromAdmin = gmail.users().messages().list("me").setQ("(" + "subject:" + "\"" + subject + "\"" + "to:" + userId + ")").execute();
             List<Message> messagesFromUser = new ArrayList<>();
             List<Message> messagesFromAdmin = new ArrayList<>();
             Map<String, MessageDTO> messages = new TreeMap<>(Collections.reverseOrder());
@@ -53,11 +51,11 @@ public class GmailRestController {
         return chat;
     }
 
-    @PostMapping(value = "/gmail/{userId}/messages")
-    public MessageDTO sendMessage(@PathVariable("userId") String userId, @RequestBody String messageText) throws IOException, MessagingException {
+    @PostMapping(value = "/gmail/{userId}/{subject}")
+    public MessageDTO sendMessage(@PathVariable("userId") String userId, @PathVariable("subject") String subject, @RequestBody String messageText) throws IOException, MessagingException {
         messageText = messageText.replace("\\n", "\r\n");
         messageText = messageText.substring(1, messageText.length() - 1);
-        MimeMessage mimeMessage = getMessage(gmail.users().getProfile("me").getUserId(), userId, messageText);
+        MimeMessage mimeMessage = getMessage(gmail.users().getProfile("me").getUserId(), userId, subject, messageText);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         mimeMessage.writeTo(baos);
         String encodedEmail = Base64URL.encode(baos.toByteArray()).toString();
@@ -130,14 +128,31 @@ public class GmailRestController {
         return chat;
     }
 
-    private MimeMessage getMessage(String from, String to, String text) throws MessagingException {
+    private MimeMessage getMessage(String from, String to, String subject, String text) throws MessagingException {
         Properties prop = new Properties();
         Session session = Session.getDefaultInstance(prop);
         MimeMessage mimeMessage = new MimeMessage(session);
         mimeMessage.setFrom(new InternetAddress(from));
-        mimeMessage.setSubject("", "UTF-8");
+        mimeMessage.setSubject(subject, "UTF-8");
         mimeMessage.setContent(text, "text/plain; charset=UTF-8");
         mimeMessage.setRecipient(javax.mail.Message.RecipientType.TO, new InternetAddress(to));
         return mimeMessage;
+    }
+
+    @PostMapping(value = "/gmailFeedBack/{userId}/messages")
+    public MessageDTO sendMessageFeedBack(@PathVariable("userId") String userId, @RequestBody String messageText) throws IOException, MessagingException {
+        String subjectTextResult = messageText.split("&nbsp")[0].substring(1);
+        String messageTextResult = messageText.split("&nbsp")[1].substring(0,messageText.split("&nbsp")[1].length()-1);
+        MimeMessage mimeMessage = getMessage(gmail.users().getProfile("me").getUserId(), userId, "", messageTextResult);
+        mimeMessage.setSubject(subjectTextResult, "UTF-8");
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        mimeMessage.writeTo(baos);
+        String encodedEmail = Base64URL.encode(baos.toByteArray()).toString();
+        Message message = new Message();
+        message.setRaw(encodedEmail);
+        message = gmail.users().messages().send("me", message).execute();
+        message = gmail.users().messages().get("me", message.getId()).execute();
+        MessageDTO messageDTO = new MessageDTO(message.getThreadId(), "me", messageText);
+        return messageDTO;
     }
 }
