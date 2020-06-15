@@ -61,6 +61,6 @@ public class BeanConfiguration {
     }
 
     @Bean("userDetailsService")
-    public UserDetailsService getUserDetailsService(){ return new UserDetailServiceImpl();
-    }
+    public UserDetailsService getUserDetailsService(){ return new UserDetailServiceImpl(); }
+
 }

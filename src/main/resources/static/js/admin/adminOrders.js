@@ -1,6 +1,10 @@
 let allOrders;
 let iconOfPrice = " €";
 let statusOfOrder = "Unprocessed";
+let gmailAccess = false;
+let onlyUnread = false;
+let preloader = false;
+let unreadCheckbox = '';
 let messagePackIndex;
 let orderIndex;
 let scrollOn = true;
@@ -16,7 +20,7 @@ $(window).on("load", function () {
 
 $(document).ready(function () {
     document.getElementById("gmail-access").href = gmailAccessUrl.fullUrl;
-
+    $('#preloader').empty();
     let url = window.location.href;
     if (url.search("code=") !== -1 || url.search("error=") !== -1) {
         document.getElementsByClassName("orders")[0].click();
@@ -28,11 +32,55 @@ function convertPrice(price) {
     return price / 100;
 }
 
+
 function showListOrders() {
-    fetch("/api/admin/getAllOrders")
+    $('#preloader').html(`
+        <div class="progress">
+            <div class="indeterminate"></div>
+        </div>
+    `)
+     fetch("/api/admin/getAllOrders")
         .then(json)
+        .then(async ( data) => {
+            let orders = data;
+            let emails = [];
+            for (let key in data) {
+                emails.push(data[key].userDTO.email)
+            }
+            await fetch("/admin/unreademails/", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json;charset=utf-8'
+                    },
+                    body: JSON.stringify(emails)
+                }).then(json).then(emails => {
+                    if (emails['gmailAccess']){
+                        if (!onlyUnread) {
+                            for (let key in orders) {
+                                orders[key].userDTO.isUnread = emails[orders[key].userDTO.email]
+                            }
+                        } else {
+                            orders = {}
+                            for (let key in data) {
+                                if (emails[data[key].userDTO.email]) {
+                                    orders[key] = data[key];
+                                    orders[key].userDTO.isUnread = emails[data[key].userDTO.email];
+                                }
+                            }
+                        }
+                        unreadCheckbox = `<div>
+                                            <h3 class="only-unread-text">Only unread messages</h3>
+                                          </div>
+                                          <div>
+                                            <input data-size="md" data-toggle="toggle" id="toggleOnlyUnread" type="checkbox" ${onlyUnread ? 'checked' : ''}>
+                                          </div>`
+                    }
+                })
+            return orders;
+        })
         .then(function (data) {
             $('#adminListOrders').empty();
+            $('#preloader').empty();
             allOrders = data;
             let order;
             let html = `<thead ><tr><th>№</th>
@@ -50,14 +98,24 @@ function showListOrders() {
                     html += `<tbody ><tr > <td> ${order.id}</td>`;
                     for (let key in order.userDTO) {
                         if (key === "email" || key === "firstName" || key === "lastName") {
-                            html += `<td > ${order.userDTO[key]}</td>`;
+                            html += `<td class=${order.userDTO.isUnread ? 'unread' : ''}> ${order.userDTO[key]}</td>`;
                         }
                     }
-                    html += `<td>${order.data}</td>
-                         <td>${order.status} </td>`;
+                    html += `<td class=${order.userDTO.isUnread ? 'unread' : ''}>${order.data}</td>
+                         <td class=${order.userDTO.isUnread ? 'unread' : ''}>${order.status} </td>`;
 
-                    html += `<td><a  href="#" data-toggle="modal" class="show-details-loc" data-target="#adminOrderModal" onclick="showModalOfOrder(${index})" > Show details </a></td>`
-
+                    html += `<td>
+                                <div class="show-details-container">
+                                    <div class="show-details-text">
+                                        <a href="#" data-toggle="modal" class="show-details-loc" data-target="#adminOrderModal" onclick="showModalOfOrder(${index})" >
+                                            Show details
+                                        </a>
+                                    </div>
+                                    <div class="show-details-icon">
+                                        ${ order.userDTO.isUnread ? '<i class="material-icons">email</i>' : ''}
+                                    </div>
+                                </div>
+                             </td>`
                     if (order.status !== "DELETED") {
                         html += `<td><button class="btn btn-danger delete-loc" onclick=orderDelete(${order.id})>Delete</button></td>`;
                     }
@@ -73,10 +131,16 @@ function showListOrders() {
                     html += `</tr>`;
 
                     $('#adminListOrders').html(html);
+                    $('#unread-checkbox').html(unreadCheckbox);
+                    $('#toggleOnlyUnread').on('change', () => {
+                        onlyUnread = $('#toggleOnlyUnread').is(":checked");
+                        console.log(onlyUnread)
+                        showListOrders();
+                    });
                 }
-            });
-        });
-    setLocaleFields();
+            })
+        })
+    setLocaleFields()
 }
 
 async function showModalOfOrder(index) {
@@ -306,6 +370,13 @@ function sendGmailMessage(userId, orderId) {
             wrapper.insertAdjacentHTML("beforeend", html);
             document.getElementById("sent-message").value = "";
             sendButton.disabled = false;
+        })
+        .then(() => {
+            fetch("/admin/markasread?email=" + userId)
+                .then(json)
+                .then((data) => {
+                    console.log(data)
+                })
         });
 }
 
