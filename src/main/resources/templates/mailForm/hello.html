@@ -117,12 +117,21 @@
                                 <td width="570" bgcolor="D1ECF1"><h1 class="hello-dear-reader-loc">Hello dear reader</h1></td>
 
                             </tr>
-
                             <!--<tr> Зачем пользователю видеть свой токен напрямую?
                                 <td width="570" bgcolor="D1ECF1"><h2 th:text="${id}">ID user</h2></td>
                             </tr>-->
 
-                            <button><a th:href="@{http://localhost:8080/confirmEmail(token=${id})}" class="confirm-account-loc">Confirm account</a> </button>
+                            <tr>
+                                <td>
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <button><a th:href="@{http://localhost:8080/confirmEmail(token=${id})}"
+                                               class="confirm-account-loc">Confirm account</a></button>
+                                </td>
+                            </tr>
 
                         </table><!-- header -->
 
