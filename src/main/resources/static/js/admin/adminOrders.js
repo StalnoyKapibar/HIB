@@ -28,6 +28,11 @@ $(document).ready(function () {
     setLocaleFields();
 });
 
+$( '#adminOrderModal' )
+    .on('hide.bs.modal', function() {
+        showListOrders();
+    })
+
 function convertPrice(price) {
     return price / 100;
 }
