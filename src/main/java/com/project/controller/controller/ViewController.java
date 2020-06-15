@@ -38,7 +38,7 @@ public class ViewController {
     public ModelAndView getPage(@PathVariable("id") long id, ModelAndView modelAndView) {
         Book book = bookService.getBookById(id);
         if (book == null) {
-            modelAndView.setViewName("redirect:/error/book_not_found");
+            modelAndView.setViewName("redirect:/err/not-found");
             return modelAndView;
         }
         if (book.isShow()) {
