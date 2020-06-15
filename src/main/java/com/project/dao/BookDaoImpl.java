@@ -50,7 +50,7 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
 
     @Override
     public BookSearchPageDTO getBookBySearchRequest(String request, Long priceFrom, Long priceTo, String yearOfEditionFrom, String yearOfEditionTo,
-                                                    Long pagesFrom, Long pagesTo, String searchBy, List<Long> categories, Pageable pageable) {
+                                                    Long pagesFrom, Long pagesTo, String searchBy, List<Long> categories, Pageable pageable, boolean isShow) {
         int limitBookDTOOnPage = pageable.getPageSize();
         int minNumberId = limitBookDTOOnPage * pageable.getPageNumber();
         long amountOfBooks = getQuantityBooksBySearchRequest(request, priceFrom, priceTo, yearOfEditionFrom, yearOfEditionTo, pagesFrom, pagesTo, searchBy, categories);
@@ -58,7 +58,7 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
         String hql = ("SELECT new com.project.model.BookNewDTO(b.id, b.originalLanguage.name," +
                 "b.originalLanguage.nameTranslit, b.originalLanguage.author, b.originalLanguage.authorTranslit, b.description.en," +
                 "b.originalLanguage.edition, b.originalLanguage.editionTranslit, b.yearOfEdition, b.pages, b.price, b.originalLanguageName, b.coverImage, b.category, b.isShow) " +
-                "FROM Book b where  " +
+                "FROM Book b where (b.isShow = true or b.isShow = :isShow) AND " +
                 "(((b.originalLanguage.name LIKE :name or b.originalLanguage.nameTranslit LIKE :name or " +
                 "b.originalLanguage.author LIKE :name or b.originalLanguage.authorTranslit LIKE :name) and :searchBy = 'name-author') OR" +
                 "((b.originalLanguage.name LIKE :name or b.originalLanguage.nameTranslit LIKE :name) and :searchBy = 'name') OR" +
@@ -73,6 +73,7 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
         //b.isShow = true AND
         List<BookNewDTO> bookNewDTOList = entityManager.createQuery(hql, BookNewDTO.class)
                 .setParameter("name", name)
+                .setParameter("isShow", isShow)
                 .setParameter("pagesFrom", pagesFrom)
                 .setParameter("pagesTo", pagesTo)
                 .setParameter("yearOfEditionFrom", yearOfEditionFrom)
@@ -238,7 +239,7 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
 
     @Override
     public Long getCountBooksByCategoryId(Long categoryId) {
-        String sql = "select count(b) from Book b WHERE b.category.id =:categoryId";
+        String sql = "select count(b) from Book b WHERE b.category.id =:categoryId AND b.isShow = true";
         // AND b.isShow = true
         return (Long) entityManager.createQuery(sql).setParameter("categoryId", categoryId).getSingleResult();
     }

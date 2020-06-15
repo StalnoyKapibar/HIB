@@ -258,7 +258,9 @@ async function advancedSearch(amount, page) {
     let pagesFrom = $('#input-pages-from').val();
     let pagesTo = $('#input-pages-to').val();
     let searchBy = $('#search-by input:checked').val();
+    let isShow = $('#check-available').is(':checked') ? true : false;
     let categories;
+
     if (!isCheckedCategory) {
         categories = $("#input-categories input").map(function () {
             return $(this).val();
@@ -274,7 +276,7 @@ async function advancedSearch(amount, page) {
     }
     fetch("/searchAdvanced?request=" + request + "&searchBy=" + searchBy + categoryRequest +
         "&priceFrom=" + priceFrom + "&priceTo=" + priceTo + "&yearOfEditionFrom=" + yearOfEditionFrom + "&yearOfEditionTo=" + yearOfEditionTo +
-        "&pagesFrom=" + pagesFrom + "&pagesTo=" + pagesTo + "&page=" + page + "&size=" + amount, {
+        "&pagesFrom=" + pagesFrom + "&pagesTo=" + pagesTo + "&page=" + page + "&size=" + amount + "&show=" + isShow, {
         method: "GET",
         headers: {
             'Content-Type': 'application/json',
@@ -365,6 +367,6 @@ async function addFindeBooks(data) {
     addPagination();
 }
 
-async function getCountBooksByCat(category) {
+async function getCountBooksByCat(category, isShow) {
     return "" + await fetch("/categories/getcount?path=" + category).then(json);
 }

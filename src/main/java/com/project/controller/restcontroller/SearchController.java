@@ -43,10 +43,11 @@ public class SearchController {
                                                      @RequestParam List<Long> categories, @RequestParam(value = "priceFrom") Long priceFrom,
                                                      @RequestParam(value = "priceTo") Long priceTo, @RequestParam(value = "yearOfEditionFrom") Long yearOfEditionFrom,
                                                      @RequestParam(value = "yearOfEditionTo") Long yearOfEditionTo, @RequestParam(value = "pagesFrom") Long pagesFrom,
-                                                     @RequestParam(value = "pagesTo") Long pagesTo, @RequestParam(value = "page") int page, @RequestParam(value = "size") int size) {
+                                                     @RequestParam(value = "pagesTo") Long pagesTo, @RequestParam(value = "page") int page,
+                                                     @RequestParam(value = "size") int size, @RequestParam(value = "show") boolean isShow) {
         Pageable pageable = PageRequest.of(page, size);
         BookSearchPageDTO books = bookSearch.searchByParameters(request, priceFrom, priceTo, String.valueOf(yearOfEditionFrom), String.valueOf(yearOfEditionTo),
-                pagesFrom, pagesTo, searchBy, categories, pageable);
+                pagesFrom, pagesTo, searchBy, categories, pageable, isShow);
         return books;
     }
 

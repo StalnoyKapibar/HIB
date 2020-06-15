@@ -27,8 +27,9 @@ public class BookSearch {
     }
 
     public BookSearchPageDTO searchByParameters(String req, Long priceFrom, Long priceTo, String yearOfEditionFrom, String yearOfEditionTo, Long pagesFrom,
-                                                Long pagesTo, String searchBy, List<Long> categories, Pageable pageable) {
-        BookSearchPageDTO result = bookDao.getBookBySearchRequest(req.trim(), priceFrom, priceTo, yearOfEditionFrom, yearOfEditionTo, pagesFrom, pagesTo, searchBy, categories, pageable);
+                                                Long pagesTo, String searchBy, List<Long> categories, Pageable pageable, boolean isShow) {
+        BookSearchPageDTO result = bookDao.getBookBySearchRequest(req.trim(), priceFrom, priceTo, yearOfEditionFrom,
+                yearOfEditionTo, pagesFrom, pagesTo, searchBy, categories, pageable, isShow);
         return result;
     }
 
