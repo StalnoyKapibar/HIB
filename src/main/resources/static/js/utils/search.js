@@ -148,7 +148,13 @@ function setListeners () {
     });
 
     $('#search-input').on('input', function () {
-        $('.search-submit-loc').click();
+        currentPage = 0;
+        advancedSearch(ddmAmountBook.text(), currentPage++);
+    })
+
+    $('#check-available').on('click', function () {
+        $('#input-categories').empty();
+        getCategoryTree();
     })
 }
 
