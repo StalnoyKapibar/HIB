@@ -41,6 +41,16 @@ function markAsRead(id, replied) {
 async function getFeedbackRequestTable(replied) {
     await fetch("/api/admin/feedback-request?replied=" + replied)
         .then(json)
+        .then(data => {
+            let emails = [];
+            for (let key in data) {
+                emails.push(data[key].senderEmail)
+            }
+
+            fetch ("/admin/unreadcontent", {
+
+            })
+        })
         .then((data) => {
             tableBody.empty();
             for (let i = 0; i < data.length; i++) {
