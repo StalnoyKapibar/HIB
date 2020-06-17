@@ -12,7 +12,7 @@ function findEl(el, array, value) {
                 }
             });
             if (coincidence === false) {
-                el.append('<li class="js-searchInput" style="padding-left:20px">' + array[i] + '</li>');    // Если совпадений не обнаружено, то добавляем уникальное название в список
+                el.append('<a class="js-searchInput dropdown-item" style="padding-left:20px">' + array[i] + '</a>');    // Если совпадений не обнаружено, то добавляем уникальное название в список
             }
         }
     }
