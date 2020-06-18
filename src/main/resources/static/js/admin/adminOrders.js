@@ -28,7 +28,7 @@ $(document).ready(function () {
     setLocaleFields();
 });
 
-$( '#adminOrderModal' )
+$('#adminOrderModal')
     .on('hide.bs.modal', function() {
         showListOrders();
     })

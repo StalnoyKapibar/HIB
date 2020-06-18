@@ -28,6 +28,11 @@ $(document).ready(function () {
     setLocaleFields();
 });
 
+$('#feedback-request-modal')
+    .on('hide.bs.modal', function() {
+        getFeedbackRequestTable(false);
+    })
+
 function markAsRead(id, replied) {
     let message = "Mark this message as ";
     message += replied ? "unread?" : "read?";
