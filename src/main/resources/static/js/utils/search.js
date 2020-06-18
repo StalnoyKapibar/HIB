@@ -349,11 +349,9 @@ async function addFindeBooks(data) {
                                 <td class="align-middle">${data[i].price / 100}</td>
                                 <td class="align-middle">${data[i].category.categoryName}</td>
                                 <td class="align-middle">
-                                    <form id="bookButton${i}" method="get" action="/page/${data[i].id}">
-                                        <button class="btn btn-primary page-of-book-localize" id="buttonBookPage${i}" name="bookPage">
+                                    <button class="btn btn-primary page-of-book-localize" id="buttonBookPage${i}" onclick="location.href = '/page/${data[i].id}';" >
                                             Book's page
-                                        </button>
-                                    </form>
+                                    </button>
                                 </td>
                             </tr>`
         );
