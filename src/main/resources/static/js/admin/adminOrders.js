@@ -29,7 +29,7 @@ $(document).ready(function () {
 });
 
 $('#adminOrderModal')
-    .on('hide.bs.modal', function() {
+    .on('hide.bs.modal', function () {
         showListOrders();
     })
 
@@ -38,49 +38,51 @@ function convertPrice(price) {
 }
 
 
-function showListOrders() {
+async function showListOrders() {
     $('#preloader').html(`
         <div class="progress">
             <div class="indeterminate"></div>
         </div>
     `)
-     fetch("/api/admin/getAllOrders")
+    const lastOrderedBooks = await getLastOrderedBooks();
+
+    fetch("/api/admin/getAllOrders")
         .then(json)
-        .then(async ( data) => {
+        .then(async (data) => {
             let orders = data;
             let emails = [];
             for (let key in data) {
                 emails.push(data[key].userDTO.email)
             }
             await fetch("/admin/unreademails/", {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json;charset=utf-8'
-                    },
-                    body: JSON.stringify(emails)
-                }).then(json).then(emails => {
-                    if (emails['gmailAccess']){
-                        if (!onlyUnread) {
-                            for (let key in orders) {
-                                orders[key].userDTO.isUnread = emails[orders[key].userDTO.email]
-                            }
-                        } else {
-                            orders = {}
-                            for (let key in data) {
-                                if (emails[data[key].userDTO.email]) {
-                                    orders[key] = data[key];
-                                    orders[key].userDTO.isUnread = emails[data[key].userDTO.email];
-                                }
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify(emails)
+            }).then(json).then(emails => {
+                if (emails['gmailAccess']) {
+                    if (!onlyUnread) {
+                        for (let key in orders) {
+                            orders[key].userDTO.isUnread = emails[orders[key].userDTO.email]
+                        }
+                    } else {
+                        orders = {}
+                        for (let key in data) {
+                            if (emails[data[key].userDTO.email]) {
+                                orders[key] = data[key];
+                                orders[key].userDTO.isUnread = emails[data[key].userDTO.email];
                             }
                         }
-                        unreadCheckbox = `<div>
+                    }
+                    unreadCheckbox = `<div>
                                             <h3 class="only-unread-text">Only unread messages</h3>
                                           </div>
                                           <div>
                                             <input data-size="md" data-toggle="toggle" id="toggleOnlyUnread" type="checkbox" ${onlyUnread ? 'checked' : ''}>
                                           </div>`
-                    }
-                })
+                }
+            })
             return orders;
         })
         .then(function (data) {
@@ -99,8 +101,20 @@ function showListOrders() {
                              <th></th></tr></thead>`;
             $.each(data, function (index) {
                 order = data[index];
+                let isOrderEnable = true;
+                order.items.forEach((item) => {
+                    if (lastOrderedBooks.includes(item.book.id) && order.status === "UNPROCESSED") {
+                        isOrderEnable = false;
+                    }
+                })
+
                 if (order.status === statusOfOrder.toUpperCase()) {
-                    html += `<tbody ><tr > <td> ${order.id}</td>`;
+                    html += `<tbody ><tr `;
+                    if (!isOrderEnable) {
+                        html += `style = "background-color: #FFB3B3" `;
+                    }
+
+                    html += `> <td> ${order.id}</td>`;
                     for (let key in order.userDTO) {
                         if (key === "email" || key === "firstName" || key === "lastName") {
                             html += `<td class=${order.userDTO.isUnread ? 'unread' : ''}> ${order.userDTO[key]}</td>`;
@@ -117,7 +131,7 @@ function showListOrders() {
                                         </a>
                                     </div>
                                     <div class="show-details-icon">
-                                        ${ order.userDTO.isUnread ? '<i class="material-icons">email</i>' : ''}
+                                        ${order.userDTO.isUnread ? '<i class="material-icons">email</i>' : ''}
                                     </div>
                                 </div>
                              </td>`
@@ -131,9 +145,16 @@ function showListOrders() {
                         html += `<td><button class="btn btn-success uncomplete-loc" onclick=orderUnComplete(${order.id})>Uncomplete</button></td>`;
                     }
                     if (order.status === "UNPROCESSED") {
-                        html += `<td><button class="btn btn-success uncomplete-loc" onclick=orderProcess(${order.id})>Process</button></td>`;
+                        html += `<td><button class="btn btn-success uncomplete-loc" onclick=orderProcess(${order.id})`;
+                        if (!isOrderEnable) {
+                            html += ` disabled="disabled"`;
+                        }
+                        html += `>Process</button></td>`;
                     }
                     html += `</tr>`;
+                    if (!isOrderEnable) {
+                        html += `<tr style = "background-color: #FFB3B3; color: red; font-weight: 900"><td colspan="9">This order contains book that is already included in order with status PROCESSING. </td></tr>`;
+                    }
 
                     $('#adminListOrders').html(html);
                     $('#unread-checkbox').html(unreadCheckbox);
@@ -227,7 +248,8 @@ async function showModalOfOrder(index) {
         });
     $('#chat').html(htmlChat);
     $('#chat').scrollTop(2000);
-    const orderedBooks = await getOrderedBooks();
+
+    const allOrdersforModal = await getAllOrders();
 
     let html = ``;
     html += `<thead><tr><th class="image-loc">Image</th>
@@ -238,14 +260,16 @@ async function showModalOfOrder(index) {
         let book = items[index].book;
         let countUsers = 0;
         let isLastOrder = `<td width="350">${convertOriginalLanguageRows(book.originalLanguage.name, book.originalLanguage.nameTranslit)} | ${convertOriginalLanguageRows(book.originalLanguage.author, book.originalLanguage.authorTranslit)}</td>`;
-        for (let i = 0; i < orderedBooks.length; i++) {
-            for (let j = 0; j < orderedBooks[i].items.length; j++) {
-                let numberOfBook = orderedBooks[i].items[j].book.originalLanguage;
-                if (book.originalLanguage.id == numberOfBook.id) {
-                    countUsers++;
-                    if (countUsers >= 2) {
-                        isLastOrder = `<td width="350">${convertOriginalLanguageRows(book.originalLanguage.name, book.originalLanguage.nameTranslit)} | ${convertOriginalLanguageRows(book.originalLanguage.author, book.originalLanguage.authorTranslit)}
+        for (let i = 0; i < allOrdersforModal.length; i++) {
+            if (allOrdersforModal[i].status === "UNPROCESSED" || allOrders[i].status === "PROCESSING") {
+                for (let j = 0; j < allOrdersforModal[i].items.length; j++) {
+                    let numberOfBook = allOrdersforModal[i].items[j].book.originalLanguage;
+                    if (book.originalLanguage.id == numberOfBook.id) {
+                        countUsers++;
+                        if (countUsers >= 2) {
+                            isLastOrder = `<td width="350">${convertOriginalLanguageRows(book.originalLanguage.name, book.originalLanguage.nameTranslit)} | ${convertOriginalLanguageRows(book.originalLanguage.author, book.originalLanguage.authorTranslit)}
                         <div style ="color: red; font-weight: 900;">This book was ordered by several people!</div></td>`
+                        }
                     }
                 }
             }
@@ -263,11 +287,10 @@ async function showModalOfOrder(index) {
     setLocaleFields();
 }
 
-async function getOrderedBooks() {
+async function getAllOrders() {
     const url = '/api/admin/getAllOrders';
     const res = await fetch(url);
     const data = await res.json();
-    console.log(data);
     return data;
 }
 
@@ -383,5 +406,12 @@ function sendGmailMessage(userId, orderId) {
                     console.log(data)
                 })
         });
+}
+
+async function getLastOrderedBooks() {
+    const url = '/api/book/lastOrderedBooks';
+    const res = await fetch(url);
+    const data = await res.json();
+    return data;
 }
 
