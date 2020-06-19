@@ -5,6 +5,7 @@ import com.project.model.htmlEditor.Link;
 import com.project.model.htmlEditor.footer.Footer;
 import com.project.service.abstraction.BookService;
 import com.project.service.abstraction.FeedbackRequestService;
+import com.project.service.abstraction.LocalStringService;
 import com.project.service.abstraction.WelcomeService;
 import com.project.service.htmlEditor.footer.FooterService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,9 @@ public class TestDataInit {
     private BookService bookService;
 
     @Autowired
+    private LocalStringService localStringService;
+
+    @Autowired
     private FeedbackRequestService feedbackRequestService;
 
     @Autowired
@@ -38,6 +42,11 @@ public class TestDataInit {
     private int bookId;
 
     public void init() {
+        addCategoriesToLocalString(new LocaleString("История", "History", "Récit", "Storia", "Geschichte", "Příběh", "Ιστορία"));
+        addCategoriesToLocalString(new LocaleString("Документы", "Documents", "Les documents", "Documenti", "Unterlagen", "Dokumenty", "Εγγραφα"));
+        addCategoriesToLocalString(new LocaleString("Журналы", "Magazines", "Les magazines", "Riviste", "Zeitschriften", "Časopisy", "Περιοδικά"));
+        addCategoriesToLocalString(new LocaleString("Культура", "Culture", "Culture", "Cultura", "Kultur", "Kultura", "Πολιτισμός"));
+
         File img = new File("img");
         File[] contentImg = img.listFiles();
         for (File file : contentImg) {
@@ -351,5 +360,9 @@ public class TestDataInit {
         }
         Book.setListImage(imagesList);
         bookService.addBook(Book);
+    }
+
+    private void addCategoriesToLocalString(LocaleString localeString) {
+        localStringService.addLocalString(localeString);
     }
 }

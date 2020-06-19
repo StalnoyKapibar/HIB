@@ -1,5 +1,5 @@
 let categoryRow;
-let valueInput = ''
+let valueInput = '';
 
 $(document).ready(function () {
     $(document).keypress(function(event){
@@ -20,6 +20,7 @@ $(document).ready(function () {
     }
     getLanguage();
     setLocaleFields();
+    getCategoriesLocal(currentLang);
 });
 
 $('#sidebar').mouseenter(() => {
@@ -32,19 +33,23 @@ $('#sidebar').mouseleave(() => {
     $('#page-wrapper').addClass('pinned');
 });
 
-fetch('/categories/getnullparent', {})
-    .then(function (response) {
-        return response.json()
-    })
-    .then(function (primaryCategories) {
-        for (let i in primaryCategories) {
-            categoryRow =
-                `<li>
-                <a href="/search/${primaryCategories[i].id}" id="${primaryCategories[i].categoryName.toLowerCase()}-sidebar">${primaryCategories[i].categoryName}</a>
+function getCategoriesLocal(name) {
+    fetch('/categories/getpanelcategories/' + name, {})
+        .then(function (response) {
+            return response.json()
+        })
+        .then(function (primaryCategories) {
+            let count = 1;
+            for (let i in primaryCategories) {
+                categoryRow =
+                    `<li>
+                <a href="/search/${[count]}">${primaryCategories[i]}</a>
                 </li>`;
-            $('#primaryCategories').append(categoryRow);
-        }
-    });
+                count++;
+                $('#primaryCategories').append(categoryRow);
+            }
+        });
+}
 
 $(document).on('click', '#searchIcon', async () => {
     document.location = `/search?request=${$("#searchInput").val()}`
