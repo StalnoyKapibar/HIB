@@ -10,6 +10,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Arrays;
+import java.util.LinkedHashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 
 @Controller
 @AllArgsConstructor
@@ -53,6 +58,18 @@ public class ViewController {
     @GetMapping("/translate")
     public String getTranslatePage() {
         return "translate";
+    }
+
+    @GetMapping("/author-list")
+    public ModelAndView getAuthors(ModelAndView view) {
+        Set<String> authors = bookService.getAllBookDTO().
+                stream().
+                map(x -> x.getAuthor().getEn()).
+                sorted().
+                collect(Collectors.toCollection(LinkedHashSet::new));
+        view.addObject("authors", authors);
+        view.setViewName("/user/user");
+        return view;
     }
 }
 
