@@ -118,6 +118,7 @@ async function setLocaleFields() {
             $('.login-loc').text(localeFields['login']);
             $('.contact-us').text(localeFields['contact-us']);
             $('.ask-question-loc').text(localeFields['ask-question']);
+            $('#authors').text(localeFields['Authors']);
 
             //Страница с обрабатываемыми заказами со стороны пользователя
             $(".orders-loc").text(localeFields['orders']);
@@ -312,7 +313,6 @@ async function setLocaleFields() {
             $(".load-more-btn").html(localeFields['load-more']);
             $(".displayed").html(localeFields['displayed']);
             $(".of").html(localeFields['of']);
-
 
             //should be down
             title.html(title.html().replace('Title:', localeFields['title']));
