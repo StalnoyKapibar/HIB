@@ -312,7 +312,7 @@ public class TestDataInit {
                 "Gebrauchsanweisung", "Pokyny", "Εγχειρίδιο χρήστη"), "#"));
         links.add(new Link(null, new LocaleString("Как заказать",
                 "How to order", "Comment commander", "Come ordinare",
-                "So bestellen Sie", "Jak objednat", "να παραγγείλετε"), "#"));
+                "So bestellen Sie", "Jak objednat", "να παραγγείλετε"), URL + "/guide-order"));
         links.add(new Link(null, new LocaleString("Список авторов",
                 "Authors list", "Liste des auteurs", "Elenco degli autori",
                 "Liste der Autoren", "Autor", "συγγραφείς"), URL + "/author-list"));

@@ -71,5 +71,11 @@ public class ViewController {
         view.setViewName("/user/user");
         return view;
     }
+
+    @GetMapping("/guide-order")
+    public ModelAndView getGuideToOrder(ModelAndView view) {
+        view.setViewName("/user/user");
+        return view;
+    }
 }
 
