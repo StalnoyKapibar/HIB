@@ -8,9 +8,6 @@
 <div aria-labelledby="v-pills-orders-tab"
      class="tab-pane fade mt-3 show active" id="v-pills-orders" role="tabpanel"
      th:fragment="orders">
-    <script src="/static/js/admin/adminOrders.js"></script>
-    <script src="/static/js/main.js"></script>
-    <script src="/static/js/gmailProperties.js"></script>
     <div class="card">
         <div class="card-header">
             <div class="row ">
@@ -19,36 +16,43 @@
                 </div>
                 <div class="col my-2">
 
-                    <input type="checkbox" id="statusCheckbox"  checked data-toggle="toggle" data-on="Processing"
-                           data-off="Completed" data-onstyle="warning text-white " data-offstyle="success">
-                    </label>
-                </div>
-                <div>
-                    <a type="button" class="btn btn-primary" id="gmail-access" style="margin-top: 8px"
-                       href="#">
-                        gmail access</a>
+                    <div class="form-group">
+
+                        <select class="form-control" id="statusSelector">
+                            <option selected value="Unprocessed">Unprocessed</option>
+                            <option value="Processing">Processing</option>
+                            <option value="Completed">Completed</option>
+                            <option value="Deleted">Deleted</option>
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="card-body">
+            <div id="unread-checkbox">
+
+            </div>
+            <div id="preloader">
+            </div>
             <table class="table h6" id="adminListOrders"></table>
             <div class="modal fade bd-lg" id="adminOrderModal" tabindex="-1" role="dialog"
                  aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-dialog modal-lg" id="modal-chat" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="modalTitle"></h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
+                                <span aria-hidden="true" onclick="showListOrders()">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
-                            <div class="container" id="chat" style="height: 200px; overflow: auto"></div>
-                            <table class="table h6" id="modalBody"></table>
                             <div id="contactsOfUser"></div>
+                            <div class="container" id="chat"></div>
+                            <table class="table h6" id="modalBody"></table>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary close-btn" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-secondary close-btn" data-dismiss="modal">Close
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -56,6 +60,9 @@
 
         </div>
     </div>
+    <script src="/static/js/admin/adminOrders.js"></script>
+    <script src="/static/js/main.js"></script>
+    <script src="/static/js/gmailProperties.js"></script>
 </div>
 
 </body>

@@ -37,11 +37,15 @@ public class ViewController {
     @GetMapping("/page/{id}")
     public ModelAndView getPage(@PathVariable("id") long id, ModelAndView modelAndView) {
         Book book = bookService.getBookById(id);
+        if (book == null) {
+            modelAndView.setViewName("redirect:/err/not-found");
+            return modelAndView;
+        }
         if (book.isShow()) {
             modelAndView.addObject("book", id);
             modelAndView.setViewName("/user/user");
-        }else {
-            modelAndView .setViewName("redirect:/home");
+        } else {
+            modelAndView.setViewName("redirect:/home");
         }
         return modelAndView;
     }

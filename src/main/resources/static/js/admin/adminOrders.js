@@ -1,28 +1,26 @@
 let allOrders;
 let iconOfPrice = " €";
-let statusOfOrder = "Processing";
-let btnDisplay = "d-inline";
+let statusOfOrder = "Unprocessed";
+let gmailAccess = false;
+let onlyUnread = false;
+let preloader = false;
+let unreadCheckbox = '';
 let messagePackIndex;
 let orderIndex;
+let scrollOn = true;
+
 
 $(window).on("load", function () {
     showListOrders();
-    $('#statusCheckbox').change(function () {
-        if ($(this).prop('checked') === true) {
-            statusOfOrder = "Processing";
-            btnDisplay = "d-inline";
-        } else {
-            statusOfOrder = "Completed";
-            btnDisplay = "d-none";
-        }
+    $('#statusSelector').change(function () {
+        statusOfOrder = $(this).children("option:selected").val();
         showListOrders();
-        setLocaleFields();
     });
 });
 
 $(document).ready(function () {
     document.getElementById("gmail-access").href = gmailAccessUrl.fullUrl;
-
+    $('#preloader').empty();
     let url = window.location.href;
     if (url.search("code=") !== -1 || url.search("error=") !== -1) {
         document.getElementsByClassName("orders")[0].click();
@@ -30,15 +28,66 @@ $(document).ready(function () {
     setLocaleFields();
 });
 
+$('#adminOrderModal')
+    .on('hide.bs.modal', function () {
+        showListOrders();
+    })
+
 function convertPrice(price) {
     return price / 100;
 }
 
-function showListOrders() {
+
+async function showListOrders() {
+    $('#preloader').html(`
+        <div class="progress">
+            <div class="indeterminate"></div>
+        </div>
+    `)
+    const lastOrderedBooks = await getLastOrderedBooks();
+
     fetch("/api/admin/getAllOrders")
         .then(json)
+        .then(async (data) => {
+            let orders = data;
+            let emails = [];
+            for (let key in data) {
+                emails.push(data[key].userDTO.email)
+            }
+            await fetch("/admin/unreademails/", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify(emails)
+            }).then(json).then(emails => {
+                if (emails['gmailAccess']) {
+                    if (!onlyUnread) {
+                        for (let key in orders) {
+                            orders[key].userDTO.isUnread = emails[orders[key].userDTO.email]
+                        }
+                    } else {
+                        orders = {}
+                        for (let key in data) {
+                            if (emails[data[key].userDTO.email]) {
+                                orders[key] = data[key];
+                                orders[key].userDTO.isUnread = emails[data[key].userDTO.email];
+                            }
+                        }
+                    }
+                    unreadCheckbox = `<div>
+                                            <h3 class="only-unread-text">Only unread messages</h3>
+                                          </div>
+                                          <div>
+                                            <input data-size="md" data-toggle="toggle" id="toggleOnlyUnread" type="checkbox" ${onlyUnread ? 'checked' : ''}>
+                                          </div>`
+                }
+            })
+            return orders;
+        })
         .then(function (data) {
             $('#adminListOrders').empty();
+            $('#preloader').empty();
             allOrders = data;
             let order;
             let html = `<thead ><tr><th>№</th>
@@ -52,44 +101,108 @@ function showListOrders() {
                              <th></th></tr></thead>`;
             $.each(data, function (index) {
                 order = data[index];
+                let isOrderEnable = true;
+                order.items.forEach((item) => {
+                    if (lastOrderedBooks.includes(item.book.id) && order.status === "UNPROCESSED") {
+                        isOrderEnable = false;
+                    }
+                })
+
                 if (order.status === statusOfOrder.toUpperCase()) {
-                    html += `<tbody ><tr > <td> ${order.id}</td>`;
+                    html += `<tbody ><tr `;
+                    if (!isOrderEnable) {
+                        html += `style = "background-color: #FFB3B3" `;
+                    }
+
+                    html += `> <td> ${order.id}</td>`;
                     for (let key in order.userDTO) {
                         if (key === "email" || key === "firstName" || key === "lastName") {
-                            html += `<td > ${order.userDTO[key]}</td>`;
+                            html += `<td class=${order.userDTO.isUnread ? 'unread' : ''}> ${order.userDTO[key]}</td>`;
                         }
                     }
-                    html += `<td>${order.data}</td>
-                         <td>${order.status} </td>`;
+                    html += `<td class=${order.userDTO.isUnread ? 'unread' : ''}>${order.data}</td>
+                         <td class=${order.userDTO.isUnread ? 'unread' : ''}>${order.status} </td>`;
 
-                    html += `<td><a  href="#" data-toggle="modal" class="show-details-loc" data-target="#adminOrderModal" onclick="showModalOfOrder(${index})" > Show details </a></td>
-                          <td><button class="btn btn-danger delete-loc" onclick=orderDelete(${order.id})>Delete</button></td>
-                          <td><button class="btn btn-success ${btnDisplay} complete-loc" onclick=orderComplete(${order.id})>Complete</button></td>`;
+                    html += `<td>
+                                <div class="show-details-container">
+                                    <div class="show-details-text">
+                                        <a href="#" data-toggle="modal" class="show-details-loc" data-target="#adminOrderModal" onclick="showModalOfOrder(${index})" >
+                                            Show details
+                                        </a>
+                                    </div>
+                                    <div class="show-details-icon">
+                                        ${order.userDTO.isUnread ? '<i class="material-icons">email</i>' : ''}
+                                    </div>
+                                </div>
+                             </td>`
+                    if (order.status !== "DELETED") {
+                        html += `<td><button class="btn btn-danger delete-loc" onclick=orderDelete(${order.id})>Delete</button></td>`;
+                    }
+                    if (order.status === "PROCESSING") {
+                        html += `<td><button class="btn btn-success complete-loc" onclick=orderComplete(${order.id})>Complete</button></td>`;
+                    }
                     if (order.status === "COMPLETED") {
                         html += `<td><button class="btn btn-success uncomplete-loc" onclick=orderUnComplete(${order.id})>Uncomplete</button></td>`;
                     }
+                    if (order.status === "UNPROCESSED") {
+                        html += `<td><button class="btn btn-success uncomplete-loc" onclick=orderProcess(${order.id})`;
+                        if (!isOrderEnable) {
+                            html += ` disabled="disabled"`;
+                        }
+                        html += `>Process</button></td>`;
+                    }
                     html += `</tr>`;
+                    if (!isOrderEnable) {
+                        html += `<tr style = "background-color: #FFB3B3; color: red; font-weight: 900"><td colspan="9">This order contains book that is already included in order with status PROCESSING. </td></tr>`;
+                    }
 
                     $('#adminListOrders').html(html);
+                    $('#unread-checkbox').html(unreadCheckbox);
+                    $('#toggleOnlyUnread').on('change', () => {
+                        onlyUnread = $('#toggleOnlyUnread').is(":checked");
+                        console.log(onlyUnread)
+                        showListOrders();
+                    });
                 }
-            });
-        });
-    setLocaleFields();
+            })
+        })
+    setLocaleFields()
 }
 
 async function showModalOfOrder(index) {
     $('#chat').empty();
     $('#modalBody').empty();
     $('#contactsOfUser').empty();
+    scrollOn = true;
     orderIndex = index;
     let order = allOrders[index];
     let items = order.items;
     $('#modalTitle').html(`Order № ${order.id}`);
     messagePackIndex = 0;
-    document.getElementById("chat").setAttribute('onscroll', 'scrolling()');
+
+    if (order.contacts.email == "") {
+        order.contacts.email = order.userDTO.email;
+    }
+
+    let htmlContact = ``;
+    let emailModal = order.contacts.email;
+    let phoneModal = order.contacts.phone;
+    let commentModal = order.comment;
+    htmlContact += `<div class="panel panel-primary">
+                        <div class="panel-body">
+                            <div class="container mt-0 mb-0">
+                                <div class="row" id="contacts">
+                                    <div class="pl-3 pr-3 col-4" id="container-left">
+                                        <div><h5>${emailModal}</h5></div>
+                                        <div><span id="phoneModal">${phoneModal}</span></div>
+                                    </div>
+                                    <div class="pl-1 col-8" id="container-right"><span id="commentModal">${commentModal}</span></div>
+                                </div>`;
+    htmlContact += `</div></div></div>`;
+    $('#contactsOfUser').html(htmlContact);
 
     let htmlChat = ``;
-    await fetch("/gmail/" + order.contacts.email + "/messages/" + "0")
+    await fetch("/gmail/" + order.contacts.email + "/Order №" + order.id + "/" + "0")
         .then(json)
         .then((data) => {
             if (data[0] === undefined) {
@@ -97,10 +210,18 @@ async function showModalOfOrder(index) {
                 htmlChat += `</div>`;
                 htmlChat += `<textarea id="sent-message" class="form-control"></textarea>
 
-                        </div><button class="float-right col-2 button btn-primary send-loc" type="button" id="send-button" onclick="sendGmailMessage('${order.contacts.email}', ${index})">Send</button>`
+                        </div><button class="float-right col-2 btn btn-primary send-loc" type="button" id="send-button" onclick="sendGmailMessage('${order.contacts.email}', ${allOrders[orderIndex].id})">Send</button>`
 
             } else {
-                if (data[0].text === "noGmailAccess") {
+                if (data[0].text === "chat end") {
+                    htmlChat += `<div id="chat-wrapper">`;
+                    htmlChat += `</div>`;
+                    htmlChat += `<textarea id="sent-message" class="form-control"></textarea>
+
+                        </div><button class="float-right col-2 btn btn-primary send-loc" type="button" id="send-button" onclick="sendGmailMessage('${order.contacts.email}', ${allOrders[orderIndex].id})">Send</button>`
+
+                    scrollOn = false;
+                } else if (data[0].text === "noGmailAccess") {
                     htmlChat += `<div>
                                 <span class="h3 col-10 confirm-gmail-longphrase-loc">Confirm gmail access to open chat:</span>
                                 <a type="button" class="col-2 btn btn-primary float-right confirm-loc" href="${gmailAccessUrl.fullUrl}">
@@ -109,19 +230,26 @@ async function showModalOfOrder(index) {
                 } else {
                     htmlChat += `<div id="chat-wrapper">`;
                     for (let i = data.length - 1; i > -1; i--) {
-                        htmlChat += `<p><b>${data[i].sender}</b></p>
-                    <p>${data[i].text}</p>`
+                        if (data[i].sender === "me") {
+                            htmlChat += `<div class="row"><div class="col-5"></div><div id="chat-mes" class="rounded col-7"><p><span>${data[i].sender}</span></p>
+                                    <p>${data[i].text}</p></div></div>`
+                        } else {
+                            htmlChat += `<div class="row"><div id="chat-mes" class="rounded col-7"><p><span>${data[i].sender}</span></p>
+                                                                            <p>${data[i].text}</p></div><div class="col-5"></div></div>`
+                        }
                     }
                     htmlChat += `</div>`;
                     htmlChat += `<textarea id="sent-message" class="form-control"></textarea>
 
-                        </div><button class="float-right col-2 button btn-primary send-loc" type="button" id="send-button" onclick="sendGmailMessage('${order.contacts.email}', ${index})">Send</button>`
+                        </div><button class="float-right col-2 btn btn-primary send-loc" type="button" id="send-button" onclick="sendGmailMessage('${order.contacts.email}', ${allOrders[orderIndex].id})">Send</button>`
 
                 }
             }
         });
     $('#chat').html(htmlChat);
-    $('#chat').scrollTop(1000);
+    $('#chat').scrollTop(2000);
+
+    const allOrdersforModal = await getAllOrders();
 
     let html = ``;
     html += `<thead><tr><th class="image-loc">Image</th>
@@ -130,70 +258,90 @@ async function showModalOfOrder(index) {
                              <th class="price-loc">Price</th></tr></thead>`;
     $.each(items, function (index) {
         let book = items[index].book;
+        let countUsers = 0;
+        let isLastOrder = `<td width="350">${convertOriginalLanguageRows(book.originalLanguage.name, book.originalLanguage.nameTranslit)} | ${convertOriginalLanguageRows(book.originalLanguage.author, book.originalLanguage.authorTranslit)}</td>`;
+        for (let i = 0; i < allOrdersforModal.length; i++) {
+            if (allOrdersforModal[i].status === "UNPROCESSED" || allOrders[i].status === "PROCESSING") {
+                for (let j = 0; j < allOrdersforModal[i].items.length; j++) {
+                    let numberOfBook = allOrdersforModal[i].items[j].book.originalLanguage;
+                    if (book.originalLanguage.id == numberOfBook.id) {
+                        countUsers++;
+                        if (countUsers >= 2) {
+                            isLastOrder = `<td width="350">${convertOriginalLanguageRows(book.originalLanguage.name, book.originalLanguage.nameTranslit)} | ${convertOriginalLanguageRows(book.originalLanguage.author, book.originalLanguage.authorTranslit)}
+                        <div style ="color: red; font-weight: 900;">This book was ordered by several people!</div></td>`
+                        }
+                    }
+                }
+            }
+        }
         html += `<tr><td class="align-middle"><img src="/images/book${book.id}/${book.coverImage}" style="max-width: 80px"></td>
-                             <td width="350">${convertOriginalLanguageRows(book.originalLanguage.name, book.originalLanguage.nameTranslit)} | ${convertOriginalLanguageRows(book.originalLanguage.author, book.originalLanguage.authorTranslit)}</td>
-                             <td></td>
-                             <td>${convertPrice(book.price)}${iconOfPrice}</td></tr>`;
+            ${isLastOrder}
+            <td></td>
+            <td>${convertPrice(book.price)}${iconOfPrice}</td></tr>`;
     });
     html += `<tr><td></td><td></td><td><span class="subtotal-loc">Subtotal</span> :</td><td> ${convertPrice(order.itemsCost)}${iconOfPrice}</td></tr>
                  <tr><td></td><td></td><td><span class="total-loc">Total</span> :</td><td>${convertPrice(order.itemsCost + order.shippingCost)}${iconOfPrice}</td></tr>`;
     $('#modalBody').html(html);
+    document.getElementById("chat").setAttribute('onscroll', 'scrolling()');
 
-    let htmlContact = ``;
-    htmlContact += `<div class="panel panel-primary">
-                        <div class="panel-body">
-                            <div class="container mt-2">
-                                <div class="col-8 p-4 mb-4  alert alert-info" role="alert">
-                                    <h6 class="user-loc">User </h6><span><strong class="contacts-loc">contacts</strong></span>
-                                </div>`;
-    for (let key in order.contacts) {
-        if (order.contacts[key] !== "" && key !== "id" && key !== "comment") {
-            htmlContact += `<div class="form-group row">
-                        <label class="control-label col-sm-2 col-form-label">${key}</label>
-                        <div class="col-md-5 pl-0 pr-1">
-                            <input class="form-control" readonly  placeholder=${order.contacts[key]}>
-                        </div>
-                    </div>`;
-        }
-    }
-    if (order.comment !== " ") {
-        htmlContact += `<div class="form-group row">
-                        <label class="control-label col-sm-2 col-form-label">Comment</label>
-                        <div class="col-md-6 pl-0">
-                            <textarea class="form-control" readonly  rows="5" placeholder="${order.comment}" ></textarea>
-                        </div>
-                    </div>`;
-    }
-
-    htmlContact += `</div></div>`;
-
-    $('#contactsOfUser').html(htmlContact);
     setLocaleFields();
 }
 
+async function getAllOrders() {
+    const url = '/api/admin/getAllOrders';
+    const res = await fetch(url);
+    const data = await res.json();
+    return data;
+}
+
 async function scrolling() {
+    document.getElementById("chat").removeAttribute('onscroll');
     let order = allOrders[orderIndex];
-    if ($('#chat').scrollTop() < 2) {
+    if ($('#chat').scrollTop() < 5 && $('#chat').scrollTop() > 0) {
+        $('#chat').scrollTop(10);
         messagePackIndex++;
-        await fetch("/gmail/" + order.contacts.email + "/messages/" + messagePackIndex)
+        await fetch("/gmail/" + order.contacts.email + "/Order №" + order.id + "/" + messagePackIndex)
             .then(json)
             .then((data) => {
                 if (data[0].text === "chat end") {
-                    document.getElementById("chat").removeAttribute('onscroll');
+                    scrollOn = false;
                     return;
                 }
+                let html;
                 for (let i = 0; i < data.length; i++) {
-                    let html = `<p><b>${data[i].sender}</b></p>
-                    <p>${data[i].text}</p>`
+                    if (data[i].sender === "me") {
+                        html = `<div class="row"><div class="col-5"></div><div id="chat-mes" class="rounded col-7"><p><h6><b>${data[i].sender}</b></h6></p>
+                                    <p>${data[i].text}</p></div></div>`;
+                    } else {
+                        html = `<div class="row"><div id="chat-mes" class="rounded col-7"><p><h6><b>${data[i].sender}</b></h6></p>
+                                                                            <p>${data[i].text}</p></div><div class="col-5"></div></div>`;
+                    }
                     document.getElementById("chat-wrapper").insertAdjacentHTML("afterbegin", html);
                 }
             });
+    }
+    if (scrollOn) {
+        document.getElementById("chat").setAttribute('onscroll', 'scrolling()');
+    } else {
+        document.getElementById("chat").removeAttribute('onscroll');
     }
 }
 
 function orderComplete(id) {
     if (confirm('Do you really want to COMPLETE order?')) {
         fetch("/api/admin/completeOrder/" + id, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json;charset=utf-8"
+            },
+            body: JSON.stringify(id),
+        }).then(r => showListOrders())
+    }
+}
+
+function orderProcess(id) {
+    if (confirm('Do you really want to PROCESS order?')) {
+        fetch("/api/admin/processOrder/" + id, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json;charset=utf-8"
@@ -227,7 +375,7 @@ function orderDelete(id) {
     }
 }
 
-function sendGmailMessage(userId, index) {
+function sendGmailMessage(userId, orderId) {
     let sendButton = document.getElementById("send-button");
     sendButton.disabled = true;
     let message = document.getElementById("sent-message").value;
@@ -235,7 +383,7 @@ function sendGmailMessage(userId, index) {
         sendButton.disabled = false;
         return;
     }
-    fetch("/gmail/" + userId + "/messages", {
+    fetch("/gmail/" + userId + "/Order №" + orderId, {
         method: "POST",
         headers: {
             "Content-Type": "application/json;charset=utf-8"
@@ -244,12 +392,26 @@ function sendGmailMessage(userId, index) {
     })
         .then(json)
         .then((data) => {
-            let html = `<p><b>${data.sender}</b></p>
-                        <p>${data.text}</p>`
+            let html = `<div class="row"><div class="col-5"></div><div id="chat-mes" class="rounded col-7"><p><h6><b>${data.sender}</b></h6></p>
+                                    <p>${data.text}</p></div></div>`;
             let wrapper = document.getElementById("chat-wrapper");
             wrapper.insertAdjacentHTML("beforeend", html);
             document.getElementById("sent-message").value = "";
             sendButton.disabled = false;
+        })
+        .then(() => {
+            fetch("/admin/markasread?email=" + userId)
+                .then(json)
+                .then((data) => {
+                    console.log(data)
+                })
         });
+}
+
+async function getLastOrderedBooks() {
+    const url = '/api/book/lastOrderedBooks';
+    const res = await fetch(url);
+    const data = await res.json();
+    return data;
 }
 

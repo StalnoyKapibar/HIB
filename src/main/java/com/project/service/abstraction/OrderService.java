@@ -11,17 +11,17 @@ public interface OrderService {
 
     Order getOrderById(Long id);
 
-    void deleteOrder(Order order);
+    void deleteOrder(Long id);
 
     List<Order> getAllOrders();
 
     List<Order> getOrdersByUserId(Long id);
-
-    List<Order> getOdersByStatus(String status);
 
     void completeOrder(Long id);
 
     int getCountOfOrders(long lastAuthDate);
 
     void unCompleteOrder(Long id);
+
+    void processOrder(Long id);
 }

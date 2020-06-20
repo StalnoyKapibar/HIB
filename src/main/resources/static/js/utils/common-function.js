@@ -67,6 +67,7 @@ async function setLocaleFields() {
             $('#1click-reg-btn').text(localeFields['1clickreg']);
             $('.your-loc').text(localeFields['your']);
             $('.contacts-loc').text(localeFields['contacts-strong']);
+            $('.req-approve-loc').text(localeFields['reqApprove']);
 
             //cabinet.html
             $('.shopping-cart-loc').text(localeFields['ShoppingCart']);
@@ -88,6 +89,12 @@ async function setLocaleFields() {
             $('.phone-label').text(localeFields['phone']);
             $('.comment').attr('placeholder', localeFields['comment']);
             $('.comment-label').text(localeFields['comment']);
+            $('.login').attr('placeholder', localeFields['login']);
+            $('.login-label').text(localeFields['login']);
+            $('.password').attr('placeholder', localeFields['password']);
+            $('.password-label').text(localeFields['password']);
+            $('.confirm-password').attr('placeholder', localeFields['confirmPassword']);
+            $('.confirm-password-label').text(localeFields['confirmPassword']);
 
             //resetPassword.js
             $('.notRegistredEmail').text(localeFields['notRegistredEmail']);
@@ -259,8 +266,13 @@ async function setLocaleFields() {
             $('#modalClose').text(localeFields['close']);
             $('#book-on-page-loc').text(localeFields['bookOnPage']);
             $('.page-of-book-localize').text(localeFields['pageofBook']);
+            $('.hello-dear-reader-loc').text(localeFields['helloDearReader']);
+            $('.confirm-account-loc').text(localeFields['confirmAccount']);
+            $('.total-number-of-books-loc').text(localeFields['totalNumberOfBooks']);
             $('#dropdownclose').text(localeFields['dropdownclose']);
             $('#toshoppingcart').text(localeFields['toshoppingcart']);
+            $('#bottomInCart').text(localeFields['addToshoppingCart']);
+            $('#addToCart').text(localeFields['addToshoppingCart']);
             $('.bottomInCart').text(localeFields['addToshoppingCart']);
             $('.addToCart').text(localeFields['addToshoppingCart']);
             $('#delete').text(localeFields['deleteBottom']);

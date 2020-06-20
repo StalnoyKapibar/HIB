@@ -27,16 +27,16 @@ public class GmailRestController {
 
     private ArrayList<MessageDTO> fullchat;
 
-    @GetMapping(value = "/gmail/{userId}/messages/{part}")
-    public List<MessageDTO> getMessages(@PathVariable("userId") String userId, @PathVariable("part") String part) throws IOException {
+    @GetMapping(value = "/gmail/{userId}/{subject}/{part}")
+    public List<MessageDTO> getMessages(@PathVariable("userId") String userId, @PathVariable("subject") String subject, @PathVariable("part") String part) throws IOException {
         if (gmail == null) {
             List<MessageDTO> gmailErrorMessage = new ArrayList<>();
             gmailErrorMessage.add(new MessageDTO("", "", "noGmailAccess"));
             return gmailErrorMessage;
         }
         if (part.equals("0")) {
-            ListMessagesResponse responseFromUser = gmail.users().messages().list("me").setQ("from:" + userId).execute();
-            ListMessagesResponse responseFromAdmin = gmail.users().messages().list("me").setQ("to:" + userId).execute();
+            ListMessagesResponse responseFromUser = gmail.users().messages().list("me").setQ("(" + "subject:" + "\"" + subject + "\"" + "from:" + userId + ")").execute();
+            ListMessagesResponse responseFromAdmin = gmail.users().messages().list("me").setQ("(" + "subject:" + "\"" + subject + "\"" + "to:" + userId + ")").execute();
             List<Message> messagesFromUser = new ArrayList<>();
             List<Message> messagesFromAdmin = new ArrayList<>();
             Map<String, MessageDTO> messages = new TreeMap<>(Collections.reverseOrder());
@@ -51,9 +51,11 @@ public class GmailRestController {
         return chat;
     }
 
-    @PostMapping(value = "/gmail/{userId}/messages")
-    public MessageDTO sendMessage(@PathVariable("userId") String userId, @RequestBody String messageText) throws IOException, MessagingException {
-        MimeMessage mimeMessage = getMessage(gmail.users().getProfile("me").getUserId(), userId, messageText);
+    @PostMapping(value = "/gmail/{userId}/{subject}")
+    public MessageDTO sendMessage(@PathVariable("userId") String userId, @PathVariable("subject") String subject, @RequestBody String messageText) throws IOException, MessagingException {
+        messageText = messageText.replace("\\n", "\r\n");
+        messageText = messageText.substring(1, messageText.length() - 1);
+        MimeMessage mimeMessage = getMessage(gmail.users().getProfile("me").getUserId(), userId, subject, messageText);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         mimeMessage.writeTo(baos);
         String encodedEmail = Base64URL.encode(baos.toByteArray()).toString();
@@ -61,7 +63,8 @@ public class GmailRestController {
         message.setRaw(encodedEmail);
         message = gmail.users().messages().send("me", message).execute();
         message = gmail.users().messages().get("me", message.getId()).execute();
-        MessageDTO messageDTO = new MessageDTO(message.getThreadId(), "me", messageText);
+        messageText = messageText.replace("\r\n", "<br>");
+        MessageDTO messageDTO = new MessageDTO(message.getId(), "me", messageText);
         return messageDTO;
     }
 
@@ -77,14 +80,15 @@ public class GmailRestController {
             }
         }
         for (Message message : messages) {
-            map.put(message.getThreadId(), new MessageDTO(message.getId(), userId, ""));
+            map.put(message.getId(), new MessageDTO(message.getId(), userId, ""));
         }
         return map;
     }
 
     private List<MessageDTO> formChat(String part) throws IOException {
-        int startId = Integer.parseInt(part) * 3;
-        int endIdExclude = startId + 3;
+        String text;
+        int startId = Integer.parseInt(part) * 10;
+        int endIdExclude = startId + 10;
         List<MessageDTO> chat = new ArrayList<>();
 
         for (int i = startId; i < endIdExclude; i++) {
@@ -93,11 +97,26 @@ public class GmailRestController {
                 Message fullMessage = gmail.users().messages().get("me", messageDTO.getMessageId()).execute();
                 Base64URL base64URL;
                 if (fullMessage.getPayload().getParts() != null) {
-                    base64URL = new Base64URL(fullMessage.getPayload().getParts().get(0).getBody().getData());
+                    if (fullMessage.getPayload().getParts().get(0).getBody().getData() == null) {
+                        break;
+                    }
+                    if (fullMessage.getPayload().getParts().get(1).getBody().getData() == null) {
+                        base64URL = new Base64URL(fullMessage.getPayload().getParts().get(0).getBody().getData());
+                    } else {
+                        base64URL = new Base64URL(fullMessage.getPayload().getParts().get(1).getBody().getData());
+                    }
+                    text = base64URL.decodeToString();
                 } else {
+                    if (fullMessage.getPayload().getBody().getData() == null) {
+                        break;
+                    }
                     base64URL = new Base64URL(fullMessage.getPayload().getBody().getData());
+                    text = base64URL.decodeToString();
                 }
-                messageDTO.setText(base64URL.decodeToString());
+                if (text.startsWith("\"") && text.startsWith("\"", text.length()-1)) {
+                    text = text.substring(1, text.length()-1);
+                }
+                messageDTO.setText(text);
                 chat.add(messageDTO);
             }
         }
@@ -109,13 +128,31 @@ public class GmailRestController {
         return chat;
     }
 
-    private MimeMessage getMessage(String from, String to, String text) throws MessagingException {
+    private MimeMessage getMessage(String from, String to, String subject, String text) throws MessagingException {
         Properties prop = new Properties();
         Session session = Session.getDefaultInstance(prop);
         MimeMessage mimeMessage = new MimeMessage(session);
         mimeMessage.setFrom(new InternetAddress(from));
-        mimeMessage.setContent(text, "text/plain");
+        mimeMessage.setSubject(subject, "UTF-8");
+        mimeMessage.setContent(text, "text/plain; charset=UTF-8");
         mimeMessage.setRecipient(javax.mail.Message.RecipientType.TO, new InternetAddress(to));
         return mimeMessage;
+    }
+
+    @PostMapping(value = "/gmailFeedBack/{userId}/messages")
+    public MessageDTO sendMessageFeedBack(@PathVariable("userId") String userId, @RequestBody String messageText) throws IOException, MessagingException {
+        String subjectTextResult = messageText.split("&nbsp")[0].substring(1);
+        String messageTextResult = messageText.split("&nbsp")[1].substring(0,messageText.split("&nbsp")[1].length()-1);
+        MimeMessage mimeMessage = getMessage(gmail.users().getProfile("me").getUserId(), userId, "", messageTextResult);
+        mimeMessage.setSubject(subjectTextResult, "UTF-8");
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        mimeMessage.writeTo(baos);
+        String encodedEmail = Base64URL.encode(baos.toByteArray()).toString();
+        Message message = new Message();
+        message.setRaw(encodedEmail);
+        message = gmail.users().messages().send("me", message).execute();
+        message = gmail.users().messages().get("me", message.getId()).execute();
+        MessageDTO messageDTO = new MessageDTO(message.getThreadId(), "me", messageText);
+        return messageDTO;
     }
 }

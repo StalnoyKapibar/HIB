@@ -1,10 +1,23 @@
 let AU;
 
 $(document).ready(function () {
+
     let tabhash = document.location.hash;
+
     if (tabhash == '#cart') {
         $('#myTab a[href="#Basket"]').tab('show');
     }
+
+    if (currentLang === '') {
+        if (getCookieByName("lang")) {
+            currentLang = getCookieByName("lang");
+        } else {
+            currentLang = 'en';
+        }
+    }
+
+    getLanguage();
+    setLocaleFields();
 });
 
 function showShoppingCart() {
@@ -43,13 +56,14 @@ function firstLastNames() {
     }
 }
 
-function refreshUserNames(firstName, lastName) {
+function refreshUserNames(firstName, lastName, email) {
     if (lastName === null) {
         document.getElementById("first-last-name").innerHTML = firstName;
     }
     else {
         document.getElementById("first-last-name").innerHTML = firstName + ' ' + lastName;
     }
+    document.getElementById("user-email").innerHTML = email;
 }
 
 function savePersonalInformation() {
@@ -64,7 +78,7 @@ function savePersonalInformation() {
     tmp['lastName'] = lastName;
     let tmpSend = JSON.stringify(tmp);
     savePersonalInformationRequest(tmpSend);
-    refreshUserNames(firstName, lastName);
+    refreshUserNames(firstName, lastName, email);
     setLocaleFields();
 }
 

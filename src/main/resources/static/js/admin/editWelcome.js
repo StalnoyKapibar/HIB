@@ -20,17 +20,18 @@ $(document).ready(
     getVarBookDTO(),
     getAllLocales(),
     pageBook(0),
-    getLocales(),
-    setLocaleFields()
+    getLocales()
 );
 
 $(document).ready(function () {
     $(document).keypress(function (event) {
+        console.log("ready enter")
         let keycode = (event.keyCode ? event.keyCode : event.which);
         if (keycode == '13' && $("#search-input-admin").val().trim() !== '') {
             $('#button-search-input-admin').click();
         }
     });
+    setLocaleFields();
 });
 
 async function getVarBookDTO() {
@@ -145,7 +146,7 @@ async function pageBook(x) {
         });
     $('#search-admin-local-id').html(idChangeLang);
     getLocales().then(buildChangeLang);
-    setLocaleFields();
+    //setLocaleFields();
 }
 
 function buildChangeLang() {
@@ -275,7 +276,7 @@ async function addBookReq(x) {
 
 function delBook(x) {
     if (confirm('Do you really want to DELETE book?')) {
-        fetch("admin/del/" + x);
+        fetch("/admin/del/" + x).then(() => totalNumberOfBooks());
         var elem = document.getElementById(x);
         elem.parentNode.removeChild(elem);
     }

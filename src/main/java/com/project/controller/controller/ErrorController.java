@@ -55,7 +55,7 @@ public class ErrorController extends AbstractErrorController {
 
     @ExceptionHandler(HttpServerErrorException.class)
     public ModelAndView serverError() throws IOException {
-        ModelAndView view = new ModelAndView(new RedirectView("err/server-error"));
+        ModelAndView view = new ModelAndView(new RedirectView("/err/server-error"));
         return view;
     }
 

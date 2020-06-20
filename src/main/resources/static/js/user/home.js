@@ -13,13 +13,24 @@ let ddmAmountBook = $("#ddmAmountBook");
 let isAdmin = false;
 
 $(document).ready(function () {
-    getAUTH();
+    if (currentLang === '') {
+        if (getCookieByName("lang")) {
+            currentLang = getCookieByName("lang");
+        } else {
+            currentLang = 'en';
+        }
+    }
     getLanguage();
     setLocaleFields();
+
+    getAUTH();
     amountBooksInPage = ddmAmountBook.text();
-    getPageWithBooks(ddmAmountBook.text(), currentPage++);
+    if($.isNumeric(ddmAmountBook.text())){
+        getPageWithBooks(ddmAmountBook.text(), currentPage++);
+    }
     openModalLoginWindowOnFailure();
     loadWelcome(currentLang);
+
 });
 
 function getQuantityPage() {
@@ -34,6 +45,7 @@ async function addBooksToPage(books) {
     listOrdersOfCart = await getListOrdersOfCart();
     $('#cardcolumns').empty();
     $("#rowForPagination").empty();
+
     $.each(books, function (index) {
         let textOfBtn = listOrdersOfCart.includes(books[index].id) ? addedToshoppingCart : addToshoppingCart;
         let cssOfBtn = listOrdersOfCart.includes(books[index].id) ? "disabled" : "addToCartBtn";
@@ -53,10 +65,12 @@ async function addBooksToPage(books) {
                                                   >                        
                                                     ${editBook}
                                                   </div>` :
-            `<div style="position: absolute; bottom: 5px; left: 15px; right: 15px" id="" type="button" 
-                                                      class="btn btn-success ${cssOfBtn} btn-metro bottomInCart"  data-id="${books[index].id}">                        
+                                                `<div style="position: absolute; bottom: 5px; left: 15px; right: 15px" id="bottomInCart" type="button" 
+                                                      class="btn btn-success ${cssOfBtn} btn-metro"  data-id="${books[index].id}">                        
                                                     ${textOfBtn}
-                                                </div>`}
+                                                </div>`
+                                    }
+
                                 </div>`;
         $('#cardcolumns').append(card);
     });

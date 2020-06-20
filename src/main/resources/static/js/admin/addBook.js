@@ -7,10 +7,6 @@ let originalLanguage;
 let disabledCheckBox = $('#disabled');
 let pathToTmpPackage = '/images/tmp/';
 
-$(document).ready(function () {
-    setLocaleFields();
-});
-
 function checkNamesNotNull() {
     for (let tmpNameVar of nameVarOfLocaleString) {
         if ($("#inpname" + tmpNameVar).val() !== ''|| $("#inptname").val() !== '' ) {
@@ -124,6 +120,7 @@ function addCategory() {
     categoryTreeDiv = $("#categoryTree");
     getTree();
 }
+
 function getTree() {
     fetch('/admin/categories/getadmintree')
         .then(function (response) {
@@ -150,8 +147,6 @@ function getTree() {
             categoryTreeDiv.append(setTreeView(tree));
         });
 }
-
-
 
 function addPage() {
     getVarBookDTO();
@@ -224,7 +219,8 @@ function addPage() {
         )
     }
     originalLanguage.append(`<option value="OTHER">OTHER</option>`);
-    setLocaleFields();
+
+    setLocaleFields(); //need
 }
 
 function loadImage(nameId, div) {

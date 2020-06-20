@@ -37,7 +37,7 @@ public class OrderController {
         }
         order.setDate(Instant.now().getEpochSecond());
         order.setShippingCost(350);
-        order.setStatus(Status.PROCESSING);
+        order.setStatus(Status.UNPROCESSED);
         Long userId = (Long) httpSession.getAttribute("userId");
         order.setUserAccount(userAccountService.getUserById(userId));
         httpSession.setAttribute("order", order);
@@ -69,11 +69,6 @@ public class OrderController {
             shoppingCartDTO.getCartItems().clear();
             cartService.updateCart(shoppingCartDTO);
         }
-        List<Long> listOfBooksIdInOrder = new ArrayList<>();
-        for (CartItemDTO cartItem : order.getItems()) {
-            listOfBooksIdInOrder.add(cartItem.getBook().getId());
-        }
-        bookService.setLastOrderedBooks(listOfBooksIdInOrder);
         orderService.addOrder(order.getOder());
         httpSession.removeAttribute("shoppingcart");
     }
@@ -95,7 +90,7 @@ public class OrderController {
         return (int) orderService
                 .getOrdersByUserId(userId)
                 .stream()
-                .filter(order -> order.getStatus() == Status.PROCESSING)
+                .filter(order -> order.getStatus() == Status.UNPROCESSED)
                 .count();
     }
 
@@ -136,8 +131,13 @@ public class OrderController {
         orderService.unCompleteOrder(id);
     }
 
+    @PatchMapping("/api/admin/processOrder/{id}")
+    private void orderProcess(@PathVariable Long id) {
+        orderService.processOrder(id);
+    }
+
     @PostMapping("/api/admin/deleteOrder/{id}")
     private void orderDelete(@PathVariable Long id) {
-        orderService.deleteOrder(orderService.getOrderById(id));
+        orderService.deleteOrder(id);
     }
 }

@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <html xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
@@ -22,7 +23,7 @@
     <link href="/static/fonts/font.css" rel="stylesheet">
     <link href="/static/fonts/font-awesome.css" rel="stylesheet">
     <link href="/static/css/style.css" rel="stylesheet">
-    <link rel="stylesheet" href="/static/css/error.css">
+    <link href="/static/css/error.css" rel="stylesheet">
     <script src="/static/js/lib/jquery.min.js"></script>
     <script src="/static/js/lib/popper.min.js"></script>
     <script src="/static/js/lib/bootstrap.min.js"></script>
@@ -47,7 +48,7 @@
         <div class="sidebar-content">
             <!--    Sidebar-brand    -->
             <div class="sidebar-item sidebar-brand">
-                <a id="mainNameInPage" href="/home"></a>
+                <a id="mainNameInPage" href="/home">HIB</a>
             </div>
             <!--    Sidebar-header    -->
             <div class="sidebar-menu sidebar-header d-flex flex-nowrap">
@@ -67,7 +68,7 @@
                         <span class="user-name">
                             <strong id="first-last-name"></strong>
                         </span>
-                        <span class="user-role"
+                        <span id="user-email" class="user-role"
                               th:text="${#authentication.getPrincipal().getEmail()}">email of user</span>
                     </div>
                 </th:block>
@@ -134,7 +135,7 @@
                             th:classappend="${#httpServletRequest.getRequestURI() == '/profile/orders' ? 'active' : ''}">
                             <a href="/profile/orders">
 
-                                <i class="fas fa-shopping-bag"><span class="badgeOrder"
+                                <i class="fas fa-shopping-bag"><span class="badgeStyle"
                                                                      id="orders-quantity1"></span></i>
                                 <span class="menu-text my-orders-loc" id="oders">My orders</span>
 
@@ -143,7 +144,7 @@
                         </li>
                         <li th:classappend="${#httpServletRequest.getRequestURI() == '/shopping-cart' ? 'active' : ''}">
                             <a href="/shopping-cart">
-                                <i class="fa fa-shopping-cart"><span class="badgeCart" id="bucketIn1"></span></i>
+                                <i class="fa fa-shopping-cart"><span class="badgeStyle" id="bucketIn1"></span></i>
                                 <span class="menu-text" id="headerShoppingCart">Shopping cart</span>
                                 <span class="badge badge-pill badge-danger" id="bucketIn"></span>
                             </a>
@@ -279,10 +280,10 @@
                     <form action="/login" id="form-login" method="post" name="form-login" role="form"
                           th:action="@{/login}">
                         <div class="form-group">
-                            <label id="login-input-label" class="login-loc" for="loginInput">Login</label>
+                            <label id="login-input-label" class="login-loc" for="loginInput">Email</label>
                             <input class="form-control login-input-loc" id="loginInput" name="username"
-                                   placeholder="Login"
-                                   required type="text">
+                                   placeholder="Email"
+                                   required type="email">
                         </div>
                         <div class="form-group">
                             <label id="password-input-label" class="password-input-label"
@@ -337,8 +338,16 @@
             </div>
         </div>
     </div>
-
+    
     <script src="/static/js/utils/common-function.js"></script>
+    <script src="/static/js/utils/liveSearch.js"></script>
+    
+        <!--    Page-content    -->
+        <th:block
+                th:if="${#httpServletRequest.getRequestURI() == '/home' || #httpServletRequest.getRequestURI().contains('error')}">
+            <th:block th:include="home :: page-content">
+            </th:block>
+        </th:block>
     <!--    Page-content    -->
     <th:block
             th:if="${#httpServletRequest.getRequestURI() == '/registration'}">
@@ -363,11 +372,11 @@
         <th:block th:include="error :: server-error">
         </th:block>
     </th:block>
-    <th:block
+    <!--<th:block
             th:if="${#httpServletRequest.getRequestURI() == '/home' || #httpServletRequest.getRequestURI().contains('/error')}">
         <th:block th:include="home :: page-content">
         </th:block>
-    </th:block>
+    </th:block>-->
     <th:block th:if="${#httpServletRequest.getRequestURI() == '/profile/orders'}">
         <th:block th:include="cabinet :: orders">
         </th:block>
@@ -393,6 +402,7 @@
         </th:block>
     </th:block>
 </div>
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script crossorigin="anonymous"

@@ -13,10 +13,7 @@ let pathImageDefault = '/images/book';
 let categoryName, categoryIdSrc;
 let isShow = false;
 
-$(document).ready(function () {
-    setLocaleFields();
-    getVarBookDTO();
-});
+$(document).ready(getVarBookDTO());
 
 function status(response) {
     if (response.status >= 200 && response.status < 300) {
@@ -102,10 +99,7 @@ function addPartsOfBook(partsOfBook) {
                         html += `<button type="button" onclick="translateText('${tmpNameObject}')" class="btn btn-primary mx-3 translate-loc">Translate</button></div>`
                     }
                 }
-
             }
-
-
             return html;
         }
     }
@@ -290,8 +284,8 @@ function buildPage() {
         myHTML += `<img id="carouselImage${key}" src ='${pathImageDefault + idd + '/'}${tmpArr.listImage[key].nameImage}'  class="pic" alt='...'>`;
     }
     for (let key in tmpArr.listImage) {
-        if (tmpArr.listImage[key].nameImage !== "1.jpg") {
-            myHTMLButtonDelete += '<button type="button" onclick="deleteTmpImage(' + key + ')"  class="btn btn-danger m-3 delete-loc">Delete</button>'
+        if (key !== "0") {
+            myHTMLButtonDelete += '<button type="button" onclick="deleteTmpImage(' + key + ')"  class="btn btn-danger m-3 delete-loc">Delete ' + tmpArr.listImage[key].nameImage + '</button>'
         }
     }
     $('#bookEditPageForImg').html(`
@@ -589,20 +583,22 @@ function setImageCarousel(x) {
 }
 
 function deleteTmpImage(x) {
-    var delTmp = idd + '/' + tmpArr.listImage[x].nameImage;
-    var tmpForShowImage = tmpArr.listImage[x].nameImage;
-    deleteCarouselImageFromDB(x);
-    listImages.splice(x, 1);
-    $('#carouselImage' + x).attr("src", "");
-    buildCarousel();
-    fetch('/admin/deleteImageByEditPage', {
-        method: 'POST',
-        body: delTmp
-    }).then(r => {
-        if (tmpForShowImage === nameImageCover) {
-            showImage('');
-        }
-    });
+    if (confirm('Do you really want to DELETE image?')) {
+        var delTmp = idd + '/' + tmpArr.listImage[x].nameImage;
+        var tmpForShowImage = tmpArr.listImage[x].nameImage;
+        deleteCarouselImageFromDB(x);
+        listImages.splice(x, 1);
+        $('#carouselImage' + x).attr("src", "");
+        buildCarousel();
+        fetch('/admin/deleteImageByEditPage', {
+            method: 'POST',
+            body: delTmp
+        }).then(r => {
+            if (tmpForShowImage === nameImageCover) {
+                showImage('');
+            }
+        });
+    }
 }
 
 function deleteCarouselImageFromDB(x) {
@@ -618,17 +614,19 @@ function deleteCarouselImageFromDB(x) {
 
 
 function deleteCoverImage(x) {
-    var delTmp = idd + '/' + x;
+    if (confirm('Do you really want to DELETE cover image?')) {
+        var delTmp = idd + '/' + x;
 
-    $('#myImage').attr("src", "");
-    $('#carouselImage' + 0).attr("src", "");
-    buildCarousel();
-    fetch('/admin/deleteImageByEditPage', {
-        method: 'POST',
-        body: delTmp
-    }).then(r => {
+        $('#myImage').attr("src", "");
+        $('#carouselImage' + 0).attr("src", "");
+        buildCarousel();
+        fetch('/admin/deleteImageByEditPage', {
+            method: 'POST',
+            body: delTmp
+        }).then(r => {
 
-    });
+        });
+    }
 }
 
 $("#exampleFormControlFile1").change(function () {
