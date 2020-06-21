@@ -367,7 +367,6 @@ async function addFindeBooks(data) {
                             </tr>`
         );
     }
-    console.log(window.location.pathname)
     $('#search-table-result').append($(tr.join('')));
     addPagination();
 }
