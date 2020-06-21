@@ -313,6 +313,8 @@ async function setLocaleFields() {
             $(".load-more-btn").html(localeFields['load-more']);
             $(".displayed").html(localeFields['displayed']);
             $(".of").html(localeFields['of']);
+            //guide
+            $('#guideTitle').html(localeFields['guideTitle']);
 
             //should be down
             title.html(title.html().replace('Title:', localeFields['title']));
