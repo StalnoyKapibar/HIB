@@ -351,33 +351,23 @@ async function addFindeBooks(data) {
                                 <td class="align-middle">${data[i].price / 100}</td>
                                 <td class="align-middle">${data[i].category.categoryName}</td>
                                 <td class="align-middle">
-                                ${isAdmin ? 
+                                ${isAdmin && (window.location.pathname === '/admin/panel') ? 
                                     `
-                                    <div id="">
-                                        <button class="btn btn-info edit-loc" >Edit</button>
-                                        <button class="btn btn-danger delete-loc">Delete</button>
+                                    <div id="search-admin">
+                                        <button class="btn btn-info edit-loc" onclick="openEdit(${data[i].id})"><i class="material-icons">edit</i></button>
+                                        <button class="btn btn-danger delete-loc" onclick="delBook(${data[i].id})"><i class="material-icons">delete</i></button>
                                     </div>
                                     ` : 
                                     `
                                     <button class="btn btn-primary page-of-book-localize" id="buttonBookPage${i}" onclick="location.href = '/page/${data[i].id}';" >
                                             Book's page
                                     </button>
-                                    <!--\`<td>\` +
-                    \`<button class="btn btn-info edit-loc" onclick="openEdit(${tmp_html.id})"> \` +
-                    \`Edit\` +
-                    \`</button>\` +
-                    \`</td>\` +
-                    \`<td>\` +
-                    \`<button type='button'  onclick='delBook(${tmp_html.id})'  class='btn btn-danger delete-loc'>\` +
-                    \`Delete\` +
-                    \`</button>\` +
-                    \`</td>\` +
-                    \`</tr>\`;-->
                                 `}
                                 </td>
                             </tr>`
         );
     }
+    console.log(window.location.pathname)
     $('#search-table-result').append($(tr.join('')));
     addPagination();
 }
