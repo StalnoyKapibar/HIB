@@ -315,6 +315,12 @@ async function setLocaleFields() {
             $(".of").html(localeFields['of']);
             //guide
             $('#guideTitle').html(localeFields['guideTitle']);
+            $('#step1').html(localeFields['step1']);
+            $('#step2').html(localeFields['step2']);
+            $('#step3').html(localeFields['step3']);
+            $('#step4').html(localeFields['step4']);
+            $('#step5').html(localeFields['step5']);
+            $('#step6').html(localeFields['step6']);
 
             //should be down
             title.html(title.html().replace('Title:', localeFields['title']));
