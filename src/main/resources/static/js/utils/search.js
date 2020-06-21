@@ -381,6 +381,5 @@ async function getAUTH() {
         .then(json)
         .then(function (resp) {
             isAdmin = resp.roles.authority === 'ROLE_ADMIN';
-            console.log(isAdmin)
         });
 }
