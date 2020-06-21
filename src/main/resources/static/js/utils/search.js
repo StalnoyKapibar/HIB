@@ -353,15 +353,26 @@ async function addFindeBooks(data) {
                                 <td class="align-middle">
                                 ${isAdmin ? 
                                     `
-                                    <div>
-                                        <button class="">Edit</button>
-                                        <button class="btn-danger">Delete</button>
+                                    <div id="">
+                                        <button class="btn btn-info edit-loc" >Edit</button>
+                                        <button class="btn btn-danger delete-loc">Delete</button>
                                     </div>
                                     ` : 
                                     `
                                     <button class="btn btn-primary page-of-book-localize" id="buttonBookPage${i}" onclick="location.href = '/page/${data[i].id}';" >
                                             Book's page
                                     </button>
+                                    <!--\`<td>\` +
+                    \`<button class="btn btn-info edit-loc" onclick="openEdit(${tmp_html.id})"> \` +
+                    \`Edit\` +
+                    \`</button>\` +
+                    \`</td>\` +
+                    \`<td>\` +
+                    \`<button type='button'  onclick='delBook(${tmp_html.id})'  class='btn btn-danger delete-loc'>\` +
+                    \`Delete\` +
+                    \`</button>\` +
+                    \`</td>\` +
+                    \`</tr>\`;-->
                                 `}
                                 </td>
                             </tr>`
