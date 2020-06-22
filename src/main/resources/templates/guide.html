@@ -14,38 +14,46 @@
             <!--    Main    -->
             <div class="col-lg-10 col-md-12 main">
                 <h3 id="guideTitle"></h3>
-
-                <h5>Step 1</h5>
-                <h6 id="step1"></h6>
-                <div id="addToCart" class="btn btn-success addToCartBtn btn-metro" style="width: 272px">
-                    Добавить в корзину
+                <div class="row">
+                    <div class="col-6 container">
+                        <h5>Step 1</h5>
+                        <h6 id="step1"></h6>
+                        <div id="addToCart" class="btn btn-success addToCartBtn btn-metro" style="width: 272px">
+                            Добавить в корзину
+                        </div>
+                        <h5>Step 2</h5>
+                        <h6 id="step2"></h6>
+                        <h5>Step 3</h5>
+                        <h6 id="step3"></h6>
+                        <button class="btn btn-primary" id="1click-reg-btn" type="button">
+                            Купить без регистрации
+                        </button>
+                    </div>
+                    <div class="col-6 container">
+                        <h5>Step 4</h5>
+                        <h6 id="step4"></h6>
+                        <button type="button" class="btn btn-primary  mb-4 mx-0 signup-btn" id="singUpButton">
+                            Sing Up
+                        </button>
+                        <h5>Step 5</h5>
+                        <h6 id="step5"></h6>
+                        <button type="button"><a
+                                href="№"
+                                target="_blank" rel=" noopener noreferrer">  Confirm account</a></button>
+                        <br>
+                        <h5>Step 6</h5>
+                        <h6 id="step6"></h6>
+                        <button class="btn btn-primary checkout-btn" id="chechout" type="button">
+                            Оформить заказ
+                        </button>
+                    </div>
                 </div>
-                <h5>Step 2</h5>
-                <h6 id="step2"></h6>
-
-                <h5>Step 3</h5>
-                <h6 id="step3"></h6>
-                <button class="btn btn-primary" id="1click-reg-btn" type="button">
-                    Купить без регистрации
-                </button>
-                <h5>Step 4</h5>
-                <h6 id="step4"></h6>
-                <button type="button" class="btn btn-primary  mb-4 mx-0 signup-btn" id="singUpButton"
-                >Зарегистрироваться
-                </button>
-                <h5>Step 5</h5>
-                <h6 id="step5"></h6>
-                <button type="button"><a
-                        href="№"
-                        target="_blank" rel=" noopener noreferrer"> Подтвердить аккаунт</a></button>
-                <h5>Step 6</h5>
-                <h6 id="step6"></h6>
-                <button class="btn btn-primary checkout-btn" id="chechout" type="button">
-                    Оформить заказ
-                </button>
             </div>
         </div>
     </div>
+    <div class="footer pt-3 p-0 container-fluid text-center" th:replace="home-old :: footer">
+    </div>
+    <script src="/static/js/utils/common-function.js"></script>
 </div>
 </body>
 </html>

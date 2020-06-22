@@ -321,6 +321,10 @@ async function setLocaleFields() {
             $('#step4').html(localeFields['step4']);
             $('#step5').html(localeFields['step5']);
             $('#step6').html(localeFields['step6']);
+            $('#oneClickRegGuide1').html(localeFields['oneClickRegGuide1']);
+            $('#oneClickRegGuide2').html(localeFields['oneClickRegGuide2']);
+            $('#oneClickRegGuide3').html(localeFields['oneClickRegGuide3']);
+            // $('#singUpButton').html(localeFields['signUp']);
 
             //should be down
             title.html(title.html().replace('Title:', localeFields['title']));

@@ -269,3 +269,24 @@ a.footer_link:hover {
 div.sidebar-content:hover span.badgeStyle {
     display: none;
 }
+.guideImg1{
+    object-fit: contain;
+    width: 400px;
+    border: 2px #b7faff;
+    border-radius: 3px;
+    box-shadow: 0 0 5px;
+}
+.guideImg2{
+    object-fit: contain;
+    width: 300px;
+    border: 2px #b7faff;
+    border-radius: 3px;
+    box-shadow: 0 0 5px;
+}
+.guideImg3{
+    object-fit: contain;
+    width: 200px;
+    border: 2px #b7faff;
+    border-radius: 3px;
+    box-shadow: 0 0 5px;
+}
