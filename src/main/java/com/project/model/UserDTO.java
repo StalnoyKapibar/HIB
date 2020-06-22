@@ -18,9 +18,10 @@ public class UserDTO {
     private Role roles;
     private String phone;
 
-    public UserDTO(String firstName, String lastName, String email) {
+    public UserDTO(String firstName, String lastName, String email, String phone) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.phone = phone;
     }
 }
