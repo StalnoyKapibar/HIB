@@ -11,17 +11,16 @@
     <link href="/static/css/admin/adminTree.css" rel="stylesheet">
     <nav>
         <div class="nav nav-tabs" id="nav-tab1" role="tablist">
-            <a aria-controls="nav-home" aria-selected="true" class="nav-item nav-link active all-books-loc" data-toggle="tab"
+            <a aria-controls="nav-home1" aria-selected="true" class="nav-item nav-link active all-books-loc" data-toggle="tab"
                href="#nav-home1" id="nav-home-tab1" role="tab">All Books</a>
-            <a aria-controls="nav-profile" aria-selected="false" class="nav-item nav-link add-books-loc" data-toggle="tab"
-               href="#nav-profile1"
-               id="nav-profile-tab1" onclick="addPage()" role="tab">Add Book</a>
-            <a aria-controls="nav-profile" aria-selected="false" class="nav-item nav-link add-hib-files-loc" data-toggle="tab"
+            <a aria-controls="nav-profile1" aria-selected="false" class="nav-item nav-link add-books-loc" data-toggle="tab"
+               href="#nav-profile1" id="nav-profile-tab1" onclick="addPage()" role="tab">Add Book</a>
+            <a aria-controls="add-hib-files" aria-selected="false" class="nav-item nav-link add-hib-files-loc" data-toggle="tab"
                href="#add-hib-files" id="add-hib-files-tab" role="tab">Add hib files</a>
         </div>
     </nav>
     <div class="tab-content tab - border" id="nav-tabContent1">
-        <div aria-labelledby="nav-home-tab" class="tab-pane fade show active" id="nav-home1" role="tabpanel">
+        <div aria-labelledby="nav-home-tab1" class="tab-pane fade active show" id="nav-home1" role="tabpanel">
             <div th:insert="search :: search-page"></div>
         </div>
         <div aria-labelledby="nav-profile-tab1" class="tab-pane fade" id="nav-profile1" role="tabpanel">
