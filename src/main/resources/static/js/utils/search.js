@@ -4,6 +4,7 @@ let currentPage = 0;
 let amountBooksInPage = 0;
 let amountBooksInDb;
 let ddmAmountBook = $("#ddmAmountBook");
+let isAdmin = false;
 
 $(document).ready(async function () {
     getLanguage();
@@ -20,6 +21,7 @@ $(document).ready(async function () {
             $(".preloader").hide("slow");
         }, 1700)
     });
+    getAUTH();
 });
 
 function getQuantityPage() {
@@ -312,7 +314,7 @@ function getPageWithBooks(amount, page) {
 }
 
 async function addFindeBooks(data) {
-    $('table').empty();
+    $('#search-table-result').empty();
     let table = [];
     table.push(`<thead>
                         <tr>
@@ -328,7 +330,7 @@ async function addFindeBooks(data) {
                         </thead>
                         <tbody>
                         </tbody>`);
-    $('table').append($(table.join('')));
+    $('#search-table-result').append($(table.join('')));
     let tr = [];
     for (let i = 0; i < data.length; i++) {
         if (data[i].yearOfEdition == null) {
@@ -349,17 +351,35 @@ async function addFindeBooks(data) {
                                 <td class="align-middle">${data[i].price / 100}</td>
                                 <td class="align-middle">${data[i].category.categoryName}</td>
                                 <td class="align-middle">
+                                ${isAdmin && (window.location.pathname === '/admin/panel') ? 
+                                    `
+                                    <div id="search-admin">
+                                        <button class="btn btn-info edit-loc" onclick="openEdit(${data[i].id})"><i class="material-icons">edit</i></button>
+                                        <button class="btn btn-danger delete-loc" onclick="delBook(${data[i].id})"><i class="material-icons">delete</i></button>
+                                    </div>
+                                    ` : 
+                                    `
                                     <button class="btn btn-primary page-of-book-localize" id="buttonBookPage${i}" onclick="location.href = '/page/${data[i].id}';" >
                                             Book's page
                                     </button>
+                                `}
                                 </td>
                             </tr>`
         );
     }
-    $('table').append($(tr.join('')));
+    $('#search-table-result').append($(tr.join('')));
     addPagination();
 }
 
 async function getCountBooksByCat(category) {
     return "" + await fetch("/categories/getcount?path=" + category).then(json);
+}
+
+async function getAUTH() {
+    await GET("/api/current-user")
+        .then(status)
+        .then(json)
+        .then(function (resp) {
+            isAdmin = resp.roles.authority === 'ROLE_ADMIN';
+        });
 }
