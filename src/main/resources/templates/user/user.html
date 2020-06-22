@@ -409,6 +409,10 @@
         <th:block th:include="guide :: order">
         </th:block>
     </th:block>
+    <th:block th:if="${#httpServletRequest.getRequestURI().contains('/reqapprove')}">
+        <th:block th:include="approveAuth :: page-content">
+        </th:block>
+    </th:block>
 </div>
 
 

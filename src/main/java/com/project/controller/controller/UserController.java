@@ -151,8 +151,9 @@ public class UserController {
     }
 
     @GetMapping("/reqapprove")
-    public ModelAndView requestApproveAuth(RegistrationUserDTO user) {
-        ModelAndView view = new ModelAndView("requestApproveAuth");
+    public ModelAndView requestApproveAuth(RegistrationUserDTO user, ModelAndView view) {
+        view.addObject("user", user);
+        view.setViewName("user/user");
         return view;
     }
 
