@@ -51,7 +51,7 @@ public class Order {
 
         orderDTO.setUserDTO(new UserDTO(userAccount.getFirstName(),
                 userAccount.getLastName(),
-                userAccount.getEmail()));
+                userAccount.getEmail(), userAccount.getPhone()));
         orderDTO.setComment(comment);
         orderDTO.setContacts(new ContactsOfOrderDTO(contacts));
         return orderDTO;
