@@ -2,6 +2,8 @@ var currentLang = '';
 var bottom = '';
 var addToshoppingCart = '';
 var deleteBottom = '';
+var outOfStock = '';
+
 
 $(document).ready(function () {
     if (currentLang === '') {
@@ -260,6 +262,7 @@ async function setLocaleFields() {
 
             bottom = localeFields['bookbotom'];
             addToshoppingCart = localeFields['addToshoppingCart'];
+            outOfStock = localeFields['outOfStock'];
             addedToshoppingCart = localeFields['addedToshoppingCart'];
             editBook = localeFields['editBook'];
             deleteBottom = localeFields['deleteBottom'];

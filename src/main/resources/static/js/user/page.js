@@ -34,6 +34,9 @@ function setPageFields() {
         if (listOrdersOfCart.includes(data.id)) {
             $('#addToCart').removeClass("addToCartBtn").addClass("disabled").text(addedToshoppingCart).attr("disabled", "true");
         }
+        if (!data.isShow) {
+            $('#addToCart').removeClass("addToCartBtn").removeClass("btn-warning").addClass("bought-btn-loc").addClass("btn-light").text(outOfStock).attr("disabled", "true");
+        }
         $('title').text(data.name);
         $('#book-name').text(convertOriginalLanguageRows(data.name, data.nameTranslit));
         $('#book-author').text(convertOriginalLanguageRows(data.author, data.authorTranslit));

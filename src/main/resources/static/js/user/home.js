@@ -1,6 +1,7 @@
 var currentLang = '';
 var bottom = '';
 var addToshoppingCart = '';
+var outOfStock = '';
 let editBook = '';
 var addedToshoppingCart = '';
 var deleteBottom = '';
