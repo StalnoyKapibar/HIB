@@ -269,6 +269,14 @@ a.footer_link:hover {
 div.sidebar-content:hover span.badgeStyle {
     display: none;
 }
+.ul-books{
+    margin-left:20px;
+    position: fixed;
+    max-width: 375px;
+    top: 152px;
+    display: block;
+    z-index:99999999;
+}
 .guideImg1{
     object-fit: contain;
     width: 400px;

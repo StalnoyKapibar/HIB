@@ -1,6 +1,7 @@
 const JSON_HEADER = {'Content-Type': 'application/json;charset=utf-8'};
 $(document).ready(function () {
     setTextHeader()
+    $('.ul-books').hide();
 });
 const POST = async (url, data, headers) => {
     return await fetch(url, {

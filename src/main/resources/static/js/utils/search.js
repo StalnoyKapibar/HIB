@@ -203,7 +203,7 @@ async function setTreeView(category) {
                     </label>
                 </div>
                 <div class="ml-3">
-                    <div id="collapse-${category[i].id}" class="collapse" aria-labelledby="heading-${category[i].id}" data-parent="#accordionExample">
+                    <div id="collapse-${category[i].id}" class="collapse" aria-labelledby="heading-${category[i].id}">
                     ${await setChilds(category[i].childrens)}
                     </div>
                 </div>
@@ -238,7 +238,7 @@ async function setChilds(category) {
                         </label>
                     </div>
                     <div class="ml-3">
-                        <div id="collapse-${category[i].id}" class="collapse" aria-labelledby="heading-${category[i].id}" data-parent="#accordionExample">
+                        <div id="collapse-${category[i].id}" class="collapse" aria-labelledby="heading-${category[i].id}">
                             ${await setChilds(category[i].childrens)}
                         </div>
                     </div>
