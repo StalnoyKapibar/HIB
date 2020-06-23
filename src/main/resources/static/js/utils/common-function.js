@@ -313,6 +313,7 @@ async function setLocaleFields() {
             $(".load-more-btn").html(localeFields['load-more']);
             $(".displayed").html(localeFields['displayed']);
             $(".of").html(localeFields['of']);
+            $("#editBtn").html(localeFields['editBook']);
 
 
             //should be down
