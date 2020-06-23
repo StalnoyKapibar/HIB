@@ -143,8 +143,8 @@ function getTree() {
                 };
                 cateroryArr.push(category);
             }
-            let tree = getUnflatten(cateroryArr, null);
-            categoryTreeDiv.append(setTreeView(tree));
+            let tree = getUnflattens(cateroryArr, null);
+            categoryTreeDiv.append(setTreeViews(tree));
         });
 }
 
@@ -365,11 +365,11 @@ function doesFolderTmpExist() {
 }
 
 
-function getUnflatten(arr, parentId) {
+function getUnflattens(arr, parentId) {
     let output = [];
     for(const category of arr) {
         if(category.parentId == parentId) {
-            let children = getUnflatten(arr, category.id);
+            let children = getUnflattens(arr, category.id);
             if(children.length) {
                 category.childrens = children
             }
@@ -379,7 +379,7 @@ function getUnflatten(arr, parentId) {
     return output;
 }
 
-function setTreeView(category) {
+function setTreeViews(category) {
     let treeRow = '';
     for (let i in category) {
         treeRow =
@@ -390,7 +390,7 @@ function setTreeView(category) {
                         data-id="${category[i].id}" path="${category[i].path}" class="btn-outline-primary" onclick="getCategoryName(this)">${category[i].categoryName}
                         </code>
                         <ul>
-                         ${setChilds(category[i].childrens)}
+                         ${setChildren(category[i].childrens)}
                         </ul>
                     </li>
                 </ul>
@@ -400,7 +400,7 @@ function setTreeView(category) {
 }
 
 
-function setChilds(category) {
+function setChildren(category) {
     let row = '';
     for (let i in category) {
         if (category[i].childrens === undefined) {
@@ -414,7 +414,7 @@ function setChilds(category) {
                 `<li>
                         <code class="btn-outline-primary" parent="${category[i].parentId}" view-order="${category[i].viewOrder}"
                         data-id="${category[i].id}" path="${category[i].path}" onclick="getCategoryName(this)">${category[i].categoryName}</code>
-                        <ul>${setChilds(category[i].childrens)}</ul>
+                        <ul>${setChildren(category[i].childrens)}</ul>
                     </li>`;
         }
     }

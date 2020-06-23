@@ -98,4 +98,12 @@ public class BookNewDTO {
     public BookNewDTO(long id) {
         this.id = id;
     }
+    
+    public BookNewDTO(long id, String name, String nameTranslit, String author, String authorTranslit) {
+        this.id = id;
+        this.name = name;
+        this.nameTranslit = nameTranslit;
+        this.author = author;
+        this.authorTranslit = authorTranslit;
+    }
 }

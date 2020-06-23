@@ -156,5 +156,11 @@ public class UserController {
         return view;
     }
 
+    @GetMapping("/reqOperation")
+    public ModelAndView requestOperation(RegistrationUserDTO user) {
+        ModelAndView view = new ModelAndView("requestOperation");
+        return view;
+    }
+
 
 }

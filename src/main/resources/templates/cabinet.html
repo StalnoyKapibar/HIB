@@ -244,6 +244,10 @@
                                 <label class="last-name-loc" for="fieldLastName">Last Name</label>
                                 <input type="text" class="form-control" id="fieldLastName">
                             </div>
+                            <div class="form-group col-md-9 pl-0 pr-1">
+                                <label class="phone-loc" for="fieldPhone">Phone</label>
+                                <input type="text" class="form-control" id="fieldPhone">
+                            </div>
                         </div>
                     </form>
                     <button type="submit" onclick="savePersonalInformation()" class="btn btn-block btn-primary save-loc">Save</button>
@@ -466,7 +470,7 @@
                             </div>
                             <div class="col-4 ">
                                 <button class="btn bt-lg btn-block btn-success buynow-btn"
-                                        onclick="confirmPurchase()"
+                                        id="butToBuy"
                                         type="button">Buy Now
                                 </button>
                             </div>

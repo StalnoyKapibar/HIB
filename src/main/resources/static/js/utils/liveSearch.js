@@ -1,4 +1,4 @@
-/* Live Search on home page */
+/* Live Search */
 
 // Функция поиска совпадений вводимых символов
 function findEl(el, array, value) {
@@ -6,14 +6,14 @@ function findEl(el, array, value) {
     console.log(array);
     el.empty();    // Очищаем список совпадений
     for (var i = 0; i < array.length; i++) {
-        if (array[i].match('^' + value) || array[i].toLowerCase().match('^' + value)) {    // Проверяем каждый эллемент на совпадение побуквенно
+        if (array[i].match(value) || array[i].toLowerCase().match(value)) {    // Проверяем каждый эллемент на совпадение побуквенно
             el.children('li').each(function () {    // Проверка на совпадающие эллементы среди выведенных
                 if (array[i] === $(this).text()) {
                     coincidence = true;    // Если есть совпадения, то true
                 }
             });
             if (coincidence === false) {
-                el.append('<li class="js-searchInput">' + array[i] + '</li>');    // Если совпадений не обнаружено, то добавляем уникальное название в список
+                el.append('<li class="js-searchInput" style="padding-left:20px">' + array[i] + '</li>');    // Если совпадений не обнаружено, то добавляем уникальное название в список
             }
         }
     }

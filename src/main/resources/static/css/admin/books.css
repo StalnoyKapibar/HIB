@@ -11,3 +11,8 @@
 .currentItem{
     pointer-events: none;
 }
+
+#search-admin{
+    display: flex;
+    flex-direction: column;
+}

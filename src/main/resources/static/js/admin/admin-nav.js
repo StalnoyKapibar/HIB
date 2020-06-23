@@ -1,0 +1,1 @@
+document.getElementById("gmail-access").href = gmailAccessUrl.fullUrl;
