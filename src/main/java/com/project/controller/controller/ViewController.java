@@ -20,8 +20,8 @@ public class ViewController {
 
     @GetMapping({"/home", "/profile/**", "/category/**", "/shopping-cart", "/search", "/err/**"})
     public String getHomePage() {
-        return "/user/user";
-    }
+        return "user";
+    } //
 
     @GetMapping("/")
     public String redirectToHome() {
@@ -30,7 +30,7 @@ public class ViewController {
 
     @GetMapping("/search/{categoryId}")
     public ModelAndView getSearchPage(@PathVariable("categoryId") long categoryId, ModelAndView modelAndView) {
-        modelAndView.setViewName("/user/user");
+        modelAndView.setViewName("user"); //
         return modelAndView;
     }
 
@@ -43,7 +43,7 @@ public class ViewController {
         }
         if (book.isShow()) {
             modelAndView.addObject("book", id);
-            modelAndView.setViewName("/user/user");
+            modelAndView.setViewName("user"); //
         } else {
             modelAndView.setViewName("redirect:/home");
         }

@@ -15,11 +15,14 @@ import java.util.regex.Pattern;
 @Transactional
 public class UserServiceImpl implements UserService {
 
-    @Autowired
     private PasswordEncoder encoder;
+    private UserDao userDAO;
 
     @Autowired
-    private UserDao userDAO;
+    public UserServiceImpl(PasswordEncoder encoder, UserDao userDAO) {
+        this.encoder = encoder;
+        this.userDAO = userDAO;
+    }
 
     @Override
     public UserDTO getUserDTOByLogin(String login, boolean isOAuth2Acc) {

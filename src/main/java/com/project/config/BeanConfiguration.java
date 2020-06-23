@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.thymeleaf.templatemode.TemplateMode;
+import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
@@ -37,7 +39,20 @@ public class BeanConfiguration {
         }
     }
 
-    @Bean(initMethod = "init")
+    @Bean
+    public ClassLoaderTemplateResolver secondaryTemplateResolver() {
+        ClassLoaderTemplateResolver secondaryTemplateResolver = new ClassLoaderTemplateResolver();
+        secondaryTemplateResolver.setPrefix("templates/user");
+        secondaryTemplateResolver.setSuffix(".html");
+        secondaryTemplateResolver.setTemplateMode(TemplateMode.HTML);
+        secondaryTemplateResolver.setCharacterEncoding("UTF-8");
+        secondaryTemplateResolver.setOrder(1);
+        secondaryTemplateResolver.setCheckExistence(true);
+
+        return secondaryTemplateResolver;
+    }
+
+    /*@Bean(initMethod = "init")
     @PostConstruct
     public TestCategories initTestCategories() { return new TestCategories();}
 
@@ -58,7 +73,7 @@ public class BeanConfiguration {
     @PostConstruct
     public ErrorMessageDataInit initMessageData(){
         return new ErrorMessageDataInit();
-    }
+    }*/
 
     @Bean("userDetailsService")
     public UserDetailsService getUserDetailsService(){ return new UserDetailServiceImpl(); }

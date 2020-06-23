@@ -13,7 +13,7 @@ import java.time.Instant;
 
 public class TestUserAccounts {
 
-    @Autowired
+    /*@Autowired
     UserAccountService userAccountService;
 
     @Autowired
@@ -63,6 +63,6 @@ public class TestUserAccounts {
         userAccountService.save(account2);
 
         dataEnterInAdminPanelService.add(new DataEnterInAdminPanel(0L,0L));
-    }
+    }*/
 
 }
