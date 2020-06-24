@@ -35,8 +35,6 @@ public class TestDataInit {
     @Autowired
     private FooterService footerService;
 
-    private static final String URL = "http://localhost:8080";
-
     private int bookId;
 
     public void init() {
@@ -312,10 +310,10 @@ public class TestDataInit {
                 "Gebrauchsanweisung", "Pokyny", "Εγχειρίδιο χρήστη"), "#"));
         links.add(new Link(null, new LocaleString("Как заказать",
                 "How to order", "Comment commander", "Come ordinare",
-                "So bestellen Sie", "Jak objednat", "να παραγγείλετε"), URL + "/guide-order"));
+                "So bestellen Sie", "Jak objednat", "να παραγγείλετε"), "/guide-order"));
         links.add(new Link(null, new LocaleString("Список авторов",
                 "Authors list", "Liste des auteurs", "Elenco degli autori",
-                "Liste der Autoren", "Autor", "συγγραφείς"), URL + "/author-list"));
+                "Liste der Autoren", "Autor", "συγγραφείς"), "/author-list"));
         links.add(new Link(null, new LocaleString("Тематические ссылки",
                 "Theme links", "Liens utiles", "Link utili",
                 "Referenzen", "Odkaz", "Θεματικοί δεσμοί"), "#"));

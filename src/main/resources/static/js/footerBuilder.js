@@ -49,7 +49,7 @@ async function buildFooter() {
         let id = link.text['en'].toLowerCase().replace(/\s/ig, "-")
             .replace("'", "")
             .replace(/-+/, "-");
-
-        footerMenu.append(`<a href="${link.link}" class="footer_link p-2 ${id}-footer">${link.text[currentLang]}</a>`)
+        let url = document.location.protocol + "//" + document.location.host + link.link;
+        footerMenu.append(`<a href=${url} class="footer_link p-2 ${id}-footer">${link.text[currentLang]}</a>`)
     }
 }
