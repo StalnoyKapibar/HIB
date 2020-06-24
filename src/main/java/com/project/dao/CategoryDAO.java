@@ -54,6 +54,11 @@ public class CategoryDAO extends AbstractDao<Long, Category> {
         return entityManager.createQuery(hql, Category.class).getResultList();
     }
 
+    public List<Category> getCategories () {
+        String hql = "SELECT c FROM Category c";
+        return entityManager.createQuery(hql, Category.class).getResultList();
+    }
+
 
     @Override
     public Category update(Category entity) {

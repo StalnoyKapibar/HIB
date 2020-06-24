@@ -3,6 +3,7 @@ package com.project.controller.restcontroller;
 import com.project.dao.CategoryDAO;
 import com.project.model.BookNewDTO;
 import com.project.model.BookSearchPageDTO;
+import com.project.model.Category;
 import com.project.search.BookSearch;
 import com.project.service.abstraction.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class SearchController {
@@ -45,6 +47,19 @@ public class SearchController {
                                                      @RequestParam(value = "yearOfEditionTo") Long yearOfEditionTo, @RequestParam(value = "pagesFrom") Long pagesFrom,
                                                      @RequestParam(value = "pagesTo") Long pagesTo, @RequestParam(value = "page") int page, @RequestParam(value = "size") int size) {
         Pageable pageable = PageRequest.of(page, size);
+        BookSearchPageDTO books = bookSearch.searchByParameters(request, priceFrom, priceTo, String.valueOf(yearOfEditionFrom), String.valueOf(yearOfEditionTo),
+                pagesFrom, pagesTo, searchBy, categories, pageable);
+        return books;
+    }
+
+    @GetMapping("/searchAdvancedAllCategories")
+    public BookSearchPageDTO BooksSearchByParameters(@RequestParam(value = "request") String request, @RequestParam(value = "searchBy") String searchBy,
+                                                     @RequestParam(value = "priceFrom") Long priceFrom,
+                                                     @RequestParam(value = "priceTo") Long priceTo, @RequestParam(value = "yearOfEditionFrom") Long yearOfEditionFrom,
+                                                     @RequestParam(value = "yearOfEditionTo") Long yearOfEditionTo, @RequestParam(value = "pagesFrom") Long pagesFrom,
+                                                     @RequestParam(value = "pagesTo") Long pagesTo, @RequestParam(value = "page") int page, @RequestParam(value = "size") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        List<Long> categories = categoryDAO.getCategories().stream().map(category -> category.getId()).collect(Collectors.toList());
         BookSearchPageDTO books = bookSearch.searchByParameters(request, priceFrom, priceTo, String.valueOf(yearOfEditionFrom), String.valueOf(yearOfEditionTo),
                 pagesFrom, pagesTo, searchBy, categories, pageable);
         return books;
