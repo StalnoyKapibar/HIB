@@ -306,11 +306,10 @@ function getPageWithBooks(amount, page) {
             advancedSearch(amount, page);
             let tmp = [];
             tmp = window.location.pathname.split("/");
-            //tmp.length = tmp.length - 1;
             let url = tmp.join("/");
             history.pushState(null, null, url);
         }
-    },1000);
+    },100);
 
 }
 

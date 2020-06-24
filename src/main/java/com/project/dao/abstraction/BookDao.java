@@ -17,7 +17,6 @@ public interface BookDao extends GenericDao<Long, Book> {
     BookSearchPageDTO getBookBySearchRequest(String request, Long priceFrom, Long priceTo,
                                              String yearOfEditionFrom, String yearOfEditionTo, Long pagesFrom, Long pagesTo, String searchBy, List<Long> categories, Pageable pageable);
 
-
     String getLastIdOfBook();
 
     BookPageAdminDto getPageBookDTOByPageable(Pageable pageable, boolean disabled);
