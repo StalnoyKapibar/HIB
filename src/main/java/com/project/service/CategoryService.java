@@ -2,6 +2,7 @@ package com.project.service;
 
 import com.project.dao.CategoryDAO;
 import com.project.model.Category;
+import com.project.model.LocaleString;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,6 +56,18 @@ public class CategoryService {
         Long id = category.getId();
         Long parentId = category.getParentId();
         categoryDAO.parentChange(id, parentId);
+    }
+
+    public List<LocaleString> getListCategoriesByName(String name, List<Category> categories) {
+        return categoryDAO.getListCategoriesByName(name, transferToArrayFromList(categories));
+    }
+
+    public String[] transferToArrayFromList(List<Category> transfer) {
+        String[] arr = new String[transfer.size()];
+        for (int i = 0; i < transfer.size(); i++) {
+            arr[i] = transfer.get(i).getCategoryName();
+        }
+        return arr;
     }
 
 }

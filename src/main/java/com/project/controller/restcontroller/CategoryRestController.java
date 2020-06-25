@@ -24,7 +24,7 @@ public class CategoryRestController {
 
     @GetMapping("/getpanelcategories/{name}")
     public List<LocaleString> getPanelCategories(@PathVariable("name") String name) {
-        return localStringService.getLocalString(name, categoryService.getNoParentCategories());
+        return categoryService.getListCategoriesByName(name, categoryService.getNoParentCategories());
     }
 
     @GetMapping("/gettree")

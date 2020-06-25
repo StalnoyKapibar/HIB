@@ -1,10 +1,13 @@
 package com.project.dao;
 
 import com.project.model.Category;
+import com.project.model.LocaleString;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import java.util.Arrays;
 import java.util.List;
 
 @Repository
@@ -108,6 +111,13 @@ public class CategoryDAO extends AbstractDao<Long, Category> {
                 "SELECT id FROM cte order by id, stack";
 
         return  entityManager.createNativeQuery(sql).setParameter("parentId", parentId).getResultList();
+    }
+
+    public List<LocaleString> getListCategoriesByName(String name, String[] categories) {
+        String hql = ("SELECT " + name + " FROM LocaleString WHERE en IN :listik");
+        Query list = entityManager.createQuery(hql)
+                .setParameter("listik", Arrays.asList(categories));
+        return list.getResultList();
     }
 
     public void parentChange(Long id, Long parentId) {

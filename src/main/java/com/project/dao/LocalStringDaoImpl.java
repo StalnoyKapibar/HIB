@@ -20,9 +20,4 @@ public class LocalStringDaoImpl implements LocalStringDao {
         entityManager.persist(localeString);
     }
 
-    @Override
-    public List<LocaleString> getLocalString(String name, List<Category> categories) {
-        String hql = "SELECT " + name + " FROM LocaleString where en = '" + categories.get(0).getCategoryName() + "' or en = '" + categories.get(1).getCategoryName() + "' or en = '" + categories.get(2).getCategoryName() + "' or en = '" + categories.get(3).getCategoryName() + "'";
-        return entityManager.createQuery(hql).getResultList();
-    }
 }

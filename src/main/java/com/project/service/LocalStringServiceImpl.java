@@ -21,20 +21,4 @@ public class LocalStringServiceImpl implements LocalStringService {
     public void addLocalString(LocaleString localeString) {
         localStringDao.addLocalString(localeString);
     }
-
-    @Override
-    public List<LocaleString> getLocalString(String name, List<Category> categories) {
-        for (int i = 0; i < 4; i++) {
-            if (localStringDao.getLocalString(name, categories).get(i) == null) {
-                for (int s = 0; s < 4; s++) {
-                    if (localStringDao.getLocalString("en", categories).get(s) == null) {
-                        return localStringDao.getLocalString("it", categories);
-                    } else if (s == 3) {
-                        return localStringDao.getLocalString("en", categories);
-                    }
-                }
-            }
-        }
-        return localStringDao.getLocalString(name, categories);
-    }
 }
