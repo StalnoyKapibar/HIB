@@ -42,6 +42,7 @@ function setFieldsChangePersonalInformation() {
     $('#fieldEmail').val(AU.email);
     $('#fieldFirstName').val(AU.firstName);
     $('#fieldLastName').val(AU.lastName);
+    $('#fieldPhone').val(AU.phone);
 }
 
 function oAuth2AccHandle() {
@@ -56,7 +57,7 @@ function firstLastNames() {
     }
 }
 
-function refreshUserNames(firstName, lastName, email) {
+function refreshUserNames(firstName, lastName, email, phone) {
     if (lastName === null) {
         document.getElementById("first-last-name").innerHTML = firstName;
     }
@@ -64,6 +65,7 @@ function refreshUserNames(firstName, lastName, email) {
         document.getElementById("first-last-name").innerHTML = firstName + ' ' + lastName;
     }
     document.getElementById("user-email").innerHTML = email;
+    document.getElementById("user-phone").innerHTML = phone;
 }
 
 function savePersonalInformation() {
@@ -71,14 +73,16 @@ function savePersonalInformation() {
     let email = $('#fieldEmail').val();
     let firstName = $('#fieldFirstName').val();
     let lastName = $('#fieldLastName').val();
+    let phone = $('#fieldPhone').val();
     let tmp = {};
     tmp['userId'] = AU.userId;
     tmp['email'] = email;
     tmp['firstName'] = firstName;
     tmp['lastName'] = lastName;
+    tmp['phone'] = phone;
     let tmpSend = JSON.stringify(tmp);
     savePersonalInformationRequest(tmpSend);
-    refreshUserNames(firstName, lastName, email);
+    refreshUserNames(firstName, lastName, email, phone);
     setLocaleFields();
 }
 

@@ -79,11 +79,11 @@
                 </a>
             </th:block>
             <!--    Sidebar-search    -->
-            <div class="sidebar-item sidebar-search">
+            <div class="sidebar-item sidebar-search dropdown">
                 <div>
                     <div class="input-group">
 
-                        <input class="form-control search-menu search-input-dots-loc" id="searchInput"
+                        <input class="form-control dropdown-toggle search-menu search-input-dots-loc" autocomplete="off" data-toggle="dropdown" id="searchInput"
                                placeholder="Search..." type="text">
 
                         <div class="input-group-append">
@@ -93,7 +93,7 @@
                         </div>
                     </div>
                 </div>
-                <ul class="ul-books" style="color: #c7c7c7"></ul>
+                <div class="ul-books dropdown-menu" style="color: #000000;"></div>
             </div>
             <div class="sidebar-menu">
                 <ul>
@@ -280,10 +280,10 @@
                     <form action="/login" id="form-login" method="post" name="form-login" role="form"
                           th:action="@{/login}">
                         <div class="form-group">
-                            <label id="login-input-label" class="login-loc" for="loginInput">Login</label>
+                            <label id="login-input-label" class="login-loc" for="loginInput">Email</label>
                             <input class="form-control login-input-loc" id="loginInput" name="username"
-                                   placeholder="Login"
-                                   required type="text">
+                                   placeholder="Email"
+                                   required type="email">
                         </div>
                         <div class="form-group">
                             <label id="password-input-label" class="password-input-label"

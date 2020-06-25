@@ -79,6 +79,7 @@ async function setLocaleFields() {
             $('.save-loc').text(localeFields['save']);
             $('.first-name-loc').text(localeFields['firstName']);
             $('.last-name-loc').text(localeFields['lastName']);
+            $('.phone-loc').text(localeFields['phone']);
             $('.old-pass-loc').text(localeFields['oldPass']);   //Enter old password
             $('.new-pass-loc').text(localeFields['newPass']);     //Enter new password
             $('.again-pass-loc').text(localeFields['againPass']);     //Enter new password again
@@ -312,6 +313,7 @@ async function setLocaleFields() {
             $(".load-more-btn").html(localeFields['load-more']);
             $(".displayed").html(localeFields['displayed']);
             $(".of").html(localeFields['of']);
+            $("#editBtn").html(localeFields['editBook']);
 
 
             //should be down

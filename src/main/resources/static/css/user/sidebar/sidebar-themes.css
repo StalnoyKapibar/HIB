@@ -34,10 +34,12 @@
   box-shadow: none;
   margin-left: 1px;
 }
-
-.default-theme .sidebar-wrapper .sidebar-menu a:hover i,
-.default-theme .sidebar-wrapper .sidebar-menu a:hover:before,
-.default-theme .sidebar-wrapper .sidebar-menu li.active a i {
+.default-theme .sidebar-wrapper .sidebar-menu li a i,
+.default-theme .sidebar-wrapper .sidebar-menu a:hover:before{
+  color: #c7c7c7;
+}
+.default-theme .sidebar-wrapper .sidebar-menu a:hover i{
+  /*.default-theme .sidebar-wrapper .sidebar-menu li.active a i{*/
   color: #22ff16;
 }
 
