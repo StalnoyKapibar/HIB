@@ -355,9 +355,12 @@ async function addFindeBooks(data) {
         tr.push(`<tr>
                                 <td class="align-middle">
                                     <img src="../images/book${data[i].id}/${data[i].coverImage}" style="max-width: 60px; ${data[i].show === true ? '' : 'opacity: 0.3'}">
-                                    ${data[i].show === true ? '' : '<img src="../../static/images/outOfStock.png" style="max-width: 35px;">'}
                                 </td>
-                                <td class="align-middle">${convertOriginalLanguageRows(data[i].author, data[i].authorTranslit)}</td>
+                                <td class="align-middle">
+                                    ${data[i].show === true ? '' : '<img src="../../static/images/outOfStock.png" style="max-width: 35px;">'}
+                                    <br>
+                                    ${convertOriginalLanguageRows(data[i].author, data[i].authorTranslit)}
+                                </td>
                                 <td class="align-middle">${convertOriginalLanguageRows(data[i].name, data[i].nameTranslit)}</td>
                                 <td class="align-middle">${data[i].pages}</td>
                                 <td class="align-middle">${data[i].yearOfEdition}</td>

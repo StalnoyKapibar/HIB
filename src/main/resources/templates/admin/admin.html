@@ -22,6 +22,8 @@
     <link href="/static/css/admin/books.css" rel="stylesheet">
     <link href="/static/css/admin/orders.css" rel="stylesheet" type="text/css">
     <link href="/static/css/admin/feedback.css" rel="stylesheet">
+    <link href="/static/css/error.css" rel="stylesheet">
+
     <!--<script src="/static/js/lib/popper.min.js"></script>
     <script src="/static/js/lib/bootstrap.min.js"></script>-->
 </head>
@@ -61,7 +63,7 @@
                 <div th:replace="admin/orders :: orders"></div>
             </th:block>
             <th:block th:case="*">
-                <div th:replace="admin/not-found :: not-found"></div>
+                <div th:replace="error :: not-found"></div>
             </th:block>
         </div>
     </div>

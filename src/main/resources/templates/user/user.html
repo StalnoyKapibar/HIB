@@ -372,11 +372,6 @@
         <th:block th:include="error :: server-error">
         </th:block>
     </th:block>
-    <!--<th:block
-            th:if="${#httpServletRequest.getRequestURI() == '/home' || #httpServletRequest.getRequestURI().contains('/error')}">
-        <th:block th:include="home :: page-content">
-        </th:block>
-    </th:block>-->
     <th:block th:if="${#httpServletRequest.getRequestURI() == '/profile/orders'}">
         <th:block th:include="cabinet :: orders">
         </th:block>
