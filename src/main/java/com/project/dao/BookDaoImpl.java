@@ -2,11 +2,13 @@ package com.project.dao;
 
 import com.project.dao.abstraction.BookDao;
 import com.project.model.*;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Primary
@@ -291,5 +293,11 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
                     .setParameter("bookId", id)
                     .executeUpdate();
         }
+    }
+
+    @Override
+    public List<LocaleString> getAuthorList() {
+        String hql = "select b.author from Book b where b.isShow = true";
+        return entityManager.createQuery(hql).getResultList();
     }
 }

@@ -4,11 +4,15 @@ import com.project.dao.abstraction.BookDao;
 import com.project.model.*;
 import com.project.service.abstraction.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -77,6 +81,7 @@ public class BookServiceImpl implements BookService {
     public List<BookDTOForCategories> getBooksByCategoryId(Long categoryId, String lang) {
         return bookDAO.getBooksByCategoryId(categoryId, lang);
     }
+
     @Override
     public Long getCountBooksByCategoryId(Long categoryId) {
         return bookDAO.getCountBooksByCategoryId(categoryId);
@@ -101,7 +106,7 @@ public class BookServiceImpl implements BookService {
     public void setLastOrderedBooks(List<Long> list) {
         bookDAO.setLastOrderedBooks(list);
     }
-    
+
     @Override
     public List<BookNewDTO> getAllLightBookDtoForSearch() {
         return bookDAO.getAllLightBookDtoForSearch();
@@ -111,4 +116,14 @@ public class BookServiceImpl implements BookService {
     public Long getSizeOfTotalBooks() {
         return bookDAO.getSizeOfTotalBooks();
     }
+
+    @Override
+    @Cacheable("authorSet")
+    public Set<String> getAuthorSet() {
+        return bookDAO.getAuthorList()
+                .stream()
+                .map(LocaleString::getEn).
+                        collect(Collectors.toCollection(LinkedHashSet::new));
+    }
+
 }

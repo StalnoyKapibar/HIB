@@ -62,11 +62,7 @@ public class ViewController {
 
     @GetMapping("/author-list")
     public ModelAndView getAuthors(ModelAndView view) {
-        Set<String> authors = bookService.getAllBookDTO().
-                stream().
-                map(x -> x.getAuthor().getEn()).
-                sorted().
-                collect(Collectors.toCollection(LinkedHashSet::new));
+        Set<String> authors = bookService.getAuthorSet();
         view.addObject("authors", authors);
         view.setViewName("/user/user");
         return view;
