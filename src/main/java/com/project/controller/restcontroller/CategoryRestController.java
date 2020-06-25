@@ -41,10 +41,10 @@ public class CategoryRestController {
     }
 
     @GetMapping("/getcount")
-    public Long getCountBooksByPath(@RequestParam("path") String path) {
+    public Long getCountBooksByPath(@RequestParam("path") String path, @RequestParam("show") boolean isShow) {
         long i = 0;
         for (Long id : categoryService.getallChildsIdByPath(path)) {
-            i+= bookService.getCountBooksByCategoryId(id);
+            i+= bookService.getCountBooksByCategoryId(id, isShow);
         }
         return i;
     }

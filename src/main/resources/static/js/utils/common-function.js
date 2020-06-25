@@ -2,6 +2,8 @@ var currentLang = '';
 var bottom = '';
 var addToshoppingCart = '';
 var deleteBottom = '';
+var outOfStock = '';
+
 
 $(document).ready(function () {
     if (currentLang === '') {
@@ -260,6 +262,7 @@ async function setLocaleFields() {
 
             bottom = localeFields['bookbotom'];
             addToshoppingCart = localeFields['addToshoppingCart'];
+            outOfStock = localeFields['outOfStock'];
             addedToshoppingCart = localeFields['addedToshoppingCart'];
             editBook = localeFields['editBook'];
             deleteBottom = localeFields['deleteBottom'];
@@ -302,6 +305,7 @@ async function setLocaleFields() {
             $('#send-feedback-request').text(localeFields['send-feedback-request']);
             $('#logout-modal-title').text(localeFields['logout']);
             $('.logout-loc').text(localeFields['logoutShort']);
+            $('.bought-btn-loc').text(localeFields['boughtBtn']);
             $('#sender-message').val(localeFields['hello-interested']);
             let title = $(".title");
             let author = $(".author");

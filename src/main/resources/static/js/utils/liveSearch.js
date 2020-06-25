@@ -3,6 +3,7 @@
 // Функция поиска совпадений вводимых символов
 function findEl(el, array, value) {
     var coincidence = false;
+    console.log(array);
     el.empty();    // Очищаем список совпадений
     for (var i = 0; i < array.length; i++) {
         if (array[i].match(value) || array[i].toLowerCase().match(value)) {    // Проверяем каждый эллемент на совпадение побуквенно

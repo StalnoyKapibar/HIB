@@ -23,7 +23,7 @@ public class BookDaoImplWithNewSystemDisplayBookRows extends BookDaoImpl {
                 "END " +
                 "END, " +
                 "b.originalLanguage.edition, b.originalLanguage.editionTranslit, b.yearOfEdition, " +
-                "b.pages, b.price, b.originalLanguageName, b.coverImage) FROM Book b WHERE id = :id").replaceAll("LOC", lang);
+                "b.pages, b.price, b.originalLanguageName, b.coverImage, b.isShow) FROM Book b WHERE id = :id").replaceAll("LOC", lang);
         BookNewDTO bookNewDTO = entityManager.createQuery(hql, BookNewDTO.class).setParameter("id", id).getSingleResult();
         bookNewDTO.setImageList(getBookImageListById(id));
         return bookNewDTO;

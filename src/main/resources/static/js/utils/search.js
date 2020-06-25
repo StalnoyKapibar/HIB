@@ -96,7 +96,9 @@ function setAmountBooksInPage(amount) {
 function setListeners () {
     $('#search-submit').on('click', () => {
         currentPage = 0;
-        advancedSearch(ddmAmountBook.text(), currentPage++)
+        advancedSearch(ddmAmountBook.text(), currentPage++);
+        $('#input-categories').empty();
+        getCategoryTree();
     });
 
     $('#input-categories').on('click', '.custom-control-input', function () {
@@ -148,7 +150,13 @@ function setListeners () {
     });
 
     $('#search-input').on('input', function () {
-        $('#search-submit').click();
+        currentPage = 0;
+        advancedSearch(ddmAmountBook.text(), currentPage++);
+    })
+
+    $('#check-available').on('click', function () {
+        $('#input-categories').empty();
+        getCategoryTree();
     })
 }
 
@@ -198,12 +206,12 @@ async function setTreeView(category) {
                     <input class="custom-control-input" type="checkbox" id="check-${category[i].id}" value="${category[i].id}">
                     <label class="custom-control-label" for="check-${category[i].id}"></label>
                     <label class="collapsed" data-toggle="collapse" data-target="#collapse-${category[i].id}" aria-expanded="false" aria-controls="collapse-${category[i].id}">
-                       <label id="${category[i].categoryName.toLowerCase()}-rightbar">${category[i].categoryName}</label>(${await getCountBooksByCat(category[i].path)})
+                       <label id="${category[i].categoryName.toLowerCase()}-rightbar">${category[i].categoryName}</label>(${await getCountBooksByCat(category[i].path, $('#check-available').is(':checked') ? true : false)})
                        <i class="fa fa-plus-square-o" aria-hidden="true"></i>
                     </label>
                 </div>
                 <div class="ml-3">
-                    <div id="collapse-${category[i].id}" class="collapse" aria-labelledby="heading-${category[i].id}">
+                    <div id="collapse-${category[i].id}" class="collapse" aria-labelledby="heading-${category[i].id}" data-parent="#accordionExample">
                     ${await setChilds(category[i].childrens)}
                     </div>
                 </div>
@@ -222,7 +230,7 @@ async function setChilds(category) {
                     <div class="custom-control custom-checkbox form-check-inline" id="heading-${category[i].id}">
                         <input class="custom-control-input" type="checkbox" id="check-${category[i].id}" value="${category[i].id}">
                         <label class="custom-control-label" for="check-${category[i].id}">
-                            <label class="${category[i].categoryName.toLowerCase()}-rightbar">${category[i].categoryName}</label>(${await getCountBooksByCat(category[i].path)})
+                            <label class="${category[i].categoryName.toLowerCase()}-rightbar">${category[i].categoryName}</label>(${await getCountBooksByCat(category[i].path, $('#check-available').is(':checked') ? true : false)})
                         </label>
                     </div>
                 </div>`;
@@ -233,12 +241,12 @@ async function setChilds(category) {
                         <input class="custom-control-input" type="checkbox" id="check-${category[i].id}" value="${category[i].id}">
                         <label class="custom-control-label" for="check-${category[i].id}"></label>
                         <label class="collapsed" data-toggle="collapse" data-target="#collapse-${category[i].id}" aria-expanded="false" aria-controls="collapse-${category[i].id}">
-                           <label class="${category[i].categoryName.toLowerCase()}-rightbar">${category[i].categoryName}</label>(${await getCountBooksByCat(category[i].path)})
+                           <label class="${category[i].categoryName.toLowerCase()}-rightbar">${category[i].categoryName}</label>(${await getCountBooksByCat(category[i].path, $('#check-available').is(':checked') ? true : false)})
                            <i class="fa fa-plus-square-o" aria-hidden="true"></i>
                         </label>
                     </div>
                     <div class="ml-3">
-                        <div id="collapse-${category[i].id}" class="collapse" aria-labelledby="heading-${category[i].id}">
+                        <div id="collapse-${category[i].id}" class="collapse" aria-labelledby="heading-${category[i].id}" data-parent="#accordionExample">
                             ${await setChilds(category[i].childrens)}
                         </div>
                     </div>
@@ -260,7 +268,9 @@ async function advancedSearch(amount, page) {
     let pagesFrom = $('#input-pages-from').val();
     let pagesTo = $('#input-pages-to').val();
     let searchBy = $('#search-by input:checked').val();
+    let isShow = $('#check-available').is(':checked') ? true : false;
     let categories;
+
     if (!isCheckedCategory) {
         categories = $("#input-categories input").map(function () {
             return $(this).val();
@@ -276,7 +286,7 @@ async function advancedSearch(amount, page) {
     }
     fetch("/searchAdvanced?request=" + request + "&searchBy=" + searchBy + categoryRequest +
         "&priceFrom=" + priceFrom + "&priceTo=" + priceTo + "&yearOfEditionFrom=" + yearOfEditionFrom + "&yearOfEditionTo=" + yearOfEditionTo +
-        "&pagesFrom=" + pagesFrom + "&pagesTo=" + pagesTo + "&page=" + page + "&size=" + amount, {
+        "&pagesFrom=" + pagesFrom + "&pagesTo=" + pagesTo + "&page=" + page + "&size=" + amount + "&show=" + isShow, {
         method: "GET",
         headers: {
             'Content-Type': 'application/json',
@@ -287,7 +297,7 @@ async function advancedSearch(amount, page) {
         .then(function (data) {
             setLocaleFields();
             amountBooksInDb = data.amountOfBooksInDb;
-            addFindeBooks(data.books)
+            addFindeBooks(data.books);
         });
 }
 
@@ -343,8 +353,14 @@ async function addFindeBooks(data) {
             data[i].price = "-";
         }
         tr.push(`<tr>
-                                <td class="align-middle"><img src="../images/book${data[i].id}/${data[i].coverImage}" style="max-width: 60px"></td>
-                                <td class="align-middle">${convertOriginalLanguageRows(data[i].author, data[i].authorTranslit)}</td>
+                                <td class="align-middle">
+                                    <img src="../images/book${data[i].id}/${data[i].coverImage}" style="max-width: 60px; ${data[i].show === true ? '' : 'opacity: 0.3'}">
+                                </td>
+                                <td class="align-middle">
+                                    ${data[i].show === true ? '' : '<img src="../../static/images/outOfStock.png" style="max-width: 35px;">'}
+                                    <br>
+                                    ${convertOriginalLanguageRows(data[i].author, data[i].authorTranslit)}
+                                </td>
                                 <td class="align-middle">${convertOriginalLanguageRows(data[i].name, data[i].nameTranslit)}</td>
                                 <td class="align-middle">${data[i].pages}</td>
                                 <td class="align-middle">${data[i].yearOfEdition}</td>
@@ -371,8 +387,9 @@ async function addFindeBooks(data) {
     addPagination();
 }
 
-async function getCountBooksByCat(category) {
-    return "" + await fetch("/categories/getcount?path=" + category).then(json);
+async function getCountBooksByCat(category, isShow) {
+    return "" + await fetch("/categories/getcount?path=" + category
+    + "&show=" + isShow).then(json);
 }
 
 async function getAUTH() {
