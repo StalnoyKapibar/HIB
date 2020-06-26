@@ -59,7 +59,7 @@ public class SearchController {
                                                      @RequestParam(value = "yearOfEditionTo") Long yearOfEditionTo, @RequestParam(value = "pagesFrom") Long pagesFrom,
                                                      @RequestParam(value = "pagesTo") Long pagesTo, @RequestParam(value = "page") int page, @RequestParam(value = "size") int size) {
         Pageable pageable = PageRequest.of(page, size);
-        List<Long> categories = categoryDAO.getCategories().stream().map(Category::getId).collect(Collectors.toList());
+        List<Long> categories = categoryDAO.getIdCategories();
         BookSearchPageDTO books = bookSearch.searchByParameters(request, priceFrom, priceTo, String.valueOf(yearOfEditionFrom), String.valueOf(yearOfEditionTo),
                 pagesFrom, pagesTo, searchBy, categories, pageable);
         return books;
