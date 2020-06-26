@@ -211,7 +211,7 @@ async function setTreeView(category) {
                     </label>
                 </div>
                 <div class="ml-3">
-                    <div id="collapse-${category[i].id}" class="collapse" aria-labelledby="heading-${category[i].id}" data-parent="#accordionExample">
+                    <div id="collapse-${category[i].id}" class="collapse" aria-labelledby="heading-${category[i].id}">
                     ${await setChilds(category[i].childrens)}
                     </div>
                 </div>
@@ -246,7 +246,7 @@ async function setChilds(category) {
                         </label>
                     </div>
                     <div class="ml-3">
-                        <div id="collapse-${category[i].id}" class="collapse" aria-labelledby="heading-${category[i].id}" data-parent="#accordionExample">
+                        <div id="collapse-${category[i].id}" class="collapse" aria-labelledby="heading-${category[i].id}">
                             ${await setChilds(category[i].childrens)}
                         </div>
                     </div>
@@ -269,22 +269,21 @@ async function advancedSearch(amount, page) {
     let pagesTo = $('#input-pages-to').val();
     let searchBy = $('#search-by input:checked').val();
     let isShow = $('#check-available').is(':checked') ? true : false;
-    let categories;
-
-    if (!isCheckedCategory) {
-        categories = $("#input-categories input").map(function () {
-            return $(this).val();
-        }).get();
-    } else {
+    let categories = [];
+    let searchAdvanced = '';
+    if (isCheckedCategory) {
         categories = $("#input-categories input:checked").map(function () {
             return $(this).val();
         }).get();
+        searchAdvanced = "/searchAdvanced"
+    } else {
+        searchAdvanced = "/searchAdvancedAllCategories"
     }
     let categoryRequest = "";
     for (let i in categories) {
         categoryRequest += "&categories=" + categories[i];
     }
-    fetch("/searchAdvanced?request=" + request + "&searchBy=" + searchBy + categoryRequest +
+    fetch(searchAdvanced + "?request=" + request + "&searchBy=" + searchBy + categoryRequest +
         "&priceFrom=" + priceFrom + "&priceTo=" + priceTo + "&yearOfEditionFrom=" + yearOfEditionFrom + "&yearOfEditionTo=" + yearOfEditionTo +
         "&pagesFrom=" + pagesFrom + "&pagesTo=" + pagesTo + "&page=" + page + "&size=" + amount + "&show=" + isShow, {
         method: "GET",
