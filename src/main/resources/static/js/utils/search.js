@@ -211,7 +211,7 @@ async function setTreeView(category) {
                     </label>
                 </div>
                 <div class="ml-3">
-                    <div id="collapse-${category[i].id}" class="collapse" aria-labelledby="heading-${category[i].id}" data-parent="#accordionExample">
+                    <div id="collapse-${category[i].id}" class="collapse" aria-labelledby="heading-${category[i].id}">
                     ${await setChilds(category[i].childrens)}
                     </div>
                 </div>
@@ -246,7 +246,7 @@ async function setChilds(category) {
                         </label>
                     </div>
                     <div class="ml-3">
-                        <div id="collapse-${category[i].id}" class="collapse" aria-labelledby="heading-${category[i].id}" data-parent="#accordionExample">
+                        <div id="collapse-${category[i].id}" class="collapse" aria-labelledby="heading-${category[i].id}">
                             ${await setChilds(category[i].childrens)}
                         </div>
                     </div>
@@ -269,22 +269,21 @@ async function advancedSearch(amount, page) {
     let pagesTo = $('#input-pages-to').val();
     let searchBy = $('#search-by input:checked').val();
     let isShow = $('#check-available').is(':checked') ? true : false;
-    let categories;
-
-    if (!isCheckedCategory) {
-        categories = $("#input-categories input").map(function () {
-            return $(this).val();
-        }).get();
-    } else {
+    let categories = [];
+    let searchAdvanced = '';
+    if (isCheckedCategory) {
         categories = $("#input-categories input:checked").map(function () {
             return $(this).val();
         }).get();
+        searchAdvanced = "/searchAdvanced"
+    } else {
+        searchAdvanced = "/searchAdvancedAllCategories"
     }
     let categoryRequest = "";
     for (let i in categories) {
         categoryRequest += "&categories=" + categories[i];
     }
-    fetch("/searchAdvanced?request=" + request + "&searchBy=" + searchBy + categoryRequest +
+    fetch(searchAdvanced + "?request=" + request + "&searchBy=" + searchBy + categoryRequest +
         "&priceFrom=" + priceFrom + "&priceTo=" + priceTo + "&yearOfEditionFrom=" + yearOfEditionFrom + "&yearOfEditionTo=" + yearOfEditionTo +
         "&pagesFrom=" + pagesFrom + "&pagesTo=" + pagesTo + "&page=" + page + "&size=" + amount + "&show=" + isShow, {
         method: "GET",
@@ -310,12 +309,12 @@ function getPageWithBooks(amount, page) {
             history.pushState(null, null, url);
             advancedSearch(amount, page);
         } else {
-            let checkId = '#check-' + window.location.pathname.split("/").pop();
+            let arrPathname = window.location.pathname.split("/")
+            let checkId = '#check-' + arrPathname[arrPathname.length - 1];
             $(checkId).click();
             advancedSearch(amount, page);
             let tmp = [];
             tmp = window.location.pathname.split("/");
-            tmp.length = tmp.length - 1;
             let url = tmp.join("/");
             history.pushState(null, null, url);
         }
@@ -342,7 +341,14 @@ async function addFindeBooks(data) {
                         </tbody>`);
     $('#search-table-result').append($(table.join('')));
     let tr = [];
+    let lengthUrl = window.location.pathname.split("/").length;
+    let length = lengthUrl - 3;
+    let prePathUrl = '';
+    for (let i = 0; i < length; i++) {
+        prePathUrl += '../'
+    }
     for (let i = 0; i < data.length; i++) {
+        let urlImage = prePathUrl + `../images/book${data[i].id}/${data[i].coverImage}`;
         if (data[i].yearOfEdition == null) {
             data[i].yearOfEdition = "-";
         } if(data[i].category.categoryName == null) {
@@ -354,7 +360,7 @@ async function addFindeBooks(data) {
         }
         tr.push(`<tr>
                                 <td class="align-middle">
-                                    <img src="../images/book${data[i].id}/${data[i].coverImage}" style="max-width: 60px; ${data[i].show === true ? '' : 'opacity: 0.3'}">
+                                    <img src=${urlImage} style="max-width: 60px; ${data[i].show === true ? '' : 'opacity: 0.3'}">
                                 </td>
                                 <td class="align-middle">
                                     ${data[i].show === true ? '' : '<img src="../../static/images/outOfStock.png" style="max-width: 35px;">'}
@@ -367,7 +373,7 @@ async function addFindeBooks(data) {
                                 <td class="align-middle">${data[i].price / 100}</td>
                                 <td class="align-middle">${data[i].category.categoryName}</td>
                                 <td class="align-middle">
-                                ${isAdmin && (window.location.pathname === '/admin/panel') ? 
+                                ${isAdmin && (window.location.pathname === '/admin/panel/books') ? 
                                     `
                                     <div id="search-admin">
                                         <button class="btn btn-info edit-loc" onclick="openEdit(${data[i].id})"><i class="material-icons">edit</i></button>
