@@ -37,7 +37,7 @@ public class BeanConfiguration {
         }
     }
 
-    @Bean(initMethod = "init")
+    /*@Bean(initMethod = "init")
     @PostConstruct
     public TestCategories initTestCategories() { return new TestCategories();}
 
@@ -58,7 +58,7 @@ public class BeanConfiguration {
     @PostConstruct
     public ErrorMessageDataInit initMessageData(){
         return new ErrorMessageDataInit();
-    }
+    }*/
 
     @Bean("userDetailsService")
     public UserDetailsService getUserDetailsService(){ return new UserDetailServiceImpl(); }

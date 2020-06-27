@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class TestCategories {
 
-    @Autowired
+    /*@Autowired
     CategoryService categoryService;
 
     public void init() {
@@ -59,5 +59,5 @@ public class TestCategories {
         categoryService.addCategory(gw1900);
 
 
-    }
+    }*/
 }

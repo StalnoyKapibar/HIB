@@ -23,7 +23,7 @@ import java.util.List;
     Add to DB 20 test book
  */
 public class TestDataInit {
-    @Autowired
+    /*@Autowired
     private BookService bookService;
 
     @Autowired
@@ -351,5 +351,5 @@ public class TestDataInit {
         }
         Book.setListImage(imagesList);
         bookService.addBook(Book);
-    }
+    }*/
 }

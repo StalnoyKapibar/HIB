@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class ErrorMessageDataInit {
 
-    @Autowired
+    /*@Autowired
     FormLoginErrorMessageService messageService;
 
     public void init() {
@@ -145,5 +145,5 @@ public class ErrorMessageDataInit {
 
     private void addErrorMessage(FormLoginErrorMessage errorMessage) {
         messageService.saveErrorMessage(errorMessage);
-    }
+    }*/
 }

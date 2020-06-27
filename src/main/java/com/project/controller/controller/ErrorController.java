@@ -41,14 +41,14 @@ public class ErrorController extends AbstractErrorController {
 
     @ExceptionHandler(NoValuePresentException.class)
     public ModelAndView noValuePresent() throws IOException {
-        ModelAndView view = new ModelAndView("user/user");
+        ModelAndView view = new ModelAndView("user");
         view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessageOnNoValuePresent());
         return view;
     }
 
     @ExceptionHandler(BadCredentialsException.class)
     public ModelAndView badCredential() {
-        ModelAndView view = new ModelAndView("user/user");
+        ModelAndView view = new ModelAndView("user");
         view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessageOnBadCredential());
         return view;
     }
