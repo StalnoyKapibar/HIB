@@ -114,7 +114,7 @@ async function setLocaleFields() {
             $('.not-valid-url-loc').text(localeFields['notValidUrl']);
 
 
-            //user.html
+            //user-page.html
             $('.my-orders-loc').text(localeFields['oders']);
             $('.myprof-loc').text(localeFields['myprofile']);
             $('.checkboxRememberMe-loc').text(localeFields['rememberMe']);

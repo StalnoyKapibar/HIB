@@ -8,7 +8,6 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.gmail.Gmail;
 import com.project.controller.restcontroller.GmailRestController;
 import com.project.controller.restcontroller.ParseGmailController;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
@@ -43,13 +42,13 @@ public class GmailController {
         Gmail buildGmail = new Gmail.Builder(new NetHttpTransport(), new JacksonFactory(), googleCredential).build();
         GmailRestController.gmail = buildGmail;
         ParseGmailController.gmail = buildGmail;
-        return "/admin/admin";
+        return "admin/admin-page";
     }
 
     @GetMapping(value = "/gmail/admin", params = "error")
     public String handleGoogleFailure(@RequestParam("error") String response) {
         GmailRestController.code = null;
         GmailRestController.gmail = null;
-        return "/admin/admin";
+        return "admin/admin-page";
     }
 }

@@ -20,7 +20,7 @@ public class ViewController {
 
     @GetMapping({"/home", "/profile/**", "/category/**", "/shopping-cart", "/search", "/err/**"})
     public String getHomePage() {
-        return "user";
+        return "user/user-page";
     }
 
     @GetMapping("/")
@@ -30,7 +30,7 @@ public class ViewController {
 
     @GetMapping("/search/{categoryId}")
     public ModelAndView getSearchPage(@PathVariable("categoryId") long categoryId, ModelAndView modelAndView) {
-        modelAndView.setViewName("user");
+        modelAndView.setViewName("user/user-page");
         return modelAndView;
     }
 
@@ -42,7 +42,7 @@ public class ViewController {
             return modelAndView;
         }
             modelAndView.addObject("book", id);
-            modelAndView.setViewName("user");
+            modelAndView.setViewName("user/user-page");
         return modelAndView;
     }
 
