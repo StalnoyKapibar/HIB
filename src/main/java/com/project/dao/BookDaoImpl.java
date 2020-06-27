@@ -92,6 +92,7 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
         pageableBookSearchDTO.setSize(pageable.getPageSize());
         pageableBookSearchDTO.setAmountOfBooksInDb(amountOfBooks);
         pageableBookSearchDTO.setAmountOfPages((int) Math.ceil(Float.valueOf(amountOfBooks) / limitBookDTOOnPage));
+        pageableBookSearchDTO.setShow(isShow);
         return pageableBookSearchDTO;
     }
 
