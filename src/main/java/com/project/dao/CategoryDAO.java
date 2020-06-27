@@ -24,7 +24,7 @@ public class CategoryDAO extends AbstractDao<Long, Category> {
     public List getAdminCategoryTree() {
         String hql = "WITH RECURSIVE cte AS\n" +
                 "    (\n" +
-                "    SELECT id, category_name, CAST(LOWER(CONCAT('/', category_name)) AS CHAR(1000)) AS path, parent_id, view_order\n" +
+                "    SELECT id, category_name, CAST(LOWER(CONCAT('/', category_name)) AS VARCHAR) AS path, parent_id, view_order\n" +
                 "    FROM category where parent_id IS NULL\n" +
                 "    UNION ALL\n" +
                 "    SELECT c.id, c.category_name, CONCAT(cte.path, '/', LOWER(c.category_name)), c.parent_id, c.view_order\n" +
@@ -38,7 +38,7 @@ public class CategoryDAO extends AbstractDao<Long, Category> {
     public List getCategoryTree() {
         String hql = "WITH RECURSIVE cte AS\n" +
                 "    (\n" +
-                "    SELECT id, category_name, CAST(LOWER(CONCAT('/', category_name)) AS CHAR(1000)) AS path, parent_id, view_order\n" +
+                "    SELECT id, category_name, CAST(LOWER(CONCAT('/', category_name)) AS VARCHAR) AS path, parent_id, view_order\n" +
                 "    FROM category where parent_id IS NULL\n" +
                 "    UNION ALL\n" +
                 "    SELECT c.id, c.category_name, CONCAT(cte.path, '/', LOWER(c.category_name)), c.parent_id, c.view_order\n" +
@@ -87,7 +87,7 @@ public class CategoryDAO extends AbstractDao<Long, Category> {
     public List getAllChildsIdByPath(String path) {
         String sql = "WITH RECURSIVE cte AS\n" +
                 "(\n" +
-                "SELECT id, category_name, CAST(LOWER(CONCAT('/', category_name)) AS CHAR(1000)) AS path\n" +
+                "SELECT id, category_name, CAST(LOWER(CONCAT('/', category_name)) AS VARCHAR) AS path\n" +
                 "FROM category where parent_id IS NULL\n" +
                 "UNION ALL\n" +
                 "SELECT c.id, c.category_name, CONCAT(cte.path, '/', LOWER(c.category_name))\n" +
