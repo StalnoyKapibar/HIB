@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Books Fragment</title>
 </head>
+
 <body>
 <div aria-labelledby="v-pills-profile-tab"
      class="tab-pane fade show active" id="v-pills-profile" role="tabpanel"
@@ -11,11 +12,14 @@
     <link href="/static/css/admin/adminTree.css" rel="stylesheet">
     <nav>
         <div class="nav nav-tabs" id="nav-tab1" role="tablist">
-            <a aria-controls="nav-home1" aria-selected="true" class="nav-item nav-link active all-books-loc" data-toggle="tab"
+            <a aria-controls="nav-home1" aria-selected="true" class="nav-item nav-link active all-books-loc"
+               data-toggle="tab"
                href="#nav-home1" id="nav-home-tab1" role="tab">All Books</a>
-            <a aria-controls="nav-profile1" aria-selected="false" class="nav-item nav-link add-books-loc" data-toggle="tab"
+            <a aria-controls="nav-profile1" aria-selected="false" class="nav-item nav-link add-books-loc"
+               data-toggle="tab"
                href="#nav-profile1" id="nav-profile-tab1" onclick="addPage()" role="tab">Add Book</a>
-            <a aria-controls="add-hib-files" aria-selected="false" class="nav-item nav-link add-hib-files-loc" data-toggle="tab"
+            <a aria-controls="add-hib-files" aria-selected="false" class="nav-item nav-link add-hib-files-loc"
+               data-toggle="tab"
                href="#add-hib-files" id="add-hib-files-tab" role="tab">Add hib files</a>
         </div>
     </nav>
@@ -37,28 +41,36 @@
                             <input type="checkbox" id="disabled" checked data-toggle="toggle">
                         </div>
                     </div>
-                    <button class='btn btn-primary col-4 btn-metro offset-2 add-new-book-loc' onclick='addNewBook()' type='submit'>Add
+                    <button class='btn btn-primary col-4 btn-metro offset-2 add-new-book-loc' onclick='addNewBook()'
+                            type='submit'>Add
                         new Book
                     </button>
                 </div>
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link active add-name-loc" id="name-tab" data-toggle="tab" href="#name" role="tab" aria-controls="home" aria-selected="true">Add name</a>
+                        <a class="nav-link active add-name-loc" id="name-tab" data-toggle="tab" href="#name" role="tab"
+                           aria-controls="home" aria-selected="true">Add name</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link add-author-loc" id="author-tab" data-toggle="tab" href="#author" role="tab" aria-controls="profile" aria-selected="false">Add author</a>
+                        <a class="nav-link add-author-loc" id="author-tab" data-toggle="tab" href="#author" role="tab"
+                           aria-controls="profile" aria-selected="false">Add author</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link add-description-loc" id="description-tab" data-toggle="tab" href="#description" role="tab" aria-controls="contact" aria-selected="false">Add description</a>
+                        <a class="nav-link add-description-loc" id="description-tab" data-toggle="tab"
+                           href="#description" role="tab" aria-controls="contact" aria-selected="false">Add
+                            description</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link add-addition-loc" id="edition-tab" data-toggle="tab" href="#edition" role="tab" aria-controls="contact" aria-selected="false">Add edition</a>
+                        <a class="nav-link add-addition-loc" id="edition-tab" data-toggle="tab" href="#edition"
+                           role="tab" aria-controls="contact" aria-selected="false">Add edition</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link add-other-loc" id="other-tab" data-toggle="tab" href="#other" role="tab" aria-controls="contact" aria-selected="false">Add other</a>
+                        <a class="nav-link add-other-loc" id="other-tab" data-toggle="tab" href="#other" role="tab"
+                           aria-controls="contact" aria-selected="false">Add other</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link category-loc" id="category-tab " data-toggle="tab" href="#category" role="tab" aria-controls="contact" aria-selected="false">Category</a>
+                        <a class="nav-link category-loc" id="category-tab " data-toggle="tab" href="#category"
+                           role="tab" aria-controls="contact" aria-selected="false">Category</a>
                     </li>
                 </ul>
             </div>
@@ -67,39 +79,55 @@
         </div>
         <div aria-labelledby="add-hib-files-tab" class="tab-pane fade" id="add-hib-files" role="tabpanel">
             <div class="row">
-                <div class="col-sm-4 offset-2">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title update-one-book-loc">Upload one Book</h5>
-                            <form action="/api/admin/upload-multiply-files" enctype="multipart/form-data" method="POST">
-                                <input accept=".hib" class="form-control-file" id="add-hib-file-input" name="files"
-                                       type="file">
-                                <button id="uploadOneFileHidden" style="display: none"></button>
-                            </form>
-                        </div>
-                        <div class="card-footer text-center">
-                            <button class="btn btn-success btn-metro col-5 edit-and-upload-loc" onclick="editHibFile()">Edit and
-                                Upload
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title upload-several-longphrase-loc">Upload several books for further processing</h5>
-                            <form action="/api/admin/upload-multiply-files" enctype="multipart/form-data" method="POST">
-                                <input accept=".hib" class="form-control-file" id="add-hib-files-input" multiple
-                                       name="files" type="file">
-                                <button id="uploadMultiplyFilesHidden" style="display: none"></button>
-                            </form>
-                        </div>
-                        <div class="card-footer text-center">
-                            <button class="btn btn-info btn-metro upload-to-server-loc" onclick="uploadMultiplyFiles()">Upload to server
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                <!--                <div class="col-sm-4 offset-2">-->
+                <!--                    <div class="card">-->
+                <!--                        <div class="card-body">-->
+                <!--                            <h5 class="card-title update-one-book-loc">Upload one Book</h5>-->
+                <!--                            <form action="/api/admin/upload-multiply-files" enctype="multipart/form-data" method="POST">-->
+                <!--                                <input accept=".hib" class="form-control-file" id="add-hib-file-input" name="files"-->
+                <!--                                       type="file">-->
+                <!--                                <button id="uploadOneFileHidden" style="display: none"></button>-->
+                <!--                            </form>-->
+                <!--                        </div>-->
+                <!--                        <div class="card-footer text-center">-->
+                <!--                            <button class="btn btn-success btn-metro col-5 edit-and-upload-loc" onclick="editHibFile()">Edit and-->
+                <!--                                Upload-->
+                <!--                            </button>-->
+                <!--                        </div>-->
+                <!--                    </div>-->
+                <!--                </div>-->
+
+<!--                <div class="input-group mb-3 container">-->
+<!--                    <form action="/api/admin/upload-multiply-files" enctype="multipart/form-data" method="POST">-->
+<!--                    <div class="custom-file">-->
+<!--                        <input accept=".hib" type="file" class="custom-file-input" id="add-hib-files-input">-->
+<!--                        <label class="custom-file-label" aria-describedby="inputGroupFileAddon02">Choose file</label>-->
+<!--                    </div>-->
+<!--                    <div class="input-group-append">-->
+<!--                        <button class="input-group-text btn btn-info btn-metro upload-to-server-loc"-->
+<!--                                id="inputGroupFileAddon02" onclick="uploadMultiplyFiles()">Upload-->
+<!--                        </button>-->
+<!--                    </div>-->
+<!--                    </form>-->
+<!--                </div>-->
+
+
+                                <div class="col container m-5">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title upload-several-longphrase-loc">Upload several books for further processing</h5>
+                                            <form action="/api/admin/upload-multiply-files" enctype="multipart/form-data" method="POST">
+                                                <input accept=".hib" class="form-control-file" id="add-hib-files-input" multiple
+                                                       name="files" type="file">
+                                                <button id="uploadMultiplyFilesHidden" style="display: none"></button>
+                                            </form>
+                                        </div>
+                                        <div class="card-footer text-center">
+                                            <button class="btn btn-info btn-metro upload-to-server-loc" onclick="uploadMultiplyFiles()">Upload to server
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
             </div>
             <br>
             <table class="table table-sm table-sm bg-white" id="hibFilesTable">
