@@ -266,6 +266,7 @@ async function setLocaleFields() {
             addedToshoppingCart = localeFields['addedToshoppingCart'];
             editBook = localeFields['editBook'];
             deleteBottom = localeFields['deleteBottom'];
+            alertFileNotFound = localeFields['alertFileNotFound'];
 
             $('#modalClose').text(localeFields['close']);
             $('#book-on-page-loc').text(localeFields['bookOnPage']);
