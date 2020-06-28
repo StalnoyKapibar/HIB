@@ -96,4 +96,9 @@ public class FeedbackRequestController {
             return feedbackRequestService.getCountOfFeedBack(data.getDataEnterInFeedback());
         }
     }
+
+    @GetMapping(value = "/api/admin/feedback-request/{senderEmail}/amount")
+    public Long[] getAmountOfFeedback(@PathVariable("senderEmail") String senderEmail) {
+        return feedbackRequestService.getAmountOfFeedback(senderEmail);
+    }
 }

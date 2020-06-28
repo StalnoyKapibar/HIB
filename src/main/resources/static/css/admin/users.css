@@ -1,0 +1,27 @@
+#user-info {
+    height: 500px;
+}
+
+#first-last-names {
+    text-align: center;
+}
+
+#email-chat {
+    text-align: center;
+}
+
+#fields {
+    text-align: center;
+}
+
+#subject-mes {
+    color: grey;
+}
+
+#orders-feedbacks ul li, #users-table  {
+    text-align: center;
+}
+
+#btn-swing {
+    padding: 0;
+}

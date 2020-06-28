@@ -33,4 +33,13 @@ public class FeedbackRequestDaoImpl extends AbstractDao<Long, FeedbackRequest> i
                 .getResultList()
                 .size();
     }
+
+    @Override
+    public Long getAmountByReplied(boolean replied, String senderEmail) {
+        return (Long) entityManager
+                .createQuery("SELECT count(*) FROM FeedbackRequest f WHERE replied = :replied AND senderEmail = :senderEmail")
+                .setParameter("replied", replied)
+                .setParameter("senderEmail", senderEmail)
+                .getSingleResult();
+    }
 }

@@ -121,6 +121,11 @@ public class OrderController {
         }
     }
 
+    @GetMapping("/api/admin/order/{email}/amount")
+    private Long[] getAmountOfFeedback(@PathVariable("email") String email) {
+        return orderService.getAmountOfOrders(email);
+    }
+
     @PatchMapping("/api/admin/completeOrder/{id}")
     private void orderComplete(@PathVariable Long id) {
         orderService.completeOrder(id);

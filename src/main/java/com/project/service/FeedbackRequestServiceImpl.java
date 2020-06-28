@@ -49,4 +49,11 @@ public class FeedbackRequestServiceImpl implements FeedbackRequestService {
     public int getCountOfFeedBack(long lastAuthDate) {
         return feedbackRequestDAO.getCountOfFeedBack(lastAuthDate);
     }
+
+    @Override
+    public Long[] getAmountOfFeedback(String senderEmail) {
+        Long unrepliedFeedbacks = feedbackRequestDAO.getAmountByReplied(false, senderEmail);
+        Long repliedFeedbacks = feedbackRequestDAO.getAmountByReplied(true, senderEmail);
+        return new Long[] {unrepliedFeedbacks, repliedFeedbacks};
+    }
 }

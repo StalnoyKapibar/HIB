@@ -2,6 +2,7 @@ package com.project.dao;
 
 import com.project.dao.abstraction.OrderDao;
 import com.project.model.Order;
+import com.project.model.Status;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -30,5 +31,15 @@ public class OrderDaoImpl extends AbstractDao<Long, Order> implements OrderDao {
                 .setParameter("data", lastAuthDate)
                 .getResultList()
                 .size();
+    }
+
+    @Override
+    public Long getAmountByStatus(Status status, String email) {
+        String inner = "SELECT id FROM users WHERE email =:email";
+        return (Long) entityManager
+                .createQuery("SELECT COUNT(*) FROM orders o WHERE status = :status AND user_id = (SELECT id FROM UserAccount ua WHERE email =:email)")
+                .setParameter("status", status)
+                .setParameter("email", email)
+                .getSingleResult();
     }
 }

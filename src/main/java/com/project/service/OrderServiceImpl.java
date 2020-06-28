@@ -98,6 +98,15 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public Long[] getAmountOfOrders(String email) {
+        Long uprocessedOrders = orderDAO.getAmountByStatus(Status.UNPROCESSED, email);
+        Long processingOrders = orderDAO.getAmountByStatus(Status.PROCESSING, email);
+        Long completedOrders = orderDAO.getAmountByStatus(Status.COMPLETED, email);
+        Long deletedOrders = orderDAO.getAmountByStatus(Status.DELETED, email);
+        return new Long[] {uprocessedOrders, processingOrders, completedOrders, deletedOrders};
+    }
+
+    @Override
     public int getCountOfOrders(long lastAuthDate) {
         return orderDAO.getCountOfOrders(lastAuthDate);
     }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.NoResultException;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -53,5 +54,12 @@ public class UserAccountDao extends AbstractDao<Long, UserAccount> {
     public UserAccount save(UserAccount userAccount) {
         entityManager.persist(userAccount);
         return userAccount;
+    }
+
+    public List<String> getUsersEmails() {
+        return (List<String>) entityManager
+                .createQuery("SELECT email FROM UserAccount ua WHERE NOT roles = (SELECT roleId FROM Role r WHERE roleName =:roleName)")
+                .setParameter("roleName", "ROLE_ADMIN")
+                .getResultList();
     }
 }

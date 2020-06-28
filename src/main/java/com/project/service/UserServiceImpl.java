@@ -1,6 +1,7 @@
 package com.project.service;
 
 import com.project.dao.abstraction.UserDao;
+import com.project.model.UserAccount;
 import com.project.model.UserDTO;
 import com.project.model.UserDTONewPassword;
 import com.project.service.abstraction.UserService;
@@ -9,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.regex.Pattern;
 
 @Service
