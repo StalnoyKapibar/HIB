@@ -5,7 +5,7 @@ properties = {
     client_id: "183482457610-9bp9qfkp3ao3de2cv09sqqfv5mt72vjk.apps.googleusercontent.com",
     access_type: "offline",
     prompt: "consent",
-    redirect_uri: "http://localhost:8080/gmail/admin",
+    redirect_uri: "http://77.222.63.141:8080/gmail/admin",
     response_type: "code",
     scope: "https://mail.google.com/",
 }
