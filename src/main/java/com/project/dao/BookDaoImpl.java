@@ -59,10 +59,10 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
                 "b.originalLanguage.nameTranslit, b.originalLanguage.author, b.originalLanguage.authorTranslit, b.description.en," +
                 "b.originalLanguage.edition, b.originalLanguage.editionTranslit, b.yearOfEdition, b.pages, b.price, b.originalLanguageName, b.coverImage, b.category, b.isShow) " +
                 "FROM Book b where (b.isShow = true or b.isShow = :isShow) AND " +
-                "(((b.originalLanguage.name LIKE :name or b.originalLanguage.nameTranslit LIKE :name or " +
-                "b.originalLanguage.author LIKE :name or b.originalLanguage.authorTranslit LIKE :name) and :searchBy = 'name-author') OR" +
-                "((b.originalLanguage.name LIKE :name or b.originalLanguage.nameTranslit LIKE :name) and :searchBy = 'name') OR" +
-                "((b.originalLanguage.author LIKE :name or b.originalLanguage.authorTranslit LIKE :name) and :searchBy = 'author')) AND" +
+                "(((LOWER(b.originalLanguage.name) LIKE :name or LOWER(b.originalLanguage.nameTranslit) LIKE :name or " +
+                "LOWER(b.originalLanguage.author) LIKE :name or LOWER(b.originalLanguage.authorTranslit) LIKE :name) and :searchBy = 'name-author') OR" +
+                "((LOWER(b.originalLanguage.name) LIKE :name or LOWER(b.originalLanguage.nameTranslit) LIKE :name) and :searchBy = 'name') OR" +
+                "((LOWER(b.originalLanguage.author) LIKE :name or LOWER(b.originalLanguage.authorTranslit) LIKE :name) and :searchBy = 'author')) AND" +
                 "((b.pages >= :pagesFrom and b.pages <= :pagesTo) OR (b.pages >= :pagesFrom and :pagesTo is null) OR " +
                 "(:pagesFrom is null and b.pages <= :pagesTo) OR (:pagesFrom is null and :pagesTo is null)) AND " +
                 "((b.yearOfEdition >= :yearOfEditionFrom and b.yearOfEdition <= :yearOfEditionTo) OR (b.yearOfEdition >= :yearOfEditionFrom and :yearOfEditionTo = 'null') OR " +
@@ -92,6 +92,7 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
         pageableBookSearchDTO.setSize(pageable.getPageSize());
         pageableBookSearchDTO.setAmountOfBooksInDb(amountOfBooks);
         pageableBookSearchDTO.setAmountOfPages((int) Math.ceil(Float.valueOf(amountOfBooks) / limitBookDTOOnPage));
+        pageableBookSearchDTO.setShow(isShow);
         return pageableBookSearchDTO;
     }
 
@@ -102,10 +103,10 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
         //todo число книг диз энд эвэл
         String hql = ("SELECT new com.project.model.BookNewDTO(b.id)" +
                 "FROM Book b where b.isShow = true AND " +
-                "(((b.originalLanguage.name LIKE :name or b.originalLanguage.nameTranslit LIKE :name or " +
-                "b.originalLanguage.author LIKE :name or b.originalLanguage.authorTranslit LIKE :name) and :searchBy = 'name-author') OR" +
-                "((b.originalLanguage.name LIKE :name or b.originalLanguage.nameTranslit LIKE :name) and :searchBy = 'name') OR" +
-                "((b.originalLanguage.author LIKE :name or b.originalLanguage.authorTranslit LIKE :name) and :searchBy = 'author')) AND" +
+                "(((LOWER(b.originalLanguage.name) LIKE  :name or LOWER(b.originalLanguage.nameTranslit)  LIKE :name or " +
+                "LOWER(b.originalLanguage.author) LIKE :name or LOWER(b.originalLanguage.authorTranslit) LIKE :name) and :searchBy = 'name-author') OR" +
+                "((LOWER(b.originalLanguage.name) LIKE :name or LOWER(b.originalLanguage.nameTranslit) LIKE :name) and :searchBy = 'name') OR" +
+                "((LOWER(b.originalLanguage.author) LIKE :name or LOWER(b.originalLanguage.authorTranslit) LIKE :name) and :searchBy = 'author')) AND" +
                 "((b.pages >= :pagesFrom and b.pages <= :pagesTo) OR (b.pages >= :pagesFrom and :pagesTo is null) OR " +
                 "(:pagesFrom is null and b.pages <= :pagesTo) OR (:pagesFrom is null and :pagesTo is null)) AND " +
                 "((b.yearOfEdition >= :yearOfEditionFrom and b.yearOfEdition <= :yearOfEditionTo) OR (b.yearOfEdition >= :yearOfEditionFrom and :yearOfEditionTo = 'null') OR " +
