@@ -46,7 +46,7 @@ public class SearchController {
                                                      @RequestParam(value = "pagesTo") Long pagesTo, @RequestParam(value = "page") int page,
                                                      @RequestParam(value = "size") int size, @RequestParam(value = "show") boolean isShow) {
         Pageable pageable = PageRequest.of(page, size);
-        BookSearchPageDTO books = bookSearch.searchByParameters(request, priceFrom, priceTo, String.valueOf(yearOfEditionFrom), String.valueOf(yearOfEditionTo),
+        BookSearchPageDTO books = bookSearch.searchByParameters(request.toLowerCase(), priceFrom, priceTo, String.valueOf(yearOfEditionFrom), String.valueOf(yearOfEditionTo),
                 pagesFrom, pagesTo, searchBy, categories, pageable, isShow);
         return books;
     }
@@ -60,7 +60,7 @@ public class SearchController {
                                                      @RequestParam(value = "size") int size, @RequestParam(value = "show") boolean isShow) {
         Pageable pageable = PageRequest.of(page, size);
         List<Long> categories = categoryDAO.getIdsCategories();
-        BookSearchPageDTO books = bookSearch.searchByParameters(request, priceFrom, priceTo, String.valueOf(yearOfEditionFrom), String.valueOf(yearOfEditionTo),
+        BookSearchPageDTO books = bookSearch.searchByParameters(request.toLowerCase(), priceFrom, priceTo, String.valueOf(yearOfEditionFrom), String.valueOf(yearOfEditionTo),
                 pagesFrom, pagesTo, searchBy, categories, pageable, isShow);
         return books;
     }
