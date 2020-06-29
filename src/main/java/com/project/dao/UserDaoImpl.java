@@ -33,11 +33,12 @@ public class UserDaoImpl extends AbstractDao<Long, UserAccount> implements UserD
     @Override
     public void saveUserDTOPersonalInformation(UserDTO userDTO) {
         entityManager.createQuery("UPDATE UserAccount" +
-                " SET email = :email, firstName = :firstName, lastName = :lastName" +
+                " SET email = :email, firstName = :firstName, lastName = :lastName, phone = :phone" +
                 " WHERE id =:userId")
                 .setParameter("email", userDTO.getEmail())
                 .setParameter("firstName", userDTO.getFirstName())
                 .setParameter("lastName", userDTO.getLastName())
+                .setParameter("phone", userDTO.getPhone())
                 .setParameter("userId", userDTO.getUserId())
                 .executeUpdate();
     }

@@ -31,6 +31,7 @@ $('#sidebar').mouseenter(() => {
 $('#sidebar').mouseleave(() => {
     $('#mainNameInPage').text('HIB');
     $('#page-wrapper').addClass('pinned');
+    $('.ul-books').hide();
 });
 
 function getCategoriesLocal(name) {

@@ -28,6 +28,11 @@ $(document).ready(function () {
     setLocaleFields();
 });
 
+$('#feedback-request-modal')
+    .on('hide.bs.modal', function() {
+        getFeedbackRequestTable(false);
+    })
+
 function markAsRead(id, replied) {
     let message = "Mark this message as ";
     message += replied ? "unread?" : "read?";
@@ -39,15 +44,47 @@ function markAsRead(id, replied) {
 }
 
 async function getFeedbackRequestTable(replied) {
+    $('#preloader').html(`
+        <div class="progress">
+            <div class="indeterminate"></div>
+        </div>
+    `)
     await fetch("/api/admin/feedback-request?replied=" + replied)
         .then(json)
+        .then(async data => {
+            let tmp = data;
+            let feedbacks = [];
+            let emails = [];
+            for (let key in data) {
+                emails.push(data[key].senderEmail)
+            }
+            await fetch ("/admin/unreadgmail/", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify(emails)
+            }).then(json).then(data => {
+                feedbacks = tmp.map((item) => {
+                    if (data.hasOwnProperty(item.senderEmail)) {
+                        item.unreadgmail = data[item.senderEmail];
+                        return item;
+                    } else {
+                        item.unreadgmail = false;
+                        return item;
+                    }
+                })
+            })
+            return feedbacks;
+        })
         .then((data) => {
+            $('#preloader').empty();
             tableBody.empty();
             for (let i = 0; i < data.length; i++) {
                 let id = data[i].id;
                 let senderName = data[i].senderName;
                 let senderEmail = data[i].senderEmail;
-                let content = data[i].content;
+                let content = data[i].unreadgmail ? data[i].unreadgmail[1] : data[i].content;
                 let bookId = null;
                 let bookName = null;
                 let bookCoverImage = null;
@@ -92,7 +129,7 @@ async function getFeedbackRequestTable(replied) {
                             <td>${id}</td>
                             <td>${senderName}</td>
                             <td>${senderEmail}</td>
-                            <td>${content}</td>
+                            <td ${data[i].unreadgmail ? 'class="unread"' : ''}>${content}</td>
                             <td>${replied}</td>
                             <td>${mark}</td>
                            `);
@@ -437,7 +474,13 @@ function sendGmailMessage(userId, feedbackId) {
             wrapper.insertAdjacentHTML("beforeend", html);
             document.getElementById("sent-message").value = "";
             sendButton.disabled = false;
-        });
+        }).then(() => {
+        fetch("/admin/markasread?email=" + userId)
+            .then(json)
+            .then((data) => {
+                console.log(data)
+            })
+    });
 }
 
 // function sendGmailMessage(userId, index) {
