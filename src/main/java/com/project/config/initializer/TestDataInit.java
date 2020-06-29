@@ -38,7 +38,6 @@ public class TestDataInit {
     private int bookId;
 
     public void init() {
-
         File img = new File("img");
         File[] contentImg = img.listFiles();
         for (File file : contentImg) {
