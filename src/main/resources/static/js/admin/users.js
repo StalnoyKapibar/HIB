@@ -9,14 +9,14 @@ $(document).ready(async function () {
         .then((data) => {
            users = data;
             $.each(users, function (index) {
-                htmlUsers += `<tr>
+                htmlUsers += `<tr id="${users[index].email}-mark">
                                 <td>${users[index].email}</td>
-                                <td>${users[index].unrepliedFeedbacks} <button class="btn btn-primary">↓</button></td>
-                                <td>${users[index].repliedFeedbacks} <button class="btn btn-primary">↓</button></td>
-                                <td>${users[index].uprocessedOrders} <button class="btn btn-primary">↓</button></td>
-                                <td>${users[index].processingOrders} <button class="btn btn-primary">↓</button></td>
-                                <td>${users[index].completedOrders} <button class="btn btn-primary">↓</button></td>
-                                <td>${users[index].deletedOrders} <button class="btn btn-primary">↓</button></td>
+                                <td>${users[index].unrepliedFeedbacks} <button type="button" class="btn btn-primary" onclick="showDetails('unrepliedFeedbacks', '${users[index].email}')">↓</button></td>
+                                <td>${users[index].repliedFeedbacks} <button type="button" class="btn btn-primary" onclick="showDetails('repliedFeedbacks', '${users[index].email}')">↓</button></td>
+                                <td>${users[index].uprocessedOrders} <button type="button" class="btn btn-primary" onclick="showDetails('uprocessedOrders', '${users[index].email}')">↓</button></td>
+                                <td>${users[index].processingOrders} <button type="button" class="btn btn-primary" onclick="showDetails('processingOrders', '${users[index].email}')">↓</button></td>
+                                <td>${users[index].completedOrders} <button type="button" class="btn btn-primary" onclick="showDetails('completedOrders', '${users[index].email}')">↓</button></td>
+                                <td>${users[index].deletedOrders} <button type="button" class="btn btn-primary" onclick="showDetails('deletedOrders', '${users[index].email}')">↓</button></td>
                               </tr>`;
                 $('#users-body').html(htmlUsers);
             });
@@ -158,3 +158,14 @@ async function scrolling() {
         document.getElementById("chat").removeAttribute('onscroll');
     }
 }
+
+function showDetails(details, email) {
+    let htmlDetails = ``;
+    if (details === 'unrepliedFeedbacks' || details === 'repliedFeedbacks') {
+        htmlDetails += `<tr id="${email}-${details}">
+                            <td colspan="7">asdad</td>
+                        </tr>`
+        document.getElementById(email + "-mark").insertAdjacentHTML("afterend", htmlDetails);
+    }
+}
+
