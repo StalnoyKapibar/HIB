@@ -52,6 +52,7 @@ function renderHibFilesTable() {
         });
 }
 
+
 $(document).on('click', ".upload-for-sale", async function () {
     await GET("/api/admin/hib?name=" + $(this).attr("data-filename"))
         .then(json)

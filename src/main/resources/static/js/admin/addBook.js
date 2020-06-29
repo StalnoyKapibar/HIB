@@ -9,7 +9,7 @@ let pathToTmpPackage = '/images/tmp/';
 
 function checkNamesNotNull() {
     for (let tmpNameVar of nameVarOfLocaleString) {
-        if ($("#inpname" + tmpNameVar).val() !== ''|| $("#inptname").val() !== '' ) {
+        if ($("#inpname" + tmpNameVar).val() !== '' ) {
             return true;
         }
     }
@@ -314,7 +314,7 @@ function deleteImage(id) {
 
 function addNewBook() {
     // checkBoxOnOrOf();
-    if (checkNamesNotNull() && confirm("Add this book?")) {
+    if (checkRequired() && confirm("Add this book?")) {
         let book = {};
         let otherLangFields = {};
         for (let tmpNameObject of nameObjectOfLocaleString) {
