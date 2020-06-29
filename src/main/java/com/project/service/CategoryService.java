@@ -65,7 +65,7 @@ public class CategoryService {
     public String[] transferToArrayFromList(List<Category> transfer) {
         String[] arr = new String[transfer.size()];
         for (int i = 0; i < transfer.size(); i++) {
-            arr[i] = transfer.get(i).getCategoryName();
+            arr[i] = transfer.get(i).getName().getEn();
         }
         return arr;
     }

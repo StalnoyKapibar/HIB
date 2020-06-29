@@ -1,7 +1,7 @@
 package com.project.dao;
 
-import com.project.model.Category;
-import com.project.model.LocaleString;
+import com.project.model.*;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -27,11 +27,11 @@ public class CategoryDAO extends AbstractDao<Long, Category> {
     public List getAdminCategoryTree() {
         String hql = "WITH RECURSIVE cte AS\n" +
                 "    (\n" +
-                "    SELECT id, category_name, CAST(LOWER(CONCAT('/', category_name)) AS CHAR(1000)) AS path, parent_id, view_order\n" +
-                "    FROM category where parent_id IS NULL\n" +
+                "    SELECT d.id, oi.en, CAST(LOWER(CONCAT('/', d.name_id)) AS CHAR(1000)) AS path, d.parent_id, d.view_order\n" +
+                "    FROM category d JOIN local_string oi on d.name_id = oi.id where d.parent_id IS NULL\n" +
                 "    UNION ALL\n" +
-                "    SELECT c.id, c.category_name, CONCAT(cte.path, '/', LOWER(c.category_name)), c.parent_id, c.view_order\n" +
-                "    FROM cte cte, category c\n" +
+                "    SELECT c.id, oi.en, CONCAT(cte.path, '/', LOWER(c.name_id)), c.parent_id, c.view_order\n" +
+                "    FROM cte cte, category c JOIN local_string oi on c.name_id = oi.id\n" +
                 "    WHERE c.parent_id = cte.id\n" +
                 "    )\n" +
                 "SELECT * FROM cte ORDER BY view_order;";
@@ -41,11 +41,11 @@ public class CategoryDAO extends AbstractDao<Long, Category> {
     public List getCategoryTree() {
         String hql = "WITH RECURSIVE cte AS\n" +
                 "    (\n" +
-                "    SELECT id, category_name, CAST(LOWER(CONCAT('/', category_name)) AS CHAR(1000)) AS path, parent_id, view_order\n" +
-                "    FROM category where parent_id IS NULL\n" +
+                "    SELECT d.id, oi.en, CAST(LOWER(CONCAT('/', d.name_id)) AS CHAR(1000)) AS path, d.parent_id, d.view_order\n" +
+                "    FROM category d JOIN local_string oi on d.name_id = oi.id where parent_id IS NULL\n" +
                 "    UNION ALL\n" +
-                "    SELECT c.id, c.category_name, CONCAT(cte.path, '/', LOWER(c.category_name)), c.parent_id, c.view_order\n" +
-                "    FROM cte cte, category c\n" +
+                "    SELECT c.id, oi.en, CONCAT(cte.path, '/', LOWER(c.name_id)), c.parent_id, c.view_order\n" +
+                "    FROM cte cte, category c JOIN local_string oi on c.name_id = oi.id\n" +
                 "    WHERE c.parent_id = cte.id\n" +
                 "    )\n" +
                 "SELECT * FROM cte ORDER BY view_order";
@@ -54,7 +54,7 @@ public class CategoryDAO extends AbstractDao<Long, Category> {
 
     public List<Category> getNoParentCategories() {
         String hql = "SELECT c FROM Category c WHERE c.parentId IS NULL ORDER BY c.viewOrder";
-        return entityManager.createQuery(hql, Category.class).getResultList();
+        return entityManager.createQuery(hql, Category.class).setMaxResults(4).getResultList();
     }
 
 
@@ -86,11 +86,11 @@ public class CategoryDAO extends AbstractDao<Long, Category> {
     public List getAllChildsIdByPath(String path) {
         String sql = "WITH RECURSIVE cte AS\n" +
                 "(\n" +
-                "SELECT id, category_name, CAST(LOWER(CONCAT('/', category_name)) AS CHAR(1000)) AS path\n" +
-                "FROM category where parent_id IS NULL\n" +
+                "SELECT c.id, oi.en, CAST(LOWER(CONCAT('/', c.name_id)) AS CHAR(1000)) AS path\n" +
+                "FROM category c JOIN local_string oi on c.name_id = oi.id where parent_id IS NULL\n" +
                 "UNION ALL\n" +
-                "SELECT c.id, c.category_name, CONCAT(cte.path, '/', LOWER(c.category_name))\n" +
-                "FROM cte cte, category c\n" +
+                "SELECT c.id, oi.en, CONCAT(cte.path, '/', LOWER(c.name_id))\n" +
+                "FROM cte cte, category c JOIN local_string oi on name_id = oi.id\n" +
                 "WHERE c.parent_id = cte.id\n" +
                 ")\n" +
                 "SELECT id FROM cte WHERE path LIKE '%/path%' ORDER BY path".replace("/path", path);
@@ -101,11 +101,11 @@ public class CategoryDAO extends AbstractDao<Long, Category> {
     public List getAllChildsIdByParentId(Long parentId) {
         String sql = "WITH RECURSIVE cte AS\n" +
                 "(\n" +
-                "SELECT id, category_name, 0 AS stack\n" +
-                "FROM category where parent_id = :parentId\n" +
+                "SELECT id, oi.en, 0 AS stack\n" +
+                "FROM category where parent_id = :parentId JOIN local_string oi on c.name_id = oi.id\n" +
                 "UNION ALL\n" +
-                "SELECT c.id, c.category_name, cte.stack + 1\n" +
-                "FROM cte cte, category c\n" +
+                "SELECT c.id, oi.en, cte.stack + 1\n" +
+                "FROM cte cte, category c JOIN local_string oi on c.name_id = oi.id\n" +
                 "WHERE c.parent_id = cte.id\n" +
                 ")\n" +
                 "SELECT id FROM cte order by id, stack";
@@ -113,10 +113,10 @@ public class CategoryDAO extends AbstractDao<Long, Category> {
         return  entityManager.createNativeQuery(sql).setParameter("parentId", parentId).getResultList();
     }
 
-    public List<LocaleString> getListCategoriesByName(String name, String[] categories) {
-        String hql = ("SELECT " + name + " FROM LocaleString WHERE en IN :listik");
+    public List<LocaleString> getListCategoriesByName(String names, String[] categories) {
+        String hql = ("SELECT b.name." + names + " FROM Category b WHERE b.name.en IN :list");
         Query list = entityManager.createQuery(hql)
-                .setParameter("listik", Arrays.asList(categories));
+                .setParameter("list", Arrays.asList(categories));
         return list.getResultList();
     }
 
@@ -124,4 +124,5 @@ public class CategoryDAO extends AbstractDao<Long, Category> {
         String sql = "UPDATE category SET parent_id =:parentId WHERE id =:id";
         entityManager.createNativeQuery(sql).setParameter("id", id).setParameter("parentId", parentId).executeUpdate();
     }
+
 }
