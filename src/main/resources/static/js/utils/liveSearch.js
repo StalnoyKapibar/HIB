@@ -13,7 +13,7 @@ function findEl(el, array, value) {
                 }
             });
             if (coincidence === false) {
-                el.append('<a class="js-searchInput dropdown-item" style="padding-left:20px">' + array[i] + '</a>');    // Если совпадений не обнаружено, то добавляем уникальное название в список
+                el.append('<a class="js-searchInput dropdown-item" style="padding-left:' + array[i] + '</a>');    // Если совпадений не обнаружено, то добавляем уникальное название в список
             }
         }
     }
@@ -36,9 +36,9 @@ filterInput.bind('input propertychange', async function () {
                     const value = book[field];
                     if (typeof value === 'string') {
                         if (field.startsWith("name") && !book.show) {
-                            array.push(value + ' <img src="../../static/images/outOfStock.png" style="max-width: 35px;">')
+                            array.push('0px"><img src="../../static/images/outOfStock.png" style="max-width: 20px;" >' + value)
                         } else {
-                            array.push(value);
+                            array.push('20px">' + value);
                         }
                     }
                 }
