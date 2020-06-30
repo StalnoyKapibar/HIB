@@ -5,6 +5,7 @@ let amountBooksInPage = 0;
 let amountBooksInDb;
 let ddmAmountBook = $("#ddmAmountBook");
 let isAdmin = false;
+let isShow = false;
 
 $(document).ready(async function () {
     getLanguage();
@@ -97,16 +98,14 @@ function setListeners () {
     $('#search-submit').on('click', () => {
         currentPage = 0;
         advancedSearch(ddmAmountBook.text(), currentPage++);
-        $('#input-categories').empty();
-        getCategoryTree();
     });
 
-    $('#input-categories').on('click', '.custom-control-input', function () {
+    $('#input-categories').on('click', '.input-categories', function () {
         let $category = $(this).closest('.category');
         if ($(this).is(':checked')) {
-            $category.find('.custom-control-input').prop('checked', true);
+            $category.find('.input-categories').prop('checked', true);
         } else {
-            $category.find('.custom-control-input').prop('checked', false);
+            $category.find('.input-categories').prop('checked', false);
         }
     });
     $('#input-categories').on('click', 'label', function () {
@@ -135,7 +134,7 @@ function setListeners () {
                 return;
             }
             nearCategory = nearCategory.parent().parent().parent();
-            nearCategory.children().children("input").prop("checked", isChecked);
+            nearCategory.children().children(".input-categories").prop("checked", isChecked);
             isCheckedSiblings = getCheckedSiblings(nearCategory);
         } while (nearCategory.parent().parent().parent().hasClass("category"));
         let $checkboxes = $('#input-categories');
@@ -155,8 +154,8 @@ function setListeners () {
     })
 
     $('#check-available').on('click', function () {
-        $('#input-categories').empty();
-        getCategoryTree();
+        $(this).prop('checked', !isShow)
+        isShow = $(this).is(':checked')
     })
 }
 
@@ -203,7 +202,7 @@ async function setTreeView(category) {
         row =
             `<div class="category text-nowrap">
                 <div class="custom-control custom-checkbox form-check-inline" id="heading-${category[i].id}">
-                    <input class="custom-control-input" type="checkbox" id="check-${category[i].id}" value="${category[i].id}">
+                    <input class="custom-control-input input-categories" type="checkbox" id="check-${category[i].id}" value="${category[i].id}">
                     <label class="custom-control-label" for="check-${category[i].id}"></label>
                     <label class="collapsed" data-toggle="collapse" data-target="#collapse-${category[i].id}" aria-expanded="false" aria-controls="collapse-${category[i].id}">
                        <label id="${category[i].categoryName.toLowerCase()}-rightbar">${category[i].categoryName}</label>(${await getCountBooksByCat(category[i].path, $('#check-available').is(':checked') ? true : false)})
@@ -228,7 +227,7 @@ async function setChilds(category) {
             row +=
                 `<div class="category text-nowrap">
                     <div class="custom-control custom-checkbox form-check-inline" id="heading-${category[i].id}">
-                        <input class="custom-control-input" type="checkbox" id="check-${category[i].id}" value="${category[i].id}">
+                        <input class="custom-control-input input-categories" type="checkbox" id="check-${category[i].id}" value="${category[i].id}">
                         <label class="custom-control-label" for="check-${category[i].id}">
                             <label class="${category[i].categoryName.toLowerCase()}-rightbar">${category[i].categoryName}</label>(${await getCountBooksByCat(category[i].path, $('#check-available').is(':checked') ? true : false)})
                         </label>
@@ -238,7 +237,7 @@ async function setChilds(category) {
             row +=
                 `<div class="category text-nowrap">
                     <div class="custom-control custom-checkbox form-check-inline" id="heading-${category[i].id}">
-                        <input class="custom-control-input" type="checkbox" id="check-${category[i].id}" value="${category[i].id}">
+                        <input class="custom-control-input input-categories" type="checkbox" id="check-${category[i].id}" value="${category[i].id}">
                         <label class="custom-control-label" for="check-${category[i].id}"></label>
                         <label class="collapsed" data-toggle="collapse" data-target="#collapse-${category[i].id}" aria-expanded="false" aria-controls="collapse-${category[i].id}">
                            <label class="${category[i].categoryName.toLowerCase()}-rightbar">${category[i].categoryName}</label>(${await getCountBooksByCat(category[i].path, $('#check-available').is(':checked') ? true : false)})
@@ -268,7 +267,7 @@ async function advancedSearch(amount, page) {
     let pagesFrom = $('#input-pages-from').val();
     let pagesTo = $('#input-pages-to').val();
     let searchBy = $('#search-by input:checked').val();
-    let isShow = $('#check-available').is(':checked') ? true : false;
+    isShow = $('#check-available').is(':checked') ? true : false;
     let categories = [];
     let searchAdvanced = '';
     if (isCheckedCategory) {
@@ -358,6 +357,7 @@ async function addFindeBooks(data) {
         } if(data[i].price == null) {
             data[i].price = "-";
         }
+        console.log(data[i].show)
         tr.push(`<tr>
                                 <td class="align-middle">
                                     <img src=${urlImage} style="max-width: 60px; ${data[i].show === true ? '' : 'opacity: 0.3'}">

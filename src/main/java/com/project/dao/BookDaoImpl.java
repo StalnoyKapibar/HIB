@@ -53,7 +53,7 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
                                                     Long pagesFrom, Long pagesTo, String searchBy, List<Long> categories, Pageable pageable, boolean isShow) {
         int limitBookDTOOnPage = pageable.getPageSize();
         int minNumberId = limitBookDTOOnPage * pageable.getPageNumber();
-        long amountOfBooks = getQuantityBooksBySearchRequest(request, priceFrom, priceTo, yearOfEditionFrom, yearOfEditionTo, pagesFrom, pagesTo, searchBy, categories);
+        long amountOfBooks = getQuantityBooksBySearchRequest(request, priceFrom, priceTo, yearOfEditionFrom, yearOfEditionTo, pagesFrom, pagesTo, searchBy, categories, isShow);
         String name = ("%" + request + "%");
         String hql = ("SELECT new com.project.model.BookNewDTO(b.id, b.originalLanguage.name," +
                 "b.originalLanguage.nameTranslit, b.originalLanguage.author, b.originalLanguage.authorTranslit, b.description.en," +
@@ -97,11 +97,11 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
 
     @Override
     public long getQuantityBooksBySearchRequest(String request, Long priceFrom, Long priceTo,
-                                                String yearOfEditionFrom, String yearOfEditionTo, Long pagesFrom, Long pagesTo, String searchBy, List<Long> categories) {
+                                                String yearOfEditionFrom, String yearOfEditionTo, Long pagesFrom, Long pagesTo, String searchBy, List<Long> categories, boolean isShow) {
         String name = ("%" + request + "%");
         //todo число книг диз энд эвэл
         String hql = ("SELECT new com.project.model.BookNewDTO(b.id)" +
-                "FROM Book b where b.isShow = true AND " +
+                "FROM Book b where (b.isShow = true or b.isShow = :isShow) AND " +
                 "(((b.originalLanguage.name LIKE :name or b.originalLanguage.nameTranslit LIKE :name or " +
                 "b.originalLanguage.author LIKE :name or b.originalLanguage.authorTranslit LIKE :name) and :searchBy = 'name-author') OR" +
                 "((b.originalLanguage.name LIKE :name or b.originalLanguage.nameTranslit LIKE :name) and :searchBy = 'name') OR" +
@@ -115,6 +115,7 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
                 "(:priceFrom = 0 and b.price <= :priceTo) OR (:priceFrom = 0 and :priceTo = 0))");
         List<BookNewDTO> list = entityManager.createQuery(hql, BookNewDTO.class)
                 .setParameter("name", name)
+                .setParameter("isShow", isShow)
                 .setParameter("pagesFrom", pagesFrom)
                 .setParameter("pagesTo", pagesTo)
                 .setParameter("yearOfEditionFrom", yearOfEditionFrom)
