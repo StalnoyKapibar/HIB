@@ -11,12 +11,12 @@ $(document).ready(async function () {
             $.each(users, function (index) {
                 htmlUsers += `<tr id="${users[index].email}-mark">
                                 <td>${users[index].email}</td>
-                                <td>${users[index].unrepliedFeedbacks} <button type="button" class="btn btn-primary" onclick="showDetails('unrepliedFeedbacks', '${users[index].email}')">↓</button></td>
-                                <td>${users[index].repliedFeedbacks} <button type="button" class="btn btn-primary" onclick="showDetails('repliedFeedbacks', '${users[index].email}')">↓</button></td>
-                                <td>${users[index].uprocessedOrders} <button type="button" class="btn btn-primary" onclick="showDetails('uprocessedOrders', '${users[index].email}')">↓</button></td>
-                                <td>${users[index].processingOrders} <button type="button" class="btn btn-primary" onclick="showDetails('processingOrders', '${users[index].email}')">↓</button></td>
-                                <td>${users[index].completedOrders} <button type="button" class="btn btn-primary" onclick="showDetails('completedOrders', '${users[index].email}')">↓</button></td>
-                                <td>${users[index].deletedOrders} <button type="button" class="btn btn-primary" onclick="showDetails('deletedOrders', '${users[index].email}')">↓</button></td>
+                                <td>${users[index].unrepliedFeedbacks} <button type="button" class="btn btn-primary arrow" onclick="showDetails('unrepliedFeedbacks', '${users[index].email}')" id="${users[index].email}-unrepliedFeedbacks-arrow">↓</button></td>
+                                <td>${users[index].repliedFeedbacks} <button type="button" class="btn btn-primary arrow" onclick="showDetails('repliedFeedbacks', '${users[index].email}')" id="${users[index].email}-repliedFeedbacks-arrow">↓</button></td>
+                                <td>${users[index].uprocessedOrders} <button type="button" class="btn btn-primary arrow" onclick="showDetails('uprocessedOrders', '${users[index].email}')" id="${users[index].email}-uprocessedOrders-arrow">↓</button></td>
+                                <td>${users[index].processingOrders} <button type="button" class="btn btn-primary arrow" onclick="showDetails('processingOrders', '${users[index].email}')" id="${users[index].email}-processingOrders-arrow">↓</button></td>
+                                <td>${users[index].completedOrders} <button type="button" class="btn btn-primary arrow" onclick="showDetails('completedOrders', '${users[index].email}')" id="${users[index].email}-completedOrders-arrow">↓</button></td>
+                                <td>${users[index].deletedOrders} <button type="button" class="btn btn-primary arrow" onclick="showDetails('deletedOrders', '${users[index].email}')" id="${users[index].email}-deletedOrders-arrow">↓</button></td>
                               </tr>`;
                 $('#users-body').html(htmlUsers);
             });
@@ -160,12 +160,201 @@ async function scrolling() {
 }
 
 function showDetails(details, email) {
-    let htmlDetails = ``;
-    if (details === 'unrepliedFeedbacks' || details === 'repliedFeedbacks') {
-        htmlDetails += `<tr id="${email}-${details}">
-                            <td colspan="7">asdad</td>
-                        </tr>`
-        document.getElementById(email + "-mark").insertAdjacentHTML("afterend", htmlDetails);
+    switch (details) {
+        case 'unrepliedFeedbacks':
+            showUnrepliedFeedbacks(details, email);
+            break;
+        case 'repliedFeedbacks':
+            showRepliedFeedbacks(details, email);
+            break;
+        case 'uprocessedOrders':
+            showUprocessedOrders(details, email);
+            break;
+        case 'processingOrders':
+            showProcessingOrders(details, email);
+            break;
+        case 'completedOrders':
+            showCompletedOrders(details, email);
+            break;
+        case 'deletedOrders':
+            showDeletedOrders(details, email);
+            break;
     }
+    // let htmlDetails = ``;
+    // if (details === 'unrepliedFeedbacks' || details === 'repliedFeedbacks') {
+    //     htmlDetails += `<tr id="${email}-${details}">
+    //                         <td colspan="7" class="pt-0 pb-0">
+    //                             <div class="row active-cell-details">
+    //                                 <div class="col-2">
+    //                                     <div>Fedback №7</div>
+    //                                     <div>Алексей</div>
+    //                                 </div>
+    //                                 <div class="col-8">
+    //                                     Здравствуйте, у меня возник вопрос по оплате. Какие сервисы электронных платежей
+    //                                     поддерживает ваш сайт? И могу ли я заказать книгу в Сибирь?\t\t
+    //                                 </div>
+    //                                 <div class="col-2">
+    //                                     <button class="btn btn-info reply" type="button">Reply</button>
+    //                                     <button class="btn btn-info" type="button" id="mark-as-read">Mark as read</button>
+    //                                 </div>
+    //                             </div>
+    //                             <div class="row active-cell-details">
+    //                                 <div class="col-2">
+    //                                     <div>Fedback №7</div>
+    //                                     <div>Алексей</div>
+    //                                 </div>
+    //                                 <div class="col-8">
+    //                                     Здравствуйте, у меня возник вопрос по оплате. Какие сервисы электронных платежей
+    //                                     поддерживает ваш сайт? И могу ли я заказать книгу в Сибирь?\t\t
+    //                                 </div>
+    //                                 <div class="col-2">
+    //                                     <button class="btn btn-info reply" type="button">Reply</button>
+    //                                     <button class="btn btn-info" type="button" id="mark-as-read">Mark as read</button>
+    //                                 </div>
+    //                             </div>
+    //                         </td>
+    //                     </tr>`
+    //     document.getElementById(email + "-mark").insertAdjacentHTML("afterend", htmlDetails);
+    //     let width = $('#mark-as-read').width();
+    //     $('.reply').width(width);
+    //     upArrow(email + '-' + details + '-arrow', details, email);
+    // }
+}
+
+function hideDetails(arrowId, details, email) {
+    document.getElementById(email + '-' + details).firstChild.remove();
+    document.getElementById(email + '-' + details).firstChild.remove();
+
+    downArrow(arrowId, details, email);
+}
+
+async function showUnrepliedFeedbacks(details, email) {
+    let htmlDetails = ``;
+    // await fetch("/api/admin/feedback-request?replied=" + 'false')
+    //     .then(json)
+    //     .then((data) => {
+    //         allFeedBack = data;
+    //     });
+    htmlDetails += `<tr id="${email}-${details}">
+                            <td colspan="7" class="pt-0 pb-0">
+                                <div class="row active-cell-details">
+                                    <div class="col-2">
+                                        <div>Fedback №7</div>
+                                        <div>Алексей</div>
+                                    </div>
+                                    <div class="col-8">
+                                        Здравствуйте, у меня возник вопрос по оплате. Какие сервисы электронных платежей 
+                                        поддерживает ваш сайт? И могу ли я заказать книгу в Сибирь?\t\t
+                                    </div>
+                                    <div class="col-2">
+                                        <button class="btn btn-info reply" type="button">Reply</button>
+                                        <button class="btn btn-info" type="button" id="mark-as-read">Mark as read</button>
+                                    </div>
+                                </div>
+                                <div class="row active-cell-details">
+                                    <div class="col-2">
+                                        <div>Fedback №7</div>
+                                        <div>Алексей</div>
+                                    </div>
+                                    <div class="col-8">
+                                        Здравствуйте, у меня возник вопрос по оплате. Какие сервисы электронных платежей 
+                                        поддерживает ваш сайт? И могу ли я заказать книгу в Сибирь?\t\t
+                                    </div>
+                                    <div class="col-2">
+                                        <button class="btn btn-info reply" type="button">Reply</button>
+                                        <button class="btn btn-info" type="button" id="mark-as-read">Mark as read</button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>`
+    document.getElementById(email + "-mark").insertAdjacentHTML("afterend", htmlDetails);
+    let width = $('#mark-as-read').width();
+    $('.reply').width(width);
+    upArrow(email + '-' + details + '-arrow', details, email);
+}
+
+async function showRepliedFeedbacks(details, email) {
+    let htmlDetails = ``;
+    htmlDetails += `<tr id="${email}-${details}">
+                            <td colspan="7" class="pt-0 pb-0">
+                                <div class="row active-cell-details">
+                                    <div class="col-2">
+                                        <div>Fedback №7</div>
+                                        <div>Алексей</div>
+                                    </div>
+                                    <div class="col-8">
+                                        Здравствуйте, у меня возник вопрос по оплате. Какие сервисы электронных платежей 
+                                        поддерживает ваш сайт? И могу ли я заказать книгу в Сибирь?\t\t
+                                    </div>
+                                    <div class="col-2">
+                                        <button class="btn btn-info reply" type="button">Reply</button>
+                                        <button class="btn btn-info" type="button" id="mark-as-read">Mark as read</button>
+                                    </div>
+                                </div>
+                                <div class="row active-cell-details">
+                                    <div class="col-2">
+                                        <div>Fedback №7</div>
+                                        <div>Алексей</div>
+                                    </div>
+                                    <div class="col-8">
+                                        Здравствуйте, у меня возник вопрос по оплате. Какие сервисы электронных платежей 
+                                        поддерживает ваш сайт? И могу ли я заказать книгу в Сибирь?\t\t
+                                    </div>
+                                    <div class="col-2">
+                                        <button class="btn btn-info reply" type="button">Reply</button>
+                                        <button class="btn btn-info" type="button" id="mark-as-read">Mark as read</button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>`
+    document.getElementById(email + "-mark").insertAdjacentHTML("afterend", htmlDetails);
+    let width = $('#mark-as-read').width();
+    $('.reply').width(width);
+    upArrow(email + '-' + details + '-arrow', details, email);
+}
+
+async function showUprocessedOrders(details, email) {
+    let htmlDetails = ``;
+}
+
+async function showProcessingOrders(details, email) {
+    let htmlDetails = ``;
+}
+
+async function showCompletedOrders(details, email) {
+    let htmlDetails = ``;
+}
+
+async function showDeletedOrders(details, email) {
+    let htmlDetails = ``;
+}
+
+function downArrow(arrowId, details, email) {
+    let activeArrow = document.getElementById(arrowId);
+    activeArrow.removeAttribute("class");
+    activeArrow.removeAttribute("onclick");
+
+    let arrows = document.getElementsByClassName('arrow');
+    Array.from(arrows).forEach((arrow) => arrow.removeAttribute('disabled'));
+
+    document.getElementById(arrowId).innerText = "↓";
+    activeArrow.setAttribute('class', 'btn btn-primary arrow');
+    activeArrow.setAttribute('onclick', 'showDetails(' + '\'' + details + '\', \'' + email + '\')');
+
+    activeArrow.parentElement.removeAttribute("class");
+}
+
+function upArrow(arrowId, details, email) {
+    let activeArrow = document.getElementById(arrowId);
+    activeArrow.removeAttribute("class");
+    activeArrow.removeAttribute("onclick");
+
+    let arrows = document.getElementsByClassName('arrow');
+    Array.from(arrows).forEach((arrow) => arrow.setAttribute('disabled', 'disabled'));
+
+    document.getElementById(arrowId).innerText = "↑";
+    activeArrow.setAttribute('class', 'btn btn-success arrow');
+    activeArrow.setAttribute('onclick', 'hideDetails(\'' + arrowId + '\', ' + '\'' + details + '\', \'' + email + '\')');
+    activeArrow.parentElement.setAttribute("class", 'active-cell');
 }
 

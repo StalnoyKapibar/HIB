@@ -25,3 +25,7 @@
 #btn-swing {
     padding: 0;
 }
+
+.active-cell, .active-cell-details {
+    background-color: #dee2e6;
+}
