@@ -28,17 +28,23 @@ filterInput.bind('input propertychange', async function () {
         filterUl.fadeIn(100);
         let data = await getAllBooksForLiveSearch();
         let array = [];
+        console.log(data);
         for (let key in data) {
             if (data.hasOwnProperty(key)) {
                 let book = data[key];
                 for (let field in book) {
                     const value = book[field];
                     if (typeof value === 'string') {
-                        array.push(value);
+                        if (field.startsWith("name") && !book.show) {
+                            array.push(value + ' <img src="../../static/images/outOfStock.png" style="max-width: 35px;">')
+                        } else {
+                            array.push(value);
+                        }
                     }
                 }
             }
         }
+        console.log(array);
         findEl(filterUl, array, $(this).val());
     } else {
         filterUl.fadeOut(100);
