@@ -222,111 +222,193 @@ function showDetails(details, email) {
 }
 
 function hideDetails(arrowId, details, email) {
-    document.getElementById(email + '-' + details).firstChild.remove();
-    document.getElementById(email + '-' + details).firstChild.remove();
+    document.getElementById(email + '-' + details).remove();
 
     downArrow(arrowId, details, email);
 }
 
 async function showUnrepliedFeedbacks(details, email) {
     let htmlDetails = ``;
-    // await fetch("/api/admin/feedback-request?replied=" + 'false')
-    //     .then(json)
-    //     .then((data) => {
-    //         allFeedBack = data;
-    //     });
     htmlDetails += `<tr id="${email}-${details}">
-                            <td colspan="7" class="pt-0 pb-0">
-                                <div class="row active-cell-details">
+                        <td colspan="7" class="pt-0 pb-0">`
+    await fetch("/api/admin/feedback-request/" + email + "/replied?replied=" + 'false')
+        .then(json)
+        .then((data) => {
+            let feedBacks = data;
+            $.each(feedBacks, function (index) {
+                htmlDetails += `<div class="row active-cell-details">
                                     <div class="col-2">
-                                        <div>Fedback №7</div>
-                                        <div>Алексей</div>
+                                        <div>Feedback №${feedBacks[index].id}</div>
+                                        <div>${feedBacks[index].senderName}</div>
                                     </div>
                                     <div class="col-8">
-                                        Здравствуйте, у меня возник вопрос по оплате. Какие сервисы электронных платежей 
-                                        поддерживает ваш сайт? И могу ли я заказать книгу в Сибирь?\t\t
+                                        ${feedBacks[index].content}
                                     </div>
                                     <div class="col-2">
-                                        <button class="btn btn-info reply" type="button">Reply</button>
-                                        <button class="btn btn-info" type="button" id="mark-as-read">Mark as read</button>
+                                        <button class="btn btn-info btn-block" type="button">Reply</button>
+                                        <button class="btn btn-info btn-block" type="button">Mark as read</button>
                                     </div>
-                                </div>
-                                <div class="row active-cell-details">
-                                    <div class="col-2">
-                                        <div>Fedback №7</div>
-                                        <div>Алексей</div>
-                                    </div>
-                                    <div class="col-8">
-                                        Здравствуйте, у меня возник вопрос по оплате. Какие сервисы электронных платежей 
-                                        поддерживает ваш сайт? И могу ли я заказать книгу в Сибирь?\t\t
-                                    </div>
-                                    <div class="col-2">
-                                        <button class="btn btn-info reply" type="button">Reply</button>
-                                        <button class="btn btn-info" type="button" id="mark-as-read">Mark as read</button>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>`
+                                </div>`
+            });
+            htmlDetails += `    </td>
+                            </tr>`
+        });
     document.getElementById(email + "-mark").insertAdjacentHTML("afterend", htmlDetails);
-    let width = $('#mark-as-read').width();
-    $('.reply').width(width);
     upArrow(email + '-' + details + '-arrow', details, email);
 }
 
 async function showRepliedFeedbacks(details, email) {
     let htmlDetails = ``;
     htmlDetails += `<tr id="${email}-${details}">
-                            <td colspan="7" class="pt-0 pb-0">
-                                <div class="row active-cell-details">
+                        <td colspan="7" class="pt-0 pb-0">`
+    await fetch("/api/admin/feedback-request/" + email + "/replied?replied=" + 'true')
+        .then(json)
+        .then((data) => {
+            let feedBacks = data;
+            $.each(feedBacks, function (index) {
+                htmlDetails += `<div class="row active-cell-details">
                                     <div class="col-2">
-                                        <div>Fedback №7</div>
-                                        <div>Алексей</div>
+                                        <div>Feedback №${feedBacks[index].id}</div>
+                                        <div>${feedBacks[index].senderName}</div>
                                     </div>
                                     <div class="col-8">
-                                        Здравствуйте, у меня возник вопрос по оплате. Какие сервисы электронных платежей 
-                                        поддерживает ваш сайт? И могу ли я заказать книгу в Сибирь?\t\t
+                                        ${feedBacks[index].content}
                                     </div>
                                     <div class="col-2">
-                                        <button class="btn btn-info reply" type="button">Reply</button>
-                                        <button class="btn btn-info" type="button" id="mark-as-read">Mark as read</button>
+                                        <button class="btn btn-info btn-block" type="button">Reply</button>
+                                        <button class="btn btn-info btn-block" type="button">Mark as unread</button>
                                     </div>
-                                </div>
-                                <div class="row active-cell-details">
-                                    <div class="col-2">
-                                        <div>Fedback №7</div>
-                                        <div>Алексей</div>
-                                    </div>
-                                    <div class="col-8">
-                                        Здравствуйте, у меня возник вопрос по оплате. Какие сервисы электронных платежей 
-                                        поддерживает ваш сайт? И могу ли я заказать книгу в Сибирь?\t\t
-                                    </div>
-                                    <div class="col-2">
-                                        <button class="btn btn-info reply" type="button">Reply</button>
-                                        <button class="btn btn-info" type="button" id="mark-as-read">Mark as read</button>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>`
+                                </div>`
+            });
+            htmlDetails += `    </td>
+                            </tr>`
+        });
     document.getElementById(email + "-mark").insertAdjacentHTML("afterend", htmlDetails);
-    let width = $('#mark-as-read').width();
-    $('.reply').width(width);
     upArrow(email + '-' + details + '-arrow', details, email);
 }
 
 async function showUprocessedOrders(details, email) {
     let htmlDetails = ``;
+    htmlDetails += `<tr id="${email}-${details}">
+                        <td colspan="7" class="pt-0 pb-0">`
+    await fetch("/api/admin/order/" + email + "/" + details)
+        .then(json)
+        .then((data) => {
+            let orders = data;
+            $.each(orders, function (index) {
+                htmlDetails += `<div class="row active-cell-details">
+                                    <div class="col-2">
+                                        <div>Order №${orders[index].id}</div>
+                                        <div>${orders[index].userDTO.firstName} ${orders[index].userDTO.lastName}</div>
+                                        <div>${orders[index].data}</div>
+                                    </div>
+                                    <div class="col-8">
+                                        <div>${orders[index].comment}</div>
+                                        <div><a href="#">Show details</a></div>
+                                    </div>
+                                    <div class="col-2">
+                                        <button class="btn btn-danger btn-block" type="button">Delete</button>
+                                        <button class="btn btn-success btn-block" type="button">Process</button>
+                                    </div>
+                                </div>`
+            });
+            htmlDetails += `    </td>
+                            </tr>`
+        });
+    document.getElementById(email + "-mark").insertAdjacentHTML("afterend", htmlDetails);
+    upArrow(email + '-' + details + '-arrow', details, email);
 }
 
 async function showProcessingOrders(details, email) {
     let htmlDetails = ``;
+    htmlDetails += `<tr id="${email}-${details}">
+                        <td colspan="7" class="pt-0 pb-0">`
+    await fetch("/api/admin/order/" + email + "/" + details)
+        .then(json)
+        .then((data) => {
+            let orders = data;
+            $.each(orders, function (index) {
+                htmlDetails += `<div class="row active-cell-details">
+                                    <div class="col-2">
+                                        <div>Order №${orders[index].id}</div>
+                                        <div>${orders[index].userDTO.firstName} ${orders[index].userDTO.lastName}</div>
+                                        <div>${orders[index].data}</div>
+                                    </div>
+                                    <div class="col-8">
+                                        <div>${orders[index].comment}</div>
+                                        <div><a href="#">Show details</a></div>
+                                    </div>
+                                    <div class="col-2">
+                                        <button class="btn btn-danger btn-block" type="button">Delete</button>
+                                        <button class="btn btn-success btn-block" type="button">Complete</button>
+                                    </div>
+                                </div>`
+            });
+            htmlDetails += `    </td>
+                            </tr>`
+        });
+    document.getElementById(email + "-mark").insertAdjacentHTML("afterend", htmlDetails);
+    upArrow(email + '-' + details + '-arrow', details, email);
 }
 
 async function showCompletedOrders(details, email) {
     let htmlDetails = ``;
+    htmlDetails += `<tr id="${email}-${details}">
+                        <td colspan="7" class="pt-0 pb-0">`
+    await fetch("/api/admin/order/" + email + "/" + details)
+        .then(json)
+        .then((data) => {
+            let orders = data;
+            $.each(orders, function (index) {
+                htmlDetails += `<div class="row active-cell-details">
+                                    <div class="col-2">
+                                        <div>Order №${orders[index].id}</div>
+                                        <div>${orders[index].userDTO.firstName} ${orders[index].userDTO.lastName}</div>
+                                        <div>${orders[index].data}</div>
+                                    </div>
+                                    <div class="col-8">
+                                        <div>${orders[index].comment}</div>
+                                        <div><a href="#">Show details</a></div>
+                                    </div>
+                                    <div class="col-2">
+                                        <button class="btn btn-danger btn-block" type="button">Delete</button>
+                                        <button class="btn btn-success btn-block" type="button">Uncomplete</button>
+                                    </div>
+                                </div>`
+            });
+            htmlDetails += `    </td>
+                            </tr>`
+        });
+    document.getElementById(email + "-mark").insertAdjacentHTML("afterend", htmlDetails);
+    upArrow(email + '-' + details + '-arrow', details, email);
 }
 
 async function showDeletedOrders(details, email) {
     let htmlDetails = ``;
+    htmlDetails += `<tr id="${email}-${details}">
+                        <td colspan="7" class="pt-0 pb-0">`
+    await fetch("/api/admin/order/" + email + "/" + details)
+        .then(json)
+        .then((data) => {
+            let orders = data;
+            $.each(orders, function (index) {
+                htmlDetails += `<div class="row active-cell-details">
+                                    <div class="col-2">
+                                        <div>Order №${orders[index].id}</div>
+                                        <div>${orders[index].userDTO.firstName} ${orders[index].userDTO.lastName}</div>
+                                        <div>${orders[index].data}</div>
+                                    </div>
+                                    <div class="col-8">
+                                        <div>${orders[index].comment}</div>
+                                        <div><a href="#">Show details</a></div>
+                                    </div>
+                                </div>`
+            });
+            htmlDetails += `    </td>
+                            </tr>`
+        });
+    document.getElementById(email + "-mark").insertAdjacentHTML("afterend", htmlDetails);
+    upArrow(email + '-' + details + '-arrow', details, email);
 }
 
 function downArrow(arrowId, details, email) {

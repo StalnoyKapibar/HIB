@@ -11,7 +11,9 @@ public interface OrderDao extends GenericDao<Long, Order> {
 
     List<Order> getOrdersByStatus(String status);
 
+    List<Order> getOrderByEmailByStatus(Status status, String email);
+
     int getCountOfOrders(long lastAuthDate);
 
-    Long getAmountByStatus(Status status, String senderEmail);
+    Long getAmountByStatus(Status status, String email);
 }

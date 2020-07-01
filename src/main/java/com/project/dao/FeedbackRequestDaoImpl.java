@@ -26,6 +26,15 @@ public class FeedbackRequestDaoImpl extends AbstractDao<Long, FeedbackRequest> i
     }
 
     @Override
+    public List<FeedbackRequest> getBySenderByReplied(String senderEmail, boolean replied) {
+        return entityManager
+                .createQuery("FROM FeedbackRequest f WHERE senderEmail = :senderEmail AND replied = :replied", FeedbackRequest.class)
+                .setParameter("senderEmail", senderEmail)
+                .setParameter("replied", replied)
+                .getResultList();
+    }
+
+    @Override
     public int getCountOfFeedBack(long lastAuthDate) {
         return entityManager
                 .createQuery("FROM FeedbackRequest  where data>=:data", FeedbackRequest.class)
@@ -33,6 +42,8 @@ public class FeedbackRequestDaoImpl extends AbstractDao<Long, FeedbackRequest> i
                 .getResultList()
                 .size();
     }
+
+
 
     @Override
     public Long getAmountByReplied(boolean replied, String senderEmail) {

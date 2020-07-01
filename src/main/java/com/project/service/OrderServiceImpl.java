@@ -75,6 +75,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public List<Order> getOrderByEmailByStatus(Status status, String email) {
+        return orderDAO.getOrderByEmailByStatus(status, email);
+    }
+
+    @Override
     public void unCompleteOrder(Long id) {
         Order order = getOrderById(id);
         order.setStatus(Status.PROCESSING);

@@ -46,6 +46,11 @@ public class FeedbackRequestServiceImpl implements FeedbackRequestService {
     }
 
     @Override
+    public List<FeedbackRequest> getBySenderByReplied(String senderEmail, boolean replied) {
+        return feedbackRequestDAO.getBySenderByReplied(senderEmail, replied);
+    }
+
+    @Override
     public int getCountOfFeedBack(long lastAuthDate) {
         return feedbackRequestDAO.getCountOfFeedBack(lastAuthDate);
     }

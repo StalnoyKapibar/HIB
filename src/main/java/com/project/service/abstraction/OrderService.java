@@ -20,6 +20,8 @@ public interface OrderService {
 
     void completeOrder(Long id);
 
+    List<Order> getOrderByEmailByStatus(Status status, String email);
+
     int getCountOfOrders(long lastAuthDate);
 
     void unCompleteOrder(Long id);

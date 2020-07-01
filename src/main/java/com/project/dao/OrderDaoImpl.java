@@ -25,6 +25,15 @@ public class OrderDaoImpl extends AbstractDao<Long, Order> implements OrderDao {
     }
 
     @Override
+    public List<Order> getOrderByEmailByStatus(Status status, String email) {
+        return entityManager
+                .createQuery("FROM orders o WHERE status = :status AND user_id = (SELECT id FROM UserAccount ua WHERE email =:email)", Order.class)
+                .setParameter("status", status)
+                .setParameter("email", email)
+                .getResultList();
+    }
+
+    @Override
     public int getCountOfOrders(long lastAuthDate) {
         return entityManager
                 .createQuery("SELECT b FROM orders b where b.data>=:data", Order.class)
@@ -35,7 +44,6 @@ public class OrderDaoImpl extends AbstractDao<Long, Order> implements OrderDao {
 
     @Override
     public Long getAmountByStatus(Status status, String email) {
-        String inner = "SELECT id FROM users WHERE email =:email";
         return (Long) entityManager
                 .createQuery("SELECT COUNT(*) FROM orders o WHERE status = :status AND user_id = (SELECT id FROM UserAccount ua WHERE email =:email)")
                 .setParameter("status", status)
