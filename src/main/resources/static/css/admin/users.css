@@ -30,7 +30,7 @@
     background-color: #dee2e6;
 }
 
-.container#feedbacks-chat {
+.container#feedbacks-chat, .container#orderChat {
     height: 500px;
     overflow: auto;
     border-top: 1px solid #dee2e6;

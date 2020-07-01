@@ -2,6 +2,9 @@ let users;
 let htmlUsers = ``;
 let scrollOn = true;
 let messagePackIndex;
+let orders;
+let orderIndex;
+let iconOfPrice = " €";
 
 $(document).ready(async function () {
 
@@ -160,6 +163,39 @@ function sendFeedbackGmailMessage(userId, feedbackId) {
     });
 }
 
+function sendOrderGmailMessage(userId, orderId) {
+    let sendButton = document.getElementById("send-button");
+    sendButton.disabled = true;
+    let message = document.getElementById("sent-message").value;
+    if (message === "" || message == null || message == undefined) {
+        sendButton.disabled = false;
+        return;
+    }
+    fetch("/gmail/" + userId + "/Order №" + orderId, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json;charset=utf-8"
+        },
+        body: JSON.stringify(message),
+    })
+        .then(json)
+        .then((data) => {
+            let html = `<div class="row"><div class="col-5"></div><div id="chat-mes" class="rounded col-7"><p><h6><b>${data.sender}</b></h6></p>
+                                    <p>${data.text}</p></div></div>`;
+            let wrapper = document.getElementById("chat-wrapper");
+            wrapper.insertAdjacentHTML("beforeend", html);
+            document.getElementById("sent-message").value = "";
+            sendButton.disabled = false;
+        })
+        .then(() => {
+            fetch("/admin/markasread?email=" + userId)
+                .then(json)
+                .then((data) => {
+                    console.log(data)
+                })
+        });
+}
+
 async function scrolling() {
     document.getElementById("chat").removeAttribute('onscroll');
     if ($('#chat').scrollTop() < 5 && $('#chat').scrollTop() > 0) {
@@ -192,7 +228,7 @@ async function scrolling() {
     }
 }
 
-async function scrolling(feedback) {
+async function scrollingFeedback(feedback) {
     document.getElementById("feedbacks-chat").removeAttribute('onscroll');
     if ($('#feedbacks-chat').scrollTop() < 5 && $('#feedbacks-chat').scrollTop() > 0) {
         $('#feedbacks-chat').scrollTop(10);
@@ -218,9 +254,42 @@ async function scrolling(feedback) {
             });
     }
     if (scrollOn) {
-        document.getElementById("chat").setAttribute('onscroll', 'scrolling(' + JSON.stringify(feedback) + ')');
+        document.getElementById("chat").setAttribute('onscroll', 'scrollingFeedback(' + JSON.stringify(feedback) + ')');
     } else {
         document.getElementById("chat").removeAttribute('onscroll');
+    }
+}
+
+async function scrollingOrders() {
+    document.getElementById("orderChat").removeAttribute('onscroll');
+    let order = orders[orderIndex];
+    if ($('#orderChat').scrollTop() < 5 && $('#chat').scrollTop() > 0) {
+        $('#orderChat').scrollTop(10);
+        messagePackIndex++;
+        await fetch("/gmail/" + order.contacts.email + "/Order №" + order.id + "/" + messagePackIndex)
+            .then(json)
+            .then((data) => {
+                if (data[0].text === "chat end") {
+                    scrollOn = false;
+                    return;
+                }
+                let html;
+                for (let i = 0; i < data.length; i++) {
+                    if (data[i].sender === "me") {
+                        html = `<div class="row"><div class="col-5"></div><div id="chat-mes" class="rounded col-7"><p><h6><b>${data[i].sender}</b></h6></p>
+                                    <p>${data[i].text}</p></div></div>`;
+                    } else {
+                        html = `<div class="row"><div id="chat-mes" class="rounded col-7"><p><h6><b>${data[i].sender}</b></h6></p>
+                                                                            <p>${data[i].text}</p></div><div class="col-5"></div></div>`;
+                    }
+                    document.getElementById("chat-wrapper").insertAdjacentHTML("afterbegin", html);
+                }
+            });
+    }
+    if (scrollOn) {
+        document.getElementById("orderChat").setAttribute('onscroll', 'scrollingOrders()');
+    } else {
+        document.getElementById("orderChat").removeAttribute('onscroll');
     }
 }
 
@@ -338,7 +407,7 @@ async function showUprocessedOrders(details, email) {
     await fetch("/api/admin/order/" + email + "/" + details)
         .then(json)
         .then((data) => {
-            let orders = data;
+            orders = data;
             $.each(orders, function (index) {
                 htmlDetails += `<div class="row active-cell-details">
                                     <div class="col-2">
@@ -348,11 +417,11 @@ async function showUprocessedOrders(details, email) {
                                     </div>
                                     <div class="col-8">
                                         <div>${orders[index].comment}</div>
-                                        <div><a href="#">Show details</a></div>
+                                        <div><a href="#" data-target="#order-modal" data-toggle="modal" onclick="showModalOfOrder(${index})">Show details</a></div>
                                     </div>
                                     <div class="col-2">
-                                        <button class="btn btn-danger btn-block" type="button">Delete</button>
-                                        <button class="btn btn-success btn-block" type="button">Process</button>
+                                        <button class="btn btn-danger btn-block" type="button" onclick="orderDelete(${orders[index].id})">Delete</button>
+                                        <button class="btn btn-success btn-block" type="button" onclick="orderProcess(${orders[index].id})">Process</button>
                                     </div>
                                 </div>`
             });
@@ -383,8 +452,8 @@ async function showProcessingOrders(details, email) {
                                         <div><a href="#">Show details</a></div>
                                     </div>
                                     <div class="col-2">
-                                        <button class="btn btn-danger btn-block" type="button">Delete</button>
-                                        <button class="btn btn-success btn-block" type="button">Complete</button>
+                                        <button class="btn btn-danger btn-block" type="button" onclick="orderDelete(${orders[index].id})">Delete</button>
+                                        <button class="btn btn-success btn-block" type="button" onclick="orderComplete(${orders[index].id})">Complete</button>
                                     </div>
                                 </div>`
             });
@@ -415,8 +484,8 @@ async function showCompletedOrders(details, email) {
                                         <div><a href="#">Show details</a></div>
                                     </div>
                                     <div class="col-2">
-                                        <button class="btn btn-danger btn-block" type="button">Delete</button>
-                                        <button class="btn btn-success btn-block" type="button">Uncomplete</button>
+                                        <button class="btn btn-danger btn-block" type="button" onclick="orderDelete(${orders[index].id})">Delete</button>
+                                        <button class="btn btn-success btn-block" type="button" onclick="orderUnComplete(${orders[index].id})">Uncomplete</button>
                                     </div>
                                 </div>`
             });
@@ -572,7 +641,125 @@ async function showModalOfFeedBack(index) {
         });
     $('#feedbacks-chat').html(htmlChat);
     $('#feedbacks-chat').scrollTop(2000);
-    document.getElementById("feedbacks-chat").setAttribute('onscroll', 'scrolling(' + JSON.stringify(feedback) + ')');
+    document.getElementById("feedbacks-chat").setAttribute('onscroll', 'scrollingFeedback(' + JSON.stringify(feedback) + ')');
+
+    setLocaleFields();
+}
+
+async function showModalOfOrder(index) {
+    $('#orderChat').empty();
+    $('#orderModalBody').empty();
+    $('#contactsOfUser').empty();
+    scrollOn = true;
+    orderIndex = index;
+    let order = orders[index];
+    let items = order.items;
+    $('#modalOrderTitle').html(`Order № ${order.id}`);
+    messagePackIndex = 0;
+
+    if (order.contacts.email == "") {
+        order.contacts.email = order.userDTO.email;
+    }
+
+    let htmlContact = ``;
+    let emailModal = order.contacts.email;
+    let phoneModal = order.contacts.phone;
+    let commentModal = order.comment;
+    htmlContact += `<div class="panel panel-primary">
+                        <div class="panel-body">
+                            <div class="container mt-0 mb-0">
+                                <div class="row" id="contacts">
+                                    <div class="pl-3 pr-3 col-4" id="container-left">
+                                        <div><h5>${emailModal}</h5></div>
+                                        <div><span id="phoneModal">${phoneModal}</span></div>
+                                    </div>
+                                    <div class="pl-1 col-8" id="container-right"><span id="commentModal">${commentModal}</span></div>
+                                </div>`;
+    htmlContact += `</div></div></div>`;
+    $('#contactsOfUser').html(htmlContact);
+
+    let htmlChat = ``;
+    await fetch("/gmail/" + order.contacts.email + "/Order №" + order.id + "/" + "0")
+        .then(json)
+        .then((data) => {
+            if (data[0] === undefined) {
+                htmlChat += `<div id="chat-wrapper">`;
+                htmlChat += `</div>`;
+                htmlChat += `<textarea id="sent-message" class="form-control"></textarea>
+
+                        </div><button class="float-right col-2 btn btn-primary send-loc" type="button" id="send-button" onclick="sendOrderGmailMessage('${order.contacts.email}', ${orders[orderIndex].id})">Send</button>`
+
+            } else {
+                if (data[0].text === "chat end") {
+                    htmlChat += `<div id="chat-wrapper">`;
+                    htmlChat += `</div>`;
+                    htmlChat += `<textarea id="sent-message" class="form-control"></textarea>
+
+                        </div><button class="float-right col-2 btn btn-primary send-loc" type="button" id="send-button" onclick="sendOrderGmailMessage('${order.contacts.email}', ${orders[orderIndex].id})">Send</button>`
+
+                    scrollOn = false;
+                } else if (data[0].text === "noGmailAccess") {
+                    htmlChat += `<div>
+                                <span class="h3 col-10 confirm-gmail-longphrase-loc">Confirm gmail access to open chat:</span>
+                                <a type="button" class="col-2 btn btn-primary float-right confirm-loc" href="${gmailAccessUrl.fullUrl}">
+                                Confirm</a>
+                            </div>`
+                } else {
+                    htmlChat += `<div id="chat-wrapper">`;
+                    for (let i = data.length - 1; i > -1; i--) {
+                        if (data[i].sender === "me") {
+                            htmlChat += `<div class="row"><div class="col-5"></div><div id="chat-mes" class="rounded col-7"><p><span>${data[i].sender}</span></p>
+                                    <p>${data[i].text}</p></div></div>`
+                        } else {
+                            htmlChat += `<div class="row"><div id="chat-mes" class="rounded col-7"><p><span>${data[i].sender}</span></p>
+                                                                            <p>${data[i].text}</p></div><div class="col-5"></div></div>`
+                        }
+                    }
+                    htmlChat += `</div>`;
+                    htmlChat += `<textarea id="sent-message" class="form-control"></textarea>
+
+                        </div><button class="float-right col-2 btn btn-primary send-loc" type="button" id="send-button" onclick="sendOrderGmailMessage('${order.contacts.email}', ${orders[orderIndex].id})">Send</button>`
+
+                }
+            }
+        });
+    $('#orderChat').html(htmlChat);
+    $('#orderChat').scrollTop(2000);
+
+    const allOrdersforModal = await getAllOrders();
+
+    let html = ``;
+    html += `<thead><tr><th class="image-loc">Image</th>
+                             <th class="name-author-loc">Name | Author</th>
+                             <th></th>
+                             <th class="price-loc">Price</th></tr></thead>`;
+    $.each(items, function (index) {
+        let book = items[index].book;
+        let countUsers = 0;
+        let isLastOrder = `<td width="350">${convertOriginalLanguageRows(book.originalLanguage.name, book.originalLanguage.nameTranslit)} | ${convertOriginalLanguageRows(book.originalLanguage.author, book.originalLanguage.authorTranslit)}</td>`;
+        for (let i = 0; i < allOrdersforModal.length; i++) {
+            if (allOrdersforModal[i].status === "UNPROCESSED" || orders[i].status === "PROCESSING") {
+                for (let j = 0; j < allOrdersforModal[i].items.length; j++) {
+                    let numberOfBook = allOrdersforModal[i].items[j].book.originalLanguage;
+                    if (book.originalLanguage.id == numberOfBook.id) {
+                        countUsers++;
+                        if (countUsers >= 2) {
+                            isLastOrder = `<td width="350">${convertOriginalLanguageRows(book.originalLanguage.name, book.originalLanguage.nameTranslit)} | ${convertOriginalLanguageRows(book.originalLanguage.author, book.originalLanguage.authorTranslit)}
+                        <div style ="color: red; font-weight: 900;">This book was ordered by several people!</div></td>`
+                        }
+                    }
+                }
+            }
+        }
+        html += `<tr><td class="align-middle"><img src="/images/book${book.id}/${book.coverImage}" style="max-width: 80px"></td>
+            ${isLastOrder}
+            <td></td>
+            <td>${convertPrice(book.price)}${iconOfPrice}</td></tr>`;
+    });
+    html += `<tr><td></td><td></td><td><span class="subtotal-loc">Subtotal</span> :</td><td> ${convertPrice(order.itemsCost)}${iconOfPrice}</td></tr>
+                 <tr><td></td><td></td><td><span class="total-loc">Total</span> :</td><td>${convertPrice(order.itemsCost + order.shippingCost)}${iconOfPrice}</td></tr>`;
+    $('#orderModalBody').html(html);
+    document.getElementById("orderChat").setAttribute('onscroll', 'scrollingOrders()');
 
     setLocaleFields();
 }
@@ -585,6 +772,69 @@ async function markAsRead(id, replied) {
         await fetch("/api/admin/feedback-request/" + id + "/" + replied, {
             method: 'POST'
         })
+        location.reload();
+    }
+}
+
+async function getAllOrders() {
+    const url = '/api/admin/getAllOrders';
+    const res = await fetch(url);
+    const data = await res.json();
+    return data;
+}
+
+function convertPrice(price) {
+    return price / 100;
+}
+
+function orderComplete(id) {
+    if (confirm('Do you really want to COMPLETE order?')) {
+        fetch("/api/admin/completeOrder/" + id, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json;charset=utf-8"
+            },
+            body: JSON.stringify(id),
+        })
+        location.reload();
+    }
+}
+
+function orderProcess(id) {
+    if (confirm('Do you really want to PROCESS order?')) {
+        fetch("/api/admin/processOrder/" + id, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json;charset=utf-8"
+            },
+            body: JSON.stringify(id),
+        })
+        location.reload();
+    }
+}
+
+function orderUnComplete(id) {
+    if (confirm('Do you really want to UNCOMPLETE order?')) {
+        fetch("/api/admin/unCompleteOrder/" + id, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json;charset=utf-8"
+            },
+            body: JSON.stringify(id),
+        })
+        location.reload();
+    }
+}
+
+function orderDelete(id) {
+    if (confirm('Do you really want to DELETE order?')) {
+        fetch("/api/admin/deleteOrder/" + id, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json;charset=utf-8"
+            },
+            body: JSON.stringify(id),
+        });
         location.reload();
     }
 }
