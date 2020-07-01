@@ -1,6 +1,7 @@
 let users;
 let htmlUsers = ``;
 let scrollOn = true;
+let messagePackIndex;
 
 $(document).ready(async function () {
 
@@ -85,7 +86,7 @@ async function showFullchat() {
             }
             $('#chat').html(htmlChat);
             $('#chat').scrollTop(2000);
-            document.getElementById("chat").setAttribute('onscroll', 'scrolling()');
+            document.getElementById("chat").setAttribute('onscroll', 'scrolling(chat)');
         });
 }
 
@@ -127,6 +128,38 @@ function sendGmailMessage(userId) {
     // });
 }
 
+function sendFeedbackGmailMessage(userId, feedbackId) {
+    let sendButton = document.getElementById("send-button");
+    sendButton.disabled = true;
+    let message = document.getElementById("sent-message").value;
+    if (message === "" || message == null || message == undefined) {
+        sendButton.disabled = false;
+        return;
+    }
+    fetch("/gmail/" + userId + "/Feedback №" + feedbackId, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json;charset=utf-8"
+        },
+        body: JSON.stringify(message),
+    })
+        .then(json)
+        .then((data) => {
+            let html = `<div class="row"><div class="col-5"></div><div id="chat-mes" class="rounded col-7"><p><h6><b>${data.sender}</b></h6></p>
+                                    <p>${data.text}</p></div></div>`;
+            let wrapper = document.getElementById("chat-wrapper");
+            wrapper.insertAdjacentHTML("beforeend", html);
+            document.getElementById("sent-message").value = "";
+            sendButton.disabled = false;
+        }).then(() => {
+        fetch("/admin/markasread?email=" + userId)
+            .then(json)
+            .then((data) => {
+                console.log(data)
+            })
+    });
+}
+
 async function scrolling() {
     document.getElementById("chat").removeAttribute('onscroll');
     if ($('#chat').scrollTop() < 5 && $('#chat').scrollTop() > 0) {
@@ -159,6 +192,38 @@ async function scrolling() {
     }
 }
 
+async function scrolling(feedback) {
+    document.getElementById("feedbacks-chat").removeAttribute('onscroll');
+    if ($('#feedbacks-chat').scrollTop() < 5 && $('#feedbacks-chat').scrollTop() > 0) {
+        $('#feedbacks-chat').scrollTop(10);
+        messagePackIndex++;
+        await fetch("/gmail/" + feedback.senderEmail + "/Feedback №" + feedback.id + "/" + messagePackIndex)
+            .then(json)
+            .then((data) => {
+                if (data[0].text === "chat end") {
+                    scrollOn = false;
+                    return;
+                }
+                let html;
+                for (let i = 0; i < data.length; i++) {
+                    if (data[i].sender === "me") {
+                        html = `<div class="row"><div class="col-5"></div><div id="chat-mes" class="rounded col-7"><p><h6><b>${data[i].sender}</b></h6></p>
+                                    <p>${data[i].text}</p></div></div>`;
+                    } else {
+                        html = `<div class="row"><div id="chat-mes" class="rounded col-7"><p><h6><b>${data[i].sender}</b></h6></p>
+                                                                            <p>${data[i].text}</p></div><div class="col-5"></div></div>`;
+                    }
+                    document.getElementById("chat-wrapper").insertAdjacentHTML("afterbegin", html);
+                }
+            });
+    }
+    if (scrollOn) {
+        document.getElementById("chat").setAttribute('onscroll', 'scrolling(' + JSON.stringify(feedback) + ')');
+    } else {
+        document.getElementById("chat").removeAttribute('onscroll');
+    }
+}
+
 function showDetails(details, email) {
     switch (details) {
         case 'unrepliedFeedbacks':
@@ -180,45 +245,6 @@ function showDetails(details, email) {
             showDeletedOrders(details, email);
             break;
     }
-    // let htmlDetails = ``;
-    // if (details === 'unrepliedFeedbacks' || details === 'repliedFeedbacks') {
-    //     htmlDetails += `<tr id="${email}-${details}">
-    //                         <td colspan="7" class="pt-0 pb-0">
-    //                             <div class="row active-cell-details">
-    //                                 <div class="col-2">
-    //                                     <div>Fedback №7</div>
-    //                                     <div>Алексей</div>
-    //                                 </div>
-    //                                 <div class="col-8">
-    //                                     Здравствуйте, у меня возник вопрос по оплате. Какие сервисы электронных платежей
-    //                                     поддерживает ваш сайт? И могу ли я заказать книгу в Сибирь?\t\t
-    //                                 </div>
-    //                                 <div class="col-2">
-    //                                     <button class="btn btn-info reply" type="button">Reply</button>
-    //                                     <button class="btn btn-info" type="button" id="mark-as-read">Mark as read</button>
-    //                                 </div>
-    //                             </div>
-    //                             <div class="row active-cell-details">
-    //                                 <div class="col-2">
-    //                                     <div>Fedback №7</div>
-    //                                     <div>Алексей</div>
-    //                                 </div>
-    //                                 <div class="col-8">
-    //                                     Здравствуйте, у меня возник вопрос по оплате. Какие сервисы электронных платежей
-    //                                     поддерживает ваш сайт? И могу ли я заказать книгу в Сибирь?\t\t
-    //                                 </div>
-    //                                 <div class="col-2">
-    //                                     <button class="btn btn-info reply" type="button">Reply</button>
-    //                                     <button class="btn btn-info" type="button" id="mark-as-read">Mark as read</button>
-    //                                 </div>
-    //                             </div>
-    //                         </td>
-    //                     </tr>`
-    //     document.getElementById(email + "-mark").insertAdjacentHTML("afterend", htmlDetails);
-    //     let width = $('#mark-as-read').width();
-    //     $('.reply').width(width);
-    //     upArrow(email + '-' + details + '-arrow', details, email);
-    // }
 }
 
 function hideDetails(arrowId, details, email) {
@@ -245,8 +271,17 @@ async function showUnrepliedFeedbacks(details, email) {
                                         ${feedBacks[index].content}
                                     </div>
                                     <div class="col-2">
-                                        <button class="btn btn-info btn-block" type="button">Reply</button>
-                                        <button class="btn btn-info btn-block" type="button">Mark as read</button>
+                                        <button class="btn btn-info btn-block" type="button" onclick="showModalOfFeedBack(${feedBacks[index].id})"
+                                                       data-target="#feedback-request-modal" 
+                                                       data-toggle="modal"
+                                                       data-id="${feedBacks[index].id}"
+                                                       data-sender="${feedBacks[index].senderName}"
+                                                       data-email="${feedBacks[index].senderEmail}"
+                                                       data-message="${feedBacks[index].content}"
+                                                       data-bookId="${feedBacks[index].book.id}"
+                                                       data-bookName="${feedBacks[index].book.name.en}"
+                                                       data-bookCoverImage="${feedBacks[index].book.coverImage}">Reply</button>
+                                        <button class="btn btn-info btn-block" type="button" onclick="markAsRead(${feedBacks[index].id}, false)">Mark as read</button>
                                     </div>
                                 </div>`
             });
@@ -275,8 +310,17 @@ async function showRepliedFeedbacks(details, email) {
                                         ${feedBacks[index].content}
                                     </div>
                                     <div class="col-2">
-                                        <button class="btn btn-info btn-block" type="button">Reply</button>
-                                        <button class="btn btn-info btn-block" type="button">Mark as unread</button>
+                                        <button class="btn btn-info btn-block" type="button" onclick="showModalOfFeedBack(${feedBacks[index].id})"
+                                                       data-target="#feedback-request-modal" 
+                                                       data-toggle="modal"
+                                                       data-id="${feedBacks[index].id}"
+                                                       data-sender="${feedBacks[index].senderName}"
+                                                       data-email="${feedBacks[index].senderEmail}"
+                                                       data-message="${feedBacks[index].content}"
+                                                       data-bookId="${feedBacks[index].book.id}"
+                                                       data-bookName="${feedBacks[index].book.name.en}"
+                                                       data-bookCoverImage="${feedBacks[index].book.coverImage}">Reply</button>
+                                        <button class="btn btn-info btn-block" type="button" onclick="markAsRead(${feedBacks[index].id}, true)">Mark as unread</button>
                                     </div>
                                 </div>`
             });
@@ -440,3 +484,107 @@ function upArrow(arrowId, details, email) {
     activeArrow.parentElement.setAttribute("class", 'active-cell');
 }
 
+async function showModalOfFeedBack(index) {
+    $('#feedbacks-chat').empty();
+    $('#contactsOfRequester').empty();
+    scrollOn = true;
+    messagePackIndex = 0;
+    let feedback;
+    let book;
+    await fetch("/api/admin/feedback-request/" + index)
+        .then(json)
+        .then((data) => {
+            feedback = data;
+            book = feedback.book;
+            $('#modalTitle').html(`Feedback № ${feedback.id}`);
+        });
+    let htmlContact = ``;
+    htmlContact += `<div class="panel panel-primary">
+                        <div class="panel-body">
+                            <div class="container mt-0 mb-0">
+                                <div class="row" id="contacts-feedback">
+                                    <div class="pl-3 pr-3 col-4" id="container-left">
+                                        <div><h5>${feedback.senderName}</h5></div>
+                                        <div><span id="email-modal-feedback">${feedback.senderEmail}</span></div>
+                                    </div>
+                                    <div class="pl-1 col-8" id="container-right"><span id="commentModal">${feedback.content}</span></div>
+                                </div>`;
+    if (book !== null && book !== undefined) {
+        htmlContact += `<div class="row pl-3 pr-3">
+                            <img alt="interested book" height="50"
+                             id="interested-image"
+                             src=/images/book${book.id}/${book.coverImage}
+                             width="33">
+                            <div class="col-sm-10" id="interested-title-container">
+                                <a href="http://localhost:8080/page/8" id="interested-title" target="_blank">
+                                    ${convertOriginalLanguageRows(book.originalLanguage.name, book.originalLanguage.nameTranslit)} | ${convertOriginalLanguageRows(book.originalLanguage.author, book.originalLanguage.authorTranslit)}
+                                </a>
+                            </div>
+                        </div>`;
+    }
+    htmlContact += `</div></div></div>`;
+    $('#contactsOfRequester').html(htmlContact);
+
+    let htmlChat = ``;
+    await fetch("/gmail/" + feedback.senderEmail + "/Feedback №" + feedback.id + "/" + "0")
+        .then(json)
+        .then((data) => {
+            if (data[0] === undefined) {
+                htmlChat += `<div id="chat-wrapper">`;
+                htmlChat += `</div>`;
+                htmlChat += `<textarea id="sent-message" class="form-control"></textarea>
+
+                        </div><button class="float-right col-2 btn btn-primary send-loc" type="button" id="send-button" onclick="sendFeedbackGmailMessage('${feedback.senderEmail}', ${feedback.id})">Send</button>`
+
+            } else {
+                if (data[0].text === "chat end") {
+                    htmlChat += `<div id="chat-wrapper">`;
+                    htmlChat += `</div>`;
+                    htmlChat += `<textarea id="sent-message" class="form-control"></textarea>
+
+                        </div><button class="float-right col-2 btn btn-primary send-loc" type="button" id="send-button" onclick="sendFeedbackGmailMessage('${feedback.senderEmail}', ${feedback.id})">Send</button>`
+
+                    scrollOn = false;
+                } else if (data[0].text === "noGmailAccess") {
+                    htmlChat += `<div>
+                                <span class="h3 col-10 confirm-gmail-longphrase-loc">Confirm gmail access to open chat:</span>
+                                <a type="button" class="col-2 btn btn-primary float-right confirm-loc" href="${gmailAccessUrl.fullUrl}">
+                                Confirm</a>
+                            </div>`
+                } else {
+                    htmlChat += `<div id="chat-wrapper">`;
+                    for (let i = data.length - 1; i > -1; i--) {
+                        if (data[i].sender === "me") {
+                            htmlChat += `<div class="row"><div class="col-5"></div><div id="chat-mes" class="rounded col-7"><p><span>${data[i].sender}</span></p>
+                                    <p>${data[i].text}</p></div></div>`
+                        } else {
+                            htmlChat += `<div class="row"><div id="chat-mes" class="rounded col-7"><p><span>${data[i].sender}</span></p>
+                                                                            <p>${data[i].text}</p></div><div class="col-5"></div></div>`
+                        }
+                    }
+                    htmlChat += `</div>`;
+                    htmlChat += `<textarea id="sent-message" class="form-control"></textarea>
+
+                        </div><button class="float-right col-2 btn btn-primary send-loc" type="button" id="send-button" onclick="sendFeedbackGmailMessage('${feedback.senderEmail}', ${feedback.id})">Send</button>`
+
+                }
+            }
+        });
+    $('#feedbacks-chat').html(htmlChat);
+    $('#feedbacks-chat').scrollTop(2000);
+    document.getElementById("feedbacks-chat").setAttribute('onscroll', 'scrolling(' + JSON.stringify(feedback) + ')');
+
+    setLocaleFields();
+}
+
+async function markAsRead(id, replied) {
+    let message = "Mark this message as ";
+    message += replied ? "unread?" : "read?";
+    activeBtn = document.querySelector('.active-cell button');
+    if (confirm(message)) {
+        await fetch("/api/admin/feedback-request/" + id + "/" + replied, {
+            method: 'POST'
+        })
+        location.reload();
+    }
+}

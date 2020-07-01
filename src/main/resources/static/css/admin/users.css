@@ -29,3 +29,10 @@
 .active-cell, .active-cell-details {
     background-color: #dee2e6;
 }
+
+.container#feedbacks-chat {
+    height: 500px;
+    overflow: auto;
+    border-top: 1px solid #dee2e6;
+    margin-top: 0px;
+}
