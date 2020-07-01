@@ -6,6 +6,8 @@ import com.project.config.initializer.TestDataInit;
 import com.project.config.initializer.TestUserAccounts;
 import com.project.service.UserDetailServiceImpl;
 import com.project.util.LocaleHolder;
+import org.apache.catalina.connector.Connector;
+import org.springframework.boot.web.embedded.tomcat.TomcatConnectorCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
