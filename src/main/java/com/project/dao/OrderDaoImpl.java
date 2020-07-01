@@ -16,7 +16,7 @@ public class OrderDaoImpl extends AbstractDao<Long, Order> implements OrderDao {
     @Override
     public List<Order> getOrdersByUserId(Long id) {
         System.out.println("*************************"+id);
-        return entityManager.createQuery("SELECT b FROM orders b where user_id=:id", Order.class).setParameter("id", id).getResultList();
+        return entityManager.createQuery("SELECT b FROM orders b where useraccount_id=:id", Order.class).setParameter("id", id).getResultList();
     }
 
     @Override

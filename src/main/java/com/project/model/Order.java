@@ -28,7 +28,7 @@ public class Order {
     private String trackingNumber;
     private Status status;
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "useraccount_id")
     private UserAccount userAccount;
     @OneToOne(cascade = CascadeType.ALL)
     private ContactsOfOrder contacts;

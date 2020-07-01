@@ -191,7 +191,7 @@ status int4,
 tracking_number varchar(255), 
 address_id int8, 
 contacts_id int8, 
-user_id int8, 
+useraccount_id int8,
 primary key (id)
 );
 
@@ -281,7 +281,7 @@ alter table form_error_message add constraint FKikyuu1clfrv36rnu6ax58miyv foreig
 alter table link add constraint FK2b8ysbcvnfkcjj2yhi1xnqhj9 foreign key (text_id) references local_string;
 alter table orders add constraint FKf5464gxwc32ongdvka2rtvw96 foreign key (address_id) references address;
 alter table orders add constraint FKqx1qt8uay872xhb2s0ycjxkbd foreign key (contacts_id) references contacts;
-alter table orders add constraint FK32ql8ubntj5uh44ph9659tiih foreign key (user_id) references users;
+alter table orders add constraint FK32ql8ubntj5uh44ph9659tiih foreign key (useraccount_id) references users;
 alter table orders_items add constraint FKe64jvabyr77d5fmc7rif7g35m foreign key (items_id) references cart_item;
 alter table orders_items add constraint FKju13hoj4l1nc4nbqbayjx766m foreign key (orders_id) references orders;
 alter table shopping_cart_cart_items add constraint FKgrf4krxrbsjtco1nmdl5keqs2 foreign key (cart_items_id) references cart_item;
