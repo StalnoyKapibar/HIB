@@ -17,4 +17,5 @@ public class BookDTOForCategories {
     private Long pages;
     private String coverImage;
     private Category category;
+    private boolean isShow;
 }

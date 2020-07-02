@@ -71,7 +71,7 @@ public class HibParser {
         }
 
         Category category = new Category();
-        category.setCategoryName(jsonNode.get("category").asText());
+        category.setName(new LocaleString(jsonNode.get("category").asText(), jsonNode.get("category").asText(), jsonNode.get("category").asText(), jsonNode.get("category").asText(), jsonNode.get("category").asText(), jsonNode.get("category").asText(), jsonNode.get("category").asText()));
 
         return Book.builder()
                 .id(id)

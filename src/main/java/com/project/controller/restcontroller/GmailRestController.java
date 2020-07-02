@@ -31,7 +31,7 @@ public class GmailRestController {
     public List<MessageDTO> getMessages(@PathVariable("userId") String userId, @PathVariable("subject") String subject, @PathVariable("part") String part) throws IOException {
         if (gmail == null) {
             List<MessageDTO> gmailErrorMessage = new ArrayList<>();
-            gmailErrorMessage.add(new MessageDTO("", "", "noGmailAccess"));
+            gmailErrorMessage.add(new MessageDTO("", "", "noGmailAccess", subject));
             return gmailErrorMessage;
         }
         if (part.equals("0")) {
@@ -51,8 +51,35 @@ public class GmailRestController {
         return chat;
     }
 
+    @GetMapping(value = "/gmail/{userId}/{part}")
+    public List<MessageDTO> getMessagesWithoutSubject(@PathVariable("userId") String userId, @PathVariable("part") String part) throws IOException {
+        if (gmail == null) {
+            List<MessageDTO> gmailErrorMessage = new ArrayList<>();
+            gmailErrorMessage.add(new MessageDTO("", "", "noGmailAccess", ""));
+            return gmailErrorMessage;
+        }
+        if (part.equals("0")) {
+            ListMessagesResponse responseFromUser = gmail.users().messages().list("me").setQ("from:" + userId).execute();
+            ListMessagesResponse responseFromAdmin = gmail.users().messages().list("me").setQ("to:" + userId).execute();
+            List<Message> messagesFromUser = new ArrayList<>();
+            List<Message> messagesFromAdmin = new ArrayList<>();
+            Map<String, MessageDTO> messages = new TreeMap<>(Collections.reverseOrder());
+
+            fillMessageMap(responseFromUser, messagesFromUser, messages, userId);
+            fillMessageMap(responseFromAdmin, messagesFromAdmin, messages, gmail.users().getProfile("me").getUserId());
+            fullchat = new ArrayList<>(messages.values());
+        }
+
+        List<MessageDTO> chat = formChat(part);
+
+        return chat;
+    }
+
     @PostMapping(value = "/gmail/{userId}/{subject}")
     public MessageDTO sendMessage(@PathVariable("userId") String userId, @PathVariable("subject") String subject, @RequestBody String messageText) throws IOException, MessagingException {
+        if (subject.equals("noSubject")) {
+            subject = "";
+        }
         messageText = messageText.replace("\\n", "\r\n");
         messageText = messageText.substring(1, messageText.length() - 1);
         MimeMessage mimeMessage = getMessage(gmail.users().getProfile("me").getUserId(), userId, subject, messageText);
@@ -64,7 +91,7 @@ public class GmailRestController {
         message = gmail.users().messages().send("me", message).execute();
         message = gmail.users().messages().get("me", message.getId()).execute();
         messageText = messageText.replace("\r\n", "<br>");
-        MessageDTO messageDTO = new MessageDTO(message.getId(), "me", messageText);
+        MessageDTO messageDTO = new MessageDTO(message.getId(), "me", messageText, subject);
         return messageDTO;
     }
 
@@ -80,7 +107,7 @@ public class GmailRestController {
             }
         }
         for (Message message : messages) {
-            map.put(message.getId(), new MessageDTO(message.getId(), userId, ""));
+            map.put(message.getId(), new MessageDTO(message.getId(), userId, "", ""));
         }
         return map;
     }
@@ -117,12 +144,13 @@ public class GmailRestController {
                     text = text.substring(1, text.length()-1);
                 }
                 messageDTO.setText(text);
+                messageDTO.setSubject(""); //здесь надо придумать, как достать и впихнуть тему сообщения
                 chat.add(messageDTO);
             }
         }
         if (chat.isEmpty()) {
             List<MessageDTO> endChat = new ArrayList<>();
-            endChat.add(new MessageDTO("0", "", "chat end"));
+            endChat.add(new MessageDTO("0", "", "chat end", ""));
             return endChat;
         }
         return chat;
@@ -152,7 +180,7 @@ public class GmailRestController {
         message.setRaw(encodedEmail);
         message = gmail.users().messages().send("me", message).execute();
         message = gmail.users().messages().get("me", message.getId()).execute();
-        MessageDTO messageDTO = new MessageDTO(message.getThreadId(), "me", messageText);
+        MessageDTO messageDTO = new MessageDTO(message.getThreadId(), "me", messageText, "");
         return messageDTO;
     }
 }

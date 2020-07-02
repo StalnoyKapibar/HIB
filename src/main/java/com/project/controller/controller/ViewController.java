@@ -46,12 +46,8 @@ public class ViewController {
             modelAndView.setViewName("redirect:/err/not-found");
             return modelAndView;
         }
-        if (book.isShow()) {
             modelAndView.addObject("book", id);
             modelAndView.setViewName("/user/user");
-        } else {
-            modelAndView.setViewName("redirect:/home");
-        }
         return modelAndView;
     }
 

@@ -1,6 +1,7 @@
 var currentLang = '';
 var bottom = '';
 var addToshoppingCart = '';
+var outOfStock = '';
 let editBook = '';
 var addedToshoppingCart = '';
 var deleteBottom = '';
@@ -46,12 +47,16 @@ async function addBooksToPage(books) {
     $('#cardcolumns').empty();
     $("#rowForPagination").empty();
 
+    console.log(books);
+
     $.each(books, function (index) {
         let textOfBtn = listOrdersOfCart.includes(books[index].id) ? addedToshoppingCart : addToshoppingCart;
         let cssOfBtn = listOrdersOfCart.includes(books[index].id) ? "disabled" : "addToCartBtn";
         let card = `<div class="col mb-4">
                                     <a class="card border-0" href="/page/${books[index].id}" style="color: black">
-                                        <img class="card-img-top mb-1" src="images/book${books[index].id}/${books[index].coverImage}" style="object-fit: contain; height: 400px; " alt="Card image cap">
+                                        
+                                        <img class="card-img-top mb-1" src="images/book${books[index].id}/${books[index].coverImage}" style="object-fit: contain; height: 400px; ${books[index].show === true ? '' : 'opacity: 0.3;'}" alt="Card image cap">
+                                        
                                         <div class="card-body" style="padding-bottom: 30px">
                                             <h5 class="card-title">${convertOriginalLanguageRows(books[index].nameAuthorDTOLocale, books[index].authorTranslit)}</h5>
                                             <h6 class="card-text text-muted">${convertOriginalLanguageRows(books[index].nameBookDTOLocale, books[index].nameTranslit)}</h6>
@@ -61,20 +66,24 @@ async function addBooksToPage(books) {
                                     </a>
                                     ${isAdmin ? `<div style="position: absolute; bottom: 5px; left: 15px; right: 15px" id="bottomEditBook" type="button" 
                                                     class="btn btn-info"
-                                                    onclick="openEdit(${books[index].id})"
-                                                  >                        
+                                                    onclick="openEdit(${books[index].id})">                        
                                                     ${editBook}
-                                                  </div>` :
-                                                `<div style="position: absolute; bottom: 5px; left: 15px; right: 15px" id="bottomInCart" type="button" 
+                                                  </div>` 
+                                              : books[index].show === true 
+                                                ? `<div style="position: absolute; bottom: 5px; left: 15px; right: 15px" id="bottomInCart" type="button" 
                                                       class="btn btn-success ${cssOfBtn} btn-metro"  data-id="${books[index].id}">                        
                                                     ${textOfBtn}
                                                 </div>`
+                                                : `<div style="position: absolute; bottom: 5px; left: 15px; right: 15px" id="bottomInCart" type="button" 
+                                                      class="btn btn-light btn-metro bought-btn-loc"  data-id="${books[index].id}">                        
+                                                    Out of stock
+                                                </div>`
                                     }
-
-                                </div>`;
+                                 </div>`;
         $('#cardcolumns').append(card);
     });
     addPagination();
+    setLocaleFields();
 }
 
 function openEdit(id) {

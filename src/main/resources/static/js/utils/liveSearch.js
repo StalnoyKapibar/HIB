@@ -3,6 +3,7 @@
 // Функция поиска совпадений вводимых символов
 function findEl(el, array, value) {
     var coincidence = false;
+    console.log(array);
     el.empty();    // Очищаем список совпадений
     for (var i = 0; i < array.length; i++) {
         if (array[i].match(value) || array[i].toLowerCase().match(value)) {    // Проверяем каждый эллемент на совпадение побуквенно
@@ -12,7 +13,7 @@ function findEl(el, array, value) {
                 }
             });
             if (coincidence === false) {
-                el.append('<a class="js-searchInput dropdown-item" style="padding-left:20px">' + array[i] + '</a>');    // Если совпадений не обнаружено, то добавляем уникальное название в список
+                el.append('<a class="js-searchInput dropdown-item" style="padding-left:' + array[i] + '</a>');    // Если совпадений не обнаружено, то добавляем уникальное название в список
             }
         }
     }
@@ -27,17 +28,23 @@ filterInput.bind('input propertychange', async function () {
         filterUl.fadeIn(100);
         let data = await getAllBooksForLiveSearch();
         let array = [];
+        console.log(data);
         for (let key in data) {
             if (data.hasOwnProperty(key)) {
                 let book = data[key];
                 for (let field in book) {
                     const value = book[field];
                     if (typeof value === 'string') {
-                        array.push(value);
+                        if (field.startsWith("name") && !book.show) {
+                            array.push('0px"><img src="../../static/images/outOfStock.png" style="max-width: 20px;" >' + value)
+                        } else {
+                            array.push('20px">' + value);
+                        }
                     }
                 }
             }
         }
+        console.log(array);
         findEl(filterUl, array, $(this).val());
     } else {
         filterUl.fadeOut(100);

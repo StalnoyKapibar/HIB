@@ -33,7 +33,7 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
     public BookNewDTO getNewBookDTObyIdAndLang(Long id, String lang) {
         String hql = ("SELECT new com.project.model.BookNewDTO(b.id, b.name.LOC, " +
                 "b.author.LOC, b.description.LOC, b.edition.LOC, b.yearOfEdition, b.pages," +
-                " b.price, b.originalLanguageName, b.coverImage) FROM Book b WHERE id = :id").replaceAll("LOC", lang);
+                " b.price, b.originalLanguageName, b.coverImage, b.isShow) FROM Book b WHERE id = :id").replaceAll("LOC", lang);
         BookNewDTO bookNewDTO = entityManager.createQuery(hql, BookNewDTO.class).setParameter("id", id).getSingleResult();
         bookNewDTO.setImageList(getBookImageListById(id));
         return bookNewDTO;
@@ -52,15 +52,15 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
 
     @Override
     public BookSearchPageDTO getBookBySearchRequest(String request, Long priceFrom, Long priceTo, String yearOfEditionFrom, String yearOfEditionTo,
-                                                    Long pagesFrom, Long pagesTo, String searchBy, List<Long> categories, Pageable pageable) {
+                                                    Long pagesFrom, Long pagesTo, String searchBy, List<Long> categories, Pageable pageable, boolean isShow) {
         int limitBookDTOOnPage = pageable.getPageSize();
         int minNumberId = limitBookDTOOnPage * pageable.getPageNumber();
         long amountOfBooks = getQuantityBooksBySearchRequest(request, priceFrom, priceTo, yearOfEditionFrom, yearOfEditionTo, pagesFrom, pagesTo, searchBy, categories);
         String name = ("%" + request + "%");
         String hql = ("SELECT new com.project.model.BookNewDTO(b.id, b.originalLanguage.name," +
                 "b.originalLanguage.nameTranslit, b.originalLanguage.author, b.originalLanguage.authorTranslit, b.description.en," +
-                "b.originalLanguage.edition, b.originalLanguage.editionTranslit, b.yearOfEdition, b.pages, b.price, b.originalLanguageName, b.coverImage, b.category) " +
-                "FROM Book b where b.isShow = true AND " +
+                "b.originalLanguage.edition, b.originalLanguage.editionTranslit, b.yearOfEdition, b.pages, b.price, b.originalLanguageName, b.coverImage, b.category, b.isShow) " +
+                "FROM Book b where (b.isShow = true or b.isShow = :isShow) AND " +
                 "(((b.originalLanguage.name LIKE :name or b.originalLanguage.nameTranslit LIKE :name or " +
                 "b.originalLanguage.author LIKE :name or b.originalLanguage.authorTranslit LIKE :name) and :searchBy = 'name-author') OR" +
                 "((b.originalLanguage.name LIKE :name or b.originalLanguage.nameTranslit LIKE :name) and :searchBy = 'name') OR" +
@@ -72,8 +72,10 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
                 "((b.category.id in :categories) or ('undefined' in :categories)) AND" +
                 "((b.price >= :priceFrom and b.price <= :priceTo) OR (b.price >= :priceFrom and :priceTo = 0) OR " +
                 "(:priceFrom = 0 and b.price <= :priceTo) OR (:priceFrom = 0 and :priceTo = 0)) ORDER BY b.id ASC");
+        //b.isShow = true AND
         List<BookNewDTO> bookNewDTOList = entityManager.createQuery(hql, BookNewDTO.class)
                 .setParameter("name", name)
+                .setParameter("isShow", isShow)
                 .setParameter("pagesFrom", pagesFrom)
                 .setParameter("pagesTo", pagesTo)
                 .setParameter("yearOfEditionFrom", yearOfEditionFrom)
@@ -99,6 +101,7 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
     public long getQuantityBooksBySearchRequest(String request, Long priceFrom, Long priceTo,
                                                 String yearOfEditionFrom, String yearOfEditionTo, Long pagesFrom, Long pagesTo, String searchBy, List<Long> categories) {
         String name = ("%" + request + "%");
+        //todo число книг диз энд эвэл
         String hql = ("SELECT new com.project.model.BookNewDTO(b.id)" +
                 "FROM Book b where b.isShow = true AND " +
                 "(((b.originalLanguage.name LIKE :name or b.originalLanguage.nameTranslit LIKE :name or " +
@@ -131,13 +134,14 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
         String name = "%" + req + "%";
         String hql = ("SELECT new com.project.model.BookNewDTO(b.id, b.originalLanguage.name," +
                 "b.originalLanguage.nameTranslit, b.originalLanguage.author, b.originalLanguage.authorTranslit," +
-                "b.originalLanguage.edition, b.originalLanguage.editionTranslit, b.description.en)" +
+                "b.originalLanguage.edition, b.originalLanguage.editionTranslit, b.description.en, b.isShow)" +
                 "FROM Book b where (b.originalLanguage.name like :name OR b.originalLanguage.nameTranslit like :name OR " +
-                "b.originalLanguage.author like :name OR b.originalLanguage.authorTranslit like :name) AND (b.isShow =:show)");
+                "b.originalLanguage.author like :name OR b.originalLanguage.authorTranslit like :name)");
+        // AND (b.isShow =:show)
         List<BookNewDTO> list = entityManager
                 .createQuery(hql, BookNewDTO.class)
                 .setParameter("name", name)
-                .setParameter("show", isShow)
+                //.setParameter("show", isShow)
                 .getResultList();
         return list;
     }
@@ -146,10 +150,11 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
     public List<BookNewDTO> getAllBooksSearchPage() {
         String hql = ("SELECT new com.project.model.BookNewDTO(b.id, b.originalLanguage.name, " +
                 "b.originalLanguage.nameTranslit, b.originalLanguage.author, b.originalLanguage.authorTranslit, b.description.en, " +
-                "b.originalLanguage.edition, b.originalLanguage.editionTranslit, b.yearOfEdition, b.pages, b.price, b.originalLanguageName, b.coverImage, b.category)" +
-                "FROM Book b where b.isShow = :show");
+                "b.originalLanguage.edition, b.originalLanguage.editionTranslit, b.yearOfEdition, b.pages, b.price, b.originalLanguageName, b.coverImage, b.category, b.isShow)" +
+                "FROM Book b");
+        // where b.isShow = :show
         List<BookNewDTO> list = entityManager.createQuery(hql, BookNewDTO.class)
-                .setParameter("show", true)
+                //.setParameter("show", true)
                 .getResultList();
         return list;
     }
@@ -157,10 +162,9 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
     @Override
     public List<BookNewDTO> getAllLightBookDtoForSearch() {
         String hql = ("SELECT new com.project.model.BookNewDTO(b.id, b.originalLanguage.name, " +
-                "b.originalLanguage.nameTranslit, b.originalLanguage.author, b.originalLanguage.authorTranslit)" +
-                "FROM Book b WHERE b.isShow = :show");
+                "b.originalLanguage.nameTranslit, b.originalLanguage.author, b.originalLanguage.authorTranslit, b.isShow)" +
+                "FROM Book b");
         List<BookNewDTO> list = entityManager.createQuery(hql, BookNewDTO.class)
-                .setParameter("show", true)
                 .getResultList();
         return list;
     }
@@ -174,8 +178,9 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
 
     @Override
     public List<BookDTO> get20BookDTO(String locale) {
-        String hql = ("SELECT new com.project.model.BookDTO(b.id, b.name.LOC, b.author.LOC, b.price, b.coverImage)" +
-                "FROM Book b WHERE b.isShow = true or b.isShow = null ORDER BY RAND()")
+        String hql = ("SELECT new com.project.model.BookDTO(b.id, b.name.LOC, b.author.LOC, b.price, b.coverImage, b.isShow)" +
+                "FROM Book b  ORDER BY RAND()")
+        //WHERE b.isShow = true or b.isShow = null
                 .replaceAll("LOC", locale);
         return entityManager.createQuery(hql, BookDTO.class).setMaxResults(20).getResultList();
     }
@@ -194,11 +199,13 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
         String sortingObject = sortTypeTmp.split(":")[0];
         String typeOfSorting = sortTypeTmp.split(" ")[1];
         String hql = "SELECT b " +
-                "FROM Book b WHERE b.isShow = :disabled ORDER BY sortingObject typeOfSorting"
+                "FROM Book b  ORDER BY sortingObject typeOfSorting"
+                        //WHERE b.isShow = :disabled
                         .replaceAll("sortingObject", sortingObject)
                         .replaceAll("typeOfSorting", typeOfSorting);
+
         List<Book> bookDTOList = entityManager.createQuery(hql, Book.class)
-                .setParameter("disabled", disabled)
+                //.setParameter("disabled", disabled)
                 .setFirstResult(minNumberId)
                 .setMaxResults(limitBookDTOOnPage)
                 .getResultList();
@@ -214,9 +221,9 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
     public List<BookNewDTO> getBooksByCategoryId(Long categoryId) {
         String hql = ("SELECT new com.project.model.BookNewDTO(b.id, b.originalLanguage.name," +
                 "b.originalLanguage.nameTranslit, b.originalLanguage.author, b.originalLanguage.authorTranslit, b.description.en," +
-                "b.originalLanguage.edition, b.originalLanguage.editionTranslit, b.yearOfEdition, b.pages, b.price, b.originalLanguageName, b.coverImage, b.category)" +
-                "FROM Book b WHERE b.category.id =:categoryId AND b.isShow = true");
-
+                "b.originalLanguage.edition, b.originalLanguage.editionTranslit, b.yearOfEdition, b.pages, b.price, b.originalLanguageName, b.coverImage, b.category, b.isShow)" +
+                "FROM Book b WHERE b.category.id =:categoryId");
+        // AND b.isShow = true
         return entityManager.createQuery(hql, BookNewDTO.class).setParameter("categoryId", categoryId).getResultList();
     }
 
@@ -224,16 +231,20 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
     public List<BookDTOForCategories> getBooksByCategoryId(Long categoryId, String lang) {
         String hql = "SELECT new com.project.model.BookDTOForCategories(b.id, b.name.en, " +
                 "b.author.en, b.edition.en, b.yearOfEdition, b.price, b.pages, " +
-                "b.coverImage, b.category) FROM Book b WHERE b.category.id =:categoryId AND b.isShow = true".replaceAll("LOC", lang);
-
+                "b.coverImage, b.category, b.isShow) FROM Book b WHERE b.category.id =:categoryId".replaceAll("LOC", lang);
+    // AND b.isShow = true
         return entityManager.createQuery(hql, BookDTOForCategories.class).setParameter("categoryId", categoryId).getResultList();
     }
 
 
     @Override
-    public Long getCountBooksByCategoryId(Long categoryId) {
-        String sql = "select count(b) from Book b WHERE b.category.id =:categoryId AND b.isShow = true";
-        return (Long) entityManager.createQuery(sql).setParameter("categoryId", categoryId).getSingleResult();
+    public Long getCountBooksByCategoryId(Long categoryId, boolean isShow) {
+        String sql = "select count(b) from Book b WHERE b.category.id =:categoryId AND (b.isShow = true or b.isShow = :isShow)";
+        // AND b.isShow = true
+        return (Long) entityManager.createQuery(sql)
+                .setParameter("categoryId", categoryId)
+                .setParameter("isShow", isShow)
+                .getSingleResult();
     }
 
     @Override
@@ -246,24 +257,29 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
         String typeOfSorting = sortTypeTmp.split(" ")[1];
         String hql = ("SELECT new com.project.model.BookDTO(b.id, b.originalLanguage.name, " +
                 "b.originalLanguage.nameTranslit, b.originalLanguage.author, b.originalLanguage.authorTranslit, " +
-                "b.price, b.coverImage) FROM Book b WHERE b.isShow = :show ORDER BY sortingObject typeOfSorting")
+                "b.price, b.coverImage, b.isShow) FROM Book b ORDER BY sortingObject typeOfSorting")
                 .replaceAll("sortingObject", sortingObject)
                 .replaceAll("typeOfSorting", typeOfSorting);
+        //WHERE b.isShow = :show
+
         List<BookDTO> bookDTOList = entityManager.createQuery(hql, BookDTO.class)
-                .setParameter("show", true)
+                //.setParameter("show", true)
                 .setFirstResult(minNumberId)
                 .setMaxResults(limitBookDTOOnPage)
                 .getResultList();
+
         BookPageDto pageableBookDTO = new BookPageDto();
         pageableBookDTO.setBooks(bookDTOList);
         pageableBookDTO.setNumberPages(pageable.getPageNumber());
         pageableBookDTO.setSize(pageable.getPageSize());
         pageableBookDTO.setAmountOfBooksInDb(Long.parseLong(amountOfBooks));
         pageableBookDTO.setAmountOfPages((int) Math.ceil(Float.parseFloat(amountOfBooks) / limitBookDTOOnPage));
+
         return pageableBookDTO;
     }
 
     private Long getQuantityOfBooksByIsShow(Boolean isShow) {
+        //todo счетчик
         return entityManager
                 .createQuery("SELECT COUNT (1) FROM Book WHERE isShow = :isShow", Long.class)
                 .setParameter("isShow", isShow)

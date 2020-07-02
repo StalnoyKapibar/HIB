@@ -1,6 +1,7 @@
 var uploadedBookName = null;
 let addBookTab = $('#nav-profile-tab1');
 let hibFilesTableBody = $("#hibFilesTable tbody");
+let alertFileNotFound = '';
 
 $(document).ready(function () {
     renderHibFilesTable();
@@ -13,12 +14,12 @@ function uploadOneFile() {
 
 function uploadMultiplyFiles() {
     let files = $('#add-hib-files-input')[0].files;
-    fetch("/api/admin/upload-multiply-files", {
-        method: 'POST',
-        body: files
-    })
-        .then($("#uploadMultiplyFilesHidden").trigger('click'))
-        .then($(this).tab('show'));
+    if (files.length === 0) {
+        alert(alertFileNotFound);
+    } else {
+            $("#uploadMultiplyFilesHidden").trigger('click');
+            $(this).tab('show');
+    }
 }
 
 function editHibFile() {
@@ -46,6 +47,7 @@ function renderHibFilesTable() {
             }
         });
 }
+
 
 $(document).on('click', ".upload-for-sale", async function () {
     await GET("/api/admin/hib?name=" + $(this).attr("data-filename"))

@@ -83,8 +83,8 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Long getCountBooksByCategoryId(Long categoryId) {
-        return bookDAO.getCountBooksByCategoryId(categoryId);
+    public Long getCountBooksByCategoryId(Long categoryId, boolean isShow) {
+        return bookDAO.getCountBooksByCategoryId(categoryId, isShow);
     }
 
     @Override

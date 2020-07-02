@@ -96,7 +96,9 @@ function setAmountBooksInPage(amount) {
 function setListeners () {
     $('#search-submit').on('click', () => {
         currentPage = 0;
-        advancedSearch(ddmAmountBook.text(), currentPage++)
+        advancedSearch(ddmAmountBook.text(), currentPage++);
+        $('#input-categories').empty();
+        getCategoryTree();
     });
 
     $('#input-categories').on('click', '.custom-control-input', function () {
@@ -148,7 +150,13 @@ function setListeners () {
     });
 
     $('#search-input').on('input', function () {
-        $('#search-submit').click();
+        currentPage = 0;
+        advancedSearch(ddmAmountBook.text(), currentPage++);
+    })
+
+    $('#check-available').on('click', function () {
+        $('#input-categories').empty();
+        getCategoryTree();
     })
 }
 
@@ -198,7 +206,7 @@ async function setTreeView(category) {
                     <input class="custom-control-input" type="checkbox" id="check-${category[i].id}" value="${category[i].id}">
                     <label class="custom-control-label" for="check-${category[i].id}"></label>
                     <label class="collapsed" data-toggle="collapse" data-target="#collapse-${category[i].id}" aria-expanded="false" aria-controls="collapse-${category[i].id}">
-                       <label id="${category[i].categoryName.toLowerCase()}-rightbar">${category[i].categoryName}</label>(${await getCountBooksByCat(category[i].path)})
+                       <label id="${category[i].categoryName.toLowerCase()}-rightbar">${category[i].categoryName}</label>(${await getCountBooksByCat(category[i].path, $('#check-available').is(':checked') ? true : false)})
                        <i class="fa fa-plus-square-o" aria-hidden="true"></i>
                     </label>
                 </div>
@@ -222,7 +230,7 @@ async function setChilds(category) {
                     <div class="custom-control custom-checkbox form-check-inline" id="heading-${category[i].id}">
                         <input class="custom-control-input" type="checkbox" id="check-${category[i].id}" value="${category[i].id}">
                         <label class="custom-control-label" for="check-${category[i].id}">
-                            <label class="${category[i].categoryName.toLowerCase()}-rightbar">${category[i].categoryName}</label>(${await getCountBooksByCat(category[i].path)})
+                            <label class="${category[i].categoryName.toLowerCase()}-rightbar">${category[i].categoryName}</label>(${await getCountBooksByCat(category[i].path, $('#check-available').is(':checked') ? true : false)})
                         </label>
                     </div>
                 </div>`;
@@ -233,7 +241,7 @@ async function setChilds(category) {
                         <input class="custom-control-input" type="checkbox" id="check-${category[i].id}" value="${category[i].id}">
                         <label class="custom-control-label" for="check-${category[i].id}"></label>
                         <label class="collapsed" data-toggle="collapse" data-target="#collapse-${category[i].id}" aria-expanded="false" aria-controls="collapse-${category[i].id}">
-                           <label class="${category[i].categoryName.toLowerCase()}-rightbar">${category[i].categoryName}</label>(${await getCountBooksByCat(category[i].path)})
+                           <label class="${category[i].categoryName.toLowerCase()}-rightbar">${category[i].categoryName}</label>(${await getCountBooksByCat(category[i].path, $('#check-available').is(':checked') ? true : false)})
                            <i class="fa fa-plus-square-o" aria-hidden="true"></i>
                         </label>
                     </div>
@@ -260,23 +268,24 @@ async function advancedSearch(amount, page) {
     let pagesFrom = $('#input-pages-from').val();
     let pagesTo = $('#input-pages-to').val();
     let searchBy = $('#search-by input:checked').val();
-    let categories;
-    if (!isCheckedCategory) {
-        categories = $("#input-categories input").map(function () {
-            return $(this).val();
-        }).get();
-    } else {
+    let isShow = $('#check-available').is(':checked') ? true : false;
+    let categories = [];
+    let searchAdvanced = '';
+    if (isCheckedCategory) {
         categories = $("#input-categories input:checked").map(function () {
             return $(this).val();
         }).get();
+        searchAdvanced = "/searchAdvanced"
+    } else {
+        searchAdvanced = "/searchAdvancedAllCategories"
     }
     let categoryRequest = "";
     for (let i in categories) {
         categoryRequest += "&categories=" + categories[i];
     }
-    fetch("/searchAdvanced?request=" + request + "&searchBy=" + searchBy + categoryRequest +
+    fetch(searchAdvanced + "?request=" + request + "&searchBy=" + searchBy + categoryRequest +
         "&priceFrom=" + priceFrom + "&priceTo=" + priceTo + "&yearOfEditionFrom=" + yearOfEditionFrom + "&yearOfEditionTo=" + yearOfEditionTo +
-        "&pagesFrom=" + pagesFrom + "&pagesTo=" + pagesTo + "&page=" + page + "&size=" + amount, {
+        "&pagesFrom=" + pagesFrom + "&pagesTo=" + pagesTo + "&page=" + page + "&size=" + amount + "&show=" + isShow, {
         method: "GET",
         headers: {
             'Content-Type': 'application/json',
@@ -287,7 +296,7 @@ async function advancedSearch(amount, page) {
         .then(function (data) {
             setLocaleFields();
             amountBooksInDb = data.amountOfBooksInDb;
-            addFindeBooks(data.books)
+            addFindeBooks(data.books);
         });
 }
 
@@ -300,12 +309,12 @@ function getPageWithBooks(amount, page) {
             history.pushState(null, null, url);
             advancedSearch(amount, page);
         } else {
-            let checkId = '#check-' + window.location.pathname.split("/").pop();
+            let arrPathname = window.location.pathname.split("/")
+            let checkId = '#check-' + arrPathname[arrPathname.length - 1];
             $(checkId).click();
             advancedSearch(amount, page);
             let tmp = [];
             tmp = window.location.pathname.split("/");
-            tmp.length = tmp.length - 1;
             let url = tmp.join("/");
             history.pushState(null, null, url);
         }
@@ -332,7 +341,14 @@ async function addFindeBooks(data) {
                         </tbody>`);
     $('#search-table-result').append($(table.join('')));
     let tr = [];
+    let lengthUrl = window.location.pathname.split("/").length;
+    let length = lengthUrl - 3;
+    let prePathUrl = '';
+    for (let i = 0; i < length; i++) {
+        prePathUrl += '../'
+    }
     for (let i = 0; i < data.length; i++) {
+        let urlImage = prePathUrl + `../images/book${data[i].id}/${data[i].coverImage}`;
         if (data[i].yearOfEdition == null) {
             data[i].yearOfEdition = "-";
         } if(data[i].category.categoryName == null) {
@@ -343,15 +359,21 @@ async function addFindeBooks(data) {
             data[i].price = "-";
         }
         tr.push(`<tr>
-                                <td class="align-middle"><img src="../images/book${data[i].id}/${data[i].coverImage}" style="max-width: 60px"></td>
-                                <td class="align-middle">${convertOriginalLanguageRows(data[i].author, data[i].authorTranslit)}</td>
+                                <td class="align-middle">
+                                    <img src=${urlImage} style="max-width: 60px; ${data[i].show === true ? '' : 'opacity: 0.3'}">
+                                </td>
+                                <td class="align-middle">
+                                    ${data[i].show === true ? '' : '<img src="../../static/images/outOfStock.png" style="max-width: 35px;">'}
+                                    <br>
+                                    ${convertOriginalLanguageRows(data[i].author, data[i].authorTranslit)}
+                                </td>
                                 <td class="align-middle">${convertOriginalLanguageRows(data[i].name, data[i].nameTranslit)}</td>
                                 <td class="align-middle">${data[i].pages}</td>
                                 <td class="align-middle">${data[i].yearOfEdition}</td>
                                 <td class="align-middle">${data[i].price / 100}</td>
                                 <td class="align-middle">${data[i].category.categoryName}</td>
                                 <td class="align-middle">
-                                ${isAdmin && (window.location.pathname === '/admin/panel') ? 
+                                ${isAdmin && (window.location.pathname === '/admin/panel/books') ? 
                                     `
                                     <div id="search-admin">
                                         <button class="btn btn-info edit-loc" onclick="openEdit(${data[i].id})"><i class="material-icons">edit</i></button>
@@ -371,8 +393,9 @@ async function addFindeBooks(data) {
     addPagination();
 }
 
-async function getCountBooksByCat(category) {
-    return "" + await fetch("/categories/getcount?path=" + category).then(json);
+async function getCountBooksByCat(category, isShow) {
+    return "" + await fetch("/categories/getcount?path=" + category
+    + "&show=" + isShow).then(json);
 }
 
 async function getAUTH() {

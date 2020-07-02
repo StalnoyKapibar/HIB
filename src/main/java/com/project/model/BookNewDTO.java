@@ -25,8 +25,10 @@ public class BookNewDTO {
     private String coverImage;
     private List<Image> imageList;
     private Category category;
+    private boolean isShow;
 
-    public BookNewDTO(long id, String name, String author, String desc, String edition, String yearOfEdition, Long pages, Long price, String originalLanguage, String coverImage) {
+    public BookNewDTO(long id, String name, String author, String desc, String edition,
+                      String yearOfEdition, Long pages, Long price, String originalLanguage, String coverImage, boolean isShow) {
         this.id = id;
         this.name = name;
         this.author = author;
@@ -37,11 +39,12 @@ public class BookNewDTO {
         this.price = price;
         this.originalLanguage = originalLanguage;
         this.coverImage = coverImage;
+        this.isShow = isShow;
     }
 
     public BookNewDTO(long id, String name, String nameTranslit, String author, String authorTranslit,
                       String desc, String edition, String editionTranslit, String yearOfEdition, Long pages,
-                      Long price, String originalLanguage, String coverImage) {
+                      Long price, String originalLanguage, String coverImage, boolean isShow) {
         this.id = id;
         this.name = name;
         this.nameTranslit = nameTranslit;
@@ -55,24 +58,22 @@ public class BookNewDTO {
         this.price = price;
         this.originalLanguage = originalLanguage;
         this.coverImage = coverImage;
+        this.isShow = isShow;
     }
 
     public BookNewDTO(long id, String name, String nameTranslit, String author, String authorTranslit,
-                      String edition, String editionTranslit, String description) {
+                      boolean isShow) {
         this.id = id;
         this.name = name;
         this.nameTranslit = nameTranslit;
         this.author = author;
         this.authorTranslit = authorTranslit;
-        this.edition = edition;
-        this.editionTranslit = editionTranslit;
-        this.desc = description;
-
+        this.isShow = isShow;
     }
 
     public BookNewDTO(long id, String name, String nameTranslit, String author, String authorTranslit,
                       String desc, String edition, String editionTranslit, String yearOfEdition, Long pages,
-                      Long price, String originalLanguage, String coverImage, Category category) {
+                      Long price, String originalLanguage, String coverImage, Category category, boolean isShow) {
         this.id = id;
         this.name = name;
         this.nameTranslit = nameTranslit;
@@ -87,12 +88,13 @@ public class BookNewDTO {
         this.originalLanguage = originalLanguage;
         this.coverImage = coverImage;
         this.category = category;
+        this.isShow = isShow;
     }
 
     public BookNewDTO(long id) {
         this.id = id;
     }
-    
+
     public BookNewDTO(long id, String name, String nameTranslit, String author, String authorTranslit) {
         this.id = id;
         this.name = name;

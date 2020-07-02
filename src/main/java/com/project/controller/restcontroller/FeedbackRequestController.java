@@ -71,6 +71,11 @@ public class FeedbackRequestController {
         return feedbackRequestService.findAll();
     }
 
+    @GetMapping(value = "/api/admin/feedback-request/{senderEmail}/replied")
+    public List<FeedbackRequest> getBySenderByReplied(@PathVariable("senderEmail") String senderEmail, @RequestParam Boolean replied) {
+        return feedbackRequestService.getBySenderByReplied(senderEmail, replied);
+    }
+
     @GetMapping("/api/admin/feedback-request")
     public List<FeedbackRequest> getByReplied(HttpSession session, @RequestParam Boolean replied) {
         DataEnterInAdminPanel data = (DataEnterInAdminPanel) session.getAttribute("data");
@@ -95,5 +100,10 @@ public class FeedbackRequestController {
             DataEnterInAdminPanel data = (DataEnterInAdminPanel) session.getAttribute("data");
             return feedbackRequestService.getCountOfFeedBack(data.getDataEnterInFeedback());
         }
+    }
+
+    @GetMapping(value = "/api/admin/feedback-request/{senderEmail}/amount")
+    public Long[] getAmountOfFeedback(@PathVariable("senderEmail") String senderEmail) {
+        return feedbackRequestService.getAmountOfFeedback(senderEmail);
     }
 }

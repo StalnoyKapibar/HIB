@@ -15,7 +15,8 @@ public interface BookDao extends GenericDao<Long, Book> {
     List<BookNewDTO> getBookBySearchRequest(String req, boolean isShow);
 
     BookSearchPageDTO getBookBySearchRequest(String request, Long priceFrom, Long priceTo,
-                                             String yearOfEditionFrom, String yearOfEditionTo, Long pagesFrom, Long pagesTo, String searchBy, List<Long> categories, Pageable pageable);
+                                             String yearOfEditionFrom, String yearOfEditionTo, Long pagesFrom,
+                                             Long pagesTo, String searchBy, List<Long> categories, Pageable pageable, boolean isShow);
 
 
     String getLastIdOfBook();
@@ -30,7 +31,7 @@ public interface BookDao extends GenericDao<Long, Book> {
 
     List<BookDTOForCategories> getBooksByCategoryId(Long categoryId, String lang);
 
-    Long getCountBooksByCategoryId(Long categoryId);
+    Long getCountBooksByCategoryId(Long categoryId, boolean isShow);
 
     BookPageDto getBookPageByPageable(Pageable pageable);
 

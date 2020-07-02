@@ -1,7 +1,10 @@
 var currentLang = '';
 var bottom = '';
 var addToshoppingCart = '';
+var noRequiredField = '';
 var deleteBottom = '';
+var outOfStock = '';
+
 
 $(document).ready(function () {
     if (currentLang === '') {
@@ -119,7 +122,6 @@ async function setLocaleFields() {
             $('.login-loc').text(localeFields['login']);
             $('.contact-us').text(localeFields['contact-us']);
             $('.ask-question-loc').text(localeFields['ask-question']);
-            $('#authors').text(localeFields['Authors']);
 
             //Страница с обрабатываемыми заказами со стороны пользователя
             $(".orders-loc").text(localeFields['orders']);
@@ -166,23 +168,25 @@ async function setLocaleFields() {
             $('.price-loc').text(localeFields['Price']);
             $('.original-lang-loc').text(localeFields['originalLang']);
             $('.avatar-loc').text(localeFields['avatar']);
-            $('.select-category-loc').text(localeFields['selectCategory']);
+            $('.select-category-loc').html(localeFields['selectCategory'] + '<span class="required">*</span>');
             $('.load-avatar-loc').text(localeFields['loadAvatar']);
             $('.another-image-loc').text(localeFields['anotherImage']);
             $('.load-another-image-loc').text(localeFields['loadAnotherImage']);
             //books.html
             $('.all-books-loc').text(localeFields['allBooks']);
-            $('.add-books-loc').text(localeFields['addBooks']);
-            $('.add-hib-files-loc').text(localeFields['addHibFiles']);
+            $('.add-books-loc').html(localeFields['addBooks']);
+            $('.add-hib-files-loc').html(localeFields['addHibFiles']);
             $('.show-disabled-book-loc').text(localeFields['showDisabledBook']);
-            $('.add-new-book-loc').text(localeFields['addNewBook']);
+            $('#add-new-book-loc1').html(localeFields['addNewBook'] + '<span style="float: right; text-align: right;"><span class="required">*</span><span id="requiredExample">- required field</span></span>');
+            $('#add-new-book-loc2').text(localeFields['addNewBook']);
             $('.is-disabled-dots-loc').text(localeFields['isDisabledDots']);
-            $('.add-name-loc').text(localeFields['addName']);
-            $('.add-author-loc').text(localeFields['addAuthor']);
+            $('.add-name-loc').html(localeFields['addName'] + '<span class="required">*</span>');
+            $('.add-author-loc').html(localeFields['addAuthor'] + '<span class="required">*</span>');
             $('.add-description-loc').text(localeFields['addDescription']);
-            $('.add-addition-loc').text(localeFields['addAddition']);
+            $('.add-addition-loc').html(localeFields['addAddition' + '<span class="required">*</span>']);
             $('.add-other-loc').text(localeFields['addOther']);
-            $('.category-loc').text(localeFields['Category']);
+            $('.category-loc').html(localeFields['Category'] + '<span class="required">*</span>');
+            noRequiredField = localeFields['noRequiredField'];
             $('.update-one-book-loc').text(localeFields['updateOneBook']);
             $('.edit-and-upload-loc').text(localeFields['editAndUpload']);
             $('.upload-several-longphrase-loc').text(localeFields['uploadSeveralLongphrase']);
@@ -261,9 +265,11 @@ async function setLocaleFields() {
 
             bottom = localeFields['bookbotom'];
             addToshoppingCart = localeFields['addToshoppingCart'];
+            outOfStock = localeFields['outOfStock'];
             addedToshoppingCart = localeFields['addedToshoppingCart'];
             editBook = localeFields['editBook'];
             deleteBottom = localeFields['deleteBottom'];
+            alertFileNotFound = localeFields['alertFileNotFound'];
 
             $('#modalClose').text(localeFields['close']);
             $('#book-on-page-loc').text(localeFields['bookOnPage']);
@@ -303,6 +309,7 @@ async function setLocaleFields() {
             $('#send-feedback-request').text(localeFields['send-feedback-request']);
             $('#logout-modal-title').text(localeFields['logout']);
             $('.logout-loc').text(localeFields['logoutShort']);
+            $('.bought-btn-loc').text(localeFields['boughtBtn']);
             $('#sender-message').val(localeFields['hello-interested']);
             let title = $(".title");
             let author = $(".author");
@@ -315,6 +322,7 @@ async function setLocaleFields() {
             $(".displayed").html(localeFields['displayed']);
             $(".of").html(localeFields['of']);
             $("#editBtn").html(localeFields['editBook']);
+            $('#requiredExample').html(localeFields['requiredExample']);
 
             //guide
             $('#guideTitle').html(localeFields['guideTitle']);
@@ -343,6 +351,7 @@ async function setLocaleFields() {
 //function for chose language
 function chooseLanguage(lang) {
     document.cookie = `lang=${lang}; path=/`;
+    getCategoriesLocal(lang);
     window.location.reload();
 }
 

@@ -29,7 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class StorageServiceImpl implements StorageService {
 
-    private final Path path = Paths.get("img/tmp/");
+    private final Path path = Paths.get("/img/tmp/");
     @Autowired
     private BookDaoImpl bookDao;
 
