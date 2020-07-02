@@ -4,23 +4,25 @@ html, body {
     overflow-x: hidden;
 }
 
-.wide  {
+.wide {
     position: relative;
-    width:100%;
-    height:31%;
-    background-image:url("/static/images/2.jpg");
-    background-size:cover;
+    width: 100%;
+    height: 31%;
+    background-image: url("/static/images/2.jpg");
+    background-size: cover;
     background-position: center;
 }
+
 .top h2 {
-     color: white;
-     margin: 0;
-     padding-left: 14%;
-     padding-top: 50px;
-     font-family: 'Georgia';
-     text-transform: uppercase;
-     font-size: 35px;
- }
+    color: white;
+    margin: 0;
+    padding-left: 14%;
+    padding-top: 50px;
+    font-family: 'Georgia';
+    text-transform: uppercase;
+    font-size: 35px;
+}
+
 .top h3 {
     color: white;
     margin: 0;
@@ -48,7 +50,7 @@ html, body {
     text-shadow: 1px 0px 0px black;
 }
 
-.header-title-sign-in{
+.header-title-sign-in {
     font-family: 'Pacifico';
     font-size: 20px;
     text-shadow: 1px 0px 0px black;
@@ -255,7 +257,7 @@ a.footer_link:hover {
 .badgeStyle {
     display: inline-block;
     padding-left: 4px;
-    color:#FF0000;
+    color: #FF0000;
     font-size: 120%;
     font-weight: 900;
     line-height: 1;
@@ -269,11 +271,16 @@ a.footer_link:hover {
 div.sidebar-content:hover span.badgeStyle {
     display: none;
 }
-.ul-books{
-    margin-left:20px;
+
+.ul-books {
+    margin-left: 20px;
     position: fixed;
     max-width: 375px;
     top: 152px;
     display: block;
-    z-index:99999999;
+    z-index: 99999999;
+}
+
+.required {
+    color: red;
 }

@@ -7,14 +7,23 @@ let originalLanguage;
 let disabledCheckBox = $('#disabled');
 let pathToTmpPackage = '/images/tmp/';
 
-function checkNamesNotNull() {
-    for (let tmpNameVar of nameVarOfLocaleString) {
-        if ($("#inpname" + tmpNameVar).val() !== ''|| $("#inptname").val() !== '' ) {
-            return true;
-        }
+function checkRequired() {
+    if (category === undefined ){
+        alert(noRequiredField + ' : ' + 'category');
+        return false;
     }
-    alert("Enter name of the book");
-    return false;
+    for (let tmpNameObject of nameObjectOfLocaleString) {
+        let test = $("#inpt" + tmpNameObject).val();
+       if (test === ''){
+           alert(noRequiredField + ' : ' + tmpNameObject);
+           return false;
+       }
+    }
+    if(category === ""){
+        alert(noRequiredField);
+        return false;
+    }
+    return true;
 }
 
 
@@ -33,7 +42,7 @@ function addPartsOfBook(partsOfBook) {
                     `<div class="shadow p-4 mb-4 bg-white">
                 <div class='form-group mx-5 my-3'>
                 <div class="row">
-                <div class="col-0" for=${tmpNameObject}>${tmpNameObject} <div class="of-other-lang-loc">of other lang</div> </div>
+                <div class="col-0" for=${tmpNameObject}>${tmpNameObject} <span class="required">*</span><div class="of-other-lang-loc">of other lang</div> </div>
                 <div class="col-5 pl-5 ml-5  "><input type='text'  class='form-control '  id='inpt${tmpNameObject}'>
                 </div> </div>
                 <div class="row my-2">
@@ -112,7 +121,7 @@ function getCategoryName(event) {
 function addCategory() {
     let row =
         `<div class="shadow p-4 mb-4 bg-white text-center">
-                <h4 class="select-category-loc" id="selectedCategory">Select category</h4>
+                <h4 class="select-category-loc" id="selectedCategory">Select category<span class="required">*</span></h4>
                 <h4 id="categoryHelper"></h4><hr>
                 <div id="categoryTree"></div>`;
     categoryTab.append(row);
@@ -314,7 +323,7 @@ function deleteImage(id) {
 
 function addNewBook() {
     // checkBoxOnOrOf();
-    if (checkNamesNotNull() && confirm("Add this book?")) {
+    if (checkRequired() && confirm("Add this book?")) {
         let book = {};
         let otherLangFields = {};
         for (let tmpNameObject of nameObjectOfLocaleString) {
