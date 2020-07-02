@@ -8,12 +8,20 @@ let disabledCheckBox = $('#disabled');
 let pathToTmpPackage = '/images/tmp/';
 
 function checkRequired() {
+    if (category === undefined ){
+        alert(noRequiredField + ' : ' + 'category');
+        return false;
+    }
     for (let tmpNameObject of nameObjectOfLocaleString) {
         let test = $("#inpt" + tmpNameObject).val();
        if (test === ''){
-           alert("Не указан " + tmpNameObject);
+           alert(noRequiredField + ' : ' + tmpNameObject);
            return false;
        }
+    }
+    if(category === ""){
+        alert(noRequiredField);
+        return false;
     }
     return true;
 }

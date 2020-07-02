@@ -1,6 +1,7 @@
 var currentLang = '';
 var bottom = '';
 var addToshoppingCart = '';
+var noRequiredField = '';
 var deleteBottom = '';
 var outOfStock = '';
 
@@ -185,6 +186,7 @@ async function setLocaleFields() {
             $('.add-addition-loc').html(localeFields['addAddition' + '<span class="required">*</span>']);
             $('.add-other-loc').text(localeFields['addOther']);
             $('.category-loc').html(localeFields['Category'] + '<span class="required">*</span>');
+            noRequiredField = localeFields['noRequiredField'];
             $('.update-one-book-loc').text(localeFields['updateOneBook']);
             $('.edit-and-upload-loc').text(localeFields['editAndUpload']);
             $('.upload-several-longphrase-loc').text(localeFields['uploadSeveralLongphrase']);
