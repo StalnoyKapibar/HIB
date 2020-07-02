@@ -422,25 +422,25 @@ async function scrolling(feedback) {
     }
 }
 
-// async function scrolling() {
-//     let order = allFeedBack[orderIndex];
-//     if ($('#chat').scrollTop() < 2) {
-//         messagePackIndex++;
-//         await fetch("/gmail/" + order.contacts.email + "/messages/" + messagePackIndex)
-//             .then(json)
-//             .then((data) => {
-//                 if (data[0].text === "chat end") {
-//                     document.getElementById("chat").removeAttribute('onscroll');
-//                     return;
-//                 }
-//                 for (let i = 0; i < data.length; i++) {
-//                     let html = `<p><b>${data[i].sender}</b></p>
-//                     <p>${data[i].text}</p>`
-//                     document.getElementById("chat-wrapper").insertAdjacentHTML("afterbegin", html);
-//                 }
-//             });
-//     }
-// }
+async function scrolling() {
+    let order = allFeedBack[orderIndex];
+    if ($('#chat').scrollTop() < 2) {
+        messagePackIndex++;
+        await fetch("/gmail/" + order.contacts.email + "/messages/" + messagePackIndex)
+            .then(json)
+            .then((data) => {
+                if (data[0].text === "chat end") {
+                    document.getElementById("chat").removeAttribute('onscroll');
+                    return;
+                }
+                for (let i = 0; i < data.length; i++) {
+                    let html = `<p><b>${data[i].sender}</b></p>
+                    <p>${data[i].text}</p>`
+                    document.getElementById("chat-wrapper").insertAdjacentHTML("afterbegin", html);
+                }
+            });
+    }
+}
 
 
 async function getFeedbackAll(replied) {

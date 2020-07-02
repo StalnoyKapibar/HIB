@@ -75,6 +75,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public List<Order> getOrderByEmailByStatus(Status status, String email) {
+        return orderDAO.getOrderByEmailByStatus(status, email);
+    }
+
+    @Override
     public void unCompleteOrder(Long id) {
         Order order = getOrderById(id);
         order.setStatus(Status.PROCESSING);
@@ -95,6 +100,15 @@ public class OrderServiceImpl implements OrderService {
             book.setLastBookOrdered(true);
         }
         orderDAO.update(order);
+    }
+
+    @Override
+    public Long[] getAmountOfOrders(String email) {
+        Long uprocessedOrders = orderDAO.getAmountByStatus(Status.UNPROCESSED, email);
+        Long processingOrders = orderDAO.getAmountByStatus(Status.PROCESSING, email);
+        Long completedOrders = orderDAO.getAmountByStatus(Status.COMPLETED, email);
+        Long deletedOrders = orderDAO.getAmountByStatus(Status.DELETED, email);
+        return new Long[] {uprocessedOrders, processingOrders, completedOrders, deletedOrders};
     }
 
     @Override
