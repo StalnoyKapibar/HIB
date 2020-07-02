@@ -30,7 +30,7 @@ public class CategoryService {
         return categoryDAO.getAdminCategoryTree();
     }
 
-    public List<Category> getNoParentCategories() {
+    public List<Long> getNoParentCategories() {
         return categoryDAO.getNoParentCategories();
     }
 
@@ -58,16 +58,8 @@ public class CategoryService {
         categoryDAO.parentChange(id, parentId);
     }
 
-    public List<LocaleString> getListCategoriesByName(String name, List<Category> categories) {
-        return categoryDAO.getListCategoriesByName(name, transferToArrayFromList(categories));
-    }
-
-    public String[] transferToArrayFromList(List<Category> transfer) {
-        String[] arr = new String[transfer.size()];
-        for (int i = 0; i < transfer.size(); i++) {
-            arr[i] = transfer.get(i).getName().getEn();
-        }
-        return arr;
+    public List<Category> getListCategoriesById(String local) {
+        return categoryDAO.getListCategoriesById(local, categoryDAO.getNoParentCategories());
     }
 
 }

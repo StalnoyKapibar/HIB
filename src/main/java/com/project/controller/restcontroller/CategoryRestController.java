@@ -3,7 +3,6 @@ package com.project.controller.restcontroller;
 import com.project.model.*;
 import com.project.service.CategoryService;
 import com.project.service.abstraction.BookService;
-import com.project.service.abstraction.LocalStringService;
 import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
@@ -20,11 +19,9 @@ public class CategoryRestController {
 
     BookService bookService;
 
-    LocalStringService localStringService;
-
     @GetMapping("/getpanelcategories/{name}")
-    public List<LocaleString> getPanelCategories(@PathVariable("name") String name) {
-        return categoryService.getListCategoriesByName(name, categoryService.getNoParentCategories());
+    public List<Category> getPanelCategories(@PathVariable("name") String name) {
+        return categoryService.getListCategoriesById(name);
     }
 
     @GetMapping("/gettree")

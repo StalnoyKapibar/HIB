@@ -52,9 +52,9 @@ public class CategoryDAO extends AbstractDao<Long, Category> {
         return entityManager.createNativeQuery(hql).getResultList();
     }
 
-    public List<Category> getNoParentCategories() {
-        String hql = "SELECT c FROM Category c WHERE c.parentId IS NULL ORDER BY c.viewOrder";
-        return entityManager.createQuery(hql, Category.class).setMaxResults(4).getResultList();
+    public List<Long> getNoParentCategories() {
+        String hql = "SELECT c.name.id FROM Category c WHERE c.parentId IS NULL ORDER BY c.viewOrder";
+        return entityManager.createQuery(hql, Long.class).setMaxResults(4).getResultList();
     }
 
 
@@ -113,10 +113,10 @@ public class CategoryDAO extends AbstractDao<Long, Category> {
         return  entityManager.createNativeQuery(sql).setParameter("parentId", parentId).getResultList();
     }
 
-    public List<LocaleString> getListCategoriesByName(String names, String[] categories) {
-        String hql = ("SELECT b.name." + names + " FROM Category b WHERE b.name.en IN :list");
+    public List<Category> getListCategoriesById(String local, List<Long> categories) {
+        String hql = ("SELECT b.name." + local + " FROM Category b WHERE b.name.id IN :list");
         Query list = entityManager.createQuery(hql)
-                .setParameter("list", Arrays.asList(categories));
+                .setParameter("list", categories);
         return list.getResultList();
     }
 
