@@ -21,6 +21,7 @@ import javax.mail.MessagingException;
 import javax.persistence.NoResultException;
 import javax.servlet.http.HttpSession;
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -126,6 +127,11 @@ public class UserAccountServiceImpl implements UserAccountService {
 
     public UserAccount findByLogin(String login) throws UsernameNotFoundException, NoResultException {
         return userAccountDao.findByLogin(login).get();
+    }
+
+    @Override
+    public List<String> getUsersEmails() {
+        return userAccountDao.getUsersEmails();
     }
 
 }
