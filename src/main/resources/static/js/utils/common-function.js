@@ -167,23 +167,24 @@ async function setLocaleFields() {
             $('.price-loc').text(localeFields['Price']);
             $('.original-lang-loc').text(localeFields['originalLang']);
             $('.avatar-loc').text(localeFields['avatar']);
-            $('.select-category-loc').text(localeFields['selectCategory']);
+            $('.select-category-loc').html(localeFields['selectCategory'] + '<span class="required">*</span>');
             $('.load-avatar-loc').text(localeFields['loadAvatar']);
             $('.another-image-loc').text(localeFields['anotherImage']);
             $('.load-another-image-loc').text(localeFields['loadAnotherImage']);
             //books.html
             $('.all-books-loc').text(localeFields['allBooks']);
-            $('.add-books-loc').text(localeFields['addBooks']);
-            $('.add-hib-files-loc').text(localeFields['addHibFiles']);
+            $('.add-books-loc').html(localeFields['addBooks']);
+            $('.add-hib-files-loc').html(localeFields['addHibFiles']);
             $('.show-disabled-book-loc').text(localeFields['showDisabledBook']);
-            $('.add-new-book-loc').text(localeFields['addNewBook']);
+            $('#add-new-book-loc1').html(localeFields['addNewBook'] + '<span style="float: right; text-align: right;"><span class="required">*</span><span id="requiredExample">- required field</span></span>');
+            $('#add-new-book-loc2').text(localeFields['addNewBook']);
             $('.is-disabled-dots-loc').text(localeFields['isDisabledDots']);
-            $('.add-name-loc').text(localeFields['addName']);
-            $('.add-author-loc').text(localeFields['addAuthor']);
+            $('.add-name-loc').html(localeFields['addName'] + '<span class="required">*</span>');
+            $('.add-author-loc').html(localeFields['addAuthor'] + '<span class="required">*</span>');
             $('.add-description-loc').text(localeFields['addDescription']);
-            $('.add-addition-loc').text(localeFields['addAddition']);
+            $('.add-addition-loc').html(localeFields['addAddition' + '<span class="required">*</span>']);
             $('.add-other-loc').text(localeFields['addOther']);
-            $('.category-loc').text(localeFields['Category']);
+            $('.category-loc').html(localeFields['Category'] + '<span class="required">*</span>');
             $('.update-one-book-loc').text(localeFields['updateOneBook']);
             $('.edit-and-upload-loc').text(localeFields['editAndUpload']);
             $('.upload-several-longphrase-loc').text(localeFields['uploadSeveralLongphrase']);
@@ -319,7 +320,7 @@ async function setLocaleFields() {
             $(".displayed").html(localeFields['displayed']);
             $(".of").html(localeFields['of']);
             $("#editBtn").html(localeFields['editBook']);
-
+            $('#requiredExample').html(localeFields['requiredExample']);
 
             //should be down
             title.html(title.html().replace('Title:', localeFields['title']));

@@ -17,12 +17,8 @@ function uploadMultiplyFiles() {
     if (files.length === 0) {
         alert(alertFileNotFound);
     } else {
-        fetch("/api/admin/upload-multiply-files", {
-            method: 'POST',
-            body: files
-        })
-            .then($("#uploadMultiplyFilesHidden").trigger('click'))
-            .then($(this).tab('show'));
+            $("#uploadMultiplyFilesHidden").trigger('click');
+            $(this).tab('show');
     }
 }
 
