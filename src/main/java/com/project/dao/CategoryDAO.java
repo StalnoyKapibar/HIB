@@ -52,11 +52,19 @@ public class CategoryDAO extends AbstractDao<Long, Category> {
         return entityManager.createNativeQuery(hql).getResultList();
     }
 
-    public List<Long> getNoParentCategories() {
+    public List<Long> getIdsCategories () {
+        return entityManager.createQuery("SELECT c.id FROM Category c", Long.class).getResultList();
+    }
+
+    public List<Category> getNoParentCategories() {
+        String hql = "SELECT c FROM Category c WHERE c.parentId IS NULL ORDER BY c.viewOrder";
+        return entityManager.createQuery(hql, Category.class).getResultList();
+    }
+
+    public List<Long> getNoParentCategoriesById() {
         String hql = "SELECT c.name.id FROM Category c WHERE c.parentId IS NULL ORDER BY c.viewOrder";
         return entityManager.createQuery(hql, Long.class).setMaxResults(4).getResultList();
     }
-
 
     @Override
     public Category update(Category entity) {

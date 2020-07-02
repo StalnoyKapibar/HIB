@@ -30,8 +30,8 @@ public class CategoryService {
         return categoryDAO.getAdminCategoryTree();
     }
 
-    public List<Long> getNoParentCategories() {
-        return categoryDAO.getNoParentCategories();
+    public List<Long> getNoParentCategoriesById() {
+        return categoryDAO.getNoParentCategoriesById();
     }
 
     public void update(Category category) {
@@ -59,7 +59,7 @@ public class CategoryService {
     }
 
     public List<Category> getListCategoriesById(String local) {
-        return categoryDAO.getListCategoriesById(local, categoryDAO.getNoParentCategories());
+        return categoryDAO.getListCategoriesById(local, categoryDAO.getNoParentCategoriesById());
     }
 
 }
