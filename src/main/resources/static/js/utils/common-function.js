@@ -338,6 +338,7 @@ async function setLocaleFields() {
 //function for chose language
 function chooseLanguage(lang) {
     document.cookie = `lang=${lang}; path=/`;
+    getCategoriesLocal(lang);
     window.location.reload();
 }
 
