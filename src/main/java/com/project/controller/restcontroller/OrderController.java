@@ -121,6 +121,38 @@ public class OrderController {
         }
     }
 
+    @GetMapping("/api/admin/order/{email}/{details}")
+    private List<OrderDTO> getOrderByEmailByStatus(@PathVariable("email") String email, @PathVariable("details") String details) {
+        Status status;
+        switch (details) {
+            case ("uprocessedOrders"):
+                status = Status.UNPROCESSED;
+                break;
+            case ("processingOrders"):
+                status = Status.PROCESSING;
+                break;
+            case ("completedOrders"):
+                status = Status.COMPLETED;
+                break;
+            case ("deletedOrders"):
+                status = Status.DELETED;
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + details);
+        }
+        List<Order> orders = orderService.getOrderByEmailByStatus(status, email);
+        List<OrderDTO> orderDTOS = new ArrayList<>();
+        for (Order order : orders) {
+            orderDTOS.add(order.getOrderDTOForAdmin());
+        }
+        return orderDTOS;
+    }
+
+    @GetMapping("/api/admin/order/{email}/amount")
+    private Long[] getAmountOfFeedback(@PathVariable("email") String email) {
+        return orderService.getAmountOfOrders(email);
+    }
+
     @PatchMapping("/api/admin/completeOrder/{id}")
     private void orderComplete(@PathVariable Long id) {
         orderService.completeOrder(id);

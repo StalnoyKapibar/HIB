@@ -59,6 +59,11 @@
         <span class="orders-loc">Orders</span>
         <span class="badge badge-pill badge-danger" id="countOfOrder"></span>
     </a>
+    <a class="nav-link"
+       href="/admin/panel/users"
+       th:classappend="${#httpServletRequest.getRequestURI() == '/admin/panel/users' ? 'active' : ''}">
+        <span class="users-loc">Users</span>
+    </a>
     <script src="/static/js/admin/count.js" ></script>
     <script src="/static/js/admin/admin-nav.js" ></script>
 

@@ -6,6 +6,7 @@ import org.hibernate.exception.ConstraintViolationException;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;
+import java.util.List;
 
 public interface UserAccountService {
 
@@ -27,4 +28,6 @@ public interface UserAccountService {
     UserAccount update(UserAccount userAccount);
 
     UserAccount findByLogin(String login);
+
+    List<String> getUsersEmails();
 }

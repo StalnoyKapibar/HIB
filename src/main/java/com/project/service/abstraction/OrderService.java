@@ -1,6 +1,7 @@
 package com.project.service.abstraction;
 
 import com.project.model.Order;
+import com.project.model.Status;
 
 import java.util.List;
 
@@ -19,9 +20,13 @@ public interface OrderService {
 
     void completeOrder(Long id);
 
+    List<Order> getOrderByEmailByStatus(Status status, String email);
+
     int getCountOfOrders(long lastAuthDate);
 
     void unCompleteOrder(Long id);
 
     void processOrder(Long id);
+
+    Long[] getAmountOfOrders(String email);
 }

@@ -62,17 +62,13 @@ public class BookNewDTO {
     }
 
     public BookNewDTO(long id, String name, String nameTranslit, String author, String authorTranslit,
-                      String edition, String editionTranslit, String description, boolean isShow) {
+                      boolean isShow) {
         this.id = id;
         this.name = name;
         this.nameTranslit = nameTranslit;
         this.author = author;
         this.authorTranslit = authorTranslit;
-        this.edition = edition;
-        this.editionTranslit = editionTranslit;
-        this.desc = description;
         this.isShow = isShow;
-
     }
 
     public BookNewDTO(long id, String name, String nameTranslit, String author, String authorTranslit,
@@ -98,7 +94,7 @@ public class BookNewDTO {
     public BookNewDTO(long id) {
         this.id = id;
     }
-    
+
     public BookNewDTO(long id, String name, String nameTranslit, String author, String authorTranslit) {
         this.id = id;
         this.name = name;
