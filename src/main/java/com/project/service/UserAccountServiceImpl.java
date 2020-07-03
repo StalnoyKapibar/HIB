@@ -70,7 +70,6 @@ public class UserAccountServiceImpl implements UserAccountService {
         try {
             if (userAccount != null) {
                 sendEmailService.confirmAccount(userAccount, url);
-
             }
         } catch (MessagingException e) {
             e.printStackTrace();
