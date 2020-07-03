@@ -106,6 +106,12 @@ public class UserController {
             {MediaType.APPLICATION_FORM_URLENCODED_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public ModelAndView createNewUserAccount1Click(@Valid RegistrationUserDTO user, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
         ModelAndView view = new ModelAndView("user/user-page");
+        StringBuilder url = new StringBuilder();
+        url.append(request.getScheme())
+                .append("://")
+                .append(request.getServerName())
+                .append(':')
+                .append(request.getServerPort());
         view.getModelMap().addAttribute("user", user);
         user.setLogin(user.getEmail());
         user.setPassword(generateString(new Random(), SOURCES, 10));
@@ -127,7 +133,7 @@ public class UserController {
             return view;
         }
         try {
-            userAccountService.save1Clickreg(user);
+            userAccountService.save1Clickreg(user, url.toString());
         } catch (DataIntegrityViolationException e) {
             if (e.getCause().getCause().getMessage().contains("login")) {
                 view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessageOnLoginUIndex());

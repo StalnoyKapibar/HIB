@@ -39,11 +39,12 @@ public class SendEmailServiceImpl implements SendEmailService {
     }
 
     @Override
-    public void confirmAccount1ClickReg(UserAccount user, String password, String login) throws MessagingException {
+    public void confirmAccount1ClickReg(UserAccount user, String password, String login, String url) throws MessagingException {
         Context context = new Context();
         context.setVariable("id", user.getTokenToConfirmEmail());
         context.setVariable("login", login);
         context.setVariable("password", password);
+        context.setVariable("url", url);
         String senderFromProperty = environment.getProperty("spring.mail.username");
         MimeMessage message = mailService.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, "utf-8");
