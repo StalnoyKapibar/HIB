@@ -24,10 +24,11 @@ public class SendEmailServiceImpl implements SendEmailService {
     Environment environment;
 
     @Override
-    public void confirmAccount(UserAccount user) throws MessagingException {
+    public void confirmAccount(UserAccount user, String url) throws MessagingException {
         String senderFromProperty = environment.getProperty("spring.mail.username");
         Context context = new Context();
         context.setVariable("id", user.getTokenToConfirmEmail());
+        context.setVariable("url", url);
         MimeMessage message = mailService.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, "utf-8");
 

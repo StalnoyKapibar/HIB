@@ -64,6 +64,12 @@ public class UserController {
     public ModelAndView createNewUserAccount(@Valid RegistrationUserDTO user, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
         ModelAndView view = new ModelAndView("user/user-page");
         view.getModelMap().addAttribute("user", user);
+        StringBuilder url = new StringBuilder();
+        url.append(request.getScheme())
+                .append("://")
+                .append(request.getServerName())
+                .append(':')
+                .append(request.getServerPort());
 
         if (result.hasErrors()) {
             view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessage(result));
@@ -78,7 +84,7 @@ public class UserController {
             return view;
         }
         try {
-            userAccountService.save(user);
+            userAccountService.save(user, url.toString());
         } catch (DataIntegrityViolationException e) {
             if (e.getCause().getCause().getMessage().contains("login")) {
                 view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessageOnLoginUIndex());

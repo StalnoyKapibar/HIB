@@ -54,7 +54,7 @@ public class UserAccountServiceImpl implements UserAccountService {
     }
 
     @Override
-    public UserAccount save(RegistrationUserDTO user) throws ConstraintViolationException, MailSendException {
+    public UserAccount save(RegistrationUserDTO user, String url) throws ConstraintViolationException, MailSendException {
         UserAccount userAccount = UserAccount.builder()
                 .login(user.getLogin())
                 .email(user.getEmail())
@@ -69,7 +69,7 @@ public class UserAccountServiceImpl implements UserAccountService {
 
         try {
             if (userAccount != null) {
-                sendEmailService.confirmAccount(userAccount);
+                sendEmailService.confirmAccount(userAccount, url);
             }
         } catch (MessagingException e) {
             e.printStackTrace();

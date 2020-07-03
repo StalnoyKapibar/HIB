@@ -12,7 +12,7 @@ public interface UserAccountService {
 
     UserAccount findUserByToConfirmEmail(String token);
 
-    UserAccount save(RegistrationUserDTO user) throws ConstraintViolationException;
+    UserAccount save(RegistrationUserDTO user, String url) throws ConstraintViolationException;
 
     boolean emailExist(String email);
 

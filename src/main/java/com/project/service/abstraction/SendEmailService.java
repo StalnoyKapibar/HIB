@@ -7,7 +7,7 @@ import javax.mail.MessagingException;
 
 public interface SendEmailService {
 
-    void confirmAccount(UserAccount user) throws MessagingException;
+    void confirmAccount(UserAccount user, String url) throws MessagingException;
 
     void confirmAccount1ClickReg(UserAccount user, String password, String login, String url) throws MessagingException;
 
