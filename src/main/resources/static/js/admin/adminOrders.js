@@ -108,7 +108,7 @@ async function showListOrders() {
                     }
                 })
 
-                if (order.status === statusOfOrder.toUpperCase()) {
+                if (order.status === statusOfOrder.toUpperCase() || statusOfOrder === "All") {
                     html += `<tbody ><tr `;
                     if (!isOrderEnable) {
                         html += `style = "background-color: #FFB3B3" `;
