@@ -58,9 +58,10 @@ public class SendEmailServiceImpl implements SendEmailService {
     }
 
     @Override
-    public void orderPresent(Order order) throws MessagingException {
+    public void orderPresent(Order order, String url) throws MessagingException {
         Context context = new Context();
         context.setVariable("orders", order);
+        context.setVariable("url", url);
         String senderFromProperty = environment.getProperty("spring.mail.username");
         MimeMessage message = mailService.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, "utf-8");

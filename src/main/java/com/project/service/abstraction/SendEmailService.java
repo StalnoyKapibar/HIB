@@ -11,5 +11,5 @@ public interface SendEmailService {
 
     void confirmAccount1ClickReg(UserAccount user, String password, String login, String url) throws MessagingException;
 
-    void orderPresent(Order order) throws MessagingException;
+    void orderPresent(Order order, String url) throws MessagingException;
 }

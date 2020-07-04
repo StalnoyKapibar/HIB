@@ -70,7 +70,6 @@ public class UserController {
                 .append(request.getServerName())
                 .append(':')
                 .append(request.getServerPort());
-
         if (result.hasErrors()) {
             view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessage(result));
             return view;
