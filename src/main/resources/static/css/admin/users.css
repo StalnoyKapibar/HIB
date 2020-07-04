@@ -28,6 +28,7 @@
 
 .active-cell, .active-cell-details {
     background-color: #dee2e6;
+    padding: 5px 5px;
 }
 
 .container#feedbacks-chat, .container#orderChat {
