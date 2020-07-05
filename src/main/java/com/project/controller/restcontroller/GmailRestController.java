@@ -3,6 +3,7 @@ package com.project.controller.restcontroller;
 import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.model.ListMessagesResponse;
 import com.google.api.services.gmail.model.Message;
+import com.google.api.services.gmail.model.MessagePartHeader;
 import com.nimbusds.jose.util.Base64URL;
 import com.project.model.MessageDTO;
 import lombok.NoArgsConstructor;
@@ -144,7 +145,7 @@ public class GmailRestController {
                     text = text.substring(1, text.length()-1);
                 }
                 messageDTO.setText(text);
-                messageDTO.setSubject(""); //здесь надо придумать, как достать и впихнуть тему сообщения
+                messageDTO.setSubject(getSubject(fullMessage)); //здесь надо придумать, как достать и впихнуть тему сообщения
                 chat.add(messageDTO);
             }
         }
@@ -165,6 +166,16 @@ public class GmailRestController {
         mimeMessage.setContent(text, "text/plain; charset=UTF-8");
         mimeMessage.setRecipient(javax.mail.Message.RecipientType.TO, new InternetAddress(to));
         return mimeMessage;
+    }
+
+    private String getSubject(Message fullMessage) {
+        for (int i = 0; i < fullMessage.getPayload().getHeaders().size(); i++) {
+            String header = fullMessage.getPayload().getHeaders().get(i).getName();
+            if (header.equalsIgnoreCase("Subject")) {
+                return fullMessage.getPayload().getHeaders().get(i).getValue();
+            }
+        }
+        return "";
     }
 
     @PostMapping(value = "/gmailFeedBack/{userId}/messages")
