@@ -6,7 +6,7 @@ import com.project.model.Status;
 import java.util.List;
 
 public interface OrderService {
-    void addOrder(Order order);
+    void addOrder(Order order, String url);
 
     void updateOrder(Order order);
 

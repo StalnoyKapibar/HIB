@@ -22,10 +22,10 @@ public class OrderServiceImpl implements OrderService {
     private SendEmailService sendEmailService;
 
     @Override
-    public void addOrder(Order order) {
+    public void addOrder(Order order, String  url) {
         orderDAO.add(order);
         try {
-            sendEmailService.orderPresent(order);
+            sendEmailService.orderPresent(order, url);
         } catch (MessagingException e) {
             e.printStackTrace();
         }

@@ -114,12 +114,22 @@
 
                             <tr>
 
-                                <td width="570" bgcolor="D1ECF1"><h1>Hello dear reader</h1></td>
+                                <td width="570" bgcolor="D1ECF1"><h1 class="hello-dear-reader-loc">Hello dear
+                                    reader</h1></td>
 
                             </tr>
 
                             <tr>
-                                <td width="570"  height="50" bgcolor="D1ECF1"></td>
+                                <td>
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <button><a th:href="@{${url}+'/resPass'(token=${token})}">Press to reset password
+                                        HIB</a></button>
+
+                                </td>
                             </tr>
 
                         </table><!-- header -->
@@ -145,27 +155,6 @@
 
 
                                 <td width="55"></td>
-
-                                <td valign="top" colspan="3">
-
-                                    <h4>
-                                        <strong> Your login:</strong> <span th:text="${login}"> Login</span> <br>
-                                    </h4>
-
-                                    <h4>
-                                    <strong> Your password:</strong> <span th:text="${password}">Password</span> <br>
-                                    </h4>
-                                    <button><a th:href="@{${url}+'/confirmEmail'(token=${id})}"> Подтвердить аккаунт</a> </button>
-                                </td>
-                                <td width="15"></td>
-
-                            </tr>
-                            <tr>
-                                <td width="15"></td>
-                                <td>
-
-                                </td>
-                            </tr>
 
                         </table><!-- content 1 -->
 
@@ -197,7 +186,7 @@
                 <tr>
 
                     <td align="center">
-                        <td>HIB: <a th:href='${url}' th:text="${url}">History in book</a></td>
+
                     </td>
 
                 </tr>
@@ -209,6 +198,10 @@
 </table><!-- wrapper -->
 
 </div>
+
+<script src="/static/js/utils/common-function.js"></script>
+<script src="../static/js/main.js"></script>
+
 </body>
 
 </html>

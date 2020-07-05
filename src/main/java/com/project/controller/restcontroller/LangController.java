@@ -29,6 +29,9 @@ public class LangController {
 
     @GetMapping(value = "/properties/{lang}")
     public ResponseEntity getPropertyFile(@PathVariable("lang") String lang) throws IOException {
+        if (lang.equals("undefined")){
+            lang = "en";
+        }
         InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("static/messages_" + lang + ".properties");
         Properties properties = new Properties();
         properties.load(new InputStreamReader(inputStream, "UTF-8"));
