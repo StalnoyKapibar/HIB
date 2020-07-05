@@ -8,11 +8,14 @@ import com.project.service.abstraction.ResetPasswordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.thymeleaf.context.Context;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.regex.Pattern;
@@ -34,7 +37,7 @@ public class ResetPasswordServiceImpl implements ResetPasswordService {
     private Environment environment;
 
     @Override
-    public String sendEmailResetPassword(String email) {
+    public String sendEmailResetPassword(String email, String url) {
         String reg = "^(.+)@([a-zA-Z]+)\\.([a-zA-Z]+)$";
         if (Pattern.matches(reg, email)) {
             try {
@@ -44,17 +47,19 @@ public class ResetPasswordServiceImpl implements ResetPasswordService {
                 userAccount1.setTokenToConfirmEmail(token);
                 userAccountDAO.save(userAccount1);
 
+                Context context = new Context();
+                context.setVariable("url", url);
+                context.setVariable("token", token);
                 String senderFromProperty = environment.getProperty("spring.mail.username");
-                SimpleMailMessage mailMessage = new SimpleMailMessage();
-                mailMessage.setTo(email);
-                mailMessage.setSubject("Reset password HIB");
-                mailMessage.setFrom(senderFromProperty);
-                mailMessage.setText("Reset password HIB "
-                        + "http://localhost:8080/resPass?token="
-                        + token);
-                mailService.sendEmail(mailMessage);
+                MimeMessage message = mailService.createMimeMessage();
+                MimeMessageHelper helper = new MimeMessageHelper(message, "utf-8");
+                helper.setTo(email);
+                helper.setSubject("Reset Password");
+                helper.setFrom(senderFromProperty);
+                helper.setText(mailService.getTemplate("mailForm/passChange.html", context), true);
+                mailService.sendEmail(message);
                 return "ok";
-            } catch (EmptyResultDataAccessException e) {
+            } catch (EmptyResultDataAccessException | MessagingException e) {
                 return "noEmail";
             }
         } else {
