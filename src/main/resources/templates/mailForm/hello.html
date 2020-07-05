@@ -114,7 +114,8 @@
 
                             <tr>
 
-                                <td width="570" bgcolor="D1ECF1"><h1 class="hello-dear-reader-loc">Hello dear reader</h1></td>
+                                <td width="570" bgcolor="D1ECF1"><h1 class="hello-dear-reader-loc">Hello dear
+                                    reader</h1></td>
 
                             </tr>
                             <!--<tr> Зачем пользователю видеть свой токен напрямую?
@@ -128,7 +129,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <button><a th:href="@{http://77.222.63.141.xip.io:8080/confirmEmail(token=${id})}"
+                                    <button><a th:href="@{${url}+'/confirmEmail'(token=${id})}"
                                                class="confirm-account-loc">Confirm account</a></button>
                                 </td>
                             </tr>
@@ -181,13 +182,12 @@
                 </tr><!-- content-2 -->
 
             </table><!-- main -->
-
             <table id="bottom-message" cellpadding="20" cellspacing="0" width="600" align="center">
 
                 <tr>
 
                     <td align="center">
-
+                    <td>HIB: <a th:href='${url}' th:text="${url}">History in book</a></td>
                     </td>
 
                 </tr>
@@ -197,6 +197,7 @@
         </td>
     </tr>
 </table><!-- wrapper -->
+
 
 </div>
 

@@ -155,7 +155,7 @@
                                     <h4>
                                     <strong> Your password:</strong> <span th:text="${password}">Password</span> <br>
                                     </h4>
-                                    <button><a th:href="@{http://77.222.63.141.xip.io:8080/confirmEmail(token=${id})}"> Подтвердить аккаунт</a> </button>
+                                    <button><a th:href="@{${url}+'/confirmEmail'(token=${id})}"> Подтвердить аккаунт</a> </button>
                                 </td>
                                 <td width="15"></td>
 
@@ -197,7 +197,7 @@
                 <tr>
 
                     <td align="center">
-                        <td>HIB: <a href="http://77.222.63.141.xip.io:8080">http://77.222.63.141.xip.io:8080</a></td>
+                        <td>HIB: <a th:href='${url}' th:text="${url}">History in book</a></td>
                     </td>
 
                 </tr>
