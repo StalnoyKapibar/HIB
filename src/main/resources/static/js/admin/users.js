@@ -114,7 +114,7 @@ function sendGmailMessage(userId) {
     })
         .then(json)
         .then((data) => {
-            let html = `<div class="row"><div class="col-5"></div><div id="chat-mes" class="rounded col-7"><p><h6><b>${data.sender}</b></h6></p>
+            let html = `<div class="row"><div class="col-5"></div><div id="chat-mes" class="rounded col-7"><p><h6><b>${data.sender}</b></h6></p><p><span id="subject-mes">${data.subject}</span></p>
                                     <p>${data.text}</p></div></div>`;
             let wrapper = document.getElementById("chat-wrapper");
             wrapper.insertAdjacentHTML("beforeend", html);
