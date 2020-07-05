@@ -134,7 +134,7 @@ function sendGmailMessage(userId) {
 function sendFeedbackGmailMessage(userId, feedbackId) {
     let sendButton = document.getElementById("send-button");
     sendButton.disabled = true;
-    let message = document.getElementById("sent-message").value;
+    let message = document.getElementById("sent-message-feedback").value;
     if (message === "" || message == null || message == undefined) {
         sendButton.disabled = false;
         return;
@@ -152,21 +152,22 @@ function sendFeedbackGmailMessage(userId, feedbackId) {
                                     <p>${data.text}</p></div></div>`;
             let wrapper = document.getElementById("chat-wrapper");
             wrapper.insertAdjacentHTML("beforeend", html);
-            document.getElementById("sent-message").value = "";
+            document.getElementById("sent-message-feedback").value = "";
             sendButton.disabled = false;
-        }).then(() => {
-        fetch("/admin/markasread?email=" + userId)
-            .then(json)
-            .then((data) => {
-                console.log(data)
-            })
-    });
+        })
+    //     .then(() => {
+    //     fetch("/admin/markasread?email=" + userId)
+    //         .then(json)
+    //         .then((data) => {
+    //             console.log(data)
+    //         })
+    // });
 }
 
 function sendOrderGmailMessage(userId, orderId) {
     let sendButton = document.getElementById("send-button");
     sendButton.disabled = true;
-    let message = document.getElementById("sent-message").value;
+    let message = document.getElementById("sent-message-order").value;
     if (message === "" || message == null || message == undefined) {
         sendButton.disabled = false;
         return;
@@ -184,16 +185,16 @@ function sendOrderGmailMessage(userId, orderId) {
                                     <p>${data.text}</p></div></div>`;
             let wrapper = document.getElementById("chat-wrapper");
             wrapper.insertAdjacentHTML("beforeend", html);
-            document.getElementById("sent-message").value = "";
+            document.getElementById("sent-message-order").value = "";
             sendButton.disabled = false;
         })
-        .then(() => {
-            fetch("/admin/markasread?email=" + userId)
-                .then(json)
-                .then((data) => {
-                    console.log(data)
-                })
-        });
+        // .then(() => {
+        //     fetch("/admin/markasread?email=" + userId)
+        //         .then(json)
+        //         .then((data) => {
+        //             console.log(data)
+        //         })
+        // });
 }
 
 async function scrolling() {
@@ -439,7 +440,7 @@ async function showProcessingOrders(details, email) {
     await fetch("/api/admin/order/" + email + "/" + details)
         .then(json)
         .then((data) => {
-            let orders = data;
+            orders = data;
             $.each(orders, function (index) {
                 htmlDetails += `<div class="row active-cell-details">
                                     <div class="col-2">
@@ -449,7 +450,7 @@ async function showProcessingOrders(details, email) {
                                     </div>
                                     <div class="col-8">
                                         <div>${orders[index].comment}</div>
-                                        <div><a href="#">Show details</a></div>
+                                        <div><a href="#" data-target="#order-modal" data-toggle="modal" onclick="showModalOfOrder(${index})">Show details</a></div>
                                     </div>
                                     <div class="col-2">
                                         <button class="btn btn-danger btn-block" type="button" onclick="orderDelete(${orders[index].id})">Delete</button>
@@ -471,7 +472,7 @@ async function showCompletedOrders(details, email) {
     await fetch("/api/admin/order/" + email + "/" + details)
         .then(json)
         .then((data) => {
-            let orders = data;
+            orders = data;
             $.each(orders, function (index) {
                 htmlDetails += `<div class="row active-cell-details">
                                     <div class="col-2">
@@ -481,7 +482,7 @@ async function showCompletedOrders(details, email) {
                                     </div>
                                     <div class="col-8">
                                         <div>${orders[index].comment}</div>
-                                        <div><a href="#">Show details</a></div>
+                                        <div><a href="#" data-target="#order-modal" data-toggle="modal" onclick="showModalOfOrder(${index})">Show details</a></div>
                                     </div>
                                     <div class="col-2">
                                         <button class="btn btn-danger btn-block" type="button" onclick="orderDelete(${orders[index].id})">Delete</button>
@@ -503,7 +504,7 @@ async function showDeletedOrders(details, email) {
     await fetch("/api/admin/order/" + email + "/" + details)
         .then(json)
         .then((data) => {
-            let orders = data;
+            orders = data;
             $.each(orders, function (index) {
                 htmlDetails += `<div class="row active-cell-details">
                                     <div class="col-2">
@@ -513,7 +514,7 @@ async function showDeletedOrders(details, email) {
                                     </div>
                                     <div class="col-8">
                                         <div>${orders[index].comment}</div>
-                                        <div><a href="#">Show details</a></div>
+                                        <div><a href="#" data-target="#order-modal" data-toggle="modal" onclick="showModalOfOrder(${index})>Show details</a></div>
                                     </div>
                                 </div>`
             });
@@ -601,7 +602,7 @@ async function showModalOfFeedBack(index) {
             if (data[0] === undefined) {
                 htmlChat += `<div id="chat-wrapper">`;
                 htmlChat += `</div>`;
-                htmlChat += `<textarea id="sent-message" class="form-control"></textarea>
+                htmlChat += `<textarea id="sent-message-feedback" class="form-control"></textarea>
 
                         </div><button class="float-right col-2 btn btn-primary send-loc" type="button" id="send-button" onclick="sendFeedbackGmailMessage('${feedback.senderEmail}', ${feedback.id})">Send</button>`
 
@@ -609,7 +610,7 @@ async function showModalOfFeedBack(index) {
                 if (data[0].text === "chat end") {
                     htmlChat += `<div id="chat-wrapper">`;
                     htmlChat += `</div>`;
-                    htmlChat += `<textarea id="sent-message" class="form-control"></textarea>
+                    htmlChat += `<textarea id="sent-message-feedback" class="form-control"></textarea>
 
                         </div><button class="float-right col-2 btn btn-primary send-loc" type="button" id="send-button" onclick="sendFeedbackGmailMessage('${feedback.senderEmail}', ${feedback.id})">Send</button>`
 
@@ -632,7 +633,7 @@ async function showModalOfFeedBack(index) {
                         }
                     }
                     htmlChat += `</div>`;
-                    htmlChat += `<textarea id="sent-message" class="form-control"></textarea>
+                    htmlChat += `<textarea id="sent-message-feedback" class="form-control"></textarea>
 
                         </div><button class="float-right col-2 btn btn-primary send-loc" type="button" id="send-button" onclick="sendFeedbackGmailMessage('${feedback.senderEmail}', ${feedback.id})">Send</button>`
 
@@ -685,7 +686,7 @@ async function showModalOfOrder(index) {
             if (data[0] === undefined) {
                 htmlChat += `<div id="chat-wrapper">`;
                 htmlChat += `</div>`;
-                htmlChat += `<textarea id="sent-message" class="form-control"></textarea>
+                htmlChat += `<textarea id="sent-message-order" class="form-control"></textarea>
 
                         </div><button class="float-right col-2 btn btn-primary send-loc" type="button" id="send-button" onclick="sendOrderGmailMessage('${order.contacts.email}', ${orders[orderIndex].id})">Send</button>`
 
@@ -693,7 +694,7 @@ async function showModalOfOrder(index) {
                 if (data[0].text === "chat end") {
                     htmlChat += `<div id="chat-wrapper">`;
                     htmlChat += `</div>`;
-                    htmlChat += `<textarea id="sent-message" class="form-control"></textarea>
+                    htmlChat += `<textarea id="sent-message-order" class="form-control"></textarea>
 
                         </div><button class="float-right col-2 btn btn-primary send-loc" type="button" id="send-button" onclick="sendOrderGmailMessage('${order.contacts.email}', ${orders[orderIndex].id})">Send</button>`
 
@@ -716,7 +717,7 @@ async function showModalOfOrder(index) {
                         }
                     }
                     htmlChat += `</div>`;
-                    htmlChat += `<textarea id="sent-message" class="form-control"></textarea>
+                    htmlChat += `<textarea id="sent-message-order" class="form-control"></textarea>
 
                         </div><button class="float-right col-2 btn btn-primary send-loc" type="button" id="send-button" onclick="sendOrderGmailMessage('${order.contacts.email}', ${orders[orderIndex].id})">Send</button>`
 
@@ -738,7 +739,7 @@ async function showModalOfOrder(index) {
         let countUsers = 0;
         let isLastOrder = `<td width="350">${convertOriginalLanguageRows(book.originalLanguage.name, book.originalLanguage.nameTranslit)} | ${convertOriginalLanguageRows(book.originalLanguage.author, book.originalLanguage.authorTranslit)}</td>`;
         for (let i = 0; i < allOrdersforModal.length; i++) {
-            if (allOrdersforModal[i].status === "UNPROCESSED" || orders[i].status === "PROCESSING") {
+            if (allOrdersforModal[i].status === "UNPROCESSED") {
                 for (let j = 0; j < allOrdersforModal[i].items.length; j++) {
                     let numberOfBook = allOrdersforModal[i].items[j].book.originalLanguage;
                     if (book.originalLanguage.id == numberOfBook.id) {
