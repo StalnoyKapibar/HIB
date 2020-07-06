@@ -34,11 +34,14 @@ $(document).ready(function () {
 
 });
 
-function getQuantityPage() {
-    if (amountBooksInDb < amountBooksInPage) {
+async function getQuantityPage() {
+    const url = '/getPageBooks';
+    const res = await fetch(url);
+    const data = await res.json();
+    if (data.length < amountBooksInPage) {
         return 1;
     }
-    return Math.ceil(amountBooksInDb / amountBooksInPage);
+    return Math.ceil(data.length / amountBooksInPage);
 }
 
 async function addBooksToPage(books) {
@@ -100,9 +103,9 @@ async function getAUTH() {
         });
 }
 
-function addPagination() {
+async function addPagination() {
     let numberOfPagesInPagination = 7;
-    let quantityPage = getQuantityPage();
+    let quantityPage = await getQuantityPage();
     let startIter;
     let endIter = currentPage;
     let pag;
