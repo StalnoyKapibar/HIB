@@ -36,6 +36,10 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         cartItemDAO.deleteById(id);
     }
 
+    public void deleteBookFromShopCartCartItem(Long shopCartId, Long cartItemDtoId) {
+        cartDAO.deleteBookFromShopCartCartItem(shopCartId, cartItemDtoId);
+    }
+
     @Override
     public void mergeCarts(HttpServletRequest request, Long id) {
         ShoppingCartDTO cart = (ShoppingCartDTO) request.getSession().getAttribute("shoppingcart");
