@@ -38,6 +38,8 @@ async function setLocaleFields() {
             $('.authors-list-footer').text(localeFields['authors']);
             $('.theme-links-footer').text(localeFields['links']);
             $('.contact-locations-footer').text(localeFields['contacts']);
+            $('.use-cookie-loc').text(localeFields['useCookie']);
+            $('.use-cookie-text-loc').text(localeFields['useCookieText']);
             $('.made-by').text(localeFields['madeby']);
             $('#made_by').text(localeFields['madeby']);
 

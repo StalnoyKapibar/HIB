@@ -103,7 +103,16 @@ function showAlertCookie() {
 
     if(getCookieByName('showBanner') === 'true') {
         let daysForDisabling = 2;
-        $('.alert-cookie').text('We use cookie! RUN!!!!');
+
+        Swal.fire({
+            position: 'bottom-end',
+            title: '<div><div class="use-cookie-loc" style="font-size: 22px; font-weight: bold;">We use cookie.</div>' +
+                '<div class="use-cookie-text-loc" style="font-size: 14px; padding-top: 10px;">By continuing to use our site, you consent to the ' +
+                'processing of cookies, which ensure the proper site functioning. Thanks to them, we managed to improve the ' +
+                'site, service and products.</div></div>',
+            width: 350
+        })
+
         document.cookie = 'showBanner=false;path=/;max-age='+ daysForDisabling * 24 * 60 * 60 +';';
     }
 }
