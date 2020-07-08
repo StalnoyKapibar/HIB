@@ -13,6 +13,7 @@ let amountBooksInDb;
 let ddmAmountBook = $("#ddmAmountBook");
 let isAdmin = false;
 
+
 $(document).ready(function () {
     if (currentLang === '') {
         if (getCookieByName("lang")) {
@@ -32,7 +33,12 @@ $(document).ready(function () {
     openModalLoginWindowOnFailure();
     loadWelcome(currentLang);
 
+
 });
+
+$(document).ready(function () {
+    showAlertCookie();
+})
 
 async function getQuantityPage() {
     const url = '/getPageBooks';
@@ -50,7 +56,7 @@ async function addBooksToPage(books) {
     $('#cardcolumns').empty();
     $("#rowForPagination").empty();
 
-    console.log(books);
+    //console.log(books);
 
     $.each(books, function (index) {
         let textOfBtn = listOrdersOfCart.includes(books[index].id) ? addedToshoppingCart : addToshoppingCart;
@@ -87,6 +93,19 @@ async function addBooksToPage(books) {
     });
     addPagination();
     setLocaleFields();
+}
+
+function showAlertCookie() {
+
+    if(getCookieByName('showBanner') === undefined) {
+        document.cookie = "showBanner=true;";
+    }
+
+    if(getCookieByName('showBanner') === 'true') {
+        let daysForDisabling = 2;
+        $('.alert-cookie').text('We use cookie! RUN!!!!');
+        document.cookie = 'showBanner=false;path=/;max-age='+ daysForDisabling * 24 * 60 * 60 +';';
+    }
 }
 
 function openEdit(id) {
