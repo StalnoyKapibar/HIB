@@ -1,4 +1,4 @@
-/*alter table book drop constraint FK5uwnfg52gy9kl9e3ynfrqneyp;
+alter table book drop constraint FK5uwnfg52gy9kl9e3ynfrqneyp;
 alter table book drop constraint FKam9riv8y6rjwkua1gapdfew4j;
 alter table book drop constraint FKa0xoj8m49mi6wh80lng36e8k1;
 alter table book drop constraint FKpgggddil6mt83hm9ibdi1uckm;
@@ -22,7 +22,7 @@ alter table shopping_cart_cart_items drop constraint FKpocjoqhr41wij71udgwfqbuiv
 alter table users drop constraint FK6jdrni2j64vqsvgjm8ub789pk;
 alter table users drop constraint FKlaspnaolmjyu4xs679bfmtcx9;
 alter table welcome drop constraint FKk5ct3avky7x6a2798b9207s5d;
-*/
+
 drop table if exists address cascade;
 drop table if exists book cascade;
 drop table if exists book_list_image cascade;
