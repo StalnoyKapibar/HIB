@@ -5,6 +5,7 @@ let messagePackIndex;
 let orders;
 let orderIndex;
 let iconOfPrice = " €";
+let emails = [];
 
 $(document).ready(async function () {
 
@@ -13,6 +14,7 @@ $(document).ready(async function () {
         .then((data) => {
            users = data;
             $.each(users, function (index) {
+                emails[index] = users[index].email;
                 htmlUsers += `<tr id="${users[index].email}-mark">
                                 <td>${users[index].email}</td>
                                 <td>${users[index].unrepliedFeedbacks} <button type="button" class="btn btn-primary arrow" onclick="showDetails('unrepliedFeedbacks', '${users[index].email}')" id="${users[index].email}-unrepliedFeedbacks-arrow">↓</button></td>
@@ -25,6 +27,10 @@ $(document).ready(async function () {
                 $('#users-body').html(htmlUsers);
             });
         });
+
+    window.addEventListener(`resize`, event => {
+        filterUl.width(filterInput.width() + 25);
+    }, false);
 });
 
 async function showFullchat() {
@@ -838,4 +844,43 @@ function orderDelete(id) {
         });
         location.reload();
     }
+}
+
+// liveSearch
+
+let filterInput = $('#email-chat');
+let filterUl = $('.ul-emails');
+filterUl.width(filterInput.width() + 7);
+
+// Проверка при каждом вводе символа
+filterInput.bind('input propertychange', function () {
+    if ($(this).val() !== '') {
+        filterUl.fadeIn(100);
+        findElem(filterUl, emails, $(this).val());
+    } else {
+        filterUl.fadeOut(100);
+    }
+    editTable($(this).val());
+});
+
+//  При клике на эллемент выпадающего списка, присваиваем значение в инпут и ставим триггер на его изменение
+filterUl.on('click', '.js-searchInput', function (e) {
+    $('#email-chat').val('');
+    filterInput.val($(this).text());
+    filterInput.trigger('change');
+    filterUl.fadeOut(100);
+    editTable($(this).text());
+});
+
+function editTable(inputValue) {
+    let rows = document.getElementById("users-body").getElementsByTagName("tr");
+    let rowId;
+    $.each(rows, function (index) {
+        rowId = (rows[index].id).substr(0, rows[index].id.length - 5);
+        if (rowId.match(inputValue)) {
+            rows[index].removeAttribute("hidden");
+        } else {
+            rows[index].setAttribute("hidden", "hidden");
+        }
+    });
 }
