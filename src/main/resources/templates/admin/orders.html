@@ -15,9 +15,7 @@
                     <h2 class="order-with-status-loc">Orders with status</h2>
                 </div>
                 <div class="col my-2">
-
                     <div class="form-group">
-
                         <select class="form-control" id="statusSelector">
                             <option selected value="Unprocessed">Unprocessed</option>
                             <option value="Processing">Processing</option>
@@ -25,6 +23,17 @@
                             <option value="Deleted">Deleted</option>
                         </select>
                     </div>
+                </div>
+            </div>
+            <div class="col-12 pr-0">
+                <div class="input-group">
+                    <div class="input-group-append">
+                            <span class="input-group-text" id="searchIcon">
+                                <i aria-hidden="true" class="fa fa-search"></i>
+                            </span>
+                    </div>
+                    <input class="form-control dropdown-toggle" id="order-chat" autocomplete="off" data-toggle="dropdown" placeholder="Search by email" aria-expanded="true"/>
+                    <div class="ul-orders dropdown-menu" style="color: #000000;"></div>
                 </div>
             </div>
         </div>
@@ -63,6 +72,7 @@
     <script src="/static/js/admin/adminOrders.js"></script>
     <script src="/static/js/main.js"></script>
     <script src="/static/js/gmailProperties.js"></script>
+    <script src="/static/js/utils/common-function.js"></script>
 </div>
 
 </body>

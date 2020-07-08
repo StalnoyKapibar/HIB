@@ -447,3 +447,20 @@ function setCurrentPageToCookie() {
     document.cookie = cookie;
 }
 
+// Функция поиска совпадений вводимых символов
+function findElem(el, array, value) {
+    var coincidence = false;
+    el.empty();    // Очищаем список совпадений
+    for (var i = 0; i < array.length; i++) {
+        if (array[i].match(value) || array[i].toLowerCase().match(value)) {    // Проверяем каждый эллемент на совпадение побуквенно
+            el.children('li').each(function () {    // Проверка на совпадающие эллементы среди выведенных
+                if (array[i] === $(this).text()) {
+                    coincidence = true;    // Если есть совпадения, то true
+                }
+            });
+            if (coincidence === false) {
+                el.append('<a class="js-searchInput dropdown-item">' + array[i] + '</a>');    // Если совпадений не обнаружено, то добавляем уникальное название в список
+            }
+        }
+    }
+}

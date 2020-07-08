@@ -8,6 +8,7 @@ let unreadCheckbox = '';
 let messagePackIndex;
 let orderIndex;
 let scrollOn = true;
+let emails = [];
 
 
 $(window).on("load", function () {
@@ -25,6 +26,10 @@ $(document).ready(function () {
     if (url.search("code=") !== -1 || url.search("error=") !== -1) {
         document.getElementsByClassName("orders")[0].click();
     }
+    window.addEventListener(`resize`, event => {
+        filterUl.width(filterInput.width() + 25);
+    }, false);
+
     setLocaleFields();
 });
 
@@ -50,7 +55,6 @@ async function showListOrders() {
         .then(json)
         .then(async (data) => {
             let orders = data;
-            let emails = [];
             for (let key in data) {
                 emails.push(data[key].userDTO.email)
             }
@@ -415,3 +419,41 @@ async function getLastOrderedBooks() {
     return data;
 }
 
+// liveSearch
+
+let filterInput = $('#order-chat');
+let filterUl = $('.ul-orders');
+filterUl.width(filterInput.width() + 7);
+
+// Проверка при каждом вводе символа
+filterInput.bind('input propertychange', function () {
+    if ($(this).val() !== '') {
+        filterUl.fadeIn(100);
+        findElem(filterUl, emails, $(this).val());
+    } else {
+        filterUl.fadeOut(100);
+    }
+    editTable($(this).val());
+});
+
+//  При клике на эллемент выпадающего списка, присваиваем значение в инпут и ставим триггер на его изменение
+filterUl.on('click', '.js-searchInput', function (e) {
+    $('#order-chat').val('');
+    filterInput.val($(this).text());
+    filterInput.trigger('change');
+    filterUl.fadeOut(100);
+    editTable($(this).text());
+});
+
+function editTable(inputValue) {
+    let rows = document.getElementsByTagName("tbody").item(0).getElementsByTagName("tr");
+    let rowEmail;
+    $.each(rows, function (index) {
+        rowEmail = rows[index].querySelector('td:nth-child(2)').textContent;
+        if (rowEmail.match(inputValue)) {
+            rows[index].removeAttribute("hidden")
+        } else {
+            rows[index].setAttribute("hidden", "hidden");
+        }
+    });
+}
