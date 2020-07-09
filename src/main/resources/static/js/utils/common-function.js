@@ -149,6 +149,7 @@ async function setLocaleFields() {
             $('.year-of-edition-loc').text(localeFields['yearOfEdition']);
             $('.number-of-pages-loc').text(localeFields['numberOfpages']);
             $('.search-submit-loc').text(localeFields['search']);
+            $('.available-loc').text(localeFields['check-available']);
 
             //Admin left sidebar  on mainpage
             $('.admin-loc').text(localeFields['admin']);
