@@ -15,6 +15,7 @@ const localStorageToggleKey = "request-toggle";
 let allFeedBack;
 let scrollOn = true;
 let messagePackIndex;
+let emails = [];
 
 $(document).ready(function () {
     if (localStorage.getItem(localStorageToggleKey) === "true") {
@@ -25,6 +26,10 @@ $(document).ready(function () {
     }
     getFeedbackAll(false);
     message.val($(this).attr("data-message"));
+    window.addEventListener(`resize`, event => {
+        filterUl.width(filterInput.width() + 25);
+    }, false);
+
     setLocaleFields();
 });
 
@@ -54,7 +59,6 @@ async function getFeedbackRequestTable(replied) {
         .then(async data => {
             let tmp = data;
             let feedbacks = [];
-            let emails = [];
             for (let key in data) {
                 emails.push(data[key].senderEmail)
             }
@@ -507,4 +511,44 @@ function sendGmailMessage(userId, feedbackId) {
 //             sendButton.disabled = false;
 //         });
 // }
+
+// liveSearch
+
+let filterInput = $('#feedback-chat');
+let filterUl = $('.ul-feedbacks');
+filterUl.width(filterInput.width() + 7);
+
+// Проверка при каждом вводе символа
+filterInput.bind('input propertychange', function () {
+    if ($(this).val() !== '') {
+        filterUl.fadeIn(100);
+        findElem(filterUl, emails, $(this).val());
+
+    } else {
+        filterUl.fadeOut(100);
+    }
+    editTable($(this).val());
+});
+
+//  При клике на эллемент выпадающего списка, присваиваем значение в инпут и ставим триггер на его изменение
+filterUl.on('click', '.js-searchInput', function (e) {
+    $('#feedback-chat').val('');
+    filterInput.val($(this).text());
+    filterInput.trigger('change');
+    filterUl.fadeOut(100);
+    editTable($(this).text());
+});
+
+function editTable(inputValue) {
+    let rows = document.getElementsByTagName("tbody").item(0).getElementsByTagName("tr");
+    let rowEmail;
+    $.each(rows, function (index) {
+        rowEmail = rows[index].querySelector('td:nth-child(3)').textContent;
+        if (rowEmail.match(inputValue)) {
+            rows[index].removeAttribute("hidden")
+        } else {
+            rows[index].setAttribute("hidden", "hidden");
+        }
+    })
+}
 

@@ -12,14 +12,22 @@
     <div class="card">
         <div class="card-header">
             <div class="row">
-                <div class="col-3">
-                    <h2 class="users-loc">Users</h2>
+                <div class="col-1 pr-0">
+                    <h3 class="users-loc">Users</h3>
                 </div>
-                <div>
-                    <button type="button" class="btn btn-success" id="fullchatBtn" data-toggle="modal" data-target="#fullchatModal" onclick="showFullchat()">Open chat with:</button>
+                <div class="col-9 pl-0 pr-0">
+                    <div class="input-group">
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="searchIcon">
+                                <i aria-hidden="true" class="fa fa-search"></i>
+                            </span>
+                        </div>
+                        <input class="form-control dropdown-toggle" id="email-chat" autocomplete="off" data-toggle="dropdown" placeholder="Search by email" aria-expanded="true"/>
+                        <div class="ul-emails dropdown-menu" style="color: #000000;"></div>
+                    </div>
                 </div>
-                <div>
-                    <input class="form-control" id="email-chat"/>
+                <div class="col-2 pl-0">
+                    <button type="button" class="btn btn-success btn-block" id="fullchatBtn" data-toggle="modal" data-target="#fullchatModal" onclick="showFullchat()">Open chat</button>
                 </div>
             </div>
         </div>
@@ -43,6 +51,7 @@
     </div>
     <script src="/static/js/admin/users.js"></script>
     <script src="/static/js/main.js"></script>
+    <script src="/static/js/utils/common-function.js"></script>
     <script src="/static/js/gmailProperties.js"></script>
 </div>
 
