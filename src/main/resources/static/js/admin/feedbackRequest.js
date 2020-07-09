@@ -18,17 +18,27 @@ let messagePackIndex;
 let emails = [];
 
 $(document).ready(function () {
-    if (localStorage.getItem(localStorageToggleKey) === "true") {
-        toggleReplied.bootstrapToggle('on');
+    if (sessionStorage.getItem("details") !== null) {
+        if (sessionStorage.getItem("details") === "Replied") {
+            toggleReplied.bootstrapToggle('on');
+        } else {
+            getFeedbackRequestTable(false).then(r => {
+            });
+        }
     } else {
-        getFeedbackRequestTable(false).then(r => {
-        });
+        if (sessionStorage.getItem("details") === null && localStorage.getItem(localStorageToggleKey) === "true") {
+            toggleReplied.bootstrapToggle('on');
+        } else {
+            getFeedbackRequestTable(false).then(r => {
+            });
+        }
     }
     getFeedbackAll(false);
     message.val($(this).attr("data-message"));
     window.addEventListener(`resize`, event => {
         filterUl.width(filterInput.width() + 25);
     }, false);
+    sessionStorage.removeItem("details");
 
     setLocaleFields();
 });
@@ -129,7 +139,19 @@ async function getFeedbackRequestTable(replied) {
                 }
 
                 let tr = $("<tr/>");
-                tr.append(`
+                if (id == sessionStorage.getItem("feedbackId")) {
+                    tr.append(`
+                            <td class="selected">${id}</td>
+                            <td class="selected">${senderName}</td>
+                            <td class="selected">${senderEmail}</td>
+                            <td class="selected" ${data[i].unreadgmail ? 'class="unread"' : ''}>${content}</td>
+                            <td class="selected">${replied}</td>
+                            <td class="selected">${mark}</td>
+                           `);
+                    tableBody.append(tr);
+                    sessionStorage.removeItem("feedbackId");
+                } else {
+                    tr.append(`
                             <td>${id}</td>
                             <td>${senderName}</td>
                             <td>${senderEmail}</td>
@@ -137,7 +159,8 @@ async function getFeedbackRequestTable(replied) {
                             <td>${replied}</td>
                             <td>${mark}</td>
                            `);
-                tableBody.append(tr);
+                    tableBody.append(tr);
+                }
             }
         })
     setLocaleFields();

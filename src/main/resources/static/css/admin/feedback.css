@@ -26,3 +26,7 @@
 #chat-mes p {
     margin-bottom: 3px !important;
 }
+
+.selected {
+    background-color: #dee2e6;
+}
