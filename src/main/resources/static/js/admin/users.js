@@ -347,17 +347,18 @@ async function showUnrepliedFeedbacks(details, email) {
                                         ${feedBacks[index].content}
                                     </div>
                                     <div class="col-2">
-                                        <button class="btn btn-info btn-block" type="button" onclick="showModalOfFeedBack(${feedBacks[index].id})"
-                                                       data-target="#feedback-request-modal" 
-                                                       data-toggle="modal"
-                                                       data-id="${feedBacks[index].id}"
-                                                       data-sender="${feedBacks[index].senderName}"
-                                                       data-email="${feedBacks[index].senderEmail}"
-                                                       data-message="${feedBacks[index].content}"
-                                                       data-bookId="${feedBacks[index].book.id}"
-                                                       data-bookName="${feedBacks[index].book.name.en}"
-                                                       data-bookCoverImage="${feedBacks[index].book.coverImage}">Reply</button>
-                                        <button class="btn btn-info btn-block" type="button" onclick="markAsRead(${feedBacks[index].id}, false)">Mark as read</button>
+                                    <button class="btn btn-primary btn-block" type="button" onclick="sendToFeedbackTab(${feedBacks[index].id}, 'Unreplied')">Manage</button>
+<!--                                        <button class="btn btn-info btn-block" type="button" onclick="showModalOfFeedBack(${feedBacks[index].id})"-->
+<!--                                                       data-target="#feedback-request-modal" -->
+<!--                                                       data-toggle="modal"-->
+<!--                                                           data-id="${feedBacks[index].id}"-->
+<!--                                                           data-sender="${feedBacks[index].senderName}"-->
+<!--                                                           data-email="${feedBacks[index].senderEmail}"-->
+<!--                                                           data-message="${feedBacks[index].content}"-->
+<!--                                                           data-bookId="${feedBacks[index].book.id}"-->
+<!--                                                           data-bookName="${feedBacks[index].book.name.en}"-->
+<!--                                                           data-bookCoverImage="${feedBacks[index].book.coverImage}">Reply</button>-->
+<!--                                        <button class="btn btn-info btn-block" type="button" onclick="markAsRead(${feedBacks[index].id}, false)">Mark as read</button>-->
                                     </div>
                                 </div>`
             });
@@ -386,17 +387,18 @@ async function showRepliedFeedbacks(details, email) {
                                         ${feedBacks[index].content}
                                     </div>
                                     <div class="col-2">
-                                        <button class="btn btn-info btn-block" type="button" onclick="showModalOfFeedBack(${feedBacks[index].id})"
-                                                       data-target="#feedback-request-modal" 
-                                                       data-toggle="modal"
-                                                       data-id="${feedBacks[index].id}"
-                                                       data-sender="${feedBacks[index].senderName}"
-                                                       data-email="${feedBacks[index].senderEmail}"
-                                                       data-message="${feedBacks[index].content}"
-                                                       data-bookId="${feedBacks[index].book.id}"
-                                                       data-bookName="${feedBacks[index].book.name.en}"
-                                                       data-bookCoverImage="${feedBacks[index].book.coverImage}">Reply</button>
-                                        <button class="btn btn-info btn-block" type="button" onclick="markAsRead(${feedBacks[index].id}, true)">Mark as unread</button>
+                                        <button class="btn btn-primary btn-block" type="button" onclick="sendToFeedbackTab(${feedBacks[index].id}, 'Replied')">Manage</button>
+<!--                                        <button class="btn btn-info btn-block" type="button" onclick="showModalOfFeedBack(${feedBacks[index].id})"-->
+<!--                                                       data-target="#feedback-request-modal" -->
+<!--                                                       data-toggle="modal"-->
+<!--                                                       data-id="${feedBacks[index].id}"-->
+<!--                                                       data-sender="${feedBacks[index].senderName}"-->
+<!--                                                       data-email="${feedBacks[index].senderEmail}"-->
+<!--                                                       data-message="${feedBacks[index].content}"-->
+<!--                                                       data-bookId="${feedBacks[index].book.id}"-->
+<!--                                                       data-bookName="${feedBacks[index].book.name.en}"-->
+<!--                                                       data-bookCoverImage="${feedBacks[index].book.coverImage}">Reply</button>-->
+<!--                                        <button class="btn btn-info btn-block" type="button" onclick="markAsRead(${feedBacks[index].id}, true)">Mark as unread</button>-->
                                     </div>
                                 </div>`
             });
@@ -427,7 +429,7 @@ async function showUprocessedOrders(details, email) {
                                         <div><a href="#" data-target="#order-modal" data-toggle="modal" onclick="showModalOfOrder(${index})">Show details</a></div>
                                     </div>
                                     <div class="col-2">
-                                        <button class="btn btn-primary btn-block" type="button" onclick="sendToOrderTab(${orders[index].id}, 'Uprocessed')">Manage</button>
+                                        <button class="btn btn-primary btn-block" type="button" onclick="sendToOrderTab(${orders[index].id}, 'Unprocessed')">Manage</button>
 <!--                                    <button class="btn btn-danger btn-block" type="button" onclick="orderDelete(${orders[index].id})">Delete</button>-->
 <!--                                    <button class="btn btn-success btn-block" type="button" onclick="orderProcess(${orders[index].id})">Process</button>-->
                                     </div>
@@ -897,4 +899,10 @@ function sendToOrderTab(orderId, details) {
     sessionStorage.setItem("orderId", orderId);
     sessionStorage.setItem("details", details);
     document.getElementsByClassName("orders").item(0).click();
+}
+
+function sendToFeedbackTab(feedbackId, details) {
+    sessionStorage.setItem("feedbackId", feedbackId);
+    sessionStorage.setItem("details", details);
+    document.getElementsByClassName("feedbacks").item(0).click();
 }
