@@ -164,3 +164,7 @@
         right: -8%;
     }
 }
+
+.selected {
+    background-color: #dee2e6;
+}
