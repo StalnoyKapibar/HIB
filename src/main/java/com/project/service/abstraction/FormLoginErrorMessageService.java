@@ -17,5 +17,7 @@ public interface FormLoginErrorMessageService {
 
     FormLoginErrorMessageDTO getErrorMessageOnBadCredential();
 
+    FormLoginErrorMessageDTO getErrorMessageOnUserDisabled();
+
     void saveErrorMessage(FormLoginErrorMessage errorMessage);
 }
