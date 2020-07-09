@@ -102,7 +102,7 @@ function showAlertCookie() {
     }
 
     if(getCookieByName('showBanner') === 'true') {
-        let daysForDisabling = 2;
+        let daysForDisabling = 365;
 
         Swal.fire({
             position: 'bottom-end',
