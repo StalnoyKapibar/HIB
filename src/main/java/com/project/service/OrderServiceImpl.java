@@ -97,6 +97,7 @@ public class OrderServiceImpl implements OrderService {
         order.setStatus(Status.PROCESSING);
         for (CartItem cartItem : order.getItems()) {
             Book book = cartItem.getBook();
+            book.setShow(false);
             book.setLastBookOrdered(true);
         }
         orderDAO.update(order);
