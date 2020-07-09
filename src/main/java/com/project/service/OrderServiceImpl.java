@@ -44,11 +44,14 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void deleteOrder(Long id) {
         Order order = getOrderById(id);
-        order.setStatus(Status.DELETED);
         for (CartItem cartItem : order.getItems()) {
             Book book = cartItem.getBook();
+            if (order.getStatus().equals(Status.PROCESSING)) {
+                book.setShow(true);
+            }
             book.setLastBookOrdered(false);
         }
+        order.setStatus(Status.DELETED);
         orderDAO.update(order);
     }
 
