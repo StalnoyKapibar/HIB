@@ -416,14 +416,14 @@ async function showUprocessedOrders(details, email) {
                                         <div>${orders[index].userDTO.firstName} ${orders[index].userDTO.lastName}</div>
                                         <div>${orders[index].data}</div>
                                     </div>
-                                    <div class="col-8">
+                                    <div class="col-10">
                                         <div>${orders[index].comment}</div>
                                         <div><a href="#" data-target="#order-modal" data-toggle="modal" onclick="showModalOfOrder(${index})">Show details</a></div>
                                     </div>
-                                    <div class="col-2">
-                                        <button class="btn btn-danger btn-block" type="button" onclick="orderDelete(${orders[index].id})">Delete</button>
-                                        <button class="btn btn-success btn-block" type="button" onclick="orderProcess(${orders[index].id})">Process</button>
-                                    </div>
+<!--                                <div class="col-2">-->
+<!--                                    <button class="btn btn-danger btn-block" type="button" onclick="orderDelete(${orders[index].id})">Delete</button>-->
+<!--                                    <button class="btn btn-success btn-block" type="button" onclick="orderProcess(${orders[index].id})">Process</button>-->
+<!--                                </div>-->
                                 </div>`
             });
             htmlDetails += `    </td>
@@ -448,14 +448,14 @@ async function showProcessingOrders(details, email) {
                                         <div>${orders[index].userDTO.firstName} ${orders[index].userDTO.lastName}</div>
                                         <div>${orders[index].data}</div>
                                     </div>
-                                    <div class="col-8">
+                                    <div class="col-10">
                                         <div>${orders[index].comment}</div>
                                         <div><a href="#" data-target="#order-modal" data-toggle="modal" onclick="showModalOfOrder(${index})">Show details</a></div>
                                     </div>
-                                    <div class="col-2">
-                                        <button class="btn btn-danger btn-block" type="button" onclick="orderDelete(${orders[index].id})">Delete</button>
-                                        <button class="btn btn-success btn-block" type="button" onclick="orderComplete(${orders[index].id})">Complete</button>
-                                    </div>
+<!--                                <div class="col-2">-->
+<!--                                    <button class="btn btn-danger btn-block" type="button" onclick="orderDelete(${orders[index].id})">Delete</button>-->
+<!--                                    <button class="btn btn-success btn-block" type="button" onclick="orderComplete(${orders[index].id})">Complete</button>-->
+<!--                                </div>-->
                                 </div>`
             });
             htmlDetails += `    </td>
@@ -480,14 +480,14 @@ async function showCompletedOrders(details, email) {
                                         <div>${orders[index].userDTO.firstName} ${orders[index].userDTO.lastName}</div>
                                         <div>${orders[index].data}</div>
                                     </div>
-                                    <div class="col-8">
+                                    <div class="col-10">
                                         <div>${orders[index].comment}</div>
                                         <div><a href="#" data-target="#order-modal" data-toggle="modal" onclick="showModalOfOrder(${index})">Show details</a></div>
                                     </div>
-                                    <div class="col-2">
-                                        <button class="btn btn-danger btn-block" type="button" onclick="orderDelete(${orders[index].id})">Delete</button>
-                                        <button class="btn btn-success btn-block" type="button" onclick="orderUnComplete(${orders[index].id})">Uncomplete</button>
-                                    </div>
+<!--                                <div class="col-2">-->
+<!--                                    <button class="btn btn-danger btn-block" type="button" onclick="orderDelete(${orders[index].id})">Delete</button>-->
+<!--                                    <button class="btn btn-success btn-block" type="button" onclick="orderUnComplete(${orders[index].id})">Uncomplete</button>-->
+<!--                                </div>-->
                                 </div>`
             });
             htmlDetails += `    </td>
@@ -512,9 +512,9 @@ async function showDeletedOrders(details, email) {
                                         <div>${orders[index].userDTO.firstName} ${orders[index].userDTO.lastName}</div>
                                         <div>${orders[index].data}</div>
                                     </div>
-                                    <div class="col-8">
+                                    <div class="col-10">
                                         <div>${orders[index].comment}</div>
-                                        <div><a href="#" data-target="#order-modal" data-toggle="modal" onclick="showModalOfOrder(${index})>Show details</a></div>
+                                        <div><a href="#" data-target="#order-modal" data-toggle="modal" onclick="showModalOfOrder(${index})">Show details</a></div>
                                     </div>
                                 </div>`
             });
