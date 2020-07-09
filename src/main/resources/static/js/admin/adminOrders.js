@@ -12,7 +12,14 @@ let emails = [];
 
 
 $(window).on("load", function () {
-    showListOrders();
+    if (sessionStorage.getItem("details") != null) {
+        $('#statusSelector').val(sessionStorage.getItem("details"));
+        statusOfOrder = sessionStorage.getItem("details");
+        showListOrders();
+        sessionStorage.removeItem("details");
+    } else {
+        showListOrders();
+    }
     $('#statusSelector').change(function () {
         statusOfOrder = $(this).children("option:selected").val();
         showListOrders();
@@ -113,7 +120,12 @@ async function showListOrders() {
                 })
 
                 if (order.status === statusOfOrder.toUpperCase()) {
-                    html += `<tbody ><tr `;
+                    if (order.id == sessionStorage.getItem("orderId")) {
+                        html += `<tbody ><tr class="selected"`;
+                        sessionStorage.removeItem("orderId");
+                    } else {
+                        html += `<tbody ><tr `;
+                    }
                     if (!isOrderEnable) {
                         html += `style = "background-color: #FFB3B3" `;
                     }
@@ -170,8 +182,7 @@ async function showListOrders() {
                 }
             })
         })
-    setLocaleFields()
-}
+    setLocaleFields();}
 
 async function showModalOfOrder(index) {
     $('#chat').empty();
