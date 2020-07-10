@@ -36,6 +36,11 @@ $(document).ready(function () {
 
 });
 
+if (typeof (Storage) != 'undefined') {
+    let count = localStorage.getItem("amountBooksPerPage");
+    setAmountBooksInPage(count);
+}
+
 $(document).ready(function () {
     showAlertCookie();
 })
@@ -190,6 +195,7 @@ function setAmountBooksInPage(amount) {
     amountBooksInPage = amount;
     ddmAmountBook.text(amount);
     getPageWithBooks(amount, 0);
+    localStorage.setItem("amountBooksPerPage", amount);
 }
 
 function covertPrice(price) {
