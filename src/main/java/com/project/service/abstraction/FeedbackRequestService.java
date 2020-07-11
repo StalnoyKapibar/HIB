@@ -20,4 +20,6 @@ public interface FeedbackRequestService {
     int getCountOfFeedBack(long lastAuthDate);
 
     Long[] getAmountOfFeedback(String senderEmail);
+
+    void deleteFeedbackRequestByIbBook(Long bookId);
 }

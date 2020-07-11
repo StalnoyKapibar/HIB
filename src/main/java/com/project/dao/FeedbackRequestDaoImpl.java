@@ -2,6 +2,7 @@ package com.project.dao;
 
 import com.project.dao.abstraction.FeedbackRequestDao;
 import com.project.model.FeedbackRequest;
+import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -52,5 +53,16 @@ public class FeedbackRequestDaoImpl extends AbstractDao<Long, FeedbackRequest> i
                 .setParameter("replied", replied)
                 .setParameter("senderEmail", senderEmail)
                 .getSingleResult();
+    }
+
+    @Override
+    public void deleteFeedbackRequestByIbBook(Long bookId){
+        Session session = entityManager.unwrap(Session.class);
+        List listFeedbackRequest = session.
+                createQuery("FROM FeedbackRequest where book.id = :bookId").
+                setParameter("bookId", bookId).list();
+        for (Object feedback: listFeedbackRequest) {
+            session.delete(feedback);
+        }
     }
 }

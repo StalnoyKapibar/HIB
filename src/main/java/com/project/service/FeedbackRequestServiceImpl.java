@@ -61,4 +61,9 @@ public class FeedbackRequestServiceImpl implements FeedbackRequestService {
         Long repliedFeedbacks = feedbackRequestDAO.getAmountByReplied(true, senderEmail);
         return new Long[] {unrepliedFeedbacks, repliedFeedbacks};
     }
+
+    @Override
+    public void deleteFeedbackRequestByIbBook(Long bookId){
+        feedbackRequestDAO.deleteFeedbackRequestByIbBook(bookId);
+    }
 }

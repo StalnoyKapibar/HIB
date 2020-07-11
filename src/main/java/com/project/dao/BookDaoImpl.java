@@ -2,11 +2,14 @@ package com.project.dao;
 
 import com.project.dao.abstraction.BookDao;
 import com.project.model.*;
+import org.hibernate.Session;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.management.Query;
+import java.util.ArrayList;
 import java.util.List;
 
 @Primary
@@ -175,6 +178,7 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
                 .getSingleResult();
     }
 
+
     @Override
     public List<BookDTO> get20BookDTO(String locale) {
         String hql = ("SELECT new com.project.model.BookDTO(b.id, b.name.LOC, b.author.LOC, b.price, b.coverImage, b.isShow)" +
@@ -286,7 +290,7 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
 
     }
 
-    @Transactional
+
     public void deleteImgfromDB(String idImage) {
         entityManager.createNativeQuery("delete from book_list_image where list_image_id like :idImage").setParameter("idImage", idImage)
                 .executeUpdate();
@@ -307,6 +311,15 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
                     " where id = :bookId")
                     .setParameter("bookId", id)
                     .executeUpdate();
+        }
+    }
+
+    @Override
+    public void deleteBook(Long id) {
+        Session session = entityManager.unwrap(Session.class);
+        Book book = session.load(Book.class, id);
+        if (book != null) {
+            session.delete(book);
         }
     }
 }
