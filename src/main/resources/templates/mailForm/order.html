@@ -147,8 +147,9 @@
                                     <table cellpadding="5" cellspacing="0">
 
                                         <tr>
+
                                             <td bgcolor="F9F8F8"><img
-                                                    th:src="@{http://77.222.63.141.xip.io:8080/images/book{idBook}/{bookImg}(idBook=${item.book.id}, bookImg=*{item.book.coverImage})}"
+                                                    th:src="@{${url}+'/images/book'+${item.book.id}+'/'+${item.book.coverImage}}"
                                                     width="100" alt=""/>
                                             </td>
                                         </tr>
@@ -158,7 +159,7 @@
                                         <tr>
                                             <td>
                                                 <button>
-                                                    <a th:href="@{http://77.222.63.141.xip.io:8080/page/{idBook}(idBook=${item.book.id})}">HIB</a>
+                                                    <a th:href="@{${url}+'/page/'+${item.book.id}}">HIB</a>
                                                 </button>
 
                                             </td>
@@ -187,18 +188,7 @@
                                     <span>€</span>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>
-                                    <span> Order status: </span>
-                                    <span th:text="${orders.getStatus().toString()}"></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span> Date of order: </span>
-                                    <span th:text="${orders.getData()}"></span>
-                                </td>
-                            </tr>
+
 
                         </table><!-- content-2 -->
 
@@ -213,7 +203,7 @@
                 <tr>
 
                     <td align="center">
-
+                    <td>HIB: <a th:href='${url}' th:text="${url}">History in book</a></td>
                     </td>
 
                 </tr>

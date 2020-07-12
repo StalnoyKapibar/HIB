@@ -13,6 +13,7 @@ let amountBooksInDb;
 let ddmAmountBook = $("#ddmAmountBook");
 let isAdmin = false;
 
+
 $(document).ready(function () {
     if (currentLang === '') {
         if (getCookieByName("lang")) {
@@ -32,13 +33,26 @@ $(document).ready(function () {
     openModalLoginWindowOnFailure();
     loadWelcome(currentLang);
 
+
 });
 
-function getQuantityPage() {
-    if (amountBooksInDb < amountBooksInPage) {
+if (typeof (Storage) != 'undefined') {
+    let count = localStorage.getItem("amountBooksPerPage");
+    setAmountBooksInPage(count);
+}
+
+$(document).ready(function () {
+    showAlertCookie();
+})
+
+async function getQuantityPage() {
+    const url = '/getPageBooks';
+    const res = await fetch(url);
+    const data = await res.json();
+    if (data.length < amountBooksInPage) {
         return 1;
     }
-    return Math.ceil(amountBooksInDb / amountBooksInPage);
+    return Math.ceil(data.length / amountBooksInPage);
 }
 
 async function addBooksToPage(books) {
@@ -47,7 +61,7 @@ async function addBooksToPage(books) {
     $('#cardcolumns').empty();
     $("#rowForPagination").empty();
 
-    console.log(books);
+    //console.log(books);
 
     $.each(books, function (index) {
         let textOfBtn = listOrdersOfCart.includes(books[index].id) ? addedToshoppingCart : addToshoppingCart;
@@ -58,9 +72,9 @@ async function addBooksToPage(books) {
                                         <img class="card-img-top mb-1" src="images/book${books[index].id}/${books[index].coverImage}" style="object-fit: contain; height: 400px; ${books[index].show === true ? '' : 'opacity: 0.3;'}" alt="Card image cap">
                                         
                                         <div class="card-body" style="padding-bottom: 30px">
-                                            <h5 class="card-title">${convertOriginalLanguageRows(books[index].nameAuthorDTOLocale, books[index].authorTranslit)}</h5>
-                                            <h6 class="card-text text-muted">${convertOriginalLanguageRows(books[index].nameBookDTOLocale, books[index].nameTranslit)}</h6>
-                                            <h5 class="card-footer bg-transparent text-left pl-0">${covertPrice(books[index].price) + currencyIcon}</h5>
+                                            <h6 class="card-title">${convertOriginalLanguageRows(books[index].nameBookDTOLocale, books[index].nameTranslit)}</h6>
+                                            <h7 class="card-text text-muted">${convertOriginalLanguageRows(books[index].nameAuthorDTOLocale, books[index].authorTranslit)}</h7>
+                                            <h6 class="card-footer bg-transparent text-left pl-0">${covertPrice(books[index].price) + currencyIcon}</h6>
                                             
                                         </div>
                                     </a>
@@ -86,6 +100,28 @@ async function addBooksToPage(books) {
     setLocaleFields();
 }
 
+function showAlertCookie() {
+
+    if(getCookieByName('showBanner') === undefined) {
+        document.cookie = "showBanner=true;";
+    }
+
+    if(getCookieByName('showBanner') === 'true') {
+        let daysForDisabling = 365;
+
+        Swal.fire({
+            position: 'bottom-end',
+            title: '<div><div class="use-cookie-loc" style="font-size: 22px; font-weight: bold;">We use cookie.</div>' +
+                '<div class="use-cookie-text-loc" style="font-size: 14px; padding-top: 10px;">By continuing to use our site, you consent to the ' +
+                'processing of cookies, which ensure the proper site functioning. Thanks to them, we managed to improve the ' +
+                'site, service and products.</div></div>',
+            width: 350
+        })
+
+        document.cookie = 'showBanner=false;path=/;max-age='+ daysForDisabling * 24 * 60 * 60 +';';
+    }
+}
+
 function openEdit(id) {
     window.open('/admin/edit/' + id, '_blank');
 }
@@ -100,9 +136,9 @@ async function getAUTH() {
         });
 }
 
-function addPagination() {
+async function addPagination() {
     let numberOfPagesInPagination = 7;
-    let quantityPage = getQuantityPage();
+    let quantityPage = await getQuantityPage();
     let startIter;
     let endIter = currentPage;
     let pag;
@@ -159,6 +195,7 @@ function setAmountBooksInPage(amount) {
     amountBooksInPage = amount;
     ddmAmountBook.text(amount);
     getPageWithBooks(amount, 0);
+    localStorage.setItem("amountBooksPerPage", amount);
 }
 
 function covertPrice(price) {

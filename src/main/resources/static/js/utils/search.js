@@ -24,16 +24,19 @@ $(document).ready(async function () {
     getAUTH();
 });
 
-function getQuantityPage() {
-    if (amountBooksInDb < amountBooksInPage) {
-        return 1;
-    }
-    return Math.ceil(amountBooksInDb / amountBooksInPage);
+async function getQuantityPage() {
+        const url = '/getPageBooks';
+        const res = await fetch(url);
+        const data = await res.json();
+        if (data.length < amountBooksInPage) {
+            return 1;
+        }
+        return Math.ceil(data.length / amountBooksInPage);
 }
 
 async function addPagination() {
     let numberOfPagesInPagination = 7;
-    let quantityPage = getQuantityPage();
+    let quantityPage = await getQuantityPage();
     let startIter;
     let endIter = currentPage;
     let pag;

@@ -54,7 +54,7 @@ public class UserAccountServiceImpl implements UserAccountService {
     }
 
     @Override
-    public UserAccount save(RegistrationUserDTO user) throws ConstraintViolationException, MailSendException {
+    public UserAccount save(RegistrationUserDTO user, String url) throws ConstraintViolationException, MailSendException {
         UserAccount userAccount = UserAccount.builder()
                 .login(user.getLogin())
                 .email(user.getEmail())
@@ -69,7 +69,7 @@ public class UserAccountServiceImpl implements UserAccountService {
 
         try {
             if (userAccount != null) {
-                sendEmailService.confirmAccount(userAccount);
+                sendEmailService.confirmAccount(userAccount, url);
             }
         } catch (MessagingException e) {
             e.printStackTrace();
@@ -78,7 +78,7 @@ public class UserAccountServiceImpl implements UserAccountService {
     }
 
     @Override
-    public UserAccount save1Clickreg(RegistrationUserDTO user) throws ConstraintViolationException {
+    public UserAccount save1Clickreg(RegistrationUserDTO user, String url) throws ConstraintViolationException {
         UserAccount userAccount = UserAccount.builder()
                 .login(user.getLogin())
                 .email(user.getEmail())
@@ -96,7 +96,7 @@ public class UserAccountServiceImpl implements UserAccountService {
 
         try {
             if (userAccount != null) {
-                sendEmailService.confirmAccount1ClickReg(userAccount, user.getPassword(), user.getLogin());
+                sendEmailService.confirmAccount1ClickReg(userAccount, user.getPassword(), user.getLogin(), url);
             }
         } catch (MessagingException e) {
             e.printStackTrace();

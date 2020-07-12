@@ -15,16 +15,31 @@ const localStorageToggleKey = "request-toggle";
 let allFeedBack;
 let scrollOn = true;
 let messagePackIndex;
+let emails = [];
 
 $(document).ready(function () {
-    if (localStorage.getItem(localStorageToggleKey) === "true") {
-        toggleReplied.bootstrapToggle('on');
+    if (sessionStorage.getItem("details") !== null) {
+        if (sessionStorage.getItem("details") === "Replied") {
+            toggleReplied.bootstrapToggle('on');
+        } else {
+            getFeedbackRequestTable(false).then(r => {
+            });
+        }
     } else {
-        getFeedbackRequestTable(false).then(r => {
-        });
+        if (sessionStorage.getItem("details") === null && localStorage.getItem(localStorageToggleKey) === "true") {
+            toggleReplied.bootstrapToggle('on');
+        } else {
+            getFeedbackRequestTable(false).then(r => {
+            });
+        }
     }
     getFeedbackAll(false);
     message.val($(this).attr("data-message"));
+    window.addEventListener(`resize`, event => {
+        filterUl.width(filterInput.width() + 25);
+    }, false);
+    sessionStorage.removeItem("details");
+
     setLocaleFields();
 });
 
@@ -54,7 +69,6 @@ async function getFeedbackRequestTable(replied) {
         .then(async data => {
             let tmp = data;
             let feedbacks = [];
-            let emails = [];
             for (let key in data) {
                 emails.push(data[key].senderEmail)
             }
@@ -125,7 +139,19 @@ async function getFeedbackRequestTable(replied) {
                 }
 
                 let tr = $("<tr/>");
-                tr.append(`
+                if (id == sessionStorage.getItem("feedbackId")) {
+                    tr.append(`
+                            <td class="selected">${id}</td>
+                            <td class="selected">${senderName}</td>
+                            <td class="selected">${senderEmail}</td>
+                            <td class="selected" ${data[i].unreadgmail ? 'class="unread"' : ''}>${content}</td>
+                            <td class="selected">${replied}</td>
+                            <td class="selected">${mark}</td>
+                           `);
+                    tableBody.append(tr);
+                    sessionStorage.removeItem("feedbackId");
+                } else {
+                    tr.append(`
                             <td>${id}</td>
                             <td>${senderName}</td>
                             <td>${senderEmail}</td>
@@ -133,7 +159,8 @@ async function getFeedbackRequestTable(replied) {
                             <td>${replied}</td>
                             <td>${mark}</td>
                            `);
-                tableBody.append(tr);
+                    tableBody.append(tr);
+                }
             }
         })
     setLocaleFields();
@@ -507,4 +534,44 @@ function sendGmailMessage(userId, feedbackId) {
 //             sendButton.disabled = false;
 //         });
 // }
+
+// liveSearch
+
+let filterInput = $('#feedback-chat');
+let filterUl = $('.ul-feedbacks');
+filterUl.width(filterInput.width() + 7);
+
+// Проверка при каждом вводе символа
+filterInput.bind('input propertychange', function () {
+    if ($(this).val() !== '') {
+        filterUl.fadeIn(100);
+        findElem(filterUl, emails, $(this).val());
+
+    } else {
+        filterUl.fadeOut(100);
+    }
+    editTable($(this).val());
+});
+
+//  При клике на эллемент выпадающего списка, присваиваем значение в инпут и ставим триггер на его изменение
+filterUl.on('click', '.js-searchInput', function (e) {
+    $('#feedback-chat').val('');
+    filterInput.val($(this).text());
+    filterInput.trigger('change');
+    filterUl.fadeOut(100);
+    editTable($(this).text());
+});
+
+function editTable(inputValue) {
+    let rows = document.getElementsByTagName("tbody").item(0).getElementsByTagName("tr");
+    let rowEmail;
+    $.each(rows, function (index) {
+        rowEmail = rows[index].querySelector('td:nth-child(3)').textContent;
+        if (rowEmail.match(inputValue)) {
+            rows[index].removeAttribute("hidden")
+        } else {
+            rows[index].setAttribute("hidden", "hidden");
+        }
+    })
+}
 

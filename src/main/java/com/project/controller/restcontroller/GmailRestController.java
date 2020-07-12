@@ -3,7 +3,10 @@ package com.project.controller.restcontroller;
 import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.model.ListMessagesResponse;
 import com.google.api.services.gmail.model.Message;
+import com.google.api.services.gmail.model.MessagePartHeader;
 import com.nimbusds.jose.util.Base64URL;
+import com.project.controller.restcontroller.emailUtil.emailParser.EmailParser;
+import com.project.controller.restcontroller.emailUtil.emailParser.MailRuParser;
 import com.project.model.MessageDTO;
 import lombok.NoArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +34,7 @@ public class GmailRestController {
     public List<MessageDTO> getMessages(@PathVariable("userId") String userId, @PathVariable("subject") String subject, @PathVariable("part") String part) throws IOException {
         if (gmail == null) {
             List<MessageDTO> gmailErrorMessage = new ArrayList<>();
-            gmailErrorMessage.add(new MessageDTO("", "", "noGmailAccess", subject));
+            gmailErrorMessage.add(new MessageDTO("", "", "noGmailAccess", subject, EmailParser.getInstance("")));
             return gmailErrorMessage;
         }
         if (part.equals("0")) {
@@ -55,7 +58,7 @@ public class GmailRestController {
     public List<MessageDTO> getMessagesWithoutSubject(@PathVariable("userId") String userId, @PathVariable("part") String part) throws IOException {
         if (gmail == null) {
             List<MessageDTO> gmailErrorMessage = new ArrayList<>();
-            gmailErrorMessage.add(new MessageDTO("", "", "noGmailAccess", ""));
+            gmailErrorMessage.add(new MessageDTO("", "", "noGmailAccess", "", EmailParser.getInstance("")));
             return gmailErrorMessage;
         }
         if (part.equals("0")) {
@@ -91,7 +94,24 @@ public class GmailRestController {
         message = gmail.users().messages().send("me", message).execute();
         message = gmail.users().messages().get("me", message.getId()).execute();
         messageText = messageText.replace("\r\n", "<br>");
-        MessageDTO messageDTO = new MessageDTO(message.getId(), "me", messageText, subject);
+        MessageDTO messageDTO = new MessageDTO(message.getId(), "me", messageText, subject, EmailParser.getInstance("me"));
+        return messageDTO;
+    }
+
+    @PostMapping(value = "/gmailFeedBack/{userId}/messages")
+    public MessageDTO sendMessageFeedBack(@PathVariable("userId") String userId, @RequestBody String messageText) throws IOException, MessagingException {
+        String subjectTextResult = messageText.split("&nbsp")[0].substring(1);
+        String messageTextResult = messageText.split("&nbsp")[1].substring(0,messageText.split("&nbsp")[1].length()-1);
+        MimeMessage mimeMessage = getMessage(gmail.users().getProfile("me").getUserId(), userId, "", messageTextResult);
+        mimeMessage.setSubject(subjectTextResult, "UTF-8");
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        mimeMessage.writeTo(baos);
+        String encodedEmail = Base64URL.encode(baos.toByteArray()).toString();
+        Message message = new Message();
+        message.setRaw(encodedEmail);
+        message = gmail.users().messages().send("me", message).execute();
+        message = gmail.users().messages().get("me", message.getId()).execute();
+        MessageDTO messageDTO = new MessageDTO(message.getThreadId(), "me", messageText, "", EmailParser.getInstance("me"));
         return messageDTO;
     }
 
@@ -107,7 +127,7 @@ public class GmailRestController {
             }
         }
         for (Message message : messages) {
-            map.put(message.getId(), new MessageDTO(message.getId(), userId, "", ""));
+            map.put(message.getId(), new MessageDTO(message.getId(), userId, "", "", EmailParser.getInstance(userId)));
         }
         return map;
     }
@@ -143,14 +163,15 @@ public class GmailRestController {
                 if (text.startsWith("\"") && text.startsWith("\"", text.length()-1)) {
                     text = text.substring(1, text.length()-1);
                 }
+                text = messageDTO.getEmailParser().getMessageTextWithoutRe(text);
                 messageDTO.setText(text);
-                messageDTO.setSubject(""); //здесь надо придумать, как достать и впихнуть тему сообщения
+                messageDTO.setSubject(getSubject(fullMessage));
                 chat.add(messageDTO);
             }
         }
         if (chat.isEmpty()) {
             List<MessageDTO> endChat = new ArrayList<>();
-            endChat.add(new MessageDTO("0", "", "chat end", ""));
+            endChat.add(new MessageDTO("0", "", "chat end", "", EmailParser.getInstance("")));
             return endChat;
         }
         return chat;
@@ -167,20 +188,13 @@ public class GmailRestController {
         return mimeMessage;
     }
 
-    @PostMapping(value = "/gmailFeedBack/{userId}/messages")
-    public MessageDTO sendMessageFeedBack(@PathVariable("userId") String userId, @RequestBody String messageText) throws IOException, MessagingException {
-        String subjectTextResult = messageText.split("&nbsp")[0].substring(1);
-        String messageTextResult = messageText.split("&nbsp")[1].substring(0,messageText.split("&nbsp")[1].length()-1);
-        MimeMessage mimeMessage = getMessage(gmail.users().getProfile("me").getUserId(), userId, "", messageTextResult);
-        mimeMessage.setSubject(subjectTextResult, "UTF-8");
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        mimeMessage.writeTo(baos);
-        String encodedEmail = Base64URL.encode(baos.toByteArray()).toString();
-        Message message = new Message();
-        message.setRaw(encodedEmail);
-        message = gmail.users().messages().send("me", message).execute();
-        message = gmail.users().messages().get("me", message.getId()).execute();
-        MessageDTO messageDTO = new MessageDTO(message.getThreadId(), "me", messageText, "");
-        return messageDTO;
+    private String getSubject(Message fullMessage) {
+        for (int i = 0; i < fullMessage.getPayload().getHeaders().size(); i++) {
+            String header = fullMessage.getPayload().getHeaders().get(i).getName();
+            if (header.equalsIgnoreCase("Subject")) {
+                return fullMessage.getPayload().getHeaders().get(i).getValue();
+            }
+        }
+        return "";
     }
 }

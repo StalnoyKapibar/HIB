@@ -1,6 +1,8 @@
 package com.project.controller.controller;
 
 import com.project.exceptions.NoValuePresentException;
+import com.project.exceptions.UserIsDisabledException;
+import com.project.model.FormLoginErrorMessageDTO;
 import com.project.service.abstraction.FormLoginErrorMessageService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +48,13 @@ public class ErrorController extends AbstractErrorController {
         return view;
     }
 
+    @ExceptionHandler(UserIsDisabledException.class)
+    public ModelAndView userIsDisabled() {
+        ModelAndView view = new ModelAndView("user/user-page");
+        view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessageOnUserDisabled());
+        return view;
+    }
+
     @ExceptionHandler(BadCredentialsException.class)
     public ModelAndView badCredential() {
         ModelAndView view = new ModelAndView("user/user-page");
@@ -79,6 +88,9 @@ public class ErrorController extends AbstractErrorController {
                 }
                 if (reasonOfAuthException.equals("NoValuePresentException")) {
                     throw new NoValuePresentException("Can`t find UserAccount with this credential");
+                }
+                if (reasonOfAuthException.equals("UserIsDisabled")) {
+                    throw new UserIsDisabledException("User did not confirm e-mail");
                 }
             } else {
                 throw new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR);
