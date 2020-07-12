@@ -276,7 +276,7 @@ div.sidebar-content:hover span.badgeStyle {
     margin-left: 20px;
     position: fixed;
     max-width: 375px;
-    top: 152px;
+    top: initial;
     display: block;
     z-index: 99999999;
 }

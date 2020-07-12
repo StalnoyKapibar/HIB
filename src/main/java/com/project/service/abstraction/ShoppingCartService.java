@@ -12,6 +12,8 @@ public interface ShoppingCartService {
 
     void deleteCartItem(Long id);
 
+    void deleteBookFromShopCartCartItem(Long shopCartId, Long cartItemDtoId);
+
     void mergeCarts(HttpServletRequest request, Long id);
 
     List getMaxIdCartItem();
