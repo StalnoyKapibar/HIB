@@ -96,14 +96,14 @@ function setChilds(category) {
     return row;
 }
 
-    $(document).on('click', '#categoryEdit', function (element) {
-        $('#categoryModal').empty();
-        categoryId = element.target.dataset.id;
-        categoryName = element.target.innerText;
-        viewOrder = $(this).attr('view-order');
-        parentId = $(this).attr('parent');
-        row =
-            `<div class="modal-header">
+$(document).on('click', '#categoryEdit', function (element) {
+    $('#categoryModal').empty();
+    categoryId = element.target.dataset.id;
+    categoryName = element.target.innerText;
+    viewOrder = $(this).attr('view-order');
+    parentId = $(this).attr('parent');
+    row =
+        `<div class="modal-header">
                 <h5 class="modal-title bold" id="logout-modal-title">Edit category: <b>${categoryName}</b></h5>
                 <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                     <span aria-hidden="true">&times;</span>
@@ -113,7 +113,6 @@ function setChilds(category) {
             <form id="updateCategoryForm" action="/categories/update" method="POST">
                   <div class="form-group"> 
                     <input type="number" class="form-control" id="formGroupExampleInput" hidden name="categoryId" value="${categoryId}">
-
                     <label for="formGroupExampleInput">Category name:</label>
                     <input type="text" class="form-control" id="formGroupExampleInput" name="categoryName" value="${categoryName}">
                     <br>
@@ -137,8 +136,8 @@ function setChilds(category) {
                 <button type="button" id="deleteAlert" class="btn btn-block btn-danger">Delete</button>
                 <button id="updateCategory" data-dismiss="modal" class="btn btn-block btn-primary">Save changes</button>
             </div>`;
-        $('#categoryModal').append(row);
-    });
+    $('#categoryModal').append(row);
+});
 
 $(document).on('click', '#deleteAlert', function () {
     $('#alert').attr('hidden', false);
@@ -160,9 +159,11 @@ $(document).on('click', '#updateCategory', function () {
     categoryId = $('form input[name="categoryId"]').val();
     categoryName = $('form input[name="categoryName"]').val();
     viewOrder = $('form input[name="viewOrder"]').val();
+    let map = {};
+    map['en'] = categoryName;
     fetch('/admin/categories/update', {
         method: 'PUT',
-        body: JSON.stringify({id: categoryId, categoryName: categoryName, viewOrder:viewOrder, parentId: parentId}),
+        body: JSON.stringify({id: categoryId, name: map, viewOrder:viewOrder, parentId: parentId}),
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
@@ -174,11 +175,13 @@ $(document).on('click', '#updateCategory', function () {
 $(document).on('click', '#addNewCategory', function () {
     categoryName = $('input[name="newCategoryName"]').val();
     parentId = $('form input[name="categoryId"]').val();
+    let map = {};
+    map['en'] = categoryName;
     if (categoryName === '') {} //Вывести что-то на экран
     else {
         fetch('/admin/categories/add', {
             method: 'POST',
-            body: JSON.stringify({categoryName: categoryName, parentId: parentId}),
+            body: JSON.stringify({name: map, parentId: parentId}),
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
@@ -190,11 +193,13 @@ $(document).on('click', '#addNewCategory', function () {
 
 $(document).on('click', '#addPrimary', function () {
     categoryName = $('input[name="primaryCategoryName"]').val();
+    let map = {};
+    map['en'] = categoryName;
     if (categoryName === '') {} //Вывести что-то на экран
     else {
         fetch('/admin/categories/add', {
             method: 'POST',
-            body: JSON.stringify({categoryName: categoryName}),
+            body: JSON.stringify({name: map}),
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
