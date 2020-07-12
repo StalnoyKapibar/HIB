@@ -468,27 +468,46 @@ values ('Heslo je neplatné','Passwort falsch','The password is incorrect','Mot 
 insert into local_string (cs, de, en, fr, gr, it, ru)
 values ('Takové přihlášení neexistuje','Eine solche Anmeldung existiert nicht','This username does not exist','Un tel login n''existe pas','Μια τέτοια σύνδεση δεν υπάρχει','Tale accesso non esiste','Такого логина не существует');
 
-insert into category (category_name, parent_id, view_order) values ('History', null, 0);
-insert into category (category_name, parent_id, view_order) values ('Documents', null, 0);
-insert into category (category_name, parent_id, view_order) values ('Magazines', null, 0);
-insert into category (category_name, parent_id, view_order) values ('Culture', null, 0);
-insert into category (category_name, parent_id, view_order) values ('Greek', 1, 0);
-insert into category (category_name, parent_id, view_order) values ('War', 6, 0);
-insert into category (category_name, parent_id, view_order) values ('Forein', 1, 0);
-insert into category (category_name, parent_id, view_order) values ('Russia', 7, 0);
-insert into category (category_name, parent_id, view_order) values ('Greek', 2, 0);
-insert into category (category_name, parent_id, view_order) values ('Forein', 2, 0);
-insert into category (category_name, parent_id, view_order) values ('Greek', 3, 0);
-insert into category (category_name, parent_id, view_order) values ('Forein', 3, 0);
-insert into category (category_name, parent_id, view_order) values ('Greek', 4, 0);
-insert into category (category_name, parent_id, view_order) values ('Forein', 4, 0);
-insert into category (category_name, parent_id, view_order) values ('Russia', 12, 0);
-insert into category (category_name, parent_id, view_order) values ('Germany', 12, 0);
-insert into category (category_name, parent_id, view_order) values ('1123', 14, 0);
-insert into category (category_name, parent_id, view_order) values ('1400', 14, 0);
-insert into category (category_name, parent_id, view_order) values ('1900', 14, 0);
+insert into local_string (cs, de, en, fr, gr, it, ru) values ('Příběh', 'Geschichte', 'History', 'Récit', 'Ιστορία', 'Storia','История');
+insert into category (parent_id, view_order, name_id) values (null, 0, 98);
+insert into local_string (cs, de, en, fr, gr, it, ru) values ('Dokumenty', 'Unterlagen', 'Documents', 'Les documents', 'Εγγραφα', 'Documenti','Документы');
+insert into category (parent_id, view_order, name_id) values (null, 0, 99);
+insert into local_string (cs, de, en, fr, gr, it, ru) values ('Časopisy', 'Zeitschriften', 'Magazines', 'Les magazines', 'Περιοδικά', 'Riviste','Журналы');
+insert into category (parent_id, view_order, name_id) values (null, 0, 100);
+insert into local_string (cs, de, en, fr, gr, it, ru) values ('Kultura', 'Kultur', 'Culture', 'Culture', 'Πολιτισμός', 'Cultura','Журналы');
+insert into category (parent_id, view_order, name_id) values (null, 0, 101);
+insert into local_string (cs, de, en, fr, gr, it, ru) values ('Řecký', 'Griechisch', 'Greek', 'Grec', 'Ελληνική', 'Greco','Греческий');
+insert into category (parent_id, view_order, name_id) values (1, 0, 102);
+insert into local_string (cs, de, en, fr, gr, it, ru) values ('Válka', 'Krieg', 'War', 'Guerre', 'Πόλεμος', 'Guerra','Война');
+insert into category (parent_id, view_order, name_id) values (6, 0, 103);
+insert into local_string (cs, de, en, fr, gr, it, ru) values ('Zahraniční', 'Ausländisch', 'Foreign', 'Étranger', 'Ξένο', 'Straniero','Зарубежный');
+insert into category (parent_id, view_order, name_id) values ( 1, 0, 104);
+insert into local_string (cs, de, en, fr, gr, it, ru) values ('Ruský', 'Russisch', 'Russian', 'Russe', 'Ρωσική', 'Russo','Русский');
+insert into category (parent_id, view_order, name_id) values (7, 0, 105);
+insert into local_string (cs, de, en, fr, gr, it, ru) values ('Řecký', 'Griechisch', 'Greek', 'Grec', 'Ελληνική', 'Greco','Греческий');
+insert into category (parent_id, view_order, name_id) values (2, 0, 106);
+insert into local_string (cs, de, en, fr, gr, it, ru) values ('Zahraniční', 'Ausländisch', 'Foreign', 'Étranger', 'Ξένο', 'Straniero','Зарубежный');
+insert into category (parent_id, view_order, name_id) values (2, 0, 107);
+insert into local_string (cs, de, en, fr, gr, it, ru) values ('Řecký', 'Griechisch', 'Greek', 'Grec', 'Ελληνική', 'Greco','Греческий');
+insert into category (parent_id, view_order, name_id) values (3, 0, 108);
+insert into local_string (cs, de, en, fr, gr, it, ru) values ('Zahraniční', 'Ausländisch', 'Foreign', 'Étranger', 'Ξένο', 'Straniero','Зарубежный');
+insert into category (parent_id, view_order, name_id) values (3, 0, 109);
+insert into local_string (cs, de, en, fr, gr, it, ru) values ('Řecký', 'Griechisch', 'Greek', 'Grec', 'Ελληνική', 'Greco','Греческий');
+insert into category (parent_id, view_order, name_id) values (4, 0, 110);
+insert into local_string (cs, de, en, fr, gr, it, ru) values ('Zahraniční', 'Ausländisch', 'Foreign', 'Étranger', 'Ξένο', 'Straniero','Зарубежный');
+insert into category (parent_id, view_order, name_id) values (4, 0, 111);
+insert into local_string (cs, de, en, fr, gr, it, ru) values ('Ruský', 'Russisch', 'Russian', 'Russe', 'Ρωσική', 'Russo','Русский');
+insert into category (parent_id, view_order, name_id) values (12, 0, 112);
+insert into local_string (cs, de, en, fr, gr, it, ru) values ('Německý', 'Deutsch', 'German', 'Allemand', 'Γερμανική', 'Tedesco','Немецкий');
+insert into category (parent_id, view_order, name_id) values ( 12, 0, 113);
+insert into local_string (cs, de, en, fr, gr, it, ru) values ('1123', '1123', '1123', '1123', '1123', '1123','1123');
+insert into category (parent_id, view_order, name_id) values (14, 0, 114);
+insert into local_string (cs, de, en, fr, gr, it, ru) values ('1400', '1400', '1400', '1400', '1400', '1400','1400');
+insert into category (parent_id, view_order, name_id) values (14, 0, 115);
+insert into local_string (cs, de, en, fr, gr, it, ru) values ('1900', '1900', '1900', '1900', '1900', '1900','1900');
+insert into category (parent_id, view_order, name_id) values (14, 0, 116);
 
-/*insert into local_string (cs, de, en, fr, gr, it, ru) values (?, ?, ?, ?, ?, ?, ?);*/
+
 /*insert into local_string (cs, de, en, fr, gr, it, ru) values (?, ?, ?, ?, ?, ?, ?);*/
 /*insert into local_string (cs, de, en, fr, gr, it, ru) values (?, ?, ?, ?, ?, ?, ?);*/
 /*insert into local_string (cs, de, en, fr, gr, it, ru) values (?, ?, ?, ?, ?, ?, ?);*/

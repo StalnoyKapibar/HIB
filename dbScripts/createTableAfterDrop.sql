@@ -90,16 +90,16 @@ list_image_id int8 not null
 create table cart_item 
 (
 id  bigserial not null, 
-book_id int8, 
+book_id int8,
 primary key (id)
 );
 
 create table category 
 (
 id  bigserial not null, 
-category_name varchar(255), 
-parent_id int8, 
-view_order int4 not null, 
+parent_id int8,
+view_order int4 not null,
+name_id int8,
 primary key (id)
 );
 
