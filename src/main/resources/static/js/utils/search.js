@@ -164,7 +164,15 @@ function setListeners () {
 }
 
 async function getCategoryTree() {
-    fetch('/categories/gettree', {}).then(function (response) {
+    if (currentLang === '') {
+        if (getCookieByName("lang")) {
+            currentLang = getCookieByName("lang");
+        } else {
+            currentLang = 'en';
+        }
+    }
+
+    fetch('/categories/gettree/' + currentLang, {}).then(function (response) {
         return response.json()
     })
         .then(function (json) {
@@ -183,6 +191,7 @@ async function getCategoryTree() {
                 categoryArr.push(category);
             }
             let tree = getUnflatten(categoryArr, null);
+            console.log(tree);
             setTreeView(tree);
         });
 }

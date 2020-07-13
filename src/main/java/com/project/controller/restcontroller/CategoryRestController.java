@@ -26,10 +26,10 @@ public class CategoryRestController {
         return list;
     }
 
-    @GetMapping("/gettree")
+    @GetMapping("/gettree/{loc}")
     @Cacheable(value = "categoryTree")
-    public List getCategoryTree() {
-        List list = categoryService.getCategoryTree();
+    public List getCategoryTree(@PathVariable("loc") String loc) {
+        List list = categoryService.getCategoryTree(loc);
         return list;
     }
 

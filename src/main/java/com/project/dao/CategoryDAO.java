@@ -38,10 +38,11 @@ public class CategoryDAO extends AbstractDao<Long, Category> {
         return entityManager.createNativeQuery(hql).getResultList();
     }
 
-    public List getCategoryTree() {
+    public List getCategoryTree(String loc) {
+        String oi = "oi." + loc;
         String hql = "WITH RECURSIVE cte AS\n" +
                 "    (\n" +
-                "    SELECT d.id, oi.en, CONCAT('/', d.name_id) AS path, d.parent_id, d.view_order\n" +
+                "    SELECT d.id, " + oi + ", CONCAT('/', d.name_id) AS path, d.parent_id, d.view_order\n" +
                 "    FROM category d JOIN local_string oi on d.name_id = oi.id where parent_id IS NULL\n" +
                 "    UNION ALL\n" +
                 "    SELECT c.id, oi.en, CONCAT(cte.path, '/', c.name_id) AS path, c.parent_id, c.view_order\n" +
