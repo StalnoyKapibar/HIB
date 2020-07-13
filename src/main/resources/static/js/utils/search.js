@@ -208,13 +208,13 @@ async function setTreeView(category) {
                 <div class="custom-control custom-checkbox form-check-inline" id="heading-${category[i].id}">
                     <input class="custom-control-input" type="checkbox" id="check-${category[i].id}" value="${category[i].id}">
                     <label class="custom-control-label" for="check-${category[i].id}"></label>
-                    <label class="collapsed" data-toggle="collapse" data-target="#collapse-${category[i].id}" aria-expanded="false" aria-controls="collapse-${category[i].id}">
+                    <label class="collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#collapse-${category[i].id}" aria-expanded="false" aria-controls="collapse-${category[i].id}">
                        <label id="${category[i].categoryName.toLowerCase()}-rightbar">${category[i].categoryName}</label>(${await getCountBooksByCat(category[i].path, $('#check-available').is(':checked') ? true : false)})
                        <i class="fa fa-plus-square-o" aria-hidden="true"></i>
                     </label>
                 </div>
                 <div class="ml-3">
-                    <div id="collapse-${category[i].id}" class="collapse" aria-labelledby="heading-${category[i].id}">
+                    <div id="collapse-${category[i].id}" class="collapse" data-parent="#accordion" aria-labelledby="heading-${category[i].id}">
                     ${await setChilds(category[i].childrens)}
                     </div>
                 </div>
@@ -243,13 +243,13 @@ async function setChilds(category) {
                     <div class="custom-control custom-checkbox form-check-inline" id="heading-${category[i].id}">
                         <input class="custom-control-input" type="checkbox" id="check-${category[i].id}" value="${category[i].id}">
                         <label class="custom-control-label" for="check-${category[i].id}"></label>
-                        <label class="collapsed" data-toggle="collapse" data-target="#collapse-${category[i].id}" aria-expanded="false" aria-controls="collapse-${category[i].id}">
+                        <label class="collapsed" data-toggle="collapse" data-target="#collapse-${category[i].id}" data-parent="#accordion" aria-expanded="false" aria-controls="collapse-${category[i].id}">
                            <label class="${category[i].categoryName.toLowerCase()}-rightbar">${category[i].categoryName}</label>(${await getCountBooksByCat(category[i].path, $('#check-available').is(':checked') ? true : false)})
                            <i class="fa fa-plus-square-o" aria-hidden="true"></i>
                         </label>
                     </div>
                     <div class="ml-3">
-                        <div id="collapse-${category[i].id}" class="collapse" aria-labelledby="heading-${category[i].id}">
+                        <div id="collapse-${category[i].id}" class="collapse" data-parent="#accordion" aria-labelledby="heading-${category[i].id}">
                             ${await setChilds(category[i].childrens)}
                         </div>
                     </div>
