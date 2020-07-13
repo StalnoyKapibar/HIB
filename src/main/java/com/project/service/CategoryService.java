@@ -22,8 +22,7 @@ public class CategoryService {
     }
 
     public List getCategoryTree(String loc) {
-        List tree = categoryDAO.getCategoryTree(loc);
-        return tree;
+        return categoryDAO.getCategoryTree(loc);
     }
 
     public List getAdminCategoryTree() {

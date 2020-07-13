@@ -43,7 +43,6 @@ function getCategoriesLocal(name) {
             return response.json()
         })
         .then(function (primaryCategories) {
-            console.log(primaryCategories);
             let count = 1;
             for (let i = 0; i < primaryCategories.length; i++) {
                 console.log(primaryCategories[i]);
