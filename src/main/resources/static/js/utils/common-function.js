@@ -116,7 +116,6 @@ async function setLocaleFields() {
             $('.dont-match-pass-loc').text(localeFields['dontMatchPass']);
             $('.not-valid-url-loc').text(localeFields['notValidUrl']);
 
-
             //user-page.html
             $('.my-orders-loc').text(localeFields['oders']);
             $('.myprof-loc').text(localeFields['myprofile']);
@@ -453,7 +452,7 @@ function findElem(el, array, value) {
     var coincidence = false;
     el.empty();    // Очищаем список совпадений
     for (var i = 0; i < array.length; i++) {
-        if (array[i].match(value) || array[i].toLowerCase().match(value)) {    // Проверяем каждый эллемент на совпадение побуквенно
+        if (array[i].match(value) || array[i].toLowerCase().match(value)) {    // Проверяем каждый эллемент на совпадение по буквенно
             el.children('li').each(function () {    // Проверка на совпадающие эллементы среди выведенных
                 if (array[i] === $(this).text()) {
                     coincidence = true;    // Если есть совпадения, то true
