@@ -36,16 +36,20 @@ $('#sidebar').mouseleave(() => {
 });
 
 function getCategoriesLocal(name) {
+    console.log(name);
+
     fetch('/categories/getpanelcategories/' + name, {})
         .then(function (response) {
             return response.json()
         })
         .then(function (primaryCategories) {
+            console.log(primaryCategories);
             let count = 1;
-            for (let i in primaryCategories) {
+            for (let i = 0; i < primaryCategories.length; i++) {
+                console.log(primaryCategories[i]);
                 categoryRow =
                     `<li>
-                        <a href="/search/${[count]}">${primaryCategories[i]}</a>
+                         <a href="/search/${count}">${primaryCategories[i]}</a>
                     </li>`;
                 count++;
                 $('#primaryCategories').append(categoryRow);

@@ -27,10 +27,10 @@ public class CategoryDAO extends AbstractDao<Long, Category> {
     public List getAdminCategoryTree() {
         String hql = "WITH RECURSIVE cte AS\n" +
                 "    (\n" +
-                "    SELECT d.id, oi.en, CAST(LOWER(CONCAT('/', d.name_id)) AS CHAR(1000)) AS path, d.parent_id, d.view_order\n" +
+                "    SELECT d.id, oi.en, CONCAT('/', d.name_id) AS path, d.parent_id, d.view_order\n" +
                 "    FROM category d JOIN local_string oi on d.name_id = oi.id where d.parent_id IS NULL\n" +
                 "    UNION ALL\n" +
-                "    SELECT c.id, oi.en, CONCAT(cte.path, '/', LOWER(c.name_id)), c.parent_id, c.view_order\n" +
+                "    SELECT c.id, oi.en, CONCAT(cte.path, '/', c.name_id) AS path, c.parent_id, c.view_order\n" +
                 "    FROM cte cte, category c JOIN local_string oi on c.name_id = oi.id\n" +
                 "    WHERE c.parent_id = cte.id\n" +
                 "    )\n" +
@@ -41,10 +41,10 @@ public class CategoryDAO extends AbstractDao<Long, Category> {
     public List getCategoryTree() {
         String hql = "WITH RECURSIVE cte AS\n" +
                 "    (\n" +
-                "    SELECT d.id, oi.en, CAST(LOWER(CONCAT('/', d.name_id)) AS CHAR(1000)) AS path, d.parent_id, d.view_order\n" +
+                "    SELECT d.id, oi.en, CONCAT('/', d.name_id) AS path, d.parent_id, d.view_order\n" +
                 "    FROM category d JOIN local_string oi on d.name_id = oi.id where parent_id IS NULL\n" +
                 "    UNION ALL\n" +
-                "    SELECT c.id, oi.en, CONCAT(cte.path, '/', LOWER(c.name_id)), c.parent_id, c.view_order\n" +
+                "    SELECT c.id, oi.en, CONCAT(cte.path, '/', c.name_id) AS path, c.parent_id, c.view_order\n" +
                 "    FROM cte cte, category c JOIN local_string oi on c.name_id = oi.id\n" +
                 "    WHERE c.parent_id = cte.id\n" +
                 "    )\n" +
@@ -91,10 +91,10 @@ public class CategoryDAO extends AbstractDao<Long, Category> {
     public List getAllChildsIdByPath(String path) {
         String sql = "WITH RECURSIVE cte AS\n" +
                 "(\n" +
-                "SELECT c.id, oi.en, CAST(LOWER(CONCAT('/', c.name_id)) AS CHAR(1000)) AS path\n" +
+                "SELECT c.id, oi.en, CONCAT('/', c.name_id) AS path\n" +
                 "FROM category c JOIN local_string oi on c.name_id = oi.id where parent_id IS NULL\n" +
                 "UNION ALL\n" +
-                "SELECT c.id, oi.en, CONCAT(cte.path, '/', LOWER(c.name_id))\n" +
+                "SELECT c.id, oi.en, CONCAT(cte.path, '/', c.name_id)\n" +
                 "FROM cte cte, category c JOIN local_string oi on name_id = oi.id\n" +
                 "WHERE c.parent_id = cte.id\n" +
                 ")\n" +

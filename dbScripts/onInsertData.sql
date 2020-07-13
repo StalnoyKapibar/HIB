@@ -474,7 +474,7 @@ insert into local_string (cs, de, en, fr, gr, it, ru) values ('Dokumenty', 'Unte
 insert into category (parent_id, view_order, name_id) values (null, 0, 99);
 insert into local_string (cs, de, en, fr, gr, it, ru) values ('Časopisy', 'Zeitschriften', 'Magazines', 'Les magazines', 'Περιοδικά', 'Riviste','Журналы');
 insert into category (parent_id, view_order, name_id) values (null, 0, 100);
-insert into local_string (cs, de, en, fr, gr, it, ru) values ('Kultura', 'Kultur', 'Culture', 'Culture', 'Πολιτισμός', 'Cultura','Журналы');
+insert into local_string (cs, de, en, fr, gr, it, ru) values ('Kultura', 'Kultur', 'Culture', 'Culture', 'Πολιτισμός', 'Cultura','Культура');
 insert into category (parent_id, view_order, name_id) values (null, 0, 101);
 insert into local_string (cs, de, en, fr, gr, it, ru) values ('Řecký', 'Griechisch', 'Greek', 'Grec', 'Ελληνική', 'Greco','Греческий');
 insert into category (parent_id, view_order, name_id) values (1, 0, 102);

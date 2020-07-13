@@ -21,13 +21,16 @@ public class CategoryRestController {
 
     @GetMapping("/getpanelcategories/{name}")
     public List<Category> getPanelCategories(@PathVariable("name") String name) {
-        return categoryService.getListCategoriesById(name);
+        List<Category> list =  categoryService.getListCategoriesById(name);
+
+        return list;
     }
 
     @GetMapping("/gettree")
     @Cacheable(value = "categoryTree")
     public List getCategoryTree() {
-        return categoryService.getCategoryTree();
+        List list = categoryService.getCategoryTree();
+        return list;
     }
 
     @GetMapping("/getbooks")
