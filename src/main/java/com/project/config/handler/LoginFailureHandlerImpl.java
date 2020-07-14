@@ -18,12 +18,16 @@ public class LoginFailureHandlerImpl implements AuthenticationFailureHandler {
     FormLoginErrorMessageService messageService;
 
     @Override
-    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
+    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException {
         if (exception.getMessage().contains("No value") || exception.getMessage().contains("No entity")) {
             response.sendRedirect("/error?failure=NoValuePresentException");
         }
         if (exception.getMessage().contains("Bad credential")) {
             response.sendRedirect("/error?failure=BadCredentialsException");
         }
+        if (exception.getMessage().contains("User is disabled")) {
+            response.sendRedirect("/error?failure=UserIsDisabled");
+        }
+
     }
 }

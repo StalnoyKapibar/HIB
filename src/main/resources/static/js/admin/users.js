@@ -5,6 +5,7 @@ let messagePackIndex;
 let orders;
 let orderIndex;
 let iconOfPrice = " €";
+let emails = [];
 
 $(document).ready(async function () {
 
@@ -13,6 +14,7 @@ $(document).ready(async function () {
         .then((data) => {
            users = data;
             $.each(users, function (index) {
+                emails[index] = users[index].email;
                 htmlUsers += `<tr id="${users[index].email}-mark">
                                 <td>${users[index].email}</td>
                                 <td>${users[index].unrepliedFeedbacks} <button type="button" class="btn btn-primary arrow" onclick="showDetails('unrepliedFeedbacks', '${users[index].email}')" id="${users[index].email}-unrepliedFeedbacks-arrow">↓</button></td>
@@ -25,6 +27,10 @@ $(document).ready(async function () {
                 $('#users-body').html(htmlUsers);
             });
         });
+
+    window.addEventListener(`resize`, event => {
+        filterUl.width(filterInput.width() + 25);
+    }, false);
 });
 
 async function showFullchat() {
@@ -114,7 +120,7 @@ function sendGmailMessage(userId) {
     })
         .then(json)
         .then((data) => {
-            let html = `<div class="row"><div class="col-5"></div><div id="chat-mes" class="rounded col-7"><p><h6><b>${data.sender}</b></h6></p>
+            let html = `<div class="row"><div class="col-5"></div><div id="chat-mes" class="rounded col-7"><p><h6><b>${data.sender}</b></h6></p><p><span id="subject-mes">${data.subject}</span></p>
                                     <p>${data.text}</p></div></div>`;
             let wrapper = document.getElementById("chat-wrapper");
             wrapper.insertAdjacentHTML("beforeend", html);
@@ -134,7 +140,7 @@ function sendGmailMessage(userId) {
 function sendFeedbackGmailMessage(userId, feedbackId) {
     let sendButton = document.getElementById("send-button");
     sendButton.disabled = true;
-    let message = document.getElementById("sent-message").value;
+    let message = document.getElementById("sent-message-feedback").value;
     if (message === "" || message == null || message == undefined) {
         sendButton.disabled = false;
         return;
@@ -152,21 +158,22 @@ function sendFeedbackGmailMessage(userId, feedbackId) {
                                     <p>${data.text}</p></div></div>`;
             let wrapper = document.getElementById("chat-wrapper");
             wrapper.insertAdjacentHTML("beforeend", html);
-            document.getElementById("sent-message").value = "";
+            document.getElementById("sent-message-feedback").value = "";
             sendButton.disabled = false;
-        }).then(() => {
-        fetch("/admin/markasread?email=" + userId)
-            .then(json)
-            .then((data) => {
-                console.log(data)
-            })
-    });
+        })
+    //     .then(() => {
+    //     fetch("/admin/markasread?email=" + userId)
+    //         .then(json)
+    //         .then((data) => {
+    //             console.log(data)
+    //         })
+    // });
 }
 
 function sendOrderGmailMessage(userId, orderId) {
     let sendButton = document.getElementById("send-button");
     sendButton.disabled = true;
-    let message = document.getElementById("sent-message").value;
+    let message = document.getElementById("sent-message-order").value;
     if (message === "" || message == null || message == undefined) {
         sendButton.disabled = false;
         return;
@@ -184,16 +191,16 @@ function sendOrderGmailMessage(userId, orderId) {
                                     <p>${data.text}</p></div></div>`;
             let wrapper = document.getElementById("chat-wrapper");
             wrapper.insertAdjacentHTML("beforeend", html);
-            document.getElementById("sent-message").value = "";
+            document.getElementById("sent-message-order").value = "";
             sendButton.disabled = false;
         })
-        .then(() => {
-            fetch("/admin/markasread?email=" + userId)
-                .then(json)
-                .then((data) => {
-                    console.log(data)
-                })
-        });
+        // .then(() => {
+        //     fetch("/admin/markasread?email=" + userId)
+        //         .then(json)
+        //         .then((data) => {
+        //             console.log(data)
+        //         })
+        // });
 }
 
 async function scrolling() {
@@ -340,17 +347,18 @@ async function showUnrepliedFeedbacks(details, email) {
                                         ${feedBacks[index].content}
                                     </div>
                                     <div class="col-2">
-                                        <button class="btn btn-info btn-block" type="button" onclick="showModalOfFeedBack(${feedBacks[index].id})"
-                                                       data-target="#feedback-request-modal" 
-                                                       data-toggle="modal"
-                                                       data-id="${feedBacks[index].id}"
-                                                       data-sender="${feedBacks[index].senderName}"
-                                                       data-email="${feedBacks[index].senderEmail}"
-                                                       data-message="${feedBacks[index].content}"
-                                                       data-bookId="${feedBacks[index].book.id}"
-                                                       data-bookName="${feedBacks[index].book.name.en}"
-                                                       data-bookCoverImage="${feedBacks[index].book.coverImage}">Reply</button>
-                                        <button class="btn btn-info btn-block" type="button" onclick="markAsRead(${feedBacks[index].id}, false)">Mark as read</button>
+                                    <button class="btn btn-primary btn-block" type="button" onclick="sendToFeedbackTab(${feedBacks[index].id}, 'Unreplied')">Manage</button>
+<!--                                        <button class="btn btn-info btn-block" type="button" onclick="showModalOfFeedBack(${feedBacks[index].id})"-->
+<!--                                                       data-target="#feedback-request-modal" -->
+<!--                                                       data-toggle="modal"-->
+<!--                                                           data-id="${feedBacks[index].id}"-->
+<!--                                                           data-sender="${feedBacks[index].senderName}"-->
+<!--                                                           data-email="${feedBacks[index].senderEmail}"-->
+<!--                                                           data-message="${feedBacks[index].content}"-->
+<!--                                                           data-bookId="${feedBacks[index].book.id}"-->
+<!--                                                           data-bookName="${feedBacks[index].book.name.en}"-->
+<!--                                                           data-bookCoverImage="${feedBacks[index].book.coverImage}">Reply</button>-->
+<!--                                        <button class="btn btn-info btn-block" type="button" onclick="markAsRead(${feedBacks[index].id}, false)">Mark as read</button>-->
                                     </div>
                                 </div>`
             });
@@ -379,17 +387,18 @@ async function showRepliedFeedbacks(details, email) {
                                         ${feedBacks[index].content}
                                     </div>
                                     <div class="col-2">
-                                        <button class="btn btn-info btn-block" type="button" onclick="showModalOfFeedBack(${feedBacks[index].id})"
-                                                       data-target="#feedback-request-modal" 
-                                                       data-toggle="modal"
-                                                       data-id="${feedBacks[index].id}"
-                                                       data-sender="${feedBacks[index].senderName}"
-                                                       data-email="${feedBacks[index].senderEmail}"
-                                                       data-message="${feedBacks[index].content}"
-                                                       data-bookId="${feedBacks[index].book.id}"
-                                                       data-bookName="${feedBacks[index].book.name.en}"
-                                                       data-bookCoverImage="${feedBacks[index].book.coverImage}">Reply</button>
-                                        <button class="btn btn-info btn-block" type="button" onclick="markAsRead(${feedBacks[index].id}, true)">Mark as unread</button>
+                                        <button class="btn btn-primary btn-block" type="button" onclick="sendToFeedbackTab(${feedBacks[index].id}, 'Replied')">Manage</button>
+<!--                                        <button class="btn btn-info btn-block" type="button" onclick="showModalOfFeedBack(${feedBacks[index].id})"-->
+<!--                                                       data-target="#feedback-request-modal" -->
+<!--                                                       data-toggle="modal"-->
+<!--                                                       data-id="${feedBacks[index].id}"-->
+<!--                                                       data-sender="${feedBacks[index].senderName}"-->
+<!--                                                       data-email="${feedBacks[index].senderEmail}"-->
+<!--                                                       data-message="${feedBacks[index].content}"-->
+<!--                                                       data-bookId="${feedBacks[index].book.id}"-->
+<!--                                                       data-bookName="${feedBacks[index].book.name.en}"-->
+<!--                                                       data-bookCoverImage="${feedBacks[index].book.coverImage}">Reply</button>-->
+<!--                                        <button class="btn btn-info btn-block" type="button" onclick="markAsRead(${feedBacks[index].id}, true)">Mark as unread</button>-->
                                     </div>
                                 </div>`
             });
@@ -420,8 +429,9 @@ async function showUprocessedOrders(details, email) {
                                         <div><a href="#" data-target="#order-modal" data-toggle="modal" onclick="showModalOfOrder(${index})">Show details</a></div>
                                     </div>
                                     <div class="col-2">
-                                        <button class="btn btn-danger btn-block" type="button" onclick="orderDelete(${orders[index].id})">Delete</button>
-                                        <button class="btn btn-success btn-block" type="button" onclick="orderProcess(${orders[index].id})">Process</button>
+                                        <button class="btn btn-primary btn-block" type="button" onclick="sendToOrderTab(${orders[index].id}, 'Unprocessed')">Manage</button>
+<!--                                    <button class="btn btn-danger btn-block" type="button" onclick="orderDelete(${orders[index].id})">Delete</button>-->
+<!--                                    <button class="btn btn-success btn-block" type="button" onclick="orderProcess(${orders[index].id})">Process</button>-->
                                     </div>
                                 </div>`
             });
@@ -439,7 +449,7 @@ async function showProcessingOrders(details, email) {
     await fetch("/api/admin/order/" + email + "/" + details)
         .then(json)
         .then((data) => {
-            let orders = data;
+            orders = data;
             $.each(orders, function (index) {
                 htmlDetails += `<div class="row active-cell-details">
                                     <div class="col-2">
@@ -449,11 +459,12 @@ async function showProcessingOrders(details, email) {
                                     </div>
                                     <div class="col-8">
                                         <div>${orders[index].comment}</div>
-                                        <div><a href="#">Show details</a></div>
+                                        <div><a href="#" data-target="#order-modal" data-toggle="modal" onclick="showModalOfOrder(${index})">Show details</a></div>
                                     </div>
                                     <div class="col-2">
-                                        <button class="btn btn-danger btn-block" type="button" onclick="orderDelete(${orders[index].id})">Delete</button>
-                                        <button class="btn btn-success btn-block" type="button" onclick="orderComplete(${orders[index].id})">Complete</button>
+                                        <button class="btn btn-primary btn-block" type="button" onclick="sendToOrderTab(${orders[index].id}, 'Processing')">Manage</button>
+<!--                                    <button class="btn btn-danger btn-block" type="button" onclick="orderDelete(${orders[index].id})">Delete</button>-->
+<!--                                    <button class="btn btn-success btn-block" type="button" onclick="orderComplete(${orders[index].id})">Complete</button>-->
                                     </div>
                                 </div>`
             });
@@ -471,7 +482,7 @@ async function showCompletedOrders(details, email) {
     await fetch("/api/admin/order/" + email + "/" + details)
         .then(json)
         .then((data) => {
-            let orders = data;
+            orders = data;
             $.each(orders, function (index) {
                 htmlDetails += `<div class="row active-cell-details">
                                     <div class="col-2">
@@ -481,11 +492,12 @@ async function showCompletedOrders(details, email) {
                                     </div>
                                     <div class="col-8">
                                         <div>${orders[index].comment}</div>
-                                        <div><a href="#">Show details</a></div>
+                                        <div><a href="#" data-target="#order-modal" data-toggle="modal" onclick="showModalOfOrder(${index})">Show details</a></div>
                                     </div>
                                     <div class="col-2">
-                                        <button class="btn btn-danger btn-block" type="button" onclick="orderDelete(${orders[index].id})">Delete</button>
-                                        <button class="btn btn-success btn-block" type="button" onclick="orderUnComplete(${orders[index].id})">Uncomplete</button>
+                                        <button class="btn btn-primary btn-block" type="button" onclick="sendToOrderTab(${orders[index].id}, 'Completed')">Manage</button>
+<!--                                    <button class="btn btn-danger btn-block" type="button" onclick="orderDelete(${orders[index].id})">Delete</button>-->
+<!--                                    <button class="btn btn-success btn-block" type="button" onclick="orderUnComplete(${orders[index].id})">Uncomplete</button>-->
                                     </div>
                                 </div>`
             });
@@ -503,7 +515,7 @@ async function showDeletedOrders(details, email) {
     await fetch("/api/admin/order/" + email + "/" + details)
         .then(json)
         .then((data) => {
-            let orders = data;
+            orders = data;
             $.each(orders, function (index) {
                 htmlDetails += `<div class="row active-cell-details">
                                     <div class="col-2">
@@ -513,7 +525,10 @@ async function showDeletedOrders(details, email) {
                                     </div>
                                     <div class="col-8">
                                         <div>${orders[index].comment}</div>
-                                        <div><a href="#">Show details</a></div>
+                                        <div><a href="#" data-target="#order-modal" data-toggle="modal" onclick="showModalOfOrder(${index})">Show details</a></div>
+                                    </div>
+                                    <div class="col-2">
+                                        <button class="btn btn-primary btn-block" type="button" onclick="sendToOrderTab(${orders[index].id}, 'Deleted')">Manage</button>
                                     </div>
                                 </div>`
             });
@@ -601,7 +616,7 @@ async function showModalOfFeedBack(index) {
             if (data[0] === undefined) {
                 htmlChat += `<div id="chat-wrapper">`;
                 htmlChat += `</div>`;
-                htmlChat += `<textarea id="sent-message" class="form-control"></textarea>
+                htmlChat += `<textarea id="sent-message-feedback" class="form-control"></textarea>
 
                         </div><button class="float-right col-2 btn btn-primary send-loc" type="button" id="send-button" onclick="sendFeedbackGmailMessage('${feedback.senderEmail}', ${feedback.id})">Send</button>`
 
@@ -609,7 +624,7 @@ async function showModalOfFeedBack(index) {
                 if (data[0].text === "chat end") {
                     htmlChat += `<div id="chat-wrapper">`;
                     htmlChat += `</div>`;
-                    htmlChat += `<textarea id="sent-message" class="form-control"></textarea>
+                    htmlChat += `<textarea id="sent-message-feedback" class="form-control"></textarea>
 
                         </div><button class="float-right col-2 btn btn-primary send-loc" type="button" id="send-button" onclick="sendFeedbackGmailMessage('${feedback.senderEmail}', ${feedback.id})">Send</button>`
 
@@ -632,7 +647,7 @@ async function showModalOfFeedBack(index) {
                         }
                     }
                     htmlChat += `</div>`;
-                    htmlChat += `<textarea id="sent-message" class="form-control"></textarea>
+                    htmlChat += `<textarea id="sent-message-feedback" class="form-control"></textarea>
 
                         </div><button class="float-right col-2 btn btn-primary send-loc" type="button" id="send-button" onclick="sendFeedbackGmailMessage('${feedback.senderEmail}', ${feedback.id})">Send</button>`
 
@@ -685,7 +700,7 @@ async function showModalOfOrder(index) {
             if (data[0] === undefined) {
                 htmlChat += `<div id="chat-wrapper">`;
                 htmlChat += `</div>`;
-                htmlChat += `<textarea id="sent-message" class="form-control"></textarea>
+                htmlChat += `<textarea id="sent-message-order" class="form-control"></textarea>
 
                         </div><button class="float-right col-2 btn btn-primary send-loc" type="button" id="send-button" onclick="sendOrderGmailMessage('${order.contacts.email}', ${orders[orderIndex].id})">Send</button>`
 
@@ -693,7 +708,7 @@ async function showModalOfOrder(index) {
                 if (data[0].text === "chat end") {
                     htmlChat += `<div id="chat-wrapper">`;
                     htmlChat += `</div>`;
-                    htmlChat += `<textarea id="sent-message" class="form-control"></textarea>
+                    htmlChat += `<textarea id="sent-message-order" class="form-control"></textarea>
 
                         </div><button class="float-right col-2 btn btn-primary send-loc" type="button" id="send-button" onclick="sendOrderGmailMessage('${order.contacts.email}', ${orders[orderIndex].id})">Send</button>`
 
@@ -716,7 +731,7 @@ async function showModalOfOrder(index) {
                         }
                     }
                     htmlChat += `</div>`;
-                    htmlChat += `<textarea id="sent-message" class="form-control"></textarea>
+                    htmlChat += `<textarea id="sent-message-order" class="form-control"></textarea>
 
                         </div><button class="float-right col-2 btn btn-primary send-loc" type="button" id="send-button" onclick="sendOrderGmailMessage('${order.contacts.email}', ${orders[orderIndex].id})">Send</button>`
 
@@ -738,7 +753,7 @@ async function showModalOfOrder(index) {
         let countUsers = 0;
         let isLastOrder = `<td width="350">${convertOriginalLanguageRows(book.originalLanguage.name, book.originalLanguage.nameTranslit)} | ${convertOriginalLanguageRows(book.originalLanguage.author, book.originalLanguage.authorTranslit)}</td>`;
         for (let i = 0; i < allOrdersforModal.length; i++) {
-            if (allOrdersforModal[i].status === "UNPROCESSED" || orders[i].status === "PROCESSING") {
+            if (allOrdersforModal[i].status === "UNPROCESSED") {
                 for (let j = 0; j < allOrdersforModal[i].items.length; j++) {
                     let numberOfBook = allOrdersforModal[i].items[j].book.originalLanguage;
                     if (book.originalLanguage.id == numberOfBook.id) {
@@ -837,4 +852,57 @@ function orderDelete(id) {
         });
         location.reload();
     }
+}
+
+// liveSearch
+
+let filterInput = $('#email-chat');
+let filterUl = $('.ul-emails');
+filterUl.width(filterInput.width() + 7);
+
+// Проверка при каждом вводе символа
+filterInput.bind('input propertychange', function () {
+    if ($(this).val() !== '') {
+        filterUl.fadeIn(100);
+        findElem(filterUl, emails, $(this).val());
+    } else {
+        filterUl.fadeOut(100);
+    }
+    editTable($(this).val());
+});
+
+//  При клике на эллемент выпадающего списка, присваиваем значение в инпут и ставим триггер на его изменение
+filterUl.on('click', '.js-searchInput', function (e) {
+    $('#email-chat').val('');
+    filterInput.val($(this).text());
+    filterInput.trigger('change');
+    filterUl.fadeOut(100);
+    editTable($(this).text());
+});
+
+function editTable(inputValue) {
+    let rows = document.getElementById("users-body").getElementsByTagName("tr");
+    let rowId;
+    $.each(rows, function (index) {
+        rowId = (rows[index].id).substr(0, rows[index].id.length - 5);
+        if (rowId.match(inputValue)) {
+            rows[index].removeAttribute("hidden");
+        } else {
+            rows[index].setAttribute("hidden", "hidden");
+        }
+    });
+}
+
+//End liveSearch
+
+function sendToOrderTab(orderId, details) {
+    sessionStorage.setItem("orderId", orderId);
+    sessionStorage.setItem("details", details);
+    document.getElementsByClassName("orders").item(0).click();
+}
+
+function sendToFeedbackTab(feedbackId, details) {
+    sessionStorage.setItem("feedbackId", feedbackId);
+    sessionStorage.setItem("details", details);
+    document.getElementsByClassName("feedbacks").item(0).click();
 }

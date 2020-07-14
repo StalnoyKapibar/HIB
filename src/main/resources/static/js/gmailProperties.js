@@ -1,4 +1,4 @@
-// if you change it, double properties to resources/static/js/gmailProperties.js
+// if you change it, double properties to resources/gmail.properties
 
 properties = {
     authURL: "https://accounts.google.com/o/oauth2/v2/auth",
@@ -7,6 +7,7 @@ properties = {
     access_type: "offline",
     prompt: "consent",
     redirect_uri: "http://77.222.63.141.xip.io:8080/gmail/admin",
+    //redirect_uri: "http://localhost:8080/gmail/admin",
     response_type: "code",
     scope: "https://mail.google.com/",
 }

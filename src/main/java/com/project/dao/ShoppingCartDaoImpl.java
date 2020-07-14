@@ -17,6 +17,19 @@ public class ShoppingCartDaoImpl extends AbstractDao<Long, ShoppingCart> impleme
     @Autowired
     private BookDaoImpl bookDAO;
 
+    public void deleteBookFromShopCartCartItem(Long shopCartId, Long cartItemDtoId) {
+
+        ShoppingCart shopCart = entityManager.find(ShoppingCart.class, shopCartId);
+        List<CartItem> listItems = shopCart.getCartItems();
+
+        for(CartItem item : listItems) {
+            if(item.getId() == cartItemDtoId) {
+                listItems.remove(item);
+                return;
+            }
+        }
+    }
+
     @Override
     public ShoppingCartDTO getCartById(Long id) {
         ShoppingCart shoppingCart = entityManager.find(ShoppingCart.class, id);

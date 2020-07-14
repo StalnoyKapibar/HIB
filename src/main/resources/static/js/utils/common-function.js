@@ -38,6 +38,8 @@ async function setLocaleFields() {
             $('.authors-list-footer').text(localeFields['authors']);
             $('.theme-links-footer').text(localeFields['links']);
             $('.contact-locations-footer').text(localeFields['contacts']);
+            $('.use-cookie-loc').text(localeFields['useCookie']);
+            $('.use-cookie-text-loc').text(localeFields['useCookieText']);
             $('.made-by').text(localeFields['madeby']);
             $('#made_by').text(localeFields['madeby']);
 
@@ -114,7 +116,6 @@ async function setLocaleFields() {
             $('.dont-match-pass-loc').text(localeFields['dontMatchPass']);
             $('.not-valid-url-loc').text(localeFields['notValidUrl']);
 
-
             //user-page.html
             $('.my-orders-loc').text(localeFields['oders']);
             $('.myprof-loc').text(localeFields['myprofile']);
@@ -149,6 +150,7 @@ async function setLocaleFields() {
             $('.year-of-edition-loc').text(localeFields['yearOfEdition']);
             $('.number-of-pages-loc').text(localeFields['numberOfpages']);
             $('.search-submit-loc').text(localeFields['search']);
+            $('.available-loc').text(localeFields['check-available']);
 
             //Admin left sidebar  on mainpage
             $('.admin-loc').text(localeFields['admin']);
@@ -445,3 +447,20 @@ function setCurrentPageToCookie() {
     document.cookie = cookie;
 }
 
+// Функция поиска совпадений вводимых символов
+function findElem(el, array, value) {
+    var coincidence = false;
+    el.empty();    // Очищаем список совпадений
+    for (var i = 0; i < array.length; i++) {
+        if (array[i].match(value) || array[i].toLowerCase().match(value)) {    // Проверяем каждый эллемент на совпадение по буквенно
+            el.children('li').each(function () {    // Проверка на совпадающие эллементы среди выведенных
+                if (array[i] === $(this).text()) {
+                    coincidence = true;    // Если есть совпадения, то true
+                }
+            });
+            if (coincidence === false) {
+                el.append('<a class="js-searchInput dropdown-item">' + array[i] + '</a>');    // Если совпадений не обнаружено, то добавляем уникальное название в список
+            }
+        }
+    }
+}
