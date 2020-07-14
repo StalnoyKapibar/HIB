@@ -59,7 +59,7 @@ public class CategoryDAO extends AbstractDao<Long, Category> {
 
     public List<Long> getNoParentCategoriesById() {
         String hql = "SELECT c.name.id FROM Category c WHERE c.parentId IS NULL ORDER BY c.viewOrder";
-        return entityManager.createQuery(hql, Long.class).setMaxResults(4).getResultList();
+        return entityManager.createQuery(hql, Long.class).getResultList();
     }
 
 
@@ -123,7 +123,8 @@ public class CategoryDAO extends AbstractDao<Long, Category> {
         String hql = ("SELECT b.name." + local + " FROM Category b WHERE b.name.id IN :list");
         Query list = entityManager.createQuery(hql)
                 .setParameter("list", categories);
-        return list.getResultList();
+        List<Category> categoryList = list.getResultList();
+        return categoryList;
     }
 
     public void parentChange(Long id, Long parentId) {

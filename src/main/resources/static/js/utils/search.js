@@ -335,6 +335,7 @@ function getPageWithBooks(amount, page) {
 }
 
 async function addFindeBooks(data) {
+    console.log(data);
     $('#search-table-result').empty();
     let table = [];
     table.push(`<thead>
@@ -360,11 +361,19 @@ async function addFindeBooks(data) {
         prePathUrl += '../'
     }
     for (let i = 0; i < data.length; i++) {
+        if (currentLang === '') {
+            if (getCookieByName("lang")) {
+                currentLang = getCookieByName("lang");
+            } else {
+                currentLang = 'en';
+            }
+        }
+
         let urlImage = prePathUrl + `../images/book${data[i].id}/${data[i].coverImage}`;
         if (data[i].yearOfEdition == null) {
             data[i].yearOfEdition = "-";
-        } if(data[i].category.categoryName == null) {
-            data[i].category.categoryName = "-";
+        } if(data[i].category.name[currentLang] == null) {
+            data[i].category.name = "-";
         } if(data[i].pages == null) {
             data[i].pages = "-";
         } if(data[i].price == null) {
@@ -383,7 +392,7 @@ async function addFindeBooks(data) {
                                 <td class="align-middle">${data[i].pages}</td>
                                 <td class="align-middle">${data[i].yearOfEdition}</td>
                                 <td class="align-middle">${data[i].price / 100}</td>
-                                <td class="align-middle">${data[i].category.categoryName}</td>
+                                <td class="align-middle">${data[i].category.name[currentLang]}</td>
                                 <td class="align-middle">
                                 ${isAdmin && (window.location.pathname === '/admin/panel/books') ? 
                                     `
