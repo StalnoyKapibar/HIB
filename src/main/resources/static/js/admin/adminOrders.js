@@ -117,7 +117,7 @@ async function showListOrders() {
                     if (lastOrderedBooks.includes(item.book.id) && order.status === "UNPROCESSED") {
                         isOrderEnable = false;
                     }
-                })
+                });
 
                 if (order.status === statusOfOrder.toUpperCase() || statusOfOrder === "All") {
                     if (order.id == sessionStorage.getItem("orderId")) {
@@ -126,8 +126,6 @@ async function showListOrders() {
                     } else {
                         html += `<tbody ><tr `;
                     }
-                if (order.status === statusOfOrder.toUpperCase() || statusOfOrder === "All") {
-                    html += `<tbody ><tr `;
                     if (!isOrderEnable) {
                         html += `style = "background-color: #FFB3B3" `;
                     }
