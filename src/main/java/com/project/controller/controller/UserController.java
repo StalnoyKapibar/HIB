@@ -118,7 +118,7 @@ public class UserController {
                 .append(':')
                 .append(request.getServerPort());
         view.getModelMap().addAttribute("user", user);
-        user.setLogin(user.getEmail());
+//        user.setLogin(user.getEmail());
         user.setPassword(generateString(new Random(), SOURCES, 10));
         user.setConfirmPassword(user.getPassword());
         user.setAutoReg(true);
