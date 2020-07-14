@@ -50,6 +50,11 @@ public class FormLoginErrorMessageServiceImpl implements FormLoginErrorMessageSe
     }
 
     @Override
+    public FormLoginErrorMessageDTO getErrorMessageOnUserDisabled() {
+        return errorMessageDAO.getErrorMessage("auth", "UserDisabled", getCurrentLocale());
+    }
+
+    @Override
     public void saveErrorMessage(FormLoginErrorMessage errorMessage) {
         errorMessageDAO.add(errorMessage);
     }

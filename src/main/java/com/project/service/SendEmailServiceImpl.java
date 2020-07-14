@@ -24,10 +24,11 @@ public class SendEmailServiceImpl implements SendEmailService {
     Environment environment;
 
     @Override
-    public void confirmAccount(UserAccount user) throws MessagingException {
+    public void confirmAccount(UserAccount user, String url) throws MessagingException {
         String senderFromProperty = environment.getProperty("spring.mail.username");
         Context context = new Context();
         context.setVariable("id", user.getTokenToConfirmEmail());
+        context.setVariable("url", url);
         MimeMessage message = mailService.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, "utf-8");
 
@@ -39,11 +40,12 @@ public class SendEmailServiceImpl implements SendEmailService {
     }
 
     @Override
-    public void confirmAccount1ClickReg(UserAccount user, String password, String login) throws MessagingException {
+    public void confirmAccount1ClickReg(UserAccount user, String password, String login, String url) throws MessagingException {
         Context context = new Context();
         context.setVariable("id", user.getTokenToConfirmEmail());
         context.setVariable("login", login);
         context.setVariable("password", password);
+        context.setVariable("url", url);
         String senderFromProperty = environment.getProperty("spring.mail.username");
         MimeMessage message = mailService.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, "utf-8");
@@ -56,9 +58,10 @@ public class SendEmailServiceImpl implements SendEmailService {
     }
 
     @Override
-    public void orderPresent(Order order) throws MessagingException {
+    public void orderPresent(Order order, String url) throws MessagingException {
         Context context = new Context();
         context.setVariable("orders", order);
+        context.setVariable("url", url);
         String senderFromProperty = environment.getProperty("spring.mail.username");
         MimeMessage message = mailService.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, "utf-8");

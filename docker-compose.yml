@@ -8,34 +8,35 @@ services:
       - "8080:8080"
     restart: "no"
     depends_on:
-      - mysql 
+      - psql
     environment:
-      RDS_HOSTNAME: mysql
-      RDS_PORT: 3306
+      RDS_HOSTNAME: psql
+      RDS_PORT: 5432
       RDS_DB_NAME: hib
       RDS_USERNAME: root
       RDS_PASSWORD: root
     networks:
       - hib-web-application-network
 
-  mysql:
-    image: mysql:latest
+  psql:
+    image: postgres:latest
     ports:
-      - "3306:3306"
+      - "5432:5432"
     restart: "no"
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_PASSWORD: root
-      MYSQL_DATABASE: hib
-    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: hib
     volumes:
-      - mysql-database-data-volume:/var/lib/mysql
+      - ./dbScripts/createTableAfterDrop.sql:/docker-entrypoint-initdb.d/createTableAfterDrop.sql
+      - ./dbScripts/onInsertData.sql:/docker-entrypoint-initdb.d/onInsertData.sql
+      - postgresql-database-data-volume:/var/lib/postgresql
     networks:
       - hib-web-application-network
-  
+
 # Volumes
 volumes:
-  mysql-database-data-volume:
+  postgresql-database-data-volume:
 
 networks:
   hib-web-application-network:

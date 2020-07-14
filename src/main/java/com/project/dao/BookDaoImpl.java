@@ -69,7 +69,7 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
                 "(:yearOfEditionFrom = 'null' and b.yearOfEdition <= :yearOfEditionTo) OR (:yearOfEditionFrom = 'null' and :yearOfEditionTo = 'null')) AND " +
                 "(b.category.id in :categories) AND" +
                 "((b.price >= :priceFrom and b.price <= :priceTo) OR (b.price >= :priceFrom and :priceTo = 0) OR " +
-                "(:priceFrom = 0 and b.price <= :priceTo) OR (:priceFrom = 0 and :priceTo = 0)) ORDER BY b.id ASC");
+                "(:priceFrom = 0 and b.price <= :priceTo) OR (:priceFrom = 0 and :priceTo = 0)) ORDER BY b.id DESC");
         //b.isShow = true AND
         List<BookNewDTO> bookNewDTOList = entityManager.createQuery(hql, BookNewDTO.class)
                 .setParameter("name", name)
@@ -179,7 +179,7 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
     public List<BookDTO> get20BookDTO(String locale) {
         String hql = ("SELECT new com.project.model.BookDTO(b.id, b.name.LOC, b.author.LOC, b.price, b.coverImage, b.isShow)" +
                 "FROM Book b  ORDER BY RAND()")
-        //WHERE b.isShow = true or b.isShow = null
+                //WHERE b.isShow = true or b.isShow = null
                 .replaceAll("LOC", locale);
         return entityManager.createQuery(hql, BookDTO.class).setMaxResults(20).getResultList();
     }
@@ -231,7 +231,7 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
         String hql = "SELECT new com.project.model.BookDTOForCategories(b.id, b.name.en, " +
                 "b.author.en, b.edition.en, b.yearOfEdition, b.price, b.pages, " +
                 "b.coverImage, b.category, b.isShow) FROM Book b WHERE b.category.id =:categoryId".replaceAll("LOC", lang);
-    // AND b.isShow = true
+        // AND b.isShow = true
         return entityManager.createQuery(hql, BookDTOForCategories.class).setParameter("categoryId", categoryId).getResultList();
     }
 

@@ -23,10 +23,10 @@ public class OrderServiceImpl implements OrderService {
     private SendEmailService sendEmailService;
 
     @Override
-    public void addOrder(Order order) {
+    public void addOrder(Order order, String  url) {
         orderDAO.add(order);
         try {
-            sendEmailService.orderPresent(order);
+            sendEmailService.orderPresent(order, url);
         } catch (MessagingException e) {
             e.printStackTrace();
         }
@@ -45,11 +45,14 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void deleteOrder(Long id) {
         Order order = getOrderById(id);
-        order.setStatus(Status.DELETED);
         for (CartItem cartItem : order.getItems()) {
             Book book = cartItem.getBook();
+            if (order.getStatus().equals(Status.PROCESSING)) {
+                book.setShow(true);
+            }
             book.setLastBookOrdered(false);
         }
+        order.setStatus(Status.DELETED);
         orderDAO.update(order);
     }
 
@@ -98,6 +101,7 @@ public class OrderServiceImpl implements OrderService {
         order.setStatus(Status.PROCESSING);
         for (CartItem cartItem : order.getItems()) {
             Book book = cartItem.getBook();
+            book.setShow(false);
             book.setLastBookOrdered(true);
         }
         orderDAO.update(order);

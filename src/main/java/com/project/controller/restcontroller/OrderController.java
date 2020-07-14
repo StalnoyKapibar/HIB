@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -54,12 +55,18 @@ public class OrderController {
     }
 
     @PostMapping("/order")
-    private void confirmOrder(HttpSession httpSession) {
+    private void confirmOrder(HttpSession httpSession, HttpServletRequest request) {
         ShoppingCartDTO shoppingCartDTO = new ShoppingCartDTO();
         OrderDTO order = (OrderDTO) httpSession.getAttribute("order");
         ContactsOfOrderDTO contacts = (ContactsOfOrderDTO) httpSession.getAttribute("contacts");
         order.setContacts(contacts);
         order.setComment(contacts.getComment());
+        StringBuilder url = new StringBuilder();
+        url.append(request.getScheme())
+                .append("://")
+                .append(request.getServerName())
+                .append(':')
+                .append(request.getServerPort());
         if (httpSession.getAttribute("cartId") == null) {
             order.setItems(((ShoppingCartDTO) httpSession.getAttribute("shoppingcart")).getCartItems());
             for (int i = 1; i <= ((ShoppingCartDTO) httpSession.getAttribute("shoppingcart")).getCartItems().size(); i++) {
@@ -72,7 +79,7 @@ public class OrderController {
             shoppingCartDTO.getCartItems().clear();
             cartService.updateCart(shoppingCartDTO);
         }
-        orderService.addOrder(order.getOder());
+        orderService.addOrder(order.getOder(), url.toString());
         httpSession.removeAttribute("shoppingcart");
     }
 

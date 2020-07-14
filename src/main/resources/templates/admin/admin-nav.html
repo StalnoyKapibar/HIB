@@ -42,7 +42,7 @@
     <a class="nav-link categories-loc"
        href="/admin/panel/categories"
        th:classappend="${#httpServletRequest.getRequestURI() == '/admin/panel/categories' ? 'active' : ''}">Categories</a>
-    <a class="nav-link"
+    <a class="nav-link feedbacks"
        href="/admin/panel/feedback"
        th:classappend="${#httpServletRequest.getRequestURI() == '/admin/panel/feedback' ? 'active' : ''}">
 <!--        Feedback Requests-->
@@ -66,6 +66,7 @@
     </a>
     <script src="/static/js/admin/count.js" ></script>
     <script src="/static/js/admin/admin-nav.js" ></script>
+    <script src="/static/js/gmailProperties.js"></script>
 
 </div>
 </body>
