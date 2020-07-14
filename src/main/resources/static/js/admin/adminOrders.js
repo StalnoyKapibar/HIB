@@ -117,9 +117,9 @@ async function showListOrders() {
                     if (lastOrderedBooks.includes(item.book.id) && order.status === "UNPROCESSED") {
                         isOrderEnable = false;
                     }
-                })
+                });
 
-                if (order.status === statusOfOrder.toUpperCase()) {
+                if (order.status === statusOfOrder.toUpperCase() || statusOfOrder === "All") {
                     if (order.id == sessionStorage.getItem("orderId")) {
                         html += `<tbody ><tr class="selected"`;
                         sessionStorage.removeItem("orderId");

@@ -284,3 +284,7 @@ div.sidebar-content:hover span.badgeStyle {
 .required {
     color: red;
 }
+
+#signModalBtn {
+    cursor: pointer;
+}
