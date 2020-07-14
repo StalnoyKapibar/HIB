@@ -104,11 +104,6 @@
 
                 <div class="col-12">
                     <form th:action="@{/registration}" th:object="${user}" method="post" name="registration-form">
-                        <div class="form-group mt-3">
-                            <label for="loginInputField" class="login-label">Login</label>
-                            <input type="text" class="form-control login" id="loginInputField" name="login"
-                                   placeholder="Login" required th:field="*{login}">
-                        </div>
                         <div class="form-group">
                             <label for="emailInputField" class="email-label">Email</label>
                             <input type="email" class="form-control email" id="emailInputField" name="email"
@@ -163,8 +158,8 @@
             <div class="modal-body mx-lg-2 mx-sm-1">
                 <form action="/login" th:action="@{/login}" role="form" method="post" id="form-login" name="form-login">
                     <div class="form-group">
-                        <label for="loginInput">Login</label>
-                        <input type="text" class="form-control" id="loginInput" name="username" placeholder="Login"
+                        <label for="loginInput">Email+</label>
+                        <input type="text" class="form-control" id="loginInput" name="username" placeholder="Email"
                                required>
                     </div>
                     <div class="form-group">
