@@ -1,9 +1,9 @@
 package com.project.dao;
 
 import com.project.dao.abstraction.OrderDao;
-import com.project.model.Order;
-import com.project.model.Status;
+import com.project.model.*;
 import org.springframework.stereotype.Repository;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ public class OrderDaoImpl extends AbstractDao<Long, Order> implements OrderDao {
     }
 
     @Override
-    public List<Order> getOrdersByStatus(String status) {
+    public List<Order> getOrdersByStatus(Status status) {
         return entityManager.createQuery("SELECT b FROM orders b where b.status=:status", Order.class).setParameter("status", status).getResultList();
     }
 
@@ -50,5 +50,26 @@ public class OrderDaoImpl extends AbstractDao<Long, Order> implements OrderDao {
                 .setParameter("status", status)
                 .setParameter("email", email)
                 .getSingleResult();
+    }
+
+    @Override
+    public OrderPageAdminDTO getPageOfOrdersByPageable(Pageable pageable, Status status) {
+
+        int limitOrderDTOOnPage = pageable.getPageSize();
+        int minNumberId = limitOrderDTOOnPage * pageable.getPageNumber();
+
+        List<Order> orderDTOList = entityManager.createQuery("SELECT o FROM orders o WHERE o.status = :status", Order.class)
+                .setParameter("status", status)
+                .setFirstResult(minNumberId)
+                .setMaxResults(limitOrderDTOOnPage)
+                .getResultList();
+        OrderPageAdminDTO pageableOrderDTO = new OrderPageAdminDTO();
+        pageableOrderDTO.setListBookDTO(orderDTOList);
+        pageableOrderDTO.setNumberPages(pageable.getPageNumber());
+        pageableOrderDTO.setPageableSize(pageable.getPageSize());
+        pageableOrderDTO.setTotalPages(getOrdersByStatus(status).size() / limitOrderDTOOnPage);
+        return pageableOrderDTO;
+
+
     }
 }

@@ -4,6 +4,9 @@ import com.project.model.*;
 import com.project.service.DataEnterInAdminPanelService;
 import com.project.service.abstraction.*;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -107,6 +110,13 @@ public class OrderController {
         dataEnterInAdminPanelService.update(data);
         session.setAttribute("data", data);
         return orderDTOS;
+    }
+
+    @GetMapping("/api/admin/pageable/{page}/{status}")
+    public OrderPageAdminDTO getPageOfOrdersByStatus(@PathVariable int page, @PathVariable("status") Status status) {
+        Pageable pageable = PageRequest.of(page, 10, Sort.by(
+                Sort.Order.asc("id")));
+        return orderService.getPageOfOrdersByPageable(pageable, status);
     }
 
     @GetMapping("/api/admin/order-count")
