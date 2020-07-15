@@ -191,22 +191,50 @@ $(document).on('click', '#addNewCategory', function () {
     }
 });
 
-$(document).on('click', '#addPrimary', function () {
+$(document).on('click', '#addPrimary', function (element) {
+    $('#categoryModalAdd').empty();
     categoryName = $('input[name="primaryCategoryName"]').val();
-    let map = {};
-    map['en'] = categoryName;
-    if (categoryName === '') {} //Вывести что-то на экран
-    else {
-        fetch('/admin/categories/add', {
-            method: 'POST',
-            body: JSON.stringify({name: map}),
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            }
-        });
-        location.reload()
-    }
+    console.log("Добавляем: " + categoryName)
+
+    row =
+        `<div class="modal-header">
+                <h5 class="modal-title bold" id="logout-modal-title">Add category: <b>${categoryName}</b></h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body modal-category" >
+                <form id="updateCategoryForm" action="/categories/update" method="POST">
+                    <div class="form-group"> 
+                        <label for="formGroupExampleInput">New primary category name:</label>
+                        <input type="text" class="form-control" id="formGroupExampleInput" name="categoryName" value="${categoryName}">
+                        <br>
+                        <label for="formGroupExampleInput2">View order:</label>
+                        <input type="number" class="form-control" id="formGroupExampleInput2" name="viewOrder" value="${viewOrder}">
+                    </div>
+                </form>
+            </div>            
+            <div class="modal-footer">
+               
+            </div>`;
+    console.log(row);
+    $('#categoryModalAdd').append(row);
+
+
+    // let map = {};
+    // map['en'] = categoryName;
+    // if (categoryName === '') {} //Вывести что-то на экран
+    // else {
+    //     fetch('/admin/categories/add', {
+    //         method: 'POST',
+    //         body: JSON.stringify({name: map}),
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //             'Accept': 'application/json'
+    //         }
+    //     });
+    //     location.reload()
+    // }
 });
 
 
