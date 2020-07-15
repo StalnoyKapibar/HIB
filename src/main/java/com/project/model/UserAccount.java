@@ -20,7 +20,6 @@ public class UserAccount implements UserDetails, OAuth2User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-//    private String login;
     @Email
     @EqualsAndHashCode.Include
     private String email;

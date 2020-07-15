@@ -56,7 +56,6 @@ public class UserAccountServiceImpl implements UserAccountService {
     @Override
     public UserAccount save(RegistrationUserDTO user, String url) throws ConstraintViolationException, MailSendException {
         UserAccount userAccount = UserAccount.builder()
-//                .login(user.getLogin())
                 .email(user.getEmail())
                 .password(encoder.encode(user.getPassword()))
                 .regDate(Instant.now().getEpochSecond())
@@ -80,7 +79,6 @@ public class UserAccountServiceImpl implements UserAccountService {
     @Override
     public UserAccount save1Clickreg(RegistrationUserDTO user, String url) throws ConstraintViolationException {
         UserAccount userAccount = UserAccount.builder()
-//                .login(user.getLogin())
                 .email(user.getEmail())
                 .password(encoder.encode(user.getPassword()))
                 .regDate(Instant.now().getEpochSecond())

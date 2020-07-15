@@ -12,10 +12,6 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RegistrationUserDTO {
-//    @Size(min = 5, max = 32, message = "Логин должен быть в диапазоне от 5 до 32")
-//    @Pattern(regexp = "[0-9a-zA-Z]+", message = "Логин не должен содержать пробелы или специальные символы")
-//    private String login;
-
     @Email
     @Pattern(regexp = "^(.+)@([a-zA-Z]+)\\.([a-zA-Z]+)$", message = "Email не соответствует шаблону")
     private String email;

@@ -1,7 +1,6 @@
 package com.project.service;
 
 import com.project.dao.abstraction.UserDao;
-import com.project.model.UserAccount;
 import com.project.model.UserDTO;
 import com.project.model.UserDTONewPassword;
 import com.project.service.abstraction.UserService;
@@ -10,7 +9,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.regex.Pattern;
 
 @Service
@@ -24,9 +22,9 @@ public class UserServiceImpl implements UserService {
     private UserDao userDAO;
 
     @Override
-    public UserDTO getUserDTOByLogin(String login, boolean isOAuth2Acc) {
-         UserDTO userDTO  = userDAO.getUserByLogin(login);
-         userDTO.setOauth2Acc(isOAuth2Acc);
+    public UserDTO getUserDTOByEmail(String email, boolean isOAuth2Acc) {
+        UserDTO userDTO  = userDAO.getUserByEmail(email);
+        userDTO.setOauth2Acc(isOAuth2Acc);
         return userDTO;
     }
 
