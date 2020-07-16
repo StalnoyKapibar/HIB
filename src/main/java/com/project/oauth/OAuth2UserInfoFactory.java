@@ -9,7 +9,7 @@ public class OAuth2UserInfoFactory {
             case "google":
                 return new GoogleOAuthUserInfo(attributes);
             case "facebook":
-                return new FacebookOauthUserInfo(attributes);
+                return new FacebookOAuthUserInfo(attributes);
             default:
                 return null;
         }
