@@ -8,10 +8,6 @@ html, body {
     text-align: center;
 }
 
-#signModalBtn {
-    cursor: pointer;
-}
-
 .wide {
     position: relative;
     width: 100%;
@@ -291,5 +287,9 @@ div.sidebar-content:hover span.badgeStyle {
 
 .required {
     color: red;
+}
+
+#signModalBtn {
+    cursor: pointer;
 }
 
