@@ -382,7 +382,7 @@ async function addFindeBooks(data) {
                                     `
                                     <div id="search-admin">
                                         <button class="btn btn-info edit-loc" onclick="openEdit(${data[i].id})"><i class="material-icons">edit</i></button>
-                                        <button class="btn btn-danger delete-loc" onclick="delBook(${data[i].id})"><i class="material-icons">delete</i></button>
+                                        <button class="btn btn-danger delete-loc" data-target="#exampleModal" data-toggle="modal" onclick="preDeleteBook(${data[i].id})"><i class="material-icons">delete</i></button>
                                     </div>
                                     ` : 
                                     `

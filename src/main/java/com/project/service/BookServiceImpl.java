@@ -111,4 +111,9 @@ public class BookServiceImpl implements BookService {
     public Long getSizeOfTotalBooks() {
         return bookDAO.getSizeOfTotalBooks();
     }
+
+    @Override
+    public void deleteBook(Long id){
+        bookDAO.deleteBook(id);
+    }
 }

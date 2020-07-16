@@ -3,6 +3,7 @@ package com.project.controller.restcontroller;
 import com.project.HIBParser.HibParser;
 import com.project.model.*;
 import com.project.service.abstraction.BookService;
+import com.project.service.abstraction.FeedbackRequestService;
 import com.project.service.abstraction.StorageService;
 import com.project.util.BookDTOWithFieldsForTable;
 import org.apache.commons.io.FileUtils;
@@ -33,12 +34,14 @@ public class BookController {
     private final BookService bookService;
     private final HibParser hibParser;
     private final StorageService storageService;
+    private final FeedbackRequestService feedbackRequestService;
 
     @Autowired
-    public BookController(BookService bookService, HibParser hibParser, StorageService storageService) {
+    public BookController(BookService bookService, HibParser hibParser, StorageService storageService, FeedbackRequestService feedbackRequestService) {
         this.bookService = bookService;
         this.hibParser = hibParser;
         this.storageService = storageService;
+        this.feedbackRequestService = feedbackRequestService;
     }
 
     @PostMapping("/admin/deleteImg")
@@ -128,7 +131,8 @@ public class BookController {
     @GetMapping("/admin/del/{id}")
     public void delBook(@PathVariable long id) {
         storageService.deletePaperById(id);
-        bookService.deleteBookById(id);
+        feedbackRequestService.deleteFeedbackRequestByIbBook(id);
+        bookService.deleteBook(id);
     }
 
     @PostMapping("/admin/edit")

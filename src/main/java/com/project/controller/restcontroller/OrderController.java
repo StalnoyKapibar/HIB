@@ -111,6 +111,7 @@ public class OrderController {
         for (Order order : orderList) {
             orderDTOS.add(order.getOrderDTOForAdmin());
         }
+
         DataEnterInAdminPanel data = (DataEnterInAdminPanel) session.getAttribute("data");
         data.setDataEnterInOrders(Instant.now().getEpochSecond());
         dataEnterInAdminPanelService.update(data);
@@ -197,5 +198,10 @@ public class OrderController {
     @PostMapping("/api/admin/deleteOrder/{id}")
     private void orderDelete(@PathVariable Long id) {
         orderService.deleteOrder(id);
+    }
+
+    @GetMapping("/api/admin/allorders/{id}")
+    public List<Order> getOrders(@PathVariable Long id){
+        return orderService.findOrderByBookId(id);
     }
 }

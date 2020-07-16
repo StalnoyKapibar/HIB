@@ -117,6 +117,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public List<Order> findOrderByBookId(Long bookId) {
+        return orderDAO.findOrderByBookId(bookId);
+    }
+
+    @Override
     public int getCountOfOrders(long lastAuthDate) {
         return orderDAO.getCountOfOrders(lastAuthDate);
     }
