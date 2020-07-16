@@ -25,7 +25,7 @@ public class OrderDaoImpl extends AbstractDao<Long, Order> implements OrderDao {
     public List<Order> getOrdersByStatus(Status status) {
         if (status == null) {
             return entityManager.createQuery("SELECT o FROM  orders o", Order.class).getResultList();
-        }else  {
+        } else  {
             return entityManager.createQuery("SELECT b FROM orders b where b.status=:status", Order.class).setParameter("status", status).getResultList();
         }
     }

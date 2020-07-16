@@ -123,21 +123,10 @@ public class OrderController {
         Pageable pageable = PageRequest.of(page, size, Sort.by(
                 Sort.Order.asc("id")));
         Status status;
-        switch (statusString) {
-            case ("UNPROCESSED"):
-                status = Status.UNPROCESSED;
-                break;
-            case ("PROCESSING"):
-                status = Status.PROCESSING;
-                break;
-            case ("COMPLETED"):
-                status = Status.COMPLETED;
-                break;
-            case ("DELETED"):
-                status = Status.DELETED;
-                break;
-            default:
-                status = null;
+        try {
+            status = Status.valueOf(statusString);
+        } catch (Exception e) {
+            status = null;
         }
         DataEnterInAdminPanel data = (DataEnterInAdminPanel) session.getAttribute("data");
         data.setDataEnterInOrders(Instant.now().getEpochSecond());
