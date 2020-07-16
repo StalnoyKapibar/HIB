@@ -66,4 +66,9 @@ public class FeedbackRequestServiceImpl implements FeedbackRequestService {
     public void deleteFeedbackRequestByIbBook(Long bookId){
         feedbackRequestDAO.deleteFeedbackRequestByIbBook(bookId);
     }
+
+    @Override
+    public List<FeedbackRequest> findAllRequestByIdBook(Long bookId) {
+        return feedbackRequestDAO.findAllRequestByIdBook(bookId);
+    }
 }

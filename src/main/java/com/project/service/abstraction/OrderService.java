@@ -29,4 +29,6 @@ public interface OrderService {
     void processOrder(Long id);
 
     Long[] getAmountOfOrders(String email);
+
+    List<Order> findOrderByBookId(Long bookId);
 }

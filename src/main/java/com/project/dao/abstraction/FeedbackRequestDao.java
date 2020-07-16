@@ -17,4 +17,6 @@ public interface FeedbackRequestDao extends GenericDao<Long, FeedbackRequest> {
     Long getAmountByReplied(boolean replied, String senderEmail);
 
     void deleteFeedbackRequestByIbBook(Long bookId);
+
+    List<FeedbackRequest> findAllRequestByIdBook(Long bookId);
 }

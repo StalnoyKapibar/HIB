@@ -38,7 +38,7 @@ public class FeedbackRequestDaoImpl extends AbstractDao<Long, FeedbackRequest> i
     @Override
     public int getCountOfFeedBack(long lastAuthDate) {
         return entityManager
-                .createQuery("FROM FeedbackRequest  where data>=:data", FeedbackRequest.class)
+                .createQuery("FROM FeedbackRequest where data>=:data", FeedbackRequest.class)
                 .setParameter("data", lastAuthDate)
                 .getResultList()
                 .size();
@@ -65,4 +65,12 @@ public class FeedbackRequestDaoImpl extends AbstractDao<Long, FeedbackRequest> i
             session.delete(feedback);
         }
     }
+
+    @Override
+    public List<FeedbackRequest> findAllRequestByIdBook(Long bookId) {
+        return entityManager.createQuery("FROM FeedbackRequest where book.id = :bookId")
+                .setParameter("bookId", bookId).getResultList();
+    }
+
+
 }

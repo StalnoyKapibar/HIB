@@ -22,4 +22,6 @@ public interface FeedbackRequestService {
     Long[] getAmountOfFeedback(String senderEmail);
 
     void deleteFeedbackRequestByIbBook(Long bookId);
+
+    List<FeedbackRequest> findAllRequestByIdBook(Long bookId);
 }

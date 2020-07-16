@@ -284,3 +284,7 @@ div.sidebar-content:hover span.badgeStyle {
 .required {
     color: red;
 }
+
+.h3-delete-book {
+    text-align: center;
+}
