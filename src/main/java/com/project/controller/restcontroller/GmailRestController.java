@@ -3,10 +3,8 @@ package com.project.controller.restcontroller;
 import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.model.ListMessagesResponse;
 import com.google.api.services.gmail.model.Message;
-import com.google.api.services.gmail.model.MessagePartHeader;
 import com.nimbusds.jose.util.Base64URL;
 import com.project.controller.restcontroller.emailUtil.emailParser.EmailParser;
-import com.project.controller.restcontroller.emailUtil.emailParser.MailRuParser;
 import com.project.model.MessageDTO;
 import lombok.NoArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +16,6 @@ import javax.mail.internet.MimeMessage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.*;
-
 
 @RestController
 @NoArgsConstructor
