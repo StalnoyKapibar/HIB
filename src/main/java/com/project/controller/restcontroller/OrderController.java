@@ -119,7 +119,7 @@ public class OrderController {
     }
 
     @GetMapping("/api/admin/pageable/{page}/{size}/{status}")
-    public OrderPageAdminDTO getPageOfOrdersByStatus(@PathVariable int page, @PathVariable int size,  @PathVariable("status") String statusString) {
+    public OrderPageAdminDTO getPageOfOrdersByStatus(HttpSession session, @PathVariable int page, @PathVariable int size,  @PathVariable("status") String statusString) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(
                 Sort.Order.asc("id")));
         Status status;
@@ -139,6 +139,10 @@ public class OrderController {
             default:
                 status = null;
         }
+        DataEnterInAdminPanel data = (DataEnterInAdminPanel) session.getAttribute("data");
+        data.setDataEnterInOrders(Instant.now().getEpochSecond());
+        dataEnterInAdminPanelService.update(data);
+        session.setAttribute("data", data);
         return orderService.getPageOfOrdersByPageable(pageable, status);
     }
 

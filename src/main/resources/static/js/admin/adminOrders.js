@@ -12,7 +12,6 @@ let emails = [];
 let currentPage = 1;
 
 
-
 $(window).on("load", function () {
     if (sessionStorage.getItem("details") != null) {
         $('#statusSelector').val(sessionStorage.getItem("details"));
@@ -53,26 +52,16 @@ function convertPrice(price) {
 }
 
 
-
-
-
-
 async function setOrdersAmountInPage(amount) {
-    console.log(`setOrdersAmountInPage ${amount}`);
     let ordersAmountPerPage = document.querySelector('#ordersAmountPerPage');
     ordersAmountPerPage.textContent = amount;
     currentPage = 1;
-    await  showListOrders(); //
-
+    await showListOrders();
 }
 
-
 async function addPagination(totalPages) {
-    console.log('addPagination');
-
     let startIter = 1;
     let endIter = totalPages;
-
     let pag = '';
     pag = `<nav aria-label="Page navigation example">
                     <ul class="pagination">`;
@@ -95,9 +84,6 @@ async function addPagination(totalPages) {
 }
 
 
-
-
-
 async function getOrdersData(page, size, status) {
     const url = `/api/admin/pageable/${page}/${size}/${status}`;
     const res = await fetch(url);
@@ -105,49 +91,43 @@ async function getOrdersData(page, size, status) {
     return data;
 }
 
-
 async function renderPageData(data) {
 
     const lastOrderedBooks = await getLastOrderedBooks();
-
-    fetch("/api/admin/getAllOrders")
-        .then(json)
-        .then(async (data) => {
-            let orders = data;
-            for (let key in data) {
-                emails.push(data[key].userDTO.email)
-            }
-            await fetch("/admin/unreademails/", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json;charset=utf-8'
-                },
-                body: JSON.stringify(emails)
-            }).then(json).then(emails => {
-                if (emails['gmailAccess']) {
-                    if (!onlyUnread) {
-                        for (let key in orders) {
-                            orders[key].userDTO.isUnread = emails[orders[key].userDTO.email]
-                        }
-                    } else {
-                        orders = {}
-                        for (let key in data) {
-                            if (emails[data[key].userDTO.email]) {
-                                orders[key] = data[key];
-                                orders[key].userDTO.isUnread = emails[data[key].userDTO.email];
-                            }
-                        }
-                    }
-                    unreadCheckbox = `<div>
-                                            <h3 class="only-unread-text">Only unread messages</h3>
-                                          </div>
-                                          <div>
-                                            <input data-size="md" data-toggle="toggle" id="toggleOnlyUnread" type="checkbox" ${onlyUnread ? 'checked' : ''}>
-                                          </div>`
+    let orders = data;
+    for (let key in data) {
+        emails.push(data[key].userDTO.email)
+    }
+    await fetch("/admin/unreademails/", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify(emails)
+    }).then(json).then(emails => {
+        if (emails['gmailAccess']) {
+            if (!onlyUnread) {
+                for (let key in orders) {
+                    orders[key].userDTO.isUnread = emails[orders[key].userDTO.email]
                 }
-            })
-            return orders;
-        })
+            } else {
+                orders = {}
+                for (let key in data) {
+                    if (emails[data[key].userDTO.email]) {
+                        orders[key] = data[key];
+                        orders[key].userDTO.isUnread = emails[data[key].userDTO.email];
+                    }
+                }
+            }
+            unreadCheckbox = `
+                <div>
+                    <h3 class="only-unread-text">Only unread messages</h3>
+                </div>
+                <div>
+                    <input data-size="md" data-toggle="toggle" id="toggleOnlyUnread" type="checkbox" ${onlyUnread ? 'checked' : ''}>
+                 </div>`
+        }
+    });
 
     $('#adminListOrders').empty();
     $('#preloader').empty();
@@ -199,7 +179,7 @@ async function renderPageData(data) {
                                         </a>
                                     </div>
                                     <div class="show-details-icon">
-                                        ${order.userDTO.isUnread ? '<i class="material-icons">email</i>' : ''}
+                                         ${order.userDTO.isUnread ? '<i class="material-icons">email</i>' : ''} 
                                     </div>
                                 </div>
                              </td>`
@@ -232,171 +212,27 @@ async function renderPageData(data) {
                 showListOrders();
             });
         }
-    })
+    });
 }
 
-
 async function loadMore(pageNumber) {
-    console.log(`load more - page number = ${pageNumber}`);
     currentPage = pageNumber;
-    await  showListOrders();
+    await showListOrders();
 }
 
 async function showListOrders() {
-    console.log('show list orders');
     $('#preloader').html(`
         <div class="progress">
             <div class="indeterminate"></div>
         </div>
     `)
     let size = document.querySelector('#ordersAmountPerPage').textContent;
-
-    console.log(`currentPage ${currentPage}, size ${size}, statusOfOrder ${statusOfOrder}`);
     const testData = await getOrdersData(currentPage - 1, size, statusOfOrder.toUpperCase());
-    console.log(testData);
-    const pageableSize = testData.pageableSize;
     const totalPages = testData.totalPages
-    console.log(`pageableSize: ${pageableSize}, totalPages ${totalPages}`);
     await addPagination(totalPages);
     const pageData = testData.listOrderDTO;
-    console.log(pageData);
     renderPageData(pageData);
-
 }
-    /*
-
-    const lastOrderedBooks = await getLastOrderedBooks();
-
-    fetch("/api/admin/getAllOrders")
-        .then(json)
-        .then(async (data) => {
-            let orders = data;
-            for (let key in data) {
-                emails.push(data[key].userDTO.email)
-            }
-            await fetch("/admin/unreademails/", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json;charset=utf-8'
-                },
-                body: JSON.stringify(emails)
-            }).then(json).then(emails => {
-                if (emails['gmailAccess']) {
-                    if (!onlyUnread) {
-                        for (let key in orders) {
-                            orders[key].userDTO.isUnread = emails[orders[key].userDTO.email]
-                        }
-                    } else {
-                        orders = {}
-                        for (let key in data) {
-                            if (emails[data[key].userDTO.email]) {
-                                orders[key] = data[key];
-                                orders[key].userDTO.isUnread = emails[data[key].userDTO.email];
-                            }
-                        }
-                    }
-                    unreadCheckbox = `<div>
-                                            <h3 class="only-unread-text">Only unread messages</h3>
-                                          </div>
-                                          <div>
-                                            <input data-size="md" data-toggle="toggle" id="toggleOnlyUnread" type="checkbox" ${onlyUnread ? 'checked' : ''}>
-                                          </div>`
-                }
-            })
-            return orders;
-        })
-        .then(function (data) {
-            $('#adminListOrders').empty();
-            $('#preloader').empty();
-            allOrders = data;
-            let order;
-            let html = `<thead ><tr><th>№</th>
-                             <th class="email-label">Email</th>
-                             <th class="first-name-loc">First name</th>
-                             <th class="last-name-loc">Last Name</th>
-                             <th class="date-of-order-loc">Date of Order</th>
-                             <th class="status-loc">Status</th>
-                             <th class="details-of-order-loc">Details of Order</th>
-                             <th class="edit-loc">Edit</th>
-                             <th></th></tr></thead>`;
-            $.each(data, function (index) {
-                order = data[index];
-                let isOrderEnable = true;
-                order.items.forEach((item) => {
-                    if (lastOrderedBooks.includes(item.book.id) && order.status === "UNPROCESSED") {
-                        isOrderEnable = false;
-                    }
-                });
-
-                if (order.status === statusOfOrder.toUpperCase() || statusOfOrder === "All") {
-                    if (order.id == sessionStorage.getItem("orderId")) {
-                        html += `<tbody ><tr class="selected"`;
-                        sessionStorage.removeItem("orderId");
-                    } else {
-                        html += `<tbody ><tr `;
-                    }
-                    if (!isOrderEnable) {
-                        html += `style = "background-color: #FFB3B3" `;
-                    }
-
-                    html += `> <td> ${order.id}</td>`;
-                    for (let key in order.userDTO) {
-                        if (key === "email" || key === "firstName" || key === "lastName") {
-                            html += `<td class=${order.userDTO.isUnread ? 'unread' : ''}> ${order.userDTO[key]}</td>`;
-                        }
-                    }
-                    html += `<td class=${order.userDTO.isUnread ? 'unread' : ''}>${order.data}</td>
-                         <td class=${order.userDTO.isUnread ? 'unread' : ''}>${order.status} </td>`;
-
-                    html += `<td>
-                                <div class="show-details-container">
-                                    <div class="show-details-text">
-                                        <a href="#" data-toggle="modal" class="show-details-loc" data-target="#adminOrderModal" onclick="showModalOfOrder(${index})" >
-                                            Show details
-                                        </a>
-                                    </div>
-                                    <div class="show-details-icon">
-                                        ${order.userDTO.isUnread ? '<i class="material-icons">email</i>' : ''}
-                                    </div>
-                                </div>
-                             </td>`
-                    if (order.status !== "DELETED") {
-                        html += `<td><button class="btn btn-danger delete-loc" onclick=orderDelete(${order.id})>Delete</button></td>`;
-                    }
-                    if (order.status === "PROCESSING") {
-                        html += `<td><button class="btn btn-success complete-loc" onclick=orderComplete(${order.id})>Complete</button></td>`;
-                    }
-                    if (order.status === "COMPLETED") {
-                        html += `<td><button class="btn btn-success uncomplete-loc" onclick=orderUnComplete(${order.id})>Uncomplete</button></td>`;
-                    }
-                    if (order.status === "UNPROCESSED") {
-                        html += `<td><button class="btn btn-success uncomplete-loc" onclick=orderProcess(${order.id})`;
-                        if (!isOrderEnable) {
-                            html += ` disabled="disabled"`;
-                        }
-                        html += `>Process</button></td>`;
-                    }
-                    html += `</tr>`;
-                    if (!isOrderEnable) {
-                        html += `<tr style = "background-color: #FFB3B3; color: red; font-weight: 900"><td colspan="9">This order contains book that is already included in order with status PROCESSING. </td></tr>`;
-                    }
-
-                    $('#adminListOrders').html(html);
-                    $('#unread-checkbox').html(unreadCheckbox);
-                    $('#toggleOnlyUnread').on('change', () => {
-                        onlyUnread = $('#toggleOnlyUnread').is(":checked");
-                        console.log(onlyUnread)
-                        showListOrders();
-                    });
-                }
-            })
-        })
-    setLocaleFields();
-
-
-     */
-
-
 
 async function showModalOfOrder(index) {
     $('#chat').empty();
