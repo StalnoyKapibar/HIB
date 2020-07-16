@@ -2,12 +2,11 @@ package com.project.service;
 
 import com.project.dao.UserAccountDao;
 import com.project.model.Role;
+import com.project.model.UserAccount;
 import com.project.oauth.OAuth2UserInfo;
 import com.project.oauth.OAuth2UserInfoFactory;
-import com.project.model.UserAccount;
 import com.project.util.SocialUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
