@@ -4,10 +4,6 @@ html, body {
     overflow-x: hidden;
 }
 
-.h3-delete-book {
-    text-align: center;
-}
-
 .wide {
     position: relative;
     width: 100%;
@@ -289,7 +285,6 @@ div.sidebar-content:hover span.badgeStyle {
     color: red;
 }
 
-#signModalBtn {
-    cursor: pointer;
+.h3-delete-book {
+    text-align: center;
 }
-
