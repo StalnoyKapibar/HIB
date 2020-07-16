@@ -112,13 +112,7 @@ function setListeners () {
             $category.find('.custom-control-input').prop('checked', false);
         }
     });
-    $('#input-categories').on('click', 'label', function () {
-        if ($(this).is('.collapsed')) {
-            $(this).children('i').removeClass('fa fa-plus-square-o').addClass('far fa-minus-square');
-        } else {
-            $(this).children('i').removeClass('far fa-minus-square').addClass('fa fa-plus-square-o');
-        }
-    });
+
     $('#input-categories').on('change', '.custom-control-input', function () {
         const getCheckedSiblings = (nearCategory) => {
             let isCheckedSibling = false;
