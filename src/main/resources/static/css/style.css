@@ -285,6 +285,10 @@ div.sidebar-content:hover span.badgeStyle {
     color: red;
 }
 
+#signModalBtn {
+    cursor: pointer;
+}
+
 .h3-delete-book {
     text-align: center;
 }
