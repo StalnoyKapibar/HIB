@@ -2,12 +2,11 @@ package com.project.service;
 
 import com.project.dao.UserAccountDao;
 import com.project.model.Role;
+import com.project.model.UserAccount;
 import com.project.oauth.OAuth2UserInfo;
 import com.project.oauth.OAuth2UserInfoFactory;
-import com.project.model.UserAccount;
 import com.project.util.SocialUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -59,7 +58,6 @@ public class OAuthUserService extends DefaultOAuth2UserService {
     private UserAccount registerNewUser(OAuth2UserRequest oAuth2UserRequest, OAuth2UserInfo oAuth2UserInfo) {
         UserAccount user = new UserAccount();
         user.setProvider(String.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()));
-        user.setLogin(new SocialUtil().getLoginFromEmail(oAuth2UserInfo.getEmail()));
         user.setFirstName(oAuth2UserInfo.getFirstName());
         user.setLastName(oAuth2UserInfo.getLastName());
         user.setEmail(oAuth2UserInfo.getEmail());

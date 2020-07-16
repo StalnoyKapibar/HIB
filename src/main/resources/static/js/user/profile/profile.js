@@ -25,8 +25,7 @@ function showShoppingCart() {
 }
 
 $(document).ready(function () {
-    getAU().then(setFieldsChangePersonalInformation).then(oAuth2AccHandle);
-    getAU().then(firstLastNames);
+    getAU().then(setFieldsChangePersonalInformation).then(oAuth2AccHandle).then(firstLastNames);
 });
 
 async function getAU() {

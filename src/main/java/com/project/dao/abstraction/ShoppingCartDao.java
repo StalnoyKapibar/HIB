@@ -9,5 +9,7 @@ public interface ShoppingCartDao {
 
     void updateCart(ShoppingCartDTO cart);
 
+    void deleteBookFromShopCartCartItem(Long shopCartId, Long cartItemDtoId);
+
     List getMaxIdCartItem();
 }

@@ -2,12 +2,12 @@ package com.project.oauth;
 
 import java.util.Map;
 
-public class FacebookOauthUserInfo extends OAuth2UserInfo {
+public class FacebookOAuthUserInfo extends OAuth2UserInfo {
 
-    String firstName = getName((String)attributes.get("name"))[0];
-    String lastName = getName((String)attributes.get("name"))[1];
+    String firstName = getName((String) attributes.get("name"))[0];
+    String lastName = getName((String) attributes.get("name"))[1];
 
-    public FacebookOauthUserInfo(Map<String, Object> attributes) {
+    public FacebookOAuthUserInfo(Map<String, Object> attributes) {
         super(attributes);
     }
 
@@ -29,5 +29,4 @@ public class FacebookOauthUserInfo extends OAuth2UserInfo {
     public String[] getName(String fullNameStr) {
         return fullNameStr.split(" ");
     }
-
 }
