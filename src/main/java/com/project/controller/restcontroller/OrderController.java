@@ -111,7 +111,6 @@ public class OrderController {
         for (Order order : orderList) {
             orderDTOS.add(order.getOrderDTOForAdmin());
         }
-
         DataEnterInAdminPanel data = (DataEnterInAdminPanel) session.getAttribute("data");
         data.setDataEnterInOrders(Instant.now().getEpochSecond());
         dataEnterInAdminPanelService.update(data);
@@ -119,10 +118,27 @@ public class OrderController {
         return orderDTOS;
     }
 
-    @GetMapping("/api/admin/pageable/{page}/{status}")
-    public OrderPageAdminDTO getPageOfOrdersByStatus(@PathVariable int page, @PathVariable("status") Status status) {
-        Pageable pageable = PageRequest.of(page, 10, Sort.by(
+    @GetMapping("/api/admin/pageable/{page}/{size}/{status}")
+    public OrderPageAdminDTO getPageOfOrdersByStatus(@PathVariable int page, @PathVariable int size,  @PathVariable("status") String statusString) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(
                 Sort.Order.asc("id")));
+        Status status;
+        switch (statusString) {
+            case ("UNPROCESSED"):
+                status = Status.UNPROCESSED;
+                break;
+            case ("PROCESSING"):
+                status = Status.PROCESSING;
+                break;
+            case ("COMPLETED"):
+                status = Status.COMPLETED;
+                break;
+            case ("DELETED"):
+                status = Status.DELETED;
+                break;
+            default:
+                status = null;
+        }
         return orderService.getPageOfOrdersByPageable(pageable, status);
     }
 

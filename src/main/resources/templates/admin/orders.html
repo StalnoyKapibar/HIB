@@ -69,6 +69,17 @@
             </div>
         </div>
     </div>
+    <div class="row orders-pageable">
+        <div class="dropdown dropdown-header"><label id="orders-on-page-loc">Заказов на странице</label>
+            <button class="btn btn-primary dropdown-toggle" type="button" id="ordersAmountPerPage" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">10</button>
+            <div class="dropdown-menu" aria-labelledby="ordersAmountPerPage">
+                <a class="dropdown-item" href="#" onclick="setOrdersAmountInPage(10)">10</a>
+                <a class="dropdown-item" href="#" onclick="setOrdersAmountInPage(50)">50</a>
+                <a class="dropdown-item" href="#" onclick="setOrdersAmountInPage(100)">100</a>
+            </div>
+        </div>
+        <div id="rowForPagination"></div>
+    </div>
     <script src="/static/js/admin/adminOrders.js"></script>
     <script src="/static/js/main.js"></script>
     <script src="/static/js/gmailProperties.js"></script>

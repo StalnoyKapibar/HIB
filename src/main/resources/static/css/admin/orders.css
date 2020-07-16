@@ -172,7 +172,7 @@
 .orders-pageable {
     position: absolute;
     bottom: 0;
-    left: calc(50vw - 6.5rem);
+    left: calc(50vw - 17.5rem);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -182,4 +182,8 @@
 
 .page-link:not(:disabled):not(.disabled) {
     cursor: pointer;
+}
+
+.card {
+    margin-bottom: 7rem;
 }

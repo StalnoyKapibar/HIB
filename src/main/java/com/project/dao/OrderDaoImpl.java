@@ -23,7 +23,11 @@ public class OrderDaoImpl extends AbstractDao<Long, Order> implements OrderDao {
 
     @Override
     public List<Order> getOrdersByStatus(Status status) {
-        return entityManager.createQuery("SELECT b FROM orders b where b.status=:status", Order.class).setParameter("status", status).getResultList();
+        if (status == null) {
+            return entityManager.createQuery("SELECT o FROM  orders o", Order.class).getResultList();
+        }else  {
+            return entityManager.createQuery("SELECT b FROM orders b where b.status=:status", Order.class).setParameter("status", status).getResultList();
+        }
     }
 
     @Override
@@ -57,18 +61,24 @@ public class OrderDaoImpl extends AbstractDao<Long, Order> implements OrderDao {
     public OrderPageAdminDTO getPageOfOrdersByPageable(Pageable pageable, Status status) {
         int pageSize = pageable.getPageSize();
         int minNumberId = pageSize * pageable.getPageNumber();
-        List<Order> orderList = entityManager.createQuery("SELECT o FROM orders o WHERE status = :status", Order.class)
-                .setParameter("status", status)
-                .setFirstResult(minNumberId)
-                .setMaxResults(pageSize)
-                .getResultList();
+        List<Order> orderList;
+        if (status == null) {
+            orderList = entityManager.createQuery("SELECT o FROM orders o ORDER BY o.id DESC", Order.class)
+                    .setFirstResult(minNumberId)
+                    .setMaxResults(pageSize)
+                    .getResultList();
+        } else {
+            orderList = entityManager.createQuery("SELECT o FROM orders o WHERE status = :status ORDER BY o.id DESC", Order.class)
+                    .setParameter("status", status)
+                    .setFirstResult(minNumberId)
+                    .setMaxResults(pageSize)
+                    .getResultList();
+        }
         OrderPageAdminDTO pageableOrderDTO = new OrderPageAdminDTO();
         List<OrderDTO> orderDTOS = new ArrayList<>();
         for (Order order : orderList) {
             orderDTOS.add(order.getOrderDTOForAdmin());
         }
-        System.out.println(status.toString());
-        System.out.println(orderDTOS.toString());
         pageableOrderDTO.setListOrderDTO(orderDTOS);
         pageableOrderDTO.setPageNumber(pageable.getPageNumber());
         pageableOrderDTO.setPageableSize(pageable.getPageSize());

@@ -9,6 +9,8 @@ let messagePackIndex;
 let orderIndex;
 let scrollOn = true;
 let emails = [];
+let currentPage = 1;
+
 
 
 $(window).on("load", function () {
@@ -22,6 +24,7 @@ $(window).on("load", function () {
     }
     $('#statusSelector').change(function () {
         statusOfOrder = $(this).children("option:selected").val();
+        currentPage = 1;
         showListOrders();
     });
 });
@@ -53,28 +56,22 @@ function convertPrice(price) {
 
 
 
-let currentPage = 1;
-// let ordersAmountInPage = 0;
 
-
-function setOrdersAmountInPage(amount) {
+async function setOrdersAmountInPage(amount) {
     console.log(`setOrdersAmountInPage ${amount}`);
     let ordersAmountPerPage = document.querySelector('#ordersAmountPerPage');
     ordersAmountPerPage.textContent = amount;
+    currentPage = 1;
+    await  showListOrders(); //
+
 }
 
 
-async function addPagination(ordersAmount) {
+async function addPagination(totalPages) {
     console.log('addPagination');
-    let ordersAmountPerPage = document.querySelector('#ordersAmountPerPage');
-    let pageableSize = Number(ordersAmountPerPage.textContent);
-    console.log(`quantityPage ${pageableSize}`);
-
-    let paginationSize = Math.ceil(ordersAmount/pageableSize);
-    console.log(`paginationSize ${paginationSize}`);
 
     let startIter = 1;
-    let endIter = paginationSize;
+    let endIter = totalPages;
 
     let pag = '';
     pag = `<nav aria-label="Page navigation example">
@@ -89,63 +86,27 @@ async function addPagination(ordersAmount) {
             pag += `<li class="page-item"><a class="page-link" onclick="loadMore(${i})">${i}</a></li>`;
         }
     }
-    pag += currentPage === paginationSize ? `<li class="page-item disabled">` : `<li class="page-item">`
-    pag += `<a class="page-link" onclick="loadMore(${paginationSize})" href="#"><span aria-hidden="true">&raquo;</span></a></li>
+    pag += currentPage === totalPages ? `<li class="page-item disabled">` : `<li class="page-item">`
+    pag += `<a class="page-link" onclick="loadMore(${totalPages})" href="#"><span aria-hidden="true">&raquo;</span></a></li>
                     </ul>
                 </nav>`;
     document.querySelector('#rowForPagination').innerHTML = '';
     $("#rowForPagination").append(pag);
 }
-/*
-function loadMore(pageNumber) {
-    currentPage = pageNumber;
-    getPageWithBooks(amountBooksInPage, pageNumber - 1);
-}
-
-function getPageWithBooks(amount, page) {
-    GET(`/api/book?limit=${amount}&start=${page}`)
-        .then(json)
-        .then((data) => {
-            amountBooksInDb = data.amountOfBooksInDb;
-            addBooksToPage(data.books);
-        })
-}
-
-*/
 
 
-async function getOrdersData(page, status) {
-    const url = `/api/admin/pageable/${page}/${status}`;
+
+
+
+async function getOrdersData(page, size, status) {
+    const url = `/api/admin/pageable/${page}/${size}/${status}`;
     const res = await fetch(url);
     const data = await res.json();
     return data;
 }
 
 
-
-
-
-
-
-
-
-async function showListOrders() {
-    console.log('show list orders');
-    $('#preloader').html(`
-        <div class="progress">
-            <div class="indeterminate"></div>
-        </div>
-    `)
-
-    const testData = await getOrdersData(0, 'UNPROCESSED');
-    console.log(testData);
-    const ordersAmount = testData.listOrderDTO.length;
-    // const ordersAmount = 12;
-    console.log(`List of orders length: ${ordersAmount}`);
-    await addPagination(ordersAmount);
-
-
-
+async function renderPageData(data) {
 
     const lastOrderedBooks = await getLastOrderedBooks();
 
@@ -187,12 +148,12 @@ async function showListOrders() {
             })
             return orders;
         })
-        .then(function (data) {
-            $('#adminListOrders').empty();
-            $('#preloader').empty();
-            allOrders = data;
-            let order;
-            let html = `<thead ><tr><th>№</th>
+
+    $('#adminListOrders').empty();
+    $('#preloader').empty();
+    allOrders = data;
+    let order;
+    let html = `<thead ><tr><th>№</th>
                              <th class="email-label">Email</th>
                              <th class="first-name-loc">First name</th>
                              <th class="last-name-loc">Last Name</th>
@@ -201,36 +162,36 @@ async function showListOrders() {
                              <th class="details-of-order-loc">Details of Order</th>
                              <th class="edit-loc">Edit</th>
                              <th></th></tr></thead>`;
-            $.each(data, function (index) {
-                order = data[index];
-                let isOrderEnable = true;
-                order.items.forEach((item) => {
-                    if (lastOrderedBooks.includes(item.book.id) && order.status === "UNPROCESSED") {
-                        isOrderEnable = false;
-                    }
-                });
+    $.each(data, function (index) {
+        order = data[index];
+        let isOrderEnable = true;
+        order.items.forEach((item) => {
+            if (lastOrderedBooks.includes(item.book.id) && order.status === "UNPROCESSED") {
+                isOrderEnable = false;
+            }
+        });
 
-                if (order.status === statusOfOrder.toUpperCase() || statusOfOrder === "All") {
-                    if (order.id == sessionStorage.getItem("orderId")) {
-                        html += `<tbody ><tr class="selected"`;
-                        sessionStorage.removeItem("orderId");
-                    } else {
-                        html += `<tbody ><tr `;
-                    }
-                    if (!isOrderEnable) {
-                        html += `style = "background-color: #FFB3B3" `;
-                    }
+        if (order.status === statusOfOrder.toUpperCase() || statusOfOrder === "All") {
+            if (order.id == sessionStorage.getItem("orderId")) {
+                html += `<tbody ><tr class="selected"`;
+                sessionStorage.removeItem("orderId");
+            } else {
+                html += `<tbody ><tr `;
+            }
+            if (!isOrderEnable) {
+                html += `style = "background-color: #FFB3B3" `;
+            }
 
-                    html += `> <td> ${order.id}</td>`;
-                    for (let key in order.userDTO) {
-                        if (key === "email" || key === "firstName" || key === "lastName") {
-                            html += `<td class=${order.userDTO.isUnread ? 'unread' : ''}> ${order.userDTO[key]}</td>`;
-                        }
-                    }
-                    html += `<td class=${order.userDTO.isUnread ? 'unread' : ''}>${order.data}</td>
+            html += `> <td> ${order.id}</td>`;
+            for (let key in order.userDTO) {
+                if (key === "email" || key === "firstName" || key === "lastName") {
+                    html += `<td class=${order.userDTO.isUnread ? 'unread' : ''}> ${order.userDTO[key]}</td>`;
+                }
+            }
+            html += `<td class=${order.userDTO.isUnread ? 'unread' : ''}>${order.data}</td>
                          <td class=${order.userDTO.isUnread ? 'unread' : ''}>${order.status} </td>`;
 
-                    html += `<td>
+            html += `<td>
                                 <div class="show-details-container">
                                     <div class="show-details-text">
                                         <a href="#" data-toggle="modal" class="show-details-loc" data-target="#adminOrderModal" onclick="showModalOfOrder(${index})" >
@@ -242,38 +203,64 @@ async function showListOrders() {
                                     </div>
                                 </div>
                              </td>`
-                    if (order.status !== "DELETED") {
-                        html += `<td><button class="btn btn-danger delete-loc" onclick=orderDelete(${order.id})>Delete</button></td>`;
-                    }
-                    if (order.status === "PROCESSING") {
-                        html += `<td><button class="btn btn-success complete-loc" onclick=orderComplete(${order.id})>Complete</button></td>`;
-                    }
-                    if (order.status === "COMPLETED") {
-                        html += `<td><button class="btn btn-success uncomplete-loc" onclick=orderUnComplete(${order.id})>Uncomplete</button></td>`;
-                    }
-                    if (order.status === "UNPROCESSED") {
-                        html += `<td><button class="btn btn-success uncomplete-loc" onclick=orderProcess(${order.id})`;
-                        if (!isOrderEnable) {
-                            html += ` disabled="disabled"`;
-                        }
-                        html += `>Process</button></td>`;
-                    }
-                    html += `</tr>`;
-                    if (!isOrderEnable) {
-                        html += `<tr style = "background-color: #FFB3B3; color: red; font-weight: 900"><td colspan="9">This order contains book that is already included in order with status PROCESSING. </td></tr>`;
-                    }
-
-                    $('#adminListOrders').html(html);
-                    $('#unread-checkbox').html(unreadCheckbox);
-                    $('#toggleOnlyUnread').on('change', () => {
-                        onlyUnread = $('#toggleOnlyUnread').is(":checked");
-                        console.log(onlyUnread)
-                        showListOrders();
-                    });
+            if (order.status !== "DELETED") {
+                html += `<td><button class="btn btn-danger delete-loc" onclick=orderDelete(${order.id})>Delete</button></td>`;
+            }
+            if (order.status === "PROCESSING") {
+                html += `<td><button class="btn btn-success complete-loc" onclick=orderComplete(${order.id})>Complete</button></td>`;
+            }
+            if (order.status === "COMPLETED") {
+                html += `<td><button class="btn btn-success uncomplete-loc" onclick=orderUnComplete(${order.id})>Uncomplete</button></td>`;
+            }
+            if (order.status === "UNPROCESSED") {
+                html += `<td><button class="btn btn-success uncomplete-loc" onclick=orderProcess(${order.id})`;
+                if (!isOrderEnable) {
+                    html += ` disabled="disabled"`;
                 }
-            })
-        })
-    setLocaleFields();
+                html += `>Process</button></td>`;
+            }
+            html += `</tr>`;
+            if (!isOrderEnable) {
+                html += `<tr style = "background-color: #FFB3B3; color: red; font-weight: 900"><td colspan="9">This order contains book that is already included in order with status PROCESSING. </td></tr>`;
+            }
+
+            $('#adminListOrders').html(html);
+            $('#unread-checkbox').html(unreadCheckbox);
+            $('#toggleOnlyUnread').on('change', () => {
+                onlyUnread = $('#toggleOnlyUnread').is(":checked");
+                console.log(onlyUnread)
+                showListOrders();
+            });
+        }
+    })
+}
+
+
+async function loadMore(pageNumber) {
+    console.log(`load more - page number = ${pageNumber}`);
+    currentPage = pageNumber;
+    await  showListOrders();
+}
+
+async function showListOrders() {
+    console.log('show list orders');
+    $('#preloader').html(`
+        <div class="progress">
+            <div class="indeterminate"></div>
+        </div>
+    `)
+    let size = document.querySelector('#ordersAmountPerPage').textContent;
+
+    console.log(`currentPage ${currentPage}, size ${size}, statusOfOrder ${statusOfOrder}`);
+    const testData = await getOrdersData(currentPage - 1, size, statusOfOrder.toUpperCase());
+    console.log(testData);
+    const pageableSize = testData.pageableSize;
+    const totalPages = testData.totalPages
+    console.log(`pageableSize: ${pageableSize}, totalPages ${totalPages}`);
+    await addPagination(totalPages);
+    const pageData = testData.listOrderDTO;
+    console.log(pageData);
+    renderPageData(pageData);
 
 }
     /*
