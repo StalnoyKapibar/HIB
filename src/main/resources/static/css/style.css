@@ -8,6 +8,10 @@ html, body {
     text-align: center;
 }
 
+#signModalBtn {
+    cursor: pointer;
+}
+
 .wide {
     position: relative;
     width: 100%;
