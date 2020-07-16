@@ -50,12 +50,103 @@ function convertPrice(price) {
 }
 
 
+
+
+
+let currentPage = 1;
+// let ordersAmountInPage = 0;
+
+
+function setOrdersAmountInPage(amount) {
+    console.log(`setOrdersAmountInPage ${amount}`);
+    let ordersAmountPerPage = document.querySelector('#ordersAmountPerPage');
+    ordersAmountPerPage.textContent = amount;
+}
+
+
+async function addPagination(ordersAmount) {
+    console.log('addPagination');
+    let ordersAmountPerPage = document.querySelector('#ordersAmountPerPage');
+    let pageableSize = Number(ordersAmountPerPage.textContent);
+    console.log(`quantityPage ${pageableSize}`);
+
+    let paginationSize = Math.ceil(ordersAmount/pageableSize);
+    console.log(`paginationSize ${paginationSize}`);
+
+    let startIter = 1;
+    let endIter = paginationSize;
+
+    let pag = '';
+    pag = `<nav aria-label="Page navigation example">
+                    <ul class="pagination">`;
+    pag += currentPage === 1 ? `<li class="page-item disabled"><a class="page-link" href="#" tabindex="-1">` :
+        `<li class="page-item"><a class="page-link" onclick="loadMore(1)" href="#">`;
+    pag += `<span aria-hidden="true">&laquo;</span></a></li>`;
+    for (let i = startIter; i < endIter + 1; i++) {
+        if (currentPage === i) {
+            pag += `<li class="page-item active"><a class="page-link" onclick="loadMore(${i})">${i}</a></li>`;
+        } else {
+            pag += `<li class="page-item"><a class="page-link" onclick="loadMore(${i})">${i}</a></li>`;
+        }
+    }
+    pag += currentPage === paginationSize ? `<li class="page-item disabled">` : `<li class="page-item">`
+    pag += `<a class="page-link" onclick="loadMore(${paginationSize})" href="#"><span aria-hidden="true">&raquo;</span></a></li>
+                    </ul>
+                </nav>`;
+    document.querySelector('#rowForPagination').innerHTML = '';
+    $("#rowForPagination").append(pag);
+}
+/*
+function loadMore(pageNumber) {
+    currentPage = pageNumber;
+    getPageWithBooks(amountBooksInPage, pageNumber - 1);
+}
+
+function getPageWithBooks(amount, page) {
+    GET(`/api/book?limit=${amount}&start=${page}`)
+        .then(json)
+        .then((data) => {
+            amountBooksInDb = data.amountOfBooksInDb;
+            addBooksToPage(data.books);
+        })
+}
+
+*/
+
+
+async function getOrdersData(page, status) {
+    const url = `/api/admin/pageable/${page}/${status}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    return data;
+}
+
+
+
+
+
+
+
+
+
 async function showListOrders() {
+    console.log('show list orders');
     $('#preloader').html(`
         <div class="progress">
             <div class="indeterminate"></div>
         </div>
     `)
+
+    const testData = await getOrdersData(0, 'UNPROCESSED');
+    console.log(testData);
+    const ordersAmount = testData.listOrderDTO.length;
+    // const ordersAmount = 12;
+    console.log(`List of orders length: ${ordersAmount}`);
+    await addPagination(ordersAmount);
+
+
+
+
     const lastOrderedBooks = await getLastOrderedBooks();
 
     fetch("/api/admin/getAllOrders")
@@ -182,7 +273,143 @@ async function showListOrders() {
                 }
             })
         })
-    setLocaleFields();}
+    setLocaleFields();
+
+}
+    /*
+
+    const lastOrderedBooks = await getLastOrderedBooks();
+
+    fetch("/api/admin/getAllOrders")
+        .then(json)
+        .then(async (data) => {
+            let orders = data;
+            for (let key in data) {
+                emails.push(data[key].userDTO.email)
+            }
+            await fetch("/admin/unreademails/", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify(emails)
+            }).then(json).then(emails => {
+                if (emails['gmailAccess']) {
+                    if (!onlyUnread) {
+                        for (let key in orders) {
+                            orders[key].userDTO.isUnread = emails[orders[key].userDTO.email]
+                        }
+                    } else {
+                        orders = {}
+                        for (let key in data) {
+                            if (emails[data[key].userDTO.email]) {
+                                orders[key] = data[key];
+                                orders[key].userDTO.isUnread = emails[data[key].userDTO.email];
+                            }
+                        }
+                    }
+                    unreadCheckbox = `<div>
+                                            <h3 class="only-unread-text">Only unread messages</h3>
+                                          </div>
+                                          <div>
+                                            <input data-size="md" data-toggle="toggle" id="toggleOnlyUnread" type="checkbox" ${onlyUnread ? 'checked' : ''}>
+                                          </div>`
+                }
+            })
+            return orders;
+        })
+        .then(function (data) {
+            $('#adminListOrders').empty();
+            $('#preloader').empty();
+            allOrders = data;
+            let order;
+            let html = `<thead ><tr><th>№</th>
+                             <th class="email-label">Email</th>
+                             <th class="first-name-loc">First name</th>
+                             <th class="last-name-loc">Last Name</th>
+                             <th class="date-of-order-loc">Date of Order</th>
+                             <th class="status-loc">Status</th>
+                             <th class="details-of-order-loc">Details of Order</th>
+                             <th class="edit-loc">Edit</th>
+                             <th></th></tr></thead>`;
+            $.each(data, function (index) {
+                order = data[index];
+                let isOrderEnable = true;
+                order.items.forEach((item) => {
+                    if (lastOrderedBooks.includes(item.book.id) && order.status === "UNPROCESSED") {
+                        isOrderEnable = false;
+                    }
+                });
+
+                if (order.status === statusOfOrder.toUpperCase() || statusOfOrder === "All") {
+                    if (order.id == sessionStorage.getItem("orderId")) {
+                        html += `<tbody ><tr class="selected"`;
+                        sessionStorage.removeItem("orderId");
+                    } else {
+                        html += `<tbody ><tr `;
+                    }
+                    if (!isOrderEnable) {
+                        html += `style = "background-color: #FFB3B3" `;
+                    }
+
+                    html += `> <td> ${order.id}</td>`;
+                    for (let key in order.userDTO) {
+                        if (key === "email" || key === "firstName" || key === "lastName") {
+                            html += `<td class=${order.userDTO.isUnread ? 'unread' : ''}> ${order.userDTO[key]}</td>`;
+                        }
+                    }
+                    html += `<td class=${order.userDTO.isUnread ? 'unread' : ''}>${order.data}</td>
+                         <td class=${order.userDTO.isUnread ? 'unread' : ''}>${order.status} </td>`;
+
+                    html += `<td>
+                                <div class="show-details-container">
+                                    <div class="show-details-text">
+                                        <a href="#" data-toggle="modal" class="show-details-loc" data-target="#adminOrderModal" onclick="showModalOfOrder(${index})" >
+                                            Show details
+                                        </a>
+                                    </div>
+                                    <div class="show-details-icon">
+                                        ${order.userDTO.isUnread ? '<i class="material-icons">email</i>' : ''}
+                                    </div>
+                                </div>
+                             </td>`
+                    if (order.status !== "DELETED") {
+                        html += `<td><button class="btn btn-danger delete-loc" onclick=orderDelete(${order.id})>Delete</button></td>`;
+                    }
+                    if (order.status === "PROCESSING") {
+                        html += `<td><button class="btn btn-success complete-loc" onclick=orderComplete(${order.id})>Complete</button></td>`;
+                    }
+                    if (order.status === "COMPLETED") {
+                        html += `<td><button class="btn btn-success uncomplete-loc" onclick=orderUnComplete(${order.id})>Uncomplete</button></td>`;
+                    }
+                    if (order.status === "UNPROCESSED") {
+                        html += `<td><button class="btn btn-success uncomplete-loc" onclick=orderProcess(${order.id})`;
+                        if (!isOrderEnable) {
+                            html += ` disabled="disabled"`;
+                        }
+                        html += `>Process</button></td>`;
+                    }
+                    html += `</tr>`;
+                    if (!isOrderEnable) {
+                        html += `<tr style = "background-color: #FFB3B3; color: red; font-weight: 900"><td colspan="9">This order contains book that is already included in order with status PROCESSING. </td></tr>`;
+                    }
+
+                    $('#adminListOrders').html(html);
+                    $('#unread-checkbox').html(unreadCheckbox);
+                    $('#toggleOnlyUnread').on('change', () => {
+                        onlyUnread = $('#toggleOnlyUnread').is(":checked");
+                        console.log(onlyUnread)
+                        showListOrders();
+                    });
+                }
+            })
+        })
+    setLocaleFields();
+
+
+     */
+
+
 
 async function showModalOfOrder(index) {
     $('#chat').empty();

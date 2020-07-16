@@ -10,9 +10,8 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 public class OrderPageAdminDTO {
-    private List<Order> listBookDTO;
-    private int TotalPages;
-    private int numberPages;
+    private List<OrderDTO> listOrderDTO;
+    private int totalPages;
+    private int pageNumber;
     private int pageableSize;
-    private boolean isShow;
 }

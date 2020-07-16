@@ -168,3 +168,18 @@
 .selected {
     background-color: #dee2e6;
 }
+
+.orders-pageable {
+    position: absolute;
+    bottom: 0;
+    left: calc(50vw - 6.5rem);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin: 0 auto;
+}
+
+.page-link:not(:disabled):not(.disabled) {
+    cursor: pointer;
+}
