@@ -5,7 +5,7 @@ import com.project.model.UserDTO;
 import com.project.model.UserDTONewPassword;
 
 public interface UserDao extends GenericDao<Long, UserAccount> {
-    UserDTO getUserByLogin(String login);
+    UserDTO getUserByEmail(String email);
 
     void saveUserDTOPersonalInformation(UserDTO userDTO);
 
