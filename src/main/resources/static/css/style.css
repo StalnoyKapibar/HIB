@@ -292,3 +292,9 @@ div.sidebar-content:hover span.badgeStyle {
 .h3-delete-book {
     text-align: center;
 }
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    .btn-webkit {
+        color: black;
+    }
+}
