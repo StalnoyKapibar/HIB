@@ -295,6 +295,6 @@ div.sidebar-content:hover span.badgeStyle {
 
 @media screen and (-webkit-min-device-pixel-ratio:0) {
     .btn-webkit {
-        color: black;
+        color: black !important;
     }
 }
