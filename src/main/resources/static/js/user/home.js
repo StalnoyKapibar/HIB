@@ -90,7 +90,7 @@ async function addBooksToPage(books) {
                                                   </div>` 
                                               : books[index].show === true 
                                                 ? `<div style="position: absolute; bottom: 5px; left: 15px; right: 15px" id="bottomInCart" type="button" 
-                                                      class="btn btn-success ${cssOfBtn} btn-metro"  data-id="${books[index].id}">                        
+                                                      class="btn-webkit btn btn-success ${cssOfBtn} btn-metro"  data-id="${books[index].id}">                        
                                                     ${textOfBtn}
                                                 </div>`
                                                 : `<div style="position: absolute; bottom: 5px; left: 15px; right: 15px" id="bottomInCart" type="button" 
