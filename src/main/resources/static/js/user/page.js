@@ -25,17 +25,18 @@ function getCookie(name) {
 function setPageFields() {
     fetch("/api/book/" + $("#bookid").attr("value") + "?locale=" + currentLang)
         .then(status)
-        .then(json).then(async function (data) {
+        .then(json)
+        .then(async function (data) {
         objectBook = data;
         tmpEditBookId = data.id;
         let listOrdersOfCart = [];
         listOrdersOfCart = await getListOrdersOfCart();
-        if (listOrdersOfCart.includes(data.id)) {
-            $('#addToCart').removeClass("addToCartBtn").addClass("disabled").text(addedToshoppingCart).attr("disabled", "true");
-        }
-        if (!data.show) {
-            $('#addToCart').removeClass("addToCartBtn").removeClass("btn-warning").addClass("bought-btn-loc").addClass("btn-light").text(outOfStock).attr("disabled", "true");
-        }
+                if (listOrdersOfCart.includes(data.id)) {
+                    $('#addToCart').removeClass("addToCartBtn").addClass("disabled").text(addedToshoppingCart).attr("disabled", "true");
+                }
+                if (!data.show) {
+                    $('#addToCart').removeClass("addToCartBtn").removeClass("btn-warning").addClass("bought-btn-loc").addClass("btn-light").text(outOfStock).attr("disabled", "true");
+                }
         $('title').text(data.name);
         $('#book-name').text(convertOriginalLanguageRows(data.name, data.nameTranslit));
         $('#book-author').text(convertOriginalLanguageRows(data.author, data.authorTranslit));
@@ -141,6 +142,8 @@ $(document).ready(function () {
             method: 'POST',
         }).then(function () {
             showSizeCart();
+        }).then(function () {
+            setPageFields();
         })
     });
 });
