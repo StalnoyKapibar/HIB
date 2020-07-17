@@ -106,4 +106,9 @@ public class FeedbackRequestController {
     public Long[] getAmountOfFeedback(@PathVariable("senderEmail") String senderEmail) {
         return feedbackRequestService.getAmountOfFeedback(senderEmail);
     }
+
+    @GetMapping("/api/admin/feedback-request/book-id/{id}")
+    public List <FeedbackRequest> getFeedbackByIdBook(@PathVariable Long id) {
+        return feedbackRequestService.findAllRequestByIdBook(id);
+    }
 }

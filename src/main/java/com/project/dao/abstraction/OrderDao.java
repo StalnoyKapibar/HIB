@@ -20,4 +20,7 @@ public interface OrderDao extends GenericDao<Long, Order> {
     Long getAmountByStatus(Status status, String email);
 
     OrderPageAdminDTO getPageOfOrdersByPageable(Pageable pageable, Status status);
+
+    List<Order> findOrderByBookId(Long bookId);
+
 }

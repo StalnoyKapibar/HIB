@@ -34,4 +34,6 @@ public interface OrderService {
     Long[] getAmountOfOrders(String email);
 
     OrderPageAdminDTO getPageOfOrdersByPageable(Pageable pageable, Status status);
+
+    List<Order> findOrderByBookId(Long bookId);
 }

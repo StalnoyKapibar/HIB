@@ -1,7 +1,11 @@
 package com.project.dao;
 
 import com.project.dao.abstraction.OrderDao;
-import com.project.model.*;
+import com.project.model.Order;
+import com.project.model.OrderDTO;
+import com.project.model.OrderPageAdminDTO;
+import com.project.model.Status;
+import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.domain.Pageable;
 
@@ -84,5 +88,13 @@ public class OrderDaoImpl extends AbstractDao<Long, Order> implements OrderDao {
         pageableOrderDTO.setPageableSize(pageable.getPageSize());
         pageableOrderDTO.setTotalPages(getOrdersByStatus(status).size() / pageSize + 1);
         return pageableOrderDTO;
+    }
+
+    @Override
+    public List<Order> findOrderByBookId(Long bookId) {
+        Session session = entityManager.unwrap(Session.class);
+        return session.createQuery("select distinct o from orders o " +
+                "join o.items item with item.book.id = :bookId")
+                .setParameter("bookId", bookId).list();
     }
 }

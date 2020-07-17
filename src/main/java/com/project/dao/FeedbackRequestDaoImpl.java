@@ -2,6 +2,7 @@ package com.project.dao;
 
 import com.project.dao.abstraction.FeedbackRequestDao;
 import com.project.model.FeedbackRequest;
+import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -37,7 +38,7 @@ public class FeedbackRequestDaoImpl extends AbstractDao<Long, FeedbackRequest> i
     @Override
     public int getCountOfFeedBack(long lastAuthDate) {
         return entityManager
-                .createQuery("FROM FeedbackRequest  where data>=:data", FeedbackRequest.class)
+                .createQuery("FROM FeedbackRequest where data>=:data", FeedbackRequest.class)
                 .setParameter("data", lastAuthDate)
                 .getResultList()
                 .size();
@@ -53,4 +54,23 @@ public class FeedbackRequestDaoImpl extends AbstractDao<Long, FeedbackRequest> i
                 .setParameter("senderEmail", senderEmail)
                 .getSingleResult();
     }
+
+    @Override
+    public void deleteFeedbackRequestByIbBook(Long bookId){
+        Session session = entityManager.unwrap(Session.class);
+        List listFeedbackRequest = session.
+                createQuery("FROM FeedbackRequest where book.id = :bookId").
+                setParameter("bookId", bookId).list();
+        for (Object feedback: listFeedbackRequest) {
+            session.delete(feedback);
+        }
+    }
+
+    @Override
+    public List<FeedbackRequest> findAllRequestByIdBook(Long bookId) {
+        return entityManager.createQuery("FROM FeedbackRequest where book.id = :bookId")
+                .setParameter("bookId", bookId).getResultList();
+    }
+
+
 }

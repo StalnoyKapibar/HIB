@@ -43,4 +43,6 @@ public interface BookService {
     List<BookNewDTO>getAllLightBookDtoForSearch();
 
     Long getSizeOfTotalBooks();
+
+    void deleteBook(Long id);
 }
