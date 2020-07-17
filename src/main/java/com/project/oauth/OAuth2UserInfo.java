@@ -3,6 +3,7 @@ package com.project.oauth;
 import java.util.Map;
 
 public abstract class OAuth2UserInfo {
+
     protected Map<String, Object> attributes;
 
     public OAuth2UserInfo(Map<String, Object> attributes) {
@@ -18,5 +19,4 @@ public abstract class OAuth2UserInfo {
     public abstract String getFirstName();
 
     public abstract String getLastName();
-
 }

@@ -118,7 +118,6 @@ public class UserController {
                 .append(':')
                 .append(request.getServerPort());
         view.getModelMap().addAttribute("user", user);
-        user.setLogin(user.getEmail());
         user.setPassword(generateString(new Random(), SOURCES, 10));
         user.setConfirmPassword(user.getPassword());
         user.setAutoReg(true);
@@ -163,14 +162,12 @@ public class UserController {
 
     @GetMapping("/reqapprove")
     public ModelAndView requestApproveAuth(RegistrationUserDTO user) {
-        ModelAndView view = new ModelAndView("requestApproveAuth");
-        return view;
+        return new ModelAndView("requestApproveAuth");
     }
 
     @GetMapping("/reqOperation")
     public ModelAndView requestOperation(RegistrationUserDTO user) {
-        ModelAndView view = new ModelAndView("requestOperation");
-        return view;
+        return new ModelAndView("requestOperation");
     }
 
 

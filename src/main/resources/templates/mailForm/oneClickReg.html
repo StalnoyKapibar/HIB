@@ -87,7 +87,6 @@
 
 </head>
 
-
 <body>
 
 <table width="100%" cellpadding="0" cellspacing="0" bgcolor="FFFFFF">
@@ -95,113 +94,67 @@
         <td>
             <table id="top-message" cellpadding="20" cellspacing="0" width="600" align="center">
                 <tr>
-
                     <!--          Надпись над формой         -->
                     <td align="center">
                     </td>
-
                 </tr>
-
             </table><!-- top message -->
 
             <table id="main" width="600" align="center" cellpadding="0" cellspacing="15" bgcolor="F9F8F8">
-
                 <tr>
-
                     <td>
-
                         <table id="header" cellpadding="10" cellspacing="0" align="center">
-
                             <tr>
-
                                 <td width="570" bgcolor="D1ECF1"><h1>Hello dear reader</h1></td>
-
                             </tr>
 
                             <tr>
-                                <td width="570"  height="50" bgcolor="D1ECF1"></td>
+                                <td width="570" height="50" bgcolor="D1ECF1"></td>
                             </tr>
-
                         </table><!-- header -->
-
                     </td>
-
                 </tr><!-- header -->
-
-
                 <tr>
-
                     <td></td>
-
                 </tr>
-
                 <tr>
-
                     <td>
-
                         <table id="content-1" cellpadding="0" cellspacing="0" align="left">
-
                             <tr>
-
-
                                 <td width="55"></td>
-
                                 <td valign="top" colspan="3">
-
-                                    <h4>
-                                        <strong> Your login:</strong> <span th:text="${login}"> Login</span> <br>
-                                    </h4>
-
-                                    <h4>
-                                    <strong> Your password:</strong> <span th:text="${password}">Password</span> <br>
-                                    </h4>
-                                    <button><a th:href="@{${url}+'/confirmEmail'(token=${id})}"> Подтвердить аккаунт</a> </button>
+                                    <h4><strong> Your login:</strong> <span th:text="${login}"> Login</span> <br></h4>
+                                    <h4><strong> Your password:</strong> <span th:text="${password}">Password</span>
+                                        <br></h4>
+                                    <button><a th:href="@{${url}+'/confirmEmail'(token=${id})}">Подтвердить аккаунт</a>
+                                    </button>
                                 </td>
                                 <td width="15"></td>
-
                             </tr>
                             <tr>
                                 <td width="15"></td>
-                                <td>
-
-                                </td>
+                                <td></td>
                             </tr>
-
                         </table><!-- content 1 -->
-
                     </td>
-
                 </tr><!-- content 1 -->
 
                 <tr>
-
                     <td>
-
                         <table id="content-2" cellpadding="0" cellspacing="0" align="center">
-
-                            <tr>
-
-
-                            </tr>
-
+                            <tr></tr>
                         </table><!-- content-2 -->
-
                     </td>
-
                 </tr><!-- content-2 -->
 
             </table><!-- main -->
 
             <table id="bottom-message" cellpadding="20" cellspacing="0" width="600" align="center">
-
                 <tr>
-
                     <td align="center">
-                        <td>HIB: <a th:href='${url}' th:text="${url}">History in book</a></td>
+                    <td>HIB: <a th:href='${url}' th:text="${url}">History in book</a></td>
                     </td>
-
                 </tr>
-
             </table><!-- top message -->
 
         </td>

@@ -112,6 +112,7 @@ function setListeners () {
             $category.find('.custom-control-input').prop('checked', false);
         }
     });
+
     $('#input-categories').on('click', 'label', function () {
         if ($(this).is('.collapsed')) {
             $(this).children('i').removeClass('fa fa-plus-square-o').addClass('far fa-minus-square');
@@ -119,6 +120,7 @@ function setListeners () {
             $(this).children('i').removeClass('far fa-minus-square').addClass('fa fa-plus-square-o');
         }
     });
+
     $('#input-categories').on('change', '.custom-control-input', function () {
         const getCheckedSiblings = (nearCategory) => {
             let isCheckedSibling = false;
@@ -290,6 +292,7 @@ async function setChilds(category) {
                         <input class="custom-control-input" type="checkbox" id="check-${category[i].id}" value="${category[i].id}">
                         <label class="custom-control-label" for="check-${category[i].id}"></label>
                         <label class="collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#collapse-${category[i].id}" aria-expanded="false" aria-controls="collapse-${category[i].id}">
+
                            <label class="${category[i].categoryName.toLowerCase()}-rightbar">${category[i].categoryName}</label>(${await getCountBooksByCat(category[i].path, $('#check-available').is(':checked') ? true : false)})
                            <i class="fa fa-plus-square-o" aria-hidden="true"></i>
                         </label>
@@ -426,7 +429,7 @@ async function addFindeBooks(data) {
                                     `
                                     <div id="search-admin">
                                         <button class="btn btn-info edit-loc" onclick="openEdit(${data[i].id})"><i class="material-icons">edit</i></button>
-                                        <button class="btn btn-danger delete-loc" onclick="delBook(${data[i].id})"><i class="material-icons">delete</i></button>
+                                        <button class="btn btn-danger delete-loc" data-target="#exampleModal" data-toggle="modal" onclick="preDeleteBook(${data[i].id})"><i class="material-icons">delete</i></button>
                                     </div>
                                     ` : 
                                     `

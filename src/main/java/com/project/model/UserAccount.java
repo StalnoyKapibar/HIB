@@ -1,5 +1,6 @@
 package com.project.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,6 +13,7 @@ import java.util.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @Builder
 @Table(name = "users")
@@ -20,9 +22,8 @@ public class UserAccount implements UserDetails, OAuth2User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @EqualsAndHashCode.Include
-    private String login;
     @Email
+    @EqualsAndHashCode.Include
     private String email;
     private String password;
     private String firstName;
@@ -53,7 +54,7 @@ public class UserAccount implements UserDetails, OAuth2User {
 
     @Override
     public String getUsername() {
-        return login;
+        return email;
     }
 
     @Override

@@ -13,8 +13,8 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import java.io.IOException;
 
+import java.io.IOException;
 
 @Controller
 @PropertySource("classpath:gmail.properties")
@@ -35,7 +35,7 @@ public class GmailController {
 
         GoogleCredential googleCredential = new GoogleCredential.Builder()
                 .setTransport(new NetHttpTransport())
-                .setJsonFactory( new JacksonFactory())
+                .setJsonFactory(new JacksonFactory())
                 .setClientSecrets(clientId, clientSecret)
                 .build()
                 .setFromTokenResponse(googleTokenResponse);
