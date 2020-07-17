@@ -24,21 +24,27 @@ $(document).ready(async function () {
     getAUTH();
 });
 
-async function getQuantityPage() {
+async function getQuantityPage(data_search) {
+
         const url = '/getPageBooks';
         const res = await fetch(url);
-        const data = await res.json();
+        let data;
+        if (data_search.length == amountBooksInPage) {
+            data = await res.json();
+        } else {
+            data = data_search;
+        }
         if (data.length < amountBooksInPage) {
             return 1;
         }
         return Math.ceil(data.length / amountBooksInPage);
 }
 
-async function addPagination() {
+async function addPagination(data) {
     let numberOfPagesInPagination = 7;
-    let quantityPage = await getQuantityPage();
+    let quantityPage = await getQuantityPage(data);
     let startIter;
-    let endIter = currentPage;
+    let endIter;
     let pag;
     let halfPages = Math.floor(numberOfPagesInPagination / 2);
     if (quantityPage <= numberOfPagesInPagination || quantityPage === 0) {
@@ -442,7 +448,7 @@ async function addFindeBooks(data) {
         );
     }
     $('#search-table-result').append($(tr.join('')));
-    addPagination();
+    addPagination(data);
 }
 
 async function getCountBooksByCat(category, isShow) {

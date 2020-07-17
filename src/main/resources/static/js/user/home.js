@@ -57,6 +57,7 @@ async function getQuantityPage() {
     if (data.length < amountBooksInPage) {
         return 1;
     }
+
     return Math.ceil(data.length / amountBooksInPage);
 }
 
@@ -67,6 +68,7 @@ async function addBooksToPage(books) {
     $("#rowForPagination").empty();
 
     //console.log(books);
+
 
     $.each(books, function (index) {
         let textOfBtn = listOrdersOfCart.includes(books[index].id) ? addedToshoppingCart : addToshoppingCart;
