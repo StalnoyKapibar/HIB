@@ -6,6 +6,7 @@ import com.project.model.*;
 import com.project.service.abstraction.OrderService;
 import com.project.service.abstraction.SendEmailService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -116,7 +117,17 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public List<Order> findOrderByBookId(Long bookId) {
+        return orderDAO.findOrderByBookId(bookId);
+    }
+
+    @Override
     public int getCountOfOrders(long lastAuthDate) {
         return orderDAO.getCountOfOrders(lastAuthDate);
+    }
+
+    @Override
+    public OrderPageAdminDTO getPageOfOrdersByPageable(Pageable pageable, Status status) {
+        return orderDAO.getPageOfOrdersByPageable(pageable, status);
     }
 }

@@ -2,15 +2,24 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
-
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-
     <title>Ruseller Email Newsletter</title>
-
     <style type="text/css">
 
+        .button {
+            background-color: #007bff;
+            padding: 10px 15px;
+            border-radius: 5px;
+            box-shadow: 1px 1px 5px #666666;
+        }
+
+        .hib {
+            color: #090909;
+            text-decoration: none;font-weight: normal;
+        }
+
         a {
-            color: #000000;
+            color: #faf9f9;
             text-decoration: none;
         }
 
@@ -82,46 +91,32 @@
             font-family: "Lucida Grande", "Lucida Sans", "Lucida Sans Unicode", sans-serif;
             line-height: 1.5;
         }
-
     </style>
-
 </head>
 
-
 <body>
-
 <table width="100%" cellpadding="0" cellspacing="0" bgcolor="FFFFFF">
     <tr>
         <td>
             <table id="top-message" cellpadding="20" cellspacing="0" width="600" align="center">
                 <tr>
-
                     <!--          Надпись над формой         -->
                     <td align="center">
                     </td>
-
                 </tr>
 
             </table><!-- top message -->
-
             <table id="main" width="600" align="center" cellpadding="0" cellspacing="15" bgcolor="F9F8F8">
-
                 <tr>
-
                     <td>
-
                         <table id="header" cellpadding="10" cellspacing="0" align="center">
-
                             <tr>
-
                                 <td width="570" bgcolor="D1ECF1"><h1 class="hello-dear-reader-loc">Hello dear
                                     reader</h1></td>
-
                             </tr>
                             <!--<tr> Зачем пользователю видеть свой токен напрямую?
                                 <td width="570" bgcolor="D1ECF1"><h2 th:text="${id}">ID user</h2></td>
                             </tr>-->
-
                             <tr>
                                 <td>
 
@@ -129,82 +124,46 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <button><a th:href="@{${url}+'/confirmEmail'(token=${id})}"
-                                               class="confirm-account-loc">Confirm account</a></button>
+                                    <a th:href="@{${url}+'/confirmEmail'(token=${id})}"
+                                       class="confirm-account-loc button">Confirm account</a>
                                 </td>
                             </tr>
-
                         </table><!-- header -->
-
                     </td>
-
                 </tr><!-- header -->
-
-
                 <tr>
-
                     <td></td>
-
                 </tr>
-
                 <tr>
-
                     <td>
-
                         <table id="content-1" cellpadding="0" cellspacing="0" align="left">
-
                             <tr>
-
-
                                 <td width="55"></td>
-
                         </table><!-- content 1 -->
-
                     </td>
-
                 </tr><!-- content 1 -->
-
                 <tr>
-
                     <td>
-
                         <table id="content-2" cellpadding="0" cellspacing="0" align="center">
-
-                            <tr>
-
-
-                            </tr>
-
+                            <tr></tr>
                         </table><!-- content-2 -->
-
                     </td>
-
                 </tr><!-- content-2 -->
 
             </table><!-- main -->
             <table id="bottom-message" cellpadding="20" cellspacing="0" width="600" align="center">
-
                 <tr>
-
                     <td align="center">
-                    <td>HIB: <a th:href='${url}' th:text="${url}">History in book</a></td>
+                    <td>HIB: <a class="hib" th:href='${url}' th:text="${url}">History in book</a></td>
                     </td>
-
                 </tr>
-
             </table><!-- top message -->
-
         </td>
     </tr>
 </table><!-- wrapper -->
-
-
 </div>
 
 <script src="/static/js/utils/common-function.js"></script>
 <script src="../static/js/main.js"></script>
-
 </body>
-
 </html>
-

@@ -96,7 +96,7 @@ async function setLocaleFields() {
             $('.comment').attr('placeholder', localeFields['comment']);
             $('.comment-label').text(localeFields['comment']);
             $('.login').attr('placeholder', localeFields['login']);
-            $('.login-label').text(localeFields['login']);
+            $('.login-label').text(localeFields['email']);
             $('.password').attr('placeholder', localeFields['password']);
             $('.password-label').text(localeFields['password']);
             $('.confirm-password').attr('placeholder', localeFields['confirmPassword']);
@@ -116,12 +116,11 @@ async function setLocaleFields() {
             $('.dont-match-pass-loc').text(localeFields['dontMatchPass']);
             $('.not-valid-url-loc').text(localeFields['notValidUrl']);
 
-
             //user-page.html
             $('.my-orders-loc').text(localeFields['oders']);
             $('.myprof-loc').text(localeFields['myprofile']);
             $('.checkboxRememberMe-loc').text(localeFields['rememberMe']);
-            $('.login-loc').text(localeFields['login']);
+            $('.login-loc').text(localeFields['email']);
             $('.contact-us').text(localeFields['contact-us']);
             $('.ask-question-loc').text(localeFields['ask-question']);
 
@@ -134,7 +133,7 @@ async function setLocaleFields() {
 
             //Регистрация
             $('.signin-loc').text(localeFields['signin']);
-            $('.login-input-loc').attr('placeholder', localeFields['login']);
+            $('.login-input-loc').attr('placeholder', localeFields['email']);
             $('.password-input-loc').attr('placeholder', localeFields['password']);
             $('.password-input-label').text(localeFields['password']);
             $('.register-new-btn').text(localeFields['registerNew']);
@@ -453,7 +452,7 @@ function findElem(el, array, value) {
     var coincidence = false;
     el.empty();    // Очищаем список совпадений
     for (var i = 0; i < array.length; i++) {
-        if (array[i].match(value) || array[i].toLowerCase().match(value)) {    // Проверяем каждый эллемент на совпадение побуквенно
+        if (array[i].match(value) || array[i].toLowerCase().match(value)) {    // Проверяем каждый эллемент на совпадение по буквенно
             el.children('li').each(function () {    // Проверка на совпадающие эллементы среди выведенных
                 if (array[i] === $(this).text()) {
                     coincidence = true;    // Если есть совпадения, то true

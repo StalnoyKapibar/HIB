@@ -4,6 +4,9 @@ import com.project.model.*;
 import com.project.service.DataEnterInAdminPanelService;
 import com.project.service.abstraction.*;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -116,6 +119,23 @@ public class OrderController {
         return orderDTOS;
     }
 
+    @GetMapping("/api/admin/pageable/{page}/{size}/{status}")
+    public OrderPageAdminDTO getPageOfOrdersByStatus(HttpSession session, @PathVariable int page, @PathVariable int size,  @PathVariable("status") String statusString) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(
+                Sort.Order.asc("id")));
+        Status status;
+        try {
+            status = Status.valueOf(statusString);
+        } catch (Exception e) {
+            status = null;
+        }
+        DataEnterInAdminPanel data = (DataEnterInAdminPanel) session.getAttribute("data");
+        data.setDataEnterInOrders(Instant.now().getEpochSecond());
+        dataEnterInAdminPanelService.update(data);
+        session.setAttribute("data", data);
+        return orderService.getPageOfOrdersByPageable(pageable, status);
+    }
+
     @GetMapping("/api/admin/order-count")
     private long getOrdersCount(HttpSession session) {
         if (session.getAttribute("data") == null) {
@@ -178,5 +198,10 @@ public class OrderController {
     @PostMapping("/api/admin/deleteOrder/{id}")
     private void orderDelete(@PathVariable Long id) {
         orderService.deleteOrder(id);
+    }
+
+    @GetMapping("/api/admin/allorders/{id}")
+    public List<Order> getOrders(@PathVariable Long id){
+        return orderService.findOrderByBookId(id);
     }
 }
