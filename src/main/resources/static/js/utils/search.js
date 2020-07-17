@@ -213,7 +213,7 @@ async function setTreeViewWithoutRefreshing(category) {
 
 async function getCategoryTree() {
     fetch('/categories/gettree', {}).then(function (response) {
-        return response.json()
+        return response.json();
     })
         .then(function (json) {
             categoryArr = [];
