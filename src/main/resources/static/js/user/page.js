@@ -14,6 +14,7 @@ $(document).ready(function () {
     getLanguage();
     setLocaleFields();
     setPageFields();
+    setMeta();
 })
 
 function getCookie(name) {
@@ -53,6 +54,14 @@ function setPageFields() {
 
 function convertPrice(price) {
     return price / 100;
+}
+
+function setMeta() {
+    let titleBook = document.querySelector('title');
+    titleBook.innerText = objectBook.name[currentLang];
+    let metaBook = document.querySelectorAll('meta');
+    metaBook[3].setAttribute('content', document.URL);
+    metaBook[4].setAttribute('content', `${pathImageDefault}${objectBook.id}/${objectBook.coverImage}`)
 }
 
 function buildCarousel() {
