@@ -124,7 +124,7 @@ public class UserAccountServiceImpl implements UserAccountService {
     }
 
     public UserAccount findByLogin(String login) throws UsernameNotFoundException, NoResultException {
-        return userAccountDao.findByLogin(login).get();
+        return userAccountDao.findByEmail(login).get();
     }
 
     @Override
