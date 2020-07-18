@@ -27,7 +27,7 @@ $(document).ready(function () {
 
     getAUTH();
     amountBooksInPage = ddmAmountBook.text();
-    if($.isNumeric(ddmAmountBook.text())){
+    if ($.isNumeric(ddmAmountBook.text())) {
         getPageWithBooks(ddmAmountBook.text(), currentPage++);
     }
     openModalLoginWindowOnFailure();
@@ -37,13 +37,13 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
-if (typeof (Storage) != 'undefined') {
-    let count = localStorage.getItem("amountBooksPerPage");
-    if (count == null) {
-        count = 10;
+    if (typeof (Storage) != 'undefined') {
+        let count = localStorage.getItem("amountBooksPerPage");
+        if (count == null) {
+            count = 10;
+        }
+        setAmountBooksInPage(count);
     }
-    setAmountBooksInPage(count);
-}
 })
 
 $(document).ready(function () {
@@ -87,31 +87,31 @@ async function addBooksToPage(books) {
                                                     class="btn btn-info"
                                                     onclick="openEdit(${books[index].id})">                        
                                                     ${editBook}
-                                                  </div>` 
-                                              : books[index].show === true 
-                                                ? `<div style="position: absolute; bottom: 5px; left: 15px; right: 15px" id="bottomInCart" type="button" 
+                                                  </div>`
+            : books[index].show === true
+                ? `<div style="position: absolute; bottom: 5px; left: 15px; right: 15px" id="bottomInCart" type="button" 
                                                       class="btn btn-success ${cssOfBtn} btn-metro"  data-id="${books[index].id}">                        
                                                     ${textOfBtn}
                                                 </div>`
-                                                : `<div style="position: absolute; bottom: 5px; left: 15px; right: 15px" id="bottomInCart" type="button" 
+                : `<div style="position: absolute; bottom: 5px; left: 15px; right: 15px" id="bottomInCart" type="button" 
                                                       class="btn btn-light btn-metro bought-btn-loc"  data-id="${books[index].id}">                        
                                                     Out of stock
                                                 </div>`
-                                    }
+        }
                                  </div>`;
         $('#cardcolumns').append(card);
     });
-    addPagination();
-    setLocaleFields();
+    await addPagination();
+    await setLocaleFields();
 }
 
 function showAlertCookie() {
 
-    if(getCookieByName('showBanner') === undefined) {
+    if (getCookieByName('showBanner') === undefined) {
         document.cookie = "showBanner=true;";
     }
 
-    if(getCookieByName('showBanner') === 'true') {
+    if (getCookieByName('showBanner') === 'true') {
         let daysForDisabling = 365;
 
         Swal.fire({
@@ -123,7 +123,7 @@ function showAlertCookie() {
             width: 350
         })
 
-        document.cookie = 'showBanner=false;path=/;max-age='+ daysForDisabling * 24 * 60 * 60 +';';
+        document.cookie = 'showBanner=false;path=/;max-age=' + daysForDisabling * 24 * 60 * 60 + ';';
     }
 }
 

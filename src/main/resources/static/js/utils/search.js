@@ -8,9 +8,9 @@ let isAdmin = false;
 
 $(document).ready(async function () {
     getLanguage();
-    getCategoryTree();
+    await getCategoryTree();
     setListeners();
-    setLocaleFields();
+    await setLocaleFields();
     amountBooksInPage = ddmAmountBook.text();
     getPageWithBooks(ddmAmountBook.text(), currentPage++);
     $(document).ready(function () {
@@ -21,17 +21,17 @@ $(document).ready(async function () {
             $(".preloader").hide("slow");
         }, 1700)
     });
-    getAUTH();
+    await getAUTH();
 });
 
 async function getQuantityPage() {
-        const url = '/getPageBooks';
-        const res = await fetch(url);
-        const data = await res.json();
-        if (data.length < amountBooksInPage) {
-            return 1;
-        }
-        return Math.ceil(data.length / amountBooksInPage);
+    const url = '/getPageBooks';
+    const res = await fetch(url);
+    const data = await res.json();
+    if (data.length < amountBooksInPage) {
+        return 1;
+    }
+    return Math.ceil(data.length / amountBooksInPage);
 }
 
 async function addPagination() {
@@ -80,14 +80,14 @@ function loadMore(pageNumber) {
     advancedSearch(amountBooksInPage, pageNumber - 1)
 }
 
-// function getPageWithBooks(amount, page) {
-//     GET(`/api/book?limit=${amount}&start=${page}`)
-//         .then(json)
-//         .then((data) => {
-//             amountBooksInDb = data.amountOfBooksInDb;
-//             addBooksToPage(data.books);
-//         })
-// }
+function getPageWithBooks(amount, page) {
+    GET(`/api/book?limit=${amount}&start=${page}`)
+        .then(json)
+        .then((data) => {
+            amountBooksInDb = data.amountOfBooksInDb;
+            addBooksToPage(data.books);
+        })
+}
 
 function setAmountBooksInPage(amount) {
     currentPage = 0;
@@ -96,7 +96,7 @@ function setAmountBooksInPage(amount) {
     advancedSearch(amount, 0);
 }
 
-function setListeners () {
+function setListeners() {
     $('#search-submit').on('click', () => {
         currentPage = 0;
         advancedSearch(ddmAmountBook.text(), currentPage++);
@@ -123,10 +123,10 @@ function setListeners () {
 
     $('#input-categories').on('change', '.custom-control-input', function () {
         const getCheckedSiblings = (nearCategory) => {
-            let isCheckedSibling = false;
+            let isCheckedSibling = true;
             nearCategory.siblings().each((i, elem) => {
                 if ($(elem).children().children("input").prop("checked")) {
-                    isCheckedSibling = true;
+                    isCheckedSibling = false;
                     return;
                 }
             });
@@ -140,7 +140,7 @@ function setListeners () {
                 return;
             }
             nearCategory = nearCategory.parent().parent().parent();
-            nearCategory.children().children("input").prop("checked", isChecked);
+            nearCategory.children().children("input").prop(":checked", isChecked);
             isCheckedSiblings = getCheckedSiblings(nearCategory);
         } while (nearCategory.parent().parent().parent().hasClass("category"));
         let $checkboxes = $('#input-categories');
@@ -160,11 +160,11 @@ function setListeners () {
     })
 
     $('#check-available').on('click', function () {
-       getCategoryTreeWithoutRefreshing();
+        getCategoryTreeWithoutRefreshing();
     })
 }
 
-async function getCategoryTreeWithoutRefreshing(){
+async function getCategoryTreeWithoutRefreshing() {
     fetch('/categories/gettree', {}).then(function (response) {
         return response.json()
     })
@@ -188,15 +188,17 @@ async function getCategoryTreeWithoutRefreshing(){
 
         });
 }
+
 async function setTreeViewWithoutRefreshing(category) {
     for (let i in category) {
         row =
             `<div id="${category[i].id}" class="category text-nowrap">
                 <div class="custom-control custom-checkbox form-check-inline" id="heading-${category[i].id}">
-                    <input class="custom-control-input" type="checkbox" id="check-${category[i].id}" value="${category[i].id}">
-                    <label class="custom-control-label" for="check-${category[i].id}"></label>
+                    <input class="custom-control-input"  type="checkbox" id="check-${category[i].id}" value="${category[i].id}">
+                    <label class="custom-control-label" for="check-${category[i].id}"/>
                     <label class="collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#collapse-${category[i].id}" aria-expanded="false" aria-controls="collapse-${category[i].id}">
-                       <label id="${category[i].categoryName.toLowerCase()}-rightbar">${category[i].categoryName}</label>(${await getCountBooksByCat(category[i].path, $('#check-available').is(':checked') ? true : false)})
+                       <label id="${category[i].categoryName.toLowerCase()}-rightbar">${category[i].categoryName}</label>
+                       (${await getCountBooksByCat(category[i].path, $('#check-available').is(':checked') ? true : false)})
                        <i class="fa fa-plus-square-o" aria-hidden="true"></i>
                     </label>
                 </div>
@@ -206,10 +208,11 @@ async function setTreeViewWithoutRefreshing(category) {
                     </div>
                 </div>
             </div>`;
-        $('#'+category[i].id).replaceWith(row);
+        $('#' + category[i].id).replaceWith(row);
     }
-    setLocaleFields();
+    await setLocaleFields();
 }
+
 
 async function getCategoryTree() {
     fetch('/categories/gettree', {}).then(function (response) {
@@ -257,7 +260,8 @@ async function setTreeView(category) {
                     <input class="custom-control-input" type="checkbox" id="check-${category[i].id}" value="${category[i].id}">
                     <label class="custom-control-label" for="check-${category[i].id}"></label>
                     <label class="collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#collapse-${category[i].id}" aria-expanded="false" aria-controls="collapse-${category[i].id}">
-                       <label id="${category[i].categoryName.toLowerCase()}-rightbar">${category[i].categoryName}</label>(${await getCountBooksByCat(category[i].path, $('#check-available').is(':checked') ? true : false)})
+                       <label id="${category[i].categoryName.toLowerCase()}-rightbar">${category[i].categoryName}</label>
+                       (${await getCountBooksByCat(category[i].path, $('#check-available').is(':checked') ? true : false)})
                        <i class="fa fa-plus-square-o" aria-hidden="true"></i>
                     </label>
                 </div>
@@ -269,7 +273,7 @@ async function setTreeView(category) {
             </div>`;
         $('#input-categories').append(row);
     }
-    setLocaleFields();
+    await setLocaleFields();
 }
 
 async function setChilds(category) {
@@ -306,7 +310,7 @@ async function setChilds(category) {
         }
     }
 
-    setLocaleFields();
+    await setLocaleFields();
 
     return row;
 }
@@ -353,7 +357,7 @@ async function advancedSearch(amount, page) {
 }
 
 function getPageWithBooks(amount, page) {
-    setTimeout(function(){
+    setTimeout(function () {
         if (window.location.pathname.split("/").pop() === "search") {
             let request = decodeURIComponent(window.location.search).split("=").pop();
             $('#search-input').val(request);
@@ -370,7 +374,7 @@ function getPageWithBooks(amount, page) {
             let url = tmp.join("/");
             history.pushState(null, null, url);
         }
-    },2000);
+    }, 2000);
 
 }
 
@@ -403,11 +407,14 @@ async function addFindeBooks(data) {
         let urlImage = prePathUrl + `../images/book${data[i].id}/${data[i].coverImage}`;
         if (data[i].yearOfEdition == null) {
             data[i].yearOfEdition = "-";
-        } if(data[i].category.categoryName == null) {
+        }
+        if (data[i].category.categoryName == null) {
             data[i].category.categoryName = "-";
-        } if(data[i].pages == null) {
+        }
+        if (data[i].pages == null) {
             data[i].pages = "-";
-        } if(data[i].price == null) {
+        }
+        if (data[i].price == null) {
             data[i].price = "-";
         }
         tr.push(`<tr>
@@ -425,14 +432,14 @@ async function addFindeBooks(data) {
                                 <td class="align-middle">${data[i].price / 100}</td>
                                 <td class="align-middle">${data[i].category.categoryName}</td>
                                 <td class="align-middle">
-                                ${isAdmin && (window.location.pathname === '/admin/panel/books') ? 
-                                    `
+                                ${isAdmin && (window.location.pathname === '/admin/panel/books') ?
+            `
                                     <div id="search-admin">
                                         <button class="btn btn-info edit-loc" onclick="openEdit(${data[i].id})"><i class="material-icons">edit</i></button>
                                         <button class="btn btn-danger delete-loc" data-target="#exampleModal" data-toggle="modal" onclick="preDeleteBook(${data[i].id})"><i class="material-icons">delete</i></button>
                                     </div>
-                                    ` : 
-                                    `
+                                    ` :
+            `
                                     <button class="btn btn-primary page-of-book-localize" id="buttonBookPage${i}" onclick="location.href = '/page/${data[i].id}';" >
                                             Book's page
                                     </button>
@@ -442,12 +449,11 @@ async function addFindeBooks(data) {
         );
     }
     $('#search-table-result').append($(tr.join('')));
-    addPagination();
+    await addPagination();
 }
 
 async function getCountBooksByCat(category, isShow) {
-    return "" + await fetch("/categories/getcount?path=" + category
-    + "&show=" + isShow).then(json);
+    return "" + await fetch("/categories/getcount?path=" + category + "&show=" + isShow).then(json);
 }
 
 async function getAUTH() {
