@@ -80,6 +80,22 @@
                                         <div class="col-2">
                                             <h4 class="font-weight-light price">Price:</h4>
                                             <span class="font-weight-normal" id="book-price">15.00$</span>
+
+                                            <!-- Load Facebook SDK for JavaScript -->
+                                            <div id="fb-root"></div>
+                                            <script>(function(d, s, id) {
+                                                var js, fjs = d.getElementsByTagName(s)[0];
+                                                if (d.getElementById(id)) return;
+                                                js = d.createElement(s); js.id = id;
+                                                js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
+                                                fjs.parentNode.insertBefore(js, fjs);
+                                            }(document, 'script', 'facebook-jssdk'));</script>
+
+                                            <!-- Your share button code -->
+                                            <div class="fb-share-button"
+                                                 data-href="http://77.222.63.141.xip.io:8080/page"
+                                                 data-layout="button_count">
+                                            </div>
                                         </div>
                                         <div class="col-8 offset-2">
                                             <br>
@@ -112,6 +128,7 @@
                 </div>
             </div>
             <a hidden id="bookid" th:value="${book}"></a>
+
         </div>
         <!--    Footer    -->
         <div class="footer pt-3 p-0 container-fluid text-center" th:replace="home-old :: footer">
