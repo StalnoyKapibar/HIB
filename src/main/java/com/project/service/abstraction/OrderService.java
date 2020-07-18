@@ -5,6 +5,7 @@ import com.project.model.Order;
 import com.project.model.OrderPageAdminDTO;
 import com.project.model.Status;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -36,4 +37,6 @@ public interface OrderService {
     OrderPageAdminDTO getPageOfOrdersByPageable(Pageable pageable, Status status);
 
     List<Order> findOrderByBookId(Long bookId);
+
+    ResponseEntity createFileAllOrders();
 }
