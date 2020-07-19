@@ -7,6 +7,8 @@ import com.project.service.abstraction.OrderService;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,13 +22,13 @@ import java.util.List;
 @Component
 public class UtilExcelReports {
 
-    private HSSFWorkbook fileExcel;
-    private HSSFSheet sheet;
+    private XSSFWorkbook fileExcel;
+    private XSSFSheet sheet;
     private List<Order> listData;
 
 
     public void createFileExcel(OrderDao orderDao) {
-        this.fileExcel = new HSSFWorkbook();
+        this.fileExcel = new XSSFWorkbook();
         this.sheet = fileExcel.createSheet("Orders");
         listData = orderDao.findAll();
         Row row = sheet.createRow(0);
@@ -71,7 +73,7 @@ public class UtilExcelReports {
     }
 
     public void saveExcelProject() {
-        try (FileOutputStream out = new FileOutputStream(new File("export/orders/exportsSales.xls"))) {
+        try (FileOutputStream out = new FileOutputStream(new File("export/orders/exportsSales.xlsx"))) {
             fileExcel.write(out);
         } catch (IOException e) {
             e.printStackTrace();

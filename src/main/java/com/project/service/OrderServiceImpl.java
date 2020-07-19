@@ -133,7 +133,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public ResponseEntity createFileAllOrders() {
         excelReports.createFileToServer(orderDAO);
-        Path path = Paths.get("export/orders/exportsSales.xls");
+        Path path = Paths.get("export/orders/exportsSales.xlsx");
         Resource resource = null;
         try {
             resource = new UrlResource(path.toUri());
@@ -142,7 +142,7 @@ public class OrderServiceImpl implements OrderService {
         }
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(MediaType.APPLICATION_OCTET_STREAM_VALUE))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + "export_orders_sales.xls" + "\"")
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + "export_orders_sales.xlsx" + "\"")
                 .body(resource);
     }
 
