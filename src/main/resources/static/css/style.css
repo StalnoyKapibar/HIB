@@ -169,7 +169,8 @@ a.footer_link:hover {
 }
 
 .btn-metro {
-    border-radius: 0px;
+    border-radius: 0;
+    width: 92%;
 }
 
 .btn-info-inverse {
