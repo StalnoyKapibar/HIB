@@ -1,4 +1,6 @@
 let viewOrder, categoryId;
+let nameVarOfLocaleString;
+let nameVarOfLocaleStringWithId;
 
 fetch('/admin/categories/getadmintree')
     .then(function (response) {
@@ -192,33 +194,60 @@ $(document).on('click', '#addNewCategory', function () {
 });
 
 $(document).on('click', '#addPrimary', function (element) {
-    $('#categoryModalAdd').empty();
+    $('#categoryModal').empty();
     categoryName = $('input[name="primaryCategoryName"]').val();
-    console.log("Добавляем: " + categoryName)
-
+    console.log("Добавляем: " + categoryName);
+    //getAllLocales();
     row =
         `<div class="modal-header">
                 <h5 class="modal-title bold" id="logout-modal-title">Add category: <b>${categoryName}</b></h5>
                 <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                     <span aria-hidden="true">&times;</span>
                 </button>
-            </div>
-            <div class="modal-body modal-category" >
-                <form id="updateCategoryForm" action="/categories/update" method="POST">
-                    <div class="form-group"> 
-                        <label for="formGroupExampleInput">New primary category name:</label>
-                        <input type="text" class="form-control" id="formGroupExampleInput" name="categoryName" value="${categoryName}">
-                        <br>
-                        <label for="formGroupExampleInput2">View order:</label>
-                        <input type="number" class="form-control" id="formGroupExampleInput2" name="viewOrder" value="${viewOrder}">
-                    </div>
-                </form>
-            </div>            
-            <div class="modal-footer">
-               
-            </div>`;
+        </div>
+        <div class="modal-body modal-category" >
+            <form id="addCategoryForm" action="/categories/add" method="POST">
+                  <div class="form-group"> 
+                    <label for="formGroupExampleInput">Category name:</label>
+                    <input type="text" class="form-control" id="formGroupExampleInput" name="categoryName" value="${categoryName}">
+                    <br>
+                  </div>
+            </form>
+        </div>
+        <div id="modal-row">
+        </div>
+        <div class="modal-footer">
+            <button type="button" id="close" data-dismiss="modal" class="btn btn-block btn-danger">Close</button>
+            <button id="addCategory" data-dismiss="modal" class="btn btn-block btn-primary">Add</button>
+        </div>`;
+               // for (let tmpNameVar of nameVarOfLocaleString) {
+               //     console.log("lang: " + tmpNameVar)
+               //
+               //  <div class="shadow p-4 mb-4 bg-white">
+                   //  <div class="col-2 mr-1">
+                   //  <input type="radio" class="transl-from-this-lang-loc" name="rb${tmpNameObject}" id="rb${tmpNameObject}${tmpNameVar}" value="${tmpNameVar}" autocomplete="off"> Translate from this language
+                   //  </div>
+                   //  <div class="col">
+                   //  <input type='text' class='form-control' id='inp${tmpNameObject}${tmpNameVar}'
+                   //  placeholder='${tmpNameObject} ${tmpNameVar}'>
+                   //  </div>
+                   //  <div class="col">
+                   //  <input type="checkbox" class="into-this-lang-loc" checked name="cb${tmpNameObject}" value="${tmpNameVar}" autocomplete="off"> Into this language
+                   //  </div></div></div></div>
+                   // row += `
+                   // <div class='form-group mx-5'>
+                   //     <div class="row">
+                   //         <div class="col-0" for="name"${tmpNameVar}>name ${tmpNameVar}</div>
+                   //     </div>
+                   // </div>`;
+               //      if (tmpNameVar === "gr") {
+               //          row += `<button type="button" onclick="translateText('${tmpNameObject}')" class="btn btn-primary mx-3 translate-loc">Translate</button></div>`
+               //      }
+               //}
     console.log(row);
-    $('#categoryModalAdd').append(row);
+    $('#categoryModal').append(row);
+    getAllLocales();
+    //$('#categoryModalAdd').append(row);
 
 
     // let map = {};
@@ -259,4 +288,32 @@ function drop(ev, target) {
         }
     });
     location.reload();
+}
+function setTableRow(nameVarOfLocaleString) {
+    let row = ``;
+    let nameObject = "name"
+    for (let tmpNameVar of nameVarOfLocaleString) {
+        row +=
+            `<div class="col">
+                  <input type='text' class='form-control' id='inp${nameObject}${tmpNameVar}'
+          placeholder='${nameObject} ${tmpNameVar}'>
+        </div>`;
+    }
+    $('#modal-row').append(row);
+    console.log(row);
+
+}
+
+function getAllLocales() {
+    fetch("/lang")
+        .then(status)
+        .then(json)
+        .then(function (resp) {
+            nameVarOfLocaleStringWithId = resp;
+            nameVarOfLocaleStringWithId.unshift("id");
+            nameVarOfLocaleString = nameVarOfLocaleStringWithId.filter(t => t !== "id");
+            console.log(nameVarOfLocaleString);
+            setTableRow(nameVarOfLocaleString);
+        });
+
 }
