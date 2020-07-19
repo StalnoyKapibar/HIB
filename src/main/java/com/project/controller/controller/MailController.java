@@ -64,7 +64,7 @@ public class MailController {
                 new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
 
         // generate session if one doesn't exist
-        request.getSession().setAttribute("cartId1click", userAccountService.findByLogin(username).getCart().getId());
+        request.getSession().setAttribute("cartId", userAccountService.findByLogin(username).getCart().getId());
         request.getSession().setAttribute("userId", userAccountService.findByLogin(username).getId());
         //request.getSession().setAttribute("cartItems", request.getSession().getAttribute("shoppingcart"));
 
