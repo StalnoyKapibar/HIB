@@ -22,6 +22,7 @@ import javax.persistence.NoResultException;
 import javax.servlet.http.HttpSession;
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -51,6 +52,11 @@ public class UserAccountServiceImpl implements UserAccountService {
     @Override
     public boolean emailExist(String email) {
         return userAccountDao.findByEmail(email).isPresent();
+    }
+
+    @Override
+    public Long getCartIdByUserEmail(String email) {
+        return userAccountDao.findByEmail(email).get().getCart().getId();
     }
 
     @Override
@@ -124,7 +130,7 @@ public class UserAccountServiceImpl implements UserAccountService {
     }
 
     public UserAccount findByLogin(String login) throws UsernameNotFoundException, NoResultException {
-        return userAccountDao.findByLogin(login).get();
+        return userAccountDao.findByEmail(login).get();
     }
 
     @Override
