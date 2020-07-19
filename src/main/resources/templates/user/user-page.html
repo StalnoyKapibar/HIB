@@ -8,9 +8,9 @@
     <meta content="Responsive sidebar template with sliding effect and dropdown menu based on bootstrap 3" name="description">
 
     <meta property="fb:app_id"          th:content="id" />
-    <meta property="og:type"            content="article" />
+    <meta property="og:type"            th:content="${#httpServletRequest.requestURI}" />
     <meta property="og:url"             th:content="${#httpServletRequest.requestURI}" />
-    <meta property="og:title"           content="Introducing our New Site" />
+    <meta property="og:title"           th:content="${#httpServletRequest.requestURI}" />
     <meta property="og:image"           th:content="${#httpServletRequest.requestURI}" />
     <meta property="og:description"    th:content="${#httpServletRequest.requestURI}" />
 
