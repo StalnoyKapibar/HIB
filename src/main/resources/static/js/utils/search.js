@@ -123,10 +123,10 @@ function setListeners () {
 
     $('#input-categories').on('change', '.custom-control-input', function () {
         const getCheckedSiblings = (nearCategory) => {
-            let isCheckedSibling = false;
+            let isCheckedSibling = true;
             nearCategory.siblings().each((i, elem) => {
                 if ($(elem).children().children("input").prop("checked")) {
-                    isCheckedSibling = true;
+                    isCheckedSibling = false;
                     return;
                 }
             });
@@ -140,7 +140,7 @@ function setListeners () {
                 return;
             }
             nearCategory = nearCategory.parent().parent().parent();
-            nearCategory.children().children("input").prop("checked", isChecked);
+            nearCategory.children().children("input").prop(":checked", isChecked);
             isCheckedSiblings = getCheckedSiblings(nearCategory);
         } while (nearCategory.parent().parent().parent().hasClass("category"));
         let $checkboxes = $('#input-categories');
