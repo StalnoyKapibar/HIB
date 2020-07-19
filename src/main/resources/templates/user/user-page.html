@@ -9,10 +9,10 @@
 
     <meta property="fb:app_id"          content="1234567890" />
     <meta property="og:type"            content="article" />
-    <meta property="og:url"             content="http://77.222.63.141.xip.io:8080/page/13" />
+    <meta property="og:url"             th:content="${#httpServletRequest.requestURI}" />
     <meta property="og:title"           content="Introducing our New Site" />
-    <meta property="og:image"           th:content="${#httpServletRequest.getRequestURI().contains('/page/')}" />
-    <meta property="og:description"    content="http://77.222.63.141.xip.io:8080/home" />
+    <meta property="og:image"           th:content="${#httpServletRequest.requestURI}" />
+    <meta property="og:description"    th:content="${#httpServletRequest.requestURI}" />
 
     <title>History in books</title>
     <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
