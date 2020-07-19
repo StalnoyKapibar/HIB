@@ -36,6 +36,7 @@ $(document).ready(function () {
             currentLang = 'en';
         }
     }
+    console.log(document);
     getLanguage();
     setLocaleFields();
 })
@@ -220,30 +221,7 @@ $(document).on('click', '#addPrimary', function (element) {
             <button type="button" id="close" data-dismiss="modal" class="btn btn-block btn-danger">Close</button>
             <button id="addCategory" data-dismiss="modal" class="btn btn-block btn-primary">Add</button>
         </div>`;
-               // for (let tmpNameVar of nameVarOfLocaleString) {
-               //     console.log("lang: " + tmpNameVar)
-               //
-               //  <div class="shadow p-4 mb-4 bg-white">
-                   //  <div class="col-2 mr-1">
-                   //  <input type="radio" class="transl-from-this-lang-loc" name="rb${tmpNameObject}" id="rb${tmpNameObject}${tmpNameVar}" value="${tmpNameVar}" autocomplete="off"> Translate from this language
-                   //  </div>
-                   //  <div class="col">
-                   //  <input type='text' class='form-control' id='inp${tmpNameObject}${tmpNameVar}'
-                   //  placeholder='${tmpNameObject} ${tmpNameVar}'>
-                   //  </div>
-                   //  <div class="col">
-                   //  <input type="checkbox" class="into-this-lang-loc" checked name="cb${tmpNameObject}" value="${tmpNameVar}" autocomplete="off"> Into this language
-                   //  </div></div></div></div>
-                   // row += `
-                   // <div class='form-group mx-5'>
-                   //     <div class="row">
-                   //         <div class="col-0" for="name"${tmpNameVar}>name ${tmpNameVar}</div>
-                   //     </div>
-                   // </div>`;
-               //      if (tmpNameVar === "gr") {
-               //          row += `<button type="button" onclick="translateText('${tmpNameObject}')" class="btn btn-primary mx-3 translate-loc">Translate</button></div>`
-               //      }
-               //}
+
     console.log(row);
     $('#categoryModal').append(row);
     getAllLocales();
@@ -294,15 +272,50 @@ function setTableRow(nameVarOfLocaleString) {
     let nameObject = "name"
     for (let tmpNameVar of nameVarOfLocaleString) {
         row +=
-            `<div class="col">
-                  <input type='text' class='form-control' id='inp${nameObject}${tmpNameVar}'
-          placeholder='${nameObject} ${tmpNameVar}'>
-        </div>`;
+            `<div class='form-group mx-5'>
+                <div class="row">
+                    <div class="col-0" for=${nameObject}${tmpNameVar}>${nameObject} ${tmpNameVar}</div>
+                        <div class="col-2 mr-1">
+                            <input type="radio" class="transl-from-this-lang-loc" name="rb${nameObject}" id="rb${nameObject}${tmpNameVar}" value="${tmpNameVar}" autocomplete="off"> From this
+                        </div>
+                        <div class="col"> 
+                            <input type='text' class='form-control' id='inp${nameObject}${tmpNameVar}' placeholder='${nameObject} ${tmpNameVar}'>
+                        </div>
+                        <div class="col">
+                            <input type="checkbox" class="into-this-lang-loc" checked name="cb${nameObject}" value="${tmpNameVar}" autocomplete="off"> Into this language
+                        </div>
+                    </div>
+                </div>
+            `;
+        if (tmpNameVar === "gr") {
+            row += `<button type="button" onclick="translateText('${nameObject}')" class="btn btn-primary mx-3 translate-loc">Translate</button></div>`
+        }
+        
     }
     $('#modal-row').append(row);
-    console.log(row);
 
+    let checkedRadioButton = findRadioButton('rb'+nameObject);
+    console.log(checkedRadioButton);
 }
+
+
+// html += `<div class="shadow p-4 mb-4 bg-white">
+//                 <div class='form-group mx-5'>
+//                 <div class="row">
+//                 <div class="col-0" for=${tmpNameObject}${tmpNameVar}>${tmpNameObject} ${tmpNameVar}</div>
+//                 <div class="col-2 mr-1">
+//                 <input type="radio" class="transl-from-this-lang-loc" name="rb${tmpNameObject}" id="rb${tmpNameObject}${tmpNameVar}" value="${tmpNameVar}" autocomplete="off"> Translate from this language
+//                 </div>
+//                 <div class="col">
+//                 <input type='text' class='form-control' id='inp${tmpNameObject}${tmpNameVar}'
+//                 placeholder='${tmpNameObject} ${tmpNameVar}'>
+//                 </div>
+//                 <div class="col">
+//                 <input type="checkbox" class="into-this-lang-loc" checked name="cb${tmpNameObject}" value="${tmpNameVar}" autocomplete="off"> Into this language
+//                 </div></div></div></div>`;
+// if (tmpNameVar === "gr") {
+//     html += `<button type="button" onclick="translateText('${tmpNameObject}')" class="btn btn-primary mx-3 translate-loc">Translate</button></div>`
+// }
 
 function getAllLocales() {
     fetch("/lang")
@@ -312,7 +325,6 @@ function getAllLocales() {
             nameVarOfLocaleStringWithId = resp;
             nameVarOfLocaleStringWithId.unshift("id");
             nameVarOfLocaleString = nameVarOfLocaleStringWithId.filter(t => t !== "id");
-            console.log(nameVarOfLocaleString);
             setTableRow(nameVarOfLocaleString);
         });
 
