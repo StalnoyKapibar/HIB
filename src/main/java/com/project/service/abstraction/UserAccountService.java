@@ -7,6 +7,7 @@ import org.hibernate.exception.ConstraintViolationException;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;
 import java.util.List;
+import java.util.Optional;
 
 public interface UserAccountService {
 
@@ -30,4 +31,6 @@ public interface UserAccountService {
     UserAccount findByLogin(String login);
 
     List<String> getUsersEmails();
+
+    Long getCartIdByUserEmail(String email);
 }
