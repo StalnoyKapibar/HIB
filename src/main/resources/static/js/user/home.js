@@ -36,7 +36,6 @@ $(document).ready(function () {
 
 });
 
-$(document).ready(function () {
 if (typeof (Storage) != 'undefined') {
     let count = localStorage.getItem("amountBooksPerPage");
     if (count == null) {
@@ -44,7 +43,6 @@ if (typeof (Storage) != 'undefined') {
     }
     setAmountBooksInPage(count);
 }
-})
 
 $(document).ready(function () {
     showAlertCookie();
