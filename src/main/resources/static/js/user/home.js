@@ -79,14 +79,14 @@ async function addBooksToPage(books) {
                                                     ${editBook}
                                                   </div>`
             : books[index].show === true
-                ? `<div style="position: absolute; bottom: 5px; left: 15px; right: 15px" id="bottomInCart" type="button" 
+                ? `<button style="position: absolute; bottom: 5px; left: 15px; right: 15px" id="bottomInCart width: -moz-available"
                                                       class="btn btn-success ${cssOfBtn} btn-metro"  data-id="${books[index].id}">                        
                                                     ${textOfBtn}
-                                                </div>`
-                : `<div style="position: absolute; bottom: 5px; left: 15px; right: 15px" id="bottomInCart" type="button" 
+                                                </button>`
+                : `<button style="position: absolute; bottom: 5px; left: 15px; right: 15px" id="bottomInCart" 
                                                       class="btn btn-light btn-metro bought-btn-loc"  data-id="${books[index].id}">                        
                                                     Out of stock
-                                                </div>`
+                                                </button>`
         }
                                  </div>`;
         $('#cardcolumns').append(card);
