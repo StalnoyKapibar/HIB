@@ -6,13 +6,13 @@
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta content="width=device-width, initial-scale=1" name="viewport">
         <div th:switch="${isPage}">
-            <div th:case="1">
+            <span th:case="1">
                 <meta th:content="${bookBook.description.getEn()}" name="description">
                 <meta property="og:url" th:content="'http://77.222.63.141.xip.io:8080' + ${#httpServletRequest.getRequestURI()}"/>
                 <!--/*@thymesVar id="coverImage" type="com.project.model.Book"*/-->
                 <meta property="og:image" th:content="'http://77.222.63.141.xip.io:8080/images/book' + ${book} + '/' + ${bookBook.coverImage}"/>
                 <title><span th:text="${bookBook.name.getEn()}"/></title>
-            </div>
+            </span>
             <div th:case="*">
                 <title>History in books</title>
             </div>
