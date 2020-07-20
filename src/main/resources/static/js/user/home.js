@@ -40,14 +40,6 @@ $(document).ready(function () {
     showAlertCookie();
 })
 
-if (typeof (Storage) != 'undefined') {
-    let count = localStorage.getItem("amountBooksPerPage");
-    if (count == null) {
-        count = 10;
-    }
-    setAmountBooksInPage(count);
-}
-
 async function getQuantityPage() {
     const url = '/getPageBooks';
     const res = await fetch(url);
@@ -284,4 +276,12 @@ async function getListOrdersOfCart() {
             });
         });
     return listOrdersOfCart;
+}
+
+if (typeof (Storage) != 'undefined') {
+    let count = localStorage.getItem("amountBooksPerPage");
+    if (count == null) {
+        count = 10;
+    }
+    setAmountBooksInPage(count);
 }
