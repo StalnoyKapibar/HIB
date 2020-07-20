@@ -5,12 +5,13 @@
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta content="width=device-width, initial-scale=1" name="viewport">
-    <meta th:content="${bookBook.description}"
-          name="description">
+
+    <meta th:content="${bookBook.description.getRu()}" name="description">
     <meta property="og:url" th:content="'http://77.222.63.141.xip.io:8080' + ${#httpServletRequest.getRequestURI()}"/>
     <!--/*@thymesVar id="coverImage" type="com.project.model.Book"*/-->
     <meta property="og:image" th:content="'http://77.222.63.141.xip.io:8080/images/book' + ${book} + '/' + ${bookBook.coverImage}"/>
-    <title><span th:text="${bookBook.name}"/></title>
+    <title><span th:text="${bookBook.name.getRu()}"/></title>
+
     <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
           integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" rel="stylesheet">
     <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
