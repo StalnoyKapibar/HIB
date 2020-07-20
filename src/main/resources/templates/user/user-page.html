@@ -10,8 +10,7 @@
     <meta th:content="${bookBook.description.getRu()}" name="description">
     <meta property="og:url" th:content="'http://77.222.63.141.xip.io:8080' + ${#httpServletRequest.getRequestURI()}"/>
             <!--/*@thymesVar id="coverImage" type="com.project.model.Book"*/-->
-    <meta property="og:image"
-          th:content="'http://77.222.63.141.xip.io:8080/images/book' + ${book} + '/' + ${bookBook.coverImage}"/>
+    <meta property="og:image" th:content="'http://77.222.63.141.xip.io:8080/images/book' + ${book} + '/' + ${bookBook.coverImage}"/>
     <title><span th:text="${bookBook.name.getRu()}"/></title>
             </span>
         <div th:case="*">
