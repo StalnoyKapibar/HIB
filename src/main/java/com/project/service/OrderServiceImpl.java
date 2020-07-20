@@ -5,12 +5,21 @@ import com.project.mail.MailService;
 import com.project.model.*;
 import com.project.service.abstraction.OrderService;
 import com.project.service.abstraction.SendEmailService;
+import com.project.util.UtilExcelReports;
 import lombok.AllArgsConstructor;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.mail.MessagingException;
+import java.net.MalformedURLException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 @Service
@@ -19,8 +28,8 @@ import java.util.List;
 public class OrderServiceImpl implements OrderService {
 
     private OrderDao orderDAO;
-
     private SendEmailService sendEmailService;
+    private UtilExcelReports excelReports;
 
     @Override
     public void addOrder(Order order, String  url) {
@@ -119,6 +128,22 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> findOrderByBookId(Long bookId) {
         return orderDAO.findOrderByBookId(bookId);
+    }
+
+    @Override
+    public ResponseEntity createFileAllOrders() {
+        excelReports.createFileToServer(orderDAO);
+        Path path = Paths.get("export/orders/exportsSales.xlsx");
+        Resource resource = null;
+        try {
+            resource = new UrlResource(path.toUri());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(MediaType.APPLICATION_OCTET_STREAM_VALUE))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + "export_orders_sales.xlsx" + "\"")
+                .body(resource);
     }
 
     @Override
