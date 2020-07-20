@@ -50,7 +50,7 @@ public class ViewController {
         }
             modelAndView.addObject("isPage", 1);
             modelAndView.addObject("book", id);
-            modelAndView.addObject("bookBook", book);
+            modelAndView.addObject("pageBook", book);
             modelAndView.setViewName("user/user-page");
         return modelAndView;
     }

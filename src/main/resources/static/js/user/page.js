@@ -49,22 +49,12 @@ function setPageFields() {
         $("#book-year-of-edition").text(data.yearOfEdition);
         $("#book-price").text(convertPrice(data.price) + ' €');
         buildCardImageOrCarousel();
-        // setMeta();
     })
 }
 
 function convertPrice(price) {
     return price / 100;
 }
-
-// function setMeta() {
-//     // let titleBook = document.querySelector('title');
-//     // titleBook.innerText = objectBook.name[currentLang];
-//     let metaBook = document.querySelectorAll('meta');
-//     metaBook[3].setAttribute('content', objectBook.desc);
-//     metaBook[4].setAttribute('content', document.URL);
-//     metaBook[5].setAttribute('content', `${pathImageDefault}${objectBook.id}/${objectBook.coverImage}`);
-// }
 
 function buildCarousel() {
     for (var i = 0; i < objectBook.imageList.length; i++) {
