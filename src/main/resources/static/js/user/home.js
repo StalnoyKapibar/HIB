@@ -27,7 +27,7 @@ $(document).ready(function () {
 
     getAUTH();
     amountBooksInPage = ddmAmountBook.text();
-    if($.isNumeric(ddmAmountBook.text())){
+    if ($.isNumeric(ddmAmountBook.text())) {
         getPageWithBooks(ddmAmountBook.text(), currentPage++);
     }
     openModalLoginWindowOnFailure();
@@ -35,16 +35,6 @@ $(document).ready(function () {
 
 
 });
-
-$(document).ready(function () {
-if (typeof (Storage) != 'undefined') {
-    let count = localStorage.getItem("amountBooksPerPage");
-    if (count == null) {
-        count = 10;
-    }
-    setAmountBooksInPage(count);
-}
-})
 
 $(document).ready(function () {
     showAlertCookie();
@@ -107,11 +97,11 @@ async function addBooksToPage(books) {
 
 function showAlertCookie() {
 
-    if(getCookieByName('showBanner') === undefined) {
+    if (getCookieByName('showBanner') === undefined) {
         document.cookie = "showBanner=true;";
     }
 
-    if(getCookieByName('showBanner') === 'true') {
+    if (getCookieByName('showBanner') === 'true') {
         let daysForDisabling = 365;
 
         Swal.fire({
@@ -123,7 +113,7 @@ function showAlertCookie() {
             width: 350
         })
 
-        document.cookie = 'showBanner=false;path=/;max-age='+ daysForDisabling * 24 * 60 * 60 +';';
+        document.cookie = 'showBanner=false;path=/;max-age=' + daysForDisabling * 24 * 60 * 60 + ';';
     }
 }
 
@@ -286,4 +276,12 @@ async function getListOrdersOfCart() {
             });
         });
     return listOrdersOfCart;
+}
+
+if (typeof (Storage) != 'undefined') {
+    let count = localStorage.getItem("amountBooksPerPage");
+    if (count == null) {
+        count = 10;
+    }
+    setAmountBooksInPage(count);
 }

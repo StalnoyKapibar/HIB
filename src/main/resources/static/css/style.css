@@ -293,3 +293,13 @@ div.sidebar-content:hover span.badgeStyle {
 .h3-delete-book {
     text-align: center;
 }
+
+.pre-button {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.button-all-orders {
+    margin-top: 10px;
+}
