@@ -49,6 +49,7 @@ public class ViewController {
             return modelAndView;
         }
             modelAndView.addObject("book", id);
+            modelAndView.addObject("bookBook", book);
             modelAndView.setViewName("user/user-page");
         return modelAndView;
     }
