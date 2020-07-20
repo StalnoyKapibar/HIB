@@ -5,17 +5,18 @@
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta content="width=device-width, initial-scale=1" name="viewport">
-        <div th:switch="${isPage}">
-            <span th:case="1">
-                <meta th:content="${bookBook.description.getEn()}" name="description">
-                <meta property="og:url" th:content="'http://77.222.63.141.xip.io:8080' + ${#httpServletRequest.getRequestURI()}"/>
-                <!--/*@thymesVar id="coverImage" type="com.project.model.Book"*/-->
-                <meta property="og:image" th:content="'http://77.222.63.141.xip.io:8080/images/book' + ${book} + '/' + ${bookBook.coverImage}"/>
-                <title><span th:text="${bookBook.name.getEn()}"/></title>
+    <div th:switch="${isPage}">
+        <span th:case="1">
+    <meta th:content="${bookBook.description.getRu()}" name="description">
+    <meta property="og:url" th:content="'http://77.222.63.141.xip.io:8080' + ${#httpServletRequest.getRequestURI()}"/>
+            <!--/*@thymesVar id="coverImage" type="com.project.model.Book"*/-->
+    <meta property="og:image"
+          th:content="'http://77.222.63.141.xip.io:8080/images/book' + ${book} + '/' + ${bookBook.coverImage}"/>
+    <title><span th:text="${bookBook.name.getRu()}"/></title>
             </span>
-            <div th:case="*">
-                <title>History in books</title>
-            </div>
+        <div th:case="*">
+            <title>History in books</title>
+        </div>
     </div>
 
     <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
@@ -93,7 +94,8 @@
                 <div>
                     <div class="input-group">
 
-                        <input class="form-control dropdown-toggle search-menu search-input-dots-loc" autocomplete="off" data-toggle="dropdown" id="searchInput"
+                        <input class="form-control dropdown-toggle search-menu search-input-dots-loc" autocomplete="off"
+                               data-toggle="dropdown" id="searchInput"
                                placeholder="Search..." type="text">
 
                         <div class="input-group-append">
@@ -348,16 +350,16 @@
             </div>
         </div>
     </div>
-    
+
     <script src="/static/js/utils/common-function.js"></script>
     <script src="/static/js/utils/liveSearch.js"></script>
-    
-        <!--    Page-content    -->
-        <th:block
-                th:if="${#httpServletRequest.getRequestURI() == '/home' || #httpServletRequest.getRequestURI().contains('error')}">
-            <th:block th:include="home :: page-content">
-            </th:block>
+
+    <!--    Page-content    -->
+    <th:block
+            th:if="${#httpServletRequest.getRequestURI() == '/home' || #httpServletRequest.getRequestURI().contains('error')}">
+        <th:block th:include="home :: page-content">
         </th:block>
+    </th:block>
     <!--    Page-content    -->
     <th:block
             th:if="${#httpServletRequest.getRequestURI() == '/registration'}">
