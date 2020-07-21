@@ -468,6 +468,9 @@ values ('Heslo je neplatné','Passwort falsch','The password is incorrect','Mot 
 insert into local_string (cs, de, en, fr, gr, it, ru)
 values ('Takové přihlášení neexistuje','Eine solche Anmeldung existiert nicht','This username does not exist','Un tel login n''existe pas','Μια τέτοια σύνδεση δεν υπάρχει','Tale accesso non esiste','Такого логина не существует');
 
+insert into local_string (cs, de, en, fr, gr, it, ru)
+values ('Prosím, potvrďte svůj email. Chcete-li to provést, klikněte na odkaz z dopisu.','Bitte bestätige deine Email. Folgen Sie dazu dem Link aus dem Brief.','Please confirm your e-mail. To do this, follow the link from the letter.','Veuillez confirmer votre email. Pour ce faire, suivez le lien de la lettre.','ΠΑΡΑΚΑΛΩ επιβεβαιωστε την διευθηνση του ηλ.ταχυδρομειου σας. Για να το κάνετε αυτό, ακολουθήστε τον σύνδεσμο από το γράμμα.','Per favore, conferma la tua email. Per fare ciò, segui il link dalla lettera.','Пожалуйста, подтвердите Ваш e-mail. Для этого перейдите по ссылке из письма.');
+
 insert into category (category_name, parent_id, view_order) values ('History', null, 0);
 insert into category (category_name, parent_id, view_order) values ('Documents', null, 0);
 insert into category (category_name, parent_id, view_order) values ('Magazines', null, 0);
@@ -750,3 +753,4 @@ insert into form_error_message (field, reason, body_id) values ('email', 'UIndex
 insert into form_error_message (field, reason, body_id) values ('auth', 'BadCredential', 96);
 /*insert into local_string (cs, de, en, fr, gr, it, ru) values (?, ?, ?, ?, ?, ?, ?);*/
 insert into form_error_message (field, reason, body_id) values ('auth', 'NoValuePresent', 97);
+insert into form_error_message (field, reason, body_id) values ('auth', 'UserDisabled', 98);
