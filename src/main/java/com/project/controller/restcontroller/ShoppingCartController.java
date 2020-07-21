@@ -57,7 +57,6 @@ public class ShoppingCartController {
         if (!book.isShow()) {
             return;
         }
-        //TODO вот здесь не видно нашего картайд при 1регистрациипотомую
         Long cartId = (Long) session.getAttribute("cartId");
         if (cartId != null) {
             ShoppingCartDTO shoppingCartDTO = cartService.getCartById(cartId);
