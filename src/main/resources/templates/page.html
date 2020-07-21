@@ -7,7 +7,6 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
     <title></title>
 </head>
 <body>
@@ -28,6 +27,8 @@
         <script src="/static/js/lib/jquery.min.js"></script>
         <script src="/static/js/lib/popper.min.js"></script>
         <script src="/static/js/lib/bootstrap.min.js"></script>
+        <div id="fb-root"></div>
+        <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_EN/sdk.js#xfbml=1&version=v7.0" nonce="TBg77oxR"></script>
         <script crossorigin="anonymous" src="https://kit.fontawesome.com/db08edad0b.js"></script>
         <div class="book-background w-auto p-3">
             <div class="col-sm-8 col-md-9 ml-auto col-xl-10">
@@ -80,6 +81,11 @@
                                         <div class="col-2">
                                             <h4 class="font-weight-light price">Price:</h4>
                                             <span class="font-weight-normal" id="book-price">15.00$</span>
+                                            <br>
+                                            <div class="fb-share-button" th:data-href="${#httpServletRequest.requestURI}" data-layout="button" data-size="small">
+                                                <a target="_blank" th:href="'https://www.facebook.com/sharer/sharer.php?u=' + '${#httpServletRequest.requestURI}' + '&amp;src=sdkpreparse'"
+                                                   class="fb-xfbml-parse-ignore">Share</a>
+                                            </div>
                                         </div>
                                         <div class="col-8 offset-2">
                                             <br>
