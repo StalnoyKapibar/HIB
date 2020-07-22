@@ -326,19 +326,6 @@ async function setLocaleFields() {
             $("#editBtn").html(localeFields['editBook']);
             $('#requiredExample').html(localeFields['requiredExample']);
 
-            //guide
-            $('#guideTitle').html(localeFields['guideTitle']);
-            $('#step1').html(localeFields['step1']);
-            $('#step2').html(localeFields['step2']);
-            $('#step3').html(localeFields['step3']);
-            $('#step4').html(localeFields['step4']);
-            $('#step5').html(localeFields['step5']);
-            $('#step6').html(localeFields['step6']);
-            $('#oneClickRegGuide1').html(localeFields['oneClickRegGuide1']);
-            $('#oneClickRegGuide2').html(localeFields['oneClickRegGuide2']);
-            $('#oneClickRegGuide3').html(localeFields['oneClickRegGuide3']);
-            // $('#singUpButton').html(localeFields['signUp']);
-
             //should be down
             title.html(title.html().replace('Title:', localeFields['title']));
             author.html(author.html().replace('Author:', localeFields['author']));
@@ -353,7 +340,6 @@ async function setLocaleFields() {
 //function for chose language
 function chooseLanguage(lang) {
     document.cookie = `lang=${lang}; path=/`;
-    getCategoriesLocal(lang);
     window.location.reload();
 }
 

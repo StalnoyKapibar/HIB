@@ -122,7 +122,6 @@ function showSummary() {
 function showContacts() {
     $('#email').val(order.userAccount.name);
     $('#phone').val(order.userAccount.phone);
-    $('#comment').val(order.userAccount.comment);
     $('#cartTab a[href="#contacts"]').tab('show');
 }
 

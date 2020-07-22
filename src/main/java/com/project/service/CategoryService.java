@@ -2,7 +2,6 @@ package com.project.service;
 
 import com.project.dao.CategoryDAO;
 import com.project.model.Category;
-import com.project.model.LocaleString;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,8 +29,8 @@ public class CategoryService {
         return categoryDAO.getAdminCategoryTree();
     }
 
-    public List<Long> getNoParentCategoriesById() {
-        return categoryDAO.getNoParentCategoriesById();
+    public List<Category> getNoParentCategories() {
+        return categoryDAO.getNoParentCategories();
     }
 
     public void update(Category category) {
@@ -56,9 +55,5 @@ public class CategoryService {
         Long id = category.getId();
         Long parentId = category.getParentId();
         categoryDAO.parentChange(id, parentId);
-    }
-
-    public List<Category> getListCategoriesById(String local) {
-        return categoryDAO.getListCategoriesById(local, categoryDAO.getNoParentCategoriesById());
     }
 }

@@ -160,11 +160,9 @@ $(document).on('click', '#updateCategory', function () {
     categoryId = $('form input[name="categoryId"]').val();
     categoryName = $('form input[name="categoryName"]').val();
     viewOrder = $('form input[name="viewOrder"]').val();
-    var map = {};
-    map['en'] = categoryName;
     fetch('/admin/categories/update', {
         method: 'PUT',
-        body: JSON.stringify({id: categoryId, name: map, viewOrder:viewOrder, parentId: parentId}),
+        body: JSON.stringify({id: categoryId, categoryName: categoryName, viewOrder:viewOrder, parentId: parentId}),
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
@@ -176,13 +174,11 @@ $(document).on('click', '#updateCategory', function () {
 $(document).on('click', '#addNewCategory', function () {
     categoryName = $('input[name="newCategoryName"]').val();
     parentId = $('form input[name="categoryId"]').val();
-    var map = {};
-    map['en'] = categoryName;
     if (categoryName === '') {} //Вывести что-то на экран
     else {
         fetch('/admin/categories/add', {
             method: 'POST',
-            body: JSON.stringify({name: map, parentId: parentId}),
+            body: JSON.stringify({categoryName: categoryName, parentId: parentId}),
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
@@ -194,13 +190,11 @@ $(document).on('click', '#addNewCategory', function () {
 
 $(document).on('click', '#addPrimary', function () {
     categoryName = $('input[name="primaryCategoryName"]').val();
-    var map = {};
-    map['en'] = categoryName;
     if (categoryName === '') {} //Вывести что-то на экран
     else {
         fetch('/admin/categories/add', {
             method: 'POST',
-            body: JSON.stringify({name: map}),
+            body: JSON.stringify({categoryName: categoryName}),
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'

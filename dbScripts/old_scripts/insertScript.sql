@@ -641,13 +641,13 @@ insert into book
 (
     cover_image, is_show, last_book_ordered, original_language_name, pages, price, views,
     year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id
-) values ('1.jpg', true, false, 'RU', null, 931, null, null, 37, 15, 38, 39, 40, 10);
+) values ('50172485-elizaveta-vladimirovna-sobolyanskaya-zanuda-v-akademii-drakonov.jpg', true, false, 'RU', null, 931, null, null, 37, 15, 38, 39, 40, 10);
 
 insert into book
 (
     cover_image, is_show, last_book_ordered, original_language_name, pages, price, views,
     year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id
-) values ('1.jpg', false, false, 'RU', null, 498, null, null, 41, 15, 42, 43, 44, 11);
+) values ('50387903-dzhon-marrs-the-one-edinstvennyy.jpg', false, false, 'RU', null, 498, null, null, 41, 15, 42, 43, 44, 11);
 
 insert into book
 (
@@ -659,7 +659,7 @@ insert into book
 (
     cover_image, is_show, last_book_ordered, original_language_name, pages, price, views,
     year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id
-) values ('1.jpg', false, false, 'RU', null, 794, null, null, 49, 15, 50, 51, 52, 13);
+) values ('51566259-nadezhda-volgina-strast-v-iskuplenie.jpg', false, false, 'RU', null, 794, null, null, 49, 15, 50, 51, 52, 13);
 
 insert into book
 (
@@ -671,37 +671,37 @@ insert into book
 (
     cover_image, is_show, last_book_ordered, original_language_name, pages, price, views,
     year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id
-) values ('1.jpg', false, false, 'RU', null, 589, null, null, 57, 15, 58, 59, 60, 15);
+) values ('51559272-albina-uralskaya-18710396-chemodan-portal-zemlya-ekaterinburg-51559272.jpg', false, false, 'RU', null, 589, null, null, 57, 15, 58, 59, 60, 15);
 
 insert into book
 (
     cover_image, is_show, last_book_ordered, original_language_name, pages, price, views,
     year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id
-) values ('1.jpg', false, false, 'RU', null, 95, null, null, 61, 15, 62, 63, 64, 16);
+) values ('51424035-roman-zlotnikov-psevdonim-boga-51424035.jpg', false, false, 'RU', null, 95, null, null, 61, 15, 62, 63, 64, 16);
 
 insert into book
 (
     cover_image, is_show, last_book_ordered, original_language_name, pages, price, views,
     year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id
-) values ('1.jpg', false, false, 'RU', null, 662, null, null, 65, 15, 66, 67, 68, 17);
+) values ('51402044-vladimir-kolychev-vechnost-i-esche-dva-dnya.jpg', false, false, 'RU', null, 662, null, null, 65, 15, 66, 67, 68, 17);
 
 insert into book
 (
     cover_image, is_show, last_book_ordered, original_language_name, pages, price, views,
     year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id
-) values ('1.jpg', false, false, 'RU', null, 699, null, null, 69, 15, 70, 71, 72, 18);
+) values ('50405688-elena-lapysheva-ya-hochu-tebya-idealnoe-telo-sekrety-kremlevskogo-trenera.jpg', false, false, 'RU', null, 699, null, null, 69, 15, 70, 71, 72, 18);
 
 insert into book
 (
     cover_image, is_show, last_book_ordered, original_language_name, pages, price, views,
     year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id
-) values ('1.jpg', false, false, 'RU', null, 443, null, null, 73, 15, 74, 75, 76, 19);
+) values ('51247780-gennadiy-kibardin-bystraya-hodba-lechit.jpg', false, false, 'RU', null, 443, null, null, 73, 15, 74, 75, 76, 19);
 
 insert into book
 (
     cover_image, is_show, last_book_ordered, original_language_name, pages, price, views,
     year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id
-) values ('1.jpg', true, false, 'OTHER', null, 807, null, null, 77, 15, 78, 79, 80, 20);
+) values ('4387365-stiven-king-protivostoyanie.jpg', true, false, 'OTHER', null, 807, null, null, 77, 15, 78, 79, 80, 20);
 
 insert into image(name_image, book_id) values ('1.jpg', 1);
 insert into image(name_image, book_id) values ('2.jpg', 1);
@@ -726,20 +726,20 @@ insert into image(name_image, book_id) values ('2.jpg', 8);
 insert into image(name_image, book_id) values ('1.jpg', 9);
 insert into image(name_image, book_id) values ('2.jpg', 9);
 insert into image(name_image, book_id) values ('3.jpg', 9);
-insert into image(name_image, book_id) values ('1.jpg',  10);
-insert into image(name_image, book_id) values ('1.jpg',  11);
+insert into image(name_image, book_id) values ('50172485-elizaveta-vladimirovna-sobolyanskaya-zanuda-v-akademii-drakonov.jpg',  10);
+insert into image(name_image, book_id) values ('50387903-dzhon-marrs-the-one-edinstvennyy.jpg',  11);
 insert into image(name_image, book_id) values ('1.jpg',  12);
 insert into image(name_image, book_id) values ('2.jpg',  12);
 insert into image(name_image, book_id) values ('3.jpg',  12);
-insert into image(name_image, book_id) values ('1.jpg',  13);
+insert into image(name_image, book_id) values ('51566259-nadezhda-volgina-strast-v-iskuplenie.jpg',  13);
 insert into image(name_image, book_id) values ('1.jpg',  14);
 insert into image(name_image, book_id) values ('2.jpg',  14);
-insert into image(name_image, book_id) values ('1.jpg',  15);
-insert into image(name_image, book_id) values ('1.jpg',  16);
-insert into image(name_image, book_id) values ('1.jpg',  17);
-insert into image(name_image, book_id) values ('1.jpg',  18);
-insert into image(name_image, book_id) values ('1.jpg',  19);
-insert into image(name_image, book_id) values ('1.jpg',  20);
+insert into image(name_image, book_id) values ('51559272-albina-uralskaya-18710396-chemodan-portal-zemlya-ekaterinburg-51559272.jpg',  15);
+insert into image(name_image, book_id) values ('51424035-roman-zlotnikov-psevdonim-boga-51424035.jpg',  16);
+insert into image(name_image, book_id) values ('51402044-vladimir-kolychev-vechnost-i-esche-dva-dnya.jpg',  17);
+insert into image(name_image, book_id) values ('50405688-elena-lapysheva-ya-hochu-tebya-idealnoe-telo-sekrety-kremlevskogo-trenera.jpg',  18);
+insert into image(name_image, book_id) values ('51247780-gennadiy-kibardin-bystraya-hodba-lechit.jpg',  19);
+insert into image(name_image, book_id) values ('4387365-stiven-king-protivostoyanie.jpg',  20);
 
 /*insert into  book_list_image (book_id, list_image_id) values (1, 1);
 insert into  book_list_image (book_id, list_image_id) values (1, 2);

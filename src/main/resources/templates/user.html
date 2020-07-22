@@ -396,18 +396,6 @@
         <th:block th:include="search :: search-page">
         </th:block>
     </th:block>
-    <th:block th:if="${#httpServletRequest.getRequestURI().contains('/author-list')}">
-        <th:block th:include="authors :: authors">
-        </th:block>
-    </th:block>
-    <th:block th:if="${#httpServletRequest.getRequestURI().contains('/guide-order')}">
-        <th:block th:include="guide :: order">
-        </th:block>
-    </th:block>
-    <th:block th:if="${#httpServletRequest.getRequestURI().contains('/reqapprove')}">
-        <th:block th:include="approveAuth :: page-content">
-        </th:block>
-    </th:block>
 </div>
 
 
