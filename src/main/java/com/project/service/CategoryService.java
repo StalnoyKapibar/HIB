@@ -61,5 +61,4 @@ public class CategoryService {
     public List<Category> getListCategoriesById(String local) {
         return categoryDAO.getListCategoriesById(local, categoryDAO.getNoParentCategoriesById());
     }
-
 }
