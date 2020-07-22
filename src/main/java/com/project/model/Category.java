@@ -14,13 +14,17 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String categoryName;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private LocaleString name;
+
     private Long parentId;
+
     private int viewOrder;
 
-    public Category(Long id, String categoryName, Long parentId, int viewOrder) {
+    public Category(Long id, LocaleString name, Long parentId, int viewOrder) {
         this.id = id;
-        this.categoryName = categoryName;
+        this.name = name;
         this.parentId = parentId;
         this.viewOrder = viewOrder;
     }
@@ -29,8 +33,12 @@ public class Category {
         this.id = id;
     }
 
-    public Category(String categoryName, Long parentId) {
-        this.categoryName = categoryName;
+    public Category(LocaleString name) {
+        this.name = name;
+    }
+
+    public Category(LocaleString name, Long parentId) {
+        this.name = name;
         this.parentId = parentId;
     }
 }

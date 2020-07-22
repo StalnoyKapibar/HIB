@@ -19,10 +19,9 @@ public class CategoryRestController {
 
     BookService bookService;
 
-    @GetMapping("/getnullparent")
-    @Cacheable(value = "noParentCategory")
-    public List<Category> getNoParentCategories() {
-        return categoryService.getNoParentCategories();
+    @GetMapping("/getpanelcategories/{name}")
+    public List<Category> getPanelCategories(@PathVariable("name") String name) {
+        return categoryService.getListCategoriesById(name);
     }
 
     @GetMapping("/gettree")

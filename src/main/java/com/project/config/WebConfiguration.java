@@ -76,7 +76,7 @@ public class WebConfiguration implements WebMvcConfigurer {
 
     @Bean
     public CacheManager cacheManager() {
-        return new ConcurrentMapCacheManager("categoryTree", "noParentCategory");
+        return new ConcurrentMapCacheManager("categoryTree", "noParentCategory", "authorSet");
     }
 
     @Bean(name = "commonsMultipartResolver")
