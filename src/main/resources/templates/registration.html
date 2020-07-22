@@ -119,6 +119,16 @@
                             <input type="password" class="form-control confirm-password" id="confirmPassInputField"
                                    name="confirmPassword" placeholder="Confirm password" required>
                         </div>
+                        <div class="form-group">
+                            <label class="first-name-loc" for="firstNameInputField">First Name</label>
+                            <input type="text" class="form-control firstName" id="firstNameInputField" name="firstName"
+                                   placeholder="first name" required th:field="*{firstName}">
+                        </div>
+                        <div class="form-group">
+                            <label class="last-name-loc" for="lastNameInputField">Last Name</label>
+                            <input type="text" class="form-control lastName" id="lastNameInputField" name="lastName"
+                                   placeholder="last name" required th:field="*{lastName}">
+                        </div>
                         <button type="submit" id="hiddenSingUpBtn" hidden>HiddenSingUpButton</button>
                     </form>
                 </div>

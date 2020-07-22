@@ -64,6 +64,8 @@ public class UserAccountServiceImpl implements UserAccountService {
         UserAccount userAccount = UserAccount.builder()
                 .email(user.getEmail())
                 .password(encoder.encode(user.getPassword()))
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
                 .regDate(Instant.now().getEpochSecond())
                 .provider("local")
                 .locale(httpSession.getAttribute("LANG").toString())
