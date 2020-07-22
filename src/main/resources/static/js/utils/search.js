@@ -123,10 +123,10 @@ function setListeners () {
 
     $('#input-categories').on('change', '.custom-control-input', function () {
         const getCheckedSiblings = (nearCategory) => {
-            let isCheckedSibling = true;
+            let isCheckedSibling = false;
             nearCategory.siblings().each((i, elem) => {
                 if ($(elem).children().children("input").prop("checked")) {
-                    isCheckedSibling = false;
+                    isCheckedSibling = true;
                     return;
                 }
             });
