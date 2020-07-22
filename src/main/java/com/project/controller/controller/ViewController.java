@@ -60,4 +60,3 @@ public class ViewController {
         return "translate";
     }
 }
-

@@ -56,5 +56,4 @@ public class CategoryService {
         Long parentId = category.getParentId();
         categoryDAO.parentChange(id, parentId);
     }
-
 }
