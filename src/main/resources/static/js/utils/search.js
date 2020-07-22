@@ -189,7 +189,6 @@ async function getCategoryTreeWithoutRefreshing(){
         });
 }
 
-//не понятно для чего
 async function setTreeViewWithoutRefreshing(category) {
     for (let i in category) {
         row =
@@ -327,7 +326,6 @@ async function advancedSearch(amount, page) {
     let isShow = $('#check-available').is(':checked') ? true : false;
     let categories = [];
     let searchAdvanced = '';
-    // если ни чего не выбрано ни чего не показываем и на оборот.
     if (isCheckedCategory) {
         categories = $("#input-categories input:checked").map(function () {
             return $(this).val();
