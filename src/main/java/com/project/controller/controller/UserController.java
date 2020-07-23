@@ -135,8 +135,10 @@ public class UserController {
             return view;
         }
         if (userAccountService.emailExist(user.getEmail())) {
+            shoppingCart.setId(userAccountService.getCartIdByUserEmail(user.getEmail()));
+            cartService.updateCart(shoppingCart);
             view.getModelMap().addAttribute("errorMessage",
-                    messageService.getErrorMessageOnEmailUIndex());
+                    messageService.getMessageOneClickEmailExist());
             return view;
         }
 

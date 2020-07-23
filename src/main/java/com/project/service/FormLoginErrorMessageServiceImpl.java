@@ -30,6 +30,11 @@ public class FormLoginErrorMessageServiceImpl implements FormLoginErrorMessageSe
     }
 
     @Override
+    public FormLoginErrorMessageDTO getMessageOneClickEmailExist() {
+        return errorMessageDAO.getErrorMessage("email", "1clickEmailExist", getCurrentLocale());
+    }
+
+    @Override
     public FormLoginErrorMessageDTO getErrorMessageOnPasswordsDoesNotMatch() {
         return errorMessageDAO.getErrorMessage("password", "DontMatch", getCurrentLocale());
     }

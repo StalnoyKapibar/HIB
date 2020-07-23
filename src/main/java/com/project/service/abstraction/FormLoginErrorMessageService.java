@@ -19,5 +19,7 @@ public interface FormLoginErrorMessageService {
 
     FormLoginErrorMessageDTO getErrorMessageOnUserDisabled();
 
+    FormLoginErrorMessageDTO getMessageOneClickEmailExist();
+
     void saveErrorMessage(FormLoginErrorMessage errorMessage);
 }
