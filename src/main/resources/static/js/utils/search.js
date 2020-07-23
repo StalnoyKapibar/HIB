@@ -123,10 +123,10 @@ function setListeners () {
 
     $('#input-categories').on('change', '.custom-control-input', function () {
         const getCheckedSiblings = (nearCategory) => {
-            let isCheckedSibling = true;
+            let isCheckedSibling = false;
             nearCategory.siblings().each((i, elem) => {
                 if ($(elem).children().children("input").prop("checked")) {
-                    isCheckedSibling = false;
+                    isCheckedSibling = true;
                     return;
                 }
             });
@@ -188,6 +188,7 @@ async function getCategoryTreeWithoutRefreshing(){
 
         });
 }
+
 async function setTreeViewWithoutRefreshing(category) {
     for (let i in category) {
         row =
@@ -249,6 +250,7 @@ function getUnflatten(arr, parentid) {
     return output
 }
 
+// формируем категории родители для отображения и выбора, правая панель
 async function setTreeView(category) {
     for (let i in category) {
         row =
@@ -272,6 +274,7 @@ async function setTreeView(category) {
     setLocaleFields();
 }
 
+//формируем подкотигории котигорий
 async function setChilds(category) {
     let row = '';
     for (let i in category) {
@@ -310,7 +313,7 @@ async function setChilds(category) {
 
     return row;
 }
-
+//проверяем чек категорий и запускаем поиск по ним
 async function advancedSearch(amount, page) {
     let request = $('#search-input').val();
     let priceFrom = $('#input-price-from').val() * 100;
