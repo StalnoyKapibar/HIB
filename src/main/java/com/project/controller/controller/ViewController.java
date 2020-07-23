@@ -48,7 +48,9 @@ public class ViewController {
             modelAndView.setViewName("redirect:/err/not-found");
             return modelAndView;
         }
+            modelAndView.addObject("isPage", 1);
             modelAndView.addObject("book", id);
+            modelAndView.addObject("pageBook", book);
             modelAndView.setViewName("user/user-page");
         return modelAndView;
     }
@@ -58,4 +60,3 @@ public class ViewController {
         return "translate";
     }
 }
-

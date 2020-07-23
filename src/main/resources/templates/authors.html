@@ -1,0 +1,25 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <title>Authors</title>
+</head>
+<body>
+<div class="d-flex" th:fragment="authors">
+    <div class="container-fluid page-content offset-1 col-10">
+        <div class="row">
+            <div class="col-lg-10 col-md-12 main">
+                <h4 id="authors"> Authors list</h4>
+            <div th:each="author : ${authors}">
+                <h6 th:text="${author}"></h6>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="footer pt-3 p-0 container-fluid text-center" th:replace="home-old :: footer">
+    </div>
+</div>
+</div>
+</body>
+</html>Д

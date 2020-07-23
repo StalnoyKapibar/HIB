@@ -15,7 +15,7 @@
                     <h2 class="order-with-status-loc">Orders with status</h2>
                 </div>
                 <div class="col my-2">
-                    <div class="form-group">
+                    <div class="form-group pre-button">
                         <select class="form-control" id="statusSelector">
                             <option selected value="Unprocessed">Unprocessed</option>
                             <option value="Processing">Processing</option>
@@ -23,6 +23,10 @@
                             <option value="Deleted">Deleted</option>
                             <option value="All">All</option>
                         </select>
+                        <form action="/api/admin/sales/">
+                        <button class="btn btn-success uncomplete-loc col-12 button-all-orders"
+                        >Download All Orders</button>
+                        </form>
                     </div>
                 </div>
             </div>

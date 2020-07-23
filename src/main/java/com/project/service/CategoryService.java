@@ -56,6 +56,7 @@ public class CategoryService {
         Long parentId = category.getParentId();
         categoryDAO.parentChange(id, parentId);
     }
+
     public List<Category> getListCategoriesById(String local) {
         return categoryDAO.getListCategoriesById(local, categoryDAO.getNoParentCategoriesById());
     }

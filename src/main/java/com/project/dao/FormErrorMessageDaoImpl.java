@@ -14,7 +14,7 @@ public class FormErrorMessageDaoImpl extends AbstractDao<Long, FormLoginErrorMes
 
     @Override
     public FormLoginErrorMessageDTO getErrorMessage(String field, String reason, String locale) {
-        // TODO: 09.07.2020  Блок if убрать, добавить запись в БД: auth, UserDisabled, message 
+        // TODO: 09.07.2020  Блок if убрать, добавить запись в БД: auth, UserDisabled, message
         if (reason.equals("UserDisabled")) {
             return new FormLoginErrorMessageDTO(true, "Пожалуйста, подтвердите Ваш e-mail. Для этого перейдите по ссылке из письма.");
         }

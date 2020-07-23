@@ -14,6 +14,7 @@ $(document).ready(function () {
     getLanguage();
     setLocaleFields();
     setPageFields();
+
 })
 
 function getCookie(name) {

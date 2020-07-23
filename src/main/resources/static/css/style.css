@@ -169,7 +169,8 @@ a.footer_link:hover {
 }
 
 .btn-metro {
-    border-radius: 0px;
+    border-radius: 0;
+    width: 92%;
 }
 
 .btn-info-inverse {
@@ -291,4 +292,14 @@ div.sidebar-content:hover span.badgeStyle {
 
 .h3-delete-book {
     text-align: center;
+}
+
+.pre-button {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.button-all-orders {
+    margin-top: 10px;
 }
