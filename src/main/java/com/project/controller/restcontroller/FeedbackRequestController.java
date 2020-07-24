@@ -48,9 +48,12 @@ public class FeedbackRequestController {
         }
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setFrom(env.getProperty("spring.mail.username"));
-        mailMessage.setTo(env.getProperty("spring.mail.adminmail"));
+        mailMessage.setTo((feedbackRequest.getSenderEmail()));
         mailMessage.setSubject(env.getProperty("spring.mail.subject"));
-        mailMessage.setText(env.getProperty("spring.mail.text"));
+        mailMessage.setText("Dear " + feedbackRequest.getSenderName() +
+                ".\n" + env.getProperty("spring.mail.request") +
+                "\n" + feedbackRequest.getContent() +
+                "\n" + env.getProperty("spring.mail.answer"));
         mailService.sendEmail(mailMessage);
         return feedbackRequestService.save(feedbackRequest);
     }
@@ -118,7 +121,7 @@ public class FeedbackRequestController {
     }
 
     @GetMapping("/api/admin/feedback-request/book-id/{id}")
-    public List <FeedbackRequest> getFeedbackByIdBook(@PathVariable Long id) {
+    public List<FeedbackRequest> getFeedbackByIdBook(@PathVariable Long id) {
         return feedbackRequestService.findAllRequestByIdBook(id);
     }
 }
