@@ -94,6 +94,7 @@ async function getOrdersData(page, size, status) {
 async function renderPageData(data) {
 
     const lastOrderedBooks = await getLastOrderedBooks();
+    const booksAvailable = await getBooksAvailability();
     let orders = data;
     for (let key in data) {
         emails.push(data[key].userDTO.email)
@@ -145,9 +146,12 @@ async function renderPageData(data) {
     $.each(data, function (index) {
         order = data[index];
         let isOrderEnable = true;
+        let isBookAvailable = true;
         order.items.forEach((item) => {
-            if (lastOrderedBooks.includes(item.book.id) && order.status === "UNPROCESSED") {
-                isOrderEnable = false;
+            // check each book in order for availability and lastorder
+            if (order.status === "UNPROCESSED") {
+                isOrderEnable = !lastOrderedBooks.includes(item.book.id);
+                isBookAvailable = booksAvailable.includes(item.book.id);
             }
         });
 
@@ -194,7 +198,7 @@ async function renderPageData(data) {
             }
             if (order.status === "UNPROCESSED") {
                 html += `<td><button class="btn btn-success uncomplete-loc" onclick=orderProcess(${order.id})`;
-                if (!isOrderEnable) {
+                if (!isOrderEnable || !isBookAvailable) {
                     html += ` disabled="disabled"`;
                 }
                 html += `>Process</button></td>`;
@@ -202,6 +206,8 @@ async function renderPageData(data) {
             html += `</tr>`;
             if (!isOrderEnable) {
                 html += `<tr style = "background-color: #FFB3B3; color: red; font-weight: 900"><td colspan="9">This order contains book that is already included in order with status PROCESSING. </td></tr>`;
+            } else if (!isBookAvailable) {
+                html += `<tr style = "background-color: #FFB3B3; color: red; font-weight: 900"><td colspan="9">This order contains books that are not available on the web-site. </td></tr>`;
             }
 
             $('#adminListOrders').html(html);
@@ -475,6 +481,16 @@ function sendGmailMessage(userId, orderId) {
 
 async function getLastOrderedBooks() {
     const url = '/api/book/lastOrderedBooks';
+    const res = await fetch(url);
+    const data = await res.json();
+    return data;
+}
+
+/* check DB marker 'isShow' in Book table
+*  returns books ID's
+* */
+async function getBooksAvailability() {
+    const url = '/api/book/booksAvailability';
     const res = await fetch(url);
     const data = await res.json();
     return data;

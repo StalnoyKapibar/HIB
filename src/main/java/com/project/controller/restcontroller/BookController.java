@@ -203,6 +203,11 @@ public class BookController {
         return bookService.getAllLastOrderedBooks();
     }
 
+    @GetMapping("/api/book/booksAvailability")
+    public List<Long> getAllAvailableBooks() {
+        return bookService.getAllAvailableBooks();
+    }
+
     @GetMapping(value = "/api/allBookForLiveSearch")
     public List<BookNewDTO> getAllLightBookDtoForSearch() {
         return bookService.getAllLightBookDtoForSearch();
