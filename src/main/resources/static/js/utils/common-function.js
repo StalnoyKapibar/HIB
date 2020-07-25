@@ -88,6 +88,7 @@ async function setLocaleFields() {
             $('.old-pass-loc').text(localeFields['oldPass']);   //Enter old password
             $('.new-pass-loc').text(localeFields['newPass']);     //Enter new password
             $('.again-pass-loc').text(localeFields['againPass']);     //Enter new password again
+
             //Text and placeholders for email/phone/comment
             $('.email').attr('placeholder', localeFields['email']);
             $('.email-label').text(localeFields['email']);

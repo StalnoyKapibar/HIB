@@ -82,6 +82,7 @@ public class UserAccount implements UserDetails, OAuth2User {
         return email;
     }
 
-    public boolean getAutoReg() { return autoReg;
+    public boolean getAutoReg() {
+        return autoReg;
     }
 }
