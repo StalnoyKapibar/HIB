@@ -91,15 +91,11 @@ public class FeedbackRequestController {
     }
 
     @GetMapping(value = "/api/admin/feedback-request-count")
-    public long getFeedbackRequestCount(HttpSession session) {
+    public int getFeedbackRequestCount(HttpSession session) {
         if (session.getAttribute("data") == null) {
             session.setAttribute("data", dataEnterInAdminPanelService.findById(1L));
-            DataEnterInAdminPanel data = (DataEnterInAdminPanel) session.getAttribute("data");
-            return feedbackRequestService.getCountOfFeedBack(data.getDataEnterInFeedback());
-        } else {
-            DataEnterInAdminPanel data = (DataEnterInAdminPanel) session.getAttribute("data");
-            return feedbackRequestService.getCountOfFeedBack(data.getDataEnterInFeedback());
         }
+        return feedbackRequestService.getCountOfFeedBack();
     }
 
     @GetMapping(value = "/api/admin/feedback-request/{senderEmail}/amount")

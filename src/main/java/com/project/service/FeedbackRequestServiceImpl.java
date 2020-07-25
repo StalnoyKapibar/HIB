@@ -51,8 +51,8 @@ public class FeedbackRequestServiceImpl implements FeedbackRequestService {
     }
 
     @Override
-    public int getCountOfFeedBack(long lastAuthDate) {
-        return feedbackRequestDAO.getCountOfFeedBack(lastAuthDate);
+    public int getCountOfFeedBack() {
+        return feedbackRequestDAO.getCountOfFeedBack();
     }
 
     @Override

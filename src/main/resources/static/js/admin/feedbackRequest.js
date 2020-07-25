@@ -48,13 +48,14 @@ $('#feedback-request-modal')
         getFeedbackRequestTable(false);
     })
 
-function markAsRead(id, replied) {
+async function markAsRead(id, replied) {
     let message = "Mark this message as ";
     message += replied ? "unread?" : "read?";
     if (confirm(message)) {
         fetch("/api/admin/feedback-request/" + id + "/" + replied, {
             method: 'POST'
-        }).then(r => getFeedbackRequestTable(replied));
+        }).then(r => startCountOfFeedback())
+          .then(r => getFeedbackRequestTable(replied));
     }
 }
 

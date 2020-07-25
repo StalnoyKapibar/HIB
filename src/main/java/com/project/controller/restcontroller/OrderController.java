@@ -147,15 +147,11 @@ public class OrderController {
     }
 
     @GetMapping("/api/admin/order-count")
-    private long getOrdersCount(HttpSession session) {
+    private int getOrdersCount(HttpSession session) {
         if (session.getAttribute("data") == null) {
             session.setAttribute("data", dataEnterInAdminPanelService.findById(1L));
-            DataEnterInAdminPanel data = (DataEnterInAdminPanel) session.getAttribute("data");
-            return orderService.getCountOfOrders(data.getDataEnterInOrders());
-        } else {
-            DataEnterInAdminPanel data = (DataEnterInAdminPanel) session.getAttribute("data");
-            return orderService.getCountOfOrders(data.getDataEnterInOrders());
         }
+        return orderService.getCountOfOrders();
     }
 
     @GetMapping("/api/admin/order/{email}/{details}")

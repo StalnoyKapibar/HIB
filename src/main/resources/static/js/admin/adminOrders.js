@@ -412,7 +412,8 @@ function orderProcess(id) {
                 "Content-Type": "application/json;charset=utf-8"
             },
             body: JSON.stringify(id),
-        }).then(r => showListOrders())
+        }).then(r => startCountOfOrder())
+          .then(r => showListOrders())
     }
 }
 
@@ -436,7 +437,8 @@ function orderDelete(id) {
                 "Content-Type": "application/json;charset=utf-8"
             },
             body: JSON.stringify(id),
-        }).then(r => showListOrders())
+        }).then(r => startCountOfOrder())
+          .then(r => showListOrders())
     }
 }
 

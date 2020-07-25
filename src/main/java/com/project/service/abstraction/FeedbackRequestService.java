@@ -17,7 +17,7 @@ public interface FeedbackRequestService {
 
     List<FeedbackRequest> getBySenderByReplied(String senderEmail, boolean replied);
 
-    int getCountOfFeedBack(long lastAuthDate);
+    int getCountOfFeedBack();
 
     Long[] getAmountOfFeedback(String senderEmail);
 
