@@ -8,9 +8,9 @@
     <div th:switch="${isPage}">
         <span th:case="1">
     <meta th:content="${pageBook.description.getRu()}" name="description">
-    <meta property="og:url" th:content="'http://77.222.63.141' + ${#httpServletRequest.getRequestURI()} + '/'"/>
+    <meta property="og:url" th:content="'http://77.222.63.141' + ${#httpServletRequest.getRequestURI()}"/>
             <!--/*@thymesVar id="coverImage" type="com.project.model.Book"*/-->
-    <meta property="og:image" th:content="'http://77.222.63.141/images/book' + ${book} + '/' + ${pageBook.coverImage} + '/'"/>
+    <meta property="og:image" content="http://77.222.63.141.xip.io:8080/images/book19/1.jpg"/>
     <title><span th:text="${pageBook.name.getRu()}"/></title>
             </span>
         <div th:case="*">
@@ -264,8 +264,8 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-<!--                    <img id="img-close" src="../../static/images/redClose.png" width="15px" height="15px"-->
-<!--                         onclick="deleteBookFromRequest()">-->
+                    <img id="img-close" src="../../static/images/redClose.png" width="15px" height="15px"
+                         onclick="deleteBookFromRequest()">
                     <img alt="ask-interested-book" height="80" width="55"
                          id="ask-interested-image"
                          src="">
