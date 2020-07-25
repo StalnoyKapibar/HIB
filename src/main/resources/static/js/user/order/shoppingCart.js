@@ -266,6 +266,27 @@ function showOrderSum() {
                     </div>`;
 
     }
+    // добавли в блок подтвреждения контактной инфы перед заказом имя и фамилию
+    if (contacts.firstName !== '') {
+        html += `<div class="form-group  row">
+                        <label class="control-label col-sm-2 col-form-label firstName-label">First name</label>
+
+                        <div class="col-md-5 pl-0 pr-1">
+                            <input class="form-control" readonly  placeholder=${contacts.firstName}>
+                        </div>
+                    </div>`;
+
+    }
+    if (contacts.lastName !== '') {
+        html += `<div class="form-group  row">
+                        <label class="control-label col-sm-2 col-form-label lastName-label">Last name</label>
+
+                        <div class="col-md-5 pl-0 pr-1">
+                            <input class="form-control" readonly  placeholder=${contacts.lastName}>
+                        </div>
+                    </div>`;
+
+    }
     if (contacts.phone !== '') {
         html += `<div class="form-group row">
                         <label class="control-label col-sm-2 col-form-label phone-label">Phone</label>
@@ -285,12 +306,14 @@ function showOrderSum() {
     }
 
     html += `</div></div>`;
+    //присоеденяем введенные пользователем контакты для подтвержения.
     $('#shippingaddress').html(html);
 
     setLocaleFields();
 
 }
 
+// Вкладка заказы
 async function showListOrders() {
     await fetch("/order/getorders")
         .then(status)
@@ -336,6 +359,7 @@ function showCarrentOrder(index) {
     $('#pricetotalordermodal').text(convertPrice(order.itemsCost) + currencyIcon);
 
     let html = ``;
+    // блок отрисовки подтвержения контактной информации клиента перед заказом/покупкой
     html += `<div class="panel panel-primary">
                         <div class="panel-body">
                             <div class="container mt-2">
@@ -347,6 +371,14 @@ function showCarrentOrder(index) {
                        <label class="control-label col-sm-2 col-form-label email-label">Email</label>
                         <div class="col-md-5 pl-0 pr-1">
                             <input class="form-control" readonly  placeholder=${order.contacts.email}>
+                        </div>
+                    </div>`;
+    }
+    if (order.contacts.firstName !== '') {
+        html += `<div class="form-group row">
+                       <label class="control-label col-sm-2 col-form-label firstName-label">First name</label>
+                        <div class="col-md-5 pl-0 pr-1">
+                            <input class="form-control" readonly  placeholder=${order.contacts.firstName}>
                         </div>
                     </div>`;
     }
@@ -367,7 +399,6 @@ function showCarrentOrder(index) {
     }
 
     html += `</div></div>`;
-    $('#contactStatus').html(html);
     setLocaleFields();
 }
 
