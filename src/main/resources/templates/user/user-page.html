@@ -10,17 +10,18 @@
         <span th:case="1">
 
             <!--/*@thymesVar id="coverImage" type="com.project.model.Book"*/-->
-            <meta property="og:type"            content="Book" />
-            <meta property="og:url"             th:content="'http://77.222.63.141' + ${#httpServletRequest.getRequestURI()}" />
-            <meta property="og:title"           th:content="${pageBook.name.getRu()}" />
-            <meta property="og:image"           th:content="'http://77.222.63.141.xip.io:8080/images/book' + ${book} + '/' + ${pageBook.coverImage}" />
-            <meta property="og:description"     th:content="${pageBook.description.getRu()}" name="description"/>
+            <meta property="og:type" content="Book"/>
+            <meta property="og:url" th:content="'http://77.222.63.141' + ${#httpServletRequest.getRequestURI()}"/>
+            <title><span th:text="${pageBook.name.getRu()}"/></title>
+            <img src="../../static/images/oCBc-E1RajI.jpg">
+            <meta property="og:image" th:content="'http://77.222.63.141.xip.io:8080/images/book' + ${book} + '/' + ${pageBook.coverImage}"/>
+            <meta property="og:description" th:content="${pageBook.description.getRu()}" name="description"/>
 
-<!--    <meta th:content="${pageBook.description.getRu()}" name="description">-->
-<!--    <meta property="og:url" th:content="'http://77.222.63.141' + ${#httpServletRequest.getRequestURI()}"/>-->
-<!--            &lt;!&ndash;/*@thymesVar id="coverImage" type="com.project.model.Book"*/&ndash;&gt;-->
-<!--    <meta property="og:image" th:href="@{http://77.222.63.141.xip.io:8080/images/book{id}/{coverImage}(id=*{book}, coverImage=*{pageBook.coverImage})}"/>-->
-<!--    <title><span th:text="${pageBook.name.getRu()}"/></title>-->
+            <!--    <meta th:content="${pageBook.description.getRu()}" name="description">-->
+            <!--    <meta property="og:url" th:content="'http://77.222.63.141' + ${#httpServletRequest.getRequestURI()}"/>-->
+            <!--            &lt;!&ndash;/*@thymesVar id="coverImage" type="com.project.model.Book"*/&ndash;&gt;-->
+            <!--    <meta property="og:image" th:href="@{http://77.222.63.141.xip.io:8080/images/book{id}/{coverImage}(id=*{book}, coverImage=*{pageBook.coverImage})}"/>-->
+            <!--    <title><span th:text="${pageBook.name.getRu()}"/></title>-->
             </span>
         <div th:case="*">
             <title>History in books</title>
@@ -273,11 +274,11 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-<!--                    <img id="img-close" src="../../static/images/redClose.png" width="15px" height="15px"-->
-<!--                         onclick="deleteBookFromRequest()">-->
-<!--                    <img alt="ask-interested-book" height="80" width="55"-->
-<!--                         id="ask-interested-image"-->
-<!--                         src="">-->
+                    <!--                    <img id="img-close" src="../../static/images/redClose.png" width="15px" height="15px"-->
+                    <!--                         onclick="deleteBookFromRequest()">-->
+                    <!--                    <img alt="ask-interested-book" height="80" width="55"-->
+                    <!--                         id="ask-interested-image"-->
+                    <!--                         src="">-->
                     <button class="btn btn-secondary closeModalBtn" data-dismiss="modal" type="button">Close
                     </button>
                     <button class="btn btn-primary" id="send-feedback-request" type="button">Send message</button>
