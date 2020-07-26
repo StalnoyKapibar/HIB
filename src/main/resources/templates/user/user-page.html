@@ -11,22 +11,17 @@
     <div th:switch="${isPage}">
         <span th:case="1">
 
-<!--                        &lt;!&ndash;/*@thymesVar id="coverImage" type="com.project.model.Book"*/&ndash;&gt;-->
-<!--            <meta property="og:type" content="website"/>-->
-<!--            <meta property="og:url" th:content="'http://77.222.63.141' + ${#httpServletRequest.getRequestURI()}"/>-->
-<!--            <title><span th:text="${pageBook.name.getRu()}"/></title>-->
-<!--            &lt;!&ndash;            <meta property="og:title" th:content="${pageBook.name.getRu()}"/>&ndash;&gt;-->
-<!--            <meta property="og:image" th:url="'http://77.222.63.141.xip.io:8080/images/book' + ${book} + '/' + ${pageBook.coverImage}"/>-->
-<!--            <meta property="og:image:type" content="image/jpeg"/>-->
-<!--            <meta property="og:image:width" content="400"/>-->
-<!--            <meta property="og:image:height" content="300"/>-->
-<!--            <meta property="og:description" th:content="${pageBook.description.getRu()}" name="description"/>-->
-
-                <meta th:content="${pageBook.description.getRu()}" name="description">
-                <meta property="og:url" th:content="'http://77.222.63.141' + ${#httpServletRequest.getRequestURI()}"/>
                         <!--/*@thymesVar id="coverImage" type="com.project.model.Book"*/-->
-                <meta property="og:image" th:href="@{http://77.222.63.141.xip.io:8080/images/book{id}/{coverImage}(id=*{book}, coverImage=*{pageBook.coverImage})}"/>
-                <title><span th:text="${pageBook.name.getRu()}"/></title>
+            <meta property="og:type" content="website"/>
+            <meta property="og:url" th:content="'http://77.222.63.141' + ${#httpServletRequest.getRequestURI()}"/>
+            <title><span th:text="${pageBook.name.getRu()}"/></title>
+            <!--            <meta property="og:title" th:content="${pageBook.name.getRu()}"/>-->
+            <meta property="og:image" th:url="'http://77.222.63.141.xip.io:8080/images/book' + ${book} + '/' + ${pageBook.coverImage}"/>
+            <meta property="og:image:type" content="image/jpeg"/>
+            <meta property="og:image:width" content="400"/>
+            <meta property="og:image:height" content="300"/>
+            <meta property="og:description" th:content="${pageBook.description.getRu()}" name="description"/>
+
             </span>
         <div th:case="*">
             <title>History in books</title>
