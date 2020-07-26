@@ -15,7 +15,7 @@
             <meta property="og:url" th:content="'http://77.222.63.141' + ${#httpServletRequest.getRequestURI()}"/>
             <title><span th:text="${pageBook.name.getRu()}"/></title>
 <!--            <meta property="og:title" th:content="${pageBook.name.getRu()}"/>-->
-            <meta property="og:image" th:url="'http://77.222.63.141.xip.io:8080/images/book' + ${book} + '/' + ${pageBook.coverImage}"/>
+            <meta property="og:image" th:src="@{http://77.222.63.141.xip.io:8080/images/book{id}/{coverImage}(id=*{id}, coverImage=*{coverImage})}"/>
             <meta property="og:image:type" content="image/jpeg"/>
             <meta property="og:image:width" content="400"/>
             <meta property="og:image:height" content="300"/>
