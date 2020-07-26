@@ -58,6 +58,22 @@
 </head>
 <body>
 
+<!--for button share facebook from yandex-->
+<script src="https://yastatic.net/es5-shims/0.0.2/es5-shims.min.js"></script>
+<script src="https://yastatic.net/share2/share.js"></script>
+<div class="ya-share2" data-services="facebook" data-limit="3"></div>
+
+<!--for button share facebook-->
+<script>(function (d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s);
+    js.id = id;
+    js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+</script>
+
 <div id="page-wrapper" class="page-wrapper default-theme sidebar-bg bg1 toggled pinned">
     <div class="wide top">
         <h2 id="greekText"></h2>
