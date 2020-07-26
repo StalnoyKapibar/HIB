@@ -9,7 +9,7 @@
     <div th:switch="${isPage}">
         <span th:case="1">
 
-            <meta property="og:type" content="website"/>
+            <meta property="og:type" content="books.book"/>
             <meta property="og:url" th:content="'http://77.222.63.141' + ${#httpServletRequest.getRequestURI()}"/>
             <meta property="og:title" th:content="${pageBook.name.getRu()}"/>
             <meta property="og:image" th:content="'http://77.222.63.141.xip.io:8080/images/book' + ${book} + '/' + ${pageBook.coverImage}"/>
@@ -272,7 +272,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <img id="img-close" src="../../static/images/book.png" width="15px" height="15px"
+                    <img id="img-close" src="../../static/images/redClose.png" width="15px" height="15px"
                          onclick="deleteBookFromRequest()">
                     <img alt="ask-interested-book" height="80" width="55"
                          id="ask-interested-image"
