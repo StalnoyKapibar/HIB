@@ -31,7 +31,7 @@ public class WebConfiguration implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**").addResourceLocations(CLASSPATH_RESOURCE_LOCATIONS);
-        registry.addResourceHandler("/images/**").addResourceLocations("file:imgtestbook/");
+        registry.addResourceHandler("/images/**").addResourceLocations("file:img/");
     }
 
     // bean for using Spring Security Dialect with Thymeleaf engine (in html page)
