@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
-      xmlns:og="http://ogp.me/ns#">
+      prefix="og: http://ogp.me/ns#">
 <html xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
@@ -13,7 +13,8 @@
             <meta property="og:type" content="article"/>
             <meta property="og:url" th:content="'http://77.222.63.141' + ${#httpServletRequest.getRequestURI()}"/>
             <meta property="og:title" th:content="${pageBook.name.getRu()}"/>
-            <meta property="og:image" th:content="'http://77.222.63.141.xip.io:8080/images/book' + ${book} + '/' + ${pageBook.coverImage}"/>
+<!--            <meta property="og:image" th:content="'http://77.222.63.141.xip.io:8080/images/book' + ${book} + '/' + ${pageBook.coverImage}"/>-->
+            <meta property="og:image" content="https://cv3.litres.ru/pub/c/audiokniga/cover_max1500/284832-robert-luis-stivenson-ostrov-sokrovisch-284832.jpg">
             <meta property="og:image:type" content="image/vnd.sealedmedia.softseal.jpg"/>
             <meta property="og:image:width" content="400"/>
             <meta property="og:image:height" content="300"/>
