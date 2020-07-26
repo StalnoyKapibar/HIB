@@ -73,12 +73,18 @@ async function getShoppingCart() {
                     $('#shoppingCardOrderDisabledMessage').addClass('resolveShopCart').text('Please resolve shopping cart warnings before proceeding');
                     $('#forButtonCheckout').html(`<div><button class="btn btn-primary checkout-btn" id="chechout" onclick="confirmAddress()" type="button" disabled="disabled">
                                     Checkout
-                                </button></div>`)
+                                </button></div>`);
+                    $('#for-1click-reg').html(`<button class="btn btn-primary" id="1click-reg-btn"
+                                               onclick="location.href='/1clickreg'" type="button" disabled="disabled">
+                                               Buy without sign up</button>`);
                 } else {
                     $('#shoppingCardOrderDisabledMessage').text('');
                     $('#forButtonCheckout').html(`<div><button class="btn btn-primary checkout-btn" id="chechout" onclick="confirmAddress()" type="button">
                                     Checkout
-                                </button></div>`)
+                                </button></div>`);
+                    $('#for-1click-reg').html(`<button class="btn btn-primary" id="1click-reg-btn"
+                                               onclick="location.href='/1clickreg'" type="button">
+                                               Buy without sign up</button>`);
                 }
           setLocaleFields();
 
