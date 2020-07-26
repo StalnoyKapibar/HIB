@@ -12,6 +12,17 @@
 </head>
 <body>
 
+<!--for button share facebook-->
+<script>(function (d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s);
+    js.id = id;
+    js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+</script>
+
 <div class="d-flex">
     <header th:replace="home-old :: nav-bar"></header>
 
@@ -19,7 +30,7 @@
     <div class="container page-content" th:fragment="book-page">
         <link href="/static/css/style.css" rel="stylesheet">
         <link href="/static/css/bootstrap.min.css" rel="stylesheet">
-        <link href="/static/css/bootstrap-social.css" rel="stylesheet" />
+        <link href="/static/css/bootstrap-social.css" rel="stylesheet"/>
         <link href="/static/fonts/font-awesome.css" rel="stylesheet">
         <link href="/static/fonts/font.css" rel="stylesheet">
         <link href="/static/css/style.css" rel="stylesheet">
@@ -28,8 +39,8 @@
         <script src="/static/js/lib/jquery.min.js"></script>
         <script src="/static/js/lib/popper.min.js"></script>
         <script src="/static/js/lib/bootstrap.min.js"></script>
-<!--        <div id="fb-root"></div>-->
-<!--        <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_EN/sdk.js#xfbml=1&version=v7.0" nonce="TBg77oxR"></script>-->
+        <!--        <div id="fb-root"></div>-->
+        <!--        <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_EN/sdk.js#xfbml=1&version=v7.0" nonce="TBg77oxR"></script>-->
         <script crossorigin="anonymous" src="https://kit.fontawesome.com/db08edad0b.js"></script>
         <div class="book-background w-auto p-3">
             <div class="col-sm-8 col-md-9 ml-auto col-xl-10">
@@ -85,26 +96,24 @@
                                             <br>
 
                                             <!-- Button for share Facebook -->
-<!--                                            <div class="fb-share-button" th:data-href="${#httpServletRequest.requestURI}" data-layout="button" data-size="small">-->
-<!--                                                <a target="_blank" th:href="'https://www.facebook.com/sharer/sharer.php?u=' + '${#httpServletRequest.requestURI}' + '4&amp;src=sdkpreparse'"-->
-<!--                                                   class="fb-xfbml-parse-ignore">Share</a>-->
-<!--                                            </div>-->
-
-                                            <!-- Load Facebook SDK for JavaScript -->
-                                            <div id="fb-root"></div>
-                                            <script>(function(d, s, id) {
-                                                var js, fjs = d.getElementsByTagName(s)[0];
-                                                if (d.getElementById(id)) return;
-                                                js = d.createElement(s); js.id = id;
-                                                js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
-                                                fjs.parentNode.insertBefore(js, fjs);
-                                            }(document, 'script', 'facebook-jssdk'));</script>
+                                            <!--                                            <div class="fb-share-button" th:data-href="${#httpServletRequest.requestURI}" data-layout="button" data-size="small">-->
+                                            <!--                                                <a target="_blank" th:href="'https://www.facebook.com/sharer/sharer.php?u=' + '${#httpServletRequest.requestURI}' + '4&amp;src=sdkpreparse'"-->
+                                            <!--                                                   class="fb-xfbml-parse-ignore">Share</a>-->
+                                            <!--                                            </div>-->
 
                                             <!-- Your share button code -->
                                             <div class="fb-share-button"
-                                                 data-href="https://www.your-domain.com/your-page.html"
-                                                 data-layout="button_count">
+                                                 data-href="https://developers.facebook.com/docs/plugins/"
+                                                 data-layout="button_count" data-size="large"><a target="_blank"
+                                                                                                 href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse"
+                                                                                                 class="fb-xfbml-parse-ignore">Поделиться</a>
                                             </div>
+
+                                            <!-- frame for button facebook-->
+<!--                                            <iframe src="https://www.facebook.com/plugins/share_button.php?href=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&layout=button_count&size=small&appId=299965471209767&width=145&height=20"-->
+<!--                                                    width="145" height="20" style="border:none;overflow:hidden"-->
+<!--                                                    scrolling="no" frameborder="0" allowTransparency="true"-->
+<!--                                                    allow="encrypted-media"></iframe>-->
 
                                         </div>
                                         <div class="col-8 offset-2">
@@ -123,7 +132,8 @@
                                                         </button>
                                                     </th:block>
                                                     <th:block sec:authorize="hasRole('ADMIN')">
-                                                        <button id="editBtn" class="btn btn-warning btn-metro col-8 offset-4"
+                                                        <button id="editBtn"
+                                                                class="btn btn-warning btn-metro col-8 offset-4"
                                                                 onclick="openEdit()">Edit book
                                                         </button>
                                                     </th:block>
