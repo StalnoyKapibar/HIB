@@ -181,3 +181,51 @@ function checkParams() {
 function doesFolderTmpExist() {
     fetch("admin/doesFolderTmpExist");
 }
+
+// Меняет информационое сообщение на разных языках о не корректности email
+$('input').on('login-input-loc invalid', function() {
+    this.setCustomValidity('')
+
+    if (currentLang === 'en') {
+        if (this.validity.typeMismatch) {
+            this.setCustomValidity("Invalid email address entered")
+        }
+    }
+
+    if (currentLang === 'ru') {
+        if (this.validity.typeMismatch) {
+            this.setCustomValidity("Введен некорректный email")
+        }
+    }
+
+
+    if (currentLang === 'cs') {
+        if (this.validity.typeMismatch) {
+            this.setCustomValidity("Zadán nesprávný e-mail")
+        }
+    }
+
+    if (currentLang === 'de') {
+        if (this.validity.typeMismatch) {
+            this.setCustomValidity("Falsche E-Mail eingegeben")
+        }
+    }
+
+    if (currentLang === 'fr') {
+        if (this.validity.typeMismatch) {
+            this.setCustomValidity("Email incorrect entré")
+        }
+    }
+
+    if (currentLang === 'gr') {
+        if (this.validity.typeMismatch) {
+            this.setCustomValidity("Ορίστηκε λάθος email")
+        }
+    }
+
+    if (currentLang === 'it') {
+        if (this.validity.typeMismatch) {
+            this.setCustomValidity("Inserito email non corretta")
+        }
+    }
+})
