@@ -303,6 +303,11 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
         return entityManager.createQuery(hql).getResultList();
     }
 
+    @Override
+    public List<Long> getAllAvailableBooks() {
+        String hql = "SELECT b.id FROM Book b WHERE b.isShow = true";
+        return entityManager.createQuery(hql).getResultList();
+    }
 
     @Override
     public void setLastOrderedBooks(List<Long> list) {

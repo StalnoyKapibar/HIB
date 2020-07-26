@@ -101,6 +101,11 @@ public class BookServiceImpl implements BookService {
     public void setLastOrderedBooks(List<Long> list) {
         bookDAO.setLastOrderedBooks(list);
     }
+
+    @Override
+    public List<Long> getAllAvailableBooks() {
+        return bookDAO.getAllAvailableBooks();
+    }
     
     @Override
     public List<BookNewDTO> getAllLightBookDtoForSearch() {
