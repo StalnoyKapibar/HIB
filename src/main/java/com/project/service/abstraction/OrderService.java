@@ -26,7 +26,7 @@ public interface OrderService {
 
     List<Order> getOrderByEmailByStatus(Status status, String email);
 
-    int getCountOfOrders(long lastAuthDate);
+    int getCountOfOrders();
 
     void unCompleteOrder(Long id);
 

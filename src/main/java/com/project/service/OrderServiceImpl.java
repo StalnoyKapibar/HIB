@@ -147,8 +147,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public int getCountOfOrders(long lastAuthDate) {
-        return orderDAO.getCountOfOrders(lastAuthDate);
+    public int getCountOfOrders() {
+        return orderDAO.getCountOfOrders();
     }
 
     @Override
