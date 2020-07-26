@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
       prefix="og: http://ogp.me/ns#">
-<html xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
@@ -15,7 +16,7 @@
             <meta property="og:url" th:content="'http://77.222.63.141' + ${#httpServletRequest.getRequestURI()}"/>
             <title><span th:text="${pageBook.name.getRu()}"/></title>
 <!--            <meta property="og:title" th:content="${pageBook.name.getRu()}"/>-->
-<!--            <meta property="og:image" th:url="'http://77.222.63.141.xip.io:8080/images/book' + ${book} + '/' + ${pageBook.coverImage}"/>-->
+            <meta property="og:image" th:url="'http://77.222.63.141.xip.io:8080/images/book' + ${book} + '/' + ${pageBook.coverImage}"/>
             <meta property="og:image:type" content="image/jpeg"/>
             <meta property="og:image:width" content="400"/>
             <meta property="og:image:height" content="300"/>
@@ -53,6 +54,7 @@
     <script src="/static/js/lib/bootstrap.min.js"></script>
     <script src="/static/js/user/bucketCount.js"></script>
     <script crossorigin="anonymous" src="https://kit.fontawesome.com/db08edad0b.js"></script>
+    <title></title>
 </head>
 <body>
 
