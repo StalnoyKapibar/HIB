@@ -28,13 +28,7 @@
         <script src="/static/js/lib/popper.min.js"></script>
         <script src="/static/js/lib/bootstrap.min.js"></script>
         <div id="fb-root"></div>
-        <script>(function(d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) return;
-            js = d.createElement(s); js.id = id;
-            js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));</script>
+        <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v7.0&appId=715816745661193&autoLogAppEvents=1" nonce="tTW04xuV"></script>
 <!--        <div id="fb-root"></div>-->
 <!--        <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_EN/sdk.js#xfbml=1&version=v7.0" nonce="TBg77oxR"></script>-->
         <script crossorigin="anonymous" src="https://kit.fontawesome.com/db08edad0b.js"></script>
@@ -90,9 +84,10 @@
                                             <h4 class="font-weight-light price">Price:</h4>
                                             <span class="font-weight-normal" id="book-price">15.00$</span>
                                             <br>
-                                            <div class="fb-share-button"
-                                                 data-href="https://www.your-domain.com/your-page.html"
-                                                 data-layout="button_count">
+                                            <div class="fb-share-button" th:data-href="${#httpServletRequest.requestURI}" data-layout="button_count" data-size="small"><a target="_blank" th:href="'https://www.facebook.com/sharer/sharer.php?u=' + '${#httpServletRequest.requestURI}' + '4&amp;src=sdkpreparse'" class="fb-xfbml-parse-ignore">Share</a></div>
+<!--                                            <div class="fb-share-button"-->
+<!--                                                 th:data-href="${#httpServletRequest.requestURI}"-->
+<!--                                                 data-layout="button_count">-->
 <!--                                            <div class="fb-share-button" th:data-href="${#httpServletRequest.requestURI}" data-layout="button" data-size="small">-->
 <!--                                                <a target="_blank" th:href="'https://www.facebook.com/sharer/sharer.php?u=' + '${#httpServletRequest.requestURI}' + '&amp;src=sdkpreparse'"-->
 <!--                                                   class="fb-xfbml-parse-ignore">Share</a>-->
