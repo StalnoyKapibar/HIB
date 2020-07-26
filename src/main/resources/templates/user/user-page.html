@@ -7,11 +7,16 @@
     <meta content="width=device-width, initial-scale=1" name="viewport">
     <div th:switch="${isPage}">
         <span th:case="1">
-    <meta th:content="${pageBook.description.getRu()}" name="description">
-    <meta property="og:url" th:content="'http://77.222.63.141.xip.io:8080' + ${#httpServletRequest.getRequestURI()}"/>
-            <!--/*@thymesVar id="coverImage" type="com.project.model.Book"*/-->
-    <meta property="og:image" th:content="'http://77.222.63.141.xip.io:8080/images/book' + ${book} + '/' + ${pageBook.coverImage}"/>
+<!--    <meta th:content="${pageBook.description.getRu()}" name="description">-->
+<!--    <meta property="og:url" th:content="'http://77.222.63.141.xip.io:8080' + ${#httpServletRequest.getRequestURI()}"/>-->
+<!--            &lt;!&ndash;/*@thymesVar id="coverImage" type="com.project.model.Book"*/&ndash;&gt;-->
+<!--    <meta property="og:image" th:content="'http://77.222.63.141.xip.io:8080/images/book' + ${book} + '/' + ${pageBook.coverImage}"/>-->
     <title><span th:text="${pageBook.name.getRu()}"/></title>
+            <meta property="og:url"           th:content="'http://77.222.63.141.xip.io:8080' + ${#httpServletRequest.getRequestURI()}" />
+            <meta property="og:type"          content="books" />
+            <meta property="og:title"         th:content="${pageBook.name.getRu()}" />
+            <meta property="og:description"   th:content="${pageBook.description.getRu()}" />
+            <meta property="og:image"         th:content="'http://77.222.63.141.xip.io:8080/images/book' + ${book} + '/' + ${pageBook.coverImage}" />
             </span>
         <div th:case="*">
             <title>History in books</title>
