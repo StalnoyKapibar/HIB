@@ -4,12 +4,11 @@
 
       prefix="og: http://ogp.me/ns#">
 <head>
-    <head>
-        <meta charset="utf-8">
-        <meta content="IE=edge" http-equiv="X-UA-Compatible">
-        <meta content="width=device-width, initial-scale=1" name="viewport">
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
 
-        <div th:switch="${isPage}">
+    <div th:switch="${isPage}">
         <span th:case="1">
 
                         <!--/*@thymesVar id="coverImage" type="com.project.model.Book"*/-->
@@ -29,34 +28,33 @@
             <!--    <meta property="og:image" th:href="@{http://77.222.63.141.xip.io:8080/images/book{id}/{coverImage}(id=*{book}, coverImage=*{pageBook.coverImage})}"/>-->
             <!--    <title><span th:text="${pageBook.name.getRu()}"/></title>-->
             </span>
-            <div th:case="*">
-                <title>History in books</title>
-            </div>
+        <div th:case="*">
+            <title>History in books</title>
         </div>
+    </div>
 
-        <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
-              integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" rel="stylesheet">
-        <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
-              integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" rel="stylesheet">
-        <link href="//malihu.github.io/custom-scrollbar/jquery.mCustomScrollbar.min.css" rel="stylesheet">
-        <link href="/static/css/user/sidebar/main.css" rel="stylesheet">
-        <link href="/static/css/style.css" rel="stylesheet">
-        <link href="/static/css/user/sidebar/sidebar-themes.css" rel="stylesheet">
-        <link href="/static/css/user/modal/mail.css" rel="stylesheet">
-        <link href="/static/css/bootstrap.min.css" rel="stylesheet">
-        <link href="/static/css/themify-icons.css" rel="stylesheet">
-        <link href="/static/css/bootstrap-social.css" rel="stylesheet"/>
-        <link href="/static/fonts/font.css" rel="stylesheet">
-        <link href="/static/fonts/font-awesome.css" rel="stylesheet">
-        <link href="/static/css/style.css" rel="stylesheet">
-        <link href="/static/css/error.css" rel="stylesheet">
-        <script src="/static/js/lib/jquery.min.js"></script>
-        <script src="/static/js/lib/popper.min.js"></script>
-        <script src="/static/js/lib/bootstrap.min.js"></script>
-        <script src="/static/js/user/bucketCount.js"></script>
-        <script crossorigin="anonymous" src="https://kit.fontawesome.com/db08edad0b.js"></script>
-        <title></title>
-    </head>
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" rel="stylesheet">
+    <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+          integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" rel="stylesheet">
+    <link href="//malihu.github.io/custom-scrollbar/jquery.mCustomScrollbar.min.css" rel="stylesheet">
+    <link href="/static/css/user/sidebar/main.css" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet">
+    <link href="/static/css/user/sidebar/sidebar-themes.css" rel="stylesheet">
+    <link href="/static/css/user/modal/mail.css" rel="stylesheet">
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/themify-icons.css" rel="stylesheet">
+    <link href="/static/css/bootstrap-social.css" rel="stylesheet"/>
+    <link href="/static/fonts/font.css" rel="stylesheet">
+    <link href="/static/fonts/font-awesome.css" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet">
+    <link href="/static/css/error.css" rel="stylesheet">
+    <script src="/static/js/lib/jquery.min.js"></script>
+    <script src="/static/js/lib/popper.min.js"></script>
+    <script src="/static/js/lib/bootstrap.min.js"></script>
+    <script src="/static/js/user/bucketCount.js"></script>
+    <script crossorigin="anonymous" src="https://kit.fontawesome.com/db08edad0b.js"></script>
+    <title></title>
 </head>
 <body>
 
