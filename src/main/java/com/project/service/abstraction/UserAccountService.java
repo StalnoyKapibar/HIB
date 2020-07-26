@@ -33,4 +33,6 @@ public interface UserAccountService {
     List<String> getUsersEmails();
 
     Long getCartIdByUserEmail(String email);
+
+    boolean deleteUser(String email);
 }

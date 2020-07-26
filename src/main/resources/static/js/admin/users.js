@@ -23,6 +23,7 @@ $(document).ready(async function () {
                                 <td>${users[index].processingOrders} <button type="button" class="btn btn-primary arrow" onclick="showDetails('processingOrders', '${users[index].email}')" id="${users[index].email}-processingOrders-arrow">↓</button></td>
                                 <td>${users[index].completedOrders} <button type="button" class="btn btn-primary arrow" onclick="showDetails('completedOrders', '${users[index].email}')" id="${users[index].email}-completedOrders-arrow">↓</button></td>
                                 <td>${users[index].deletedOrders} <button type="button" class="btn btn-primary arrow" onclick="showDetails('deletedOrders', '${users[index].email}')" id="${users[index].email}-deletedOrders-arrow">↓</button></td>
+                                <td><button type="button" class="btn btn-primary arrow" onclick="showDetails('editUser', '${users[index].email}')" id="${users[index].email}-editUser-arrow">↓</button></td>
                               </tr>`;
                 $('#users-body').html(htmlUsers);
             });
@@ -320,6 +321,9 @@ function showDetails(details, email) {
         case 'deletedOrders':
             showDeletedOrders(details, email);
             break;
+        case 'editUser':
+            showEditUser(details, email);
+            break;
     }
 }
 
@@ -537,6 +541,54 @@ async function showDeletedOrders(details, email) {
         });
     document.getElementById(email + "-mark").insertAdjacentHTML("afterend", htmlDetails);
     upArrow(email + '-' + details + '-arrow', details, email);
+}
+
+async function showEditUser(details, email) {
+    let htmlDetails = ``;
+    htmlDetails += `<tr id="${email}-${details}">
+                        <td colspan="7" class="pt-0 pb-0">`
+    await fetch(`/api/admin/user/${email}/`)
+        .then(json)
+        .then((data) => {
+            let user = data;
+            let enableDisable;
+            if (user.enabled) {
+                enableDisable = `<button class="btn btn-secondary btn-block" type="button" onclick="enableDisableUser('${user.email}', 'disable')">Disable</button>`
+            } else {
+                enableDisable = `<button class="btn btn-success btn-block" type="button" onclick="enableDisableUser('${user.email}', 'enable')">Enable</button>`
+            }
+                htmlDetails += `<div class="row active-cell-details">
+                                    <div class="col-8">
+                                        <div>Id: ${user.id}, First name: ${user.firstName}, Last name: ${user.lastName}, Phone: ${user.phone}</div>
+                                    </div>
+                                    <div class="col-2">` +
+                                        enableDisable +
+                                    `</div>
+                                    <div class="col-2">
+                                        <button class="btn btn-danger btn-block" type="button" onclick="deleteUser('${user.email}')">Delete</button>
+                                    </div>
+                                </div>`
+            });
+            htmlDetails += `    </td>
+                            </tr>`
+    document.getElementById(email + "-mark").insertAdjacentHTML("afterend", htmlDetails);
+    upArrow(email + '-' + details + '-arrow', details, email);
+}
+
+async function enableDisableUser(email, status) {
+    await fetch("/api/admin/user/" + email + "/" + status, {
+        method: 'PATCH'
+        }).then((data) => {
+            document.getElementById(`${email}-editUser`).remove();
+            showDetails('editUser', `${email}`);
+        });
+}
+
+async function deleteUser(email) {
+    await fetch(`/api/admin/user/${email}/`, {
+        method: 'DELETE'
+        });
+        location.reload();
 }
 
 function downArrow(arrowId, details, email) {

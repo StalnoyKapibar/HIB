@@ -2,16 +2,16 @@ package com.project.service;
 
 import com.project.dao.UserAccountDao;
 import com.project.dao.abstraction.UserRoleDao;
-import com.project.mail.MailService;
-import com.project.model.*;
+import com.project.model.RegistrationUserDTO;
+import com.project.model.Role;
+import com.project.model.ShoppingCart;
+import com.project.model.UserAccount;
 import com.project.service.abstraction.SendEmailService;
 import com.project.service.abstraction.UserAccountService;
 import lombok.AllArgsConstructor;
 import org.hibernate.exception.ConstraintViolationException;
-import org.springframework.core.env.Environment;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.mail.MailSendException;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,7 +22,6 @@ import javax.persistence.NoResultException;
 import javax.servlet.http.HttpSession;
 import java.time.Instant;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -138,4 +137,13 @@ public class UserAccountServiceImpl implements UserAccountService {
         return userAccountDao.getUsersEmails();
     }
 
+    @Override
+    public boolean deleteUser(String email) {
+        UserAccount userAccount = findByLogin(email);
+        if (userAccount != null) {
+            userAccountDao.deleteUserAccount(userAccount);
+            return true;
+        }
+        return false;
+    }
 }
