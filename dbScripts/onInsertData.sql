@@ -495,7 +495,7 @@ insert into category (category_name, parent_id, view_order) values ('1900', 14, 
 insert into original_language (author, author_translit, edition, edition_translit, name, name_translit) values ('Павел Астахов', 'Pavel Astahov', 'First Edition', 'First Edition', 'Инвестор', 'Investor');
 insert into book (cover_image, is_show, last_book_ordered, original_language_name, pages, price, views, year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id) values ('1.jpg', true, false, 'RU', 200, 950, null, 2004, 1, 15, 2, 3, 4, 1);
 
-insert into image (name_image) values ('1.jpg');
+insert into image (name_image) values ('avatar.jpg');
 insert into image (name_image) values ('2.jpg');
 insert into book_list_image (book_id, list_image_id) values (1, 1);
 insert into book_list_image (book_id, list_image_id) values (1, 2);
