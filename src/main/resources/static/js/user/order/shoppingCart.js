@@ -198,12 +198,17 @@ function geolocate() {
 }
 
 async function confirmPurchase() {
-    document.location.href = '/reqOperation';
     await POST('/order')
-        .then(r => getShoppingCart());
+        .then(r => getShoppingCart())
+        // POST order before redirect
+        .then(function () {
+            document.location.href = '/reqOperation';
+        });
 }
 
 $("#butToBuy").one('click',function() {
+    // show preloader before action
+    $(".preloader").show("slow");
     confirmPurchase();
 });
 

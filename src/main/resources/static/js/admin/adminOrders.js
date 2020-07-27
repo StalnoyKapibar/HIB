@@ -162,7 +162,7 @@ async function renderPageData(data) {
             } else {
                 html += `<tbody ><tr `;
             }
-            if (!isOrderEnable) {
+            if (!isOrderEnable || !isBookAvailable) {
                 html += `style = "background-color: #FFB3B3" `;
             }
 
