@@ -2,6 +2,7 @@ let viewOrder, categoryId;
 let nameVarOfLocaleString;
 let nameVarOfLocaleStringWithId;
 
+
 fetch('/admin/categories/getadmintree')
     .then(function (response) {
         return response.json()
@@ -179,7 +180,15 @@ $(document).on('click', '#addNewCategory', function () {
     categoryName = $('input[name="newCategoryName"]').val();
     parentId = $('form input[name="categoryId"]').val();
     let map = {};
-    map['en'] = categoryName;
+
+    for (let lang of nameVarOfLocaleString) {
+        let inp = $("#inpname" + lang);
+        map[lang] = inp.val();
+        console.log(lang + "  map: " + inp.val());
+    }
+
+
+    //map['en'] = categoryName;
     if (categoryName === '') {} //Вывести что-то на экран
     else {
         fetch('/admin/categories/add', {
@@ -219,29 +228,16 @@ $(document).on('click', '#addPrimary', function (element) {
         </div>
         <div class="modal-footer">
             <button type="button" id="close" data-dismiss="modal" class="btn btn-block btn-danger">Close</button>
-            <button id="addCategory" data-dismiss="modal" class="btn btn-block btn-primary">Add</button>
+            <button id="addNewCategory" data-dismiss="modal" class="btn btn-block btn-primary">Add</button>
         </div>`;
 
     console.log(row);
     $('#categoryModal').append(row);
     getAllLocales();
+    //setTableRow(nameVarOfLocaleString);
     //$('#categoryModalAdd').append(row);
 
 
-    // let map = {};
-    // map['en'] = categoryName;
-    // if (categoryName === '') {} //Вывести что-то на экран
-    // else {
-    //     fetch('/admin/categories/add', {
-    //         method: 'POST',
-    //         body: JSON.stringify({name: map}),
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //             'Accept': 'application/json'
-    //         }
-    //     });
-    //     location.reload()
-    // }
 });
 
 
@@ -268,6 +264,7 @@ function drop(ev, target) {
     location.reload();
 }
 function setTableRow(nameVarOfLocaleString) {
+    categoryName = $('input[name="primaryCategoryName"]').val();
     let row = ``;
     let nameObject = "name"
     for (let tmpNameVar of nameVarOfLocaleString) {
@@ -279,7 +276,7 @@ function setTableRow(nameVarOfLocaleString) {
                             <input type="radio" class="transl-from-this-lang-loc" name="rb${nameObject}" id="rb${nameObject}${tmpNameVar}" value="${tmpNameVar}" autocomplete="off"> From this
                         </div>
                         <div class="col"> 
-                            <input type='text' class='form-control' id='inp${nameObject}${tmpNameVar}' placeholder='${nameObject} ${tmpNameVar}'>
+                            <input type='text' class='form-control' id='inp${nameObject}${tmpNameVar}' value='${categoryName}'>
                         </div>
                         <div class="col">
                             <input type="checkbox" class="into-this-lang-loc" checked name="cb${nameObject}" value="${tmpNameVar}" autocomplete="off"> Into this language
@@ -288,14 +285,13 @@ function setTableRow(nameVarOfLocaleString) {
                 </div>
             `;
         if (tmpNameVar === "gr") {
-            row += `<button type="button" onclick="translateText('${nameObject}')" class="btn btn-primary mx-3 translate-loc">Translate</button></div>`
+            row += `<button type="button" onclick="translateCategory('${nameObject}')" class="btn btn-primary mx-3 translate-loc">Translate</button></div>`
         }
         
     }
     $('#modal-row').append(row);
 
-    let checkedRadioButton = findRadioButton('rb'+nameObject);
-    console.log(checkedRadioButton);
+
 }
 
 
@@ -328,4 +324,95 @@ function getAllLocales() {
             setTableRow(nameVarOfLocaleString);
         });
 
+}
+
+function translateCategory(label) {
+    let checkedRadioButton = "";
+    let checkedCheckBox = [];
+    let text ="";
+    let elem;
+    $('input').each(function (index) {
+        elem = this;
+        //console.log("elem: " + elem.id + " - " + elem.type);
+        if (elem.type == "radio" && elem.checked ) {
+            checkedRadioButton = elem.value;
+        }
+
+
+    });
+    $('input').each(function (index) {
+        elem = this;
+        if (elem.type == "text" && elem.id == "inp" + label + checkedRadioButton ) {
+            text = elem.value;
+        }
+
+        if (elem.type == "checkbox" && elem.checked && elem.value != checkedRadioButton ) {
+            checkedCheckBox.push(elem.value);
+        }
+    });
+    console.log("checkedRadioButton: " + checkedRadioButton);
+    console.log("checkboxesChecked: " + checkedCheckBox);
+
+    console.log("text: " + '#inp' + label + checkedRadioButton + " - " + text);
+    let j = {
+        langFrom: checkedRadioButton,
+        arrLangTo: checkedCheckBox,
+        text: text
+    };
+
+    let prop = JSON.stringify(j);
+    console.log("prop: " + prop);
+    $.ajax({
+        type: "POST",
+        url: "/translate/list",
+        data: prop,
+        contentType: 'application/json',
+        success: function (data) {
+            for (let key in data) {
+                let inp = $("#inp"+label+key);
+                inp.val(data[key]);
+            }
+        }
+    })
+    // for (let i = 0; i < inp.length; i++) {
+    //     if (inp[i].type == "radio" && inp[i].checked) {
+    //         checkedRadioButton = inp[i].value;
+    //     }
+    // }
+    //let checkedRadioButton = $('input[name="rbname"]').val();
+    //let checkedCheckBox = findCheckBox('cb'+label, checkedRadioButton);
+    //let text = $("#inp"+label+checkedRadioButton).val();
+
+    //console.log("checkedCheckBox: " + checkedCheckBox);
+    //console.log("text: " + text);
+    // if (checkedRadioButton==null){
+    //     alert("Check Lang from");
+    //     return;
+    // }
+    // if(text == ''){
+    //     alert("Enter text")
+    //     return;
+    // }
+    // if (checkedCheckBox.length == 0){
+    //     alert("Check Lang to");
+    //     return;
+    // }
+    // let j = {
+    //     langFrom: checkedRadioButton,
+    //     arrLangTo: checkedCheckBox,
+    //     text: text
+    // };
+    // let prop = JSON.stringify(j);
+    // $.ajax({
+    //     type: "POST",
+    //     url: "/translate/list",
+    //     data: prop,
+    //     contentType: 'application/json',
+    //     success: function (data) {
+    //         for (let key in data) {
+    //             let inp = $("#inp"+label+key);
+    //             inp.val(data[key]);
+    //         }
+    //     }
+    // })
 }
