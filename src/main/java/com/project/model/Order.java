@@ -77,7 +77,7 @@ public class Order {
 
   private String getFormatData (long data){
       Date date = new Date(data * 1000);
-      SimpleDateFormat simpleDateFormat = new SimpleDateFormat(" d.MM.yyyy ");
+      SimpleDateFormat simpleDateFormat = new SimpleDateFormat(" d.MM.yyyy HH:mm:ss");
       return simpleDateFormat.format(date);
   }
 }
