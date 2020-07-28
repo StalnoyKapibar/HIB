@@ -6,7 +6,7 @@
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta content="width=device-width, initial-scale=1" name="viewport">
 
-    <div th:switch="${isPage}">
+    <th:block th:switch="${isPage}">
         <span th:case="1">
                         <!--/*@thymesVar id="coverImage" type="com.project.model.Book"*/-->
             <meta property="og:type" content="website"/>
@@ -23,7 +23,7 @@
         <div th:case="*">
             <title>History in books</title>
         </div>
-    </div>
+    </th:block>
 
     <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
           integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" rel="stylesheet">
