@@ -25,7 +25,7 @@ function convertOriginalLanguageRows(originalRow, transliteRow) {
 }
 
 function setTextHeader() {
-    document.getElementById("greekText").innerHTML = "ΠΑΛΑΙΑ & Σπάνια βιβλία";
+    document.getElementById("greekText").innerHTML = "ΠΑΛΑΙΑ & Σπaνια βιβλiα";
     document.getElementById("engText").innerHTML = "OLD & RARE BOOKS";
 }
 
