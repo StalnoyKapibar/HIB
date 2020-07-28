@@ -9,8 +9,8 @@
     <title>Your Website Title</title>
     <meta property="og:url"           th:content="'http://77.222.63.141.xip.io:8080/page/' + ${book}"/>
     <meta property="og:type"          content="website" />
-    <meta property="og:title"         content="Your Website Title" />
-    <meta property="og:description"   content="Your description" />
+    <meta property="og:title"         th:content="${pageBook.name.getEn()}" />
+    <meta property="og:description"   th:content="${pageBook.description.getEn()}" />
     <meta property="og:image"         th:content="'http://77.222.63.141.xip.io:8080/images/book' + ${book} + '/1.jpg'" />
 
 <!--    <div th:switch="${isPage}">-->
