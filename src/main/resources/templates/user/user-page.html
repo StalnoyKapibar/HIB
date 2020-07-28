@@ -6,33 +6,14 @@
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta content="width=device-width, initial-scale=1" name="viewport">
 
-<!--    <meta th:if="${isPage}">-->
-        <meta property="og:url" th:content="${isPage} ? 'http://77.222.63.141.xip.io:8080/page/' + ${book} : ''"/>
-        <meta property="og:type" content="website"/>
-        <meta property="og:title" th:content="${isPage} ? ${pageBook.name.getEn()} : 'History in books'"/>
-        <meta property="og:description" th:content="${isPage} ? ${pageBook.description.getEn()} : ''"/>
-        <meta property="og:image" th:content="'http://77.222.63.141.xip.io:8080/images/book' + ${book} + '/1.jpg'"/>
+    <!--  Setting for share button facebook-->
+    <meta property="og:url" th:content="${isPage} ? 'http://77.222.63.141.xip.io:8080/page/' + ${book} : ''"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" th:content="${isPage} ? ${pageBook.name.getEn()} : 'History in books'"/>
+    <meta property="og:description" th:content="${isPage} ? ${pageBook.description.getEn()} : ''"/>
+    <meta property="og:image" th:content="'http://77.222.63.141.xip.io:8080/images/book' + ${book} + '/1.jpg'"/>
 
-
-<!--    <meta th:unless="${isPage == 1}">-->
-        <title>History in books</title>
-
-
-
-    <!--    <div th:switch="${isPage}">-->
-    <!--        <span th:case="1">-->
-    <!--            -->
-    <!--            <meta property="og:url" th:content="'http://77.222.63.141.xip.io:8080/page/' + ${book}"/>-->
-    <!--            <meta property="og:type" content="website"/>-->
-    <!--            <meta property="og:title" th:content="${pageBook.name.getEn()}"/>-->
-    <!--            <meta property="og:description" th:content="${pageBook.description.getEn()}"/>-->
-    <!--            <meta property="og:image" th:content="'http://77.222.63.141.xip.io:8080/images/book' + ${book} + '/1.jpg'"/>-->
-
-    <!--            </span>-->
-    <!--        <div th:case="*">-->
-    <!--            <title>History in books</title>-->
-    <!--        </div>-->
-    <!--    </div>-->
+    <title>History in books</title>
 
     <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
           integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" rel="stylesheet">
