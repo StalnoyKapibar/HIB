@@ -11,7 +11,7 @@
                         <!--/*@thymesVar id="coverImage" type="com.project.model.Book"*/-->
             <meta property="og:type" content="website"/>
             <meta property="og:url" th:content="'http://77.222.63.141.xip.io:8080' + ${#httpServletRequest.getRequestURI()}"/>
-            <title><span th:text="${pageBook.name.getRu()}"/></title>
+            <title><span th:text="${pageBook.name.getRu()}"></span></title>
             <!--            <meta property="og:title" th:content="${pageBook.name.getRu()}"/>-->
             <meta property="og:image" th:content="'http://77.222.63.141.xip.io:8080/images/book' + ${book} + '/' + ${pageBook.coverImage}"/>
             <meta property="og:image:type" content="image/jpeg"/>
@@ -20,9 +20,9 @@
             <meta property="og:description" th:content="${pageBook.description.getRu()}" name="description"/>
 
             </th:block>
-        <div th:case="*">
+        <th:block th:case="*">
             <title>History in books</title>
-        </div>
+        </th:block>
     </th:block>
 
     <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
