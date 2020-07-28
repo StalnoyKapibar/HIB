@@ -6,7 +6,7 @@
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta content="width=device-width, initial-scale=1" name="viewport">
 
-    <div th:if="${isPage == '1'}">
+    <div th:if="${isPage == 1}">
         <meta property="og:url" th:content="'http://77.222.63.141.xip.io:8080/page/' + ${book}"/>
         <meta property="og:type" content="website"/>
         <meta property="og:title" th:content="${pageBook.name.getEn()}"/>
@@ -14,7 +14,7 @@
         <meta property="og:image" th:content="'http://77.222.63.141.xip.io:8080/images/book' + ${book} + '/1.jpg'"/>
 
     </div>
-    <div th:unless="${isPage == '1'}">
+    <div th:unless="${isPage == 1}">
         <title>History in books</title>
     </div>
 
