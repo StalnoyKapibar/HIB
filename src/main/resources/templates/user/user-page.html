@@ -11,7 +11,7 @@
     <meta property="og:type" content="website"/>
     <meta property="og:title" th:content="${isPage} ? ${pageBook.name.getEn()} : 'History in books'"/>
     <meta property="og:description" th:content="${isPage} ? ${pageBook.description.getEn()} : ''"/>
-    <meta property="og:image" th:content="'http://77.222.63.141.xip.io:8080/images/book' + ${book} + '/' + ${pageBook.coverImage}"/>
+    <meta property="og:image" th:content="${isPage} ? 'http://77.222.63.141.xip.io:8080/images/book' + ${book} + '/' + ${pageBook.coverImage} : ''"/>
 
     <title>History in books</title>
 
