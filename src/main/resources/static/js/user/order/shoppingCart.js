@@ -71,7 +71,7 @@ async function getShoppingCart() {
                 }
                 if (!isOrderEnable) {
                     $('#shoppingCardOrderDisabledMessage').addClass('resolveShopCart').text('Please resolve shopping cart warnings before proceeding');
-                    $('#forButtonCheckout').html(`<div><button class="btn btn-primary checkout-btn" id="chechout" onclick="confirmAddress()" type="button" disabled="disabled">
+                    $('#forButtonCheckout').html(`<div><button class="btn btn-primary checkout-btn" id="chechout" onclick="showContacts()" type="button" disabled="disabled">
                                     Checkout
                                 </button></div>`);
                     $('#for-1click-reg').html(`<button class="btn btn-primary" id="1click-reg-btn"
@@ -79,7 +79,7 @@ async function getShoppingCart() {
                                                Buy without sign up</button>`);
                 } else {
                     $('#shoppingCardOrderDisabledMessage').text('');
-                    $('#forButtonCheckout').html(`<div><button class="btn btn-primary checkout-btn" id="chechout" onclick="confirmAddress()" type="button">
+                    $('#forButtonCheckout').html(`<div><button class="btn btn-primary checkout-btn" id="chechout" onclick="showContacts()" type="button">
                                     Checkout
                                 </button></div>`);
                     $('#for-1click-reg').html(`<button class="btn btn-primary" id="1click-reg-btn"

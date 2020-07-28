@@ -120,10 +120,10 @@ function showSummary() {
 }
 
 function showContacts() {
-    $('#email').val(order.userAccount.name);
-    $('#firstName').val(order.userAccount.firstName);
-    $('#lastName').val(order.userAccount.lastName);
-    $('#phone').val(order.userAccount.phone);
+    // $('#email').val(order.userAccount.name);
+    // $('#firstName').val(order.userAccount.firstName);
+    // $('#lastName').val(order.userAccount.lastName);
+    // $('#phone').val(order.userAccount.phone);
     $('#cartTab a[href="#contacts"]').tab('show');
 }
 
