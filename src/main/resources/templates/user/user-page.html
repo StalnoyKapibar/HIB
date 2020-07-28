@@ -5,7 +5,7 @@
     <!--/*@thymesVar id="coverImage" type="com.project.model.Book"*/-->
     <meta property="og:type" content="website"/>
     <meta property="og:url" th:content="'http://77.222.63.141.xip.io:8080' + ${#httpServletRequest.getRequestURI()}"/>
-    <title><span th:text="${pageBook.name.getRu()}"/></title>
+<!--    <title><span th:text="${pageBook.name.getRu()}"/></title>-->
     <!--            <meta property="og:title" th:content="${pageBook.name.getRu()}"/>-->
     <meta property="og:image" th:content="'http://77.222.63.141.xip.io:8080/images/book' + ${book} + '/' + ${pageBook.coverImage}"/>
     <meta property="og:image:type" content="image/jpeg"/>
