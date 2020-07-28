@@ -15,6 +15,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.HtmlUtils;
 
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
 import java.time.Instant;
 import java.util.List;
@@ -23,6 +24,7 @@ import java.util.List;
 @AllArgsConstructor
 @PropertySource("classpath:application.properties")
 public class FeedbackRequestController {
+
     private final static Logger LOGGER = LoggerFactory.getLogger(FeedbackRequestController.class.getName());
     private final FeedbackRequestService feedbackRequestService;
     private final MailService mailService;
@@ -31,7 +33,8 @@ public class FeedbackRequestController {
     private DataEnterInAdminPanelService dataEnterInAdminPanelService;
 
     @PostMapping(value = "/api/feedback-request", params = "book_id")
-    public FeedbackRequest sendNewFeedBackRequest(@RequestBody FeedbackRequest feedbackRequest, @RequestParam("book_id") String bookId) {
+    public FeedbackRequest sendNewFeedBackRequest(@RequestBody FeedbackRequest feedbackRequest,
+                                                  @RequestParam("book_id") String bookId) {
         LOGGER.debug("POST request '/feedback-request' with {}", feedbackRequest);
         feedbackRequest.setId(null);
         feedbackRequest.setData(Instant.now().getEpochSecond());
@@ -43,6 +46,15 @@ public class FeedbackRequestController {
         if (!bookId.equals("null")) {
             feedbackRequest.setBook(bookService.getBookById(Long.parseLong(bookId)));
         }
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setFrom(env.getProperty("spring.mail.username"));
+        mailMessage.setTo((feedbackRequest.getSenderEmail()));
+        mailMessage.setSubject(env.getProperty("spring.mail.subject"));
+        mailMessage.setText("Dear " + feedbackRequest.getSenderName() +
+                ".\n" + env.getProperty("spring.mail.request") +
+                "\n" + feedbackRequest.getContent() +
+                "\n" + env.getProperty("spring.mail.answer"));
+        mailService.sendEmail(mailMessage);
         return feedbackRequestService.save(feedbackRequest);
     }
 
@@ -72,7 +84,8 @@ public class FeedbackRequestController {
     }
 
     @GetMapping(value = "/api/admin/feedback-request/{senderEmail}/replied")
-    public List<FeedbackRequest> getBySenderByReplied(@PathVariable("senderEmail") String senderEmail, @RequestParam Boolean replied) {
+    public List<FeedbackRequest> getBySenderByReplied(@PathVariable("senderEmail") String senderEmail,
+                                                      @RequestParam Boolean replied) {
         return feedbackRequestService.getBySenderByReplied(senderEmail, replied);
     }
 
@@ -104,7 +117,7 @@ public class FeedbackRequestController {
     }
 
     @GetMapping("/api/admin/feedback-request/book-id/{id}")
-    public List <FeedbackRequest> getFeedbackByIdBook(@PathVariable Long id) {
+    public List<FeedbackRequest> getFeedbackByIdBook(@PathVariable Long id) {
         return feedbackRequestService.findAllRequestByIdBook(id);
     }
 }
