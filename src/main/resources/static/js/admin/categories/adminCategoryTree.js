@@ -1,4 +1,4 @@
-let viewOrder, categoryId;
+let viewOrder, categoryId, parentId;
 let nameVarOfLocaleString;
 let nameVarOfLocaleStringWithId;
 
@@ -39,6 +39,7 @@ $(document).ready(function () {
     }
     console.log(document);
     getLanguage();
+    getAllLocales()
     setLocaleFields();
 })
 
@@ -130,7 +131,7 @@ $(document).on('click', '#categoryEdit', function (element) {
                 <div class="input-group mb-3">
                   <input type="text" class="form-control" name="newCategoryName" placeholder="Name of new category" aria-describedby="basic-addon2">
                   <div class="input-group-append">
-                    <button class="btn btn-success" id="addNewCategory" type="button">Add new child category</button>
+                    <button class="btn btn-success" id="addChildCategory" type="button">Add new child category</button>
                   </div>
                   </div>
                   <div class="col alert alert-danger text-center" id="alert" hidden role="alert">
@@ -203,6 +204,60 @@ $(document).on('click', '#addNewCategory', function () {
     }
 });
 
+$(document).on('click', '#addChildCategory', function () {
+    categoryName = $('input[name="newCategoryName"]').val();
+    parentId = $('form input[name="categoryId"]').val();
+    console.log("Добавляем: " + categoryName);
+    if (categoryName === '') {
+        message("!!!!");
+    } //Вывести что-то на экран
+    else {
+        let map = {};
+        let translateFrom = 'en';
+        let translateTo = [];
+        //nameVarOfLocaleString = getLocales();
+        //
+        for (let lang of nameVarOfLocaleString) {
+            if (lang != translateFrom) {
+                translateTo.push(lang);
+            }
+        }
+        console.log("  map: " + translateTo);
+        let i = {
+            langFrom: translateFrom,
+            arrLangTo: translateTo,
+            text: categoryName
+        };
+
+        let prop = JSON.stringify(i);
+        console.log("prop: " + prop);
+        $.ajax({
+            type: "POST",
+            url: "/translate/list",
+            data: prop,
+            contentType: 'application/json',
+            success: function (data) {
+                for (let lang of nameVarOfLocaleString) {
+                    map[lang] = data[lang];
+                }
+                console.log("map: " + map);
+                map['en'] = categoryName;
+                addChild(map, parentId);
+                // fetch('/admin/categories/add', {
+                //     method: 'POST',
+                //     body: JSON.stringify({name: map, parentId: parentId}),
+                //     headers: {
+                //         'Content-Type': 'application/json',
+                //             'Accept': 'application/json'
+                //  }
+                //});
+                location.reload()
+            }
+
+        });
+    };
+});
+
 $(document).on('click', '#addPrimary', function (element) {
     $('#categoryModal').empty();
     categoryName = $('input[name="primaryCategoryName"]').val();
@@ -228,16 +283,13 @@ $(document).on('click', '#addPrimary', function (element) {
         </div>
         <div class="modal-footer">
             <button type="button" id="close" data-dismiss="modal" class="btn btn-block btn-danger">Close</button>
-            <button id="addNewCategory" data-dismiss="modal" class="btn btn-block btn-primary">Add</button>
+            <button id="addNewCategory" data-dismiss="modal" class="btn btn-block btn-primary">Add </button>
         </div>`;
 
     console.log(row);
     $('#categoryModal').append(row);
-    getAllLocales();
-    //setTableRow(nameVarOfLocaleString);
-    //$('#categoryModalAdd').append(row);
-
-
+    //nameVarOfLocaleString = getAllLocales();
+    setTableRow(nameVarOfLocaleString);
 });
 
 
@@ -247,6 +299,17 @@ function allowDrop(ev) {
 
 function drag(ev) {
     ev.dataTransfer.setData('text', ev.target.getAttribute('data-id'));
+}
+
+function addChild(map, parentId) {
+    fetch('/admin/categories/add', {
+        method: 'POST',
+        body: JSON.stringify({name: map, parentId: parentId}),
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
+    })
 }
 
 function drop(ev, target) {
@@ -294,25 +357,6 @@ function setTableRow(nameVarOfLocaleString) {
 
 }
 
-
-// html += `<div class="shadow p-4 mb-4 bg-white">
-//                 <div class='form-group mx-5'>
-//                 <div class="row">
-//                 <div class="col-0" for=${tmpNameObject}${tmpNameVar}>${tmpNameObject} ${tmpNameVar}</div>
-//                 <div class="col-2 mr-1">
-//                 <input type="radio" class="transl-from-this-lang-loc" name="rb${tmpNameObject}" id="rb${tmpNameObject}${tmpNameVar}" value="${tmpNameVar}" autocomplete="off"> Translate from this language
-//                 </div>
-//                 <div class="col">
-//                 <input type='text' class='form-control' id='inp${tmpNameObject}${tmpNameVar}'
-//                 placeholder='${tmpNameObject} ${tmpNameVar}'>
-//                 </div>
-//                 <div class="col">
-//                 <input type="checkbox" class="into-this-lang-loc" checked name="cb${tmpNameObject}" value="${tmpNameVar}" autocomplete="off"> Into this language
-//                 </div></div></div></div>`;
-// if (tmpNameVar === "gr") {
-//     html += `<button type="button" onclick="translateText('${tmpNameObject}')" class="btn btn-primary mx-3 translate-loc">Translate</button></div>`
-// }
-
 function getAllLocales() {
     fetch("/lang")
         .then(status)
@@ -321,11 +365,23 @@ function getAllLocales() {
             nameVarOfLocaleStringWithId = resp;
             nameVarOfLocaleStringWithId.unshift("id");
             nameVarOfLocaleString = nameVarOfLocaleStringWithId.filter(t => t !== "id");
-            setTableRow(nameVarOfLocaleString);
+            //setTableRow(nameVarOfLocaleString);
         });
 
 }
 
+function getLocales() {
+    fetch("/lang")
+        .then(status)
+        .then(json)
+        .then(function (resp) {
+            nameVarOfLocaleStringWithId = resp;
+            nameVarOfLocaleStringWithId.unshift("id");
+            nameVarOfLocaleString = nameVarOfLocaleStringWithId.filter(t => t !== "id");
+
+        });
+    return nameVarOfLocaleString;
+}
 function translateCategory(label) {
     let checkedRadioButton = "";
     let checkedCheckBox = [];
@@ -374,45 +430,5 @@ function translateCategory(label) {
             }
         }
     })
-    // for (let i = 0; i < inp.length; i++) {
-    //     if (inp[i].type == "radio" && inp[i].checked) {
-    //         checkedRadioButton = inp[i].value;
-    //     }
-    // }
-    //let checkedRadioButton = $('input[name="rbname"]').val();
-    //let checkedCheckBox = findCheckBox('cb'+label, checkedRadioButton);
-    //let text = $("#inp"+label+checkedRadioButton).val();
 
-    //console.log("checkedCheckBox: " + checkedCheckBox);
-    //console.log("text: " + text);
-    // if (checkedRadioButton==null){
-    //     alert("Check Lang from");
-    //     return;
-    // }
-    // if(text == ''){
-    //     alert("Enter text")
-    //     return;
-    // }
-    // if (checkedCheckBox.length == 0){
-    //     alert("Check Lang to");
-    //     return;
-    // }
-    // let j = {
-    //     langFrom: checkedRadioButton,
-    //     arrLangTo: checkedCheckBox,
-    //     text: text
-    // };
-    // let prop = JSON.stringify(j);
-    // $.ajax({
-    //     type: "POST",
-    //     url: "/translate/list",
-    //     data: prop,
-    //     contentType: 'application/json',
-    //     success: function (data) {
-    //         for (let key in data) {
-    //             let inp = $("#inp"+label+key);
-    //             inp.val(data[key]);
-    //         }
-    //     }
-    // })
 }
