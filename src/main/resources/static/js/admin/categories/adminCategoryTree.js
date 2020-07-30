@@ -218,14 +218,6 @@ $(document).on('click', '#addNewCategory', function () {
     if (categoryName === '') {} //Вывести что-то на экран
     else {
         newCategory(map, parentId);
-        fetch('/admin/categories/add', {
-            method: 'POST',
-            body: JSON.stringify({name: map, parentId: parentId}),
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            }
-        });
         location.reload()
     }
 });
