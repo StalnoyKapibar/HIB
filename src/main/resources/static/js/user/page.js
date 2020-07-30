@@ -137,19 +137,6 @@ async function getCart() {
 }
 
 $(document).ready(function () {
-    $("body").on('click', '.btn-metro', function () {
-        let id = $(this).attr("data-id");
-        fetch('/cart/' + id, {
-            method: 'POST',
-        }).then(function () {
-            showSizeCart();
-        }).then(function () {
-            setPageFields();
-        })
-    });
-});
-
-$(document).ready(function () {
     $("#showCart").on('show.bs.dropdown', function () {
         getCart();
     });
