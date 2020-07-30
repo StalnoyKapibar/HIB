@@ -73,12 +73,18 @@ async function getShoppingCart() {
                     $('#shoppingCardOrderDisabledMessage').addClass('resolveShopCart').text('Please resolve shopping cart warnings before proceeding');
                     $('#forButtonCheckout').html(`<div><button class="btn btn-primary checkout-btn" id="chechout" onclick="confirmAddress()" type="button" disabled="disabled">
                                     Checkout
-                                </button></div>`)
+                                </button></div>`);
+                    $('#for-1click-reg').html(`<button class="btn btn-primary" id="1click-reg-btn"
+                                               onclick="location.href='/1clickreg'" type="button" disabled="disabled">
+                                               Buy without sign up</button>`);
                 } else {
                     $('#shoppingCardOrderDisabledMessage').text('');
                     $('#forButtonCheckout').html(`<div><button class="btn btn-primary checkout-btn" id="chechout" onclick="confirmAddress()" type="button">
                                     Checkout
-                                </button></div>`)
+                                </button></div>`);
+                    $('#for-1click-reg').html(`<button class="btn btn-primary" id="1click-reg-btn"
+                                               onclick="location.href='/1clickreg'" type="button">
+                                               Buy without sign up</button>`);
                 }
           setLocaleFields();
 
@@ -192,12 +198,17 @@ function geolocate() {
 }
 
 async function confirmPurchase() {
-    document.location.href = '/reqOperation';
     await POST('/order')
-        .then(r => getShoppingCart());
+        .then(r => getShoppingCart())
+        // POST order before redirect
+        .then(function () {
+            document.location.href = '/reqOperation';
+        });
 }
 
 $("#butToBuy").one('click',function() {
+    // show preloader before action
+    $(".preloader").show("slow");
     confirmPurchase();
 });
 
@@ -266,6 +277,27 @@ function showOrderSum() {
                     </div>`;
 
     }
+    // добавли в блок подтвреждения контактной инфы перед заказом имя и фамилию
+    if (contacts.firstName !== '') {
+        html += `<div class="form-group  row">
+                        <label class="control-label col-sm-2 col-form-label firstName-label">First name</label>
+
+                        <div class="col-md-5 pl-0 pr-1">
+                            <input class="form-control" readonly  placeholder=${contacts.firstName}>
+                        </div>
+                    </div>`;
+
+    }
+    if (contacts.lastName !== '') {
+        html += `<div class="form-group  row">
+                        <label class="control-label col-sm-2 col-form-label lastName-label">Last name</label>
+
+                        <div class="col-md-5 pl-0 pr-1">
+                            <input class="form-control" readonly  placeholder=${contacts.lastName}>
+                        </div>
+                    </div>`;
+
+    }
     if (contacts.phone !== '') {
         html += `<div class="form-group row">
                         <label class="control-label col-sm-2 col-form-label phone-label">Phone</label>
@@ -285,12 +317,14 @@ function showOrderSum() {
     }
 
     html += `</div></div>`;
+    //присоеденяем введенные пользователем контакты для подтвержения.
     $('#shippingaddress').html(html);
 
     setLocaleFields();
 
 }
 
+// Вкладка заказы
 async function showListOrders() {
     await fetch("/order/getorders")
         .then(status)
@@ -336,6 +370,7 @@ function showCarrentOrder(index) {
     $('#pricetotalordermodal').text(convertPrice(order.itemsCost) + currencyIcon);
 
     let html = ``;
+    // блок отрисовки подтвержения контактной информации клиента перед заказом/покупкой
     html += `<div class="panel panel-primary">
                         <div class="panel-body">
                             <div class="container mt-2">
@@ -347,6 +382,14 @@ function showCarrentOrder(index) {
                        <label class="control-label col-sm-2 col-form-label email-label">Email</label>
                         <div class="col-md-5 pl-0 pr-1">
                             <input class="form-control" readonly  placeholder=${order.contacts.email}>
+                        </div>
+                    </div>`;
+    }
+    if (order.contacts.firstName !== '') {
+        html += `<div class="form-group row">
+                       <label class="control-label col-sm-2 col-form-label firstName-label">First name</label>
+                        <div class="col-md-5 pl-0 pr-1">
+                            <input class="form-control" readonly  placeholder=${order.contacts.firstName}>
                         </div>
                     </div>`;
     }
@@ -367,7 +410,6 @@ function showCarrentOrder(index) {
     }
 
     html += `</div></div>`;
-    $('#contactStatus').html(html);
     setLocaleFields();
 }
 

@@ -12,7 +12,7 @@ public interface FeedbackRequestDao extends GenericDao<Long, FeedbackRequest> {
 
     List<FeedbackRequest> getBySenderByReplied(String senderEmail, boolean replied);
 
-    int getCountOfFeedBack(long lastAuthDate);
+    int getCountOfFeedBack();
 
     Long getAmountByReplied(boolean replied, String senderEmail);
 

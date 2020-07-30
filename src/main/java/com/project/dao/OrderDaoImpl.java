@@ -44,10 +44,10 @@ public class OrderDaoImpl extends AbstractDao<Long, Order> implements OrderDao {
     }
 
     @Override
-    public int getCountOfOrders(long lastAuthDate) {
+    public int getCountOfOrders() {
         return entityManager
-                .createQuery("SELECT b FROM orders b where b.data>=:data", Order.class)
-                .setParameter("data", lastAuthDate)
+                .createQuery("FROM orders where status =: status", Order.class)
+                .setParameter("status", Status.UNPROCESSED)
                 .getResultList()
                 .size();
     }

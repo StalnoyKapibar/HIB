@@ -36,10 +36,9 @@ public class FeedbackRequestDaoImpl extends AbstractDao<Long, FeedbackRequest> i
     }
 
     @Override
-    public int getCountOfFeedBack(long lastAuthDate) {
+    public int getCountOfFeedBack() {
         return entityManager
-                .createQuery("FROM FeedbackRequest where data>=:data", FeedbackRequest.class)
-                .setParameter("data", lastAuthDate)
+                .createQuery("FROM FeedbackRequest where replied = false", FeedbackRequest.class)
                 .getResultList()
                 .size();
     }

@@ -62,4 +62,8 @@ public class UserAccountDao extends AbstractDao<Long, UserAccount> {
                 .setParameter("roleName", "ROLE_ADMIN")
                 .getResultList();
     }
+
+    public void deleteUserAccount(UserAccount userAccount) {
+        entityManager.remove(userAccount);
+    }
 }

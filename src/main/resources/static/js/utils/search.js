@@ -123,10 +123,10 @@ function setListeners () {
 
     $('#input-categories').on('change', '.custom-control-input', function () {
         const getCheckedSiblings = (nearCategory) => {
-            let isCheckedSibling = true;
+            let isCheckedSibling = false;
             nearCategory.siblings().each((i, elem) => {
                 if ($(elem).children().children("input").prop("checked")) {
-                    isCheckedSibling = false;
+                    isCheckedSibling = true;
                     return;
                 }
             });
@@ -341,7 +341,7 @@ async function setChilds(categories) {
 
     return row;
 }
-
+//проверяем чек категорий и запускаем поиск по ним
 async function advancedSearch(amount, page) {
     let request = $('#search-input').val();
     let priceFrom = $('#input-price-from').val() * 100;
