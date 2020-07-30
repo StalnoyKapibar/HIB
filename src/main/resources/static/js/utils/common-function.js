@@ -44,19 +44,19 @@ async function setLocaleFields() {
             $('#made_by').text(localeFields['madeby']);
 
             //Left sidebar on mainpage
-            $('#history-sidebar').text(localeFields['history-sb']);
-            $('#documents-sidebar').text(localeFields['documents-sb']);
-            $('#magazines-sidebar').text(localeFields['magazines-sb']);
-            $('#culture-sidebar').text(localeFields['culture-sb']);
+            // $('#history-sidebar').text(localeFields['history-sb']);
+            // $('#documents-sidebar').text(localeFields['documents-sb']);
+            // $('#magazines-sidebar').text(localeFields['magazines-sb']);
+            // $('#culture-sidebar').text(localeFields['culture-sb']);
             $('#language-left-panel').text(localeFields['language']);
 
             //Боковая панель с категориями
-            $('#history-rightbar').text(localeFields['history-sb']);
-            $('#documents-rightbar').text(localeFields['documents-sb']);
-            $('#magazines-rightbar').text(localeFields['magazines-sb']);
-            $('#culture-rightbar').text(localeFields['culture-sb']);
-            $('.forein-rightbar').text(localeFields['forein-sb']);
-            $('.greek-rightbar').text(localeFields['greek-sb']);
+            // $('#history-rightbar').text(localeFields['history-sb']);
+            // $('#documents-rightbar').text(localeFields['documents-sb']);
+            // $('#magazines-rightbar').text(localeFields['magazines-sb']);
+            // $('#culture-rightbar').text(localeFields['culture-sb']);
+            // $('.forein-rightbar').text(localeFields['forein-sb']);
+            // $('.greek-rightbar').text(localeFields['greek-sb']);
             $('.from-form').attr('placeholder', localeFields['from']);
             $('.to-form').attr('placeholder', localeFields['to']);
 
@@ -341,6 +341,7 @@ async function setLocaleFields() {
 //function for chose language
 function chooseLanguage(lang) {
     document.cookie = `lang=${lang}; path=/`;
+    getCategoriesLocal(lang);
     window.location.reload();
 }
 
