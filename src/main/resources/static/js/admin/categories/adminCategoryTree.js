@@ -1,5 +1,5 @@
 let viewOrder, categoryId, parentId;
-let nameVarOfLocaleString;
+let nameVarOfLocaleString, categoryName;
 let nameVarOfLocaleStringWithId;
 
 
@@ -162,20 +162,47 @@ $(document).on('click', '#deleteSubmit', function () {
 
 $(document).on('click', '#updateCategory', function () {
     categoryId = $('form input[name="categoryId"]').val();
-    categoryName = $('form input[name="categoryName"]').val();
+    let categoryNameUpd= $('form input[name="categoryName"]').val();
     viewOrder = $('form input[name="viewOrder"]').val();
-    let map = {};
-    map['en'] = categoryName;
-    fetch('/admin/categories/update', {
-        method: 'PUT',
-        body: JSON.stringify({id: categoryId, name: map, viewOrder:viewOrder, parentId: parentId}),
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
+    console.log("category name " + categoryName);
+    console.log("category name upd" + categoryNameUpd);
+    if (categoryNameUpd != '' && categoryNameUpd != categoryName) {
+        let map = {};
+        let translateFrom = 'en';
+        let translateTo = [];
+        //nameVarOfLocaleString = getLocales();
+        //
+        for (let lang of nameVarOfLocaleString) {
+            if (lang != translateFrom) {
+                translateTo.push(lang);
+            }
         }
-    });
-    location.reload()
-});
+        console.log("  map: " + translateTo);
+        let i = {
+            langFrom: translateFrom,
+            arrLangTo: translateTo,
+            text: categoryNameUpd
+        };
+
+        let prop = JSON.stringify(i);
+        console.log("prop: " + prop);
+        $.ajax({
+            type: "POST",
+            url: "/translate/list",
+            data: prop,
+            contentType: 'application/json',
+            success: function (data) {
+                for (let lang of nameVarOfLocaleString) {
+                    map[lang] = data[lang];
+                }
+                console.log("map: " + map);
+                map['en'] = categoryNameUpd;
+                updCategory(map, viewOrder, parentId);
+                location.reload();
+            }
+        });
+    };
+ });
 
 $(document).on('click', '#addNewCategory', function () {
     categoryName = $('input[name="newCategoryName"]').val();
@@ -188,10 +215,9 @@ $(document).on('click', '#addNewCategory', function () {
         console.log(lang + "  map: " + inp.val());
     }
 
-
-    //map['en'] = categoryName;
     if (categoryName === '') {} //Вывести что-то на экран
     else {
+        newCategory(map, parentId);
         fetch('/admin/categories/add', {
             method: 'POST',
             body: JSON.stringify({name: map, parentId: parentId}),
@@ -215,8 +241,6 @@ $(document).on('click', '#addChildCategory', function () {
         let map = {};
         let translateFrom = 'en';
         let translateTo = [];
-        //nameVarOfLocaleString = getLocales();
-        //
         for (let lang of nameVarOfLocaleString) {
             if (lang != translateFrom) {
                 translateTo.push(lang);
@@ -242,18 +266,9 @@ $(document).on('click', '#addChildCategory', function () {
                 }
                 console.log("map: " + map);
                 map['en'] = categoryName;
-                addChild(map, parentId);
-                // fetch('/admin/categories/add', {
-                //     method: 'POST',
-                //     body: JSON.stringify({name: map, parentId: parentId}),
-                //     headers: {
-                //         'Content-Type': 'application/json',
-                //             'Accept': 'application/json'
-                //  }
-                //});
+                newCategory(map, parentId);
                 location.reload()
             }
-
         });
     };
 });
@@ -288,7 +303,6 @@ $(document).on('click', '#addPrimary', function (element) {
 
     console.log(row);
     $('#categoryModal').append(row);
-    //nameVarOfLocaleString = getAllLocales();
     setTableRow(nameVarOfLocaleString);
 });
 
@@ -301,7 +315,7 @@ function drag(ev) {
     ev.dataTransfer.setData('text', ev.target.getAttribute('data-id'));
 }
 
-function addChild(map, parentId) {
+function newCategory(map, parentId) {
     fetch('/admin/categories/add', {
         method: 'POST',
         body: JSON.stringify({name: map, parentId: parentId}),
@@ -312,6 +326,16 @@ function addChild(map, parentId) {
     })
 }
 
+function updCategory(map, viewOrder, parentId) {
+    fetch('/admin/categories/update', {
+        method: 'PUT',
+        body: JSON.stringify({id: categoryId, name: map, viewOrder:viewOrder, parentId: parentId}),
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
+    })
+}
 function drop(ev, target) {
     ev.preventDefault();
     let draggableCategoryId = ev.dataTransfer.getData("text");
@@ -350,7 +374,6 @@ function setTableRow(nameVarOfLocaleString) {
         if (tmpNameVar === "gr") {
             row += `<button type="button" onclick="translateCategory('${nameObject}')" class="btn btn-primary mx-3 translate-loc">Translate</button></div>`
         }
-        
     }
     $('#modal-row').append(row);
 
@@ -365,23 +388,10 @@ function getAllLocales() {
             nameVarOfLocaleStringWithId = resp;
             nameVarOfLocaleStringWithId.unshift("id");
             nameVarOfLocaleString = nameVarOfLocaleStringWithId.filter(t => t !== "id");
-            //setTableRow(nameVarOfLocaleString);
         });
-
 }
 
-function getLocales() {
-    fetch("/lang")
-        .then(status)
-        .then(json)
-        .then(function (resp) {
-            nameVarOfLocaleStringWithId = resp;
-            nameVarOfLocaleStringWithId.unshift("id");
-            nameVarOfLocaleString = nameVarOfLocaleStringWithId.filter(t => t !== "id");
 
-        });
-    return nameVarOfLocaleString;
-}
 function translateCategory(label) {
     let checkedRadioButton = "";
     let checkedCheckBox = [];
@@ -406,10 +416,7 @@ function translateCategory(label) {
             checkedCheckBox.push(elem.value);
         }
     });
-    console.log("checkedRadioButton: " + checkedRadioButton);
-    console.log("checkboxesChecked: " + checkedCheckBox);
 
-    console.log("text: " + '#inp' + label + checkedRadioButton + " - " + text);
     let j = {
         langFrom: checkedRadioButton,
         arrLangTo: checkedCheckBox,
@@ -430,5 +437,4 @@ function translateCategory(label) {
             }
         }
     })
-
 }
