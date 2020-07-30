@@ -1,59 +1,25 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Home fragments</title>
+    <title>History in books</title>
     <link href="/static/css/style.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <script src="/static/js/lib/jquery.min.js"></script>
+    <script src="/static/js/lib/popper.min.js"></script>
+    <script src="/static/js/lib/bootstrap.min.js"></script>
 </head>
 <body>
-
-<div class="d-flex" th:fragment="page-content">
-    <p id="text" class="req-approve-loc"></p>
-    <div class="container-fluid page-content offset-1 col-10">
-
-<!--        <form id="filter-sidebar" action="#" method="post">-->
-<!--            <div class="filter-select-wrap">-->
-<!--                <input id="filter-books" class="filter-select filter-tax" name="library" data-books='["location_1","alabama","alaska","anchorage","arizona","arkansas","birmingham","california","chandler","colorado","connecticut","denver","florida","georgia","gilbert","glendale","hartford","hawaii","hollywood","honolulu","huntsville","idaho","illinois","indiana","indianapolis","iowa","kansas","kentucky","little-rock","los-angeles","louisiana","louisville","massachusetts","mesa","michigan","minnesota","mobile","montgomery","moreno-valley","naperville","nebraska","nevada","new-hampshire","new-jersey","new-orleans","new-york","newark","ohio","olathe","orlando","palmdale","paterson","pennsylvania","peoria","philadelphia","pittsburgh","reno","rhode-island","rochester","rochester-new-york","rockford","sacramento"]' type="text" placeholder="All Books"/>-->
-<!--                <ul class="ul-books"></ul>-->
-<!--            </div>-->
-<!--        </form>-->
-
-<!--        <hr>-->
-        
-           <!-- For cards -->
-        <!--<div class="offset-1">
-            <h2 id="headpost">You can read this</h2>
-            <br>
-        </div>
-        <div class="row row-cols-xl-4 row-cols-lg-3 row-cols-md-2 row-cols-sm-2 pt-2" id="cardcolumns">
-        </div>
-        <div class="container col-2 offset-5">
-            <div class="row">
-                <div class="dropdown dropdown-header">Book on page
-                    <button class="btn btn-primary dropdown-toggle" type="button" id="ddmAmountBook"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">10</button>
-                    <div class="dropdown-menu" aria-labelledby="ddmAmountBook">
-                        <a class="dropdown-item" href="#" onclick="setAmountBooksInPage(10)">10</a>
-                        <a class="dropdown-item" href="#" onclick="setAmountBooksInPage(50)">50</a>
-                        <a class="dropdown-item" href="#" onclick="setAmountBooksInPage(100)">100</a>
-                    </div>
-                </div>
-                <div id="rowForPagination"></div>
-            </div>
-        </div>-->
-        
-        <!--    Footer    -->
-       <!-- <div class="container-fluid text-center footer pt-3 p-0 " th:fragment="footer">
-            <div class="footer_menu" id="footer-menu"></div>
-            <div class="footer_made_by pt-2"><a id="made_by">Created by JavaMentor® Team</a></div>
-        </div>
-    </div>-->
-        <script src="/static/js/lib/jquery.min.js"></script>
-        <script src="/static/js/utils/reqApprove.js"></script>
-        <script src="/static/js/utils/common-function.js"></script>
-        <script src="../static/js/main.js"></script>
-
+<div class="preloader">
+    <div class="lds-ellipsis">
+        <div class="text-danger">We have sent an email to activate your account.<br>
+            Please activate your account.<br>
+            You will now be redirected to the main page.</div>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
 </div>
-</div>
+<script src="/static/js/utils/reqApprove.js"></script>
 </body>
 </html>
