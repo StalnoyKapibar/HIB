@@ -69,36 +69,36 @@ VALUES (2,'ROLE_ADMIN');
 insert into shopping_cart(id) values (1);
 insert into shopping_cart(id) values (2);
 
-insert into image(name_image) values ('avatar.jpg');
+insert into image(name_image) values ('1.jpg');
 insert into image(name_image) values ('2.jpg');
 insert into image(name_image) values ('4.jpg');
-insert into image(name_image) values ('avatar.jpg');
+insert into image(name_image) values ('1.jpg');
 insert into image(name_image) values ('2.jpg');
 insert into image(name_image) values ('4.jpg');
-insert into image(name_image) values ('avatar.jpg');
+insert into image(name_image) values ('1.jpg');
 insert into image(name_image) values ('2.jpg');
 insert into image(name_image) values ('4.jpg');
-insert into image(name_image) values ('avatar.jpg');
+insert into image(name_image) values ('1.jpg');
 insert into image(name_image) values ('2.jpg');
-insert into image(name_image) values ('avatar.jpg');
+insert into image(name_image) values ('1.jpg');
 insert into image(name_image) values ('2.jpg');
 insert into image(name_image) values ('3.jpg');
-insert into image(name_image) values ('avatar.jpg');
+insert into image(name_image) values ('1.jpg');
 insert into image(name_image) values ('2.jpg');
-insert into image(name_image) values ('avatar.jpg');
+insert into image(name_image) values ('1.jpg');
 insert into image(name_image) values ('2.jpg');
-insert into image(name_image) values ('avatar.jpg');
+insert into image(name_image) values ('1.jpg');
 insert into image(name_image) values ('2.jpg');
-insert into image(name_image) values ('avatar.jpg');
+insert into image(name_image) values ('1.jpg');
 insert into image(name_image) values ('2.jpg');
 insert into image(name_image) values ('3.jpg');
 insert into image(name_image) values ('50172485-elizaveta-vladimirovna-sobolyanskaya-zanuda-v-akademii-drakonov.jpg');
 insert into image(name_image) values ('50387903-dzhon-marrs-the-one-edinstvennyy.jpg');
-insert into image(name_image) values ('avatar.jpg');
+insert into image(name_image) values ('1.jpg');
 insert into image(name_image) values ('2.jpg');
 insert into image(name_image) values ('3.jpg');
 insert into image(name_image) values ('51566259-nadezhda-volgina-strast-v-iskuplenie.jpg');
-insert into image(name_image) values ('avatar.jpg');
+insert into image(name_image) values ('1.jpg');
 insert into image(name_image) values ('2.jpg');
 insert into image(name_image) values ('51559272-albina-uralskaya-18710396-chemodan-portal-zemlya-ekaterinburg-51559272.jpg');
 insert into image(name_image) values ('51424035-roman-zlotnikov-psevdonim-boga-51424035.jpg');
@@ -625,7 +625,7 @@ insert into book
 (
     cover_image, is_show, last_book_ordered, original_language_name, pages, price, views,
     year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id
-) values ('avatar.jpg', true, false, 'RU', 200, 950, null, 2004, 1, 15, 2, 3, 4, 1);
+) values ('1.jpg', true, false, 'RU', 200, 950, null, 2004, 1, 15, 2, 3, 4, 1);
 
 insert into book
 (
@@ -649,31 +649,31 @@ insert into book
 (
     cover_image, is_show, last_book_ordered, original_language_name, pages, price, views,
     year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id
-) values ('avatar.jpg', true, false, 'EN', null, 444, null, null, 17, 15, 18, 19, 20, 5);
+) values ('1.jpg', true, false, 'EN', null, 444, null, null, 17, 15, 18, 19, 20, 5);
 
 insert into book
 (
     cover_image, is_show, last_book_ordered, original_language_name, pages, price, views,
     year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id
-) values ('avatar.jpg', true, false, 'RU', null, 664, null, null, 21, 15, 22, 23, 24, 6);
+) values ('1.jpg', true, false, 'RU', null, 664, null, null, 21, 15, 22, 23, 24, 6);
 
 insert into book
 (
     cover_image, is_show, last_book_ordered, original_language_name, pages, price, views,
     year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id
-) values ('avatar.jpg', true, false, 'RU', null, 615, null, null, 25, 15, 26, 27, 28, 7);
+) values ('1.jpg', true, false, 'RU', null, 615, null, null, 25, 15, 26, 27, 28, 7);
 
 insert into book
 (
     cover_image, is_show, last_book_ordered, original_language_name, pages, price, views,
     year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id
-) values ('avatar.jpg', true, false, 'RU', null, 156, null, null, 29, 15, 30, 31, 32, 8);
+) values ('1.jpg', true, false, 'RU', null, 156, null, null, 29, 15, 30, 31, 32, 8);
 
 insert into book
 (
     cover_image, is_show, last_book_ordered, original_language_name, pages, price, views,
     year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id
-) values ('avatar.jpg', true, false, 'RU', null, 465, null, null, 33, 15, 34, 35, 36, 9);
+) values ('1.jpg', true, false, 'RU', null, 465, null, null, 33, 15, 34, 35, 36, 9);
 
 insert into book
 (
@@ -691,7 +691,7 @@ insert into book
 (
     cover_image, is_show, last_book_ordered, original_language_name, pages, price, views,
     year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id
-) values ('avatar.jpg', false, false, 'RU', null, 177, null, null, 45, 15, 46, 47, 48, 12);
+) values ('1.jpg', false, false, 'RU', null, 177, null, null, 45, 15, 46, 47, 48, 12);
 
 insert into book
 (
@@ -703,7 +703,7 @@ insert into book
 (
     cover_image, is_show, last_book_ordered, original_language_name, pages, price, views,
     year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id
-) values ('avatar.jpg', false, false, 'RU', null, 693, null, null, 53, 15, 54, 55, 56, 14);
+) values ('1.jpg', false, false, 'RU', null, 693, null, null, 53, 15, 54, 55, 56, 14);
 
 insert into book
 (
