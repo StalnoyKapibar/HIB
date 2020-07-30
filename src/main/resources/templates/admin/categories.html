@@ -17,7 +17,7 @@
     <div class="input-group pull-right col-4">
         <input type="text" class="form-control create-new-primary-category-loc" name="primaryCategoryName" placeholder="Create new primary category" aria-label="Create new primary category" aria-describedby="basic-addon2">
         <div class="input-group-append">
-            <button class="btn btn-success create-loc" id="addPrimary" type="button">Create</button>
+            <button class="btn btn-success create-loc" id="addPrimary" data-target="#category-modal" data-toggle="modal" type="button">Create</button>
         </div>
     </div>
     </div><hr>
@@ -30,6 +30,18 @@
             </div>
         </div>
     </div>
+
+<!--
+    <div aria-hidden="true" class="modal fade" id="category-modal-add" role="dialog"
+         tabindex="-1">
+-->
+        <div class="modal-dialog" role="document">
+            <div id="categoryModalAdd" class="modal-content">
+            </div>
+        </div>
+<!--
+    </div>
+-->
 </div>
 
 </body>
