@@ -7,7 +7,7 @@ import javax.mail.internet.MimeMessage;
 public interface MailService {
     void sendEmail(SimpleMailMessage email);
 
-    void sendEmail(MimeMessage email);
+    void sendEmail(MimeMessage email, String to);
 
     public String getTemplate(String template, Context context );
 
