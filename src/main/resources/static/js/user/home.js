@@ -205,15 +205,16 @@ $(document).ready(function () {
             .addClass("disabled")
             .attr('disabled', 'true')
             .text(addedToshoppingCart);
-        setTimeout(function () {
-            showSizeCart();
-        }, 100)
     })
 });
 
 function addToCart(id) {
     fetch("/cart/" + id, {
         method: "POST"
+    }).then(function () {
+        showSizeCart();
+    }).then(function () {
+        setPageFields();
     })
 }
 
