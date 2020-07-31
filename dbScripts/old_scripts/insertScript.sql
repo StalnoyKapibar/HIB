@@ -587,7 +587,7 @@ insert into book
 (
     cover_image, is_show, last_book_ordered, original_language_name, pages, price, views,
     year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id
-) values ('avatar.jpg', true, false, 'RU', 200, 950, null, 2004, 1, 15, 2, 3, 4, 1);
+) values ('1.jpg', true, false, 'RU', 200, 950, null, 2004, 1, 15, 2, 3, 4, 1);
 
 insert into book
 (
@@ -611,31 +611,31 @@ insert into book
 (
     cover_image, is_show, last_book_ordered, original_language_name, pages, price, views,
     year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id
-) values ('avatar.jpg', true, false, 'EN', null, 444, null, null, 17, 15, 18, 19, 20, 5);
+) values ('1.jpg', true, false, 'EN', null, 444, null, null, 17, 15, 18, 19, 20, 5);
 
 insert into book
 (
     cover_image, is_show, last_book_ordered, original_language_name, pages, price, views,
     year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id
-) values ('avatar.jpg', true, false, 'RU', null, 664, null, null, 21, 15, 22, 23, 24, 6);
+) values ('1.jpg', true, false, 'RU', null, 664, null, null, 21, 15, 22, 23, 24, 6);
 
 insert into book
 (
     cover_image, is_show, last_book_ordered, original_language_name, pages, price, views,
     year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id
-) values ('avatar.jpg', true, false, 'RU', null, 615, null, null, 25, 15, 26, 27, 28, 7);
+) values ('1.jpg', true, false, 'RU', null, 615, null, null, 25, 15, 26, 27, 28, 7);
 
 insert into book
 (
     cover_image, is_show, last_book_ordered, original_language_name, pages, price, views,
     year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id
-) values ('avatar.jpg', true, false, 'RU', null, 156, null, null, 29, 15, 30, 31, 32, 8);
+) values ('1.jpg', true, false, 'RU', null, 156, null, null, 29, 15, 30, 31, 32, 8);
 
 insert into book
 (
     cover_image, is_show, last_book_ordered, original_language_name, pages, price, views,
     year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id
-) values ('avatar.jpg', true, false, 'RU', null, 465, null, null, 33, 15, 34, 35, 36, 9);
+) values ('1.jpg', true, false, 'RU', null, 465, null, null, 33, 15, 34, 35, 36, 9);
 
 insert into book
 (
@@ -653,7 +653,7 @@ insert into book
 (
     cover_image, is_show, last_book_ordered, original_language_name, pages, price, views,
     year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id
-) values ('avatar.jpg', false, false, 'RU', null, 177, null, null, 45, 15, 46, 47, 48, 12);
+) values ('1.jpg', false, false, 'RU', null, 177, null, null, 45, 15, 46, 47, 48, 12);
 
 insert into book
 (
@@ -665,7 +665,7 @@ insert into book
 (
     cover_image, is_show, last_book_ordered, original_language_name, pages, price, views,
     year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id
-) values ('avatar.jpg', false, false, 'RU', null, 693, null, null, 53, 15, 54, 55, 56, 14);
+) values ('1.jpg', false, false, 'RU', null, 693, null, null, 53, 15, 54, 55, 56, 14);
 
 insert into book
 (
@@ -703,36 +703,36 @@ insert into book
     year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id
 ) values ('4387365-stiven-king-protivostoyanie.jpg', true, false, 'OTHER', null, 807, null, null, 77, 15, 78, 79, 80, 20);
 
-insert into image(name_image, book_id) values ('avatar.jpg', 1);
+insert into image(name_image, book_id) values ('1.jpg', 1);
 insert into image(name_image, book_id) values ('2.jpg', 1);
 insert into image(name_image, book_id) values ('4.jpg', 2);
-insert into image(name_image, book_id) values ('avatar.jpg', 2);
+insert into image(name_image, book_id) values ('1.jpg', 2);
 insert into image(name_image, book_id) values ('2.jpg', 2);
 insert into image(name_image, book_id) values ('4.jpg', 3);
-insert into image(name_image, book_id) values ('avatar.jpg', 3);
+insert into image(name_image, book_id) values ('1.jpg', 3);
 insert into image(name_image, book_id) values ('2.jpg', 3);
 insert into image(name_image, book_id) values ('4.jpg', 4);
-insert into image(name_image, book_id) values ('avatar.jpg', 4);
+insert into image(name_image, book_id) values ('1.jpg', 4);
 insert into image(name_image, book_id) values ('2.jpg', 4);
-insert into image(name_image, book_id) values ('avatar.jpg', 5);
+insert into image(name_image, book_id) values ('1.jpg', 5);
 insert into image(name_image, book_id) values ('2.jpg', 5);
 insert into image(name_image, book_id) values ('3.jpg', 5);
-insert into image(name_image, book_id) values ('avatar.jpg', 6);
+insert into image(name_image, book_id) values ('1.jpg', 6);
 insert into image(name_image, book_id) values ('2.jpg', 6);
-insert into image(name_image, book_id) values ('avatar.jpg', 7);
+insert into image(name_image, book_id) values ('1.jpg', 7);
 insert into image(name_image, book_id) values ('2.jpg', 7);
-insert into image(name_image, book_id) values ('avatar.jpg', 8);
+insert into image(name_image, book_id) values ('1.jpg', 8);
 insert into image(name_image, book_id) values ('2.jpg', 8);
-insert into image(name_image, book_id) values ('avatar.jpg', 9);
+insert into image(name_image, book_id) values ('1.jpg', 9);
 insert into image(name_image, book_id) values ('2.jpg', 9);
 insert into image(name_image, book_id) values ('3.jpg', 9);
 insert into image(name_image, book_id) values ('50172485-elizaveta-vladimirovna-sobolyanskaya-zanuda-v-akademii-drakonov.jpg',  10);
 insert into image(name_image, book_id) values ('50387903-dzhon-marrs-the-one-edinstvennyy.jpg',  11);
-insert into image(name_image, book_id) values ('avatar.jpg',  12);
+insert into image(name_image, book_id) values ('1.jpg',  12);
 insert into image(name_image, book_id) values ('2.jpg',  12);
 insert into image(name_image, book_id) values ('3.jpg',  12);
 insert into image(name_image, book_id) values ('51566259-nadezhda-volgina-strast-v-iskuplenie.jpg',  13);
-insert into image(name_image, book_id) values ('avatar.jpg',  14);
+insert into image(name_image, book_id) values ('1.jpg',  14);
 insert into image(name_image, book_id) values ('2.jpg',  14);
 insert into image(name_image, book_id) values ('51559272-albina-uralskaya-18710396-chemodan-portal-zemlya-ekaterinburg-51559272.jpg',  15);
 insert into image(name_image, book_id) values ('51424035-roman-zlotnikov-psevdonim-boga-51424035.jpg',  16);

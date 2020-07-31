@@ -203,15 +203,23 @@ function geolocate() {
 async function confirmPurchase() {
     await POST('/order')
         .then(r => getShoppingCart())
-        // POST order before redirect
         .then(function () {
-            document.location.href = '/reqOperation';
+            window.location.href = "/profile/orders";
         });
 }
 
 $("#butToBuy").one('click',function() {
     // show preloader before action
     $(".preloader").show("slow");
+    // add message to preloader
+    $(".lds-ellipsis").html(`
+        <div class="text-danger">We are processing your transaction.<br>
+        Please wait a few seconds.<br>
+        You will now be redirected to the order page.</div>
+        <span></span>
+        <span></span>
+        <span></span>
+    `);
     confirmPurchase();
 });
 

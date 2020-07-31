@@ -174,11 +174,4 @@ public class UserController {
     public ModelAndView requestApproveAuth(RegistrationUserDTO user) {
         return new ModelAndView("requestApproveAuth");
     }
-
-    @GetMapping("/reqOperation")
-    public ModelAndView requestOperation(RegistrationUserDTO user) {
-        return new ModelAndView("requestOperation");
-    }
-
-
 }

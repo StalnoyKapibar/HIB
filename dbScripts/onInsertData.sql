@@ -468,34 +468,53 @@ values ('Heslo je neplatné','Passwort falsch','The password is incorrect','Mot 
 insert into local_string (cs, de, en, fr, gr, it, ru)
 values ('Takové přihlášení neexistuje','Eine solche Anmeldung existiert nicht','This username does not exist','Un tel login n''existe pas','Μια τέτοια σύνδεση δεν υπάρχει','Tale accesso non esiste','Такого логина не существует');
 
-insert into category (category_name, parent_id, view_order) values ('History', null, 0);
-insert into category (category_name, parent_id, view_order) values ('Documents', null, 0);
-insert into category (category_name, parent_id, view_order) values ('Magazines', null, 0);
-insert into category (category_name, parent_id, view_order) values ('Culture', null, 0);
-insert into category (category_name, parent_id, view_order) values ('Greek', 1, 0);
-insert into category (category_name, parent_id, view_order) values ('War', 6, 0);
-insert into category (category_name, parent_id, view_order) values ('Forein', 1, 0);
-insert into category (category_name, parent_id, view_order) values ('Russia', 7, 0);
-insert into category (category_name, parent_id, view_order) values ('Greek', 2, 0);
-insert into category (category_name, parent_id, view_order) values ('Forein', 2, 0);
-insert into category (category_name, parent_id, view_order) values ('Greek', 3, 0);
-insert into category (category_name, parent_id, view_order) values ('Forein', 3, 0);
-insert into category (category_name, parent_id, view_order) values ('Greek', 4, 0);
-insert into category (category_name, parent_id, view_order) values ('Forein', 4, 0);
-insert into category (category_name, parent_id, view_order) values ('Russia', 12, 0);
-insert into category (category_name, parent_id, view_order) values ('Germany', 12, 0);
-insert into category (category_name, parent_id, view_order) values ('1123', 14, 0);
-insert into category (category_name, parent_id, view_order) values ('1400', 14, 0);
-insert into category (category_name, parent_id, view_order) values ('1900', 14, 0);
+insert into local_string (cs, de, en, fr, gr, it, ru) values ('Příběh', 'Geschichte', 'History', 'Récit', 'Ιστορία', 'Storia','История');
+insert into category (parent_id, view_order, name_id) values (null, 0, 98);
+insert into local_string (cs, de, en, fr, gr, it, ru) values ('Dokumenty', 'Unterlagen', 'Documents', 'Les documents', 'Εγγραφα', 'Documenti','Документы');
+insert into category (parent_id, view_order, name_id) values (null, 0, 99);
+insert into local_string (cs, de, en, fr, gr, it, ru) values ('Časopisy', 'Zeitschriften', 'Magazines', 'Les magazines', 'Περιοδικά', 'Riviste','Журналы');
+insert into category (parent_id, view_order, name_id) values (null, 0, 100);
+insert into local_string (cs, de, en, fr, gr, it, ru) values ('Kultura', 'Kultur', 'Culture', 'Culture', 'Πολιτισμός', 'Cultura','Культура');
+insert into category (parent_id, view_order, name_id) values (null, 0, 101);
+insert into local_string (cs, de, en, fr, gr, it, ru) values ('Řecký', 'Griechisch', 'Greek', 'Grec', 'Ελληνική', 'Greco','Греческий');
+insert into category (parent_id, view_order, name_id) values (1, 0, 102);
+insert into local_string (cs, de, en, fr, gr, it, ru) values ('Válka', 'Krieg', 'War', 'Guerre', 'Πόλεμος', 'Guerra','Война');
+insert into category (parent_id, view_order, name_id) values (6, 0, 103);
+insert into local_string (cs, de, en, fr, gr, it, ru) values ('Zahraniční', 'Ausländisch', 'Foreign', 'Étranger', 'Ξένο', 'Straniero','Зарубежный');
+insert into category (parent_id, view_order, name_id) values ( 1, 0, 104);
+insert into local_string (cs, de, en, fr, gr, it, ru) values ('Ruský', 'Russisch', 'Russian', 'Russe', 'Ρωσική', 'Russo','Русский');
+insert into category (parent_id, view_order, name_id) values (7, 0, 105);
+insert into local_string (cs, de, en, fr, gr, it, ru) values ('Řecký', 'Griechisch', 'Greek', 'Grec', 'Ελληνική', 'Greco','Греческий');
+insert into category (parent_id, view_order, name_id) values (2, 0, 106);
+insert into local_string (cs, de, en, fr, gr, it, ru) values ('Zahraniční', 'Ausländisch', 'Foreign', 'Étranger', 'Ξένο', 'Straniero','Зарубежный');
+insert into category (parent_id, view_order, name_id) values (2, 0, 107);
+insert into local_string (cs, de, en, fr, gr, it, ru) values ('Řecký', 'Griechisch', 'Greek', 'Grec', 'Ελληνική', 'Greco','Греческий');
+insert into category (parent_id, view_order, name_id) values (3, 0, 108);
+insert into local_string (cs, de, en, fr, gr, it, ru) values ('Zahraniční', 'Ausländisch', 'Foreign', 'Étranger', 'Ξένο', 'Straniero','Зарубежный');
+insert into category (parent_id, view_order, name_id) values (3, 0, 109);
+insert into local_string (cs, de, en, fr, gr, it, ru) values ('Řecký', 'Griechisch', 'Greek', 'Grec', 'Ελληνική', 'Greco','Греческий');
+insert into category (parent_id, view_order, name_id) values (4, 0, 110);
+insert into local_string (cs, de, en, fr, gr, it, ru) values ('Zahraniční', 'Ausländisch', 'Foreign', 'Étranger', 'Ξένο', 'Straniero','Зарубежный');
+insert into category (parent_id, view_order, name_id) values (4, 0, 111);
+insert into local_string (cs, de, en, fr, gr, it, ru) values ('Ruský', 'Russisch', 'Russian', 'Russe', 'Ρωσική', 'Russo','Русский');
+insert into category (parent_id, view_order, name_id) values (12, 0, 112);
+insert into local_string (cs, de, en, fr, gr, it, ru) values ('Německý', 'Deutsch', 'German', 'Allemand', 'Γερμανική', 'Tedesco','Немецкий');
+insert into category (parent_id, view_order, name_id) values ( 12, 0, 113);
+insert into local_string (cs, de, en, fr, gr, it, ru) values ('1123', '1123', '1123', '1123', '1123', '1123','1123');
+insert into category (parent_id, view_order, name_id) values (14, 0, 114);
+insert into local_string (cs, de, en, fr, gr, it, ru) values ('1400', '1400', '1400', '1400', '1400', '1400','1400');
+insert into category (parent_id, view_order, name_id) values (14, 0, 115);
+insert into local_string (cs, de, en, fr, gr, it, ru) values ('1900', '1900', '1900', '1900', '1900', '1900','1900');
+insert into category (parent_id, view_order, name_id) values (14, 0, 116);
 
-/*insert into local_string (cs, de, en, fr, gr, it, ru) values (?, ?, ?, ?, ?, ?, ?);*/
+
 /*insert into local_string (cs, de, en, fr, gr, it, ru) values (?, ?, ?, ?, ?, ?, ?);*/
 /*insert into local_string (cs, de, en, fr, gr, it, ru) values (?, ?, ?, ?, ?, ?, ?);*/
 /*insert into local_string (cs, de, en, fr, gr, it, ru) values (?, ?, ?, ?, ?, ?, ?);*/
 insert into original_language (author, author_translit, edition, edition_translit, name, name_translit) values ('Павел Астахов', 'Pavel Astahov', 'First Edition', 'First Edition', 'Инвестор', 'Investor');
-insert into book (cover_image, is_show, last_book_ordered, original_language_name, pages, price, views, year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id) values ('avatar.jpg', true, false, 'RU', 200, 950, null, 2004, 1, 15, 2, 3, 4, 1);
+insert into book (cover_image, is_show, last_book_ordered, original_language_name, pages, price, views, year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id) values ('1.jpg', true, false, 'RU', 200, 950, null, 2004, 1, 15, 2, 3, 4, 1);
 
-insert into image (name_image) values ('avatar.jpg');
+insert into image (name_image) values ('1.jpg');
 insert into image (name_image) values ('2.jpg');
 insert into book_list_image (book_id, list_image_id) values (1, 1);
 insert into book_list_image (book_id, list_image_id) values (1, 2);
@@ -506,7 +525,7 @@ insert into book_list_image (book_id, list_image_id) values (1, 2);
 insert into original_language (author, author_translit, edition, edition_translit, name, name_translit) values ('Tatyana Ustinova', 'Tatyana Ustinova', 'First Edition', 'First Edition', 'Σκουλαρίκι της Άρτεμης', 'Skoulariki tes Artemes');
 insert into book (cover_image, is_show, last_book_ordered, original_language_name, pages, price, views, year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id) values ('4.jpg', true, false, 'GR', null, 448, null, null, 5, 16, 6, 7, 8, 2);
 insert into image (name_image) values ('4.jpg');
-insert into image (name_image) values ('avatar.jpg');
+insert into image (name_image) values ('1.jpg');
 insert into image (name_image) values ('2.jpg');
 insert into book_list_image (book_id, list_image_id) values (2, 3);
 insert into book_list_image (book_id, list_image_id) values (2, 4);
@@ -518,7 +537,7 @@ insert into book_list_image (book_id, list_image_id) values (2, 5);
 insert into original_language (author, author_translit, edition, edition_translit, name, name_translit) values ('Daria Dontsová', 'Daria Dontsova', 'First Edition', 'First Edition', 'Velký jackpot pro chudé vévodkyně', 'Velky jackpot pro chude vevodkyne');
 insert into book (cover_image, is_show, last_book_ordered, original_language_name, pages, price, views, year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id) values ('4.jpg', true, false, 'CS', null, 762, null, null, 9, 15, 10, 11, 12, 3);
 insert into image (name_image) values ('4.jpg');
-insert into image (name_image) values ('avatar.jpg');
+insert into image (name_image) values ('1.jpg');
 insert into image (name_image) values ('2.jpg');
 insert into book_list_image (book_id, list_image_id) values (3, 6);
 insert into book_list_image (book_id, list_image_id) values (3, 7);
@@ -530,7 +549,7 @@ insert into book_list_image (book_id, list_image_id) values (3, 8);
 insert into original_language (author, author_translit, edition, edition_translit, name, name_translit) values ('Дэвид Кушнер', 'Devid Kusner', 'First Edition', 'First Edition', 'Повелители DOOM', 'Poveliteli DOOM');
 insert into book (cover_image, is_show, last_book_ordered, original_language_name, pages, price, views, year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id) values ('4.jpg', true, false, 'RU', null, 37, null, null, 13, 15, 14, 15, 16, 4);
 insert into image (name_image) values ('4.jpg');
-insert into image (name_image) values ('avatar.jpg');
+insert into image (name_image) values ('1.jpg');
 insert into image (name_image) values ('2.jpg');
 insert into book_list_image (book_id, list_image_id) values (4, 9);
 insert into book_list_image (book_id, list_image_id) values (4, 10);
@@ -540,8 +559,8 @@ insert into book_list_image (book_id, list_image_id) values (4, 11);
 /*insert into local_string (cs, de, en, fr, gr, it, ru) values (?, ?, ?, ?, ?, ?, ?);*/
 /*insert into local_string (cs, de, en, fr, gr, it, ru) values (?, ?, ?, ?, ?, ?, ?);*/
 insert into original_language (author, author_translit, edition, edition_translit, name, name_translit) values ('Maria Voronova', 'Maria Voronova', 'First Edition', 'First Edition', 'You are the one to blame', 'You are the one to blame');
-insert into book (cover_image, is_show, last_book_ordered, original_language_name, pages, price, views, year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id) values ('avatar.jpg', true, false, 'EN', null, 444, null, null, 17, 15, 18, 19, 20, 5);
-insert into image (name_image) values ('avatar.jpg');
+insert into book (cover_image, is_show, last_book_ordered, original_language_name, pages, price, views, year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id) values ('1.jpg', true, false, 'EN', null, 444, null, null, 17, 15, 18, 19, 20, 5);
+insert into image (name_image) values ('1.jpg');
 insert into image (name_image) values ('2.jpg');
 insert into image (name_image) values ('3.jpg');
 insert into book_list_image (book_id, list_image_id) values (5, 12);
@@ -552,8 +571,8 @@ insert into book_list_image (book_id, list_image_id) values (5, 14);
 /*insert into local_string (cs, de, en, fr, gr, it, ru) values (?, ?, ?, ?, ?, ?, ?);*/
 /*insert into local_string (cs, de, en, fr, gr, it, ru) values (?, ?, ?, ?, ?, ?, ?);*/
 insert into original_language (author, author_translit, edition, edition_translit, name, name_translit) values ('Анна Матвеева', 'Anna Matveeva', 'First Edition', 'First Edition', 'Лолотта и другие парижские истории', 'Lolotta i drugie parizskie istorii');
-insert into book (cover_image, is_show, last_book_ordered, original_language_name, pages, price, views, year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id) values ('avatar.jpg', true, false, 'RU', null, 664, null, null, 21, 15, 22, 23, 24, 6);
-insert into image (name_image) values ('avatar.jpg');
+insert into book (cover_image, is_show, last_book_ordered, original_language_name, pages, price, views, year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id) values ('1.jpg', true, false, 'RU', null, 664, null, null, 21, 15, 22, 23, 24, 6);
+insert into image (name_image) values ('1.jpg');
 insert into image (name_image) values ('2.jpg');
 insert into book_list_image (book_id, list_image_id) values (6, 15);
 insert into book_list_image (book_id, list_image_id) values (6, 16);
@@ -562,8 +581,8 @@ insert into book_list_image (book_id, list_image_id) values (6, 16);
 /*insert into local_string (cs, de, en, fr, gr, it, ru) values (?, ?, ?, ?, ?, ?, ?);*/
 /*insert into local_string (cs, de, en, fr, gr, it, ru) values (?, ?, ?, ?, ?, ?, ?);*/
 insert into original_language (author, author_translit, edition, edition_translit, name, name_translit) values ('Гузель Яхина', 'Guzel Ahina', 'First Edition', 'First Edition', 'Зулейха открывает глаза', 'Zulejha otkryvaet glaza');
-insert into book (cover_image, is_show, last_book_ordered, original_language_name, pages, price, views, year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id) values ('avatar.jpg', true, false, 'RU', null, 615, null, null, 25, 15, 26, 27, 28, 7);
-insert into image (name_image) values ('avatar.jpg');
+insert into book (cover_image, is_show, last_book_ordered, original_language_name, pages, price, views, year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id) values ('1.jpg', true, false, 'RU', null, 615, null, null, 25, 15, 26, 27, 28, 7);
+insert into image (name_image) values ('1.jpg');
 insert into image (name_image) values ('2.jpg');
 insert into book_list_image (book_id, list_image_id) values (7, 17);
 insert into book_list_image (book_id, list_image_id) values (7, 18);
@@ -572,8 +591,8 @@ insert into book_list_image (book_id, list_image_id) values (7, 18);
 /*insert into local_string (cs, de, en, fr, gr, it, ru) values (?, ?, ?, ?, ?, ?, ?);*/
 /*insert into local_string (cs, de, en, fr, gr, it, ru) values (?, ?, ?, ?, ?, ?, ?);*/
 insert into original_language (author, author_translit, edition, edition_translit, name, name_translit) values ('Джордж Р. Р. Мартин', 'Dzordz R. R. Martin', 'First Edition', 'First Edition', 'Пламя и кровь. Кровь драконов', 'Plama i krov. Krov drakonov');
-insert into book (cover_image, is_show, last_book_ordered, original_language_name, pages, price, views, year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id) values ('avatar.jpg', true, false, 'RU', null, 156, null, null, 29, 15, 30, 31, 32, 8);
-insert into image (name_image) values ('avatar.jpg');
+insert into book (cover_image, is_show, last_book_ordered, original_language_name, pages, price, views, year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id) values ('1.jpg', true, false, 'RU', null, 156, null, null, 29, 15, 30, 31, 32, 8);
+insert into image (name_image) values ('1.jpg');
 insert into image (name_image) values ('2.jpg');
 insert into book_list_image (book_id, list_image_id) values (8, 19);
 insert into book_list_image (book_id, list_image_id) values (8, 20);
@@ -582,8 +601,8 @@ insert into book_list_image (book_id, list_image_id) values (8, 20);
 /*insert into local_string (cs, de, en, fr, gr, it, ru) values (?, ?, ?, ?, ?, ?, ?);*/
 /*insert into local_string (cs, de, en, fr, gr, it, ru) values (?, ?, ?, ?, ?, ?, ?);*/
 insert into original_language (author, author_translit, edition, edition_translit, name, name_translit) values ('Анджей Сапковский', 'Andzej Sapkovskij', 'First Edition', 'First Edition', 'Меч Предназначения', 'Mec Prednaznacenia');
-insert into book (cover_image, is_show, last_book_ordered, original_language_name, pages, price, views, year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id) values ('avatar.jpg', true, false, 'RU', null, 465, null, null, 33, 15, 34, 35, 36, 9);
-insert into image (name_image) values ('avatar.jpg');
+insert into book (cover_image, is_show, last_book_ordered, original_language_name, pages, price, views, year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id) values ('1.jpg', true, false, 'RU', null, 465, null, null, 33, 15, 34, 35, 36, 9);
+insert into image (name_image) values ('1.jpg');
 insert into image (name_image) values ('2.jpg');
 insert into image (name_image) values ('3.jpg');
 insert into book_list_image (book_id, list_image_id) values (9, 21);
@@ -610,8 +629,8 @@ insert into book_list_image (book_id, list_image_id) values (11, 25);
 /*insert into local_string (cs, de, en, fr, gr, it, ru) values (?, ?, ?, ?, ?, ?, ?);*/
 /*insert into local_string (cs, de, en, fr, gr, it, ru) values (?, ?, ?, ?, ?, ?, ?);*/
 insert into original_language (author, author_translit, edition, edition_translit, name, name_translit) values ('Татьяна Устинова', 'Tatana Ustinova', 'First Edition', 'First Edition', 'Призрак Канта', 'Prizrak Kanta');
-insert into book (cover_image, is_show, last_book_ordered, original_language_name, pages, price, views, year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id) values ('avatar.jpg', false, false, 'RU', null, 177, null, null, 45, 15, 46, 47, 48, 12);
-insert into image (name_image) values ('avatar.jpg');
+insert into book (cover_image, is_show, last_book_ordered, original_language_name, pages, price, views, year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id) values ('1.jpg', false, false, 'RU', null, 177, null, null, 45, 15, 46, 47, 48, 12);
+insert into image (name_image) values ('1.jpg');
 insert into image (name_image) values ('2.jpg');
 insert into image (name_image) values ('3.jpg');
 insert into book_list_image (book_id, list_image_id) values (12, 26);
@@ -630,8 +649,8 @@ insert into book_list_image (book_id, list_image_id) values (13, 29);
 /*insert into local_string (cs, de, en, fr, gr, it, ru) values (?, ?, ?, ?, ?, ?, ?);*/
 /*insert into local_string (cs, de, en, fr, gr, it, ru) values (?, ?, ?, ?, ?, ?, ?);*/
 insert into original_language (author, author_translit, edition, edition_translit, name, name_translit) values ('Вячеслав Кумин', 'Vaceslav Kumin', 'First Edition', 'First Edition', 'Прыжок Феникса', 'Pryzok Feniksa');
-insert into book (cover_image, is_show, last_book_ordered, original_language_name, pages, price, views, year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id) values ('avatar.jpg', false, false, 'RU', null, 693, null, null, 53, 15, 54, 55, 56, 14);
-insert into image (name_image) values ('avatar.jpg');
+insert into book (cover_image, is_show, last_book_ordered, original_language_name, pages, price, views, year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id) values ('1.jpg', false, false, 'RU', null, 693, null, null, 53, 15, 54, 55, 56, 14);
+insert into image (name_image) values ('1.jpg');
 insert into image (name_image) values ('2.jpg');
 insert into book_list_image (book_id, list_image_id) values (14, 30);
 insert into book_list_image (book_id, list_image_id) values (14, 31);
