@@ -18,11 +18,19 @@ public class ContactsOfOrder {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "firstname")
+    private String firstName;
+
+    @Column(name = "lastname")
+    private String lastName;
+
     @Column(name = "phone")
     private String phone;
 
     public ContactsOfOrder (ContactsOfOrderDTO contacts) {
         this.email = contacts.getEmail();
         this.phone = contacts.getPhone();
+        this.firstName = contacts.getFirstName();
+        this.lastName = contacts.getLastName();
     }
 }

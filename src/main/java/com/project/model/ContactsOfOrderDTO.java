@@ -11,6 +11,8 @@ public class ContactsOfOrderDTO {
 
     private long id;
     private String email;
+    private String firstName;
+    private String lastName;
     private String phone;
     private String comment;
 
@@ -18,6 +20,8 @@ public class ContactsOfOrderDTO {
         this.id = contacts.getId();
         this.phone = contacts.getPhone();
         this.email = contacts.getEmail();
+        this.firstName = contacts.getFirstName();
+        this.lastName = contacts.getLastName();
     }
 
 }
