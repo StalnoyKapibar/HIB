@@ -107,7 +107,9 @@ create table contacts
 (
 id  bigserial not null, 
 email varchar(255), 
-phone varchar(255), 
+firstname varchar(255),
+lastname varchar(255),
+phone varchar(255),
 primary key (id)
 );
 
