@@ -65,6 +65,7 @@ public class SendEmailServiceImpl implements SendEmailService {
         String senderFromProperty = environment.getProperty("spring.mail.username");
         MimeMessage message = mailService.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, "utf-8");
+
         helper.setTo(order.getUserAccount().getEmail());
         helper.setSubject("Заказ");
         helper.setFrom(senderFromProperty);

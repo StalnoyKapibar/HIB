@@ -48,7 +48,7 @@ public class FeedbackRequestController {
         }
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setFrom(env.getProperty("spring.mail.username"));
-        mailMessage.setTo((feedbackRequest.getSenderEmail()));
+        mailMessage.setTo(feedbackRequest.getSenderEmail());
         mailMessage.setSubject(env.getProperty("spring.mail.subject"));
         mailMessage.setText("Dear " + feedbackRequest.getSenderName() +
                 ".\n" + env.getProperty("spring.mail.request") +
