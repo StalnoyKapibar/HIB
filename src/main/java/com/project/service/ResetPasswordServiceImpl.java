@@ -57,7 +57,7 @@ public class ResetPasswordServiceImpl implements ResetPasswordService {
                 helper.setSubject("Reset Password");
                 helper.setFrom(senderFromProperty);
                 helper.setText(mailService.getTemplate("mailForm/passChange.html", context), true);
-                mailService.sendEmail(message);
+                mailService.sendEmail(message, email);
                 return "ok";
             } catch (EmptyResultDataAccessException | MessagingException e) {
                 return "noEmail";

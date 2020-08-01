@@ -6,13 +6,10 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.ModelAndView;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import javax.mail.internet.MimeMessage;
-import java.util.Map;
-import java.util.Objects;
 
 @Service
 public class MailServiceImpl implements MailService {
@@ -21,24 +18,41 @@ public class MailServiceImpl implements MailService {
 
     private TemplateEngine templateEngine;
 
+    private MailCheckSent mailCheckSent;
+
     @Autowired
     public MailServiceImpl(JavaMailSender javaMailSender, TemplateEngine templateEngine) {
         this.javaMailSender = javaMailSender;
         this.templateEngine = templateEngine;
     }
 
-    @Async
-    public void sendEmail(SimpleMailMessage email) throws MailSendException {
-        javaMailSender.send(email);
+    @Autowired
+    public void setMailCheckSent(MailCheckSent mailCheckSent) {
+        this.mailCheckSent = mailCheckSent;
     }
 
     @Async
-    public void sendEmail(MimeMessage email) {
-        try {
-            javaMailSender.send(email);
-        } catch (MailSendException e) {
-            e.printStackTrace();
-        }
+    public void sendEmail(SimpleMailMessage email, String emailTo) {
+        do {
+            try {
+                javaMailSender.send(email);
+                Thread.sleep(60000);
+            } catch (MailSendException | InterruptedException e) {
+                e.printStackTrace();
+            }
+        } while (!mailCheckSent.isMailSent(emailTo));
+    }
+
+    @Async
+    public void sendEmail(MimeMessage email, String emailTo) {
+        do {
+            try {
+                javaMailSender.send(email);
+                Thread.sleep(60000);
+            } catch (MailSendException | InterruptedException e) {
+                e.printStackTrace();
+            }
+        } while (!mailCheckSent.isMailSent(emailTo));
     }
 
     @Override
@@ -49,5 +63,4 @@ public class MailServiceImpl implements MailService {
     public String getTemplate(String template, Context context ){
         return templateEngine.process(template, context);
     }
-
 }
