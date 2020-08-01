@@ -27,10 +27,10 @@ function sendSingUpForm() {
     $(".preloader").show("slow");
     // add message to preloader
     $(".lds-ellipsis").html(`
+        <span></span>
+        <span></span>
+        <span></span>
         <div class="text-danger">Registration proceed</div>
-        <span></span>
-        <span></span>
-        <span></span>
     `);
     $('#hiddenSingUpBtn').click();
 }

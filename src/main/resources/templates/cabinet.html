@@ -95,6 +95,26 @@
         <link href="/static/fonts/font.css" rel="stylesheet">
         <link href="css/cabinet.css" rel="stylesheet" type="text/css">
         <script crossorigin="anonymous" src="https://kit.fontawesome.com/db08edad0b.js"></script>
+        <!--МОДАЛЬНОЕ ОКНО ОК-->
+        <div class="modal fade" id="successActionModal" tabindex="-1" role="dialog" aria-labelledby="successActionModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="successActionModalLabel">Operation status</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="successAction">
+                        Action successful
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--МОДАЛЬНОЕ ОКНО SHOW DETAILS-->
         <div aria-hidden="true" aria-labelledby="myLargeModalLabel" class="modal fade" id="ordermodal"
              role="dialog" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered modal-lg " role="document">

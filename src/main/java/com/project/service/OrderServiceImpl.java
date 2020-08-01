@@ -66,6 +66,20 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public void cancelOrder(Long id) {
+        Order order = getOrderById(id);
+        for (CartItem cartItem : order.getItems()) {
+            Book book = cartItem.getBook();
+            if (order.getStatus().equals(Status.PROCESSING)) {
+                book.setShow(true);
+            }
+            book.setLastBookOrdered(false);
+        }
+        order.setStatus(Status.CANCELED);
+        orderDAO.update(order);
+    }
+
+    @Override
     public List<Order> getAllOrders() {
         return orderDAO.findAll();
     }
@@ -122,7 +136,8 @@ public class OrderServiceImpl implements OrderService {
         Long processingOrders = orderDAO.getAmountByStatus(Status.PROCESSING, email);
         Long completedOrders = orderDAO.getAmountByStatus(Status.COMPLETED, email);
         Long deletedOrders = orderDAO.getAmountByStatus(Status.DELETED, email);
-        return new Long[] {uprocessedOrders, processingOrders, completedOrders, deletedOrders};
+        Long canceledOrders = orderDAO.getAmountByStatus(Status.CANCELED, email);
+        return new Long[] {uprocessedOrders, processingOrders, completedOrders, deletedOrders, canceledOrders};
     }
 
     @Override

@@ -321,6 +321,9 @@ function showDetails(details, email) {
         case 'deletedOrders':
             showDeletedOrders(details, email);
             break;
+        case 'canceledOrders':
+            showCanceledOrders(details, email);
+            break;
         case 'editUser':
             showEditUser(details, email);
             break;
@@ -533,6 +536,37 @@ async function showDeletedOrders(details, email) {
                                     </div>
                                     <div class="col-2">
                                         <button class="btn btn-primary btn-block" type="button" onclick="sendToOrderTab(${orders[index].id}, 'Deleted')">Manage</button>
+                                    </div>
+                                </div>`
+            });
+            htmlDetails += `    </td>
+                            </tr>`
+        });
+    document.getElementById(email + "-mark").insertAdjacentHTML("afterend", htmlDetails);
+    upArrow(email + '-' + details + '-arrow', details, email);
+}
+
+async function showCanceledOrders(details, email) {
+    let htmlDetails = ``;
+    htmlDetails += `<tr id="${email}-${details}">
+                        <td colspan="7" class="pt-0 pb-0">`
+    await fetch("/api/admin/order/" + email + "/" + details)
+        .then(json)
+        .then((data) => {
+            orders = data;
+            $.each(orders, function (index) {
+                htmlDetails += `<div class="row active-cell-details">
+                                    <div class="col-2">
+                                        <div>Order №${orders[index].id}</div>
+                                        <div>${orders[index].userDTO.firstName} ${orders[index].userDTO.lastName}</div>
+                                        <div>${orders[index].data}</div>
+                                    </div>
+                                    <div class="col-8">
+                                        <div>${orders[index].comment}</div>
+                                        <div><a href="#" data-target="#order-modal" data-toggle="modal" onclick="showModalOfOrder(${index})">Show details</a></div>
+                                    </div>
+                                    <div class="col-2">
+                                        <button class="btn btn-primary btn-block" type="button" onclick="sendToOrderTab(${orders[index].id}, 'Canceled')">Manage</button>
                                     </div>
                                 </div>`
             });

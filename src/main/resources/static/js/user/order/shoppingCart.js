@@ -210,12 +210,13 @@ $("#butToBuy").one('click',function() {
     $(".preloader").show("slow");
     // add message to preloader
     $(".lds-ellipsis").html(`
+        <span></span>
+        <span></span>
+        <span></span>
+        <br>
         <div class="text-danger">We are processing your transaction.<br>
         Please wait a few seconds.<br>
         You will now be redirected to the order page.</div>
-        <span></span>
-        <span></span>
-        <span></span>
     `);
     confirmPurchase();
 });
@@ -340,20 +341,49 @@ async function showListOrders() {
         .then(function (data) {
             listOders = data;
             let html = ``;
-            for (let key in data) {
-                let order = data[key];
+            listOders.forEach(function (order, index) {
                 html += `<tr><td></td>
-                         <td>${order.id}</td> 
+                         <td>${index + 1}</td> 
                          <td>${order.data}</td> 
                          <td>${order.status}</td>
                          <td>${convertPrice(order.itemsCost)} ${currencyIcon}</td>
 
-                         <td><button type="button" class="btn btn-info show-btn" data-toggle="modal" data-target="#ordermodal"  onclick="showCarrentOrder(${key})">Show</button></td></tr>`;
-
-            }
+                         <td><button type="button" class="btn btn-info show-btn" data-toggle="modal" data-target="#ordermodal"  onclick="showCarrentOrder(${index})">Show</button>`;
+                if (order.status === "UNPROCESSED") {
+                    html += `<button type="button" class="btn btn-danger show-btn" onclick="orderCancel(${order.id})">Cancel</button></td></tr>`;
+                } else {
+                    html += `<button type="button" class="btn btn-danger show-btn" onclick="orderCancel(${order.id})" disabled="disabled">Cancel</button></td></tr>`;
+                }
+            });
             $('#listorders').html(html);
         });
+}
 
+// CANCEL order before PROCESSING
+function orderCancel(id) {
+    try {
+        // try to proceed cancel order, show modal OK
+        fetch("/api/user/orderCancel/" + id, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json;charset=utf-8"
+            },
+            body: JSON.stringify(id),
+        }).then(function () {
+            $("#successAction").html("Order canceled");
+            $("#successActionModal").modal('show');
+        }).then(function() {
+            showOrderSize();
+        })
+        .then(function () {
+            showListOrders()
+        });
+    } catch (error) {
+        // catch error, show modal not OK
+        console.log("Ошибка при отмене заказа: ", error)
+        $("#successAction").html("Failed to cancel order");
+        $("#successActionModal").modal('show');
+    }
 
 }
 
