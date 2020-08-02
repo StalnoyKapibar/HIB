@@ -71,9 +71,6 @@ public class OrderServiceImpl implements OrderService {
         if (order.getStatus().equals(Status.UNPROCESSED)) {
             for (CartItem cartItem : order.getItems()) {
                 Book book = cartItem.getBook();
-                if (order.getStatus().equals(Status.PROCESSING)) {
-                    book.setShow(true);
-                }
                 book.setLastBookOrdered(false);
             }
             order.setStatus(Status.CANCELED);
