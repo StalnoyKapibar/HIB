@@ -66,7 +66,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void cancelOrder(Long id) {
+    public String cancelOrder(Long id) {
         Order order = getOrderById(id);
         if (order.getStatus().equals(Status.UNPROCESSED)) {
             for (CartItem cartItem : order.getItems()) {
@@ -75,8 +75,9 @@ public class OrderServiceImpl implements OrderService {
             }
             order.setStatus(Status.CANCELED);
             orderDAO.update(order);
+            return "{\"response\" : \"Order canceled\"}";
         } else {
-            System.err.println("Order #" + id + " can't be canceled because order is not UNPROCESSED");
+            return "{\"response\" : \"Order can't be canceled because order is not UNPROCESSED\"}";
         }
 
     }

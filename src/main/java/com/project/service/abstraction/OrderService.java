@@ -18,7 +18,7 @@ public interface OrderService {
 
     void deleteOrder(Long id);
 
-    void cancelOrder(Long id);
+    String cancelOrder(Long id);
 
     List<Order> getAllOrders();
 

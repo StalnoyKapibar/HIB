@@ -369,10 +369,13 @@ function orderCancel(id) {
                 "Content-Type": "application/json;charset=utf-8"
             },
             body: JSON.stringify(id),
-        }).then(function () {
-            $("#successAction").html("Order canceled");
+        })
+        .then(json)
+        .then(function (data) {
+            $("#successAction").html(data.response);
             $("#successActionModal").modal('show');
-        }).then(function() {
+        })
+        .then(function() {
             showOrderSize();
         })
         .then(function () {
@@ -380,7 +383,7 @@ function orderCancel(id) {
         });
     } catch (error) {
         // catch error, show modal not OK
-        console.log("Ошибка при отмене заказа: ", error)
+        console.log("Failed to cancel order: ", error)
         $("#successAction").html("Failed to cancel order");
         $("#successActionModal").modal('show');
     }

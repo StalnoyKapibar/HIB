@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -215,7 +216,7 @@ public class OrderController {
     }
 
     @PostMapping("/api/user/orderCancel/{id}")
-    private void orderCancel(@PathVariable Long id) {
-        orderService.cancelOrder(id);
+    private String orderCancel(@PathVariable Long id) {
+        return orderService.cancelOrder(id);
     }
 }
