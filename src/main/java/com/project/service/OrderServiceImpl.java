@@ -68,15 +68,20 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void cancelOrder(Long id) {
         Order order = getOrderById(id);
-        for (CartItem cartItem : order.getItems()) {
-            Book book = cartItem.getBook();
-            if (order.getStatus().equals(Status.PROCESSING)) {
-                book.setShow(true);
+        if (order.getStatus().equals(Status.UNPROCESSED)) {
+            for (CartItem cartItem : order.getItems()) {
+                Book book = cartItem.getBook();
+                if (order.getStatus().equals(Status.PROCESSING)) {
+                    book.setShow(true);
+                }
+                book.setLastBookOrdered(false);
             }
-            book.setLastBookOrdered(false);
+            order.setStatus(Status.CANCELED);
+            orderDAO.update(order);
+        } else {
+            System.err.println("Order #" + id + " can't be canceled because order is not UNPROCESSED");
         }
-        order.setStatus(Status.CANCELED);
-        orderDAO.update(order);
+
     }
 
     @Override
