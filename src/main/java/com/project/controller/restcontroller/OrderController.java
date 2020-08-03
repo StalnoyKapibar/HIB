@@ -56,8 +56,15 @@ public class OrderController {
     @PostMapping("/api/user/order/confirmContacts")
     private ContactsOfOrderDTO addContacts(HttpSession httpSession, @RequestBody ContactsOfOrderDTO contacts) {
         httpSession.setAttribute("contacts", contacts);
+        System.out.println(contacts.getEmail());
         return contacts;
     }
+
+//    @PostMapping("/api/user/order/confirmContacts")
+//    private void regOneClick(HttpSession httpSession, @RequestBody RegistrationUserDTO userDTO) {
+//        httpSession.setAttribute("contacts", contacts);
+//        return contacts;
+//    }
 
     @PostMapping("/order")
     private void confirmOrder(HttpSession httpSession, HttpServletRequest request) {

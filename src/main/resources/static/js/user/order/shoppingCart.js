@@ -212,7 +212,6 @@ async function btnBuy() {
     $("#butToBuy").one('click', function () {
         // show preloader before action
         $(".preloader").show("slow");
-        confirmPurchase();
     });
 }
 
@@ -470,64 +469,60 @@ function showOrderSum1ClickReg() {
                                                     </div>`;
 
     if (contacts.email !== '') {
-        html += `<form th:action="@{/1clickreg}" th:object="${user}" method="post"
-                                                          name="registration-form">
-                                                        <div class="form-group">
+        html += `<form th:action=""  name="registration-form">
+                                                        <div class="form-group row">
                                                             <label class="control-label col-sm-2 col-form-label email-label"
                                                                    for="emailInputField">Email</label>
 
                                                             <div class="col-md-5 pl-0 pr-1">
                                                                 <input id="emailInputField" class="form-control"
                                                                        readonly
-                                                                       placeholder=${contacts.email} name="email"
-                                                                       th:field="*{email}">
+                                                                       placeholder=${contacts.email} name="email">
                                                             </div>
                                                         </div>`;
 
     }
     if (contacts.firstName !== '') {
-        html += `<div class="form-group  row">
+        html += `
+                                                        <div class="form-group  row">
                                                             <label class="control-label col-sm-2 col-form-label firstName-label"
                                                                    for="firstNameInputField">First name</label>
 
                                                             <div class="col-md-5 pl-0 pr-1">
                                                                 <input id="firstNameInputField" class="form-control"
                                                                        readonly
-                                                                       placeholder=${contacts.firstName}
-                                                                       name="firstName" th:field="*{firstName}">
+                                                                       placeholder=${contacts.firstName}>
                                                             </div>
                                                         </div>`;
 
     }
     if (contacts.lastName !== '') {
-        html += `<div class="form-group  row">
+        html += `                                        <div class="form-group  row">
                                                             <label class="control-label col-sm-2 col-form-label lastName-label"
                                                                    for="lastNameInputField">Last name</label>
 
                                                             <div class="col-md-5 pl-0 pr-1">
                                                                 <input id="lastNameInputField" class="form-control"
                                                                        readonly
-                                                                       placeholder=${contacts.lastName} name="lastName"
-                                                                       th:field="*{lastName}">
+                                                                       placeholder=${contacts.lastName} name="lastName">
                                                             </div>
                                                         </div>`;
 
     }
     if (contacts.phone !== '') {
-        html += `<div class="form-group row">
+        html += `                                        <div class="form-group row">
                                                             <label class="control-label col-sm-2 col-form-label phone-label"
                                                                    for="phoneInputField">Phone</label>
 
                                                             <div class="col-sm-5 pl-0 pr-1">
                                                                 <input id="phoneInputField" class="form-control field"
                                                                        readonly
-                                                                       placeholder=${contacts.phone} name="phone"
-                                                                       th:field="*{phone}">
+                                                                       placeholder=${contacts.phone} name="phone">
                                                             </div>
                                                         </div>`;
     }
     if (contacts.comment !== " ") {
-        html += `<div class="form-group row">
+        html += `                                        <div class="form-group row">
                                                             <label class="control-label col-sm-2 col-form-label comment-label"
                                                                    for="commentInputField">Comment</label>
 
