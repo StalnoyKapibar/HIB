@@ -107,7 +107,7 @@ public class UserController {
 
     @GetMapping("/1clickreg")
     public ModelAndView get1ClickRegistrationPage(RegistrationUserDTO user) {
-        ModelAndView view = new ModelAndView("user/user-page");
+        ModelAndView view = new ModelAndView("cabinet");
         view.getModelMap().addAttribute("user", new RegistrationUserDTO());
         view.getModelMap().addAttribute("errorMessage", new FormLoginErrorMessageDTO(false, ""));
         return view;
@@ -115,7 +115,8 @@ public class UserController {
 
     @PostMapping(value = "/1clickreg", consumes =
             {MediaType.APPLICATION_FORM_URLENCODED_VALUE, MediaType.APPLICATION_JSON_VALUE})
-    public ModelAndView createNewUserAccount1Click(@Valid RegistrationUserDTO user, BindingResult result, HttpServletRequest request, HttpServletResponse response,
+    public ModelAndView createNewUserAccount1Click(@Valid RegistrationUserDTO user, BindingResult result,
+                                                   HttpServletRequest request, HttpServletResponse response,
                                                    HttpSession session) {
         ModelAndView view = new ModelAndView("user/user-page");
         StringBuilder url = new StringBuilder();
