@@ -1,19 +1,11 @@
 package com.project.config;
 
-import com.project.config.initializer.ErrorMessageDataInit;
-import com.project.config.initializer.TestCategories;
-import com.project.config.initializer.TestDataInit;
-import com.project.config.initializer.TestUserAccounts;
 import com.project.service.UserDetailServiceImpl;
 import com.project.util.LocaleHolder;
-import org.apache.catalina.connector.Connector;
-import org.springframework.boot.web.embedded.tomcat.TomcatConnectorCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;

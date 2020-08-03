@@ -15,7 +15,6 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.HtmlUtils;
 
-import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
 import java.time.Instant;
 import java.util.List;
@@ -48,13 +47,13 @@ public class FeedbackRequestController {
         }
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setFrom(env.getProperty("spring.mail.username"));
-        mailMessage.setTo((feedbackRequest.getSenderEmail()));
+        mailMessage.setTo(feedbackRequest.getSenderEmail());
         mailMessage.setSubject(env.getProperty("spring.mail.subject"));
         mailMessage.setText("Dear " + feedbackRequest.getSenderName() +
                 ".\n" + env.getProperty("spring.mail.request") +
                 "\n" + feedbackRequest.getContent() +
                 "\n" + env.getProperty("spring.mail.answer"));
-        mailService.sendEmail(mailMessage);
+        mailService.sendEmail(mailMessage, feedbackRequest.getSenderEmail());
         return feedbackRequestService.save(feedbackRequest);
     }
 
@@ -75,7 +74,7 @@ public class FeedbackRequestController {
         feedbackRequest.setReplied(true);
         feedbackRequest.setViewed(true);
         feedbackRequestService.save(feedbackRequest);
-        mailService.sendEmail(simpleMailMessage);
+        mailService.sendEmail(simpleMailMessage, feedbackRequest.getSenderEmail());
     }
 
     @GetMapping(value = "/api/admin/feedback-request", params = "!replied")
