@@ -14,7 +14,7 @@ $(document).ready(function () {
     if (document.referrer.toString() === "" && userData.oauth2Acc === false) {
         confirmAddressAutoReg();
 
-        confirmContactsFor1Click();
+        confirmContactsFor1Click2();
     }
 
     if (currentLang == '') {
@@ -208,18 +208,25 @@ async function confirmPurchase() {
         });
 }
 
-async function btnBuy() {
-    $("#butToBuy").one('click', function () {
-        // show preloader before action
-        $(".preloader").show("slow");
-    });
-}
+$("#butToBuy").one('click',function() {
+    // show preloader before action
+    $(".preloader").show("slow");
+    // add message to preloader
+    $(".lds-ellipsis").html(`
+        <span></span>
+        <span></span>
+        <span></span>
+        <br>
+        <div class="text-danger">We are processing your transaction.<br>
+        Please wait a few seconds.<br>
+        You will now be redirected to the order page.</div>
+    `);
+    confirmPurchase();
+});
 
 async function btnBuy1clickReg() {
+    await POST("/api/user/reg1Click", JSON.stringify(contacts), JSON_HEADER);
     $("#butToBuy").one('click', function () {
-        // show preloader before action
-        $(".preloader").show("slow");
-
         confirmPurchase();
     });
 }
@@ -469,121 +476,4 @@ async function getLastOrderedBooks() {
     const res = await fetch(url);
     const data = await res.json();
     return data;
-}
-
-function showOrderSum1ClickReg() {
-    let items = order.items;
-    $('#orderTab').empty();
-    $.each(items, function (index) {
-        let book = items[index].book;
-        let row = $('<tr id="trr"/>');
-        let cell = $('<td width="10"></td>');
-        row.append(cell);
-        cell = `<td class="align-middle"><img src="../images/book${book.id}/${book.coverImage}" style="max-width: 60px"></td>
-            <td class="align-middle">${convertOriginalLanguageRows(book.originalLanguage.name, book.originalLanguage.nameTranslit)} 
-            | ${convertOriginalLanguageRows(book.originalLanguage.author, book.originalLanguage.authorTranslit)}</td>
-            <td class="align-middle" id="book${book.id}">${convertPrice(book.price) + currencyIcon}</td>`;
-        row.append(cell);
-        row.appendTo('#orderTab');
-    });
-    $('#subtotal').text(totalPrice + currencyIcon);
-    $('#pricetotal').text(totalPrice + currencyIcon);
-
-    let html = ``;
-    html += `
-                <div th:fragment="register">
-                                        <div class="panel panel-primary">
-                                            <div class="panel-body">
-                                                <div class="container mt-2">
-                                                    <div class="col-8 p-4 mb-4  alert alert-info" role="alert">
-                                                        <h6><label class="your-loc">Your</label> <strong
-                                                                class="contacts-loc">contacts </strong></h6>
-                                                    </div>`;
-
-    if (contacts.email !== '') {
-        html += `<form th:action=""  name="registration-form">
-                                                        <div class="form-group row">
-                                                            <label class="control-label col-sm-2 col-form-label email-label"
-                                                                   for="emailInputField">Email</label>
-
-                                                            <div class="col-md-5 pl-0 pr-1">
-                                                                <input id="emailInputField" class="form-control"
-                                                                       readonly
-                                                                       placeholder=${contacts.email} name="email">
-                                                            </div>
-                                                        </div>`;
-
-    }
-    if (contacts.firstName !== '') {
-        html += `
-                                                        <div class="form-group  row">
-                                                            <label class="control-label col-sm-2 col-form-label firstName-label"
-                                                                   for="firstNameInputField">First name</label>
-
-                                                            <div class="col-md-5 pl-0 pr-1">
-                                                                <input id="firstNameInputField" class="form-control"
-                                                                       readonly
-                                                                       placeholder=${contacts.firstName}>
-                                                            </div>
-                                                        </div>`;
-
-    }
-    if (contacts.lastName !== '') {
-        html += `                                        <div class="form-group  row">
-                                                            <label class="control-label col-sm-2 col-form-label lastName-label"
-                                                                   for="lastNameInputField">Last name</label>
-
-                                                            <div class="col-md-5 pl-0 pr-1">
-                                                                <input id="lastNameInputField" class="form-control"
-                                                                       readonly
-                                                                       placeholder=${contacts.lastName} name="lastName">
-                                                            </div>
-                                                        </div>`;
-
-    }
-    if (contacts.phone !== '') {
-        html += `                                        <div class="form-group row">
-                                                            <label class="control-label col-sm-2 col-form-label phone-label"
-                                                                   for="phoneInputField">Phone</label>
-
-                                                            <div class="col-sm-5 pl-0 pr-1">
-                                                                <input id="phoneInputField" class="form-control field"
-                                                                       readonly
-                                                                       placeholder=${contacts.phone} name="phone">
-                                                            </div>
-                                                        </div>`;
-    }
-    if (contacts.comment !== " ") {
-        html += `                                        <div class="form-group row">
-                                                            <label class="control-label col-sm-2 col-form-label comment-label"
-                                                                   for="commentInputField">Comment</label>
-
-                                                            <div class="col-md-6 pl-0">
-                                                              <textarea id="commentInputField" class="form-control"
-                                                                        readonly rows="5"
-                                                                        placeholder="${contacts.comment}">
-                                                              </textarea>
-                                                            </div>
-                                                        </div>`;
-    }
-
-    html += `<button type="submit" id="hiddenSingUpBtn" hidden>
-                                                            HiddenSingUpButton
-                                                        </button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>`;
-    //присоеденяем введенные пользователем контакты для подтвержения и добавляем кнопки.
-    $('#shippingaddress').html(html);
-    $('#for_btnBuy').html(`<button class="btn bt-lg btn-block btn-success buynow-btn" id="butToBuy"
-                                               onclick="btnBuy()" type="button">
-                                               Buy Now</button>`);
-    $('#for_btn1clickRegAndBuy').html(`<button class="btn bt-lg btn-block btn-success buynow-btn" id="butToBuy"
-                                               onclick="btnBuy1clickReg()" type="button">
-                                               Reg and Buy Now</button>`);
-
-    setLocaleFields();
-
 }

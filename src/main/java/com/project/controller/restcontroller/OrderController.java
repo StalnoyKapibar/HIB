@@ -2,22 +2,27 @@ package com.project.controller.restcontroller;
 
 import com.project.model.*;
 import com.project.service.DataEnterInAdminPanelService;
-import com.project.service.abstraction.BookService;
-import com.project.service.abstraction.OrderService;
-import com.project.service.abstraction.ShoppingCartService;
-import com.project.service.abstraction.UserAccountService;
+import com.project.service.abstraction.*;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailSendException;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 
 @RestController
@@ -29,6 +34,10 @@ public class OrderController {
     private UserAccountService userAccountService;
     private BookService bookService;
     private DataEnterInAdminPanelService dataEnterInAdminPanelService;
+    public static final String SOURCES =
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
+    @Autowired
+    FormLoginErrorMessageService messageService;
 
 
     @PostMapping("/api/user/order/confirmaddress")
@@ -57,14 +66,67 @@ public class OrderController {
     private ContactsOfOrderDTO addContacts(HttpSession httpSession, @RequestBody ContactsOfOrderDTO contacts) {
         httpSession.setAttribute("contacts", contacts);
         System.out.println(contacts.getEmail());
+//        RegistrationUserDTO registrationUserDTO = new RegistrationUserDTO();
+//        registrationUserDTO.setEmail(contacts.getEmail());
+//        registrationUserDTO.setFirstName(contacts.getFirstName());
+//        registrationUserDTO.setLastName(contacts.getLastName());
+//        registrationUserDTO.setPhone(contacts.getPhone());
         return contacts;
     }
 
-//    @PostMapping("/api/user/order/confirmContacts")
-//    private void regOneClick(HttpSession httpSession, @RequestBody RegistrationUserDTO userDTO) {
-//        httpSession.setAttribute("contacts", contacts);
-//        return contacts;
-//    }
+    @PostMapping("/api/user/reg1Click")
+    private ModelAndView regOneClick(@Valid RegistrationUserDTO user,@RequestBody ContactsOfOrderDTO contacts, BindingResult result,
+                             HttpServletRequest request, HttpServletResponse response,
+                             HttpSession session) {
+        ModelAndView view = new ModelAndView("user/user-page");
+        StringBuilder url = new StringBuilder();
+        url.append(request.getScheme())
+                .append("://")
+                .append(request.getServerName())
+                .append(':')
+                .append(request.getServerPort());
+        view.getModelMap().addAttribute("user", user);
+        user.setEmail(contacts.getEmail());
+        user.setFirstName(contacts.getFirstName());
+        user.setLastName(contacts.getLastName());
+        user.setPhone(contacts.getPhone());
+
+        user.setPassword(generateString(new Random(), SOURCES, 10));
+        user.setConfirmPassword(user.getPassword());
+        user.setAutoReg(true);
+
+        ShoppingCartDTO shoppingCart = (ShoppingCartDTO) session.getAttribute("shoppingcart");
+        if (result.hasErrors()) {
+            view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessage(result));
+            return view;
+        }
+        if (userAccountService.emailExist(user.getEmail())) {
+            view.getModelMap().addAttribute("errorMessage",
+                    messageService.getErrorMessageOnEmailUIndex());
+            return view;
+        }
+
+        if (!user.getPassword().equals(user.getConfirmPassword())) {
+            view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessageOnPasswordsDoesNotMatch());
+            return view;
+        }
+        try {
+            userAccountService.save1Clickreg(user, url.toString());
+            shoppingCart.setId(userAccountService.getCartIdByUserEmail(user.getEmail()));
+            cartService.updateCart(shoppingCart);
+        } catch (DataIntegrityViolationException e) {
+            if (e.getCause().getCause().getMessage().contains("login")) {
+                view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessageOnLoginUIndex());
+            } else {
+                view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessageOnEmailUIndex());
+            }
+            return view;
+        } catch (MailSendException e) {
+            view.setViewName("redirect:/err/not_found");
+        }
+//        view.setViewName("redirect:/reqapprove");
+        return view;
+    }
 
     @PostMapping("/order")
     private void confirmOrder(HttpSession httpSession, HttpServletRequest request) {
@@ -224,5 +286,13 @@ public class OrderController {
     @PostMapping("/api/user/orderCancel/{id}")
     private String orderCancel(@PathVariable Long id) {
         return orderService.cancelOrder(id);
+    }
+
+    public String generateString(Random random, String characters, int length) {
+        char[] text = new char[length];
+        for (int i = 0; i < length; i++) {
+            text[i] = characters.charAt(random.nextInt(characters.length()));
+        }
+        return new String(text);
     }
 }

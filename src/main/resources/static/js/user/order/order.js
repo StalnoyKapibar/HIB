@@ -40,7 +40,7 @@ async function confirmAddress() {
 }
 
 async function confirmAddressAutoReg() {
-    let isAuth = false;
+    let isAuth = true;
 
     await POST('/api/user/order/confirmaddress'
         , JSON.stringify(userData))
@@ -129,7 +129,7 @@ function showContacts() {
 
 function showContacts1ClickReg() {
     $('#cartTab a[href="#contacts"]').tab('show');
-    GET('/1clickreg');
+    // GET('/1clickreg');
 
 }
 
@@ -173,7 +173,7 @@ async function confirmContactsFor1Click2() {
     // confirmPurchase();
     // sendSingUpForm();
     showSummary();
-    showOrderSum1ClickReg();
+    showOrderSum();
 }
 
 function showHome() {
