@@ -36,7 +36,7 @@ public class MailServiceImpl implements MailService {
         do {
             try {
                 javaMailSender.send(email);
-                Thread.sleep(5000);
+                Thread.sleep(2000);
             } catch (MailSendException | InterruptedException e) {
                 e.printStackTrace();
             }
@@ -48,7 +48,7 @@ public class MailServiceImpl implements MailService {
         do {
             try {
                 javaMailSender.send(email);
-                Thread.sleep(5000);
+                Thread.sleep(2000);
             } catch (MailSendException | InterruptedException e) {
                 e.printStackTrace();
             }

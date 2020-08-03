@@ -13,7 +13,6 @@ import java.util.Properties;
  */
 
 @Service
-@Scope("prototype")
 public class MailCheckSent {
 
     private final String IMAP_AUTH_EMAIL;
