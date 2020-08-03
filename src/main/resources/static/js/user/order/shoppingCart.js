@@ -64,7 +64,6 @@ async function getShoppingCart() {
                     $('#sum').text(totalPrice + currencyIcon);
 
 
-
                 });
                 if (data.length === 0) {
                     isOrderEnable = false;
@@ -86,10 +85,11 @@ async function getShoppingCart() {
                     //                            onclick="location.href='/1clickreg'" type="button">
                     //                            Buy without sign up</button>`);
                     $('#for-1click-reg').html(`<button class="btn btn-primary" id="1click-reg-btn"
-                                               onclick="location.href='/1clickreg'" type="button">
+                                               onclick="showContacts1ClickReg()" type="button">
                                                Buy without sign up</button>`);
                 }
-          setLocaleFields();
+
+                setLocaleFields();
 
 
             });
@@ -208,20 +208,22 @@ async function confirmPurchase() {
         });
 }
 
-$("#butToBuy").one('click',function() {
-    // show preloader before action
-    $(".preloader").show("slow");
-    // add message to preloader
-    $(".lds-ellipsis").html(`
-        <div class="text-danger">We are processing your transaction.<br>
-        Please wait a few seconds.<br>
-        You will now be redirected to the order page.</div>
-        <span></span>
-        <span></span>
-        <span></span>
-    `);
-    confirmPurchase();
-});
+async function btnBuy() {
+    $("#butToBuy").one('click', function () {
+        // show preloader before action
+        $(".preloader").show("slow");
+        confirmPurchase();
+    });
+}
+
+async function btnBuy1clickReg() {
+    $("#butToBuy").one('click', function () {
+        // show preloader before action
+        $(".preloader").show("slow");
+
+        confirmPurchase();
+    });
+}
 
 function enterData() {
     let data = '';
@@ -315,7 +317,8 @@ function showOrderSum() {
 
                         <div class="col-sm-5 pl-0 pr-1">
                             <input class="form-control field" readonly  placeholder=${contacts.phone}>
-                        </div></div>`;
+                        </div>
+                 </div>`;
     }
     if (contacts.comment !== " ") {
         html += `

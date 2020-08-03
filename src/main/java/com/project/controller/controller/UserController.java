@@ -159,7 +159,7 @@ public class UserController {
         } catch (MailSendException e) {
             view.setViewName("redirect:/err/not_found");
         }
-        view.setViewName("redirect:/reqapprove");
+//        view.setViewName("redirect:/reqapprove");
         return view;
     }
 
