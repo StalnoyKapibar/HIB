@@ -66,6 +66,23 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public String cancelOrder(Long id) {
+        Order order = getOrderById(id);
+        if (order.getStatus().equals(Status.UNPROCESSED)) {
+            for (CartItem cartItem : order.getItems()) {
+                Book book = cartItem.getBook();
+                book.setLastBookOrdered(false);
+            }
+            order.setStatus(Status.CANCELED);
+            orderDAO.update(order);
+            return "{\"response\" : \"Order canceled\"}";
+        } else {
+            return "{\"response\" : \"Order can't be canceled because order is not UNPROCESSED\"}";
+        }
+
+    }
+
+    @Override
     public List<Order> getAllOrders() {
         return orderDAO.findAll();
     }
@@ -122,7 +139,8 @@ public class OrderServiceImpl implements OrderService {
         Long processingOrders = orderDAO.getAmountByStatus(Status.PROCESSING, email);
         Long completedOrders = orderDAO.getAmountByStatus(Status.COMPLETED, email);
         Long deletedOrders = orderDAO.getAmountByStatus(Status.DELETED, email);
-        return new Long[] {uprocessedOrders, processingOrders, completedOrders, deletedOrders};
+        Long canceledOrders = orderDAO.getAmountByStatus(Status.CANCELED, email);
+        return new Long[] {uprocessedOrders, processingOrders, completedOrders, deletedOrders, canceledOrders};
     }
 
     @Override

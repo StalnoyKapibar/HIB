@@ -18,6 +18,8 @@ public interface OrderService {
 
     void deleteOrder(Long id);
 
+    String cancelOrder(Long id);
+
     List<Order> getAllOrders();
 
     List<Order> getOrdersByUserId(Long id);
