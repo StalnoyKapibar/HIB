@@ -165,6 +165,9 @@ public class OrderController {
             case ("deletedOrders"):
                 status = Status.DELETED;
                 break;
+            case ("canceledOrders"):
+                status = Status.CANCELED;
+                break;
             default:
                 throw new IllegalStateException("Unexpected value: " + details);
         }
@@ -209,5 +212,10 @@ public class OrderController {
     @GetMapping("/api/admin/sales/")
     public ResponseEntity getOrders(){
         return orderService.createFileAllOrders();
+    }
+
+    @PostMapping("/api/user/orderCancel/{id}")
+    private String orderCancel(@PathVariable Long id) {
+        return orderService.cancelOrder(id);
     }
 }

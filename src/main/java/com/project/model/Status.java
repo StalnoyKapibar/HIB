@@ -4,5 +4,6 @@ public enum Status {
     PROCESSING,
     COMPLETED,
     UNPROCESSED,
-    DELETED
+    DELETED,
+    CANCELED
 }
