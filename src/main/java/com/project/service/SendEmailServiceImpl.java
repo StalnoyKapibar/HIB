@@ -36,7 +36,7 @@ public class SendEmailServiceImpl implements SendEmailService {
         helper.setSubject("Привет");
         helper.setFrom(senderFromProperty);
         helper.setText(mailService.getTemplate("mailForm/hello.html", context), true);
-        mailService.sendEmail(message);
+        mailService.sendEmail(message, user.getEmail());
     }
 
     @Override
@@ -54,7 +54,7 @@ public class SendEmailServiceImpl implements SendEmailService {
         helper.setSubject("Привет");
         helper.setFrom(senderFromProperty);
         helper.setText(mailService.getTemplate("mailForm/oneClickReg.html", context), true);
-        mailService.sendEmail(message);
+        mailService.sendEmail(message, user.getEmail());
     }
 
     @Override
@@ -69,6 +69,6 @@ public class SendEmailServiceImpl implements SendEmailService {
         helper.setSubject("Заказ");
         helper.setFrom(senderFromProperty);
         helper.setText(mailService.getTemplate("mailForm/order.html", context), true);
-        mailService.sendEmail(message);
+        mailService.sendEmail(message, order.getUserAccount().getEmail());
     }
 }
