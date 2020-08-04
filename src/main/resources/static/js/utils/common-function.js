@@ -321,7 +321,7 @@ async function setLocaleFields() {
             $('#send-feedback-request').text(localeFields['send-feedback-request']);
             $('#logout-modal-title').text(localeFields['logout']);
             $('.logout-loc').text(localeFields['logoutShort']);
-            $('.bought-btn-loc').text(localeFields['boughtBtn']);
+            $('.bought-btn-loc').text(localeFields['outOfStock']);
             $('#sender-message').val(localeFields['hello-interested']);
             let title = $(".title");
             let author = $(".author");
