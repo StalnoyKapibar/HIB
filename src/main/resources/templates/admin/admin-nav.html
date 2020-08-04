@@ -41,7 +41,7 @@
        th:classappend="${#httpServletRequest.getRequestURI() == '/admin/panel/books' ? 'active' : ''}">Books</a>
     <a class="nav-link categories-loc"
        href="/admin/panel/categories"
-       th:classappend="${#httpServletRequest.getRequestURI() == '/admin/panel/categories' ? 'active' : ''}">Categories</a>
+       th:classappend="${#httpServletRequest.getRequestURI() == '/admin/panel/categories' ? 'active' : ''}">Category</a>
     <a class="nav-link feedbacks"
        href="/admin/panel/feedback"
        th:classappend="${#httpServletRequest.getRequestURI() == '/admin/panel/feedback' ? 'active' : ''}">
@@ -59,7 +59,7 @@
         <span class="orders-loc">Orders</span>
         <span class="badge badge-pill badge-danger" id="countOfOrder"></span>
     </a>
-    <a class="nav-link"
+    <a class="nav-link user-loc-lang"
        href="/admin/panel/users"
        th:classappend="${#httpServletRequest.getRequestURI() == '/admin/panel/users' ? 'active' : ''}">
         <span class="users-loc">Users</span>
