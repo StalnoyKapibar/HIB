@@ -200,7 +200,6 @@ async function setTreeViewWithoutRefreshing(categories) {
                     </label>
                 </div>`;
         if (category.childrens != undefined) {
-            // console.log( ":    " + category.childrens);
             row +=
                 `<div class="ml-3">
                     <div id="collapse-${category.id}" class="collapse" data-parent="#accordion" aria-labelledby="heading-${category.id}">
@@ -267,7 +266,6 @@ function getUnflatten(arr, parentid) {
 async function setTreeView(categories) {
 
     for (let category of categories) {
-        // console.log( category.id + ":    " + category.categoryName);
         row =
             `<div id="${category.id}" class="category text-nowrap">
                 <div class="custom-control custom-checkbox form-check-inline" id="heading-${category.id}">
@@ -279,7 +277,6 @@ async function setTreeView(categories) {
                     </label>
                 </div>`;
         if (category.childrens != undefined) {
-            // console.log( ":    " + category.childrens);
             row +=
                 `<div class="ml-3">
                     <div id="collapse-${category.id}" class="collapse" data-parent="#accordion" aria-labelledby="heading-${category.id}">
@@ -297,9 +294,7 @@ async function setTreeView(categories) {
 
 async function setChilds(categories) {
     let row = '';
-    // console.log( ":    " + categories);
     for (let category of categories) {
-        // console.log( "child: " + category.id + ":    " + category.categoryName + " " + category.childrens);
         if (category.childrens === undefined) {
             row +=
                 `<div class="category text-nowrap">
@@ -403,7 +398,6 @@ function getPageWithBooks(amount, page) {
 }
 
 async function addFindeBooks(data) {
-    //console.log(data);
     $('#search-table-result').empty();
     let table = [];
     table.push(`<thead>
