@@ -6,7 +6,6 @@ let order = '';
 var htmlForModalBody = ``;
 
 $(document).ready(function () {
-    openModalLoginWindowOnFailure();
     getShoppingCart();
     showListOrders().then(r => {
     });
