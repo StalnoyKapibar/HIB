@@ -30,7 +30,6 @@ $(document).ready(function () {
     if ($.isNumeric(ddmAmountBook.text())) {
         getPageWithBooks(ddmAmountBook.text(), currentPage++);
     }
-    openModalLoginWindowOnFailure();
     loadWelcome(currentLang);
 
 

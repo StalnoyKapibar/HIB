@@ -17,14 +17,33 @@ $(document).ready(function () {
     setLocaleFields();
 })
 
+// pass /login as JSON, check response for errors and add errors to modal
 function sendSignInForm() {
-    $('#hidden_submit_btn').click();
+    $('#form-login').submit(function (event) {
+        event.preventDefault();
+        let data = 'username=' + $('#loginInput').val() + '&password=' + $('#passwordInput').val();
+        $.ajax({
+            data: data,
+            type: 'POST',
+            url: '/login'
+        }).done(function(resp, textStatus, jqXHR) {
+            if ('responseJSON' in jqXHR && resp['hasError'] === true) {
+                let error = `<h5 class="col-12 p-3 rounded text-center alert-danger" id="errorMessage">${resp['message']}</h5>`;
+                $('#loginErrors').html(error);
+            } else {
+                window.location.href = "home";
+            }
+        }).fail(function(jqXHR, textStatus) {
+            console.log("Server error: ", jqXHR.responseText);
+            console.log("Response status msg: ", textStatus);
+        });
+    });
     setLocaleFields();
 }
 
 function sendSingUpForm() {
     // show preloader before action
-    $(".preloader").show("slow");
+    $(".preloader").show();
     // add message to preloader
     $(".lds-ellipsis").html(`
         <span></span>
@@ -406,16 +425,6 @@ function getLanguage() {
 
 function getURLVariable() {
     return new URLSearchParams(document.location.search);
-}
-
-// function for open modal window in case bad authentication and show information message
-function openModalLoginWindowOnFailure() {
-    if (getURLVariable().get('failure') != null) {
-        //TODO: this part just for hide bad view of path. In commercial level we must change protocol and hostname
-        var domainAddress = window.location.protocol + '//' + window.location.hostname + ':8080/home?login=failure';
-        history.pushState(null, null, domainAddress);
-        $('#signModalBtn').click();
-    }
 }
 
 //function to hide components when event of mouse click is not on they area

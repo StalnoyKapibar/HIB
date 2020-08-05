@@ -6,7 +6,6 @@ let order = '';
 var htmlForModalBody = ``;
 
 $(document).ready(function () {
-    openModalLoginWindowOnFailure();
     getShoppingCart();
     showListOrders().then(r => {
     });
@@ -207,7 +206,7 @@ async function confirmPurchase() {
 
 $("#butToBuy").one('click',function() {
     // show preloader before action
-    $(".preloader").show("slow");
+    $(".preloader").show();
     // add message to preloader
     $(".lds-ellipsis").html(`
         <span></span>

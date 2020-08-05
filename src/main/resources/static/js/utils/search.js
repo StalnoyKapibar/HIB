@@ -15,10 +15,10 @@ $(document).ready(async function () {
     getPageWithBooks(ddmAmountBook.text(), currentPage++);
     $(document).ready(function () {
         setTimeout(() => {
-            $(".preloader").show("slow");
+            $(".preloader").show();
         }, 300)
         setTimeout(() => {
-            $(".preloader").hide("slow");
+            $(".preloader").hide();
         }, 1700)
     });
     getAUTH();
