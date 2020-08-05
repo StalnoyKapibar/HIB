@@ -71,5 +71,10 @@ public class FeedbackRequestDaoImpl extends AbstractDao<Long, FeedbackRequest> i
                 .setParameter("bookId", bookId).getResultList();
     }
 
-
+    @Override
+    public List<FeedbackRequest> findAllUnreadRequestsByBookId(Long bookId) {
+        return entityManager.createQuery("from FeedbackRequest where book.id =:bookId and viewed = false", FeedbackRequest.class)
+                .setParameter("bookId", bookId)
+                .getResultList();
+    }
 }

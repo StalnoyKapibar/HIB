@@ -23,4 +23,5 @@ public interface OrderDao extends GenericDao<Long, Order> {
 
     List<Order> findOrderByBookId(Long bookId);
 
+    List<Order> findAllUncompletedOrdersByBookId(Long bookId);
 }

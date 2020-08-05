@@ -41,4 +41,6 @@ public interface OrderService {
     List<Order> findOrderByBookId(Long bookId);
 
     ResponseEntity createFileAllOrders();
+
+    List<Order> findAllUncompletedOrdersByBookId(Long bookId);
 }
