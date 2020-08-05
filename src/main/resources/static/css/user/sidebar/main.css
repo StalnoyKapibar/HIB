@@ -504,7 +504,6 @@ body {
     font-size: .9rem;
 }
 
-/*----------------page-wrapper----------------*/
 .page-wrapper {
     height: 100vh;
 }
@@ -544,16 +543,6 @@ body {
 .page-wrapper .theme.light-theme {
     background: #ececec;
 }
-
-/*
-.page-wrapper .page-content {
-    display: inline-block;
-    width: 100%;
-    -webkit-transition: padding-left .3s ease;
-    transition: padding-left .3s ease;
-    overflow-x: hidden;
-}
-*/
 
 .page-wrapper .page-content .overlay {
     position: fixed;
@@ -633,7 +622,6 @@ body {
     margin-right: 0px;
 }
 
-/*---- border-radius ------*/
 .border-radius-on .sidebar-header .user-pic {
     border-radius: 12px;
 }
@@ -666,22 +654,18 @@ body {
     border-bottom-right-radius: 4px;
 }
 
-/* width */
 ::-webkit-scrollbar {
     width: 5px;
 }
 
-/* Track */
 ::-webkit-scrollbar-track {
     background: #1d1d1d;
 }
 
-/* Handle */
 ::-webkit-scrollbar-thumb {
     background: #888;
 }
 
-/* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
     background: #555;
 }

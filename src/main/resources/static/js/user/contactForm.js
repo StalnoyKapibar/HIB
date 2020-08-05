@@ -73,8 +73,6 @@ $(document).on('click', '.ask-question-loc', async () => {
             index++;
         }
     }
-    //senderMessageInput.val(messageTemplate + '' + location.substr(0, location.indexOf("?")));
-    console.log(bookId);
     if (bookId !== null) {
         await fetch(`/api/book/${bookId}`)
             .then(json)

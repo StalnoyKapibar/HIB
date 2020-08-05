@@ -39,7 +39,6 @@ html, body {
     margin-bottom: 20px;
 }
 
-/* navbar - header*/
 .navbar {
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, .3);
 }
@@ -80,8 +79,6 @@ html, body {
 .btn-header:hover {
     box-shadow: 0 0 0 2px rgba(79, 170, 237, 1);
 }
-
-/*for sidebar*/
 
 #sidebar-wrapper {
     min-height: 100%;
@@ -132,7 +129,6 @@ html, body {
     margin-top: 54px;
 }
 
-/* footer */
 .footer .footer_link {
     margin-right: 10px;
     font-family: Pacifico;
@@ -163,7 +159,6 @@ a.footer_link:hover {
     font-size: 0.91rem;
 }
 
-/*form registration*/
 .form-border-radius {
     border-radius: 40px;
 }
@@ -179,7 +174,6 @@ a.footer_link:hover {
     color: #17a2b8;
 }
 
-/*Loader Css*/
 .preloader {
     background-color: #fff;
     bottom: 0;
@@ -254,7 +248,6 @@ a.footer_link:hover {
     }
 }
 
-/*for bucket and order*/
 .badgeStyle {
     display: inline-block;
     padding-left: 4px;

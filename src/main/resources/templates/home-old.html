@@ -148,13 +148,10 @@
         </div>
     </header>
 
-    <!--    page container    -->
-
     <div class="container page-content" th:fragment="page-content">
         <div id="welcome"></div>
         <hr>
 
-        <!--        for cards        -->
         <div>
             <h2 id="headpost">You can read this</h2>
             <br>
@@ -162,7 +159,6 @@
         <div class="row row-cols-1 row-cols-md-4" id="cardcolumns">
         </div>
         <br>
-        <!--        footer       -->
         <div class="container-fluid text-center footer pt-3 p-0 " th:fragment="footer">
             <div class="footer_menu" id="footer-menu"></div>
             <div class="footer_made_by pt-2"><a id="made_by">Created by JavaMentor® Team</a></div>
@@ -203,8 +199,6 @@
     </div>
 </div>
 
-<!--modal window for sing in-->
-
 <div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="signModal" role="dialog"
      tabindex="-1"
      th:fragment="sign-in-modal">
@@ -239,7 +233,6 @@
                     <button hidden id="hidden_submit_btn" type="submit">HiddenButtonToSubmitLoginForm</button>
                 </form>
                 <div class="row px-3" th:if="${errorMessage}!=null">
-                    <!--/*@thymesVar id="getMessage" type="com.project.model.FormLoginErrorMessageDTO"*/-->
                     <h5 class="col-12 p-3 rounded text-center alert-danger" id="errorMessage"
                         th:if="${errorMessage.isHasError()}" th:text="${errorMessage.getMessage()}"></h5>
                 </div>

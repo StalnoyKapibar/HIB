@@ -37,7 +37,6 @@ $(document).ready(function () {
             currentLang = 'en';
         }
     }
-    console.log(document);
     getLanguage();
     getAllLocales()
     setLocaleFields();
@@ -164,8 +163,6 @@ $(document).on('click', '#updateCategory', function () {
     categoryId = $('form input[name="categoryId"]').val();
     let categoryNameUpd= $('form input[name="categoryName"]').val();
     viewOrder = $('form input[name="viewOrder"]').val();
-    console.log("category name " + categoryName);
-    console.log("category name upd" + categoryNameUpd);
     if (categoryNameUpd != '' && categoryNameUpd != categoryName) {
         let map = {};
         let translateFrom = 'en';
@@ -177,7 +174,6 @@ $(document).on('click', '#updateCategory', function () {
                 translateTo.push(lang);
             }
         }
-        console.log("  map: " + translateTo);
         let i = {
             langFrom: translateFrom,
             arrLangTo: translateTo,
@@ -185,7 +181,6 @@ $(document).on('click', '#updateCategory', function () {
         };
 
         let prop = JSON.stringify(i);
-        console.log("prop: " + prop);
         $.ajax({
             type: "POST",
             url: "/translate/list",
@@ -195,7 +190,6 @@ $(document).on('click', '#updateCategory', function () {
                 for (let lang of nameVarOfLocaleString) {
                     map[lang] = data[lang];
                 }
-                console.log("map: " + map);
                 map['en'] = categoryNameUpd;
                 updCategory(map, viewOrder, parentId);
                 location.reload();
@@ -212,7 +206,6 @@ $(document).on('click', '#addNewCategory', function () {
     for (let lang of nameVarOfLocaleString) {
         let inp = $("#inpname" + lang);
         map[lang] = inp.val();
-        console.log(lang + "  map: " + inp.val());
     }
 
     if (categoryName === '') {} //Вывести что-то на экран
@@ -225,7 +218,6 @@ $(document).on('click', '#addNewCategory', function () {
 $(document).on('click', '#addChildCategory', function () {
     categoryName = $('input[name="newCategoryName"]').val();
     parentId = $('form input[name="categoryId"]').val();
-    console.log("Добавляем: " + categoryName);
     if (categoryName === '') {
         message("!!!!");
     } //Вывести что-то на экран
@@ -238,7 +230,6 @@ $(document).on('click', '#addChildCategory', function () {
                 translateTo.push(lang);
             }
         }
-        console.log("  map: " + translateTo);
         let i = {
             langFrom: translateFrom,
             arrLangTo: translateTo,
@@ -246,7 +237,6 @@ $(document).on('click', '#addChildCategory', function () {
         };
 
         let prop = JSON.stringify(i);
-        console.log("prop: " + prop);
         $.ajax({
             type: "POST",
             url: "/translate/list",
@@ -256,7 +246,6 @@ $(document).on('click', '#addChildCategory', function () {
                 for (let lang of nameVarOfLocaleString) {
                     map[lang] = data[lang];
                 }
-                console.log("map: " + map);
                 map['en'] = categoryName;
                 newCategory(map, parentId);
                 location.reload()
@@ -268,7 +257,6 @@ $(document).on('click', '#addChildCategory', function () {
 $(document).on('click', '#addPrimary', function (element) {
     $('#categoryModal').empty();
     categoryName = $('input[name="primaryCategoryName"]').val();
-    console.log("Добавляем: " + categoryName);
     //getAllLocales();
     row =
         `<div class="modal-header">
@@ -293,7 +281,6 @@ $(document).on('click', '#addPrimary', function (element) {
             <button id="addNewCategory" data-dismiss="modal" class="btn btn-block btn-primary">Add </button>
         </div>`;
 
-    console.log(row);
     $('#categoryModal').append(row);
     setTableRow(nameVarOfLocaleString);
 });
@@ -391,7 +378,6 @@ function translateCategory(label) {
     let elem;
     $('input').each(function (index) {
         elem = this;
-        //console.log("elem: " + elem.id + " - " + elem.type);
         if (elem.type == "radio" && elem.checked ) {
             checkedRadioButton = elem.value;
         }
@@ -416,7 +402,6 @@ function translateCategory(label) {
     };
 
     let prop = JSON.stringify(j);
-    console.log("prop: " + prop);
     $.ajax({
         type: "POST",
         url: "/translate/list",

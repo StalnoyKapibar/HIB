@@ -44,7 +44,6 @@ function sendNewPass() {
 function showErrorPassword(message, className) {
     $('#errorMessagePassword').addClass(className).text(message);
     $('#collapsePassword').attr('class', 'collapse show');
-    //setLocaleFields();
 }
 
 function hideErrorPassword() {
@@ -82,7 +81,6 @@ function showModal(x, y, className) {
     $('#idMessagesSuccess').addClass('alert alert-' + y).addClass(className);
     $('#idMessagesSuccess').text(x);
     $('#staticBackdrop').modal();
-    //setLocaleFields();
 }
 
 function hideModal() {

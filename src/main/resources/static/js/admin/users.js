@@ -129,13 +129,6 @@ function sendGmailMessage(userId) {
             document.getElementById("sent-message").value = "";
             sendButton.disabled = false;
         })
-    // .then(() => {
-    //     fetch("/admin/markasread?email=" + userId)
-    //         .then(json)
-    //         .then((data) => {
-    //             console.log(data)
-    //         })
-    // });
 }
 
 function sendFeedbackGmailMessage(userId, feedbackId) {
@@ -162,13 +155,6 @@ function sendFeedbackGmailMessage(userId, feedbackId) {
             document.getElementById("sent-message-feedback").value = "";
             sendButton.disabled = false;
         })
-    //     .then(() => {
-    //     fetch("/admin/markasread?email=" + userId)
-    //         .then(json)
-    //         .then((data) => {
-    //             console.log(data)
-    //         })
-    // });
 }
 
 function sendOrderGmailMessage(userId, orderId) {
@@ -195,13 +181,6 @@ function sendOrderGmailMessage(userId, orderId) {
             document.getElementById("sent-message-order").value = "";
             sendButton.disabled = false;
         })
-        // .then(() => {
-        //     fetch("/admin/markasread?email=" + userId)
-        //         .then(json)
-        //         .then((data) => {
-        //             console.log(data)
-        //         })
-        // });
 }
 
 async function scrolling() {

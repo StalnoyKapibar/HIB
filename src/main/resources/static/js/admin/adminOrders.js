@@ -214,7 +214,6 @@ async function renderPageData(data) {
             $('#unread-checkbox').html(unreadCheckbox);
             $('#toggleOnlyUnread').on('change', () => {
                 onlyUnread = $('#toggleOnlyUnread').is(":checked");
-                console.log(onlyUnread)
                 showListOrders();
             });
         }
@@ -476,7 +475,6 @@ function sendGmailMessage(userId, orderId) {
             fetch("/admin/markasread?email=" + userId)
                 .then(json)
                 .then((data) => {
-                    console.log(data)
                 })
         });
 }
@@ -488,9 +486,6 @@ async function getLastOrderedBooks() {
     return data;
 }
 
-/* check DB marker 'isShow' in Book table
-*  returns books ID's
-* */
 async function getBooksAvailability() {
     const url = '/api/book/booksAvailability';
     const res = await fetch(url);

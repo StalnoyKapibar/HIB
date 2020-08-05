@@ -21,8 +21,8 @@ body {
   top: 0;
   bottom: 0;
   left: 0;
-  z-index: 100; /* Behind the navbar */
-  padding: 48px 0 0; /* Height of navbar */
+  z-index: 100;
+  padding: 48px 0 0;
   box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
 }
 
@@ -32,7 +32,7 @@ body {
   height: calc(100vh - 48px);
   padding-top: .5rem;
   overflow-x: hidden;
-  overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+  overflow-y: auto;
 }
 
 @supports ((position: -webkit-sticky) or (position: sticky)) {
@@ -66,17 +66,13 @@ body {
   text-transform: uppercase;
 }
 
-/*
- * Content
- */
-
 [role="main"] {
-  padding-top: 133px; /* Space for fixed navbar */
+  padding-top: 133px;
 }
 
 @media (min-width: 768px) {
   [role="main"] {
-    padding-top: 48px; /* Space for fixed navbar */
+    padding-top: 48px;
   }
 }
 
@@ -98,10 +94,6 @@ body {
 .my-profile-data h3 {
   text-align: center;
 }
-
-/*
- * Navbar
- */
 
 .navbar-brand {
   padding-top: .75rem;

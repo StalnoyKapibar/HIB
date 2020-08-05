@@ -77,15 +77,6 @@ function loadMore(pageNumber) {
     advancedSearch(amountBooksInPage, pageNumber - 1)
 }
 
-// function getPageWithBooks(amount, page) {
-//     GET(`/api/book?limit=${amount}&start=${page}`)
-//         .then(json)
-//         .then((data) => {
-//             amountBooksInDb = data.amountOfBooksInDb;
-//             addBooksToPage(data.books);
-//         })
-// }
-
 function setAmountBooksInPage(amount) {
     currentPage = 0;
     amountBooksInPage = amount;
@@ -157,7 +148,6 @@ function setListeners () {
     })
 
     $('#check-available').on('click', function () {
-        //$('#input-categories').empty();
         getCategoryTreeWithoutRefreshing();
     })
 }
@@ -212,7 +202,6 @@ async function setTreeViewWithoutRefreshing(categories) {
 
         $('#'+category.id).replaceWith(row);
     }
-    //setLocaleFields();
 }
 
 
@@ -333,7 +322,6 @@ async function setChilds(categories) {
 
     return row;
 }
-//проверяем чек категорий и запускаем поиск по ним
 async function advancedSearch(amount, page) {
     let request = $('#search-input').val();
     let priceFrom = $('#input-price-from').val() * 100;
