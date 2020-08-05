@@ -325,7 +325,6 @@ async function preDeleteBook(x) {
         .then(json)
         .then(function(uncompletedOrders) {
             ordersSize = uncompletedOrders.length;
-            console.log(uncompletedOrders);
             if (ordersSize > 0) {
                 $('.delete-modal-admin').append(
                     `<h3 class="h3-delete-book">Uncompleted orders</h3>
