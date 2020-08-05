@@ -17,11 +17,11 @@ $(document).ready(function () {
 
 })
 
-function getCookie(name) {
-    let value = "; " + document.cookie;
-    let parts = value.split("; " + name + "=");
-    if (parts.length === 2) return parts.pop().split(";").shift();
-}
+// function getCookie(name) {
+//     let value = "; " + document.cookie;
+//     let parts = value.split("; " + name + "=");
+//     if (parts.length === 2) return parts.pop().split(";").shift();
+// }
 
 function setPageFields() {
     fetch("/api/book/" + $("#bookid").attr("value") + "?locale=" + currentLang)

@@ -327,57 +327,57 @@ async function showModalOfFeedBack(index) {
     setLocaleFields();
 }
 
-async function scrolling(feedback) {
-    document.getElementById("chat").removeAttribute('onscroll');
-    if ($('#chat').scrollTop() < 5 && $('#chat').scrollTop() > 0) {
-        $('#chat').scrollTop(10);
-        messagePackIndex++;
-        await fetch("/gmail/" + feedback.senderEmail + "/Feedback №" + feedback.id + "/" + messagePackIndex)
-            .then(json)
-            .then((data) => {
-                if (data[0].text === "chat end") {
-                    scrollOn = false;
-                    return;
-                }
-                let html;
-                for (let i = 0; i < data.length; i++) {
-                    if (data[i].sender === "me") {
-                        html = `<div class="row"><div class="col-5"></div><div id="chat-mes" class="rounded col-7"><p><h6><b>${data[i].sender}</b></h6></p>
-                                    <p>${data[i].text}</p></div></div>`;
-                    } else {
-                        html = `<div class="row"><div id="chat-mes" class="rounded col-7"><p><h6><b>${data[i].sender}</b></h6></p>
-                                                                            <p>${data[i].text}</p></div><div class="col-5"></div></div>`;
-                    }
-                    document.getElementById("chat-wrapper").insertAdjacentHTML("afterbegin", html);
-                }
-            });
-    }
-    if (scrollOn) {
-        document.getElementById("chat").setAttribute('onscroll', 'scrolling(' + JSON.stringify(feedback) + ')');
-    } else {
-        document.getElementById("chat").removeAttribute('onscroll');
-    }
-}
-
-async function scrolling() {
-    let order = allFeedBack[orderIndex];
-    if ($('#chat').scrollTop() < 2) {
-        messagePackIndex++;
-        await fetch("/gmail/" + order.contacts.email + "/messages/" + messagePackIndex)
-            .then(json)
-            .then((data) => {
-                if (data[0].text === "chat end") {
-                    document.getElementById("chat").removeAttribute('onscroll');
-                    return;
-                }
-                for (let i = 0; i < data.length; i++) {
-                    let html = `<p><b>${data[i].sender}</b></p>
-                    <p>${data[i].text}</p>`
-                    document.getElementById("chat-wrapper").insertAdjacentHTML("afterbegin", html);
-                }
-            });
-    }
-}
+// async function scrolling(feedback) {
+//     document.getElementById("chat").removeAttribute('onscroll');
+//     if ($('#chat').scrollTop() < 5 && $('#chat').scrollTop() > 0) {
+//         $('#chat').scrollTop(10);
+//         messagePackIndex++;
+//         await fetch("/gmail/" + feedback.senderEmail + "/Feedback №" + feedback.id + "/" + messagePackIndex)
+//             .then(json)
+//             .then((data) => {
+//                 if (data[0].text === "chat end") {
+//                     scrollOn = false;
+//                     return;
+//                 }
+//                 let html;
+//                 for (let i = 0; i < data.length; i++) {
+//                     if (data[i].sender === "me") {
+//                         html = `<div class="row"><div class="col-5"></div><div id="chat-mes" class="rounded col-7"><p><h6><b>${data[i].sender}</b></h6></p>
+//                                     <p>${data[i].text}</p></div></div>`;
+//                     } else {
+//                         html = `<div class="row"><div id="chat-mes" class="rounded col-7"><p><h6><b>${data[i].sender}</b></h6></p>
+//                                                                             <p>${data[i].text}</p></div><div class="col-5"></div></div>`;
+//                     }
+//                     document.getElementById("chat-wrapper").insertAdjacentHTML("afterbegin", html);
+//                 }
+//             });
+//     }
+//     if (scrollOn) {
+//         document.getElementById("chat").setAttribute('onscroll', 'scrolling(' + JSON.stringify(feedback) + ')');
+//     } else {
+//         document.getElementById("chat").removeAttribute('onscroll');
+//     }
+// }
+//
+// async function scrolling() {
+//     let order = allFeedBack[orderIndex];
+//     if ($('#chat').scrollTop() < 2) {
+//         messagePackIndex++;
+//         await fetch("/gmail/" + order.contacts.email + "/messages/" + messagePackIndex)
+//             .then(json)
+//             .then((data) => {
+//                 if (data[0].text === "chat end") {
+//                     document.getElementById("chat").removeAttribute('onscroll');
+//                     return;
+//                 }
+//                 for (let i = 0; i < data.length; i++) {
+//                     let html = `<p><b>${data[i].sender}</b></p>
+//                     <p>${data[i].text}</p>`
+//                     document.getElementById("chat-wrapper").insertAdjacentHTML("afterbegin", html);
+//                 }
+//             });
+//     }
+// }
 
 
 async function getFeedbackAll(replied) {
