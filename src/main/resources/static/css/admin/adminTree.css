@@ -1,7 +1,3 @@
-body {
-    font-family: Calibri, Segoe, "Segoe UI", "Gill Sans", "Gill Sans MT", sans-serif;
-}
-
 /* It's supposed to look like a tree diagram */
 .tree, .tree ul, .tree li {
     list-style: none;

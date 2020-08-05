@@ -192,6 +192,7 @@ async function setLocaleFields() {
             $('.edit-welcome-loc').text(localeFields['editWelcome']);
             $('.books-loc').text(localeFields['books']);
             $('.feedback-request-loc').text(localeFields['feedbackRequest']);
+            $('.user-loc-lang').text(localeFields['user']);
             $('.edit-footer-loc').text(localeFields['editFooter']);
             //addBooks.js
             $('.years-of-edition-loc').text(localeFields['yearsOfEdition']);
