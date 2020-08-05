@@ -305,15 +305,12 @@
                                 me</label>
                             <button class="btn btn-primary btn-block col-6 pull-right mr-1 signin-loc"
                                     id="sign_in_btn"
-                                    onclick="sendSignInForm()" type="button">Sign in
+                                    onclick="sendSignInForm()" type="submit">Sign in
                             </button>
                         </div>
-                        <button hidden id="hidden_submit_btn" type="submit">HiddenButtonToSubmitLoginForm</button>
                     </form>
-                    <div class="row px-3" th:if="${errorMessage}!=null">
-                        <!--/*@thymesVar id="getMessage" type="com.project.model.FormLoginErrorMessageDTO"*/-->
-                        <h5 class="col-12 p-3 rounded text-center alert-danger" id="errorMessage"
-                            th:if="${errorMessage.isHasError()}" th:text="${errorMessage.getMessage()}"></h5>
+                    <div class="row px-3" id="loginErrors">
+                        <!--LOGIN ERRORS HANDLE-->
                     </div>
                     <div class="row">
                         <div class="col-lg-6 col-sm-12 pr-lg-1 mt-1">
@@ -407,7 +404,6 @@
 </div>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script crossorigin="anonymous"
         integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
         src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js">
@@ -419,8 +415,6 @@
 <script src="//malihu.github.io/custom-scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
 <script src="/static/js/user/userSidebar.js"></script>
 <script src="/static/js/user/contactForm.js"></script>
-<script crossorigin="anonymous" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-        src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
 <script crossorigin="anonymous" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
         src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 <script crossorigin="anonymous" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
@@ -430,7 +424,7 @@
 <script type="application/javascript">
     $(document).ready(function () {
         setTimeout(() => {
-            $(".preloader").hide("slow");
+            $(".preloader").hide();
         }, 300)
     });
 </script>
