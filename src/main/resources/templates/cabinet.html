@@ -100,7 +100,8 @@
         <link href="css/cabinet.css" rel="stylesheet" type="text/css">
         <script crossorigin="anonymous" src="https://kit.fontawesome.com/db08edad0b.js"></script>
         <!--МОДАЛЬНОЕ ОКНО ОК-->
-        <div class="modal fade" id="successActionModal" tabindex="-1" role="dialog" aria-labelledby="successActionModalLabel" aria-hidden="true">
+        <div class="modal fade" id="successActionModal" tabindex="-1" role="dialog"
+             aria-labelledby="successActionModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -531,31 +532,30 @@
                                 </div>
                                 <!--подставляем введеные котактные данные shippingaddress из shoppingCart.js-->
                                 <div class="card card-body" id="shippingaddress"
-                                     style="line-height: 4px; font-size: large">
-                                </div>
+                                     style="line-height: 4px; font-size: large"></div>
+                            </div>
 
-                                        <div class="card-footer my-4 ">
-                                            <div class="form-group  row mt-2 ml-0">
-                                                <div class=" col-4">
-                                                    <button class="btn btn-secondary btn-block back-btn"
-                                                            onclick="showContacts()"
-                                                            type="button">
-                                                        Back
-                                                    </button>
-                                                </div>
-                                                <div class="col-4 ">
-                                                    <p sec:authorize="isAuthenticated()" id="for_btnBuy"></p>
-                                                    <p sec:authorize="!isAuthenticated()"
-                                                       id="for_btn1clickRegAndBuy"></p>
-                                                </div>
-                                            </div>
-                                        </div>
+                            <div class="card-footer my-4 ">
+                                <div class="form-group  row mt-2 ml-0">
+                                    <div class=" col-4">
+                                        <button class="btn btn-secondary btn-block back-btn"
+                                                onclick="showContacts()"
+                                                type="button">
+                                            Back
+                                        </button>
+                                    </div>
+                                    <div class="col-4 ">
+                                        <p sec:authorize="isAuthenticated()" id="for_btnBuy"></p>
+                                        <p sec:authorize="!isAuthenticated()"
+                                           id="for_btn1clickRegAndBuy"></p>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
+                </div>
+
+            </div>
 
         </main>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>

@@ -95,6 +95,7 @@ public class UserAccountServiceImpl implements UserAccountService {
                 .autoReg(user.isAutoReg())
                 .phone(user.getPhone())
                 .firstName(user.getFirstName())
+                .lastName(user.getLastName())
                 .build();
 
         try {

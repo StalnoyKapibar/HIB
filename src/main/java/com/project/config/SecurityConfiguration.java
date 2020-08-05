@@ -69,7 +69,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         //Страницы не доступные для админа
         http.authorizeRequests().antMatchers("/shopping-cart").not().hasRole("ADMIN");
         //Страницы доступные для юзеров
-        http.authorizeRequests().antMatchers("/user", "/logout", "/cabinet",  "/profile/**")
+        http.authorizeRequests().antMatchers("/user", "/logout", "/cabinet")
                 .hasRole("USER");
 
         http.formLogin()

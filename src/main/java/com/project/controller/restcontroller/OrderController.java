@@ -65,12 +65,6 @@ public class OrderController {
     @PostMapping("/api/user/order/confirmContacts")
     private ContactsOfOrderDTO addContacts(HttpSession httpSession, @RequestBody ContactsOfOrderDTO contacts) {
         httpSession.setAttribute("contacts", contacts);
-        System.out.println(contacts.getEmail());
-//        RegistrationUserDTO registrationUserDTO = new RegistrationUserDTO();
-//        registrationUserDTO.setEmail(contacts.getEmail());
-//        registrationUserDTO.setFirstName(contacts.getFirstName());
-//        registrationUserDTO.setLastName(contacts.getLastName());
-//        registrationUserDTO.setPhone(contacts.getPhone());
         return contacts;
     }
 

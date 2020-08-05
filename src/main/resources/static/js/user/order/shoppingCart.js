@@ -208,11 +208,29 @@ async function confirmPurchase() {
         });
 }
 
-$("#butToBuy").one('click',function() {
-    // show preloader before action
-    $(".preloader").show("slow");
-    // add message to preloader
-    $(".lds-ellipsis").html(`
+// $("#butToBuy").one('click',function() {
+//     // show preloader before action
+//     $(".preloader").show("slow");
+//     // add message to preloader
+//     $(".lds-ellipsis").html(`
+//         <span></span>
+//         <span></span>
+//         <span></span>
+//         <br>
+//         <div class="text-danger">We are processing your transaction.<br>
+//         Please wait a few seconds.<br>
+//         You will now be redirected to the order page.</div>
+//     `);
+//     confirmPurchase();
+// });
+
+async function btnBuy1clickReg() {
+    await POST("/api/user/reg1Click", JSON.stringify(contacts), JSON_HEADER);
+    $("#butToBuy").one('click',function() {
+        // show preloader before action
+        $(".preloader").show("slow");
+        // add message to preloader
+        $(".lds-ellipsis").html(`
         <span></span>
         <span></span>
         <span></span>
@@ -221,12 +239,6 @@ $("#butToBuy").one('click',function() {
         Please wait a few seconds.<br>
         You will now be redirected to the order page.</div>
     `);
-    confirmPurchase();
-});
-
-async function btnBuy1clickReg() {
-    await POST("/api/user/reg1Click", JSON.stringify(contacts), JSON_HEADER);
-    $("#butToBuy").one('click', function () {
         confirmPurchase();
     });
 }
