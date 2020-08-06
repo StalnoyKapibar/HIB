@@ -332,7 +332,7 @@ async function showModalOfOrder(index) {
         let countUsers = 0;
         let isLastOrder = `<td width="350">${convertOriginalLanguageRows(book.originalLanguage.name, book.originalLanguage.nameTranslit)} | ${convertOriginalLanguageRows(book.originalLanguage.author, book.originalLanguage.authorTranslit)}</td>`;
         for (let i = 0; i < allOrdersforModal.length; i++) {
-            if (allOrdersforModal[i].status === "UNPROCESSED" || allOrders[i].status === "PROCESSING") {
+            if (allOrdersforModal[i].status === "UNPROCESSED" || allOrdersforModal[i].status === "PROCESSING") {
                 for (let j = 0; j < allOrdersforModal[i].items.length; j++) {
                     let numberOfBook = allOrdersforModal[i].items[j].book.originalLanguage;
                     if (book.originalLanguage.id == numberOfBook.id) {
