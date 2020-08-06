@@ -40,7 +40,7 @@ async function confirmAddress() {
 }
 
 async function confirmAddressAutoReg() {
-    let isAuth = true;
+    let isAuth = false;
 
     await POST('/api/user/order/confirmaddress'
         , JSON.stringify(userData))

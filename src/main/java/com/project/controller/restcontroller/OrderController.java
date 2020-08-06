@@ -34,6 +34,7 @@ public class OrderController {
     private UserAccountService userAccountService;
     private BookService bookService;
     private DataEnterInAdminPanelService dataEnterInAdminPanelService;
+    private UserService userService;
     public static final String SOURCES =
             "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
     @Autowired
@@ -45,7 +46,7 @@ public class OrderController {
         ShoppingCartDTO shoppingCartDTO = null;
         OrderDTO order = new OrderDTO();
         if (httpSession.getAttribute("cartId") == null) {
-            shoppingCartDTO = cartService.getCartById((Long) httpSession.getAttribute("cartId1click"));
+//            shoppingCartDTO = cartService.getCartById((Long) httpSession.getAttribute("cartId1click"));
             order.setItems(((ShoppingCartDTO) httpSession.getAttribute("shoppingcart")).getCartItems());
             order.setItemsCost((int) ((ShoppingCartDTO) httpSession.getAttribute("shoppingcart")).getTotalCostItems());
         } else {
@@ -69,9 +70,9 @@ public class OrderController {
     }
 
     @PostMapping("/api/user/reg1Click")
-    private ModelAndView regOneClick(@Valid RegistrationUserDTO user,@RequestBody ContactsOfOrderDTO contacts, BindingResult result,
-                             HttpServletRequest request, HttpServletResponse response,
-                             HttpSession session) {
+    private ModelAndView regOneClick(@Valid RegistrationUserDTO user, @RequestBody ContactsOfOrderDTO contacts, BindingResult result,
+                                     HttpServletRequest request, HttpServletResponse response,
+                                     HttpSession session) {
         ModelAndView view = new ModelAndView("user/user-page");
         StringBuilder url = new StringBuilder();
         url.append(request.getScheme())
@@ -107,7 +108,29 @@ public class OrderController {
         try {
             userAccountService.save1Clickreg(user, url.toString());
             shoppingCart.setId(userAccountService.getCartIdByUserEmail(user.getEmail()));
+            UserDTO userDTO = userService.getUserDTOByEmail(user.getEmail(), false);
+
+
+            OrderDTO orderDTO = new OrderDTO();
+//            orderDTO.setId(1L);
+            orderDTO.setDate(Instant.now().getEpochSecond());
+            orderDTO.setShippingCost(350);
+            orderDTO.setContacts(contacts);
+            orderDTO.setStatus(Status.UNPROCESSED);
+
+            orderDTO.setItems(shoppingCart.getCartItems());
+            for (int i = 1; i <= shoppingCart.getCartItems().size(); i++) {
+                orderDTO.getItems().get(i - 1).setId((long) i + cartService.getMaxIdCartItem().size());
+                shoppingCart.addCartItem(orderDTO.getItems().get(i - 1).getBook());
+            }
             cartService.updateCart(shoppingCart);
+
+            orderDTO.setUserAccount(userAccountService.getUserById(userDTO.getUserId()));
+
+            session.setAttribute("order", orderDTO);
+            orderService.addOrder(orderDTO.getOder(), url.toString());
+            session.removeAttribute("shoppingcart");
+
         } catch (DataIntegrityViolationException e) {
             if (e.getCause().getCause().getMessage().contains("login")) {
                 view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessageOnLoginUIndex());
@@ -188,7 +211,7 @@ public class OrderController {
     }
 
     @GetMapping("/api/admin/pageable/{page}/{size}/{status}")
-    public OrderPageAdminDTO getPageOfOrdersByStatus(HttpSession session, @PathVariable int page, @PathVariable int size,  @PathVariable("status") String statusString) {
+    public OrderPageAdminDTO getPageOfOrdersByStatus(HttpSession session, @PathVariable int page, @PathVariable int size, @PathVariable("status") String statusString) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(
                 Sort.Order.asc("id")));
         Status status;
@@ -268,12 +291,12 @@ public class OrderController {
     }
 
     @GetMapping("/api/admin/allorders/{id}")
-    public List<Order> getOrders(@PathVariable Long id){
+    public List<Order> getOrders(@PathVariable Long id) {
         return orderService.findOrderByBookId(id);
     }
 
     @GetMapping("/api/admin/sales/")
-    public ResponseEntity getOrders(){
+    public ResponseEntity getOrders() {
         return orderService.createFileAllOrders();
     }
 

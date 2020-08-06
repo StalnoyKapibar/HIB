@@ -208,24 +208,7 @@ async function confirmPurchase() {
         });
 }
 
-// $("#butToBuy").one('click',function() {
-//     // show preloader before action
-//     $(".preloader").show("slow");
-//     // add message to preloader
-//     $(".lds-ellipsis").html(`
-//         <span></span>
-//         <span></span>
-//         <span></span>
-//         <br>
-//         <div class="text-danger">We are processing your transaction.<br>
-//         Please wait a few seconds.<br>
-//         You will now be redirected to the order page.</div>
-//     `);
-//     confirmPurchase();
-// });
-
-async function btnBuy1clickReg() {
-    await POST("/api/user/reg1Click", JSON.stringify(contacts), JSON_HEADER);
+async function btnBuy() {
     $("#butToBuy").one('click',function() {
         // show preloader before action
         $(".preloader").show("slow");
@@ -241,6 +224,29 @@ async function btnBuy1clickReg() {
     `);
         confirmPurchase();
     });
+}
+
+
+async function btnBuy1clickReg() {
+        $(".preloader").show("slow");
+        // add message to preloader
+        $(".lds-ellipsis").html(`
+        <span></span>
+        <span></span>
+        <span></span>
+        <br>
+        <div class="text-danger">We are processing your transaction.<br>
+        Please wait a few seconds.<br>
+        You will now be redirected to the order page.</div>
+    `);
+        // confirmPurchase();
+    await POST("/api/user/reg1Click", JSON.stringify(contacts), JSON_HEADER)
+        .then(function () {
+            // getUserData();
+            // confirmAddressAutoReg();
+            window.location.href = "/shopping-cart";
+        });
+
 }
 
 function enterData() {
