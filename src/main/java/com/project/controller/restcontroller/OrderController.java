@@ -209,6 +209,11 @@ public class OrderController {
         return orderService.findOrderByBookId(id);
     }
 
+    @GetMapping("/api/admin/orders/uncompleted/{id}")
+    public List<Order> getUncompletedOrdersByBookId(@PathVariable Long id) {
+        return orderService.findAllUncompletedOrdersByBookId(id);
+    }
+
     @GetMapping("/api/admin/sales/")
     public ResponseEntity getOrders(){
         return orderService.createFileAllOrders();
