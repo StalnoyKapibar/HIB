@@ -69,7 +69,7 @@ public class OrderController {
         return contacts;
     }
 
-    @PostMapping("/api/user/reg1Click")
+    @PostMapping("/reg1Click")
     private ModelAndView regOneClick(@Valid RegistrationUserDTO user, @RequestBody ContactsOfOrderDTO contacts, BindingResult result,
                                      HttpServletRequest request, HttpServletResponse response,
                                      HttpSession session) {
@@ -109,14 +109,11 @@ public class OrderController {
             userAccountService.save1Clickreg(user, url.toString());
             shoppingCart.setId(userAccountService.getCartIdByUserEmail(user.getEmail()));
             UserDTO userDTO = userService.getUserDTOByEmail(user.getEmail(), false);
-
-
             OrderDTO orderDTO = new OrderDTO();
-//            orderDTO.setId(1L);
             orderDTO.setDate(Instant.now().getEpochSecond());
             orderDTO.setShippingCost(350);
             orderDTO.setContacts(contacts);
-            orderDTO.setStatus(Status.UNPROCESSED);
+            orderDTO.setStatus(Status.UNACTIVATED);
 
             orderDTO.setItems(shoppingCart.getCartItems());
             for (int i = 1; i <= shoppingCart.getCartItems().size(); i++) {
@@ -124,10 +121,8 @@ public class OrderController {
                 shoppingCart.addCartItem(orderDTO.getItems().get(i - 1).getBook());
             }
             cartService.updateCart(shoppingCart);
-
             orderDTO.setUserAccount(userAccountService.getUserById(userDTO.getUserId()));
-
-            session.setAttribute("order", orderDTO);
+//            session.setAttribute("order", orderDTO);
             orderService.addOrder(orderDTO.getOder(), url.toString());
             session.removeAttribute("shoppingcart");
 

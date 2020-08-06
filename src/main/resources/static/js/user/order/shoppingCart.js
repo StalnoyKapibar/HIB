@@ -237,10 +237,10 @@ async function btnBuy1clickReg() {
         <br>
         <div class="text-danger">We are processing your transaction.<br>
         Please wait a few seconds.<br>
-        You will now be redirected to the order page.</div>
+        You will now be redirected to the home page.</div>
     `);
         // confirmPurchase();
-    await POST("/api/user/reg1Click", JSON.stringify(contacts), JSON_HEADER)
+    await POST("/reg1Click", JSON.stringify(contacts), JSON_HEADER)
         .then(function () {
             // getUserData();
             // confirmAddressAutoReg();
