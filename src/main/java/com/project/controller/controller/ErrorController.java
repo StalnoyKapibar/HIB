@@ -14,6 +14,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
@@ -41,25 +42,22 @@ public class ErrorController extends AbstractErrorController {
         return view;
     }
 
+    @ResponseBody
     @ExceptionHandler(NoValuePresentException.class)
-    public ModelAndView noValuePresent() throws IOException {
-        ModelAndView view = new ModelAndView("user/user-page");
-        view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessageOnNoValuePresent());
-        return view;
+    public FormLoginErrorMessageDTO noValuePresent() throws IOException {
+        return messageService.getErrorMessageOnNoValuePresent();
     }
 
+    @ResponseBody
     @ExceptionHandler(UserIsDisabledException.class)
-    public ModelAndView userIsDisabled() {
-        ModelAndView view = new ModelAndView("user/user-page");
-        view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessageOnUserDisabled());
-        return view;
+    public FormLoginErrorMessageDTO userIsDisabled() {
+        return messageService.getErrorMessageOnUserDisabled();
     }
 
+    @ResponseBody
     @ExceptionHandler(BadCredentialsException.class)
-    public ModelAndView badCredential() {
-        ModelAndView view = new ModelAndView("user/user-page");
-        view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessageOnBadCredential());
-        return view;
+    public FormLoginErrorMessageDTO badCredential() {
+        return messageService.getErrorMessageOnBadCredential();
     }
 
     @ExceptionHandler(HttpServerErrorException.class)
