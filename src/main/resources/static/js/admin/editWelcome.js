@@ -275,95 +275,92 @@ async function addBookReq(x) {
 }
 
 function delBook(x) {
-        fetch("/admin/del/" + x).then(() => totalNumberOfBooks());
-        location.reload();
+    fetch("/admin/del/" + x).then(() => totalNumberOfBooks());
+    location.reload();
 }
 
 async function preDeleteBook(x) {
     $(".delete-modal-admin").empty();
     $('.delete-book-admin').attr('onclick', 'delBook(' + x + ')');
-    let response = await fetch('/api/admin/feedback-request/book-id/' + x, {
-        method: 'GET',
-    });
-    let feedBackList = await response.json();
-    if (feedBackList.length > 0) {
-        $('.delete-modal-admin').append(
-            `<h3 class="h3-delete-book">There is feedback on the book</h3>
-            <table class="table" id="feedback-request-table">
-                    <thead id="getFeedbackRequestTable">
-                        <tr>
-                            <th class="sender-name-loc">Id</th>
-                            <th class="email-label">Name</th>
-                            <th class="content-loc">Mail</th>
-                            <th class="content-loc">Feedback</th>
-                        </tr>
-                    </thead>
-                
-                    <tbody class="table-delete-feedback">
-                        
-                    </tbody>
-                </table>
-            `
-        );
-        $.each(feedBackList, function (key, value) {
-            $('.table-delete-feedback').append(
-                `
-                        <tr>
+    let feedbacksSize = 0;
+    let ordersSize = 0;
+    await fetch('/api/admin/feedback-requests/unread/book-id/' + x, {
+        method: 'GET'
+    })
+        .then(json)
+        .then(function (unreadFeedbacks) {
+            feedbacksSize = unreadFeedbacks.length;
+            if (feedbacksSize > 0) {
+                $('.delete-modal-admin').append(
+                    `<h3 class="h3-delete-book">Unread feedbacks</h3>
+                    <table class="table" id="feedback-request-table">
+                        <thead id="getFeedbackRequestTable">
+                            <tr>
+                                <th class="id-loc">Id</th>
+                                <th class="sender-name-loc">Name</th>
+                                <th class="email-label">Email</th>
+                                <th class="content-loc">Feedback</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-delete-feedback">
+                        </tbody>
+                    </table>`
+                );
+                $.each(unreadFeedbacks, function (key, value) {
+                    $('.table-delete-feedback').append(
+                        `<tr>
                             <td>${value.id}</td>
                             <td>${value.senderName}</td>
                             <td>${value.senderEmail}</td>
                             <td>${value.content}</td>
-                        </tr>
-                    `
-            );
-        })
-
-    }
-
-    let response2 = await fetch('/api/admin/allorders/'+ x, {
-        method: 'GET',
+                        </tr>`
+                    );
+                });
+            }
     });
-    let allOrderBook = await response2.json();
-    if (allOrderBook.length > 0) {
-        $('.delete-modal-admin').append(
-            `<h3 class="h3-delete-book">There is orders on the book</h3>
-            <table class="table" id="feedback-request-table">
-                    <thead id="getFeedbackRequestTable">
-                        <tr>
-                            <th class="sender-name-loc">Id</th>
-                            <th class="email-label">Status</th>
-                            <th class="content-loc">Data</th>
-                            <th class="content-loc">Comment</th>
-                        </tr>
-                    </thead>
-                
-                    <tbody class="table-delete-orders">
-                        
-                    </tbody>
-                </table>
-            `
-        );
-        $.each(allOrderBook, function (key, value) {
-            $('.table-delete-orders').append(
-                `
-                        <tr>
+
+    await fetch('/api/admin/orders/uncompleted/'+ x, {
+        method: 'GET',
+    })
+        .then(json)
+        .then(function(uncompletedOrders) {
+            ordersSize = uncompletedOrders.length;
+            if (ordersSize > 0) {
+                $('.delete-modal-admin').append(
+                    `<h3 class="h3-delete-book">Uncompleted orders</h3>
+                    <table class="table" id="orders-request-table">
+                            <thead id="getOrdersRequestTable">
+                                <tr>
+                                    <th class="id-loc">Id</th>
+                                    <th class="content-loc">Data</th>
+                                    <th class="email-label">Email</th>
+                                    <th class="email-label">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody class="table-delete-orders">
+                            </tbody>
+                        </table>`
+                );
+                $.each(uncompletedOrders, function (key, value) {
+                    $('.table-delete-orders').append(
+                        `<tr>
                             <td>${value.id}</td>
+                            <td>${value.orderDTO.data}</td>
+                            <td>${value.userAccount.email}</td>
                             <td>${value.status}</td>
-                            <td>${value.data}</td>
-                            <td>${value.comment}</td>
-                        </tr>
-                    `
-            );
-        })
+                        </tr>`
+                    );
+                });
+            }
+        });
 
+    if (ordersSize === 0 && feedbacksSize === 0) {
+        $('.delete-modal-admin').append(`<h4 class="h3-delete-book">There is no related order or feedback.</h4>`);
+        $('.delete-book-admin').removeAttr("disabled");
+    } else {
+        $('.delete-book-admin').attr("disabled", "disabled");
     }
-    if (allOrderBook.length === 0 && feedBackList.length === 0) {
-        $('.delete-modal-admin').append(
-            `<h4 class="h3-delete-book">There are no connections with the book</h4>
-            `
-        );
-    }
-
+    $('#adminBookRemove').modal('show');
 }
 
 function buildEditBook(xx) {

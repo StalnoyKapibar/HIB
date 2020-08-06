@@ -97,4 +97,15 @@ public class OrderDaoImpl extends AbstractDao<Long, Order> implements OrderDao {
                 "join o.items item with item.book.id = :bookId")
                 .setParameter("bookId", bookId).list();
     }
+
+    @Override
+    public List<Order> findAllUncompletedOrdersByBookId(Long bookId) {
+        return entityManager.createQuery("select distinct o from orders o " +
+                "join o.items item with item.book.id = :bookId " +
+                "where (o.status =:unprocessed or o.status =:processing)", Order.class)
+                .setParameter("bookId", bookId)
+                .setParameter("unprocessed", Status.UNPROCESSED)
+                .setParameter("processing", Status.PROCESSING)
+                .getResultList();
+    }
 }

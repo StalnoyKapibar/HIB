@@ -71,4 +71,9 @@ public class FeedbackRequestServiceImpl implements FeedbackRequestService {
     public List<FeedbackRequest> findAllRequestByIdBook(Long bookId) {
         return feedbackRequestDAO.findAllRequestByIdBook(bookId);
     }
+
+    @Override
+    public List<FeedbackRequest> findAllUnreadRequestsByBookId(Long bookId) {
+        return feedbackRequestDAO.findAllUnreadRequestsByBookId(bookId);
+    }
 }

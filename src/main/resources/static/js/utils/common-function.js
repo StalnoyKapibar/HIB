@@ -31,7 +31,7 @@ function sendSignInForm() {
                 let error = `<h5 class="col-12 p-3 rounded text-center alert-danger" id="errorMessage">${resp['message']}</h5>`;
                 $('#loginErrors').html(error);
             } else {
-                window.location.href = "home";
+                window.location.href = "/home";
             }
         }).fail(function(jqXHR, textStatus) {
             console.log("Server error: ", jqXHR.responseText);

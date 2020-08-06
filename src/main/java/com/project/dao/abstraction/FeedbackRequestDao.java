@@ -19,4 +19,6 @@ public interface FeedbackRequestDao extends GenericDao<Long, FeedbackRequest> {
     void deleteFeedbackRequestByIbBook(Long bookId);
 
     List<FeedbackRequest> findAllRequestByIdBook(Long bookId);
+
+    List<FeedbackRequest> findAllUnreadRequestsByBookId(Long bookId);
 }

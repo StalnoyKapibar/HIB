@@ -173,4 +173,9 @@ public class OrderServiceImpl implements OrderService {
     public OrderPageAdminDTO getPageOfOrdersByPageable(Pageable pageable, Status status) {
         return orderDAO.getPageOfOrdersByPageable(pageable, status);
     }
+
+    @Override
+    public List<Order> findAllUncompletedOrdersByBookId(Long bookId) {
+        return orderDAO.findAllUncompletedOrdersByBookId(bookId);
+    }
 }
