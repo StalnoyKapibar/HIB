@@ -146,7 +146,7 @@ async function pageBook(x) {
         });
     $('#search-admin-local-id').html(idChangeLang);
     getLocales().then(buildChangeLang);
-    //setLocaleFields();
+    setLocaleFields();
 }
 
 function buildChangeLang() {

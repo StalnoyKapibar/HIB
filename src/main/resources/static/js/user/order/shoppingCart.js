@@ -12,17 +12,14 @@ $(document).ready(function () {
 
     if (document.referrer.toString() === "" && userData.oauth2Acc === false) {
         confirmAddressAutoReg();
-
         confirmContactsFor1Click();
     }
 
     if (currentLang == '') {
         currentLang = $('#dd_menu_link').data('currentLang');
     }
-
     getLanguage();
     setLocaleFields();
-
 });
 
 function convertPrice(price) {
@@ -62,8 +59,6 @@ async function getShoppingCart() {
                     row.appendTo('#newTab');
                     $('#sum').text(totalPrice + currencyIcon);
 
-
-
                 });
                 if (data.length === 0) {
                     isOrderEnable = false;
@@ -86,8 +81,6 @@ async function getShoppingCart() {
                                                Buy without sign up</button>`);
                 }
           setLocaleFields();
-
-
             });
     }, 10);
 }
@@ -327,9 +320,7 @@ function showOrderSum() {
     html += `</div></div>`;
     //присоеденяем введенные пользователем контакты для подтвержения.
     $('#shippingaddress').html(html);
-
     setLocaleFields();
-
 }
 
 // Вкладка заказы

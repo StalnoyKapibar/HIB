@@ -187,7 +187,6 @@ async function getCategoryTreeWithoutRefreshing(){
         });
 }
 async function setTreeViewWithoutRefreshing(categories) {
-
     for (let category of categories) {
         row =
             `<div id="${category.id}" class="category text-nowrap">
@@ -264,7 +263,6 @@ function getUnflatten(arr, parentid) {
 }
 
 async function setTreeView(categories) {
-
     for (let category of categories) {
         row =
             `<div id="${category.id}" class="category text-nowrap">
@@ -328,9 +326,7 @@ async function setChilds(categories) {
                 `</div>`;
         }
     }
-
     setLocaleFields();
-
     return row;
 }
 //проверяем чек категорий и запускаем поиск по ним

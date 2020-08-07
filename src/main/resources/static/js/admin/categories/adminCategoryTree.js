@@ -109,7 +109,7 @@ $(document).on('click', '#categoryEdit', function (element) {
     parentId = $(this).attr('parent');
     row =
         `<div class="modal-header">
-                <h5 class="modal-title bold" id="logout-modal-title">Edit category: <b>${categoryName}</b></h5>
+                <h5 class="modal-title bold" id="editCategoryModal">Edit category: <b>${categoryName}</b></h5>
                 <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -118,10 +118,10 @@ $(document).on('click', '#categoryEdit', function (element) {
             <form id="updateCategoryForm" action="/categories/update" method="POST">
                   <div class="form-group"> 
                     <input type="number" class="form-control" id="formGroupExampleInput" hidden name="categoryId" value="${categoryId}">
-                    <label for="formGroupExampleInput">Category name:</label>
+                    <label id="categoryName"  for="formGroupExampleInput">Category name:</label>
                     <input type="text" class="form-control" id="formGroupExampleInput" name="categoryName" value="${categoryName}">
                     <br>
-                    <label for="formGroupExampleInput2">View order:</label>
+                    <label id="editCategoryView" for="formGroupExampleInput2">View order:</label>
                     <input type="number" class="form-control" id="formGroupExampleInput2" name="viewOrder" value="${viewOrder}">
                   </div>
                   </form>
@@ -129,19 +129,21 @@ $(document).on('click', '#categoryEdit', function (element) {
             <div class="modal-footer">
                
                 <div class="input-group mb-3">
-                  <input type="text" class="form-control" name="newCategoryName" placeholder="Name of new category" aria-describedby="basic-addon2">
+                  <input type="text" id="editPlaceholder" class="form-control" name="newCategoryName" placeholder="Name of new category" aria-describedby="basic-addon2">
                   <div class="input-group-append">
                     <button class="btn btn-success" id="addChildCategory" type="button">Add new child category</button>
                   </div>
                   </div>
                   <div class="col alert alert-danger text-center" id="alert" hidden role="alert">
-                  All childs categories will be deleted!<hr>
+                  <p id="allChild">All childs categories will be deleted!</p>
+                  <hr>
                   <button type="button" class="btn btn-danger btn-block" categoryId="${categoryId}" id="deleteSubmit" data-dismiss="modal">Delete anyway</button>
                 </div>
                 <button type="button" id="deleteAlert" class="btn btn-block btn-danger">Delete</button>
                 <button id="updateCategory" data-dismiss="modal" class="btn btn-block btn-primary">Save changes</button>
             </div>`;
     $('#categoryModal').append(row);
+    setLocaleFields();
 });
 
 $(document).on('click', '#deleteAlert', function () {
@@ -272,7 +274,7 @@ $(document).on('click', '#addPrimary', function (element) {
     //getAllLocales();
     row =
         `<div class="modal-header">
-                <h5 class="modal-title bold" id="logout-modal-title">Add category: <b>${categoryName}</b></h5>
+                <h5 class="modal-title bold" id="addCategoryModal">Add category: <b>${categoryName}</b></h5>
                 <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -280,7 +282,7 @@ $(document).on('click', '#addPrimary', function (element) {
         <div class="modal-body modal-category" >
             <form id="addCategoryForm" action="/categories/add" method="POST">
                   <div class="form-group"> 
-                    <label for="formGroupExampleInput">Category name:</label>
+                    <label id="categoryName" for="formGroupExampleInput">Category name:</label>
                     <input type="text" class="form-control" id="formGroupExampleInput" name="categoryName" value="${categoryName}">
                     <br>
                   </div>
@@ -290,12 +292,13 @@ $(document).on('click', '#addPrimary', function (element) {
         </div>
         <div class="modal-footer">
             <button type="button" id="close" data-dismiss="modal" class="btn btn-block btn-danger">Close</button>
-            <button id="addNewCategory" data-dismiss="modal" class="btn btn-block btn-primary">Add </button>
+            <button id="addNewCategory" data-dismiss="modal" class="btn btn-block btn-primary">Add</button>
         </div>`;
 
     console.log(row);
     $('#categoryModal').append(row);
     setTableRow(nameVarOfLocaleString);
+    setLocaleFields();
 });
 
 

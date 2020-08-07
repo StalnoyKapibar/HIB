@@ -219,6 +219,7 @@ async function renderPageData(data) {
             });
         }
     });
+    setLocaleFields();
 }
 
 async function loadMore(pageNumber) {
@@ -354,7 +355,6 @@ async function showModalOfOrder(index) {
                  <tr><td></td><td></td><td><span class="total-loc">Total</span> :</td><td>${convertPrice(order.itemsCost + order.shippingCost)}${iconOfPrice}</td></tr>`;
     $('#modalBody').html(html);
     document.getElementById("chat").setAttribute('onscroll', 'scrolling()');
-
     setLocaleFields();
 }
 
