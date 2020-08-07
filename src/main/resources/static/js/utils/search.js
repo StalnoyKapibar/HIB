@@ -1,5 +1,6 @@
 let row, primary;
 let isCheckedCategory = false;
+let checkboxes = [];
 let currentPage = 0;
 let amountBooksInPage = 0;
 let amountBooksInDb;
@@ -157,15 +158,13 @@ function setListeners () {
     })
 
     $('#check-available').on('click', function () {
-        //$('#input-categories').empty();
         getCategoryTreeWithoutRefreshing();
     })
 }
 
 async function getCategoryTreeWithoutRefreshing(){
-    fetch('/categories/gettree', {}).then(function (response) {
-        return response.json()
-    })
+    fetch('/categories/gettree/' + currentLang)
+        .then(json)
         .then(function (json) {
             categoryArr = [];
             for (let i in json) {
@@ -187,12 +186,11 @@ async function getCategoryTreeWithoutRefreshing(){
         });
 }
 async function setTreeViewWithoutRefreshing(categories) {
-
     for (let category of categories) {
         row =
             `<div id="${category.id}" class="category text-nowrap">
                 <div class="custom-control custom-checkbox form-check-inline" id="heading-${category.id}">
-                    <input class="custom-control-input" type="checkbox" id="check-${category.id}" value="${category.id}">
+                    <input class="custom-control-input" type="checkbox" id="check-${category.id}" value="${category.id}" ${checkboxes.includes(`${category.id}`) ? 'checked' : ''}>
                     <label class="custom-control-label" for="check-${category.id}"></label>
                     <label class="collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#collapse-${category.id}" aria-expanded="false" aria-controls="collapse-${category.id}">
                        <label id="${category.categoryName.toLowerCase()}-rightbar">${category.categoryName}</label>(${await getCountBooksByCat(category.path, $('#check-available').is(':checked') ? true : false)})
@@ -212,7 +210,6 @@ async function setTreeViewWithoutRefreshing(categories) {
 
         $('#'+category.id).replaceWith(row);
     }
-    //setLocaleFields();
 }
 
 
@@ -225,9 +222,8 @@ async function getCategoryTree() {
         }
     }
 
-    fetch('/categories/gettree/' + currentLang, {}).then(function (response) {
-        return response.json()
-    })
+    fetch('/categories/gettree/' + currentLang)
+        .then(json)
         .then(function (json) {
             categoryArr = [];
             for (let i in json) {
@@ -264,7 +260,6 @@ function getUnflatten(arr, parentid) {
 }
 
 async function setTreeView(categories) {
-
     for (let category of categories) {
         row =
             `<div id="${category.id}" class="category text-nowrap">
@@ -299,7 +294,7 @@ async function setChilds(categories) {
             row +=
                 `<div class="category text-nowrap">
                     <div class="custom-control custom-checkbox form-check-inline" id="heading-${category.id}">
-                        <input class="custom-control-input" type="checkbox" id="check-${category.id}" value="${category.id}">
+                        <input class="custom-control-input" type="checkbox" id="check-${category.id}" value="${category.id}" ${checkboxes.includes(`${category.id}`) ? 'checked' : ''}>
                         <label class="custom-control-label" for="check-${category.id}">
                             <label class="${category.categoryName.toLowerCase()}-rightbar">${category.categoryName}</label>(${await getCountBooksByCat(category.path, $('#check-available').is(':checked') ? true : false)})
                         </label>
@@ -309,7 +304,7 @@ async function setChilds(categories) {
             row +=
                 `<div class="category text-nowrap">
                     <div class="custom-control custom-checkbox form-check-inline" id="heading-${category.id}">
-                        <input class="custom-control-input" type="checkbox" id="check-${category.id}" value="${category.id}">
+                        <input class="custom-control-input" type="checkbox" id="check-${category.id}" value="${category.id}" ${checkboxes.includes(`${category.id}`) ? 'checked' : ''}>
                         <label class="custom-control-label" for="check-${category.id}"></label>
                         <label class="collapsed" data-toggle="collapse" data-target="#collapse-${category.id}" data-parent="#accordion" aria-expanded="false" aria-controls="collapse-${category.id}">
                            <label class="${category.categoryName.toLowerCase()}-rightbar">${category.categoryName}</label>(${await getCountBooksByCat(category.path, $('#check-available').is(':checked') ? true : false)})
@@ -372,6 +367,7 @@ async function advancedSearch(amount, page) {
             setLocaleFields();
             amountBooksInDb = data.amountOfBooksInDb;
             addFindeBooks(data.books);
+            checkboxes = categories;
         });
 }
 
