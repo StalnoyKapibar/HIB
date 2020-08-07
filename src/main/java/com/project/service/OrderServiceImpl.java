@@ -5,6 +5,8 @@ import com.project.mail.MailService;
 import com.project.model.*;
 import com.project.service.abstraction.OrderService;
 import com.project.service.abstraction.SendEmailService;
+import com.project.service.abstraction.ShoppingCartService;
+import com.project.service.abstraction.UserService;
 import com.project.util.UtilExcelReports;
 import lombok.AllArgsConstructor;
 import org.springframework.core.io.Resource;
@@ -17,9 +19,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.mail.MessagingException;
+import javax.servlet.http.HttpSession;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Instant;
 import java.util.List;
 
 @Service
@@ -28,6 +32,8 @@ import java.util.List;
 public class OrderServiceImpl implements OrderService {
 
     private OrderDao orderDAO;
+    private UserService userService;
+    private ShoppingCartService cartService;
     private SendEmailService sendEmailService;
     private UtilExcelReports excelReports;
 
@@ -62,6 +68,20 @@ public class OrderServiceImpl implements OrderService {
             book.setLastBookOrdered(false);
         }
         order.setStatus(Status.DELETED);
+        orderDAO.update(order);
+    }
+
+    @Override
+    public void confirmOrder(Long id) {
+        Order order = getOrderById(id);
+        for (CartItem cartItem : order.getItems()) {
+            Book book = cartItem.getBook();
+            if (order.getStatus().equals(Status.UNACTIVATED)) {
+                book.setShow(true);
+            }
+            book.setLastBookOrdered(false);
+        }
+        order.setStatus(Status.UNPROCESSED);
         orderDAO.update(order);
     }
 
@@ -172,5 +192,21 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderPageAdminDTO getPageOfOrdersByPageable(Pageable pageable, Status status) {
         return orderDAO.getPageOfOrdersByPageable(pageable, status);
+    }
+
+    @Override
+    public OrderDTO addOrderReg1Click(ShoppingCartDTO shoppingCart, RegistrationUserDTO user, ContactsOfOrderDTO contacts) {
+        OrderDTO orderDTO = new OrderDTO();
+        orderDTO.setDate(Instant.now().getEpochSecond());
+        orderDTO.setShippingCost(350);
+        orderDTO.setContacts(contacts);
+        orderDTO.setStatus(Status.UNACTIVATED);
+
+        orderDTO.setItems(shoppingCart.getCartItems());
+        for (int i = 1; i <= shoppingCart.getCartItems().size(); i++) {
+            orderDTO.getItems().get(i - 1).setId((long) i + cartService.getMaxIdCartItem().size());
+            shoppingCart.addCartItem(orderDTO.getItems().get(i - 1).getBook());
+        }
+        return orderDTO;
     }
 }

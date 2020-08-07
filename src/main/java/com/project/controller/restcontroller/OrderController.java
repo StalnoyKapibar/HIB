@@ -85,7 +85,6 @@ public class OrderController {
         user.setFirstName(contacts.getFirstName());
         user.setLastName(contacts.getLastName());
         user.setPhone(contacts.getPhone());
-
         user.setPassword(generateString(new Random(), SOURCES, 10));
         user.setConfirmPassword(user.getPassword());
         user.setAutoReg(true);
@@ -108,21 +107,12 @@ public class OrderController {
         try {
             userAccountService.save1Clickreg(user, url.toString());
             shoppingCart.setId(userAccountService.getCartIdByUserEmail(user.getEmail()));
-            UserDTO userDTO = userService.getUserDTOByEmail(user.getEmail(), false);
-            OrderDTO orderDTO = new OrderDTO();
-            orderDTO.setDate(Instant.now().getEpochSecond());
-            orderDTO.setShippingCost(350);
-            orderDTO.setContacts(contacts);
-            orderDTO.setStatus(Status.UNACTIVATED);
 
-            orderDTO.setItems(shoppingCart.getCartItems());
-            for (int i = 1; i <= shoppingCart.getCartItems().size(); i++) {
-                orderDTO.getItems().get(i - 1).setId((long) i + cartService.getMaxIdCartItem().size());
-                shoppingCart.addCartItem(orderDTO.getItems().get(i - 1).getBook());
-            }
+            OrderDTO orderDTO = orderService.addOrderReg1Click(shoppingCart, user, contacts);
+            UserDTO userDTO = userService.getUserDTOByEmail(user.getEmail(), false);
+
             cartService.updateCart(shoppingCart);
             orderDTO.setUserAccount(userAccountService.getUserById(userDTO.getUserId()));
-//            session.setAttribute("order", orderDTO);
             orderService.addOrder(orderDTO.getOder(), url.toString());
             session.removeAttribute("shoppingcart");
 
@@ -136,9 +126,9 @@ public class OrderController {
         } catch (MailSendException e) {
             view.setViewName("redirect:/err/not_found");
         }
-//        view.setViewName("redirect:/reqapprove");
         return view;
     }
+
 
     @PostMapping("/order")
     private void confirmOrder(HttpSession httpSession, HttpServletRequest request) {

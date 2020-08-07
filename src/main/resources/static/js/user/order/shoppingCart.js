@@ -219,7 +219,8 @@ async function btnBuy() {
         <br>
         <div class="text-danger">We are processing your transaction.<br>
         Please wait a few seconds.<br>
-        You will now be redirected to the order page.</div>
+        You will now be redirected to the order page.
+        PlEASE CONFIRM YOUR EMAIL! </div>
     `);
         confirmPurchase();
     });
