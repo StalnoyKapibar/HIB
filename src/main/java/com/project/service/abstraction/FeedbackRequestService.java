@@ -24,4 +24,6 @@ public interface FeedbackRequestService {
     void deleteFeedbackRequestByIbBook(Long bookId);
 
     List<FeedbackRequest> findAllRequestByIdBook(Long bookId);
+
+    List<FeedbackRequest> findAllUnreadRequestsByBookId(Long bookId);
 }

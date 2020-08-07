@@ -209,4 +209,9 @@ public class OrderServiceImpl implements OrderService {
         }
         return orderDTO;
     }
+
+    @Override
+    public List<Order> findAllUncompletedOrdersByBookId(Long bookId) {
+        return orderDAO.findAllUncompletedOrdersByBookId(bookId);
+    }
 }

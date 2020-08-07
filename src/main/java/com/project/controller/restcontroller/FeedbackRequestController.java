@@ -119,4 +119,9 @@ public class FeedbackRequestController {
     public List<FeedbackRequest> getFeedbackByIdBook(@PathVariable Long id) {
         return feedbackRequestService.findAllRequestByIdBook(id);
     }
+
+    @GetMapping("/api/admin/feedback-requests/unread/book-id/{id}")
+    public List<FeedbackRequest> getUnreadFeedbacksByBookId(@PathVariable Long id) {
+        return feedbackRequestService.findAllUnreadRequestsByBookId(id);
+    }
 }

@@ -42,4 +42,6 @@ public interface OrderService {
     ResponseEntity createFileAllOrders();
 
     OrderDTO addOrderReg1Click(ShoppingCartDTO shoppingCart, RegistrationUserDTO user, ContactsOfOrderDTO contacts);
+
+    List<Order> findAllUncompletedOrdersByBookId(Long bookId);
 }
