@@ -733,7 +733,6 @@ function getBookDTOById(id) {
         .then(json)
         .then(function (resp) {
             tmpArr = resp;
-            console.log(tmpArr);
             buildPage();
         });
 }

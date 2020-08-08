@@ -3,7 +3,6 @@
 // Функция поиска совпадений вводимых символов
 function findEl(el, array, value) {
     var coincidence = false;
-    console.log(array);
     el.empty();    // Очищаем список совпадений
     for (var i = 0; i < array.length; i++) {
         if (array[i].match(value) || array[i].toLowerCase().match(value)) {    // Проверяем каждый эллемент на совпадение побуквенно
@@ -28,7 +27,6 @@ filterInput.bind('input propertychange', async function () {
         filterUl.fadeIn(100);
         let data = await getAllBooksForLiveSearch();
         let array = [];
-        console.log(data);
         for (let key in data) {
             if (data.hasOwnProperty(key)) {
                 let book = data[key];
@@ -44,7 +42,6 @@ filterInput.bind('input propertychange', async function () {
                 }
             }
         }
-        console.log(array);
         findEl(filterUl, array, $(this).val());
     } else {
         filterUl.fadeOut(100);

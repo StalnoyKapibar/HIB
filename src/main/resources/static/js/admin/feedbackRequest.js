@@ -505,9 +505,6 @@ function sendGmailMessage(userId, feedbackId) {
         }).then(() => {
         fetch("/admin/markasread?email=" + userId)
             .then(json)
-            .then((data) => {
-                console.log(data)
-            })
     });
 }
 
