@@ -85,4 +85,8 @@ public class UserAccount implements UserDetails, OAuth2User {
     public boolean getAutoReg() {
         return autoReg;
     }
+
+    public Long getId() {
+        return id;
+    }
 }
