@@ -214,7 +214,6 @@ async function renderPageData(data) {
             $('#unread-checkbox').html(unreadCheckbox);
             $('#toggleOnlyUnread').on('change', () => {
                 onlyUnread = $('#toggleOnlyUnread').is(":checked");
-                console.log(onlyUnread)
                 showListOrders();
             });
         }
@@ -475,9 +474,6 @@ function sendGmailMessage(userId, orderId) {
         .then(() => {
             fetch("/admin/markasread?email=" + userId)
                 .then(json)
-                .then((data) => {
-                    console.log(data)
-                })
         });
 }
 

@@ -1,9 +1,6 @@
 package com.project.service.abstraction;
 
-import com.project.model.BookPageAdminDto;
-import com.project.model.Order;
-import com.project.model.OrderPageAdminDTO;
-import com.project.model.Status;
+import com.project.model.*;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
@@ -17,6 +14,8 @@ public interface OrderService {
     Order getOrderById(Long id);
 
     void deleteOrder(Long id);
+
+    void confirmOrder(Long id);
 
     String cancelOrder(Long id);
 
@@ -41,6 +40,8 @@ public interface OrderService {
     List<Order> findOrderByBookId(Long bookId);
 
     ResponseEntity createFileAllOrders();
+
+    OrderDTO addOrderReg1Click(ShoppingCartDTO shoppingCart, RegistrationUserDTO user, ContactsOfOrderDTO contacts);
 
     List<Order> findAllUncompletedOrdersByBookId(Long bookId);
 }

@@ -34,8 +34,6 @@ function sendSignInForm() {
                 window.location.href = "/home";
             }
         }).fail(function(jqXHR, textStatus) {
-            console.log("Server error: ", jqXHR.responseText);
-            console.log("Response status msg: ", textStatus);
         });
     });
     setLocaleFields();

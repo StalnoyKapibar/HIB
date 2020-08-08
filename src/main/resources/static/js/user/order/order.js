@@ -127,6 +127,12 @@ function showContacts() {
     $('#cartTab a[href="#contacts"]').tab('show');
 }
 
+function showContacts1ClickReg() {
+    $('#cartTab a[href="#contacts"]').tab('show');
+    // GET('/1clickreg');
+
+}
+
 async function confirmContacts() {
     contacts = {
         email: $("#email").val(),
@@ -152,6 +158,22 @@ async function confirmContactsFor1Click() {
     await POST("/api/user/order/confirmContacts", JSON.stringify(contacts), JSON_HEADER);
 
     confirmPurchase();
+}
+
+async function confirmContactsFor1Click2() {
+    contacts = {
+        email: $("#email").val(),
+        firstName: $("#firstName").val(),
+        lastName: $("#lastName").val(),
+        phone: $("#phone").val(),
+        comment: $("#comment").val(),
+    };
+    // await POST("/api/user/order/confirmContacts", JSON.stringify(contacts), JSON_HEADER);
+
+    // confirmPurchase();
+    // sendSingUpForm();
+    showSummary();
+    showOrderSum();
 }
 
 function showHome() {

@@ -95,54 +95,55 @@
 
     <!--    page container    -->
     <div th:fragment="register">
-    <div class="container page-content">
-        <div class="container mt-0 col-sm-12 col-lg-6 col-md-8 rounded-pill">
-            <div class="col-12 shadow form-border-radius">
-                <div class="modal-header">
-                    <h4 class="my-2 create-new-profile-loc">Enter data</h4>
-                </div>
+        <div class="container page-content">
+            <div class="container mt-0 col-sm-12 col-lg-6 col-md-8 rounded-pill">
+                <div class="col-12 shadow form-border-radius">
+                    <div class="modal-header">
+                        <h4 class="my-2 create-new-profile-loc">Enter data</h4>
+                    </div>
 
-                <div class="col-12">
-                    <form th:action="@{/1clickreg}" th:object="${user}" method="post" name="registration-form">
-                        <div class="form-group">
+                    <div class="col-12">
+                        <form th:action="@{/1clickreg}" th:object="${user}" method="post" name="registration-form">
+                            <div class="form-group">
 
-                            <label class="name-loc" for="firstNameInputField">Name</label>
-                            <input type="name" class="form-control name-field" id="firstNameInputField" name="firstName"
-                                   placeholder="Name" required th:field="*{firstName}">
-                        </div>
-                        <div class="form-group">
-                            <label class="phone-label" for="phoneInputField">Phone</label>
-                            <input type="phone" class="form-control phone" id="phoneInputField" name="phone"
-                                   placeholder="Phone" required th:field="*{phone}">
-                        </div>
-                        <div class="form-group">
-                            <label class="email-label" for="emailInputField">Email</label>
-                            <input type="email" class="form-control email" id="emailInputField" name="email"
+                                <label class="name-loc" for="firstNameInputField">Name</label>
+                                <input type="name" class="form-control name-field" id="firstNameInputField"
+                                       name="firstName"
+                                       placeholder="Name" required th:field="*{firstName}">
+                            </div>
+                            <div class="form-group">
+                                <label class="phone-label" for="phoneInputField">Phone</label>
+                                <input type="phone" class="form-control phone" id="phoneInputField" name="phone"
+                                       placeholder="Phone" required th:field="*{phone}">
+                            </div>
+                            <div class="form-group">
+                                <label class="email-label" for="emailInputField">Email</label>
+                                <input type="email" class="form-control email" id="emailInputField" name="email"
 
-                                   placeholder="Email" required th:field="*{email}">
-                        </div>
-                        <button type="submit" id="hiddenSingUpBtn" hidden>HiddenSingUpButton</button>
-                    </form>
-                </div>
-                <div class="row px-4">
-                    <h5 class="col-12 p-3 rounded text-center alert-danger" th:if="${errorMessage.isHasError()}"
-                        th:text="${errorMessage.getMessage()}" id="errorMessage"></h5>
-                </div>
-                <div class="modal-footer text-right">
-                    <button type="button" class="btn btn-primary col-12 mb-4 mx-0 signup-btn" id="singUpButton"
-                            onclick="sendSingUpForm()">Confirm
-                    </button>
+                                       placeholder="Email" required th:field="*{email}">
+                            </div>
+                            <button type="submit" id="hiddenSingUpBtn" hidden>HiddenSingUpButton</button>
+                        </form>
+                    </div>
+                    <div class="row px-4">
+                        <h5 class="col-12 p-3 rounded text-center alert-danger" th:if="${errorMessage.isHasError()}"
+                            th:text="${errorMessage.getMessage()}" id="errorMessage"></h5>
+                    </div>
+                    <div class="modal-footer text-right">
+                        <button type="button" class="btn btn-primary col-12 mb-4 mx-0 signup-btn" id="singUpButton"
+                                onclick="sendSingUpForm()">Confirm
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <script src="../static/js/utils/common-function.js"></script>
+            <script src="../static/js/utils/common-function.js"></script>
 
-        <!--        footer       -->
-        <div class="footer pt-3 p-0 container-fluid text-center" th:replace="home-old :: footer">
+            <!--        footer       -->
+            <div class="footer pt-3 p-0 container-fluid text-center" th:replace="home-old :: footer">
+            </div>
         </div>
     </div>
-</div>
     <script src="../static/js/utils/common-function.js"></script>
     <script src="../static/js/user/auth/registration.js"></script>
 </div>
@@ -163,36 +164,42 @@
                 <form action="/login" th:action="@{/login}" role="form" method="post" id="form-login" name="form-login">
                     <div class="form-group">
                         <label class="login-loc" for="loginInput">Login</label>
-                        <input type="text" class="form-control login-input-loc" id="loginInput" name="username" placeholder="Login"
+                        <input type="text" class="form-control login-input-loc" id="loginInput" name="username"
+                               placeholder="Login"
                                required>
                     </div>
                     <div class="form-group">
                         <label class="password-input-label" for="passwordInput">Password</label>
-                        <input type="password" class="form-control password-input-loc" id="passwordInput" name="password"
+                        <input type="password" class="form-control password-input-loc" id="passwordInput"
+                               name="password"
                                placeholder="Password" required>
                     </div>
                     <div class="custom-control custom-checkbox mb-2">
                         <input type="checkbox" class="custom-control-input" id="checkboxRememberMe">
-                        <label class="custom-control-label checkboxRememberMe-loc" for="checkboxRememberMe">Remember me</label>
+                        <label class="custom-control-label checkboxRememberMe-loc" for="checkboxRememberMe">Remember
+                            me</label>
                     </div>
                     <button type="submit" hidden id="hidden_submit_btn">HiddenButtonToSubmitLoginForm</button>
                 </form>
                 <div class="row">
                     <div class="col-lg-6 col-sm-12 pr-lg-1 mt-1">
                         <a class="btn btn-block btn-social btn-google text-white">
-                            <span class="fa fa-google mr-2"></span><span class="signup-google-btn">Sign up with Google</span>
+                            <span class="fa fa-google mr-2"></span><span
+                                class="signup-google-btn">Sign up with Google</span>
                         </a>
                     </div>
                     <div class="col-lg-6 col-sm-12 pl-lg-1 mt-1">
                         <a class="btn btn-block btn-social btn-facebook text-white">
-                            <span class="fa fa-facebook-f"></span><span class="signup-fb-btn">Sign up with Facebook</span>
+                            <span class="fa fa-facebook-f"></span><span
+                                class="signup-fb-btn">Sign up with Facebook</span>
                         </a>
                     </div>
                 </div>
             </div>
             <div class="modal-footer mx-3">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" id="modalClose">Close</button>
-                <button type="button" class="btn btn-primary signin-loc" id="sign_in_btn" onclick="sendSignInForm()">Sign in
+                <button type="button" class="btn btn-primary signin-loc" id="sign_in_btn" onclick="sendSignInForm()">
+                    Sign in
                 </button>
             </div>
 
