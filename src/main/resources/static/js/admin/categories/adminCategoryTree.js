@@ -62,8 +62,8 @@ function setTreeView(category) {
         $('#adminTree').append(`<figure id="${category[i].categoryName}"></figure><br>`);
         treeRow =
             `<ul class="col-12 tree">
-                <li ondragstart="drag(event, this)" class="col-12">
-                    <code draggable="true" ondrop="drop(event, this)" ondragover="allowDrop(event)" data-target="#category-modal" id="categoryEdit"
+                <li class="col-12">
+                    <code draggable="false" ondrop="drop(event, this)" ondragover="allowDrop(event)" data-target="#category-modal" id="categoryEdit"
                     parent="${category[i].parentId}" view-order="${category[i].viewOrder}"
                     data-id="${category[i].id}" data-toggle="modal" class="btn-outline-primary">${category[i].categoryName}
                     </code>
