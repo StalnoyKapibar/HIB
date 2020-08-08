@@ -382,7 +382,6 @@ function orderCancel(id) {
         });
     } catch (error) {
         // catch error, show modal not OK
-        console.log("Failed to cancel order: ", error)
         $("#successAction").html("Failed to cancel order");
         $("#successActionModal").modal('show');
     }

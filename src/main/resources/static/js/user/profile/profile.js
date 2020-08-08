@@ -68,7 +68,6 @@ function refreshUserNames(firstName, lastName, email, phone) {
 }
 
 function savePersonalInformation() {
-    console.log("Hello");
     let email = $('#fieldEmail').val();
     let firstName = $('#fieldFirstName').val();
     let lastName = $('#fieldLastName').val();

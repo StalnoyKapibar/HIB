@@ -55,8 +55,6 @@ async function addBooksToPage(books) {
     $('#cardcolumns').empty();
     $("#rowForPagination").empty();
 
-    //console.log(books);
-
     $.each(books, function (index) {
         let textOfBtn = listOrdersOfCart.includes(books[index].id) ? addedToshoppingCart : addToshoppingCart;
         let cssOfBtn = listOrdersOfCart.includes(books[index].id) ? "disabled" : "addToCartBtn";
@@ -125,7 +123,6 @@ async function getAUTH() {
         .then(status)
         .then(json)
         .then(function (resp) {
-            console.log(resp)
             isAdmin = resp.roles.authority === 'ROLE_ADMIN';
         });
 }
