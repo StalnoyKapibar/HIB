@@ -526,15 +526,27 @@
                                 <!--подставляем введеные котактные данные shippingaddress из shoppingCart.js-->
                                 <div class="card card-body" id="shippingaddress"
                                      style="line-height: 4px; font-size: large"></div>
+<!--                                <div class="row px-4">-->
+<!--                                    <h5 class="col-12 p-3 rounded text-center alert-danger" th:if="${errorMessage.isHasError()}"-->
+<!--                                        th:text="${errorMessage.getMessage()}" id="errorMessage"></h5>-->
+<!--                                </div>-->
                             </div>
 
+                            <div class="collapse" id="collapseExample">
+                                <div class="alert alert-danger" role="alert" id="errorMessageEmail">
+                                </div>
+                            </div>
                             <div class="card-footer my-4 ">
                                 <div class="form-group  row mt-2 ml-0">
                                     <div class=" col-4">
-                                        <button class="btn btn-secondary btn-block back-btn"
+                                        <button sec:authorize="isAuthenticated()" class="btn btn-secondary btn-block back-btn"
                                                 onclick="showContacts()"
                                                 type="button">
                                             Back
+                                        </button>
+                                        <button sec:authorize="!isAuthenticated()" class="btn btn-primary next-btn"
+                                                onclick="showContacts1ClickReg()"
+                                                type="button"> Back
                                         </button>
                                     </div>
                                     <div class="col-4 ">

@@ -122,6 +122,12 @@ function showError(message, className) {
     setLocaleFields();
 }
 
+function showError(message, className) {
+    $('#errorMessageEmailReg').addClass(className).text(message);
+    $('#collapseExample').attr('class', 'collapse show');
+    setLocaleFields();
+}
+
 function hideError() {
     $('#collapseExample').attr('class', 'collapse');
 }
