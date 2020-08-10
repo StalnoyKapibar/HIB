@@ -205,6 +205,23 @@
                             </tbody>
                         </table>
                     </div>
+                    <div class="container col-2 offset-5">
+                        <div class="row orders-pageable">
+                            <div class="dropdown dropdown-header"><label id="orders-user-on-page-loc">Orders on page</label>
+                                <button class="btn btn-primary dropdown-toggle" type="button"
+                                        id="ordersAmountPerPageUser"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">10</button>
+                                <div class="dropdown-menu" aria-labelledby="ordersAmountPerPageUser">
+                                    <a class="dropdown-item" href="#" onclick="setOrdersAmountInPageForUser(10)">10</a>
+                                    <a class="dropdown-item" href="#" onclick="setOrdersAmountInPageForUser(50)">50</a>
+                                    <a class="dropdown-item" href="#" onclick="setOrdersAmountInPageForUser(100)">100</a>
+                                </div>
+                            </div>
+                            <div id="rowForPaginationOrders">
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
