@@ -402,7 +402,6 @@ async function renderPageOrdersForUser(listOdersPage) {
 async function addPaginationOrdersForUser(totalPages) {
     let startIter = 1;
     ordersCount = await getOrdersCount();
-    console.log(currentPage);
     let endIter = totalPages;
     let pag = '';
     pag = `<nav aria-label="Page navigation example">
