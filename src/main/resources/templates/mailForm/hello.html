@@ -6,6 +6,11 @@
     <title>Ruseller Email Newsletter</title>
     <style type="text/css">
 
+        td {
+            text-align: center;
+            vertical-align: middle;
+        }
+
         .button {
             background-color: #007bff;
             padding: 10px 15px;
@@ -95,7 +100,7 @@
 </head>
 
 <body>
-<table width="100%" cellpadding="0" cellspacing="0" bgcolor="FFFFFF">
+<table style="text-align: center" width="100%" cellpadding="0" cellspacing="0" bgcolor="FFFFFF">
     <tr>
         <td>
             <table id="top-message" cellpadding="20" cellspacing="0" width="600" align="center">
@@ -109,26 +114,27 @@
             <table id="main" width="600" align="center" cellpadding="0" cellspacing="15" bgcolor="F9F8F8">
                 <tr>
                     <td>
-                        <table id="header" cellpadding="10" cellspacing="0" align="center">
-                            <tr>
-                                <td width="570" bgcolor="D1ECF1"><h1 class="hello-dear-reader-loc">Hello dear
-                                    reader</h1></td>
-                            </tr>
-                            <!--<tr> Зачем пользователю видеть свой токен напрямую?
-                                <td width="570" bgcolor="D1ECF1"><h2 th:text="${id}">ID user</h2></td>
-                            </tr>-->
-                            <tr>
-                                <td>
-
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a th:href="@{${url}+'/confirmEmail'(token=${id})}"
-                                       class="confirm-account-loc button">Confirm account</a>
-                                </td>
-                            </tr>
-                        </table><!-- header -->
+                        <div class="container">
+                            <table id="header" cellpadding="10" cellspacing="0" style="text-align: center" align="center">
+                                <tr>
+                                    <td width="570"><h1 class="hello-dear-reader-loc">Welcome reader!</h1></td>
+                                </tr>
+                                <tr>
+                                    <td width="570"><h5 id="confirm-letter-text-loc">Please, confirm your account, so you may continue shopping.</h5></td>
+                                </tr>
+                                <tr><td></td></tr>
+                                <tr>
+                                    <td class="row">
+                                        <div class="col-4"></div>
+                                        <div class="col-4">
+                                            <a th:href="@{${url}+'/confirmEmail'(token=${id})}"
+                                               class="confirm-account-loc button">Confirm account</a>
+                                        </div>
+                                        <div class="col-4"></div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div> <!-- header -->
                     </td>
                 </tr><!-- header -->
                 <tr>
@@ -153,9 +159,7 @@
             </table><!-- main -->
             <table id="bottom-message" cellpadding="20" cellspacing="0" width="600" align="center">
                 <tr>
-                    <td align="center">
-                    <td>HIB: <a class="hib" th:href='${url}' th:text="${url}">History in book</a></td>
-                    </td>
+                    <td>HIB: <a class="hib" th:href='${url}'>History in book</a></td>
                 </tr>
             </table><!-- top message -->
         </td>

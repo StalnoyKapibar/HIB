@@ -307,6 +307,7 @@ async function setLocaleFields() {
             $('.page-of-book-localize').text(localeFields['pageofBook']);
             $('.hello-dear-reader-loc').text(localeFields['helloDearReader']);
             $('.confirm-account-loc').text(localeFields['confirmAccount']);
+            $('.confirm-letter-text-loc').text(localeFields['confirmLetterText']);
             $('.total-number-of-books-loc').text(localeFields['totalNumberOfBooks']);
             $('#dropdownclose').text(localeFields['dropdownclose']);
             $('#toshoppingcart').text(localeFields['toshoppingcart']);

@@ -28,7 +28,7 @@
             <div th:insert="search :: search-page"></div>
         </div>
         <div aria-labelledby="nav-profile-tab1" class="tab-pane fade" id="nav-profile1" role="tabpanel">
-            <div th:insert="/admin/bookAddEdit :: editingBooks(method = 'Add')"></div>
+            <div th:insert="/admin/bookAddEdit.html :: editingBooks('Add')"></div>
         </div>
         <div aria-labelledby="add-hib-files-tab" class="tab-pane fade" id="add-hib-files" role="tabpanel">
             <div class="row">
