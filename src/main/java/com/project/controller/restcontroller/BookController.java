@@ -4,7 +4,6 @@ import com.project.HIBParser.HibParser;
 import com.project.model.*;
 import com.project.service.abstraction.BookService;
 import com.project.service.abstraction.FeedbackRequestService;
-import com.project.service.abstraction.OrderService;
 import com.project.service.abstraction.StorageService;
 import com.project.util.BookDTOWithFieldsForTable;
 import org.apache.commons.io.FileUtils;
@@ -25,6 +24,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -36,15 +37,13 @@ public class BookController {
     private final HibParser hibParser;
     private final StorageService storageService;
     private final FeedbackRequestService feedbackRequestService;
-    private final OrderService orderService;
 
     @Autowired
-    public BookController(BookService bookService, HibParser hibParser, StorageService storageService, FeedbackRequestService feedbackRequestService, OrderService orderService) {
+    public BookController(BookService bookService, HibParser hibParser, StorageService storageService, FeedbackRequestService feedbackRequestService) {
         this.bookService = bookService;
         this.hibParser = hibParser;
         this.storageService = storageService;
         this.feedbackRequestService = feedbackRequestService;
-        this.orderService = orderService;
     }
 
     @PostMapping("/admin/deleteImg")
@@ -117,6 +116,7 @@ public class BookController {
             String lastId = bookService.getLastIdOfBook();
             storageService.createNewPaperForImages(lastId);
             storageService.copyDefaultPhotoToFolder(lastId);
+            storageService.cutImagesFromTmpPaperToNewPaperByLastIdBook(lastId, book.getListImage());
         } else {
             bookService.addBook(book);
             String lastId = bookService.getLastIdOfBook();
@@ -133,13 +133,9 @@ public class BookController {
 
     @GetMapping("/admin/del/{id}")
     public void delBook(@PathVariable long id) {
-        int feedbackCount = feedbackRequestService.findAllUnreadRequestsByBookId(id).size();
-        int orderCount = orderService.findAllUncompletedOrdersByBookId(id).size();
-        if (feedbackCount == 0 && orderCount == 0) {
-            storageService.deletePaperById(id);
-            feedbackRequestService.deleteFeedbackRequestByIbBook(id);
-            bookService.deleteBook(id);
-        }
+        storageService.deletePaperById(id);
+        feedbackRequestService.deleteFeedbackRequestByIbBook(id);
+        bookService.deleteBook(id);
     }
 
     @PostMapping("/admin/edit")
@@ -181,8 +177,8 @@ public class BookController {
         storageService.deleteImageByFileNameByEditPage(nameDeleteImageByEditPage);
     }
     @PostMapping("/admin/deleteImageFromDB")
-    public void deleteImageByFromDB(@RequestBody String nameDeleteImageByFromDB) {
-        storageService.deleteImageByFromDB(nameDeleteImageByFromDB);
+    public void deleteImageByFromDB(@RequestBody Long id) {
+        storageService.deleteImageByFromDB(id);
     }
 
     @PostMapping("/admin/uploadByEditPage")
@@ -208,11 +204,6 @@ public class BookController {
     @GetMapping("/api/book/lastOrderedBooks")
     public List<Long> getAllLastOrderedBooks() {
         return bookService.getAllLastOrderedBooks();
-    }
-
-    @GetMapping("/api/book/booksAvailability")
-    public List<Long> getAllAvailableBooks() {
-        return bookService.getAllAvailableBooks();
     }
 
     @GetMapping(value = "/api/allBookForLiveSearch")

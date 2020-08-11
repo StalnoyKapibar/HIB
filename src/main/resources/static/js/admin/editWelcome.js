@@ -383,7 +383,7 @@ function buildEditBook(xx) {
     html1 += `<button type='submit' onclick='openEdit(${tmpEditBookId})' data-dismiss='modal' class='btn btn-primary custom-centered m-3 edit-book-loc'>` +
         `Edit Book` +
         `</button>`;
-    $('#editBookForm').html(html1);
+    $('#bookEditForm').html(html1);
     for (var rt of arrAllBooksByNumberPage) {
         if (rt.id === tmpEditBookId) {
             var tmpArr = rt;
@@ -404,6 +404,7 @@ function buildEditBook(xx) {
 
 function openEdit(id) {
     window.open('/admin/edit/' + id, '_blank');
+    //window.location.replace('/admin/edit/' + id);
 }
 
 function uploadImageNew() {

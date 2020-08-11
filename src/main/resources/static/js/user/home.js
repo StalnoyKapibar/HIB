@@ -58,10 +58,18 @@ async function addBooksToPage(books) {
     $.each(books, function (index) {
         let textOfBtn = listOrdersOfCart.includes(books[index].id) ? addedToshoppingCart : addToshoppingCart;
         let cssOfBtn = listOrdersOfCart.includes(books[index].id) ? "disabled" : "addToCartBtn";
+        let coverImageLink;
+        let x = 1;
+        //Здесь я хотел написать функцию, подменяющую пустую обложку картинкой "noimage"
+        if(x === 0){
+            coverImageLink = "/images/service/noimage.png";
+        } else {
+            coverImageLink = 'images/book' + books[index].id + '/' + books[index].coverImage;
+        }
         let card = `<div class="col mb-4">
                                     <a class="card border-0" href="/page/${books[index].id}" style="color: black">
                                         
-                                        <img class="card-img-top mb-1" src="images/book${books[index].id}/${books[index].coverImage}" style="object-fit: contain; height: 400px; ${books[index].show === true ? '' : 'opacity: 0.3;'}" alt="Card image cap">
+                                        <img class="card-img-top mb-1" src=${coverImageLink} style="object-fit: contain; height: 400px; ${books[index].show === true ? '' : 'opacity: 0.3;'}" alt="Card image cap">
                                         
                                         <div class="card-body" style="padding-bottom: 30px">
                                             <h6 class="card-title">${convertOriginalLanguageRows(books[index].nameBookDTOLocale, books[index].nameTranslit)}</h6>
@@ -116,6 +124,7 @@ function showAlertCookie() {
 
 function openEdit(id) {
     window.open('/admin/edit/' + id, '_blank');
+    //window.location.replace('/admin/edit/' + id);
 }
 
 async function getAUTH() {

@@ -44,5 +44,5 @@ public interface StorageService {
 
 	boolean doesFolderTmpExist();
 
-    void deleteImageByFromDB(String nameDeleteImageByEditPage);
+    void deleteImageByFromDB(Long id);
 }

@@ -8,6 +8,10 @@ let ddmAmountBook = $("#ddmAmountBook");
 let isAdmin = false;
 
 $(document).ready(async function () {
+    await buildSearchPage();
+});
+
+async function buildSearchPage(){
     getLanguage();
     getCategoryTree();
     setListeners();
@@ -23,7 +27,7 @@ $(document).ready(async function () {
         }, 1700)
     });
     getAUTH();
-});
+}
 
 async function getQuantityPage() {
         if (amountBooksInDb < amountBooksInPage) {
@@ -366,8 +370,7 @@ async function advancedSearch(amount, page) {
         .then(function (data) {
             setLocaleFields();
             amountBooksInDb = data.amountOfBooksInDb;
-            addFindeBooks(data.books);
-            checkboxes = categories;
+            addFoundBooks(data.books);
         });
 }
 
@@ -393,7 +396,7 @@ function getPageWithBooks(amount, page) {
 
 }
 
-async function addFindeBooks(data) {
+async function addFoundBooks(data) {
     $('#search-table-result').empty();
     let table = [];
     table.push(`<thead>
@@ -455,8 +458,8 @@ async function addFindeBooks(data) {
                                 ${isAdmin && (window.location.pathname === '/admin/panel/books') ? 
                                     `
                                     <div id="search-admin">
-                                        <button class="btn btn-info edit-loc" onclick="openEdit(${data[i].id})"><i class="material-icons">edit</i></button>
-                                        <button class="btn btn-danger delete-loc" onclick="preDeleteBook(${data[i].id})"><i class="material-icons">delete</i></button>
+                                        <button class="btn btn-info edit-loc mb-1" style="height: 2.5rem" onclick="openEdit(${data[i].id})"><i class="material-icons">edit</i></button>
+                                        <button class="btn btn-danger delete-loc" style="height: 2.5rem" onclick="preDeleteBook(${data[i].id})"><i class="material-icons">delete</i></button>
                                     </div>
                                     ` : 
                                     `

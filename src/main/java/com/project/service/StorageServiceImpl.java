@@ -29,7 +29,9 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class StorageServiceImpl implements StorageService {
 
-    private final Path path = Paths.get("/img/tmp/");
+    //private final Path path = Paths.get("/img/");
+    private final Path path = Paths.get("./img/tmp/");
+
     @Autowired
     private BookDaoImpl bookDao;
 
@@ -115,7 +117,7 @@ public class StorageServiceImpl implements StorageService {
     @Override
     public void cutImagesFromTmpPaperToNewPaperByLastIdBook(String namePaper, List<Image> imageList) {
         try {
-            File folder = new File("img/tmp");
+            File folder = new File(String.valueOf(path));
             File[] listOfFiles = folder.listFiles();
             Path destDir = Paths.get("img/book" + namePaper);
             if (listOfFiles != null)
@@ -151,9 +153,9 @@ public class StorageServiceImpl implements StorageService {
     @Override
     public void copyDefaultPhotoToFolder(String namePaper) {
         try {
-            File folder = new File("src/main/resources/static/images/book.jpg");
+            File defaultCover = new File("src/main/resources/static/images/book.jpg");
             Path destDir = Paths.get("img/book" + namePaper);
-            Files.copy(folder.toPath(), destDir.resolve(folder.getName()), StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(defaultCover.toPath(), destDir.resolve(defaultCover.getName()), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -169,18 +171,11 @@ public class StorageServiceImpl implements StorageService {
     }
 
     @Override
-    public void deleteImageByFileNameByEditPage(String fileName) {
-        try {
-            Files.delete(Paths.get("img/book" + fileName));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
     public void saveImageByEditBook(MultipartFile file, String numberPaper) {
         String filename = StringUtils.cleanPath(file.getOriginalFilename());
+        System.out.println(filename);
         try (InputStream inputStream = file.getInputStream()) {
+            System.out.println(Paths.get(".img/book" + numberPaper + "/").resolve(file.getOriginalFilename()));
             Files.copy(inputStream, Paths.get("img/book" + numberPaper + "/").resolve(file.getOriginalFilename()),
                     StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
@@ -216,7 +211,16 @@ public class StorageServiceImpl implements StorageService {
     }
 
     @Override
-    public void deleteImageByFromDB(String nameDeleteImageByEditPage) {
-        bookDao.deleteImgfromDB(nameDeleteImageByEditPage);
+    public void deleteImageByFileNameByEditPage(String fileName) {
+        try {
+            Files.delete(Paths.get("img/book" + fileName));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void deleteImageByFromDB(Long id) {
+        bookDao.deleteImgfromDB(id);
     }
 }

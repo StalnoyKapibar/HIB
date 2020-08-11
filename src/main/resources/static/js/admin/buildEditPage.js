@@ -15,6 +15,34 @@ let isShow = false;
 
 $(document).ready(getVarBookDTO());
 
+//Проверка на заполненность требуемых полей
+function checkEditRequired() {
+    if (category === undefined ){
+        alert('Required field is not filled in: category!');
+        return false;
+    }
+    for (let tmpNameObject of nameObjectOfLocaleString) {
+        let test = $("#inpt" + tmpNameObject).val();
+        if (test === ''){
+            alert('Required field is not filled in: ' + tmpNameObject + '!');
+            return false;
+        }
+        for (let tmpNameVar of nameVarOfLocaleString) {
+            let varTest = $("#inp" + tmpNameObject + tmpNameVar).val();
+            if (varTest === '') {
+                alert('Required field is not filled in: ' + tmpNameObject + ' ' + tmpNameVar + '!')
+                return false;
+            }
+        }
+    }
+
+    if(category === ""){
+        alert('Required field is not filled in!');
+        return false;
+    }
+    return true;
+}
+
 function status(response) {
     if (response.status >= 200 && response.status < 300) {
         return Promise.resolve(response)
@@ -31,6 +59,7 @@ function text(response) {
     return response.text()
 }
 
+//Функция, выводящая поля для транслитерации и перевода
 function addPartsOfBook(partsOfBook) {
     let html = ``;
     for (let tmpNameObject of nameObjectOfLocaleString) {
@@ -40,63 +69,57 @@ function addPartsOfBook(partsOfBook) {
             html += `<div class="shadow p-4 mb-4 bg-white">`;
 
             if (partsOfBook === "description") {
-                for (let tmpNameVar of nameVarOfLocaleString) {
 
-                    html += `<div class="shadow p-4 mb-4 bg-white">
+                for (let tmpNameVar of nameVarOfLocaleString) {
+                    html += `<div class="card p-4 mb-4 bg-light">
                 <div class='form-group mx-5'>
                 <div class="row">
                 <div class="col-0" for=${tmpNameObject}${tmpNameVar}>${tmpNameObject} ${tmpNameVar}</div>
                 <div class="col-2 mr-1">
-                <input type="radio" class="transl-from-this-lang-loc" name="rb${tmpNameObject}" id="rb${tmpNameObject}${tmpNameVar}" value="${tmpNameVar}" autocomplete="off"> Translate from this language
-                </div>
+                <input type="radio" name="rb${tmpNameObject}" id="rb${tmpNameObject}${tmpNameVar}" value="${tmpNameVar}" autocomplete="off"> Translate from this language</div>
                 <div class="col">
                 <textarea type='text' class='form-control' id='inp${tmpNameObject}${tmpNameVar}'
                 placeholder='${tmpNameObject} ${tmpNameVar}'></textarea>
                 </div>
                 <div class="col">
-                <input class="into-this-lang-loc" type="checkbox" checked name="cb${tmpNameObject}" value="${tmpNameVar}" autocomplete="off"> Into this language
-                </div></div></div></div>`;
+                <input type="checkbox" checked name="cb${tmpNameObject}" value="${tmpNameVar}" autocomplete="off"> Into this language</div></div></div></div>`;
                     if (tmpNameVar === "gr") {
-                        html += `<button type="button" onclick="translateText('${tmpNameObject}')" class="btn btn-primary mx-3 translate-loc">Translate</button></div>`
+                        html += `<button type="button" onclick="translateText('${tmpNameObject}')" class="btn btn-primary mx-3 w-25">Translate</button></div>`
                     }
                 }
 
             } else {
+
                 html +=
-                    `<div class="shadow p-4 mb-4 bg-white">
+                    `<div class="card p-4 mb-4 bg-light">
                 <div class='form-group mx-5 my-3'>
                 <div class="row">
-                <div class="col-0" for=${tmpNameObject}>${tmpNameObject} <div class="of-other-lang-loc">of other lang</div> </div>
+                <div class="col-0" for=${tmpNameObject}>${tmpNameObject}<span class="required">*</span> of other lang </div>
                 <div class="col-5 pl-5 ml-5  "><input type='text'  class='form-control '  id='inpt${tmpNameObject}'>
                 </div> </div>
                 <div class="row my-2">
-                <div class="col-0" for=${tmpNameObject}>${tmpNameObject} <div class="transliterate-loc">transliterate</div>&nbsp;&nbsp; </div>
-                <div class="col-5 pl-5 ml-5  mr-1 ">
-                <input type='text' class='form-control ' id='in${tmpNameObject}'>
+                <div class="col-0" for=${tmpNameObject}>${tmpNameObject} transliterate&nbsp;&nbsp; </div>
+                <div class="col-5 pl-5 ml-5  mr-1 "><input type='text' class='form-control ' id='in${tmpNameObject}'>
                 </div> </div>
                 </div>
-                    <button id="yourDivId" type="button" onclick="transliterationText('${tmpNameObject}')" class="btn btn-primary mx-3 big-transliterate-loc">Transliterate</button>
+                    <button id="yourDivId" type="button" onclick="transliterationText('${tmpNameObject}')" class="btn btn-primary mx-3 w-25">Transliterate</button>
                 </div>`;
 
-
                 for (let tmpNameVar of nameVarOfLocaleString) {
-
-                    html += `<div class="shadow p-4 mb-4 bg-white">
+                    html += `<div class="card p-4 mb-4 bg-light">
                 <div class='form-group mx-5'>
                 <div class="row">
-                <div class="col-0" for=${tmpNameObject}${tmpNameVar}>${tmpNameObject} ${tmpNameVar}</div>
+                <div class="col-0" for=${tmpNameObject}${tmpNameVar}>${tmpNameObject} ${tmpNameVar}<span class="required">*</span></div>
                 <div class="col-2 mr-1">
-                <input type="radio" class="transl-from-this-lang-loc" name="rb${tmpNameObject}" id="rb${tmpNameObject}${tmpNameVar}" value="${tmpNameVar}" autocomplete="off"> Translate from this language
-                </div>
+                <input type="radio" name="rb${tmpNameObject}" id="rb${tmpNameObject}${tmpNameVar}" value="${tmpNameVar}" autocomplete="off"> Translate from this language</div>
                 <div class="col">
                 <input type='text' class='form-control' id='inp${tmpNameObject}${tmpNameVar}'
                 placeholder='${tmpNameObject} ${tmpNameVar}'>
                 </div>
                 <div class="col">
-                <input type="checkbox" class="into-this-lang-loc" checked name="cb${tmpNameObject}" value="${tmpNameVar}" autocomplete="off"> Into this language
-                </div></div></div></div>`;
+                <input type="checkbox" checked name="cb${tmpNameObject}" value="${tmpNameVar}" autocomplete="off"> Into this language</div></div></div></div>`;
                     if (tmpNameVar === "gr") {
-                        html += `<button type="button" onclick="translateText('${tmpNameObject}')" class="btn btn-primary mx-3 translate-loc">Translate</button></div>`
+                        html += `<button type="button" onclick="translateText('${tmpNameObject}')" class="btn btn-primary mx-3 w-25">Translate</button></div>`
                     }
                 }
             }
@@ -105,8 +128,9 @@ function addPartsOfBook(partsOfBook) {
     }
 }
 
-function buildPage() {
-    let disabled = tmpArr.show ? '' : 'checked';
+//Функция, заполняющая поля данными из книги, полученной из базы
+function buildEditPage() {
+    $('#disabled').prop('checked', !tmpArr.show);
     var html1 = '';
     var htmlCategory = '';
     if (tmpArr.category === null) {
@@ -118,7 +142,7 @@ function buildPage() {
             '               <div class="row">\n' +
             '               <div class="col-4" style="margin: 0 auto">\n' +
             '                <div class="input-group mb-3">\n' +
-            '                  <input type="text" class="form-control" categoryid="' + tmpArr.category.id + '" id="categoryInput" readonly value="' + tmpArr.category.categoryName + '">\n' +
+            '                  <input type="text" class="form-control" categoryid="' + tmpArr.category.id + '" id="categoryInput" readonly value="' + tmpArr.category.name['en'] + '">\n' +
             '                  <div class="input-group-append">\n' +
             '                    <button class="btn btn-outline-secondary" id="selectCategory" data-toggle="modal" data-target=".bd-example-modal-lg" type="button">Change category</button>\n' +
             '                  </div>\n' +
@@ -129,18 +153,7 @@ function buildPage() {
             '            </div></div>';
     }
 
-    html1 += `<div class="card card-header">
-              <div class="row">
-              <div class="col-1">
-              <h4 class="book-old-loc">Book sold</h4></div>
-              <div class="col"> <input id="disabled" class="big-checkbox"  type="checkbox" ${disabled}></div></div></div>`;
-
-    $('#bookEditPage').html(`<div class="card card-header">
-              <div class="row">
-              <div class="col-1">
-              <h4 >Book sold</h4></div>
-              <div class="col"> <input id="disabled" class="big-checkbox"  type="checkbox" ${disabled}></div></div></div>
-              <div class="tab-content" id="myTabContent">
+    $('#bookEditForm').html(`<div class="tab-content" id="myTabContent">
              <div class="tab-pane fade show active" id="name" role="tabpanel" aria-labelledby="name-tab">
              ${addPartsOfBook("name")}</div>
             <div class="tab-pane fade" id="author" role="tabpanel" aria-labelledby="author-tab" >
@@ -150,43 +163,43 @@ function buildPage() {
              <div class="tab-pane fade" id="edition" role="tabpanel" aria-labelledby="edition-tab">
              ${addPartsOfBook("edition")}</div>
             <div class="tab-pane fade" id="other" role="tabpanel" aria-labelledby="other-tab">
-            <div class="shadow p-4 mb-4 bg-white">
-            <h5 class="year-of-edition-loc"> Year Of Edition </h5>
-            <input type="text" id="yearOfEdition"><br><br>
+                <div class="shadow p-4 mb-4 bg-white">
+                    <div class="card p-4 mb-4 bg-light">
+            <h5> Year Of Edition </h5>
+            <input type="text" class="w-25" id="yearOfEdition"><br><br>
             </div>
-            <div class="shadow p-4 mb-4 bg-white">
-            <h5 class="pages-loc"> Pages </h5>
-            <input type="number" id="pages" ><br><br>
+            <div class="card p-4 mb-4 bg-light">
+            <h5> Pages </h5>
+            <input type="number" class="w-25" id="pages" ><br><br>
             </div>
-            <div class="shadow p-4 mb-4 bg-white">
-            <h5 class="price-loc"> Price </h5>
-            <input type="number" id="price" ><br><br>
+            <div class="card p-4 mb-4 bg-light">
+            <h5> Price </h5>
+            <input type="number" class="w-25" id="price" ><br><br>
             </div>
-            <div class="shadow p-4 mb-4 bg-white">
-            <h5 class="original-lang-loc"> Original Language </h5>
-            <select id="originalLanguage">
+            <div class="card p-4 mb-4 bg-light">
+            <h5> Original Language </h5>
+            <select id="originalLanguage" class="w-25">
             </select><br><br>
             </div>
             <div id = "allImage">
-            <div class="shadow p-4 mb-4 bg-white">
+            <div class="card p-4 mb-4 bg-light">
             <div id="divLoadAvatar">
-            <h4 class="avatar-loc">Avatar</h4>
-            <div class="form-control-file" style="width: 18rem"">
-              <div id="carouselExampleCaptions"  class="carousel card-body slide w-50" data-ride="carousel">
-              <ol class="carousel-indicators" style="width: 18rem" id='test0'> </ol>
-              <div class="carousel-inner" style="width: 18rem" id='test1'></div></div>
-              <Label class="load-cover-loc">Load cover</Label><br>
-              <input type="button" value="Choose file" style="width: 6rem" accept=".jpg"   onclick="setImgInCarousel()">
-              </div>
+                            <h4>Cover</h4>
+                            <Label>Load cover</Label>
+                            <input type="file" class="form-control-file" id="avatar" accept="image/jpeg,image/png,image/gif" onchange="loadTmpImage('avatar','divAvatar')">
+                        </div>
+                        <div class='car' id='divAvatar'>
+                        </div>
             </div>
-            </div><br><br>
-            <div class="shadow p-4 mb-4 bg-white">
-            <h4 class="another-image-loc">Another Image</h4>
-            <Label class="load-another-image-loc">Load another image</Label>
-            <input type="file" class="form-control-file" id="loadAnotherImage" accept=".jpg" onchange="loadImage('loadAnotherImage','imageList')">
-            <div class='car' id='imageList' style='width: 18rem;'>
+            <div class="card p-4 mb-4 bg-light">
+            <h4>Another images</h4>
+            <Label>Load another image</Label>
+            <input type="file" class="form-control-file" id="loadAnotherImage" accept="image/jpeg,image/png,image/gif" onchange="loadTmpImage('loadAnotherImage','imageList')">
+            <div class='car' id='imageList'>
             
-            </div></div></div></div>
+            </div></div></div>
+                </div>
+            </div>
 
             ${htmlCategory}`);
     if (tmpArr.category === null) {
@@ -278,39 +291,72 @@ function buildPage() {
     $('#inauthor').attr("value", transliterationText("author"));
     $('#inedition').attr("value", transliterationText("edition"));
     document.getElementById('originalLanguage').value = tmpArr.originalLanguageName;
-    var myHTML = '';
-    var myHTMLButtonDelete = '';
-    for (let key in tmpArr.listImage) {
-        myHTML += `<img id="carouselImage${key}" src ='${pathImageDefault + idd + '/'}${tmpArr.listImage[key].nameImage}'  class="pic" alt='...'>`;
-    }
-    for (let key in tmpArr.listImage) {
-        if (key !== "0") {
-            myHTMLButtonDelete += '<button type="button" onclick="deleteTmpImage(' + key + ')"  class="btn btn-danger m-3 delete-loc">Delete ' + tmpArr.listImage[key].nameImage + '</button>'
+
+    //Модальное окно со всеми изображениями книги, кроме обложки
+    function buildEditImageModal(){
+        let x = 0;
+        for (let key in tmpArr.listImage) {
+            if(tmpArr.listImage[key].nameImage !== tmpArr.coverImage){
+                $('#editModalImages').append(`
+                <div class="col w-50">
+                    <div class="card mb-4" id="bookImage${key}">
+                        <div class="card-header"><span class="font-weight-bold">Image:</span></br>${tmpArr.listImage[key].nameImage}</div>
+                        <div class="card-body">
+                            <img src ='${pathImageDefault + idd + '/'}${tmpArr.listImage[key].nameImage}' class="card-img" alt='...'>
+                        </div>
+                        <div class="card-footer">
+                            <div class="row align-items-center">
+                                <div class="btn-group col" role="group">
+                                    <button type="button" class="btn btn-danger" onclick="deleteImage(${key})">Delete image</button>
+                                    <button type="button" class="btn btn-info" onclick="changeCover(${key})">Choose as cover</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>`);
+                x++;
+            }
+            if(x !== 0 && x % 2 === 0){
+                $('#editModalImages').append(`<div class="w-100"></div>`);
+            }
+        }
+        if(x % 2 !== 0){
+            $('#editModalImages').append(`<div class="col container w-50"></div>`);
         }
     }
+
+    $('#bookImages').on('show.bs.modal', buildEditImageModal);
+
+    $('#bookImages').on('hidden.bs.modal', function() {
+        $('#editModalImages').html("");
+    });
+
+    //Карточка с обложкой книги, с кнопкой на модалку с остальными изображениями
     $('#bookEditPageForImg').html(`
-<div >
-              <div class="row">
-              <div class="col-4 ">
-              <div class="card " style="width: 20rem;">
-              <div class='car card-body' style='width: 20rem;'>
-              <div class="pic-ctn">
-    ${myHTML}
-    
-  </div>
-  ${myHTMLButtonDelete}
-            </div></div>
-              </div>
-              <div class="col"> 
-              <div class="card " style="width: 20rem;">
-              <h4 class="card-header">Cover Image</h4>
-              <div class='car card-body' style='width: 20rem;'>
-              <img id='myImage' src =''  class='card-img-top' alt='...'> 
-              </div></div>
-              <p><button type="button" onclick="deleteCoverImage(nameImageCover.toString())"  class="btn btn-danger m-3 delete-loc">Delete</button><p>
-              </div> </div>`);
+                <div class="row">
+                    <div class="col-3"></div>
+                    
+                    <div class="col-6">
+                        <div class="card">
+                            <h4 class="card-header">Cover Image</h4>
+                            <div class="car card-body">
+                                <img id='myImage' src =''  class='card-img' alt='...'> 
+                            </div>
+                            <div class="card-footer">
+                                <div class="row align-items-center">
+                                    <div class="btn-group col" role="group">
+                                    <button type="button" id="deleteImage-button" class="btn btn-danger" onclick="deleteCoverImage(nameImageCover.toString())">Delete cover</button>
+                                    <button type="button" id="modal-button" class="btn btn-info" data-toggle="modal" data-target="#bookImages">Other images</button>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-3"></div>
+                </div>`);
 
-
+    //20 строчек наполнения оперативки картинками из книги
     for (let key in tmpArr) {
         if (key !== "id" && key !== "imageList" && key !== "coverImage") {
             for (let key0 of nameVarOfLocaleStringWithId) {
@@ -328,12 +374,12 @@ function buildPage() {
             }
             if (key === "imageList") {
                 listImages = tmpArr[key];
-                buildCarousel();
             }
         }
     }
 }
 
+//Заполнение категории
 function getCategoryName(event) {
     $('.btn-outline-primary').removeClass('active');
     $(event).addClass('active');
@@ -354,7 +400,7 @@ $(document).ready(() => {
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title selected-category-dots-loc" id="categoryLabel">Selected category: </h4>
+        <h4 class="modal-title" id="categoryLabel">Selected category: </h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">×</span>
         </button>
@@ -362,7 +408,7 @@ $(document).ready(() => {
       <div id="categoryModalBody" class="modal-body">
       </div>
        <div class="modal-footer">
-        <button type="button" class="btn btn-secondary confirm-loc" data-dismiss="modal">Confirm</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Confirm</button>
       </div>
     </div>
   </div>
@@ -462,67 +508,115 @@ $(document).on('click', '#selectCategory', () => {
 
 });
 
-function setImgInCarousel() {
-    $('#exampleFormControlFile1').trigger('click')
-}
-
+//Функция отображения обложки
 function showImage(x) {
-    document.getElementById('myImage').src = x;
+    let y = 0;
+    for(let i = 0; i < tmpArr.listImage.length; i++){
+        if(tmpArr.listImage[i].nameImage.localeCompare(nameImageCover) === 0){
+            y++;
+        }
+    }
+    if(y > 0){
+        document.getElementById('myImage').src = x;
+    } else {
+        document.getElementById('myImage').src = '/images/service/noimage.png';
+        document.getElementById('deleteImage-button').setAttribute('disabled', 'disabled');
+    }
 }
 
-function sendUpdateBook() {
-    let book = {};
-    book['id'] = idd;
-    let otherLangFields = {};
-    for (let tmpNameObject of nameObjectOfLocaleString) {
-        let bookFields = {};
-        for (let tmpNameVar of nameVarOfLocaleString) {
-            bookFields[tmpNameVar] = $("#inp" + tmpNameObject + tmpNameVar).val()
-        }
-        book[tmpNameObject] = bookFields;
-        if (tmpNameObject !== "description") {
-            otherLangFields[tmpNameObject] = $("#inpt" + tmpNameObject).val();
-            otherLangFields[tmpNameObject + "Translit"] = $("#in" + tmpNameObject).val();
-        }
-    }
-    category = {id: $('#categoryInput').attr('categoryid')};
-    book["originalLanguage"] = otherLangFields;
-    book['coverImage'] = nameImageCover;
-    book['show'] = (!$("#disabled").is(':checked'));
-    book['yearOfEdition'] = $('#yearOfEdition').val();
-    book['pages'] = $('#pages').val();
-    book['price'] = $('#price').val();
-    book['originalLanguageName'] = $('#originalLanguage').val();
-    book['category'] = category;
-    let allImages = $("#allImage").find("img");
-    let imageList = [];
+//Функция отправки книги на обновление
+function sendEditBook(cover) {
 
-    for (let img of allImages) {
-        imageList.push(img.id);
-    }
-    let imageListTmpPattern = [];
-    for (let index = 0; index < imageList.length; index++) {
-        imageListTmpPattern[index] = JSON.parse(JSON.stringify(tmpArr.listImage[0]));
-    }
-    for (let index = 0; index < imageListTmpPattern.length; index++) {
-        imageListTmpPattern[index].id = 0;
-        imageListTmpPattern[index].nameImage = imageList[index];
-    }
+    let conf = "Edit this book?";
+    if(cover === 1) {
+        conf = "Change cover? Book will be updated, all changes will be uploaded. Have you made any unwanted changes?";
 
-    if (imageListTmpPattern.length == 1 && imageListTmpPattern[0].nameImage == "") {
-        book["listImage"] = tmpArr.listImage;
+    }
+    if(checkEditRequired() && confirm(conf)){
+        let book = {};
+        book['id'] = idd;
+        if(cover === 1) {
+            book["originalLanguage"] = tmpArr.originalLanguage;
+            book["coverImage"] = divAvatar.find("img")[0].id;
+            book['show'] = tmpArr.show;
+            book['yearOfEdition'] = tmpArr.yearOfEdition;
+            book['pages'] = tmpArr.pages;
+            book['price'] = tmpArr.price;
+            book['originalLanguageName'] = tmpArr.originalLanguageName;
+            book['category'] = tmpArr.category;
+        } else {
+            let otherLangFields = {};
+            for (let tmpNameObject of nameObjectOfLocaleString) {
+                let bookFields = {};
+                for (let tmpNameVar of nameVarOfLocaleString) {
+                    bookFields[tmpNameVar] = $("#inp" + tmpNameObject + tmpNameVar).val()
+                }
+                book[tmpNameObject] = bookFields;
+                if (tmpNameObject !== "description") {
+                    otherLangFields[tmpNameObject] = $("#inpt" + tmpNameObject).val();
+                    otherLangFields[tmpNameObject + "Translit"] = $("#in" + tmpNameObject).val();
+                }
+            }
+            category = {id: $('#categoryInput').attr('categoryid')};
+            book["originalLanguage"] = otherLangFields;
+            if(divAvatar.find("img")[0] != null) {
+                book["coverImage"] = divAvatar.find("img")[0].id;
+            } else {
+                book['coverImage'] = nameImageCover;
+            }
+            book['show'] = (!$("#disabled").is(':checked'));
+            book['yearOfEdition'] = $('#yearOfEdition').val();
+            book['pages'] = $('#pages').val();
+            book['price'] = $('#price').val();
+            book['originalLanguageName'] = $('#originalLanguage').val();
+            book['category'] = category;
+
+            // Ниже формируется список изображений так, чтобы нельзя было загрузить изображение с именем,
+            // которое уже числится в списке изображений (имена должны быть уникальны!)
+            let allImages = $("#allImage").find("img");
+            let imageList = [];
+
+            for (let img of allImages) {
+                let image = {};
+                let x = 0;
+                for (let i = 0; i < tmpArr.listImage.length; i++) {
+                    if(img.id == tmpArr.listImage[i].nameImage){
+                        x++
+                    }
+                }
+                if(x === 0){
+                    image["nameImage"] = img.id;
+                    imageList.push(image);
+                }
+            }
+            let imageListTmpPattern = [];
+            for (let index = 0; index < imageList.length; index++) {
+                imageListTmpPattern[index] = imageList[index];
+            }
+            for (let index = 0; index < imageListTmpPattern.length; index++) {
+                imageListTmpPattern[index].id = imageList[index].id;
+                imageListTmpPattern[index].nameImage = imageList[index].nameImage;
+            }
+
+            if (imageListTmpPattern.length === 1 && imageListTmpPattern[0].nameImage.localeCompare("") === 0) {
+                book["listImage"] = tmpArr.listImage;
+            } else {
+                let indexListImage = tmpArr.listImage.length;
+                for (let index = tmpArr.listImage.length + 1; index <= imageListTmpPattern.length + indexListImage; index++) {
+                    tmpArr.listImage.push(imageListTmpPattern[index - indexListImage - 1]);
+                }
+                book["listImage"] = tmpArr.listImage;
+            } // Здесь заканчивается наполнение списка изображений книги новыми картинками
+        }
+
+        let body02 = JSON.stringify(book);
+        sendUpdateBookReq(body02).then(r => {
+            window.close();
+            //window.location.href = document.referrer;
+        });
     } else {
-        let indexListImage = tmpArr.listImage.length;
-        for (let index = tmpArr.listImage.length + 1; index <= imageListTmpPattern.length + indexListImage; index++) {
-            tmpArr.listImage.push(imageListTmpPattern[index - indexListImage - 1]);
-        }
-        book["listImage"] = tmpArr.listImage;
+        deleteTmpImage('divAvatar');
     }
-
-    var body02 = JSON.stringify(book);
-    sendUpdateBookReq(body02);
-    confirm("Edit this book?");
-    window.location.href = document.referrer;
 }
 
 async function sendUpdateBookReq(x) {
@@ -536,140 +630,99 @@ async function sendUpdateBookReq(x) {
     });
 }
 
+//Функция смены обложки, кнопка в модалке
+function changeCover(x){
+    divAvatar.append(
+        `<div class="row align-items-center w-50 my-3" id=${tmpArr.listImage[x].nameImage}>
+            <img id=${tmpArr.listImage[x].nameImage} class='card-img-top col-8' alt='...'>
+        </div>`
+    );
+    sendEditBook(1);
+}
 
-function buildCarousel() {
-    var countForActive = 0;
-    var tmpHtmlForCarousel = '';
-    var tmpHtmlForCarouselIndicators = '';
-    for (var i = 1; i < listImages.length; i++) {
-        if (listImages[i].nameImage !== '') {
-            countForActive++;
-            if (countForActive === 1) {
-                tmpHtmlForCarouselIndicators +=
-                    `<li id="qw${i}" data-target='#carouselExampleCaptions' data-slide-to=${i} class='active'>` + `</li>`;
-                tmpHtmlForCarousel +=
-                    `<div id="qw${i}" class='carousel-item active'>` +
-                    `<img src=${pathImageDefault}${idd}/${listImages[i].nameImage} class='d-block w-100' alt='...'>` +
-                    `<div class='carousel-caption d-none d-md-block'>` +
-                    `<button type="button" onclick="setImageCover(${i})" class="btn btn-success change-image-cover-loc">Change image cover</button>` +
-                    `<p><button type="button" onclick="deleteTmpImage(${i})" class="btn btn-danger m-3 delete-loc">Delete</button><p>` +
-                    `</div>` +
-                    `</div>`;
-            } else {
-                tmpHtmlForCarouselIndicators +=
-                    `<li id="qw${i}" data-target='#carouselExampleCaptions' data-slide-to=${i}></li>`;
-                tmpHtmlForCarousel +=
-                    ` <div id="qw${i}" class="carousel-item">` +
-                    `<img src=${pathImageDefault}${idd}/${listImages[i].nameImage} class='d-block w-100' alt="...">` +
-                    `<div class='carousel-caption d-none d-md-block'>` +
-                    `<button type="button" onclick="setImageCover(${i})" class="btn btn-success change-image-cover-loc">Change image cover</button>` +
-                    `<p><button type="button" onclick="deleteTmpImage(${i})" class="btn btn-danger m-3 delete-loc">Delete</button><p>` +
-                    `</div>` +
-                    `</div>`;
+//Функция удаления изображения из списка книги
+function deleteImage(x) {
+    let delImg = idd + '/' + tmpArr.listImage[x].nameImage;
+    if (confirm('Delete "' + pathImageDefault + idd + '/' + tmpArr.listImage[x].nameImage + '"?')) {
+        deleteImageFromDB(tmpArr.listImage[x].id);
+        tmpArr.listImage.splice(x, 1);
+        if(tmpArr.coverImage === null && (tmpArr.listImage < 3)){
+            $('#editModalImages').append(`<div class="col container w-50"></div>`);
+        }
+        $('#bookImage' + x).remove();
+        $.ajax({
+            type: 'POST',
+            url: '/admin/deleteImageByEditPage',
+            data: delImg,
+            cache:false,
+            contentType: false,
+            processData: false
+        })
+    }
+}
+
+//Функция удаления изображения из базы
+function deleteImageFromDB(id) {
+    $.ajax({
+        type: 'POST',
+        contentType: "application/json; charset=utf-8",
+        url: '/admin/deleteImageFromDB',
+        data: JSON.stringify(id),
+        cache:false,
+        processData: false
+    });
+}
+
+//Функция удаления обложки
+function deleteCoverImage() {
+    if (confirm('Delete cover image "' + nameImageCover + '"? Page will be reloaded, all input data will be lost')) {
+        let delImg = idd + '/' + tmpArr.coverImage.replace(/([^A-Za-zА-Яа-я0-9.]+)/gi, '-');
+        let coverId;
+        for(let image of tmpArr.listImage){
+            if(image.nameImage.localeCompare(nameImageCover) === 0){
+                coverId = image.id;
             }
         }
-    }
-    $('#test0').html(tmpHtmlForCarouselIndicators);
-    $('#test1').html(tmpHtmlForCarousel);
-}
-
-function setImageCover(x) {
-    nameImageCover = listImages[x].nameImage;
-    showImage(pathImageFinWithoutImage + nameImageCover);
-}
-
-function setImageCarousel(x) {
-    showImage(pathImageFinWithoutImage + nameImageCover);
-}
-
-function deleteTmpImage(x) {
-    if (confirm('Do you really want to DELETE image?')) {
-        var delTmp = idd + '/' + tmpArr.listImage[x].nameImage;
-        var tmpForShowImage = tmpArr.listImage[x].nameImage;
-        deleteCarouselImageFromDB(x);
-        listImages.splice(x, 1);
-        $('#carouselImage' + x).attr("src", "");
-        buildCarousel();
-        fetch('/admin/deleteImageByEditPage', {
-            method: 'POST',
-            body: delTmp
-        }).then(r => {
-            if (tmpForShowImage === nameImageCover) {
-                showImage('');
-            }
-        });
+        tmpArr.coverImage = null;
+        if(coverId != null){
+            deleteImageFromDB(coverId);
+        }
+        tmpArr.listImage.splice(0, 1);
+        showImage('/images/service/noimage.png');
+        document.getElementById('deleteImage-button').setAttribute('disabled', 'disabled');
+        $.ajax({
+            type: 'POST',
+            url: '/admin/deleteImageByEditPage',
+            data: delImg,
+            cache:false,
+            contentType: false,
+            processData: false,
+            success: location.reload()
+        })
     }
 }
 
-function deleteCarouselImageFromDB(x) {
-    var delTmp = tmpArr.listImage[x].id;
-    delete tmpArr.listImage[x];
-    fetch('/admin/deleteImageFromDB', {
-        method: 'POST',
-        body: delTmp
-    }).then(r => {
-
-    });
-}
-
-
-function deleteCoverImage(x) {
-    if (confirm('Do you really want to DELETE cover image?')) {
-        var delTmp = idd + '/' + x;
-
-        $('#myImage').attr("src", "");
-        $('#carouselImage' + 0).attr("src", "");
-        buildCarousel();
-        fetch('/admin/deleteImageByEditPage', {
-            method: 'POST',
-            body: delTmp
-        }).then(r => {
-
-        });
-    }
-}
-
-$("#exampleFormControlFile1").change(function () {
-    uploadImageNew();
-});
-
-function uploadImageNew() {
-    const formData = new FormData();
-    const fileField = document.getElementById("exampleFormControlFile1");
-    listImages.push(JSON.parse('{"id":"' + '' + '", "nameImage":"' + fileField.files[0].name + '"}'));
-    formData.append('file', fileField.files[0]);
-    formData.append('idPaperForSaveImages', idd);
-    fetch('/admin/uploadByEditPage', {
-        method: 'POST',
-        body: formData
-    })
-        .then(status)
-        .then(json)
-        .then(function (resp) {
-            buildCarousel();
-        });
-}
-
-
-function loadImage(nameId, div) {
+//Функция подгрузки картинок во временную папку
+function loadTmpImage(nameId, div) {
     const formData = new FormData();
     let fileImg = $("#" + nameId).prop('files')[0];
-
-    formData.append('file', fileImg);
-    fetch('/admin/upload', {
-        method: 'POST',
-        body: formData
-    })
-        .then(function (body) {
-            return body.text();
-        }).then(function (data) {
-        addImageInDiv(data, div);
+    let fileName = fileImg.name.replace(/([^A-Za-zА-Яа-я0-9.]+)/gi, '-');
+    formData.append('file', fileImg, fileName);
+    $.ajax({
+        type: 'POST',
+        url: '/admin/upload',
+        data: formData,
+        cache:false,
+        contentType: false,
+        processData: false
+    }).then(function () {
+        addImageInDiv(fileName, div);
     });
 }
 
+//Функция распределения картинок по "Обложка" или "Остальное"
 function addImageInDiv(fileName, divId) {
     let path = "/images/tmp/" + fileName;
-    let imageId = fileName.replace(/\./g, '');
     if (divId === 'divAvatar') {
         divAvatar.empty();
         addImgAvatarAndBtn(fileName, path);
@@ -677,24 +730,26 @@ function addImageInDiv(fileName, divId) {
         addImgToListAndBtn(fileName, path);
     }
 }
-
+//Обложка
 function addImgAvatarAndBtn(divId, path) {
     divAvatar.append(
-        `<img src=${path} class='card-img-top' id=${divId} alt='...'>
-        <button type="button" onclick="deleteImage('divAvatar')" class="btn btn-primary mx-3 delete-image-loc">Delete image</button>`
+        `<div class="row align-items-center w-50 my-3" id=${divId}>
+            <img src=${path} id=${divId} class='card-img-top col-8' alt='...'>
+            <button type="button" onclick="deleteTmpImage('${divId}')" class="btn btn-danger mx-3 col-2" style="height: 2.5rem"><i class="material-icons">delete</i></button>
+        </div>`
     )
 }
-
+//Остальное
 function addImgToListAndBtn(divId, path) {
     listImages.append(
-        `<div class="shadow p-4 mb-4 bg-white" id="${divId}">               
-                <img src=${path} id=${divId} class='card-img-top'  alt='...'>
-                <button type="button" onclick="deleteImage('${divId}')" class="btn btn-primary mx-3 delete-image-loc">Delete image</button><br>              
-                </div>`
+        `<div class="row align-items-center w-50 my-3" id=${divId}>
+            <img src=${path} id=${divId} class='card-img-top col-8' alt='...'>
+            <button type="button" onclick="deleteTmpImage('${divId}')" class="btn btn-danger mx-3 col-2" style="height: 2.5rem"><i class="material-icons">delete</i></button>
+        </div>`
     )
 }
-
-function deleteImage(id) {
+//Функция удаления временного изображения
+function deleteTmpImage(id) {
     if (id === 'divAvatar') {
         divAvatar.empty();
     } else {
@@ -702,6 +757,7 @@ function deleteImage(id) {
     }
 }
 
+//Наполнение временной книги данными из базы (насколько я понял)
 function getVarBookDTO() {
     fetch("/getVarBookDTO")
         .then(status)
@@ -733,7 +789,8 @@ function getBookDTOById(id) {
         .then(json)
         .then(function (resp) {
             tmpArr = resp;
-            buildPage();
+            console.log(tmpArr);
+            buildEditPage();
         });
 }
 
