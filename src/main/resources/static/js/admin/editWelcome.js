@@ -404,7 +404,6 @@ function buildEditBook(xx) {
 
 function openEdit(id) {
     window.open('/admin/edit/' + id, '_blank');
-    //window.location.replace('/admin/edit/' + id);
 }
 
 function uploadImageNew() {

@@ -68,7 +68,6 @@ function buildCarousel() {
     } else {
         coverImageLink = pathImageDefault + objectBook.id + '/' + objectBook.coverImage;
     }
-    //
     var tmpHtmlForCarouselIndicators = '';
     var tmpHtmlForCarousel = '';
     tmpHtmlForCarouselIndicators +=
