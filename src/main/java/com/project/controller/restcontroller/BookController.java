@@ -41,11 +41,12 @@ public class BookController {
     private final OrderService orderService;
 
     @Autowired
-    public BookController(BookService bookService, HibParser hibParser, StorageService storageService, FeedbackRequestService feedbackRequestService) {
+    public BookController(BookService bookService, HibParser hibParser, StorageService storageService, FeedbackRequestService feedbackRequestService, OrderService orderService) {
         this.bookService = bookService;
         this.hibParser = hibParser;
         this.storageService = storageService;
         this.feedbackRequestService = feedbackRequestService;
+        this.orderService = orderService;
     }
 
     @PostMapping("/admin/deleteImg")
