@@ -37,10 +37,12 @@ public class CategoryService {
         categoryDAO.update(category);
     }
 
-    public void delete(Category category) {
-        for (Object id : categoryDAO.getChildWithCTE(category.getId())) {
-            categoryDAO.deleteById(Long.parseLong(String.valueOf(id)));
-        }
+    public void delete(Long id) {
+        categoryDAO.deleteById(id);
+    }
+
+    public List getChildWithCTE(Long id) {
+        return categoryDAO.getChildWithCTE(id);
     }
 
     public List<Long> getallChildsIdByPath(String path) {
@@ -61,4 +63,7 @@ public class CategoryService {
         return categoryDAO.getListCategoriesById(local, categoryDAO.getNoParentCategoriesById());
     }
 
+    public Category getCategoryById(Long id) {
+        return categoryDAO.getCategoryById(id);
+    }
 }

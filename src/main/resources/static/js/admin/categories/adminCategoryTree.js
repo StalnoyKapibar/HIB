@@ -137,7 +137,7 @@ $(document).on('click', '#categoryEdit', function (element) {
                   All childs categories will be deleted!<hr>
                   <button type="button" class="btn btn-danger btn-block" categoryId="${categoryId}" id="deleteSubmit" data-dismiss="modal">Delete anyway</button>
                 </div>
-                <button type="button" id="deleteAlert" class="btn btn-block btn-danger">Delete</button>
+                <button type="button" id="deleteAlert" class="btn btn-block btn-danger ${categoryId === "1" ? "disabled" : ""}" ${categoryId === "1" ? "disabled=disabled" : ""}>Delete</button>
                 <button id="updateCategory" data-dismiss="modal" class="btn btn-block btn-primary">Save changes</button>
             </div>`;
     $('#categoryModal').append(row);
