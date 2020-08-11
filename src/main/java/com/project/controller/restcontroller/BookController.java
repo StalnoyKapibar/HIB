@@ -4,6 +4,7 @@ import com.project.HIBParser.HibParser;
 import com.project.model.*;
 import com.project.service.abstraction.BookService;
 import com.project.service.abstraction.FeedbackRequestService;
+import com.project.service.abstraction.OrderService;
 import com.project.service.abstraction.StorageService;
 import com.project.util.BookDTOWithFieldsForTable;
 import org.apache.commons.io.FileUtils;
@@ -37,6 +38,7 @@ public class BookController {
     private final HibParser hibParser;
     private final StorageService storageService;
     private final FeedbackRequestService feedbackRequestService;
+    private final OrderService orderService;
 
     @Autowired
     public BookController(BookService bookService, HibParser hibParser, StorageService storageService, FeedbackRequestService feedbackRequestService) {
@@ -133,9 +135,13 @@ public class BookController {
 
     @GetMapping("/admin/del/{id}")
     public void delBook(@PathVariable long id) {
-        storageService.deletePaperById(id);
-        feedbackRequestService.deleteFeedbackRequestByIbBook(id);
-        bookService.deleteBook(id);
+        int feedbackCount = feedbackRequestService.findAllUnreadRequestsByBookId(id).size();
+        int orderCount = orderService.findAllUncompletedOrdersByBookId(id).size();
+        if (feedbackCount == 0 && orderCount == 0) {
+            storageService.deletePaperById(id);
+            feedbackRequestService.deleteFeedbackRequestByIbBook(id);
+            bookService.deleteBook(id);
+        }
     }
 
     @PostMapping("/admin/edit")
@@ -205,6 +211,12 @@ public class BookController {
     public List<Long> getAllLastOrderedBooks() {
         return bookService.getAllLastOrderedBooks();
     }
+
+    @GetMapping("/api/book/booksAvailability")
+    public List<Long> getAllAvailableBooks() {
+        return bookService.getAllAvailableBooks();
+    }
+
 
     @GetMapping(value = "/api/allBookForLiveSearch")
     public List<BookNewDTO> getAllLightBookDtoForSearch() {
