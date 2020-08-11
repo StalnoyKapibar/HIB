@@ -344,7 +344,7 @@
     
         <!--    Page-content    -->
         <th:block
-                th:if="${#httpServletRequest.getRequestURI() == '/home' || !#httpServletRequest.getRequestURI().contains('err')}">
+                th:if="${#httpServletRequest.getRequestURI() == '/home' && !#httpServletRequest.getRequestURI().contains('err')}">
             <th:block th:include="home :: page-content">
             </th:block>
         </th:block>
