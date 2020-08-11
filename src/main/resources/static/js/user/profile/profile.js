@@ -116,8 +116,14 @@ function text(response) {
     return response.text()
 }
 
+// function showError(message, className) {
+//     $('#errorMessageEmail').addClass(className).text(message);
+//     $('#collapseExample').attr('class', 'collapse show');
+//     setLocaleFields();
+// }
+
 function showError(message, className) {
-    $('#errorMessageEmail').addClass(className).text(message);
+    $('#errorMessageEmailReg').addClass(className).text(message);
     $('#collapseExample').attr('class', 'collapse show');
     setLocaleFields();
 }
