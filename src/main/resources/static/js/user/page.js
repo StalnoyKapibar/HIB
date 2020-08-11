@@ -62,13 +62,20 @@ function buildCarousel() {
             idCoverImage = i;
         }
     }
+    let coverImageLink;
+    if(objectBook.coverImage == ""){
+        coverImageLink = "/images/service/noimage.png";
+    } else {
+        coverImageLink = pathImageDefault + objectBook.id + '/' + objectBook.coverImage;
+    }
+    //
     var tmpHtmlForCarouselIndicators = '';
     var tmpHtmlForCarousel = '';
     tmpHtmlForCarouselIndicators +=
         `<li id="qw${idCoverImage}" data-target='#carouselImagePage' data-slide-to=${idCoverImage} class='active'>` + `</li>`;
     tmpHtmlForCarousel +=
         `<div id="qw${idCoverImage}" class='carousel-item active'>` +
-        `<img src=${pathImageDefault}${objectBook.id}/${objectBook.coverImage} class='d-block w-100' alt='...'>` +
+        `<img src=${coverImageLink} class='d-block w-100' alt='...'>` +
         `<div class='carousel-caption d-none d-md-block'>` +
         `</div>` +
         `</div>`;
