@@ -21,6 +21,8 @@ public interface OrderDao extends GenericDao<Long, Order> {
 
     OrderPageAdminDTO getPageOfOrdersByPageable(Pageable pageable, Status status);
 
+    List<Order> getPageOfOrdersUserByPageable(Pageable pageable, Long id);
+
     List<Order> findOrderByBookId(Long bookId);
 
     List<Order> findAllUncompletedOrdersByBookId(Long bookId);
