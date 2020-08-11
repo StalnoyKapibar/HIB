@@ -634,10 +634,6 @@ function deleteImage(x) {
     if (confirm('Delete "' + tmpArr.listImage[x].nameImage + '"?')) {
         deleteImageFromDB(tmpArr.listImage[x].id);
         tmpArr.listImage.splice(x, 1);
-        if(tmpArr.coverImage === null && (tmpArr.listImage < 3)){
-            $('#editModalImages').append(`<div class="col container w-50"></div>`);
-        }
-        $('#bookImage' + x).remove();
         $.ajax({
             type: 'POST',
             url: '/admin/deleteImageByEditPage',
@@ -646,6 +642,7 @@ function deleteImage(x) {
             contentType: false,
             processData: false
         })
+        $('#bookImages').modal('hide');
     }
 }
 
