@@ -131,9 +131,4 @@ public class CategoryDAO extends AbstractDao<Long, Category> {
         String sql = "UPDATE category SET parent_id =:parentId WHERE id =:id";
         entityManager.createNativeQuery(sql).setParameter("id", id).setParameter("parentId", parentId).executeUpdate();
     }
-
-    public Category getCategoryById(Long id) {
-        String hql = "FROM Category WHERE id =:id";
-        return entityManager.createQuery(hql, Category.class).setParameter("id", id).getSingleResult();
-    }
 }

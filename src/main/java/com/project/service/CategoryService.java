@@ -64,6 +64,6 @@ public class CategoryService {
     }
 
     public Category getCategoryById(Long id) {
-        return categoryDAO.getCategoryById(id);
+        return categoryDAO.findById(id);
     }
 }
