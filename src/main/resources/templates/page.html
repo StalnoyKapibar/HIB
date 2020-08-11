@@ -104,7 +104,7 @@
                                                     </th:block>
                                                     <th:block sec:authorize="hasRole('ADMIN')">
                                                         <button id="editBtn" class="btn btn-warning btn-metro col-8 offset-4"
-                                                                onclick="openEdit()">Edit book
+                                                                th:attr="onclick=|openEdit(${book})|">Edit book
                                                         </button>
                                                     </th:block>
                                                 </div>

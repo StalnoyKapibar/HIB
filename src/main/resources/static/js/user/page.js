@@ -151,10 +151,7 @@ $(document).ready(function () {
 });
 
 /*function openEdit() {
-    var full_url = document.URL; // Get current url
-    var url_array = full_url.split('/')
-    var last_segment = url_array[url_array.length - 1];
-    window.open('/admin/edit/' + last_segment, '_blank');
+    window.open('/admin/edit/' + objectBook.id, '_blank');
 }*/
 
 function checkParams() {
