@@ -535,79 +535,68 @@ function sendEditBook(cover) {
     if(checkEditRequired() && confirm(conf)){
         let book = {};
         book['id'] = idd;
-        if(cover === 1) {
-            book["originalLanguage"] = tmpArr.originalLanguage;
-            book["coverImage"] = divAvatar.find("img")[0].id;
-            book['show'] = tmpArr.show;
-            book['yearOfEdition'] = tmpArr.yearOfEdition;
-            book['pages'] = tmpArr.pages;
-            book['price'] = tmpArr.price;
-            book['originalLanguageName'] = tmpArr.originalLanguageName;
-            book['category'] = tmpArr.category;
-        } else {
-            let otherLangFields = {};
-            for (let tmpNameObject of nameObjectOfLocaleString) {
-                let bookFields = {};
-                for (let tmpNameVar of nameVarOfLocaleString) {
-                    bookFields[tmpNameVar] = $("#inp" + tmpNameObject + tmpNameVar).val()
-                }
-                book[tmpNameObject] = bookFields;
-                if (tmpNameObject !== "description") {
-                    otherLangFields[tmpNameObject] = $("#inpt" + tmpNameObject).val();
-                    otherLangFields[tmpNameObject + "Translit"] = $("#in" + tmpNameObject).val();
-                }
+        let otherLangFields = {};
+        for (let tmpNameObject of nameObjectOfLocaleString) {
+            let bookFields = {};
+            for (let tmpNameVar of nameVarOfLocaleString) {
+                bookFields[tmpNameVar] = $("#inp" + tmpNameObject + tmpNameVar).val()
             }
-            category = {id: $('#categoryInput').attr('categoryid')};
-            book["originalLanguage"] = otherLangFields;
-            if(divAvatar.find("img")[0] != null) {
-                book["coverImage"] = divAvatar.find("img")[0].id;
-            } else {
-                book['coverImage'] = nameImageCover;
+            book[tmpNameObject] = bookFields;
+            if (tmpNameObject !== "description") {
+                otherLangFields[tmpNameObject] = $("#inpt" + tmpNameObject).val();
+                otherLangFields[tmpNameObject + "Translit"] = $("#in" + tmpNameObject).val();
             }
-            book['show'] = (!$("#disabled").is(':checked'));
-            book['yearOfEdition'] = $('#yearOfEdition').val();
-            book['pages'] = $('#pages').val();
-            book['price'] = $('#price').val();
-            book['originalLanguageName'] = $('#originalLanguage').val();
-            book['category'] = category;
-
-            // Ниже формируется список изображений так, чтобы нельзя было загрузить изображение с именем,
-            // которое уже числится в списке изображений (имена должны быть уникальны!)
-            let allImages = $("#allImage").find("img");
-            let imageList = [];
-
-            for (let img of allImages) {
-                let image = {};
-                let x = 0;
-                for (let i = 0; i < tmpArr.listImage.length; i++) {
-                    if(img.id == tmpArr.listImage[i].nameImage){
-                        x++
-                    }
-                }
-                if(x === 0){
-                    image["nameImage"] = img.id;
-                    imageList.push(image);
-                }
-            }
-            let imageListTmpPattern = [];
-            for (let index = 0; index < imageList.length; index++) {
-                imageListTmpPattern[index] = imageList[index];
-            }
-            for (let index = 0; index < imageListTmpPattern.length; index++) {
-                imageListTmpPattern[index].id = imageList[index].id;
-                imageListTmpPattern[index].nameImage = imageList[index].nameImage;
-            }
-
-            if (imageListTmpPattern.length === 1 && imageListTmpPattern[0].nameImage.localeCompare("") === 0) {
-                book["listImage"] = tmpArr.listImage;
-            } else {
-                let indexListImage = tmpArr.listImage.length;
-                for (let index = tmpArr.listImage.length + 1; index <= imageListTmpPattern.length + indexListImage; index++) {
-                    tmpArr.listImage.push(imageListTmpPattern[index - indexListImage - 1]);
-                }
-                book["listImage"] = tmpArr.listImage;
-            } // Здесь заканчивается наполнение списка изображений книги новыми картинками
         }
+        category = {id: $('#categoryInput').attr('categoryid')};
+        book["originalLanguage"] = otherLangFields;
+        if(divAvatar.find("img")[0] != null) {
+            book["coverImage"] = divAvatar.find("img")[0].id;
+        } else {
+            book['coverImage'] = nameImageCover;
+        }
+        book['show'] = (!$("#disabled").is(':checked'));
+        book['yearOfEdition'] = $('#yearOfEdition').val();
+        book['pages'] = $('#pages').val();
+        book['price'] = $('#price').val();
+        book['originalLanguageName'] = $('#originalLanguage').val();
+        book['category'] = category;
+
+        // Ниже формируется список изображений так, чтобы нельзя было загрузить изображение с именем,
+        // которое уже числится в списке изображений (имена должны быть уникальны!)
+        let allImages = $("#allImage").find("img");
+        let imageList = [];
+
+        for (let img of allImages) {
+            let image = {};
+            let x = 0;
+            for (let i = 0; i < tmpArr.listImage.length; i++) {
+                if(img.id == tmpArr.listImage[i].nameImage){
+                    x++
+                }
+            }
+            if(x === 0){
+                image["nameImage"] = img.id;
+                imageList.push(image);
+            }
+        }
+        let imageListTmpPattern = [];
+        for (let index = 0; index < imageList.length; index++) {
+            imageListTmpPattern[index] = imageList[index];
+        }
+        for (let index = 0; index < imageListTmpPattern.length; index++) {
+            imageListTmpPattern[index].id = imageList[index].id;
+            imageListTmpPattern[index].nameImage = imageList[index].nameImage;
+        }
+
+        if (imageListTmpPattern.length === 1 && imageListTmpPattern[0].nameImage.localeCompare("") === 0) {
+            book["listImage"] = tmpArr.listImage;
+        } else {
+            let indexListImage = tmpArr.listImage.length;
+            for (let index = tmpArr.listImage.length + 1; index <= imageListTmpPattern.length + indexListImage; index++) {
+                tmpArr.listImage.push(imageListTmpPattern[index - indexListImage - 1]);
+            }
+            book["listImage"] = tmpArr.listImage;
+        } // Здесь заканчивается наполнение списка изображений книги новыми картинками
 
         let body02 = JSON.stringify(book);
         sendUpdateBookReq(body02).then(r => {
