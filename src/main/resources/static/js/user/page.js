@@ -150,12 +150,12 @@ $(document).ready(function () {
     });
 });
 
-function openEdit() {
+/*function openEdit() {
     var full_url = document.URL; // Get current url
     var url_array = full_url.split('/')
     var last_segment = url_array[url_array.length - 1];
     window.open('/admin/edit/' + last_segment, '_blank');
-}
+}*/
 
 function checkParams() {
     if ($('#loginInput').val().length !== 0 && $('#passwordInput').val().length !== 0) {

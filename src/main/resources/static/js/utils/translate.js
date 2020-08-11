@@ -67,10 +67,6 @@ function translateText(label) {
 // for Transliterate
 function transliterationText(label) {
     let text = $("#inpt" + label).val();
-    if (text == '') {
-        alert("Enter text")
-        return;
-    }
     fetch('/api/transliteration', {
         method: 'POST',
         headers: {

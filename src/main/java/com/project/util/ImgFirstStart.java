@@ -29,7 +29,7 @@ public class ImgFirstStart extends FileSystemUtils implements ApplicationRunner 
     }
 
     public void flagCheck() throws IOException {
-        if(environment.getProperty("spring.application.mode").equals("test")) {
+        if(environment.getProperty("spring.application.imagemode").equals("test")) {
             copyCatalog();
             System.out.println("Каталог с изображениями скопирован так как программа в тестовом режиме");
         }
