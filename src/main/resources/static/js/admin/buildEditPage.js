@@ -666,16 +666,18 @@ function deleteCoverImage() {
     if (confirm('Delete cover image "' + nameImageCover + '"? Page will be reloaded, all input data will be lost')) {
         let delImg = idd + '/' + tmpArr.coverImage.replace(/([^A-Za-zА-Яа-я0-9.]+)/gi, '-');
         let coverId; //получение id обложки в списке изображений книги
-        for(let image of tmpArr.listImage){
-            if(image.nameImage.localeCompare(nameImageCover) === 0){
-                coverId = image.id;
+        let spliceId;
+        for(let i = 0; i < tmpArr.listImage.length; i++){
+            if(tmpArr.listImage[i].nameImage.localeCompare(nameImageCover) === 0){
+                coverId = tmpArr.listImage[i].id;
+                spliceId = i;
             }
         }
         tmpArr.coverImage = null; //обнуление обложки временной книги
         if(coverId != null){
             deleteImageFromDB(coverId);
         }
-        tmpArr.listImage.splice(0, 1); //удаление обложки из списка изображений
+        tmpArr.listImage.splice(spliceId, 1); //удаление обложки из списка изображений
         showImage('/images/service/noimage.png');
         document.getElementById('deleteImage-button').setAttribute('disabled', 'disabled');
 
@@ -691,6 +693,7 @@ function deleteCoverImage() {
                     type: "GET",
                     url: "/api/book/" + tmpArr.id,
                     success: (book) => {
+                        book["listImage"] = tmpArr.listImage;
                         book["coverImage"] = "";
                         sendUpdateBookReq(book).then(r => {
                             window.close()
