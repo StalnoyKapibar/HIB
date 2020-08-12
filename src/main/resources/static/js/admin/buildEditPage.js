@@ -302,7 +302,9 @@ function buildEditPage() {
                     <div class="card mb-4" id="bookImage${key}">
                         <div class="card-header"><span class="font-weight-bold">Image:</span></br>${tmpArr.listImage[key].nameImage}</div>
                         <div class="card-body">
-                            <img src ='${pathImageDefault + idd + '/'}${tmpArr.listImage[key].nameImage}' class="card-img" alt='...'>
+                            <a href="${pathImageDefault + idd + '/'}${tmpArr.listImage[key].nameImage}" target="_blank">
+                                <img src ='${pathImageDefault + idd + '/'}${tmpArr.listImage[key].nameImage}' class="card-img" alt='...'>
+                            </a>
                         </div>
                         <div class="card-footer">
                             <div class="row align-items-center">
@@ -340,7 +342,8 @@ function buildEditPage() {
                         <div class="card">
                             <h4 class="card-header">Cover Image</h4>
                             <div class="car card-body">
-                                <img id='myImage' src =''  class='card-img' alt='...'> 
+                                <a id="myImageLink" href="" target="_blank">
+                                <img id='myImage' src =''  class='card-img' alt='...'></a>
                             </div>
                             <div class="card-footer">
                                 <div class="row align-items-center">
@@ -518,6 +521,7 @@ function showImage(x) {
     }
     if (y > 0){
         document.getElementById('myImage').src = x;
+        document.getElementById('myImageLink').href = x;
     } else {
         document.getElementById('myImage').src = '/images/service/noimage.png';
         document.getElementById('deleteImage-button').setAttribute('disabled', 'disabled');
