@@ -168,10 +168,6 @@ async function confirmContactsFor1Click2() {
         phone: $("#phone").val(),
         comment: $("#comment").val(),
     };
-    // await POST("/api/user/order/confirmContacts", JSON.stringify(contacts), JSON_HEADER);
-
-    // confirmPurchase();
-    // sendSingUpForm();
     showSummary();
     showOrderSum();
 }

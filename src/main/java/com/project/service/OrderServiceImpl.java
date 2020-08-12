@@ -1,7 +1,6 @@
 package com.project.service;
 
 import com.project.dao.abstraction.OrderDao;
-import com.project.mail.MailService;
 import com.project.model.*;
 import com.project.service.abstraction.OrderService;
 import com.project.service.abstraction.SendEmailService;
@@ -19,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.mail.MessagingException;
-import javax.servlet.http.HttpSession;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -192,6 +190,11 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderPageAdminDTO getPageOfOrdersByPageable(Pageable pageable, Status status) {
         return orderDAO.getPageOfOrdersByPageable(pageable, status);
+    }
+
+    @Override
+    public List<Order> getPageOfOrdersUserByPageable(Pageable pageable, Long id) {
+        return orderDAO.getPageOfOrdersUserByPageable(pageable, id);
     }
 
     @Override
