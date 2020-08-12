@@ -525,14 +525,9 @@ function showImage(x) {
 }
 
 //Функция отправки книги на обновление
-function sendEditBook(cover) {
+function sendEditBook() {
 
-    let conf = "Edit this book?";
-    if(cover === 1) {
-        conf = "Change cover? Book will be updated, all changes will be uploaded. Have you made any unwanted changes?";
-
-    }
-    if(checkEditRequired() && confirm(conf)){
+    if(checkEditRequired() && confirm("Edit this book?")){
         let book = {};
         book['id'] = idd;
         let otherLangFields = {};
@@ -598,20 +593,17 @@ function sendEditBook(cover) {
             book["listImage"] = tmpArr.listImage;
         } // Здесь заканчивается наполнение списка изображений книги новыми картинками
 
-        let body02 = JSON.stringify(book);
-        sendUpdateBookReq(body02).then(r => {
+        sendUpdateBookReq(book).then(r => {
             window.close();
             //window.location.href = document.referrer;
         });
-    } else {
-        deleteTmpImage('divAvatar');
-    }
+    } else {}
 }
 
 async function sendUpdateBookReq(x) {
     await fetch("/admin/edit", {
         method: 'POST',
-        body: x,
+        body: JSON.stringify(x),
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
             'Accept': 'application/json'
@@ -621,24 +613,27 @@ async function sendUpdateBookReq(x) {
 
 //Функция смены обложки, кнопка в модалке
 function changeCover(x){
-    divAvatar.append(
-        `<div class="row align-items-center w-50 my-3" id=${tmpArr.listImage[x].nameImage}>
-            <img id=${tmpArr.listImage[x].nameImage} class='card-img-top col-8' alt='...'>
-        </div>`
-    );
-    sendEditBook(1);
+    //sendEditBook(1);
+    if(confirm('Set "' + tmpArr.listImage[x].nameImage + '" as cover? Page will be reloaded, all input data will be lost')){
+        $.ajax({
+            type: "GET",
+            url: "/api/book/" + tmpArr.id,
+            success: (book) => {
+                book["coverImage"] = tmpArr.listImage[x].nameImage;
+                sendUpdateBookReq(book).then(r => {
+                    window.close();
+                });
+            }
+        })
+    }
 }
 
 //Функция удаления изображения из списка книги
 function deleteImage(x) {
     let delImg = idd + '/' + tmpArr.listImage[x].nameImage;
-    if (confirm('Delete "' + pathImageDefault + idd + '/' + tmpArr.listImage[x].nameImage + '"?')) {
+    if (confirm('Delete "' + tmpArr.listImage[x].nameImage + '"?')) {
         deleteImageFromDB(tmpArr.listImage[x].id);
         tmpArr.listImage.splice(x, 1);
-        if(tmpArr.coverImage === null && (tmpArr.listImage < 3)){
-            $('#editModalImages').append(`<div class="col container w-50"></div>`);
-        }
-        $('#bookImage' + x).remove();
         $.ajax({
             type: 'POST',
             url: '/admin/deleteImageByEditPage',
@@ -647,6 +642,7 @@ function deleteImage(x) {
             contentType: false,
             processData: false
         })
+        $('#bookImages').modal('hide');
     }
 }
 
@@ -666,28 +662,42 @@ function deleteImageFromDB(id) {
 function deleteCoverImage() {
     if (confirm('Delete cover image "' + nameImageCover + '"? Page will be reloaded, all input data will be lost')) {
         let delImg = idd + '/' + tmpArr.coverImage.replace(/([^A-Za-zА-Яа-я0-9.]+)/gi, '-');
-        let coverId;
-        for(let image of tmpArr.listImage){
-            if(image.nameImage.localeCompare(nameImageCover) === 0){
-                coverId = image.id;
+        let coverId; //получение id обложки в списке изображений книги
+        let spliceId;
+        for(let i = 0; i < tmpArr.listImage.length; i++){
+            if(tmpArr.listImage[i].nameImage.localeCompare(nameImageCover) === 0){
+                coverId = tmpArr.listImage[i].id;
+                spliceId = i;
             }
         }
-        tmpArr.coverImage = null;
+        tmpArr.coverImage = null; //обнуление обложки временной книги
         if(coverId != null){
             deleteImageFromDB(coverId);
         }
-        tmpArr.listImage.splice(0, 1);
+        tmpArr.listImage.splice(spliceId, 1); //удаление обложки из списка изображений
         showImage('/images/service/noimage.png');
         document.getElementById('deleteImage-button').setAttribute('disabled', 'disabled');
-        $.ajax({
+
+        $.ajax({    //Удаление файла обложки из папки изображений книги
             type: 'POST',
             url: '/admin/deleteImageByEditPage',
             data: delImg,
             cache:false,
             contentType: false,
             processData: false,
-            success: location.reload()
-        })
+            success:
+                $.ajax({    //Присвоение книге обложки с пустым названием "" для корректного отображение картинки "noimage" на главной странице
+                    type: "GET",
+                    url: "/api/book/" + tmpArr.id,
+                    success: (book) => {
+                        book["listImage"] = tmpArr.listImage;
+                        book["coverImage"] = "";
+                        sendUpdateBookReq(book).then(r => {
+                            window.close()
+                        });
+                    }
+                }),
+        });
     }
 }
 

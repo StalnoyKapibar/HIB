@@ -59,9 +59,8 @@ async function addBooksToPage(books) {
         let textOfBtn = listOrdersOfCart.includes(books[index].id) ? addedToshoppingCart : addToshoppingCart;
         let cssOfBtn = listOrdersOfCart.includes(books[index].id) ? "disabled" : "addToCartBtn";
         let coverImageLink;
-        let x = 1;
-        //Здесь я хотел написать функцию, подменяющую пустую обложку картинкой "noimage"
-        if(x === 0){
+        //Функция, подменяющая пустую обложку картинкой "noimage"
+        if(books[index].coverImage == ""){
             coverImageLink = "/images/service/noimage.png";
         } else {
             coverImageLink = 'images/book' + books[index].id + '/' + books[index].coverImage;

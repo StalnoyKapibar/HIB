@@ -62,13 +62,19 @@ function buildCarousel() {
             idCoverImage = i;
         }
     }
+    let coverImageLink;
+    if(objectBook.coverImage == ""){
+        coverImageLink = "/images/service/noimage.png";
+    } else {
+        coverImageLink = pathImageDefault + objectBook.id + '/' + objectBook.coverImage;
+    }
     var tmpHtmlForCarouselIndicators = '';
     var tmpHtmlForCarousel = '';
     tmpHtmlForCarouselIndicators +=
         `<li id="qw${idCoverImage}" data-target='#carouselImagePage' data-slide-to=${idCoverImage} class='active'>` + `</li>`;
     tmpHtmlForCarousel +=
         `<div id="qw${idCoverImage}" class='carousel-item active'>` +
-        `<img src=${pathImageDefault}${objectBook.id}/${objectBook.coverImage} class='d-block w-100' alt='...'>` +
+        `<img src=${coverImageLink} class='d-block w-100' alt='...'>` +
         `<div class='carousel-caption d-none d-md-block'>` +
         `</div>` +
         `</div>`;
@@ -151,10 +157,7 @@ $(document).ready(function () {
 });
 
 /*function openEdit() {
-    var full_url = document.URL; // Get current url
-    var url_array = full_url.split('/')
-    var last_segment = url_array[url_array.length - 1];
-    window.open('/admin/edit/' + last_segment, '_blank');
+    window.open('/admin/edit/' + objectBook.id, '_blank');
 }*/
 
 function checkParams() {
