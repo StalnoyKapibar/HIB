@@ -344,7 +344,7 @@
     
         <!--    Page-content    -->
         <th:block
-                th:if="${#httpServletRequest.getRequestURI() == '/home' || #httpServletRequest.getRequestURI().contains('error')}">
+                th:if="${#httpServletRequest.getRequestURI() == '/home' && !#httpServletRequest.getRequestURI().contains('err')}">
             <th:block th:include="home :: page-content">
             </th:block>
         </th:block>
@@ -364,7 +364,7 @@
         <th:block th:include="cabinet :: register">
         </th:block>
     </th:block>
-    <th:block th:if="${#httpServletRequest.getRequestURI().contains('not-found')}">
+    <th:block th:if="${#httpServletRequest.getRequestURI().contains('err/not-found')}">
         <th:block th:include="error :: not-found">
         </th:block>
     </th:block>

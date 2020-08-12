@@ -355,7 +355,7 @@ function sendAddBook() {
             imageList.push(image);
         }
         book["listImage"] = imageList;
-        fetch('/admin/add', {
+        fetch ('/admin/add', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
@@ -372,16 +372,16 @@ function sendAddBook() {
 
 //Проверка наличия временной папки, не удалять!
 function doesFolderTmpExist() {
-    fetch("admin/doesFolderTmpExist");
+    fetch ("admin/doesFolderTmpExist");
 }
 
 //Далее отрисовка дерева категорий
-function getUnflattens(arr, parentId) {
+function getUnflattens (arr, parentId) {
     let output = [];
-    for(const category of arr) {
-        if(category.parentId == parentId) {
+    for (const category of arr) {
+        if (category.parentId == parentId) {
             let children = getUnflattens(arr, category.id);
-            if(children.length) {
+            if (children.length) {
                 category.childrens = children
             }
             output.push(category)
