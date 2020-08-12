@@ -63,7 +63,7 @@ function buildCarousel() {
         }
     }
     let coverImageLink;
-    if(objectBook.coverImage == ""){
+    if (objectBook.coverImage == "") {
         coverImageLink = "/images/service/noimage.png";
     } else {
         coverImageLink = pathImageDefault + objectBook.id + '/' + objectBook.coverImage;

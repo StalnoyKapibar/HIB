@@ -36,7 +36,7 @@ function checkEditRequired() {
         }
     }
 
-    if(category === ""){
+    if (category === ""){
         alert('Required field is not filled in!');
         return false;
     }
@@ -296,7 +296,7 @@ function buildEditPage() {
     function buildEditImageModal(){
         let x = 0;
         for (let key in tmpArr.listImage) {
-            if(tmpArr.listImage[key].nameImage !== tmpArr.coverImage){
+            if (tmpArr.listImage[key].nameImage !== tmpArr.coverImage){
                 $('#editModalImages').append(`
                 <div class="col w-50">
                     <div class="card mb-4" id="bookImage${key}">
@@ -316,11 +316,11 @@ function buildEditPage() {
                 </div>`);
                 x++;
             }
-            if(x !== 0 && x % 2 === 0){
+            if (x !== 0 && x % 2 === 0){
                 $('#editModalImages').append(`<div class="w-100"></div>`);
             }
         }
-        if(x % 2 !== 0){
+        if (x % 2 !== 0){
             $('#editModalImages').append(`<div class="col container w-50"></div>`);
         }
     }
@@ -511,12 +511,12 @@ $(document).on('click', '#selectCategory', () => {
 //Функция отображения обложки
 function showImage(x) {
     let y = 0;
-    for(let i = 0; i < tmpArr.listImage.length; i++){
-        if(tmpArr.listImage[i].nameImage.localeCompare(nameImageCover) === 0){
+    for (let i = 0; i < tmpArr.listImage.length; i++){
+        if (tmpArr.listImage[i].nameImage.localeCompare(nameImageCover) === 0){
             y++;
         }
     }
-    if(y > 0){
+    if (y > 0){
         document.getElementById('myImage').src = x;
     } else {
         document.getElementById('myImage').src = '/images/service/noimage.png';
@@ -565,11 +565,11 @@ function sendEditBook() {
             let image = {};
             let x = 0;
             for (let i = 0; i < tmpArr.listImage.length; i++) {
-                if(img.id == tmpArr.listImage[i].nameImage){
+                if (img.id == tmpArr.listImage[i].nameImage){
                     x++
                 }
             }
-            if(x === 0){
+            if (x === 0){
                 image["nameImage"] = img.id;
                 imageList.push(image);
             }
@@ -614,7 +614,7 @@ async function sendUpdateBookReq(x) {
 //Функция смены обложки, кнопка в модалке
 function changeCover(x){
     //sendEditBook(1);
-    if(confirm('Set "' + tmpArr.listImage[x].nameImage + '" as cover? Page will be reloaded, all input data will be lost')){
+    if (confirm('Set "' + tmpArr.listImage[x].nameImage + '" as cover? Page will be reloaded, all input data will be lost')){
         $.ajax({
             type: "GET",
             url: "/api/book/" + tmpArr.id,
@@ -664,14 +664,14 @@ function deleteCoverImage() {
         let delImg = idd + '/' + tmpArr.coverImage.replace(/([^A-Za-zА-Яа-я0-9.]+)/gi, '-');
         let coverId; //получение id обложки в списке изображений книги
         let spliceId;
-        for(let i = 0; i < tmpArr.listImage.length; i++){
-            if(tmpArr.listImage[i].nameImage.localeCompare(nameImageCover) === 0){
+        for (let i = 0; i < tmpArr.listImage.length; i++){
+            if (tmpArr.listImage[i].nameImage.localeCompare(nameImageCover) === 0){
                 coverId = tmpArr.listImage[i].id;
                 spliceId = i;
             }
         }
         tmpArr.coverImage = null; //обнуление обложки временной книги
-        if(coverId != null){
+        if (coverId != null){
             deleteImageFromDB(coverId);
         }
         tmpArr.listImage.splice(spliceId, 1); //удаление обложки из списка изображений
