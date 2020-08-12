@@ -329,4 +329,10 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
             session.delete(book);
         }
     }
+
+    @Override
+    public List<Book> getAllBooksByCategoryId(Long id) {
+        String hql = "FROM Book where category.id =: id";
+        return entityManager.createQuery(hql, Book.class).setParameter("id", id).getResultList();
+    }
 }

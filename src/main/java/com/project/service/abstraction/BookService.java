@@ -48,4 +48,6 @@ public interface BookService {
     Long getSizeOfTotalBooks();
 
     void deleteBook(Long id);
+
+    List<Book> getAllBooksByCategoryId(Long id);
 }
