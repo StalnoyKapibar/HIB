@@ -198,7 +198,7 @@ async function setTreeViewWithoutRefreshing(categories) {
                     <label class="custom-control-label" for="check-${category.id}"></label>
                     <label class="collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#collapse-${category.id}" aria-expanded="false" aria-controls="collapse-${category.id}">
                        <label id="${category.categoryName.toLowerCase()}-rightbar">${category.categoryName}</label>(${await getCountBooksByCat(category.path, $('#check-available').is(':checked') ? true : false)})
-                       <i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                       ${category.childrens !== undefined ? '<i class="fa fa-plus-square-o" aria-hidden="true"></i>' : ''}
                     </label>
                 </div>`;
         if (category.childrens != undefined) {
@@ -353,6 +353,7 @@ async function advancedSearch(amount, page) {
     } else {
         searchAdvanced = "/searchAdvancedAllCategories"
     }
+    checkboxes = categories;
     let categoryRequest = "";
     for (let i in categories) {
         categoryRequest += "&categories=" + categories[i];
@@ -370,6 +371,7 @@ async function advancedSearch(amount, page) {
         .then(function (data) {
             setLocaleFields();
             amountBooksInDb = data.amountOfBooksInDb;
+
             addFoundBooks(data.books);
         });
 }
