@@ -65,7 +65,27 @@ async function getFeedbackRequestTable(viewed) {
             <div class="indeterminate"></div>
         </div>
     `)
-    await consolidateEmails(false, viewed)
+    await getFeedbacksByViewed(viewed)
+        .then(async data => {
+            let tmp = data;
+            let feedbacks = [];
+            for (let key in data) {
+                emails.push(data[key].senderEmail)
+            }
+            await getGmailUnreadEmails()
+                .then(data => {
+                feedbacks = tmp.map((item) => {
+                    if (data.hasOwnProperty(item.senderEmail)) {
+                        item.unreadgmail = data[item.senderEmail];
+                        return item;
+                    } else {
+                        item.unreadgmail = false;
+                        return item;
+                    }
+                })
+            })
+            return feedbacks;
+        })
         .then((data) => {
             $('#preloader').empty();
             tableBody.empty();
@@ -467,18 +487,13 @@ async function getGmailUnreadEmails() {
 }
 
 // consolidate unread feedbacks
-async function consolidateEmails(all, viewed) {
-    let feedData = [];
-    if (all === true) {
-        feedData = await getAllFeedbacks();
-    } else {
-        feedData = await getFeedbacksByViewed(viewed);
-    }
-    return async function() {
-            let tmp = feedData;
+async function consolidateEmails() {
+    return await getAllFeedbacks()
+        .then(async (data) => {
+            let tmp = data;
             let feedbacks = [];
-            for (let key in feedData) {
-                emails.push(feedData[key].senderEmail)
+            for (let key in data) {
+                emails.push(data[key].senderEmail)
             }
             await getGmailUnreadEmails()
                 .then((data) => {
@@ -493,7 +508,7 @@ async function consolidateEmails(all, viewed) {
                     });
                 });
             return feedbacks;
-        };
+        });
 }
 
 // check gmail answers and mark feedbacks
