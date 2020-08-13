@@ -476,7 +476,7 @@ async function getFeedbackAll(viewed) {
 
 // get all feedbacks instead of viewed and replied
 async function getAllFeedbacks() {
-    await fetch("/api/admin/feedback-request")
+    await GET("/api/admin/feedback-request")
         .then(json)
         .then((data) => {
             console.log("getAllFeedbacks: ", data);
@@ -486,13 +486,7 @@ async function getAllFeedbacks() {
 
 // get all unread emails
 async function getGmailUnreadEmails() {
-    await fetch ("/admin/unreadgmail/", {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json;charset=utf-8'
-        },
-        body: JSON.stringify(emails)
-    })
+    await POST ("/admin/unreadgmail/", emails, JSON_HEADER)
         .then(json)
         .then((data) => {
             console.log("getGmailUnreadEmails: ", data);
@@ -518,8 +512,8 @@ function consolidateEmails() {
                             item.unreadgmail = false;
                             return item;
                         }
-                    })
-                })
+                    });
+                });
             return feedbacks;
         }).then((data) => {
             console.log("consolidateEmails: ", data);
