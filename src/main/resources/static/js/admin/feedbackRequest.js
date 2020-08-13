@@ -18,6 +18,7 @@ let messagePackIndex;
 let emails = [];
 
 $(document).ready(function () {
+    checkGmailFeedbacks();
     if (sessionStorage.getItem("details") !== null) {
         if (sessionStorage.getItem("details") === "Replied") {
             toggleReplied.bootstrapToggle('on');
@@ -54,8 +55,7 @@ async function markAsRead(id, viewed) {
     if (confirm(message)) {
         fetch("/api/admin/feedback-request/" + id + "/" + viewed, {
             method: 'POST'
-        }).then(r => startCountOfFeedback())
-          .then(r => getFeedbackRequestTable(!viewed));
+        }).then(r => getFeedbackRequestTable(!viewed));
     }
 }
 
@@ -108,12 +108,6 @@ async function getFeedbackRequestTable(viewed) {
                     bookName = data[i].book.name.en;
                     bookCoverImage = data[i].book.coverImage;
                 }
-                if (data[i].unreadgmail) {
-                    fetch("/api/admin/feedback-request/replied/" + id + "/" + false, {
-                        method: "POST"
-                    });
-                    startCountOfFeedback();
-                }
 
                 let replied = `<button type="button"
                                class="btn btn-info btn-reply reply-loc"
@@ -164,6 +158,7 @@ async function getFeedbackRequestTable(viewed) {
                 }
             }
         })
+    startCountOfFeedback();
     setLocaleFields();
 }
 
@@ -479,6 +474,71 @@ async function getFeedbackAll(viewed) {
         })
 }
 
+// get all feedbacks instead of viewed and replied
+async function getAllFeedbacks() {
+    await fetch("/api/admin/feedback-request")
+        .then(json)
+        .then((data) => {
+            console.log("getAllFeedbacks: ", data);
+            return data;
+        })
+}
+
+// get all unread emails
+async function getGmailUnreadEmails() {
+    await fetch ("/admin/unreadgmail/", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify(emails)
+    })
+        .then(json)
+        .then((data) => {
+            console.log("getGmailUnreadEmails: ", data);
+            return data;
+    })
+}
+
+// consolidate unread feedbacks
+function consolidateEmails() {
+    getAllFeedbacks()
+        .then(async tmp => {
+            let feedbacks = [];
+            for (let key in tmp) {
+                emails.push(tmp[key].senderEmail)
+            }
+            getGmailUnreadEmails()
+                .then(data => {
+                    feedbacks = tmp.map((item) => {
+                        if (data.hasOwnProperty(item.senderEmail)) {
+                            item.unreadgmail = data[item.senderEmail];
+                            return item;
+                        } else {
+                            item.unreadgmail = false;
+                            return item;
+                        }
+                    })
+                })
+            return feedbacks;
+        }).then((data) => {
+            console.log("consolidateEmails: ", data);
+            return data;
+    })
+}
+
+async function checkGmailFeedbacks() {
+    consolidateEmails()
+        .then((data) => {
+            console.log("checkGmailFeedbacks: ", data);
+            for (let i = 0; i < data.length; i++) {
+                if (data[i].unreadgmail) {
+                    markFeedback(data[i].id, false);
+                }
+            }
+        });
+}
+
 function sendGmailMessage(userId, feedbackId) {
     let sendButton = document.getElementById("send-button");
     sendButton.disabled = true;
@@ -507,10 +567,16 @@ function sendGmailMessage(userId, feedbackId) {
             .then(json)
     })
         .then(r => {
-            fetch("/api/admin/feedback-request/replied/" + feedbackId + "/" + true, {
-                method: "POST"
-            });
-            startCountOfFeedback();
+            markFeedback(feedbackId, true);
+    });
+}
+
+// mark feedback replied and viewed fields
+async function markFeedback(feedbackId, mark) {
+    await fetch("/api/admin/feedback-request/replied/" + feedbackId + "/" + mark, {
+        method: "POST"
+    }).then(() => {
+        startCountOfFeedback();
     });
 }
 
