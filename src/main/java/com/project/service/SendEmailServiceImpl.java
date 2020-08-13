@@ -33,7 +33,7 @@ public class SendEmailServiceImpl implements SendEmailService {
         MimeMessageHelper helper = new MimeMessageHelper(message, "utf-8");
 
         helper.setTo(user.getEmail());
-        helper.setSubject("Привет");
+        helper.setSubject("Подтверждение аккаунта: HIB");
         helper.setFrom(senderFromProperty);
         helper.setText(mailService.getTemplate("mailForm/hello.html", context), true);
         mailService.sendEmail(message, user.getEmail());
@@ -51,7 +51,7 @@ public class SendEmailServiceImpl implements SendEmailService {
         MimeMessageHelper helper = new MimeMessageHelper(message, "utf-8");
 
         helper.setTo(user.getEmail());
-        helper.setSubject("Привет");
+        helper.setSubject("Подтверждение аккаунта: HIB");
         helper.setFrom(senderFromProperty);
         helper.setText(mailService.getTemplate("mailForm/oneClickReg.html", context), true);
         mailService.sendEmail(message, user.getEmail());

@@ -39,6 +39,7 @@
 
         img {
             display: block;
+            margin: auto;
         }
 
         #top-message p, #bottom-message p {
@@ -97,10 +98,16 @@
             line-height: 1.5;
         }
     </style>
+    <script src="/static/js/lib/jquery.min.js"></script>
+    <script src="/static/js/lib/popper.min.js"></script>
+    <script src="/static/js/lib/bootstrap.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="/static/js/utils/common-function.js"></script>
+    <script src="/static/js/main.js"></script>
 </head>
 
 <body>
-<table style="text-align: center" width="100%" cellpadding="0" cellspacing="0" bgcolor="FFFFFF">
+<table style="text-align: center; justify-content: center" width="100%" cellpadding="0" cellspacing="0" bgcolor="FFFFFF">
     <tr>
         <td>
             <table id="top-message" cellpadding="20" cellspacing="0" width="600" align="center">
@@ -111,63 +118,41 @@
                 </tr>
 
             </table><!-- top message -->
-            <table id="main" width="600" align="center" cellpadding="0" cellspacing="15" bgcolor="F9F8F8">
+            <table id="main" style="text-align: center; justify-content: center" width="600" align="center" cellpadding="0" cellspacing="15" bgcolor="F9F8F8">
                 <tr>
                     <td>
                         <div class="container">
-                            <table id="header" cellpadding="10" cellspacing="0" style="text-align: center" align="center">
+                            <table id="header" cellpadding="10" cellspacing="0" style="text-align: center; justify-content: center" align="center">
                                 <tr>
-                                    <td width="570"><h1 class="hello-dear-reader-loc">Welcome reader!</h1></td>
+                                    <td width="570"><h1 class="welcome-reader-loc">Welcome reader!</h1></td>
                                 </tr>
                                 <tr>
-                                    <td width="570"><h5 id="confirm-letter-text-loc">Please, confirm your account, so you may continue shopping.</h5></td>
+                                    <td width="570"><h5 class="confirm-letter-text-loc">Please, confirm your account, so you may continue shopping.</h5></td>
                                 </tr>
-                                <tr><td></td></tr>
                                 <tr>
-                                    <td class="row">
-                                        <div class="col-4"></div>
-                                        <div class="col-4">
-                                            <a th:href="@{${url}+'/confirmEmail'(token=${id})}"
-                                               class="confirm-account-loc button">Confirm account</a>
+                                    <td>
+                                        <div class="row justify-content-md-center">
+                                            <a th:href="@{${url} + '/confirmEmail'(token=${id})}" target="_blank">
+                                                <img height="170" width="170" src="https://a.radikal.ru/a08/2008/bf/deecc653844a.png" />
+                                            </a>
                                         </div>
-                                        <div class="col-4"></div>
                                     </td>
                                 </tr>
                             </table>
                         </div> <!-- header -->
                     </td>
                 </tr><!-- header -->
-                <tr>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>
-                        <table id="content-1" cellpadding="0" cellspacing="0" align="left">
-                            <tr>
-                                <td width="55"></td>
-                        </table><!-- content 1 -->
-                    </td>
-                </tr><!-- content 1 -->
-                <tr>
-                    <td>
-                        <table id="content-2" cellpadding="0" cellspacing="0" align="center">
-                            <tr></tr>
-                        </table><!-- content-2 -->
-                    </td>
-                </tr><!-- content-2 -->
+
 
             </table><!-- main -->
             <table id="bottom-message" cellpadding="20" cellspacing="0" width="600" align="center">
                 <tr>
-                    <td>HIB: <a class="hib" th:href='${url}'>History in book</a></td>
+                    <td><h5>HIB: <a class="hib" th:href='${url}'>«History in books»</a></h5></td>
                 </tr>
             </table><!-- top message -->
         </td>
     </tr>
 </table><!-- wrapper -->
 </div>
-
-<script src="/static/js/utils/common-function.js"></script>
-<script src="../static/js/main.js"></script>
 </body>
 </html>

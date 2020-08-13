@@ -305,6 +305,7 @@ async function setLocaleFields() {
             $('#modalClose').text(localeFields['close']);
             $('#book-on-page-loc').text(localeFields['bookOnPage']);
             $('.page-of-book-localize').text(localeFields['pageofBook']);
+            $('.welcome-reader-loc').text(localeFields['welcomeReader']);
             $('.hello-dear-reader-loc').text(localeFields['helloDearReader']);
             $('.confirm-account-loc').text(localeFields['confirmAccount']);
             $('.confirm-letter-text-loc').text(localeFields['confirmLetterText']);
