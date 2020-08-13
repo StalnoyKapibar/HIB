@@ -466,13 +466,13 @@ async function scrolling() {
 }
 
 
-async function getFeedbackAll(viewed) {
-    await fetch("/api/admin/feedback-request?viewed=" + viewed)
-        .then(json)
-        .then((data) => {
-            allFeedBack = data;
-        })
-}
+// async function getFeedbackAll(viewed) {
+//     await fetch("/api/admin/feedback-request?viewed=" + viewed)
+//         .then(json)
+//         .then((data) => {
+//             allFeedBack = data;
+//         })
+// }
 
 // get all feedbacks instead of viewed and replied
 async function getAllFeedbacks() {
@@ -480,7 +480,7 @@ async function getAllFeedbacks() {
         .then(json)
         .then((data) => {
             console.log("getAllFeedbacks: ", data);
-            return data;
+            allFeedBack = data
         })
 }
 
@@ -497,11 +497,11 @@ async function getGmailUnreadEmails() {
 // consolidate unread feedbacks
 function consolidateEmails() {
     getAllFeedbacks()
-        .then((data) => {
-            let tmp = data;
+        .then(() => {
+            let tmp = allFeedBack;
             let feedbacks = [];
-            for (let key in data) {
-                emails.push(data[key].senderEmail)
+            for (let key in allFeedBack) {
+                emails.push(allFeedBack[key].senderEmail)
             }
             getGmailUnreadEmails()
                 .then((data) => {
