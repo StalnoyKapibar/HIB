@@ -74,7 +74,8 @@ function buildCarousel() {
         `<li id="qw${idCoverImage}" data-target='#carouselImagePage' data-slide-to=${idCoverImage} class='active'>` + `</li>`;
     tmpHtmlForCarousel +=
         `<div id="qw${idCoverImage}" class='carousel-item active'>` +
-        `<img src=${coverImageLink} class='d-block w-100' alt='...'>` +
+        `<a href="${coverImageLink}" target="_blank">` +
+        `<img src=${coverImageLink} class='d-block w-100' alt='...'></a>` +
         `<div class='carousel-caption d-none d-md-block'>` +
         `</div>` +
         `</div>`;
@@ -83,8 +84,9 @@ function buildCarousel() {
             tmpHtmlForCarouselIndicators +=
                 `<li id="qw${i}" data-target='#carouselImagePage' data-slide-to=${i}></li>`;
             tmpHtmlForCarousel +=
-                ` <div id="qw${i}" class="carousel-item">` +
-                `<img src=${pathImageDefault}${objectBook.id}/${objectBook.imageList[i].nameImage} class='d-block w-100' alt="...">` +
+                `<div id="qw${i}" class="carousel-item">` +
+                `<a href="${pathImageDefault}${objectBook.id}/${objectBook.imageList[i].nameImage}" target="_blank">` +
+                `<img src=${pathImageDefault}${objectBook.id}/${objectBook.imageList[i].nameImage} class='d-block w-100' alt="..."></a>` +
                 `<div class='carousel-caption d-none d-md-block'>` +
                 `</div>` +
                 `</div>`;
