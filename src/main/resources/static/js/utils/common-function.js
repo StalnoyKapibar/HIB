@@ -34,8 +34,6 @@ function sendSignInForm() {
                 window.location.href = "/home";
             }
         }).fail(function(jqXHR, textStatus) {
-            console.log("Server error: ", jqXHR.responseText);
-            console.log("Response status msg: ", textStatus);
         });
     });
     setLocaleFields();
@@ -116,6 +114,7 @@ async function setLocaleFields() {
             $('.old-pass-loc').text(localeFields['oldPass']);   //Enter old password
             $('.new-pass-loc').text(localeFields['newPass']);     //Enter new password
             $('.again-pass-loc').text(localeFields['againPass']);     //Enter new password again
+            $('#orders-user-on-page-loc').text(localeFields['OrdersOnPage']);
 
             //Text and placeholders for email/phone/comment
             $('.email').attr('placeholder', localeFields['email']);
@@ -324,8 +323,10 @@ async function setLocaleFields() {
             $('#modalClose').text(localeFields['close']);
             $('#book-on-page-loc').text(localeFields['bookOnPage']);
             $('.page-of-book-localize').text(localeFields['pageofBook']);
+            $('.welcome-reader-loc').text(localeFields['welcomeReader']);
             $('.hello-dear-reader-loc').text(localeFields['helloDearReader']);
             $('.confirm-account-loc').text(localeFields['confirmAccount']);
+            $('.confirm-letter-text-loc').text(localeFields['confirmLetterText']);
             $('.total-number-of-books-loc').text(localeFields['totalNumberOfBooks']);
             $('#dropdownclose').text(localeFields['dropdownclose']);
             $('#toshoppingcart').text(localeFields['toshoppingcart']);

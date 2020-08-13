@@ -25,7 +25,6 @@ $(document).ready(
 
 $(document).ready(function () {
     $(document).keypress(function (event) {
-        console.log("ready enter")
         let keycode = (event.keyCode ? event.keyCode : event.which);
         if (keycode == '13' && $("#search-input-admin").val().trim() !== '') {
             $('#button-search-input-admin').click();
@@ -384,7 +383,7 @@ function buildEditBook(xx) {
     html1 += `<button type='submit' onclick='openEdit(${tmpEditBookId})' data-dismiss='modal' class='btn btn-primary custom-centered m-3 edit-book-loc'>` +
         `Edit Book` +
         `</button>`;
-    $('#editBookForm').html(html1);
+    $('#bookEditForm').html(html1);
     for (var rt of arrAllBooksByNumberPage) {
         if (rt.id === tmpEditBookId) {
             var tmpArr = rt;

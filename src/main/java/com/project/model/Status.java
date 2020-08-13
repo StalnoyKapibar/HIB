@@ -5,5 +5,6 @@ public enum Status {
     COMPLETED,
     UNPROCESSED,
     DELETED,
-    CANCELED
+    CANCELED,
+    UNACTIVATED
 }

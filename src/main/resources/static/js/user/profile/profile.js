@@ -65,7 +65,6 @@ function refreshUserNames(firstName, lastName, email, phone) {
 }
 
 function savePersonalInformation() {
-    console.log("Hello");
     let email = $('#fieldEmail').val();
     let firstName = $('#fieldFirstName').val();
     let lastName = $('#fieldLastName').val();
@@ -113,8 +112,14 @@ function text(response) {
     return response.text()
 }
 
+// function showError(message, className) {
+//     $('#errorMessageEmail').addClass(className).text(message);
+//     $('#collapseExample').attr('class', 'collapse show');
+//     setLocaleFields();
+// }
+
 function showError(message, className) {
-    $('#errorMessageEmail').addClass(className).text(message);
+    $('#errorMessageEmailReg').addClass(className).text(message);
     $('#collapseExample').attr('class', 'collapse show');
     setLocaleFields();
 }

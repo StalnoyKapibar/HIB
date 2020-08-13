@@ -8,17 +8,19 @@
     <title>Internal Server Error</title>
 </head>
 <body>
-<div class="vc-container" th:fragment="server-error">
-    <div class="vc-content">
-        <h1 class="vc-heading">500</h1>
-        <p class="vc-sub-heading">Internal Server <span class="blink-infinite">Error</span></p>
+<div class="row" th:fragment="server-error">
+    <div class="col-4"></div>
+    <div class="col-4 container">
+        <img src="/images/service/server-error.png" class="mt-5" alt="servererror">
     </div>
+    <div class="col-4"></div>
 </div>
-<div class="vc-container" th:fragment="not-found">
-    <div class="vc-content">
-        <h1 class="vc-heading">404</h1>
-        <p class="vc-sub-heading">Not <span class="blink-infinite">Found</span></p>
+<div class="row" th:fragment="not-found">
+    <div class="col-4"></div>
+    <div class="col-4 container">
+        <img src="/images/service/not-found.png" class="mt-5" alt="not-found">
     </div>
+    <div class="col-4"></div>
 </div>
 </body>
 </html>

@@ -36,8 +36,6 @@ $('#sidebar').mouseleave(() => {
 });
 
 function getCategoriesLocal(name) {
-    console.log(name);
-
     fetch('/categories/getpanelcategories/' + name, {})
         .then(function (response) {
             return response.json()
@@ -45,7 +43,6 @@ function getCategoriesLocal(name) {
         .then(function (primaryCategories) {
             let count = 1;
             for (let i = 0; i < primaryCategories.length; i++) {
-                console.log(primaryCategories[i]);
                 categoryRow =
                     `<li>
                          <a href="/search/${count}">${primaryCategories[i]}</a>
@@ -89,11 +86,9 @@ jQuery(function ($) {
             $(".page-wrapper").addClass("pinned");
             $("#sidebar").hover(
                 function () {
-                    console.log("mouseenter");
                     $(".page-wrapper").addClass("sidebar-hovered");
                 },
                 function () {
-                    console.log("mouseout");
                     $(".page-wrapper").removeClass("sidebar-hovered");
                 }
             )

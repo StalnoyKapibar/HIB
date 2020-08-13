@@ -4,15 +4,19 @@ let totalPrice = 0;
 let currencyIcon = ' €';
 let order = '';
 var htmlForModalBody = ``;
+let ordersCount;
+let currentPage = 1;
 
 $(document).ready(function () {
     getShoppingCart();
+    ordersCount =  getOrdersCount();
     showListOrders().then(r => {
     });
 
     if (document.referrer.toString() === "" && userData.oauth2Acc === false) {
         confirmAddressAutoReg();
-        confirmContactsFor1Click();
+      
+        confirmContactsFor1Click2();
     }
 
     if (currentLang == '') {
@@ -55,10 +59,13 @@ async function getShoppingCart() {
 
                     cell = first + second + third + forth + fifth;
 
+               
+                  
                     row.append(cell);
                     row.appendTo('#newTab');
-                    $('#sum').text(totalPrice + currencyIcon);
-
+                    $('#sum').text(totalPrice + currencyIcon);   
+                  
+                  
                 });
                 if (data.length === 0) {
                     isOrderEnable = false;
@@ -76,11 +83,20 @@ async function getShoppingCart() {
                     $('#forButtonCheckout').html(`<div><button class="btn btn-primary checkout-btn" id="chechout" onclick="confirmAddress()" type="button">
                                     Checkout
                                 </button></div>`);
+                    // $('#for-1click-reg').html(`<button class="btn btn-primary" id="1click-reg-btn"
+                    //                            onclick="location.href='/1clickreg'" type="button">
+                    //                            Buy without sign up</button>`);
                     $('#for-1click-reg').html(`<button class="btn btn-primary" id="1click-reg-btn"
-                                               onclick="location.href='/1clickreg'" type="button">
+                                               onclick="showContacts1ClickReg()" type="button">
                                                Buy without sign up</button>`);
                 }
+
           setLocaleFields();
+
+
+                setLocaleFields();
+
+
             });
     }, 10);
 }
@@ -197,21 +213,47 @@ async function confirmPurchase() {
         });
 }
 
-$("#butToBuy").one('click',function() {
-    // show preloader before action
-    $(".preloader").show();
-    // add message to preloader
-    $(".lds-ellipsis").html(`
+async function btnBuy() {
+    $("#butToBuy").one('click',function() {
+        // show preloader before action
+        $(".preloader").show();
+        // add message to preloader
+        $(".lds-ellipsis").html(`
         <span></span>
         <span></span>
         <span></span>
         <br>
         <div class="text-danger">We are processing your transaction.<br>
         Please wait a few seconds.<br>
-        You will now be redirected to the order page.</div>
+        You will now be redirected to the order page.
+        PlEASE CONFIRM YOUR EMAIL! </div>
     `);
-    confirmPurchase();
-});
+        confirmPurchase();
+    });
+}
+
+
+async function btnBuy1clickReg() {
+        $(".preloader").show("slow");
+        // add message to preloader
+        $(".lds-ellipsis").html(`
+        <span></span>
+        <span></span>
+        <span></span>
+        <br>
+        <div class="text-danger">We are processing your transaction.<br>
+        Please wait a few seconds.<br>
+        You will now be redirected to the home page.</div>
+    `);
+        // confirmPurchase();
+    await POST("/reg1Click", JSON.stringify(contacts), JSON_HEADER)
+        .then(function () {
+            // getUserData();
+            // confirmAddressAutoReg();
+            window.location.href = "/shopping-cart";
+        });
+
+}
 
 function enterData() {
     let data = '';
@@ -305,7 +347,8 @@ function showOrderSum() {
 
                         <div class="col-sm-5 pl-0 pr-1">
                             <input class="form-control field" readonly  placeholder=${contacts.phone}>
-                        </div></div>`;
+                        </div>
+                 </div>`;
     }
     if (contacts.comment !== " ") {
         html += `
@@ -317,37 +360,124 @@ function showOrderSum() {
                     </div>`;
     }
 
+    // html += `  <div class="row px-4">
+    //                             <h5 class="col-12 p-3 rounded text-center alert-danger" th:if="${errorMessage.isHasError()}"
+    //                                 th:text="${errorMessage.getMessage()}" id="errorMessage"></h5>
+    //                         </div>`;
+
+  
     html += `</div></div>`;
     //присоеденяем введенные пользователем контакты для подтвержения.
     $('#shippingaddress').html(html);
+
+    $('#for_btnBuy').html(`<button class="btn bt-lg btn-block btn-success buynow-btn" id="butToBuy"
+                                               onclick="btnBuy()" type="button">
+                                               Buy Now</button>`);
+    $('#for_btn1clickRegAndBuy').html(`<button class="btn bt-lg btn-block btn-success buynow-btn" id="butToBuy"
+                                               onclick="btnBuy1clickReg()" type="button">
+                                               Reg and Buy Now</button>`);
+
+
     setLocaleFields();
 }
 
 // Вкладка заказы
-async function showListOrders() {
-    await fetch("/order/getorders")
-        .then(status)
-        .then(json)
-        .then(function (data) {
-            listOders = data;
-            let html = ``;
-            listOders.forEach(function (order, index) {
-                html += `<tr><td></td>
+
+async function loadMore(pageNumber) {
+    currentPage = pageNumber;
+    await showListOrders();
+}
+
+
+async function renderPageOrdersForUser(listOdersPage) {
+    let html = ``;
+    listOdersPage.forEach(function (order, index) {
+
+        html += `<tr><td></td>
                          <td>${index + 1}</td> 
                          <td>${order.data}</td> 
                          <td>${order.status}</td>
                          <td>${convertPrice(order.itemsCost)} ${currencyIcon}</td>
 
                          <td><button type="button" class="btn btn-info show-btn" data-toggle="modal" data-target="#ordermodal"  onclick="showCarrentOrder(${index})">Show</button>`;
-                if (order.status === "UNPROCESSED") {
-                    html += `<button type="button" class="btn btn-danger show-btn" onclick="orderCancel(${order.id})">Cancel</button></td></tr>`;
-                } else {
-                    html += `<button type="button" class="btn btn-danger show-btn" onclick="orderCancel(${order.id})" disabled="disabled">Cancel</button></td></tr>`;
-                }
-            });
-            $('#listorders').html(html);
-        });
+        if (order.status === "UNPROCESSED") {
+            html += `<button type="button" class="btn btn-danger show-btn" onclick="orderCancel(${order.id})">Cancel</button></td></tr>`;
+        } else {
+            html += `<button type="button" class="btn btn-danger show-btn" onclick="orderCancel(${order.id})" disabled="disabled">Cancel</button></td></tr>`;
+        }
+    });
+    $('#listorders').html(html);
 }
+
+async function addPaginationOrdersForUser(totalPages) {
+    let startIter = 1;
+    ordersCount = await getOrdersCount();
+    let endIter = totalPages;
+    let pag = '';
+    pag = `<nav aria-label="Page navigation example">
+                    <ul class="pagination">`;
+    pag += currentPage === 1 ? `<li class="page-item disabled"><a class="page-link" href="#" tabindex="-1">` :
+        `<li class="page-item"><a class="page-link" onclick="loadMore(1)" href="#">`;
+    pag += `<span aria-hidden="true">&laquo;</span></a></li>`;
+    for (let i = startIter; i < endIter + 1; i++) {
+        if (currentPage === i) {
+            pag += `<li class="page-item active"><a class="page-link" onclick="loadMore(${i})">${i}</a></li>`;
+        } else {
+            pag += `<li class="page-item"><a class="page-link" onclick="loadMore(${i})">${i}</a></li>`;
+        }
+    }
+    pag += currentPage === totalPages ? `<li class="page-item disabled">` : `<li class="page-item">`
+    pag += `<a class="page-link" onclick="loadMore(${totalPages})" href="#"><span aria-hidden="true">&raquo;</span></a></li>
+                    </ul>
+                </nav>`;
+    document.querySelector('#rowForPaginationOrders').innerHTML = '';
+    $("#rowForPaginationOrders").append(pag);
+}
+
+async function getOrdersUserData(page, size) {
+    const url = `/order/pageable/${page}/${size}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    return data;
+}
+async function setOrdersAmountInPageForUser(amount) {
+    let ordersAmountPerPage = document.querySelector('#ordersAmountPerPageUser');
+    ordersAmountPerPage.textContent = amount;
+    currentPage = 1;
+    ordersCount = await getOrdersCount();
+    await showListOrders();
+}
+
+async function getOrdersCount(){
+    fetch("/order/getorders")
+        .then(status)
+        .then(json)
+        .then(function (data) {
+            ordersCount = data.length;
+        })
+    return ordersCount;
+}
+
+async function showListOrders() {
+    //ordersCount = getOrdersCount();
+    $('#preloader').html(`
+        <div class="progress">
+            <div class="indeterminate"></div>
+        </div>
+    `)
+
+    let size = "10";
+    size = document.querySelector('#ordersAmountPerPageUser').textContent;
+
+    let testData = await getOrdersUserData(currentPage - 1, size);
+
+    let totalPages = Math.floor(ordersCount / size)  + 1;
+    addPaginationOrdersForUser(totalPages);
+    // const pageData = testData.listOrderDTO;
+    await renderPageOrdersForUser(testData);
+}
+
+
 
 // CANCEL order before PROCESSING
 function orderCancel(id) {
@@ -373,7 +503,6 @@ function orderCancel(id) {
         });
     } catch (error) {
         // catch error, show modal not OK
-        console.log("Failed to cancel order: ", error)
         $("#successAction").html("Failed to cancel order");
         $("#successActionModal").modal('show');
     }

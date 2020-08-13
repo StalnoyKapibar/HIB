@@ -27,7 +27,7 @@ public abstract class AbstractDao<I extends Serializable, E> implements GenericD
     }
 
     public void add(E entity) {
-        entityManager.persist(entity);
+        entityManager.merge(entity);
     }
 
     public E update(E entity) {

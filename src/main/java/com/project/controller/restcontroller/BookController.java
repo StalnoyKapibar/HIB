@@ -25,6 +25,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -117,6 +119,7 @@ public class BookController {
             String lastId = bookService.getLastIdOfBook();
             storageService.createNewPaperForImages(lastId);
             storageService.copyDefaultPhotoToFolder(lastId);
+            storageService.cutImagesFromTmpPaperToNewPaperByLastIdBook(lastId, book.getListImage());
         } else {
             bookService.addBook(book);
             String lastId = bookService.getLastIdOfBook();
@@ -181,8 +184,8 @@ public class BookController {
         storageService.deleteImageByFileNameByEditPage(nameDeleteImageByEditPage);
     }
     @PostMapping("/admin/deleteImageFromDB")
-    public void deleteImageByFromDB(@RequestBody String nameDeleteImageByFromDB) {
-        storageService.deleteImageByFromDB(nameDeleteImageByFromDB);
+    public void deleteImageByFromDB(@RequestBody Long id) {
+        storageService.deleteImageByFromDB(id);
     }
 
     @PostMapping("/admin/uploadByEditPage")
@@ -214,6 +217,7 @@ public class BookController {
     public List<Long> getAllAvailableBooks() {
         return bookService.getAllAvailableBooks();
     }
+
 
     @GetMapping(value = "/api/allBookForLiveSearch")
     public List<BookNewDTO> getAllLightBookDtoForSearch() {

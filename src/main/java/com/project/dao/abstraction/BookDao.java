@@ -50,4 +50,5 @@ public interface BookDao extends GenericDao<Long, Book> {
 
     void deleteBook(Long id);
 
+    List<Book> getAllBooksByCategoryId(Long id);
 }

@@ -2,22 +2,27 @@ package com.project.controller.restcontroller;
 
 import com.project.model.*;
 import com.project.service.DataEnterInAdminPanelService;
-import com.project.service.abstraction.BookService;
-import com.project.service.abstraction.OrderService;
-import com.project.service.abstraction.ShoppingCartService;
-import com.project.service.abstraction.UserAccountService;
+import com.project.service.abstraction.*;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailSendException;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 
 @RestController
@@ -29,6 +34,11 @@ public class OrderController {
     private UserAccountService userAccountService;
     private BookService bookService;
     private DataEnterInAdminPanelService dataEnterInAdminPanelService;
+    private UserService userService;
+    public static final String SOURCES =
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
+    @Autowired
+    FormLoginErrorMessageService messageService;
 
 
     @PostMapping("/api/user/order/confirmaddress")
@@ -36,7 +46,7 @@ public class OrderController {
         ShoppingCartDTO shoppingCartDTO = null;
         OrderDTO order = new OrderDTO();
         if (httpSession.getAttribute("cartId") == null) {
-            shoppingCartDTO = cartService.getCartById((Long) httpSession.getAttribute("cartId1click"));
+//            shoppingCartDTO = cartService.getCartById((Long) httpSession.getAttribute("cartId1click"));
             order.setItems(((ShoppingCartDTO) httpSession.getAttribute("shoppingcart")).getCartItems());
             order.setItemsCost((int) ((ShoppingCartDTO) httpSession.getAttribute("shoppingcart")).getTotalCostItems());
         } else {
@@ -58,6 +68,67 @@ public class OrderController {
         httpSession.setAttribute("contacts", contacts);
         return contacts;
     }
+
+    @PostMapping("/reg1Click")
+    private ModelAndView regOneClick(@Valid RegistrationUserDTO user, @RequestBody ContactsOfOrderDTO contacts, BindingResult result,
+                                     HttpServletRequest request, HttpServletResponse response,
+                                     HttpSession session) {
+        ModelAndView view = new ModelAndView("user/user-page");
+        StringBuilder url = new StringBuilder();
+        url.append(request.getScheme())
+                .append("://")
+                .append(request.getServerName())
+                .append(':')
+                .append(request.getServerPort());
+        view.getModelMap().addAttribute("user", user);
+        user.setEmail(contacts.getEmail());
+        user.setFirstName(contacts.getFirstName());
+        user.setLastName(contacts.getLastName());
+        user.setPhone(contacts.getPhone());
+        user.setPassword(generateString(new Random(), SOURCES, 10));
+        user.setConfirmPassword(user.getPassword());
+        user.setAutoReg(true);
+
+        ShoppingCartDTO shoppingCart = (ShoppingCartDTO) session.getAttribute("shoppingcart");
+        if (result.hasErrors()) {
+            view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessage(result));
+            return view;
+        }
+        if (userAccountService.emailExist(user.getEmail())) {
+            view.getModelMap().addAttribute("errorMessage",
+                    messageService.getErrorMessageOnEmailUIndex());
+            return view;
+        }
+
+        if (!user.getPassword().equals(user.getConfirmPassword())) {
+            view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessageOnPasswordsDoesNotMatch());
+            return view;
+        }
+        try {
+            userAccountService.save1Clickreg(user, url.toString());
+            shoppingCart.setId(userAccountService.getCartIdByUserEmail(user.getEmail()));
+
+            OrderDTO orderDTO = orderService.addOrderReg1Click(shoppingCart, user, contacts);
+            UserDTO userDTO = userService.getUserDTOByEmail(user.getEmail(), false);
+
+            cartService.updateCart(shoppingCart);
+            orderDTO.setUserAccount(userAccountService.getUserById(userDTO.getUserId()));
+            orderService.addOrder(orderDTO.getOder(), url.toString());
+            session.removeAttribute("shoppingcart");
+
+        } catch (DataIntegrityViolationException e) {
+            if (e.getCause().getCause().getMessage().contains("login")) {
+                view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessageOnLoginUIndex());
+            } else {
+                view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessageOnEmailUIndex());
+            }
+            return view;
+        } catch (MailSendException e) {
+            view.setViewName("redirect:/err/not_found");
+        }
+        return view;
+    }
+
 
     @PostMapping("/order")
     private void confirmOrder(HttpSession httpSession, HttpServletRequest request) {
@@ -98,7 +169,18 @@ public class OrderController {
         }
         return orderDTOS;
     }
-
+    @GetMapping("/order/pageable/{page}/{size}")
+    private List<OrderDTO> getOrderUser(HttpSession session, @PathVariable int page, @PathVariable int size) {
+        Long userId = (Long) session.getAttribute("userId");
+        Pageable pageable = PageRequest.of(page, size, Sort.by(
+                Sort.Order.by("id")));
+        List<Order> orderList = orderService.getPageOfOrdersUserByPageable(pageable, userId);
+        List<OrderDTO> orderDTOS = new ArrayList<>();
+        for (Order order : orderList) {
+            orderDTOS.add(order.getOrderDTO());
+        }
+        return orderDTOS;
+    }
     @GetMapping("/order/size")
     private int getOrderSize(HttpSession httpSession) {
         Long userId = (Long) httpSession.getAttribute("userId");
@@ -125,7 +207,7 @@ public class OrderController {
     }
 
     @GetMapping("/api/admin/pageable/{page}/{size}/{status}")
-    public OrderPageAdminDTO getPageOfOrdersByStatus(HttpSession session, @PathVariable int page, @PathVariable int size,  @PathVariable("status") String statusString) {
+    public OrderPageAdminDTO getPageOfOrdersByStatus(HttpSession session, @PathVariable int page, @PathVariable int size, @PathVariable("status") String statusString) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(
                 Sort.Order.asc("id")));
         Status status;
@@ -205,7 +287,7 @@ public class OrderController {
     }
 
     @GetMapping("/api/admin/allorders/{id}")
-    public List<Order> getOrders(@PathVariable Long id){
+    public List<Order> getOrders(@PathVariable Long id) {
         return orderService.findOrderByBookId(id);
     }
 
@@ -215,12 +297,20 @@ public class OrderController {
     }
 
     @GetMapping("/api/admin/sales/")
-    public ResponseEntity getOrders(){
+    public ResponseEntity getOrders() {
         return orderService.createFileAllOrders();
     }
 
     @PostMapping("/api/user/orderCancel/{id}")
     private String orderCancel(@PathVariable Long id) {
         return orderService.cancelOrder(id);
+    }
+
+    public String generateString(Random random, String characters, int length) {
+        char[] text = new char[length];
+        for (int i = 0; i < length; i++) {
+            text[i] = characters.charAt(random.nextInt(characters.length()));
+        }
+        return new String(text);
     }
 }

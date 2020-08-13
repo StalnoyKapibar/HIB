@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
-
-<html xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"></html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Personal account</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -54,7 +57,8 @@
     <div class="tab-pane fade show active" id="MyProfile" role="tabpanel" aria-labelledby="MyProfile-tab">
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
             <div class="my-profile-container">
-                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom" style="margin-bottom: 0 !important">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+                     style="margin-bottom: 0 !important">
                     <div class="col-md-12 my-profile-name">
                         <h1 class="h2" id="profile-name">User</h1>
                     </div>
@@ -96,7 +100,8 @@
         <link href="css/cabinet.css" rel="stylesheet" type="text/css">
         <script crossorigin="anonymous" src="https://kit.fontawesome.com/db08edad0b.js"></script>
         <!--МОДАЛЬНОЕ ОКНО ОК-->
-        <div class="modal fade" id="successActionModal" tabindex="-1" role="dialog" aria-labelledby="successActionModalLabel" aria-hidden="true">
+        <div class="modal fade" id="successActionModal" tabindex="-1" role="dialog"
+             aria-labelledby="successActionModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -128,7 +133,7 @@
                     <div class="modal-body" id="modalBody">
                         <table class="table table-sm table-sm bg-white">
                             <div class="col-8 p-4 mb-4  alert alert-info" role="alert">
-                                <h6 class="align-content-center mt-2 purchase-loc">YOUR PURCHASES</h6> </div>
+                                <h6 class="align-content-center mt-2 purchase-loc">YOUR PURCHASES</h6></div>
                             <thead>
                             <tr height="50">
                                 <th width="10"></th>
@@ -166,8 +171,8 @@
                         </table>
                         <div id="shippingaddressordermodal" style="line-height: 2.5px; font-size: large"></div>
                         </table>
-                            <p id="contactStatus"></p>
-                            <p id="ordertrack"></p></div>
+                        <p id="contactStatus"></p>
+                        <p id="ordertrack"></p></div>
 
 
                     <div class="modal-footer">
@@ -179,29 +184,47 @@
                 </div>
             </div>
         </div>
-        <main role="main" class="page-content offset-1 col-10"  style="margin-top: 50px">
-            <div class="card" >
+        <main role="main" class="page-content offset-1 col-10" style="margin-top: 50px">
+            <div class="card">
                 <div class="card-header">
                     <h3 class="align-content-center mt-3 orders-loc">Orders</h3></div>
                 <div class="card-body">
-            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <table class="table table-sm table-sm bg-white">
-                    <thead>
-                    <tr height="50">
-                        <th width="10"></th>
-                        <th class="orderNo-loc">Order No.</th>
-                        <th class="dateOfOrder-loc">Date of order</th>
-                        <th class="orderStatus-loc">Order status</th>
-                        <th class="pricetotal-loc">Total price</th>
-                        <th></th>
-                    </tr>
-                    </thead>
-                    <tbody id="listorders">
-                    </tbody>
-                </table>
-            </div>
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <table class="table table-sm table-sm bg-white">
+                            <thead>
+                            <tr height="50">
+                                <th width="10"></th>
+                                <th class="orderNo-loc">Order No.</th>
+                                <th class="dateOfOrder-loc">Date of order</th>
+                                <th class="orderStatus-loc">Order status</th>
+                                <th class="pricetotal-loc">Total price</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody id="listorders">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="container col-2 offset-5">
+                        <div class="row orders-pageable">
+                            <div class="dropdown dropdown-header"><label id="orders-user-on-page-loc">Orders on page</label>
+                                <button class="btn btn-primary dropdown-toggle" type="button"
+                                        id="ordersAmountPerPageUser"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">10</button>
+                                <div class="dropdown-menu" aria-labelledby="ordersAmountPerPageUser">
+                                    <a class="dropdown-item" href="#" onclick="setOrdersAmountInPageForUser(10)">10</a>
+                                    <a class="dropdown-item" href="#" onclick="setOrdersAmountInPageForUser(50)">50</a>
+                                    <a class="dropdown-item" href="#" onclick="setOrdersAmountInPageForUser(100)">100</a>
+                                </div>
+                            </div>
+                            <div id="rowForPaginationOrders">
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+
         </main>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
@@ -226,76 +249,84 @@
         <link href="/static/fonts/font.css" rel="stylesheet">
         <link href="css/cabinet.css" rel="stylesheet" type="text/css">
         <script crossorigin="anonymous" src="https://kit.fontawesome.com/db08edad0b.js"></script>
-        <main role="main" class="page-content offset-1 col-10"  style="margin-top: 50px; margin-left: 25rem">
+        <main role="main" class="page-content offset-1 col-10" style="margin-top: 50px; margin-left: 25rem">
             <div class="card-body card col-md-5">
-            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottombottom">
-                <h1 class="h2 setting-profile-loc">Settings Profile</h1>
-            </div>
-            <ul class="nav nav-pills mb-3" id="Settings-tab" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link active personal-info-loc" id="PersonalInformation-tab" data-toggle="pill"
-                       href="#PersonalInformation" role="tab" aria-controls="PersonalInformation" aria-selected="true">Personal
-                        Information</a>
-                </li>
-                <li class="nav-item">
-                    <a hidden class="nav-link password-change-loc" id="PasswordChange-tab" data-toggle="pill" href="#PasswordChange" role="tab"
-                       aria-controls="PasswordChange" aria-selected="false">Password Change</a>
-                </li>
-            </ul>
-            <div class="tab-content" id="Settings-tabContent">
-                <div class="tab-pane fade show active" id="PersonalInformation" role="tabpanel"
-                     aria-labelledby="PersonalInformation-tab">
-                    <form>
-                        <div class="teswt112">
-                            <div class="form-group col-md-9 pl-0 pr-1">
-                                <label class="email-label" for="fieldEmail">Email address</label>
-                                <input type="email" class="form-control email" id="fieldEmail" aria-describedby="emailHelp">
-                            </div>
-                            <div class="collapse" id="collapseExample">
-                                <div class="alert alert-danger" role="alert" id="errorMessageEmail">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottombottom">
+                    <h1 class="h2 setting-profile-loc">Settings Profile</h1>
+                </div>
+                <ul class="nav nav-pills mb-3" id="Settings-tab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active personal-info-loc" id="PersonalInformation-tab" data-toggle="pill"
+                           href="#PersonalInformation" role="tab" aria-controls="PersonalInformation"
+                           aria-selected="true">Personal
+                            Information</a>
+                    </li>
+                    <li class="nav-item">
+                        <a hidden class="nav-link password-change-loc" id="PasswordChange-tab" data-toggle="pill"
+                           href="#PasswordChange" role="tab"
+                           aria-controls="PasswordChange" aria-selected="false">Password Change</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="Settings-tabContent">
+                    <div class="tab-pane fade show active" id="PersonalInformation" role="tabpanel"
+                         aria-labelledby="PersonalInformation-tab">
+                        <form>
+                            <div class="teswt112">
+                                <div class="form-group col-md-9 pl-0 pr-1">
+                                    <label class="email-label" for="fieldEmail">Email address</label>
+                                    <input type="email" class="form-control email" id="fieldEmail"
+                                           aria-describedby="emailHelp">
+                                </div>
+                                <div class="collapse" id="collapseExample">
+                                    <div class="alert alert-danger" role="alert" id="errorMessageEmail">
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-9 pl-0 pr-1">
+                                    <label class="first-name-loc" for="fieldFirstName">First Name</label>
+                                    <input type="text" class="form-control" id="fieldFirstName">
+                                </div>
+                                <div class="form-group col-md-9 pl-0 pr-1">
+                                    <label class="last-name-loc" for="fieldLastName">Last Name</label>
+                                    <input type="text" class="form-control" id="fieldLastName">
+                                </div>
+                                <div class="form-group col-md-9 pl-0 pr-1">
+                                    <label class="phone-loc" for="fieldPhone">Phone</label>
+                                    <input type="text" class="form-control" id="fieldPhone">
                                 </div>
                             </div>
-                            <div class="form-group col-md-9 pl-0 pr-1">
-                                <label class="first-name-loc" for="fieldFirstName">First Name</label>
-                                <input type="text" class="form-control" id="fieldFirstName">
-                            </div>
-                            <div class="form-group col-md-9 pl-0 pr-1">
-                                <label class="last-name-loc" for="fieldLastName">Last Name</label>
-                                <input type="text" class="form-control" id="fieldLastName">
-                            </div>
-                            <div class="form-group col-md-9 pl-0 pr-1">
-                                <label class="phone-loc" for="fieldPhone">Phone</label>
-                                <input type="text" class="form-control" id="fieldPhone">
-                            </div>
-                        </div>
-                    </form>
-                    <button type="submit" onclick="savePersonalInformation()" class="btn btn-block btn-primary save-loc">Save</button>
-                </div>
-                <div class="tab-pane fade" id="PasswordChange" role="tabpanel" aria-labelledby="PasswordChange-tab">
-                    <form>
-                        <div class="teswt112">
-                            <div class="form-group col-md-9 pl-0 pr-1">
-                                <label class="old-pass-loc" for="oldPassword">Enter old password</label>
-                                <input type="password" class="form-control" id="oldPassword">
-                            </div>
-                            <div class="form-group col-md-9 pl-0 pr-1">
-                                <label class="new-pass-loc" for="enterPassword">Enter new password</label>
-                                <input type="password" class="form-control" id="enterPassword">
-                            </div>
-                            <div class="form-group col-md-9 pl-0 pr-1">
-                                <label class="again-pass-loc" for="enterPasswordAgain">Enter new password again</label>
-                                <input type="password" class="form-control" id="enterPasswordAgain">
-                            </div>
-                            <div class="collapse" id="collapsePassword">
-                                <div class="alert alert-danger" role="alert" id="errorMessagePassword">
+                        </form>
+                        <button type="submit" onclick="savePersonalInformation()"
+                                class="btn btn-block btn-primary save-loc">Save
+                        </button>
+                    </div>
+                    <div class="tab-pane fade" id="PasswordChange" role="tabpanel" aria-labelledby="PasswordChange-tab">
+                        <form>
+                            <div class="teswt112">
+                                <div class="form-group col-md-9 pl-0 pr-1">
+                                    <label class="old-pass-loc" for="oldPassword">Enter old password</label>
+                                    <input type="password" class="form-control" id="oldPassword">
+                                </div>
+                                <div class="form-group col-md-9 pl-0 pr-1">
+                                    <label class="new-pass-loc" for="enterPassword">Enter new password</label>
+                                    <input type="password" class="form-control" id="enterPassword">
+                                </div>
+                                <div class="form-group col-md-9 pl-0 pr-1">
+                                    <label class="again-pass-loc" for="enterPasswordAgain">Enter new password
+                                        again</label>
+                                    <input type="password" class="form-control" id="enterPasswordAgain">
+                                </div>
+                                <div class="collapse" id="collapsePassword">
+                                    <div class="alert alert-danger" role="alert" id="errorMessagePassword">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </form>
-                    <button type="submit" onclick="savePassword()" class="btn btn-block btn-primary save-loc">Save</button>
+                        </form>
+                        <button type="submit" onclick="savePassword()" class="btn btn-block btn-primary save-loc">Save
+                        </button>
+                    </div>
                 </div>
             </div>
-            </div>
+
         </main>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
@@ -331,181 +362,223 @@
         <br>
         <main role="main" class="page-content offset-1 col-10" style="margin-top: 0px;">
             <div class="card card-body">
-            <h3 class="h2 shopping-cart-loc" id="h3-shoppingCart">Shopping cart</h3>
-            <ul class="nav nav-tabs" id="cartTab" role="tablist" >
-                <li class="nav-item">
-                    <a class="nav-link active" id="home-tab" href="#home" style="pointer-events: none; color: #333333">Your shopping
-                        cart</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link " id="contacts-tab" href="#contacts" style="pointer-events: none; color: #333333">Your contacts</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link  " id="summary-tab" href="#Summary" style="pointer-events: none;color: #333333">Summary</a>
-                </li>
-            </ul>
-            <div class="tab-content" id="cartTabContent">
-                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                    <div class="shadow-lg p-4 mb-2 bg-white ">
-                    <table class="table table-sm table-sm bg-white">
-                        <thead>
-                        <tr height="50">
-                            <th width="10"></th>
-                            <th></th>
-                            <th id="book_author">Книга | Автор</th>
-                            <th id="price">Цена</th>
-                            <th id="delete">Убрать</th>
-                        </tr>
-                        </thead>
-                        <tbody id='newTab'>
-                        </tbody>
-                        <tbody>
-                        <tr>
-                            <th width="10"></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                        <tr>
-                            <th width="10"></th>
-                            <th></th>
-                            <th align="right" id="totalPrice" ></th>
-                            <th><a id="sum"></a></th>
-                            <th></th>
-                        </tr>
+                <h3 class="h2 shopping-cart-loc" id="h3-shoppingCart">Shopping cart</h3>
+                <ul class="nav nav-tabs" id="cartTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="home-tab" href="#home"
+                           style="pointer-events: none; color: #333333">Your shopping
+                            cart</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " id="contacts-tab" href="#contacts"
+                           style="pointer-events: none; color: #333333">Your contacts</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link  " id="summary-tab" href="#Summary"
+                           style="pointer-events: none;color: #333333">Summary</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="cartTabContent">
+                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                        <div class="shadow-lg p-4 mb-2 bg-white ">
+                            <table class="table table-sm table-sm bg-white">
+                                <thead>
+                                <tr height="50">
+                                    <th width="10"></th>
+                                    <th></th>
+                                    <th id="book_author">Книга | Автор</th>
+                                    <th id="price">Цена</th>
+                                    <th id="delete">Убрать</th>
+                                </tr>
+                                </thead>
+                                <tbody id='newTab'>
+                                </tbody>
+                                <tbody>
+                                <tr>
+                                    <th width="10"></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                <tr>
+                                    <th width="10"></th>
+                                    <th></th>
+                                    <th align="right" id="totalPrice"></th>
+                                    <th><a id="sum"></a></th>
+                                    <th></th>
+                                </tr>
 
-                        <tr style="height: 15px">
-                            <th width="10"></th>
-                            <th></th>
-                            <th id="shoppingCardOrderDisabledMessage"></th>
+                                <tr style="height: 15px">
+                                    <th width="10"></th>
+                                    <th></th>
+                                    <th id="shoppingCardOrderDisabledMessage"></th>
 
-                            <th id="for-1click-reg" sec:authorize="!isAuthenticated()"></th>
-                            <th id="forButtonCheckout">
-                            </th>
-                        </tr>
-                        </tbody>
-                    </table>
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="contacts" role="tabpanel" aria-labelledby="contacts-tab">
-                    <div class="shadow-lg p-4 mb-2 bg-white ">
-                    <div class="panel panel-primary">
-                        <div class="panel-body">
-                            <div class="container mt-2">
-                                <div class="col-8 p-4 mb-4  alert alert-info" role="alert">
-                                    <h6 id="enter_your_contacts">Enter your <strong>contacts </strong> and
-                                        if you want you can leave a <strong>comment ... </strong></h6>
-                                </div>
-                    <div class="form-group row">
-                        <label class="control-label col-sm-2 col-form-label email-label" id="email-label">Email</label>
-                        <div class="col-md-5 pl-0 pr-1">
-                            <input class="form-control email" type="email" id="email" placeholder="Email">
+                                    <th id="for-1click-reg" sec:authorize="!isAuthenticated()"></th>
+                                    <th id="forButtonCheckout"></th>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-<!--        Добавил в форму контактов при заказе имя и фамилию                        -->
-                                <div class="form-group row">
-                                    <label class="control-label col-sm-2 col-form-label firstName-label" id="firstName-label">First name</label>
-                                    <div class="col-md-5 pl-0 pr-1">
-                                        <input class="form-control firstName" type="text" id="firstName" placeholder="First name">
+
+                    <div class="tab-pane fade" id="contacts" role="tabpanel" aria-labelledby="contacts-tab">
+                        <div class="shadow-lg p-4 mb-2 bg-white ">
+                            <div class="panel panel-primary">
+                                <div class="panel-body">
+                                    <div class="container mt-2">
+                                        <div class="col-8 p-4 mb-4  alert alert-info" role="alert">
+                                            <h6 id="enter_your_contacts">Enter your <strong>contacts </strong> and
+                                                if you want you can leave a <strong>comment ... </strong></h6>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="control-label col-sm-2 col-form-label email-label"
+                                                   id="email-label">Email</label>
+                                            <div class="col-md-5 pl-0 pr-1">
+                                                <input class="form-control email" type="email" id="email"
+                                                       placeholder="Email">
+                                            </div>
+                                        </div>
+                                        <!--        Добавил в форму контактов при заказе имя и фамилию                        -->
+                                        <div class="form-group row">
+                                            <label class="control-label col-sm-2 col-form-label firstName-label"
+                                                   id="firstName-label">First name</label>
+                                            <div class="col-md-5 pl-0 pr-1">
+                                                <input class="form-control firstName" type="text" id="firstName"
+                                                       placeholder="First name">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="control-label col-sm-2 col-form-label lastName-label"
+                                                   id="lastName-label">Last name</label>
+                                            <div class="col-md-5 pl-0 pr-1">
+                                                <input class="form-control lastName" type="text" id="lastName"
+                                                       placeholder="Last name">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="control-label col-sm-2 col-form-label phone-label"
+                                                   id="phone-label">Phone</label>
+                                            <div class="col-sm-5 pl-0 pr-1">
+                                                <input class="form-control field phone" type="tel" id="phone"
+                                                       placeholder="Phone">
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="control-label col-sm-2 col-form-label comment-label"
+                                                   id="comment-label">Comment</label>
+                                            <div class="col-md-6 pl-0">
+                                                <textarea class="form-control comment" id="comment" rows="5"
+                                                          placeholder="Comment" maxlength="350"> </textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col">
+                                                <button class="btn btn-secondary back-btn" onclick="showHome()"
+                                                        type="button">
+                                                    Back
+                                                </button>
+                                            </div>
+                                            <div class="col">
+                                                <button sec:authorize="isAuthenticated()" class="btn btn-primary next-btn" onclick="confirmContacts()"
+                                                        type="button">
+                                                    Next
+                                                </button>
+                                                <button sec:authorize="!isAuthenticated()" class="btn btn-primary next-btn"
+                                                        onclick="confirmContactsFor1Click2()"
+                                                        type="button">
+                                                    Next for 1Click
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="form-group row">
-                                    <label class="control-label col-sm-2 col-form-label lastName-label" id="lastName-label">Last name</label>
-                                    <div class="col-md-5 pl-0 pr-1">
-                                        <input class="form-control lastName" type="text" id="lastName" placeholder="Last name">
-                                    </div>
-                                </div>
-                    <div class="form-group row">
-                        <label class="control-label col-sm-2 col-form-label phone-label" id="phone-label">Phone</label>
-                        <div class="col-sm-5 pl-0 pr-1">
-                            <input class="form-control field phone" type="tel" id="phone" placeholder="Phone">
-                        </div>
-
-                    </div>
-                    <div class="form-group row">
-                        <label class="control-label col-sm-2 col-form-label comment-label" id="comment-label">Comment</label>
-                        <div class="col-md-6 pl-0">
-                            <textarea class="form-control comment" id="comment" rows="5" placeholder="Comment" maxlength="350"> </textarea>
-                        </div>
-                    </div>
-                                <div class="form-group row">
-                                    <div class="col" ><button class="btn btn-secondary back-btn"  onclick="showHome()" type="button">
-                                        Back
-                                    </button></div>
-                                    <div class="col">
-                    <button class="btn btn-primary next-btn"  onclick="confirmContacts()" type="button">
-                        Next
-                    </button>
-                                    </div>
-                                </div>
-                </div>
-                </div>
-                    </div>
-                </div>
-                </div>
-                <div class="tab-pane fade" id="Summary" role="tabpanel" aria-labelledby="Summary-tab">
-                    <div class="shadow-lg p-4 mb-2 bg-white ">
-                        <div class="card card-body">
-                        <table class="table table-sm table-sm bg-white">
-                            <div class="col-9 p-4 mb-4  alert alert-info" role="alert">
-                                <h6 class="align-content-center mt-2 purchase-loc">YOUR PURCHASES</h6></div>
-                            <thead>
-                            <tr height="50">
-                                <th width="10"></th>
-                                <th></th>
-                                <th class="items-loc">Items</th>
-                                <th class="unit-price-loc">Unit price</th>
-                            </tr>
-                            </thead>
-                            <tbody id='orderTab'>
-                            </tbody>
-                            <tbody>
-                            <tr>
-                            </tr>
-                            <tr>
-                            <tr height="50">
-                                <th width="10"></th>
-                                <th></th>
-                                <th>
-                                    <a class="subtotal-loc">Subtotal:</a>
-                                </th>
-                                <th>
-                                    <a id="subtotal"></a>
-                                    <p id="shippingcost"></p>
-                                </th>
-                            </tr>
-                            <tr>
-                            <tr height="50">
-                                <th width="10"></th>
-                                <th></th>
-                                <th class="pricetotal-loc">Total price:</th>
-                                <th id="pricetotal"></th>
-                            </tr>
-                            </tr>
-                            </tbody>
-                        </table>
-<!--                            информация по подтвержению введеных контактных данных с предыдущей страницы, read only-->
-                        </div>
-                        <div class="card card-body" id="shippingaddress" style="line-height: 4px; font-size: large"></div>
-                    </div>
-                        <div class="card-footer my-4 ">
-                        <div class="form-group  row mt-2 ml-0" >
-                            <div class=" col-4">
-                                <button class="btn btn-secondary btn-block back-btn" onclick="showContacts()" type="button">
-                                        Back
-                                </button>
-                            </div>
-                            <div class="col-4 ">
-                                <button class="btn bt-lg btn-block btn-success buynow-btn"
-                                        id="butToBuy"
-                                        type="button">Buy Now
-                                </button>
                             </div>
                         </div>
                     </div>
+
+                    <!--Блок Summary подведение результатов по сумме заказа и введеных контактных данных-->
+                    <div class="tab-pane fade" id="Summary" role="tabpanel" aria-labelledby="Summary">
+                        <div class="container page-content">
+                            <div class="shadow-lg p-4 mb-2 bg-white ">
+                                <div class="card card-body">
+                                    <table class="table table-sm table-sm bg-white">
+                                        <div class="col-9 p-4 mb-4  alert alert-info" role="alert">
+                                            <h6 class="align-content-center mt-2 purchase-loc">YOUR PURCHASES</h6>
+                                        </div>
+                                        <thead>
+                                        <tr height="50">
+                                            <th width="10"></th>
+                                            <th></th>
+                                            <th class="items-loc">Items</th>
+                                            <th class="unit-price-loc">Unit price</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id='orderTab'></tbody>
+                                        <tbody>
+                                        <tr></tr>
+                                        <tr>
+                                        <tr height="50">
+                                            <th width="10"></th>
+                                            <th></th>
+                                            <th>
+                                                <a class="subtotal-loc">Subtotal:</a>
+                                            </th>
+                                            <th>
+                                                <a id="subtotal"></a>
+                                                <p id="shippingcost"></p>
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                        <tr height="50">
+                                            <th width="10"></th>
+                                            <th></th>
+                                            <th class="pricetotal-loc">Total price:</th>
+                                            <th id="pricetotal"></th>
+                                        </tr>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!--подставляем введеные котактные данные shippingaddress из shoppingCart.js-->
+                                <div class="card card-body" id="shippingaddress"
+                                     style="line-height: 4px; font-size: large"></div>
+<!--                                <div class="row px-4">-->
+<!--                                    <h5 class="col-12 p-3 rounded text-center alert-danger" th:if="${errorMessage.isHasError()}"-->
+<!--                                        th:text="${errorMessage.getMessage()}" id="errorMessage"></h5>-->
+<!--                                </div>-->
+                            </div>
+
+                            <div class="collapse" id="collapseExample">
+                                <div class="alert alert-danger" role="alert" id="errorMessageEmail">
+                                </div>
+                            </div>
+                            <div class="card-footer my-4 ">
+                                <div class="form-group  row mt-2 ml-0">
+                                    <div class=" col-4">
+                                        <button sec:authorize="isAuthenticated()" class="btn btn-secondary btn-block back-btn"
+                                                onclick="showContacts()"
+                                                type="button">
+                                            Back
+                                        </button>
+                                        <button sec:authorize="!isAuthenticated()" class="btn btn-primary next-btn"
+                                                onclick="showContacts1ClickReg()"
+                                                type="button"> Back
+                                        </button>
+                                    </div>
+                                    <div class="col-4 ">
+                                        <p sec:authorize="isAuthenticated()" id="for_btnBuy"></p>
+                                        <p sec:authorize="!isAuthenticated()"
+                                           id="for_btn1clickRegAndBuy"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
             </div>
-            </div>
+
         </main>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
@@ -537,6 +610,7 @@
 <script src="/static/js/user/profile/orderStates.js"></script>
 <script src="/static/js/user/order/shoppingCart.js"></script>
 <script src="/static/js/utils/common-function.js"></script>
+<script src="../static/js/user/auth/registration.js"></script>
 <script th:attr="src=*{key}" async defer></script>
 </body>
 <!--cabinet.html-->

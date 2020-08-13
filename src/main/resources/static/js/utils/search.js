@@ -1,5 +1,6 @@
 let row, primary;
 let isCheckedCategory = false;
+let checkboxes = [];
 let currentPage = 0;
 let amountBooksInPage = 0;
 let amountBooksInDb;
@@ -7,6 +8,10 @@ let ddmAmountBook = $("#ddmAmountBook");
 let isAdmin = false;
 
 $(document).ready(async function () {
+    await buildSearchPage();
+});
+
+async function buildSearchPage(){
     getLanguage();
     getCategoryTree();
     setListeners();
@@ -22,7 +27,7 @@ $(document).ready(async function () {
         }, 1700)
     });
     getAUTH();
-});
+}
 
 async function getQuantityPage() {
         if (amountBooksInDb < amountBooksInPage) {
@@ -157,15 +162,13 @@ function setListeners () {
     })
 
     $('#check-available').on('click', function () {
-        //$('#input-categories').empty();
         getCategoryTreeWithoutRefreshing();
     })
 }
 
 async function getCategoryTreeWithoutRefreshing(){
-    fetch('/categories/gettree', {}).then(function (response) {
-        return response.json()
-    })
+    fetch('/categories/gettree/' + currentLang)
+        .then(json)
         .then(function (json) {
             categoryArr = [];
             for (let i in json) {
@@ -191,7 +194,7 @@ async function setTreeViewWithoutRefreshing(categories) {
         row =
             `<div id="${category.id}" class="category text-nowrap">
                 <div class="custom-control custom-checkbox form-check-inline" id="heading-${category.id}">
-                    <input class="custom-control-input" type="checkbox" id="check-${category.id}" value="${category.id}">
+                    <input class="custom-control-input" type="checkbox" id="check-${category.id}" value="${category.id}" ${checkboxes.includes(`${category.id}`) ? 'checked' : ''}>
                     <label class="custom-control-label" for="check-${category.id}"></label>
                     <label class="collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#collapse-${category.id}" aria-expanded="false" aria-controls="collapse-${category.id}">
                        <label id="${category.categoryName.toLowerCase()}-rightbar">${category.categoryName}</label>(${await getCountBooksByCat(category.path, $('#check-available').is(':checked') ? true : false)})
@@ -211,7 +214,6 @@ async function setTreeViewWithoutRefreshing(categories) {
 
         $('#'+category.id).replaceWith(row);
     }
-    //setLocaleFields();
 }
 
 
@@ -224,9 +226,8 @@ async function getCategoryTree() {
         }
     }
 
-    fetch('/categories/gettree/' + currentLang, {}).then(function (response) {
-        return response.json()
-    })
+    fetch('/categories/gettree/' + currentLang)
+        .then(json)
         .then(function (json) {
             categoryArr = [];
             for (let i in json) {
@@ -271,7 +272,7 @@ async function setTreeView(categories) {
                     <label class="custom-control-label" for="check-${category.id}"></label>
                     <label class="collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#collapse-${category.id}" aria-expanded="false" aria-controls="collapse-${category.id}">
                        <label id="${category.categoryName.toLowerCase()}-rightbar">${category.categoryName}</label>(${await getCountBooksByCat(category.path, $('#check-available').is(':checked') ? true : false)})
-                       <i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                       ${category.childrens !== undefined ? '<i class="fa fa-plus-square-o" aria-hidden="true"></i>' : ''}
                     </label>
                 </div>`;
         if (category.childrens != undefined) {
@@ -297,7 +298,7 @@ async function setChilds(categories) {
             row +=
                 `<div class="category text-nowrap">
                     <div class="custom-control custom-checkbox form-check-inline" id="heading-${category.id}">
-                        <input class="custom-control-input" type="checkbox" id="check-${category.id}" value="${category.id}">
+                        <input class="custom-control-input" type="checkbox" id="check-${category.id}" value="${category.id}" ${checkboxes.includes(`${category.id}`) ? 'checked' : ''}>
                         <label class="custom-control-label" for="check-${category.id}">
                             <label class="${category.categoryName.toLowerCase()}-rightbar">${category.categoryName}</label>(${await getCountBooksByCat(category.path, $('#check-available').is(':checked') ? true : false)})
                         </label>
@@ -307,7 +308,7 @@ async function setChilds(categories) {
             row +=
                 `<div class="category text-nowrap">
                     <div class="custom-control custom-checkbox form-check-inline" id="heading-${category.id}">
-                        <input class="custom-control-input" type="checkbox" id="check-${category.id}" value="${category.id}">
+                        <input class="custom-control-input" type="checkbox" id="check-${category.id}" value="${category.id}" ${checkboxes.includes(`${category.id}`) ? 'checked' : ''}>
                         <label class="custom-control-label" for="check-${category.id}"></label>
                         <label class="collapsed" data-toggle="collapse" data-target="#collapse-${category.id}" data-parent="#accordion" aria-expanded="false" aria-controls="collapse-${category.id}">
                            <label class="${category.categoryName.toLowerCase()}-rightbar">${category.categoryName}</label>(${await getCountBooksByCat(category.path, $('#check-available').is(':checked') ? true : false)})
@@ -367,7 +368,7 @@ async function advancedSearch(amount, page) {
         .then(function (data) {
             setLocaleFields();
             amountBooksInDb = data.amountOfBooksInDb;
-            addFindeBooks(data.books);
+            addFoundBooks(data.books);
         });
 }
 
@@ -393,7 +394,7 @@ function getPageWithBooks(amount, page) {
 
 }
 
-async function addFindeBooks(data) {
+async function addFoundBooks(data) {
     $('#search-table-result').empty();
     let table = [];
     table.push(`<thead>
@@ -427,7 +428,12 @@ async function addFindeBooks(data) {
             }
         }
 
-        let urlImage = prePathUrl + `../images/book${data[i].id}/${data[i].coverImage}`;
+        let urlImage;
+        if (data[i].coverImage == "") {
+            urlImage = "/images/service/noimage.png";
+        } else {
+            urlImage = prePathUrl + `../images/book${data[i].id}/${data[i].coverImage}`;
+        }
         if (data[i].yearOfEdition == null) {
             data[i].yearOfEdition = "-";
         } if(data[i].category.name[currentLang] == null) {
@@ -455,8 +461,8 @@ async function addFindeBooks(data) {
                                 ${isAdmin && (window.location.pathname === '/admin/panel/books') ? 
                                     `
                                     <div id="search-admin">
-                                        <button class="btn btn-info edit-loc" onclick="openEdit(${data[i].id})"><i class="material-icons">edit</i></button>
-                                        <button class="btn btn-danger delete-loc" onclick="preDeleteBook(${data[i].id})"><i class="material-icons">delete</i></button>
+                                        <button class="btn btn-info edit-loc mb-1" style="height: 2.5rem" onclick="openEdit(${data[i].id})"><i class="material-icons">edit</i></button>
+                                        <button class="btn btn-danger delete-loc" style="height: 2.5rem" onclick="preDeleteBook(${data[i].id})"><i class="material-icons">delete</i></button>
                                     </div>
                                     ` : 
                                     `

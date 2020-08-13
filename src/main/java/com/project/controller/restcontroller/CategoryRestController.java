@@ -25,7 +25,6 @@ public class CategoryRestController {
     }
 
     @GetMapping("/gettree/{loc}")
-    @Cacheable(value = "categoryTree")
     public List getCategoryTree(@PathVariable("loc") String loc) {
         return categoryService.getCategoryTree(loc);
     }

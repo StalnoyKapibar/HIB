@@ -17,7 +17,7 @@
                href="#nav-home1" id="nav-home-tab1" role="tab">All Books</a>
             <a aria-controls="nav-profile1" aria-selected="false" class="nav-item nav-link add-books-loc"
                data-toggle="tab"
-               href="#nav-profile1" id="nav-profile-tab1" onclick="addPage()" role="tab">Add Book</a>
+               href="#nav-profile1" id="nav-profile-tab1" role="tab" onclick="loadAddEditButton()">Add Book</a>
             <a aria-controls="add-hib-files" aria-selected="false" class="nav-item nav-link add-hib-files-loc"
                data-toggle="tab"
                href="#add-hib-files" id="add-hib-files-tab" role="tab">Add hib files</a>
@@ -28,55 +28,7 @@
             <div th:insert="search :: search-page"></div>
         </div>
         <div aria-labelledby="nav-profile-tab1" class="tab-pane fade" id="nav-profile1" role="tabpanel">
-            <ul class="list-group">
-                <li class="list-group-item list-group-item-light add-new-book-loc" id="add-new-book-loc1">Add new Book<span style="float: right; text-align: right;" ><span class="required">*</span><span
-                        id="requiredExample"/></span></li>
-            </ul>
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="container-fluid col-6">
-                        <div class="row">
-                            <h3 class="col-6 is-disabled-dots-loc">
-                                Is disabled:
-                            </h3>
-                            <input type="checkbox" id="disabled" checked data-toggle="toggle">
-                        </div>
-                    </div>
-                    <button class='btn btn-primary col-4 btn-metro offset-2 add-new-book-loc' id="add-new-book-loc2" onclick='addNewBook()'
-                            type='submit'>Add
-                        new Book
-                    </button>
-                </div>
-                <ul class="nav nav-tabs" id="myTab" role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link active add-name-loc" id="name-tab" data-toggle="tab" href="#name" role="tab"
-                           aria-controls="home" aria-selected="true">Add name<span class="required">*</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link add-author-loc" id="author-tab" data-toggle="tab" href="#author" role="tab"
-                           aria-controls="profile" aria-selected="false">Add author<span class="required">*</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link add-description-loc" id="description-tab" data-toggle="tab"
-                           href="#description" role="tab" aria-controls="contact" aria-selected="false">Add
-                            description</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link add-addition-loc" id="edition-tab" data-toggle="tab" href="#edition"
-                           role="tab" aria-controls="contact" aria-selected="false">Add edition<span class="required">*</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link add-other-loc" id="other-tab" data-toggle="tab" href="#other" role="tab"
-                           aria-controls="contact" aria-selected="false">Add other</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link category-loc" id="category-tab " data-toggle="tab" href="#category"
-                           role="tab" aria-controls="contact" aria-selected="false">Category<span class="required">*</span></a>
-                    </li>
-                </ul>
-            </div>
-            <form id="newBookForm" role="form">
-            </form>
+            <div th:insert="/admin/bookAddEdit.html :: editingBooks('Add')"></div>
         </div>
         <div aria-labelledby="add-hib-files-tab" class="tab-pane fade" id="add-hib-files" role="tabpanel">
             <div class="row">
