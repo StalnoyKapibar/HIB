@@ -65,15 +65,21 @@ async function getFeedbackRequestTable(viewed) {
             <div class="indeterminate"></div>
         </div>
     `)
-    await getFeedbacksByViewed(viewed)
+    await fetch("/api/admin/feedback-request?viewed=" + viewed)
+        .then(json)
         .then(async data => {
             let tmp = data;
             let feedbacks = [];
             for (let key in data) {
                 emails.push(data[key].senderEmail)
             }
-            await getGmailUnreadEmails()
-                .then(data => {
+            await fetch ("/admin/unreadgmail/", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify(emails)
+            }).then(json).then(data => {
                 feedbacks = tmp.map((item) => {
                     if (data.hasOwnProperty(item.senderEmail)) {
                         item.unreadgmail = data[item.senderEmail];
@@ -460,11 +466,10 @@ async function scrolling() {
 }
 
 async function getFeedbacksByViewed(viewed) {
-    return await GET("/api/admin/feedback-request?replied=" + viewed)
+    await GET("/api/admin/feedback-request?replied=" + viewed)
         .then(json)
         .then((data) => {
             allFeedbacksByViewed = data;
-            return data;
         })
 }
 
