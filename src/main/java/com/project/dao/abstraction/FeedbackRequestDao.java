@@ -10,6 +10,8 @@ public interface FeedbackRequestDao extends GenericDao<Long, FeedbackRequest> {
 
     List<FeedbackRequest> getByReplied(Boolean replied);
 
+    List<FeedbackRequest> getByViewed(Boolean viewed);
+
     List<FeedbackRequest> getBySenderByReplied(String senderEmail, boolean replied);
 
     int getCountOfFeedBack();

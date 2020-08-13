@@ -230,7 +230,7 @@ async function setLocaleFields() {
             $('.english-text-loc').text(localeFields['englishText']);
             $('.link-loc').text(localeFields['link']);
             //feedback.html
-            $('.show-replied-messages-loc').text(localeFields['showRepliedMessages']);
+            $('.show-viewed-messages-loc').text(localeFields['showViewedMessages']);
             $('.sender-name-loc').text(localeFields['senderName']);
             $('.content-loc').text(localeFields['content']);
             $('.reply-loc').text(localeFields['reply']);

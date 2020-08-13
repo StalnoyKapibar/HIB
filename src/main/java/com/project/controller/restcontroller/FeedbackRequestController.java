@@ -57,12 +57,21 @@ public class FeedbackRequestController {
         return feedbackRequestService.save(feedbackRequest);
     }
 
-    @PostMapping("/api/admin/feedback-request/{id}/{replied}")
-    public void markFeedbackAsRead(@PathVariable Long id, @PathVariable Boolean replied) {
+    @PostMapping("/api/admin/feedback-request/{id}/{viewed}")
+    public void markFeedbackAsRead(@PathVariable Long id, @PathVariable Boolean viewed) {
         FeedbackRequest feedbackRequest = feedbackRequestService.getById(id);
-        feedbackRequest.setReplied(!replied);
+        feedbackRequest.setViewed(viewed);
         feedbackRequestService.save(feedbackRequest);
     }
+
+    @PostMapping("/api/admin/feedback-request/replied/{id}/{status}")
+    public void markFeedback(@PathVariable Long id, @PathVariable Boolean status) {
+        FeedbackRequest feedbackRequest = feedbackRequestService.getById(id);
+        feedbackRequest.setReplied(status);
+        feedbackRequest.setViewed(status);
+        feedbackRequestService.save(feedbackRequest);
+    }
+
 
     @SuppressWarnings("all")
     @PostMapping("/api/admin/feedback-request/reply/{id}")
@@ -77,7 +86,7 @@ public class FeedbackRequestController {
         mailService.sendEmail(simpleMailMessage, feedbackRequest.getSenderEmail());
     }
 
-    @GetMapping(value = "/api/admin/feedback-request", params = "!replied")
+    @GetMapping(value = "/api/admin/feedback-request", params = "!viewed")
     public List<FeedbackRequest> getAll() {
         return feedbackRequestService.findAll();
     }
@@ -89,12 +98,12 @@ public class FeedbackRequestController {
     }
 
     @GetMapping("/api/admin/feedback-request")
-    public List<FeedbackRequest> getByReplied(HttpSession session, @RequestParam Boolean replied) {
+    public List<FeedbackRequest> getByReplied(HttpSession session, @RequestParam Boolean viewed) {
         DataEnterInAdminPanel data = (DataEnterInAdminPanel) session.getAttribute("data");
         data.setDataEnterInFeedback(Instant.now().getEpochSecond());
         dataEnterInAdminPanelService.update(data);
         session.setAttribute("data", data);
-        return feedbackRequestService.getByReplied(replied);
+        return feedbackRequestService.getByViewed(viewed);
     }
 
     @GetMapping("/api/admin/feedback-request/{id}")

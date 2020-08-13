@@ -865,12 +865,12 @@ async function showModalOfOrder(index) {
     setLocaleFields();
 }
 
-async function markAsRead(id, replied) {
+async function markAsRead(id, viewed) {
     let message = "Mark this message as ";
-    message += replied ? "unread?" : "read?";
+    message += viewed ? "read?" : "unread?";
     activeBtn = document.querySelector('.active-cell button');
     if (confirm(message)) {
-        await fetch("/api/admin/feedback-request/" + id + "/" + replied, {
+        await fetch("/api/admin/feedback-request/" + id + "/" + viewed, {
             method: 'POST'
         })
         location.reload();

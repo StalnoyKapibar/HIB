@@ -48,24 +48,24 @@ $('#feedback-request-modal')
         getFeedbackRequestTable(false);
     })
 
-async function markAsRead(id, replied) {
+async function markAsRead(id, viewed) {
     let message = "Mark this message as ";
-    message += replied ? "unread?" : "read?";
+    message += viewed ? "read?" : "unread?";
     if (confirm(message)) {
-        fetch("/api/admin/feedback-request/" + id + "/" + replied, {
+        fetch("/api/admin/feedback-request/" + id + "/" + viewed, {
             method: 'POST'
         }).then(r => startCountOfFeedback())
-          .then(r => getFeedbackRequestTable(replied));
+          .then(r => getFeedbackRequestTable(!viewed));
     }
 }
 
-async function getFeedbackRequestTable(replied) {
+async function getFeedbackRequestTable(viewed) {
     $('#preloader').html(`
         <div class="progress">
             <div class="indeterminate"></div>
         </div>
     `)
-    await fetch("/api/admin/feedback-request?replied=" + replied)
+    await fetch("/api/admin/feedback-request?viewed=" + viewed)
         .then(json)
         .then(async data => {
             let tmp = data;
@@ -109,10 +109,7 @@ async function getFeedbackRequestTable(replied) {
                     bookCoverImage = data[i].book.coverImage;
                 }
 
-                let replied;
-                let mark;
-                if (data[i].replied === false) {
-                    replied = `<button type="button"
+                let replied = `<button type="button"
                                class="btn btn-info btn-reply reply-loc"
                                id="replyBtn"
                                data-id="${id}"
@@ -122,21 +119,18 @@ async function getFeedbackRequestTable(replied) {
                                data-bookId="${bookId}"
                                data-bookName="${bookName}"
                                data-bookCoverImage="${bookCoverImage}"
-                               onclick="showModalOfFeedBack(${id})">Reply</button>
-         `;
+                               onclick="showModalOfFeedBack(${id})">Reply</button>`;
+                let mark;
+                if (data[i].viewed === false) {
                     mark = `<button type="button"
                             class="btn btn-info read-loc"           
-                            onclick="markAsRead(${id},${data[i].replied})">Read</button>`;
-                } else if (data[i].replied === true && data[i].viewed === true) {
-                    replied = `<input type="checkbox" disabled checked>`;
+                            onclick="markAsRead(${id},true)">Read</button>`;
+                } else {
+                    replied = data[i].replied ? `<input type="checkbox" disabled checked>` :
+                                                `<input type="checkbox" disabled unchecked>`;
                     mark = `<button type="button"
                             class="btn btn-info unread-loc"           
-                            onclick="markAsRead(${id},${data[i].replied})">Unread</button>`;
-                } else if (data[i].replied === true && data[i].viewed === false) {
-                    replied = `<input type="checkbox" disabled unchecked>`;
-                    mark = `<button type="button"
-                            class="btn btn-info unread-loc"           
-                            onclick="markAsRead(${id},${data[i].replied})">Unread</button>`;
+                            onclick="markAsRead(${id},false)">Unread</button>`;
                 }
 
                 let tr = $("<tr/>");
@@ -228,9 +222,9 @@ async function showAlert(message, clazz) {
 }
 
 toggleReplied.change(() => {
-    let repliedOn = toggleReplied.prop('checked');
-    localStorage.setItem(localStorageToggleKey, repliedOn.toString());
-    getFeedbackRequestTable(repliedOn).catch();
+    let viewedOn = toggleReplied.prop('checked');
+    localStorage.setItem(localStorageToggleKey, viewedOn.toString());
+    getFeedbackRequestTable(viewedOn).catch();
 });
 
 async function showModalOfFeedBack(index) {
@@ -471,8 +465,8 @@ async function scrolling() {
 }
 
 
-async function getFeedbackAll(replied) {
-    await fetch("/api/admin/feedback-request?replied=" + replied)
+async function getFeedbackAll(viewed) {
+    await fetch("/api/admin/feedback-request?viewed=" + viewed)
         .then(json)
         .then((data) => {
             allFeedBack = data;
@@ -505,6 +499,12 @@ function sendGmailMessage(userId, feedbackId) {
         }).then(() => {
         fetch("/admin/markasread?email=" + userId)
             .then(json)
+    })
+        .then(r => {
+            fetch("/api/admin/feedback-request/replied/" + feedbackId + "/" + true, {
+                method: "POST"
+            });
+            startCountOfFeedback();
     });
 }
 

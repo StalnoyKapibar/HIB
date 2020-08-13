@@ -46,6 +46,11 @@ public class FeedbackRequestServiceImpl implements FeedbackRequestService {
     }
 
     @Override
+    public List<FeedbackRequest> getByViewed(Boolean viewed) {
+        return feedbackRequestDAO.getByViewed(viewed);
+    }
+
+    @Override
     public List<FeedbackRequest> getBySenderByReplied(String senderEmail, boolean replied) {
         return feedbackRequestDAO.getBySenderByReplied(senderEmail, replied);
     }
