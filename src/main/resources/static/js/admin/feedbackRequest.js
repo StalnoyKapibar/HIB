@@ -497,10 +497,11 @@ async function getGmailUnreadEmails() {
 // consolidate unread feedbacks
 function consolidateEmails() {
     getAllFeedbacks()
-        .then(async tmp => {
+        .then(async data => {
+            let tmp = data;
             let feedbacks = [];
-            for (let key in tmp) {
-                emails.push(tmp[key].senderEmail)
+            for (let key in data) {
+                emails.push(data[key].senderEmail)
             }
             getGmailUnreadEmails()
                 .then(data => {
