@@ -65,33 +65,7 @@ async function getFeedbackRequestTable(viewed) {
             <div class="indeterminate"></div>
         </div>
     `)
-    await fetch("/api/admin/feedback-request?viewed=" + viewed)
-        .then(json)
-        .then(async data => {
-            let tmp = data;
-            let feedbacks = [];
-            for (let key in data) {
-                emails.push(data[key].senderEmail)
-            }
-            await fetch ("/admin/unreadgmail/", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json;charset=utf-8'
-                },
-                body: JSON.stringify(emails)
-            }).then(json).then(data => {
-                feedbacks = tmp.map((item) => {
-                    if (data.hasOwnProperty(item.senderEmail)) {
-                        item.unreadgmail = data[item.senderEmail];
-                        return item;
-                    } else {
-                        item.unreadgmail = false;
-                        return item;
-                    }
-                })
-            })
-            return feedbacks;
-        })
+    await consolidateEmails()
         .then((data) => {
             $('#preloader').empty();
             tableBody.empty();
@@ -476,7 +450,7 @@ async function getAllFeedbacks() {
 
 // get all unread emails
 async function getGmailUnreadEmails() {
-    return POST ("/admin/unreadgmail/", JSON.stringify(emails), JSON_HEADER)
+    return await POST ("/admin/unreadgmail/", JSON.stringify(emails), JSON_HEADER)
         .then(json)
         .then((data) => {
             return data;
@@ -484,15 +458,15 @@ async function getGmailUnreadEmails() {
 }
 
 // consolidate unread feedbacks
-function consolidateEmails() {
-    return getAllFeedbacks()
-        .then(() => {
+async function consolidateEmails() {
+    return await getAllFeedbacks()
+        .then(async () => {
             let tmp = allFeedBack;
             let feedbacks = [];
             for (let key in allFeedBack) {
                 emails.push(allFeedBack[key].senderEmail)
             }
-            getGmailUnreadEmails()
+            await getGmailUnreadEmails()
                 .then((data) => {
                     feedbacks = tmp.map((item) => {
                         if (data.hasOwnProperty(item.senderEmail)) {
@@ -503,7 +477,6 @@ function consolidateEmails() {
                             return item;
                         }
                     });
-
                 });
             return feedbacks;
         });
@@ -511,7 +484,7 @@ function consolidateEmails() {
 
 // check gmail answers and mark feedbacks
 async function checkGmailFeedbacks() {
-    consolidateEmails()
+    await consolidateEmails()
         .then((data) => {
             for (let i = 0; i < data.length; i++) {
                 if (data[i].unreadgmail) {
