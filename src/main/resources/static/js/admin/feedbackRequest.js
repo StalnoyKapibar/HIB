@@ -34,7 +34,6 @@ $(document).ready(function () {
             });
         }
     }
-    getAllFeedbacks();
     message.val($(this).attr("data-message"));
     window.addEventListener(`resize`, event => {
         filterUl.width(filterInput.width() + 25);
@@ -65,7 +64,33 @@ async function getFeedbackRequestTable(viewed) {
             <div class="indeterminate"></div>
         </div>
     `)
-    await consolidateEmails()
+    await fetch("/api/admin/feedback-request?viewed=" + viewed)
+        .then(json)
+        .then(async data => {
+            let tmp = data;
+            let feedbacks = [];
+            for (let key in data) {
+                emails.push(data[key].senderEmail)
+            }
+            await fetch ("/admin/unreadgmail/", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify(emails)
+            }).then(json).then(data => {
+                feedbacks = tmp.map((item) => {
+                    if (data.hasOwnProperty(item.senderEmail)) {
+                        item.unreadgmail = data[item.senderEmail];
+                        return item;
+                    } else {
+                        item.unreadgmail = false;
+                        return item;
+                    }
+                })
+            })
+            return feedbacks;
+        })
         .then((data) => {
             $('#preloader').empty();
             tableBody.empty();
