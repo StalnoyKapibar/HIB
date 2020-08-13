@@ -12,13 +12,12 @@ let interestedBookImage = $("#interested-image");
 let interestedBookTitle = $("#interested-title");
 let toggleReplied = $("#toggle-replied");
 const localStorageToggleKey = "request-toggle";
-let allFeedBack;
+let allFeedbacksByViewed;
 let scrollOn = true;
 let messagePackIndex;
 let emails = [];
 
 $(document).ready(function () {
-    checkGmailFeedbacks();
     if (sessionStorage.getItem("details") !== null) {
         if (sessionStorage.getItem("details") === "Replied") {
             toggleReplied.bootstrapToggle('on');
@@ -34,6 +33,8 @@ $(document).ready(function () {
             });
         }
     }
+    getFeedbacksByViewed(false);
+    checkGmailFeedbacks();
     message.val($(this).attr("data-message"));
     window.addEventListener(`resize`, event => {
         filterUl.width(filterInput.width() + 25);
@@ -64,33 +65,7 @@ async function getFeedbackRequestTable(viewed) {
             <div class="indeterminate"></div>
         </div>
     `)
-    await fetch("/api/admin/feedback-request?viewed=" + viewed)
-        .then(json)
-        .then(async data => {
-            let tmp = data;
-            let feedbacks = [];
-            for (let key in data) {
-                emails.push(data[key].senderEmail)
-            }
-            await fetch ("/admin/unreadgmail/", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json;charset=utf-8'
-                },
-                body: JSON.stringify(emails)
-            }).then(json).then(data => {
-                feedbacks = tmp.map((item) => {
-                    if (data.hasOwnProperty(item.senderEmail)) {
-                        item.unreadgmail = data[item.senderEmail];
-                        return item;
-                    } else {
-                        item.unreadgmail = false;
-                        return item;
-                    }
-                })
-            })
-            return feedbacks;
-        })
+    consolidateEmails(false, viewed)
         .then((data) => {
             $('#preloader').empty();
             tableBody.empty();
@@ -445,7 +420,7 @@ async function scrolling(feedback) {
 }
 
 async function scrolling() {
-    let order = allFeedBack[orderIndex];
+    let order = allFeedbacksByViewed[orderIndex];
     if ($('#chat').scrollTop() < 2) {
         messagePackIndex++;
         await fetch("/gmail/" + order.contacts.email + "/messages/" + messagePackIndex)
@@ -464,12 +439,21 @@ async function scrolling() {
     }
 }
 
-// get all feedbacks instead of viewed and replied
-async function getAllFeedbacks() {
-    await GET("/api/admin/feedback-request")
+async function getFeedbacksByViewed(viewed) {
+    return await GET("/api/admin/feedback-request?replied=" + viewed)
         .then(json)
         .then((data) => {
-            allFeedBack = data;
+            allFeedbacksByViewed = data;
+            return data;
+        })
+}
+
+// get all feedbacks instead of viewed and replied
+async function getAllFeedbacks() {
+    return await GET("/api/admin/feedback-request")
+        .then(json)
+        .then((data) => {
+            return data;
         });
 }
 
@@ -483,13 +467,18 @@ async function getGmailUnreadEmails() {
 }
 
 // consolidate unread feedbacks
-async function consolidateEmails() {
-    return await getAllFeedbacks()
-        .then(async () => {
-            let tmp = allFeedBack;
+async function consolidateEmails(all, viewed) {
+    let feedData = [];
+    if (all === true) {
+        feedData = await getAllFeedbacks();
+    } else {
+        feedData = await getFeedbacksByViewed(viewed);
+    }
+    return async function() {
+            let tmp = feedData;
             let feedbacks = [];
-            for (let key in allFeedBack) {
-                emails.push(allFeedBack[key].senderEmail)
+            for (let key in feedData) {
+                emails.push(feedData[key].senderEmail)
             }
             await getGmailUnreadEmails()
                 .then((data) => {
@@ -504,7 +493,7 @@ async function consolidateEmails() {
                     });
                 });
             return feedbacks;
-        });
+        };
 }
 
 // check gmail answers and mark feedbacks
