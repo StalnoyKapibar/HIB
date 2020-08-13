@@ -29,11 +29,10 @@ public class ImgFirstStart extends FileSystemUtils implements ApplicationRunner 
     }
 
     public void flagCheck() throws IOException {
-        if(environment.getProperty("spring.application.imagemode").equals("copy")) {
+        if (environment.getProperty("spring.application.imagemode").equals("copy")) {
             copyCatalog();
             System.out.println("Каталог с изображениями скопирован в соответствии с application.properties imagemode");
-        }
-        else {
+        } else {
             System.out.println("Каталог изображений не скопирован в соответствии с application.properties imagemode");
         }
     }
