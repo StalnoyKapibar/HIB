@@ -65,7 +65,7 @@ async function getFeedbackRequestTable(viewed) {
             <div class="indeterminate"></div>
         </div>
     `)
-    consolidateEmails(false, viewed)
+    await consolidateEmails(false, viewed)
         .then((data) => {
             $('#preloader').empty();
             tableBody.empty();
