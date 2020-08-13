@@ -503,8 +503,9 @@ function consolidateEmails() {
                             return item;
                         }
                     });
-                    return feedbacks;
+
                 });
+            return feedbacks;
         });
 }
 
