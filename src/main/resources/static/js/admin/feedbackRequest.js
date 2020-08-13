@@ -486,7 +486,7 @@ async function getAllFeedbacks() {
 
 // get all unread emails
 async function getGmailUnreadEmails() {
-    await POST ("/admin/unreadgmail/", emails, JSON_HEADER)
+    await POST ("/admin/unreadgmail/", JSON.stringify(emails), JSON_HEADER)
         .then(json)
         .then((data) => {
             console.log("getGmailUnreadEmails: ", data);
