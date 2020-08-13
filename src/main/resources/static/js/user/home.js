@@ -60,7 +60,7 @@ async function addBooksToPage(books) {
         let cssOfBtn = listOrdersOfCart.includes(books[index].id) ? "disabled" : "addToCartBtn";
         let coverImageLink;
         //Функция, подменяющая пустую обложку картинкой "noimage"
-        if(books[index].coverImage == ""){
+        if (books[index].coverImage == "") {
             coverImageLink = "/images/service/noimage.png";
         } else {
             coverImageLink = 'images/book' + books[index].id + '/' + books[index].coverImage;

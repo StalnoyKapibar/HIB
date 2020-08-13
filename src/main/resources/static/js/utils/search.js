@@ -430,7 +430,12 @@ async function addFoundBooks(data) {
             }
         }
 
-        let urlImage = prePathUrl + `../images/book${data[i].id}/${data[i].coverImage}`;
+        let urlImage;
+        if (data[i].coverImage == "") {
+            urlImage = "/images/service/noimage.png";
+        } else {
+            urlImage = prePathUrl + `../images/book${data[i].id}/${data[i].coverImage}`;
+        }
         if (data[i].yearOfEdition == null) {
             data[i].yearOfEdition = "-";
         } if(data[i].category.name[currentLang] == null) {

@@ -46,52 +46,64 @@ function addPartsOfBook(partsOfBook) {
 
                 for (let tmpNameVar of nameVarOfLocaleString) {
                     html += `<div class="card p-4 mb-4 bg-light">
-                <div class='form-group mx-5'>
-                <div class="row">
-                <div class="col-0" for=${tmpNameObject}${tmpNameVar}>${tmpNameObject} ${tmpNameVar}</div>
-                <div class="col-2 mr-1">
-                <input type="radio" name="rb${tmpNameObject}" id="rb${tmpNameObject}${tmpNameVar}" value="${tmpNameVar}" autocomplete="off"> Translate from this language</div>
-                <div class="col-6">
-                <textarea type='text' class='form-control' rows="10"  id='inp${tmpNameObject}${tmpNameVar}'
-                placeholder='${tmpNameObject} ${tmpNameVar}'> </textarea>
-                </div>
-                <div class="col">
-                <input type="checkbox" checked name="cb${tmpNameObject}" value="${tmpNameVar}" autocomplete="off">Into this language</div></div></div></div>`;
+                                <div class='form-group mx-5'>
+                                    <div class="row">
+                                        <div class="col-0" for=${tmpNameObject}${tmpNameVar}>${tmpNameObject} ${tmpNameVar}</div>
+                                        <div class="col-2 mr-1">
+                                            <input type="radio" name="rb${tmpNameObject}" id="rb${tmpNameObject}${tmpNameVar}" 
+                                                value="${tmpNameVar}" autocomplete="off"> Translate from this language</div>
+                                        <div class="col-6">
+                                            <textarea type='text' class='form-control' rows="10"  id='inp${tmpNameObject}${tmpNameVar}'
+                                                placeholder='${tmpNameObject} ${tmpNameVar}'> </textarea>
+                                        </div>
+                                        <div class="col">
+                                            <input type="checkbox" checked name="cb${tmpNameObject}" value="${tmpNameVar}" 
+                                                autocomplete="off">Into this language
+                                        </div>
+                                    </div>
+                                </div>
+                             </div>`;
                     if (tmpNameVar === "gr") {
                         html += `<button type="button" onclick="translateText('${tmpNameObject}')" class="btn btn-primary mx-3 w-25">Translate</button></div>`
                     }
                 }
-
             } else {
 
                 html +=
                     `<div class="card p-4 mb-4 bg-light">
-                <div class='form-group mx-5 my-3'>
-                <div class="row">
-                <div class="col-0" for=${tmpNameObject}>${tmpNameObject}<span class="required">*</span> of other lang </div>
-                <div class="col-5 pl-5 ml-5  "><input type='text'  class='form-control '  id='inpt${tmpNameObject}'>
-                </div> </div>
-                <div class="row my-2">
-                <div class="col-0" for=${tmpNameObject}>${tmpNameObject} transliterate&nbsp;&nbsp; </div>
-                <div class="col-5 pl-5 ml-5  mr-1 "><input type='text' class='form-control ' id='in${tmpNameObject}'>
-                </div> </div>
-                </div>
-                    <button type="button" onclick="transliterationText('${tmpNameObject}')" class="btn btn-primary mx-3 w-25">Transliterate</button>
-                </div>`;
+                        <div class='form-group mx-5 my-3'>
+                            <div class="row">
+                                <div class="col-0" for=${tmpNameObject}>${tmpNameObject}<span class="required">*</span> of other lang </div>
+                                <div class="col-5 pl-5 ml-5  "><input type='text'  class='form-control '  id='inpt${tmpNameObject}'></div>
+                            </div>
+                            <div class="row my-2">
+                                <div class="col-0" for=${tmpNameObject}>${tmpNameObject} transliterate&nbsp;&nbsp; </div>
+                                <div class="col-5 pl-5 ml-5  mr-1 "><input type='text' class='form-control ' id='in${tmpNameObject}'></div>
+                            </div>
+                        </div>
+                        <button type="button" onclick="transliterationText('${tmpNameObject}')" class="btn btn-primary mx-3 w-25">Transliterate</button>
+                    </div>`;
 
                 for (let tmpNameVar of nameVarOfLocaleString) {
                     html += `<div class="card p-4 mb-4 bg-light">
-                <div class='form-group mx-5'>
-                <div class="row">
-                <div class="col-0" for=${tmpNameObject}${tmpNameVar}>${tmpNameObject} ${tmpNameVar}<span class="required">*</span></div>
-                <div class="col-2 mr-1">
-                <input type="radio" name="rb${tmpNameObject}" id="rb${tmpNameObject}${tmpNameVar}" value="${tmpNameVar}" autocomplete="off"> Translate from this language</div>
-                <div class="col">
-                <input type='text' class='form-control'  id='inp${tmpNameObject}${tmpNameVar}'
-                placeholder='${tmpNameObject} ${tmpNameVar}'> 
-                </div>
-                <div class="col">
-                <input type="checkbox" checked name="cb${tmpNameObject}" value="${tmpNameVar}" autocomplete="off"> Into this language</div></div></div></div>`;
+                                <div class='form-group mx-5'>
+                                    <div class="row">
+                                        <div class="col-0" for=${tmpNameObject}${tmpNameVar}>${tmpNameObject} ${tmpNameVar}<span class="required">*</span></div>
+                                        <div class="col-2 mr-1">
+                                            <input type="radio" name="rb${tmpNameObject}" id="rb${tmpNameObject}${tmpNameVar}" 
+                                                value="${tmpNameVar}" autocomplete="off"> Translate from this language
+                                        </div>
+                                        <div class="col">
+                                            <input type='text' class='form-control'  id='inp${tmpNameObject}${tmpNameVar}'
+                                                placeholder='${tmpNameObject} ${tmpNameVar}'> 
+                                        </div>
+                                        <div class="col">
+                                            <input type="checkbox" checked name="cb${tmpNameObject}" value="${tmpNameVar}" 
+                                                autocomplete="off"> Into this language
+                                        </div>
+                                    </div>
+                                </div>
+                             </div>`;
                     if (tmpNameVar === "gr") {
                         html += `<button type="button" onclick="translateText('${tmpNameObject}')" class="btn btn-primary mx-3 w-25">Translate</button></div>`
                     }
@@ -161,58 +173,57 @@ function buildAddPage() {
     doesFolderTmpExist();
 
     $('#bookAddForm').html(`<div class="tab-content" id="myTabContent">
-            
-            <div class="tab-pane fade show active" id="name" role="tabpanel" aria-labelledby="name-tab">
-             ${addPartsOfBook("name")}</div>
-             
-            <div class="tab-pane fade" id="author" role="tabpanel" aria-labelledby="author-tab" >
-             ${addPartsOfBook("author")} </div>
-            <div class="tab-pane fade" id="description" role="tabpanel" aria-labelledby="description-tab">
-             ${addPartsOfBook("description")}</div>
-             <div class="tab-pane fade" id="edition" role="tabpanel" aria-labelledby="edition-tab">
-             ${addPartsOfBook("edition")}</div>
-                <div class="tab-pane fade" id="other" role="tabpanel" aria-labelledby="other-tab">
-                    <div class="shadow p-4 mb-4 bg-white">
-                        <div class="card p-4 mb-4 bg-light">
-                        <h5> Year Of Edition </h5>
-                        <input type="text" class="w-25" id="yearOfEdition" ><br><br>
-                    </div>
-                    <div class="card p-4 mb-4 bg-light">
-                        <h5> Pages </h5>
-                        <input type="number" class="w-25" id="pages" ><br><br>
-                    </div>
-                    <div class="card p-4 mb-4 bg-light">
-                        <h5> Price </h5>
-                        <input type="number" class="w-25" id="price" ><br><br>
-                    </div>
-                    <div class="card p-4 mb-4 bg-light">
-                    <h5> Original Language </h5>
-                        <select id="originalLanguage" class="w-25">
-                        </select><br><br>
-                    </div>
-                    <div id = "allImage">
-                        <div class="card p-4 mb-4 bg-light">
-                        <div id="divLoadAvatar">
-                            <h4>Cover</h4>
-                            <Label>Load cover</Label>
-                            <input type="file" class="form-control-file" id="avatar" accept="image/jpeg,image/png,image/gif" onchange="loadImage('avatar','divAvatar')">
-                        </div>
-                        <div class='car' id='divAvatar'>
-                        </div>
-                        </div>
-                        <div class="card p-4 mb-4 bg-light">
-                            <h4>Another image</h4>
-                            <Label>Load another image</Label>
-                            <input type="file" class="form-control-file" id="loadAnotherImage" accept="image/jpeg,image/png,image/gif" onchange="loadImage('loadAnotherImage','imageList')">
-                        <div class='car' id='imageList'>
-                        </div>
-                    </div>
-                    </div>
-                    </div>
-                </div> 
-             <div class="tab-pane fade" id="category" role="tabpanel" aria-labelledby="category-tab">
-             </div>
-            </div>`);
+                                <div class="tab-pane fade show active" id="name" role="tabpanel" aria-labelledby="name-tab">
+                                    ${addPartsOfBook("name")}
+                                </div>
+                                <div class="tab-pane fade" id="author" role="tabpanel" aria-labelledby="author-tab" >
+                                    ${addPartsOfBook("author")} 
+                                </div>
+                                <div class="tab-pane fade" id="description" role="tabpanel" aria-labelledby="description-tab">
+                                    ${addPartsOfBook("description")}
+                                </div>
+                                <div class="tab-pane fade" id="edition" role="tabpanel" aria-labelledby="edition-tab">
+                                    ${addPartsOfBook("edition")}
+                                </div>
+                                <div class="tab-pane fade" id="other" role="tabpanel" aria-labelledby="other-tab">
+                                    <div class="shadow p-4 mb-4 bg-white">
+                                        <div class="card p-4 mb-4 bg-light">
+                                            <h5> Year Of Edition </h5>
+                                            <input type="text" class="w-25" id="yearOfEdition"><br><br>
+                                        </div>
+                                        <div class="card p-4 mb-4 bg-light">
+                                            <h5> Pages </h5>
+                                            <input type="number" class="w-25" id="pages"><br><br>
+                                        </div>
+                                        <div class="card p-4 mb-4 bg-light">
+                                            <h5> Price </h5>
+                                            <input type="number" class="w-25" id="price"><br><br>
+                                        </div>
+                                        <div class="card p-4 mb-4 bg-light">
+                                        <h5> Original Language </h5>
+                                            <select id="originalLanguage" class="w-25"></select><br><br>
+                                        </div>
+                                        <div id = "allImage">
+                                            <div class="card p-4 mb-4 bg-light">
+                                                <div id="divLoadAvatar">
+                                                    <h4>Cover</h4>
+                                                    <Label>Load cover</Label>
+                                                    <input type="file" class="form-control-file" id="avatar" accept="image/jpeg,image/png,image/gif" onchange="loadImage('avatar','divAvatar')">
+                                                </div>
+                                                <div class='car' id='divAvatar'>
+                                                </div>
+                                            </div>
+                                            <div class="card p-4 mb-4 bg-light">
+                                                <h4>Another image</h4>
+                                                <Label>Load another image</Label>
+                                                <input type="file" class="form-control-file" id="loadAnotherImage" accept="image/jpeg,image/png,image/gif" onchange="loadImage('loadAnotherImage','imageList')">
+                                                <div class='car' id='imageList'></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> 
+                                <div class="tab-pane fade" id="category" role="tabpanel" aria-labelledby="category-tab"></div>
+                            </div>`);
 
     divAvatar = $("#divAvatar");
     listImages = $("#imageList");
@@ -355,7 +366,7 @@ function sendAddBook() {
             imageList.push(image);
         }
         book["listImage"] = imageList;
-        fetch('/admin/add', {
+        fetch ('/admin/add', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
@@ -372,16 +383,16 @@ function sendAddBook() {
 
 //Проверка наличия временной папки, не удалять!
 function doesFolderTmpExist() {
-    fetch("admin/doesFolderTmpExist");
+    fetch ("admin/doesFolderTmpExist");
 }
 
 //Далее отрисовка дерева категорий
-function getUnflattens(arr, parentId) {
+function getUnflattens (arr, parentId) {
     let output = [];
-    for(const category of arr) {
-        if(category.parentId == parentId) {
+    for (const category of arr) {
+        if (category.parentId == parentId) {
             let children = getUnflattens(arr, category.id);
-            if(children.length) {
+            if (children.length) {
                 category.childrens = children
             }
             output.push(category)
@@ -398,10 +409,10 @@ function setTreeViews(category) {
                 <ul class="col-12 tree">
                     <li class="col-12">
                         <code parent="${category[i].parentId}" view-order="${category[i].viewOrder}"
-                        data-id="${category[i].id}" path="${category[i].path}" class="btn-outline-primary" onclick="getCategoryName(this)">${category[i].categoryName}
+                            data-id="${category[i].id}" path="${category[i].path}" class="btn-outline-primary" onclick="getCategoryName(this)">${category[i].categoryName}
                         </code>
                         <ul>
-                         ${setChildren(category[i].childrens)}
+                            ${setChildren(category[i].childrens)}
                         </ul>
                     </li>
                 </ul>
@@ -417,16 +428,16 @@ function setChildren(category) {
         if (category[i].childrens === undefined) {
             row +=
                 `<li>
-                        <code class="btn-outline-primary" parent="${category[i].parentId}" view-order="${category[i].viewOrder}"
-                        data-id="${category[i].id}" path="${category[i].path}" onclick="getCategoryName(this)">${category[i].categoryName}</code>
-                    </li>`;
+                    <code class="btn-outline-primary" parent="${category[i].parentId}" view-order="${category[i].viewOrder}"
+                    data-id="${category[i].id}" path="${category[i].path}" onclick="getCategoryName(this)">${category[i].categoryName}</code>
+                </li>`;
         } else {
             row +=
                 `<li>
-                        <code class="btn-outline-primary" parent="${category[i].parentId}" view-order="${category[i].viewOrder}"
-                        data-id="${category[i].id}" path="${category[i].path}" onclick="getCategoryName(this)">${category[i].categoryName}</code>
-                        <ul>${setChildren(category[i].childrens)}</ul>
-                    </li>`;
+                    <code class="btn-outline-primary" parent="${category[i].parentId}" view-order="${category[i].viewOrder}"
+                    data-id="${category[i].id}" path="${category[i].path}" onclick="getCategoryName(this)">${category[i].categoryName}</code>
+                    <ul>${setChildren(category[i].childrens)}</ul>
+                </li>`;
         }
     }
     return row;
