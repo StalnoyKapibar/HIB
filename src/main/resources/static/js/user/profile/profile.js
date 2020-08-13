@@ -1,9 +1,7 @@
 let AU;
 
 $(document).ready(function () {
-
     let tabhash = document.location.hash;
-
     if (tabhash == '#cart') {
         $('#myTab a[href="#Basket"]').tab('show');
     }
@@ -15,7 +13,6 @@ $(document).ready(function () {
             currentLang = 'en';
         }
     }
-
     getLanguage();
     setLocaleFields();
 });
@@ -81,7 +78,6 @@ function savePersonalInformation() {
     let tmpSend = JSON.stringify(tmp);
     savePersonalInformationRequest(tmpSend);
     refreshUserNames(firstName, lastName, email, phone);
-    setLocaleFields();
 }
 
 function savePersonalInformationRequest(personalInformation) {

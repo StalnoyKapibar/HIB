@@ -327,9 +327,7 @@ async function setChilds(categories) {
                 `</div>`;
         }
     }
-
     setLocaleFields();
-
     return row;
 }
 //проверяем чек категорий и запускаем поиск по ним

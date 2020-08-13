@@ -193,6 +193,24 @@ async function setLocaleFields() {
             $('.feedback-request-loc').text(localeFields['feedbackRequest']);
             $('.user-loc-lang').text(localeFields['user']);
             $('.edit-footer-loc').text(localeFields['editFooter']);
+
+            //AdminCategoryTree.js
+            $('#editCategoryModal').text(localeFields['editCategory']);
+            $('#categoryName').text(localeFields['nameCategory']);
+            $('#editCategoryView').text(localeFields['view']);
+            $('#addChildCategory').text(localeFields['addChild']);
+            //$('#alert').text(localeFields['hiddenAlertCategory']);
+            $('#deleteAlert').text(localeFields['delete']);
+            $('#updateCategory').text(localeFields['changesSaved']);
+            $('#deleteSubmit').text(localeFields['deleteAny']);
+            $('#allChild').text(localeFields['hiddenAlertCategory']);
+            $('#addCategoryModal').text(localeFields['addCategory']);
+            $('#close').text(localeFields['close']);
+            $('#addNewCategory').text(localeFields['add']);
+            $('#editPlaceholder').attr('placeholder', localeFields['placeholderCategory']);
+
+
+
             //addBooks.js
             $('.years-of-edition-loc').text(localeFields['yearsOfEdition']);
             $('.pages-loc').text(localeFields['pages']);
