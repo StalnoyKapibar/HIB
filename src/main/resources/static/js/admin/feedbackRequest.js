@@ -471,7 +471,7 @@ async function getAllFeedbacks() {
         .then(json)
         .then((data) => {
             allFeedBack = data;
-        })
+        });
 }
 
 // get all unread emails
@@ -480,7 +480,7 @@ async function getGmailUnreadEmails() {
         .then(json)
         .then((data) => {
             return data;
-    })
+    });
 }
 
 // consolidate unread feedbacks
@@ -503,18 +503,15 @@ function consolidateEmails() {
                             return item;
                         }
                     });
+                    return feedbacks;
                 });
-            return feedbacks;
-        }).then((data) => {
-            console.log("consolidateEmails: ", data);
-            return data;
-    })
+        });
 }
 
+// check gmail answers and mark feedbacks
 async function checkGmailFeedbacks() {
     consolidateEmails()
         .then((data) => {
-            console.log("checkGmailFeedbacks: ", data);
             for (let i = 0; i < data.length; i++) {
                 if (data[i].unreadgmail) {
                     markFeedback(data[i].id, false);
