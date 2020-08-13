@@ -59,7 +59,7 @@ async function addPagination() {
         }
     }
     pag = `<nav aria-label="Page navigation example">
-                    <ul class="pagination">`;
+                    <ul class="pagination" style="margin: auto">`;
     pag += currentPage === 1 ? `<li class="page-item disabled"><a class="page-link" href="#" tabindex="-1">` :
         `<li class="page-item"><a class="page-link" onclick="loadMore(1)" href="#">`;
     pag += `<span aria-hidden="true">&laquo;</span></a></li>`;

@@ -192,6 +192,7 @@ async function setLocaleFields() {
             $('.books-loc').text(localeFields['books']);
             $('.feedback-request-loc').text(localeFields['feedbackRequest']);
             $('.user-loc-lang').text(localeFields['user']);
+            $('.users-loc-lang').text(localeFields['usersLang']);
             $('.edit-footer-loc').text(localeFields['editFooter']);
             //addBooks.js
             $('.years-of-edition-loc').text(localeFields['yearsOfEdition']);
@@ -257,6 +258,7 @@ async function setLocaleFields() {
             $('.confirm-gmail-longphrase-loc').text(localeFields['confirmGmailLongphrase']);
             $('.confirm-loc').text(localeFields['confirm']);
             $('.user-loc').text(localeFields['user']);
+            $('.users-loc').text(localeFields['users']);
             //buildEditPage.js
             $('.transl-from-this-lang-loc').text(localeFields['translFromThisLang']);
             $('.into-this-lang-loc').text(localeFields['intoThisLang']);

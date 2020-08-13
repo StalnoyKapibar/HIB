@@ -37,7 +37,13 @@
         </li>
     </ul>
 </nav>
-<div class="container mt-n2" th:insert="/admin/bookAddEdit.html :: editingBooks('Edit')"></div>
+<div class="container mt-n2" th:insert="/admin/bookAddEdit :: editingBooks('Edit')"></div>
+
+<div class="container">
+    <div class="container pt-4 pb-4">
+        <div id="bookEditPageForImg"></div>
+    </div>
+</div>
 
 <div class="modal fade" id="bookImages" tabindex="-1" role="dialog"
      aria-labelledby="otherImagesLabel" aria-hidden="true">
@@ -61,10 +67,5 @@
     </div>
 </div>
 
-<div class="container">
-    <div class="container pt-4 pb-4">
-        <div id="bookEditPageForImg"></div>
-    </div>
-</div>
 </body>
 </html>
