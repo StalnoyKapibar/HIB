@@ -34,7 +34,7 @@ $(document).ready(function () {
             });
         }
     }
-    getFeedbackAll(false);
+    getAllFeedbacks();
     message.val($(this).attr("data-message"));
     window.addEventListener(`resize`, event => {
         filterUl.width(filterInput.width() + 25);
@@ -465,38 +465,27 @@ async function scrolling() {
     }
 }
 
-
-// async function getFeedbackAll(viewed) {
-//     await fetch("/api/admin/feedback-request?viewed=" + viewed)
-//         .then(json)
-//         .then((data) => {
-//             allFeedBack = data;
-//         })
-// }
-
 // get all feedbacks instead of viewed and replied
 async function getAllFeedbacks() {
     await GET("/api/admin/feedback-request")
         .then(json)
         .then((data) => {
-            console.log("getAllFeedbacks: ", data);
-            allFeedBack = data
+            allFeedBack = data;
         })
 }
 
 // get all unread emails
 async function getGmailUnreadEmails() {
-    await POST ("/admin/unreadgmail/", JSON.stringify(emails), JSON_HEADER)
+    return POST ("/admin/unreadgmail/", JSON.stringify(emails), JSON_HEADER)
         .then(json)
         .then((data) => {
-            console.log("getGmailUnreadEmails: ", data);
             return data;
     })
 }
 
 // consolidate unread feedbacks
 function consolidateEmails() {
-    getAllFeedbacks()
+    return getAllFeedbacks()
         .then(() => {
             let tmp = allFeedBack;
             let feedbacks = [];
