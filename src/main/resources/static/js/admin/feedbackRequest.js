@@ -108,6 +108,12 @@ async function getFeedbackRequestTable(viewed) {
                     bookName = data[i].book.name.en;
                     bookCoverImage = data[i].book.coverImage;
                 }
+                if (data[i].unreadgmail) {
+                    fetch("/api/admin/feedback-request/replied/" + id + "/" + false, {
+                        method: "POST"
+                    });
+                    startCountOfFeedback();
+                }
 
                 let replied = `<button type="button"
                                class="btn btn-info btn-reply reply-loc"
