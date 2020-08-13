@@ -73,7 +73,7 @@ public class OrderController {
     private ModelAndView regOneClick(@Valid RegistrationUserDTO user, @RequestBody ContactsOfOrderDTO contacts, BindingResult result,
                                      HttpServletRequest request, HttpServletResponse response,
                                      HttpSession session) {
-        ModelAndView view = new ModelAndView("user/user-page");
+        ModelAndView view = new ModelAndView("cabinet");
         StringBuilder url = new StringBuilder();
         url.append(request.getScheme())
                 .append("://")

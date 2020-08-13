@@ -303,7 +303,7 @@
                         <button hidden id="hidden_submit_btn" type="submit">HiddenButtonToSubmitLoginForm</button>
                     </form>
                     <div class="row px-3" th:if="${errorMessage}!=null">
-                        <!--/*@thymesVar id="getMessage" type="com.project.model.FormLoginErrorMessageDTO"*/-->
+<!--                        /*@thymesVar id="getMessage" type="com.project.model.FormLoginErrorMessageDTO"*/-->
                         <h5 class="col-12 p-3 rounded text-center alert-danger" id="errorMessage"
                             th:if="${errorMessage.isHasError()}" th:text="${errorMessage.getMessage()}"></h5>
                     </div>

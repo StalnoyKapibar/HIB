@@ -80,9 +80,6 @@ async function getShoppingCart() {
                     $('#forButtonCheckout').html(`<div><button class="btn btn-primary checkout-btn" id="chechout" onclick="confirmAddress()" type="button">
                                     Checkout
                                 </button></div>`);
-                    // $('#for-1click-reg').html(`<button class="btn btn-primary" id="1click-reg-btn"
-                    //                            onclick="location.href='/1clickreg'" type="button">
-                    //                            Buy without sign up</button>`);
                     $('#for-1click-reg').html(`<button class="btn btn-primary" id="1click-reg-btn"
                                                onclick="showContacts1ClickReg()" type="button">
                                                Buy without sign up</button>`);
@@ -368,10 +365,22 @@ function showOrderSum() {
     $('#for_btn1clickRegAndBuy').html(`<button class="btn bt-lg btn-block btn-success buynow-btn" id="butToBuy"
                                                onclick="btnBuy1clickReg()" type="button">
                                                Reg and Buy Now</button>`);
+    $('#errorMessageReg').html('<div class="row px-4">\n' +
+        '                        <h5 class="col-12 p-3 rounded text-center alert-danger" th:if="${errorMessage.isHasError()}"\n' +
+        '                            th:text="${errorMessage.getMessage()}" id="errorMessage"></h5>\n' +
+        '                    </div>');
 
     setLocaleFields();
 
 }
+
+// function getError() {
+//     $('#errorMessageReg').html('<div class="row px-4">\n' +
+//         '                        <h5 class="col-12 p-3 rounded text-center alert-danger" th:if="${errorMessage.isHasError()}"\n' +
+//         '                            th:text="${errorMessage.getMessage()}" id="errorMessage"></h5>\n' +
+//         '                    </div>');
+//
+// }
 
 // Вкладка заказы
 async function showListOrders() {

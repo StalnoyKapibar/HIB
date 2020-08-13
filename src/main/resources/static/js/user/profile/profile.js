@@ -104,6 +104,24 @@ function savePersonalInformationRequest(personalInformation) {
         });
 }
 
+function savePersonalInformationRequest1ClickReg(contacts) {
+    POST("/cabinet/savePersonalInformation", contacts, JSON_HEADER)
+        .then(status)
+        .then(text)
+        .then(function (resp) {
+            if (resp === "error") {
+                showError(' This email address is used by another user!', 'email-used-by-user-loc');
+                setTimeout(hideError, 5000);
+            } else {
+                if (resp === "synError") {
+                    showError('Invalid email format!', 'invalid-email-format-loc');
+                    setTimeout(hideError, 5000);
+                } else {
+                }
+            }
+        });
+}
+
 function status(response) {
     if (response.status >= 200 && response.status < 300) {
         return Promise.resolve(response)
@@ -116,14 +134,8 @@ function text(response) {
     return response.text()
 }
 
-// function showError(message, className) {
-//     $('#errorMessageEmail').addClass(className).text(message);
-//     $('#collapseExample').attr('class', 'collapse show');
-//     setLocaleFields();
-// }
-
 function showError(message, className) {
-    $('#errorMessageEmailReg').addClass(className).text(message);
+    $('#errorMessageEmail').addClass(className).text(message);
     $('#collapseExample').attr('class', 'collapse show');
     setLocaleFields();
 }

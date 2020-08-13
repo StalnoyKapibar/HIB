@@ -170,6 +170,7 @@ async function confirmContactsFor1Click2() {
     };
     showSummary();
     showOrderSum();
+    showError();
 }
 
 function showHome() {

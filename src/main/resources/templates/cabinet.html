@@ -390,12 +390,16 @@
                                     <th><a id="sum"></a></th>
                                     <th></th>
                                 </tr>
-
                                 <tr style="height: 15px">
                                     <th width="10"></th>
-                                    <th></th>
+                                    <th>
+<!--                                        <div class="row px-3" th:if="${errorMessage}!=null">-->
+<!--                                            &lt;!&ndash;/*@thymesVar id="getMessage" type="com.project.model.FormLoginErrorMessageDTO"*/&ndash;&gt;-->
+<!--                                            <h5 class="col-12 p-3 rounded text-center alert-danger" id="errorMessage"-->
+<!--                                                th:if="${errorMessage.isHasError()}" th:text="${errorMessage.getMessage()}"></h5>-->
+<!--                                        </div>-->
+                                    </th>
                                     <th id="shoppingCardOrderDisabledMessage"></th>
-
                                     <th id="for-1click-reg" sec:authorize="!isAuthenticated()"></th>
                                     <th id="forButtonCheckout"></th>
                                 </tr>
@@ -413,48 +417,48 @@
                                             <h6 id="enter_your_contacts">Enter your <strong>contacts </strong> and
                                                 if you want you can leave a <strong>comment ... </strong></h6>
                                         </div>
-                                        <div class="form-group row">
-                                            <label class="control-label col-sm-2 col-form-label email-label"
-                                                   id="email-label">Email</label>
-                                            <div class="col-md-5 pl-0 pr-1">
-                                                <input class="form-control email" type="email" id="email"
-                                                       placeholder="Email">
+                                            <div class="form-group row">
+                                                <label class="control-label col-sm-2 col-form-label email-label"
+                                                       id="email-label">Email</label>
+                                                <div class="col-md-5 pl-0 pr-1">
+                                                    <input class="form-control email" type="email" id="email"
+                                                           placeholder="Email">
+                                                </div>
                                             </div>
-                                        </div>
-                                        <!--        Добавил в форму контактов при заказе имя и фамилию                        -->
-                                        <div class="form-group row">
-                                            <label class="control-label col-sm-2 col-form-label firstName-label"
-                                                   id="firstName-label">First name</label>
-                                            <div class="col-md-5 pl-0 pr-1">
-                                                <input class="form-control firstName" type="text" id="firstName"
-                                                       placeholder="First name">
+                                            <!--        Добавил в форму контактов при заказе имя и фамилию                        -->
+                                            <div class="form-group row">
+                                                <label class="control-label col-sm-2 col-form-label firstName-label"
+                                                       id="firstName-label">First name</label>
+                                                <div class="col-md-5 pl-0 pr-1">
+                                                    <input class="form-control firstName" type="text" id="firstName"
+                                                           placeholder="First name">
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="control-label col-sm-2 col-form-label lastName-label"
-                                                   id="lastName-label">Last name</label>
-                                            <div class="col-md-5 pl-0 pr-1">
-                                                <input class="form-control lastName" type="text" id="lastName"
-                                                       placeholder="Last name">
+                                            <div class="form-group row">
+                                                <label class="control-label col-sm-2 col-form-label lastName-label"
+                                                       id="lastName-label">Last name</label>
+                                                <div class="col-md-5 pl-0 pr-1">
+                                                    <input class="form-control lastName" type="text" id="lastName"
+                                                           placeholder="Last name">
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="control-label col-sm-2 col-form-label phone-label"
-                                                   id="phone-label">Phone</label>
-                                            <div class="col-sm-5 pl-0 pr-1">
-                                                <input class="form-control field phone" type="tel" id="phone"
-                                                       placeholder="Phone">
-                                            </div>
+                                            <div class="form-group row">
+                                                <label class="control-label col-sm-2 col-form-label phone-label"
+                                                       id="phone-label">Phone</label>
+                                                <div class="col-sm-5 pl-0 pr-1">
+                                                    <input class="form-control field phone" type="tel" id="phone"
+                                                           placeholder="Phone">
+                                                </div>
 
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="control-label col-sm-2 col-form-label comment-label"
-                                                   id="comment-label">Comment</label>
-                                            <div class="col-md-6 pl-0">
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="control-label col-sm-2 col-form-label comment-label"
+                                                       id="comment-label">Comment</label>
+                                                <div class="col-md-6 pl-0">
                                                 <textarea class="form-control comment" id="comment" rows="5"
                                                           placeholder="Comment" maxlength="350"> </textarea>
+                                                </div>
                                             </div>
-                                        </div>
                                         <div class="form-group row">
                                             <div class="col">
                                                 <button class="btn btn-secondary back-btn" onclick="showHome()"
@@ -463,11 +467,13 @@
                                                 </button>
                                             </div>
                                             <div class="col">
-                                                <button sec:authorize="isAuthenticated()" class="btn btn-primary next-btn" onclick="confirmContacts()"
+                                                <button sec:authorize="isAuthenticated()"
+                                                        class="btn btn-primary next-btn" onclick="confirmContacts()"
                                                         type="button">
                                                     Next
                                                 </button>
-                                                <button sec:authorize="!isAuthenticated()" class="btn btn-primary next-btn"
+                                                <button sec:authorize="!isAuthenticated()"
+                                                        class="btn btn-primary next-btn"
                                                         onclick="confirmContactsFor1Click2()"
                                                         type="button">
                                                     Next for 1Click
@@ -526,20 +532,13 @@
                                 <!--подставляем введеные котактные данные shippingaddress из shoppingCart.js-->
                                 <div class="card card-body" id="shippingaddress"
                                      style="line-height: 4px; font-size: large"></div>
-<!--                                <div class="row px-4">-->
-<!--                                    <h5 class="col-12 p-3 rounded text-center alert-danger" th:if="${errorMessage.isHasError()}"-->
-<!--                                        th:text="${errorMessage.getMessage()}" id="errorMessage"></h5>-->
-<!--                                </div>-->
                             </div>
 
-                            <div class="collapse" id="collapseExample">
-                                <div class="alert alert-danger" role="alert" id="errorMessageEmail">
-                                </div>
-                            </div>
                             <div class="card-footer my-4 ">
                                 <div class="form-group  row mt-2 ml-0">
                                     <div class=" col-4">
-                                        <button sec:authorize="isAuthenticated()" class="btn btn-secondary btn-block back-btn"
+                                        <button sec:authorize="isAuthenticated()"
+                                                class="btn btn-secondary btn-block back-btn"
                                                 onclick="showContacts()"
                                                 type="button">
                                             Back
