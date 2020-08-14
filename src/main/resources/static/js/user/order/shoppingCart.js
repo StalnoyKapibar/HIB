@@ -234,7 +234,7 @@ async function btnBuy() {
 
 
 async function btnBuy1clickReg() {
-        $(".preloader").show("slow");
+        $(".preloader").show();
         // add message to preloader
         $(".lds-ellipsis").html(`
         <span></span>
