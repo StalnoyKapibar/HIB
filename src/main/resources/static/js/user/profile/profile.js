@@ -100,18 +100,18 @@ function savePersonalInformationRequest(personalInformation) {
         });
 }
 function savePersonalInformationRequest1ClickReg(contacts) {
-    POST("/cabinet/savePersonalInformation", contacts, JSON_HEADER)
+    let tmpSend2 = JSON.stringify(contacts)
+    POST("/savePersonalInformation1ClickReg", tmpSend2, JSON_HEADER)
         .then(status)
         .then(text)
         .then(function (resp) {
             if (resp === "error") {
-                showError(' This email address is used by another user!', 'email-used-by-user-loc');
+                showError1ClickReg(' This email address is used by another user!', 'email-used-by-user-loc');
                 setTimeout(hideError, 5000);
             } else {
                 if (resp === "synError") {
-                    showError('Invalid email format!', 'invalid-email-format-loc');
+                    showError1ClickReg('Invalid email format!', 'invalid-email-format-loc');
                     setTimeout(hideError, 5000);
-                } else {
                 }
             }
         });
@@ -131,6 +131,12 @@ function text(response) {
 
 function showError(message, className) {
     $('#errorMessageEmail').addClass(className).text(message);
+    $('#collapseExample').attr('class', 'collapse show');
+    setLocaleFields();
+}
+
+function showError1ClickReg(message, className) {
+    $('#errorMessageEmail1ClickReg').addClass(className).text(message);
     $('#collapseExample').attr('class', 'collapse show');
     setLocaleFields();
 }

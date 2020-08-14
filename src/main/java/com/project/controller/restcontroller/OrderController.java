@@ -69,6 +69,24 @@ public class OrderController {
         return contacts;
     }
 
+    @GetMapping("/reg1Click")
+    public ModelAndView get1ClickRegistrationPage(@RequestParam(value = "email") String email, @RequestBody ContactsOfOrderDTO contacts) {
+        ModelAndView view = new ModelAndView("cabinet");
+        view.getModelMap().addAttribute("user", new RegistrationUserDTO());
+        view.getModelMap().addAttribute("errorMessage", new FormLoginErrorMessageDTO(false, ""));
+        if (userAccountService.emailExist(email)) {
+            view.getModelMap().addAttribute("errorMessage",
+                    messageService.getErrorMessageOnEmailUIndex());
+            return view;
+        }
+        return view;
+    }
+
+    @PostMapping("/savePersonalInformation1ClickReg")
+    public String savePersonalInformation(@RequestBody ContactsOfOrderDTO contacts) {
+        return userAccountService.emailExistForShowError(contacts);
+    }
+
 //    @PostMapping("/reg1Click")
 //    private ModelAndView regOneClick(@Valid RegistrationUserDTO user, @RequestBody ContactsOfOrderDTO contacts, BindingResult result,
 //                                     HttpServletRequest request, HttpServletResponse response,

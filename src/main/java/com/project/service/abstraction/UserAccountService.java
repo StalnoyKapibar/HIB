@@ -1,5 +1,6 @@
 package com.project.service.abstraction;
 
+import com.project.model.ContactsOfOrderDTO;
 import com.project.model.RegistrationUserDTO;
 import com.project.model.UserAccount;
 import org.hibernate.exception.ConstraintViolationException;
@@ -31,6 +32,8 @@ public interface UserAccountService {
     UserAccount findByLogin(String login);
 
     List<String> getUsersEmails();
+
+    String emailExistForShowError(ContactsOfOrderDTO contacts);
 
     Long getCartIdByUserEmail(String email);
 

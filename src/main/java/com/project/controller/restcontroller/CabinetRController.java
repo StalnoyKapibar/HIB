@@ -1,5 +1,7 @@
 package com.project.controller.restcontroller;
 
+import com.project.model.ContactsOfOrderDTO;
+import com.project.model.RegistrationUserDTO;
 import com.project.model.UserDTO;
 import com.project.model.UserDTONewPassword;
 import com.project.service.abstraction.UserService;
@@ -7,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 public class CabinetRController {

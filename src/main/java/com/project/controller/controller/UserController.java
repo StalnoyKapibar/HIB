@@ -108,19 +108,20 @@ public class UserController {
         return view;
     }
 
-    @GetMapping("/reg1Click")
-    public ModelAndView get1ClickRegistrationPage(RegistrationUserDTO user) {
-        ModelAndView view = new ModelAndView("cabinet");
-        view.getModelMap().addAttribute("user", user);
-        view.getModelMap().addAttribute("errorMessage", new FormLoginErrorMessageDTO(false, ""));
-        return view;
-    }
+//    @GetMapping("/reg1Click")
+//    public ModelAndView get1ClickRegistrationPage(RegistrationUserDTO user) {
+//        ModelAndView view = new ModelAndView("cabinet");
+//        view.getModelMap().addAttribute("user", new RegistrationUserDTO());
+//        view.getModelMap().addAttribute("errorMessage", new FormLoginErrorMessageDTO(false, ""));
+//        return view;
+//    }
 
-    @PostMapping("/reg1Click")
+    @PostMapping(value = "/reg1Click", consumes =
+            {MediaType.APPLICATION_FORM_URLENCODED_VALUE, MediaType.APPLICATION_JSON_VALUE})
     private ModelAndView regOneClick(@Valid RegistrationUserDTO user, @RequestBody ContactsOfOrderDTO contacts, BindingResult result,
                                      HttpServletRequest request, HttpServletResponse response,
                                      HttpSession session) {
-        ModelAndView view = new ModelAndView("cabinet");
+        ModelAndView view = new ModelAndView("user/user-page");
         StringBuilder url = new StringBuilder();
         url.append(request.getScheme())
                 .append("://")

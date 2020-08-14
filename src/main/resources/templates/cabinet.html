@@ -207,14 +207,17 @@
                     </div>
                     <div class="container col-2 offset-5">
                         <div class="row orders-pageable">
-                            <div class="dropdown dropdown-header"><label id="orders-user-on-page-loc">Orders on page</label>
+                            <div class="dropdown dropdown-header"><label id="orders-user-on-page-loc">Orders on
+                                page</label>
                                 <button class="btn btn-primary dropdown-toggle" type="button"
                                         id="ordersAmountPerPageUser"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">10</button>
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">10
+                                </button>
                                 <div class="dropdown-menu" aria-labelledby="ordersAmountPerPageUser">
                                     <a class="dropdown-item" href="#" onclick="setOrdersAmountInPageForUser(10)">10</a>
                                     <a class="dropdown-item" href="#" onclick="setOrdersAmountInPageForUser(50)">50</a>
-                                    <a class="dropdown-item" href="#" onclick="setOrdersAmountInPageForUser(100)">100</a>
+                                    <a class="dropdown-item" href="#"
+                                       onclick="setOrdersAmountInPageForUser(100)">100</a>
                                 </div>
                             </div>
                             <div id="rowForPaginationOrders">
@@ -343,97 +346,94 @@
         <script src="/static/js/utils/common-function.js"></script>
         <script src="/static/js/user/home.js"></script>
     </div>
-    <div aria-labelledby="Basket-tab"
-         class="tab-pane fade" id="Basket" role="tabpanel" th:fragment="shopping-cart">
-        <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-              integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" rel="stylesheet">
-        <link href="css/style.css" rel="stylesheet" type="text/css">
-        <link href="/static/fonts/font.css" rel="stylesheet">
-        <link href="css/cabinet.css" rel="stylesheet" type="text/css">
-        <script crossorigin="anonymous" src="https://kit.fontawesome.com/db08edad0b.js"></script>
-        <link href="/static/css/bootstrap.min.css" rel="stylesheet">
-        <link href="/static/css/themify-icons.css" rel="stylesheet">
-        <link href="/static/css/bootstrap-social.css" rel="stylesheet"/>
-        <link href="/static/fonts/font.css" rel="stylesheet">
-        <link href="/static/fonts/font-awesome.css" rel="stylesheet">
-        <link href="/static/css/style.css" rel="stylesheet">
-        <script src="/static/js/lib/popper.min.js"></script>
-        <script src="/static/js/lib/bootstrap.min.js"></script>
-        <br>
-        <main role="main" class="page-content offset-1 col-10" style="margin-top: 0px;">
-            <div class="card card-body">
-                <h3 class="h2 shopping-cart-loc" id="h3-shoppingCart">Shopping cart</h3>
-                <ul class="nav nav-tabs" id="cartTab" role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link active" id="home-tab" href="#home"
-                           style="pointer-events: none; color: #333333">Your shopping
-                            cart</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link " id="contacts-tab" href="#contacts"
-                           style="pointer-events: none; color: #333333">Your contacts</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link  " id="summary-tab" href="#Summary"
-                           style="pointer-events: none;color: #333333">Summary</a>
-                    </li>
-                </ul>
-                <div class="tab-content" id="cartTabContent">
-                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                        <div class="shadow-lg p-4 mb-2 bg-white ">
-                            <table class="table table-sm table-sm bg-white">
-                                <thead>
-                                <tr height="50">
-                                    <th width="10"></th>
-                                    <th></th>
-                                    <th id="book_author">Книга | Автор</th>
-                                    <th id="price">Цена</th>
-                                    <th id="delete">Убрать</th>
-                                </tr>
-                                </thead>
-                                <tbody id='newTab'>
-                                </tbody>
-                                <tbody>
-                                <tr>
-                                    <th width="10"></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                </tr>
-                                <tr>
-                                    <th width="10"></th>
-                                    <th></th>
-                                    <th align="right" id="totalPrice"></th>
-                                    <th><a id="sum"></a></th>
-                                    <th></th>
-                                </tr>
-                                <tr style="height: 15px">
-                                    <th width="10"></th>
-                                    <th>
-                                        <div class="row px-3" th:if="${errorMessage}!=null">
-                                            <!--/*@thymesVar id="getMessage" type="com.project.model.FormLoginErrorMessageDTO"*/-->
-                                            <h5 class="col-12 p-3 rounded text-center alert-danger" id="errorMessage"
-                                                th:if="${errorMessage.isHasError()}" th:text="${errorMessage.getMessage()}"></h5>
-                                        </div>
-                                    </th>
-                                    <th id="shoppingCardOrderDisabledMessage"></th>
-                                    <th id="for-1click-reg" sec:authorize="!isAuthenticated()"></th>
-                                    <th id="forButtonCheckout"></th>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
 
-                    <div class="tab-pane fade" id="contacts" role="tabpanel" aria-labelledby="contacts-tab">
-                        <div class="shadow-lg p-4 mb-2 bg-white ">
-                            <div class="panel panel-primary">
-                                <div class="panel-body">
-                                    <div class="container mt-2">
-                                        <div class="col-8 p-4 mb-4  alert alert-info" role="alert">
-                                            <h6 id="enter_your_contacts">Enter your <strong>contacts </strong> and
-                                                if you want you can leave a <strong>comment ... </strong></h6>
-                                        </div>
+    <div th:fragment="shopingCartFragment">
+        <div aria-labelledby="Basket-tab"
+             class="tab-pane fade" id="Basket" role="tabpanel" th:fragment="shopping-cart">
+            <link crossorigin="anonymous"
+                  href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+                  integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" rel="stylesheet">
+            <link href="css/style.css" rel="stylesheet" type="text/css">
+            <link href="/static/fonts/font.css" rel="stylesheet">
+            <link href="css/cabinet.css" rel="stylesheet" type="text/css">
+            <script crossorigin="anonymous" src="https://kit.fontawesome.com/db08edad0b.js"></script>
+            <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+            <link href="/static/css/themify-icons.css" rel="stylesheet">
+            <link href="/static/css/bootstrap-social.css" rel="stylesheet"/>
+            <link href="/static/fonts/font.css" rel="stylesheet">
+            <link href="/static/fonts/font-awesome.css" rel="stylesheet">
+            <link href="/static/css/style.css" rel="stylesheet">
+            <script src="/static/js/lib/popper.min.js"></script>
+            <script src="/static/js/lib/bootstrap.min.js"></script>
+            <br>
+            <main role="main" class="page-content offset-1 col-10" style="margin-top: 0px;">
+                <div class="card card-body">
+                    <h3 class="h2 shopping-cart-loc" id="h3-shoppingCart">Shopping cart</h3>
+                    <ul class="nav nav-tabs" id="cartTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="home-tab" href="#home"
+                               style="pointer-events: none; color: #333333">Your shopping
+                                cart</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " id="contacts-tab" href="#contacts"
+                               style="pointer-events: none; color: #333333">Your contacts</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link  " id="summary-tab" href="#Summary"
+                               style="pointer-events: none;color: #333333">Summary</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="cartTabContent">
+                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                            <div class="shadow-lg p-4 mb-2 bg-white ">
+                                <table class="table table-sm table-sm bg-white">
+                                    <thead>
+                                    <tr height="50">
+                                        <th width="10"></th>
+                                        <th></th>
+                                        <th id="book_author">Книга | Автор</th>
+                                        <th id="price">Цена</th>
+                                        <th id="delete">Убрать</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id='newTab'>
+                                    </tbody>
+                                    <tbody>
+                                    <tr>
+                                        <th width="10"></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                    <tr>
+                                        <th width="10"></th>
+                                        <th></th>
+                                        <th align="right" id="totalPrice"></th>
+                                        <th><a id="sum"></a></th>
+                                        <th></th>
+                                    </tr>
+                                    <tr style="height: 15px">
+                                        <th width="10"></th>
+                                        <th></th>
+                                        <th id="shoppingCardOrderDisabledMessage"></th>
+                                        <th id="for-1click-reg" sec:authorize="!isAuthenticated()"></th>
+                                        <th id="forButtonCheckout"></th>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="contacts" role="tabpanel" aria-labelledby="contacts-tab">
+                            <div class="shadow-lg p-4 mb-2 bg-white ">
+                                <div class="panel panel-primary">
+                                    <div class="panel-body">
+                                        <div class="container mt-2">
+                                            <div class="col-8 p-4 mb-4  alert alert-info" role="alert">
+                                                <h6 id="enter_your_contacts">Enter your <strong>contacts </strong> and
+                                                    if you want you can leave a <strong>comment ... </strong></h6>
+                                            </div>
                                             <div class="form-group row">
                                                 <label class="control-label col-sm-2 col-form-label email-label"
                                                        id="email-label">Email</label>
@@ -476,26 +476,103 @@
                                                           placeholder="Comment" maxlength="350"> </textarea>
                                                 </div>
                                             </div>
-                                        <div class="form-group row">
-                                            <div class="col">
-                                                <button class="btn btn-secondary back-btn" onclick="showHome()"
-                                                        type="button">
-                                                    Back
-                                                </button>
+                                            <div class="form-group row">
+                                                <div class="col">
+                                                    <button class="btn btn-secondary back-btn" onclick="showHome()"
+                                                            type="button">
+                                                        Back
+                                                    </button>
+                                                </div>
+                                                <div class="col">
+                                                    <button sec:authorize="isAuthenticated()"
+                                                            class="btn btn-primary next-btn" onclick="confirmContacts()"
+                                                            type="button">
+                                                        Next
+                                                    </button>
+                                                    <button sec:authorize="!isAuthenticated()"
+                                                            class="btn btn-primary next-btn"
+                                                            onclick="confirmContactsFor1Click2()"
+                                                            type="button">
+                                                        Next for 1Click
+                                                    </button>
+                                                </div>
                                             </div>
-                                            <div class="col">
-                                                <button sec:authorize="isAuthenticated()"
-                                                        class="btn btn-primary next-btn" onclick="confirmContacts()"
-                                                        type="button">
-                                                    Next
-                                                </button>
-                                                <button sec:authorize="!isAuthenticated()"
-                                                        class="btn btn-primary next-btn"
-                                                        onclick="confirmContactsFor1Click2()"
-                                                        type="button">
-                                                    Next for 1Click
-                                                </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--Блок Summary подведение результатов по сумме заказа и введеных контактных данных-->
+                        <div class="tab-pane fade" id="Summary" role="tabpanel" aria-labelledby="Summary">
+                            <div class="container page-content">
+                                <div class="shadow-lg p-4 mb-2 bg-white ">
+                                    <div class="card card-body">
+                                        <table class="table table-sm table-sm bg-white">
+                                            <div class="col-9 p-4 mb-4  alert alert-info" role="alert">
+                                                <h6 class="align-content-center mt-2 purchase-loc">YOUR PURCHASES</h6>
                                             </div>
+                                            <thead>
+                                            <tr height="50">
+                                                <th width="10"></th>
+                                                <th></th>
+                                                <th class="items-loc">Items</th>
+                                                <th class="unit-price-loc">Unit price</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody id='orderTab'></tbody>
+                                            <tbody>
+                                            <tr></tr>
+                                            <tr>
+                                            <tr height="50">
+                                                <th width="10"></th>
+                                                <th></th>
+                                                <th>
+                                                    <a class="subtotal-loc">Subtotal:</a>
+                                                </th>
+                                                <th>
+                                                    <a id="subtotal"></a>
+                                                    <p id="shippingcost"></p>
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                            <tr height="50">
+                                                <th width="10"></th>
+                                                <th></th>
+                                                <th class="pricetotal-loc">Total price:</th>
+                                                <th id="pricetotal"></th>
+                                            </tr>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div id="collapseExample1ClickReg">
+                                        <div class="alert alert-danger"  id="errorMessageEmail1ClickReg">
+                                        </div>
+                                    </div>
+
+                                    <!--подставляем введеные котактные данные shippingaddress из shoppingCart.js-->
+                                    <div class="card card-body" id="shippingaddress"
+                                         style="line-height: 4px; font-size: large"></div>
+                                </div>
+                                <div class="card-footer my-4 ">
+                                    <div class="form-group  row mt-2 ml-0">
+                                        <div class=" col-4">
+                                            <button sec:authorize="isAuthenticated()"
+                                                    class="btn btn-secondary btn-block back-btn"
+                                                    onclick="showContacts()"
+                                                    type="button">
+                                                Back
+                                            </button>
+                                            <button sec:authorize="!isAuthenticated()" class="btn btn-primary next-btn"
+                                                    onclick="showContacts1ClickReg()"
+                                                    type="button"> Back
+                                            </button>
+                                        </div>
+                                        <div class="col-4 ">
+                                            <p sec:authorize="isAuthenticated()" id="for_btnBuy"></p>
+                                            <p sec:authorize="!isAuthenticated()"
+                                               id="for_btn1clickRegAndBuy"></p>
                                         </div>
                                     </div>
                                 </div>
@@ -503,97 +580,26 @@
                         </div>
                     </div>
 
-                    <!--Блок Summary подведение результатов по сумме заказа и введеных контактных данных-->
-                    <div class="tab-pane fade" id="Summary" role="tabpanel" aria-labelledby="Summary">
-                        <div class="container page-content">
-                            <div class="shadow-lg p-4 mb-2 bg-white ">
-                                <div class="card card-body">
-                                    <table class="table table-sm table-sm bg-white">
-                                        <div class="col-9 p-4 mb-4  alert alert-info" role="alert">
-                                            <h6 class="align-content-center mt-2 purchase-loc">YOUR PURCHASES</h6>
-                                        </div>
-                                        <thead>
-                                        <tr height="50">
-                                            <th width="10"></th>
-                                            <th></th>
-                                            <th class="items-loc">Items</th>
-                                            <th class="unit-price-loc">Unit price</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody id='orderTab'></tbody>
-                                        <tbody>
-                                        <tr></tr>
-                                        <tr>
-                                        <tr height="50">
-                                            <th width="10"></th>
-                                            <th></th>
-                                            <th>
-                                                <a class="subtotal-loc">Subtotal:</a>
-                                            </th>
-                                            <th>
-                                                <a id="subtotal"></a>
-                                                <p id="shippingcost"></p>
-                                            </th>
-                                        </tr>
-                                        <tr>
-                                        <tr height="50">
-                                            <th width="10"></th>
-                                            <th></th>
-                                            <th class="pricetotal-loc">Total price:</th>
-                                            <th id="pricetotal"></th>
-                                        </tr>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <!--подставляем введеные котактные данные shippingaddress из shoppingCart.js-->
-                                <div class="card card-body" id="shippingaddress"
-                                     style="line-height: 4px; font-size: large"></div>
-                            </div>
-
-                            <div class="card-footer my-4 ">
-                                <div class="form-group  row mt-2 ml-0">
-                                    <div class=" col-4">
-                                        <button sec:authorize="isAuthenticated()"
-                                                class="btn btn-secondary btn-block back-btn"
-                                                onclick="showContacts()"
-                                                type="button">
-                                            Back
-                                        </button>
-                                        <button sec:authorize="!isAuthenticated()" class="btn btn-primary next-btn"
-                                                onclick="showContacts1ClickReg()"
-                                                type="button"> Back
-                                        </button>
-                                    </div>
-                                    <div class="col-4 ">
-                                        <p sec:authorize="isAuthenticated()" id="for_btnBuy"></p>
-                                        <p sec:authorize="!isAuthenticated()"
-                                           id="for_btn1clickRegAndBuy"></p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
-            </div>
-
-        </main>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
-        <script crossorigin="anonymous"
-                integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-                src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-        <script crossorigin="anonymous"
-                integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-                src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-        <script src="/static/js/main.js"></script>
-        <script src="/static/js/user/order/order.js"></script>
-        <script src="/static/js/user/profile/profile.js"></script>
-        <script src="/static/js/user/order/shoppingCart.js"></script>
-        <script src="/static/js/utils/common-function.js"></script>
-        <script src="/static/js/user/home.js"></script>
+            </main>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+            <script crossorigin="anonymous"
+                    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+                    src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+            <script crossorigin="anonymous"
+                    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+                    src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+            <script src="/static/js/main.js"></script>
+            <script src="/static/js/user/order/order.js"></script>
+            <script src="/static/js/user/profile/profile.js"></script>
+            <script src="/static/js/user/order/shoppingCart.js"></script>
+            <script src="/static/js/utils/common-function.js"></script>
+            <script src="/static/js/user/home.js"></script>
+        </div>
     </div>
+
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>

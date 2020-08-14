@@ -168,9 +168,9 @@ async function confirmContactsFor1Click2() {
         phone: $("#phone").val(),
         comment: $("#comment").val(),
     };
+    savePersonalInformationRequest1ClickReg(contacts);
     showSummary();
     showOrderSum();
-    await GET('/reg1Click');
     showError();
 }
 

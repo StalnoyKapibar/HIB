@@ -364,8 +364,8 @@
         </th:block>
     </th:block>
     <th:block
-            th:if="${#httpServletRequest.getRequestURI() == '/1clickreg'}">
-        <th:block th:include="cabinet :: register">
+            th:if="${#httpServletRequest.getRequestURI() == '/reg1Click'}">
+        <th:block th:include="cabinet :: shopingCartFragment">
         </th:block>
     </th:block>
     <th:block th:if="${#httpServletRequest.getRequestURI().contains('err/not-found')}">

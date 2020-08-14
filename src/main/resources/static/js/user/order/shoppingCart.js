@@ -243,12 +243,12 @@ async function btnBuy1clickReg() {
         You will now be redirected to the home page.</div>
     `);
         // confirmPurchase();
-    await POST("/reg1Click", JSON.stringify(contacts), JSON_HEADER)
-        .then(function () {
-            // getUserData();
-            // confirmAddressAutoReg();
-            window.location.href = "/shopping-cart";
-        });
+    await POST("/reg1Click", JSON.stringify(contacts), JSON_HEADER);
+        // .then(function () {
+        //     // getUserData();
+        //     // confirmAddressAutoReg();
+        //     window.location.href = "/shopping-cart";
+        // });
 
 }
 
@@ -356,6 +356,12 @@ function showOrderSum() {
                         </div>
                     </div>`;
     }
+
+    // html += `  <div class="row px-4">
+    //                             <h5 class="col-12 p-3 rounded text-center alert-danger" th:if="${errorMessage.isHasError()}"
+    //                                 th:text="${errorMessage.getMessage()}" id="errorMessage"></h5>
+    //                         </div>`;
+
     html += `</div></div>`;
     //присоеденяем введенные пользователем контакты для подтвержения.
     $('#shippingaddress').html(html);
