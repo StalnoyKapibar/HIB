@@ -25,20 +25,24 @@
             <h2 id="headpost">You can read this</h2>
             <br>
         </div>
-        <div class="row row-cols-xl-4 row-cols-lg-3 row-cols-md-2 row-cols-sm-2 pt-2" id="cardcolumns">
+        <div class="row row-cols-xl-4 row-cols-lg-3 row-cols-md-2 row-cols-sm-2 pt-2" style="margin: auto" id="cardcolumns">
         </div>
-        <div class="container col-2 offset-5">
+        <div class="container">
             <div class="row">
-                <div class="dropdown dropdown-header"><label id="book-on-page-loc">Book on page</label>
-                    <button class="btn btn-primary dropdown-toggle" type="button" id="ddmAmountBook"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">10</button>
-                    <div class="dropdown-menu" aria-labelledby="ddmAmountBook">
-                        <a class="dropdown-item" href="#" onclick="setAmountBooksInPage(10)">10</a>
-                        <a class="dropdown-item" href="#" onclick="setAmountBooksInPage(50)">50</a>
-                        <a class="dropdown-item" href="#" onclick="setAmountBooksInPage(100)">100</a>
+                <div class="col"></div>
+                <div class="col d-flex justify-content-center mb-n2" id="rowForPagination" style="margin: auto"></div>
+                <div class="col d-flex justify-content-end">
+                    <div class="dropdown dropdown-header">
+                        Books on page
+                        <button class="btn btn-primary dropdown-toggle" type="button" id="ddmAmountBook"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">10</button>
+                        <div class="dropdown-menu" aria-labelledby="ddmAmountBook">
+                            <a class="dropdown-item" href="#" onclick="setAmountBooksInPage(10)">10</a>
+                            <a class="dropdown-item" href="#" onclick="setAmountBooksInPage(50)">50</a>
+                            <a class="dropdown-item" href="#" onclick="setAmountBooksInPage(100)">100</a>
+                        </div>
                     </div>
                 </div>
-                <div id="rowForPagination"></div>
             </div>
         </div>
 

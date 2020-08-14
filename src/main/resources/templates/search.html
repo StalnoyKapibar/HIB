@@ -24,17 +24,21 @@
                     <table class="table table-striped table-sm bg-white text-center" id="search-table-result">
                     </table>
                     <br/>
-                    <div class="container offset-5">
-                        <div id="rowForPagination"></div>
-                        <br/>
-                        <div class="dropdown dropdown-header ml-n4">
-                            Book on page
-                            <button class="btn btn-primary dropdown-toggle" type="button" id="ddmAmountBook"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">10</button>
-                            <div class="dropdown-menu" aria-labelledby="ddmAmountBook">
-                                <a class="dropdown-item" href="#" onclick="setAmountBooksInPage(10)">10</a>
-                                <a class="dropdown-item" href="#" onclick="setAmountBooksInPage(50)">50</a>
-                                <a class="dropdown-item" href="#" onclick="setAmountBooksInPage(100)">100</a>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col"></div>
+                            <div class="col d-flex justify-content-center" id="rowForPagination" style="margin: auto"></div>
+                            <div class="col d-flex justify-content-end">
+                                <div class="dropdown dropdown-header">
+                                    Books on page
+                                    <button class="btn btn-primary dropdown-toggle" type="button" id="ddmAmountBook"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">10</button>
+                                    <div class="dropdown-menu" aria-labelledby="ddmAmountBook">
+                                        <a class="dropdown-item" href="#" onclick="setAmountBooksInPage(10)">10</a>
+                                        <a class="dropdown-item" href="#" onclick="setAmountBooksInPage(50)">50</a>
+                                        <a class="dropdown-item" href="#" onclick="setAmountBooksInPage(100)">100</a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

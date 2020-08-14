@@ -692,7 +692,7 @@ function deleteCoverImage() {
                         book["listImage"] = tmpArr.listImage;
                         book["coverImage"] = "";
                         sendUpdateBookReq(book).then(r => {
-                            window.close()
+
                         });
                     }
                 }),
