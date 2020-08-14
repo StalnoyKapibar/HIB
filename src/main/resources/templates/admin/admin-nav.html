@@ -8,7 +8,7 @@
 <script src="../static/js/main.js"></script>
 <nav class="navbar navbar-expand-lg navbar-light bg-light"
      th:fragment="nav-bar">
-    <a class="navbar-brand" href="/admin/panel/books">HIB <label class="admin-panel-loc">Admin Panel</label></a>
+    <a class="navbar-brand mt-2" href="/admin/panel/books">HIB <label class="admin-panel-loc">Admin Panel</label></a>
     <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
             class="navbar-toggler"
             data-target="#navbarSupportedContent" data-toggle="collapse" type="button">
@@ -20,8 +20,10 @@
                 <a class="nav-link home-loc" href="/home">Home<span class="sr-only"></span></a>
             </li>
         </ul>
-            <button type="button" class="btn btn-primary" id="gmail-access" href="#">
-                gmail access</button>
+        <div>
+            <a type="button" class="btn btn-primary" id="gmail-access" href="#">
+                Gmail access</a>
+        </div>
         <form action="/logout" class="form-inline my-2 my-lg-0" method="post">
             <button class="btn btn-outline-success my-2 my-sm-0 logout-loc" type="submit">Logout</button>
         </form>
@@ -57,7 +59,7 @@
         <span class="orders-loc">Orders</span>
         <span class="badge badge-pill badge-danger" id="countOfOrder"></span>
     </a>
-    <a class="nav-link user-loc-lang"
+    <a class="nav-link"
        href="/admin/panel/users"
        th:classappend="${#httpServletRequest.getRequestURI() == '/admin/panel/users' ? 'active' : ''}">
         <span class="users-loc">Users</span>

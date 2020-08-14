@@ -1,7 +1,9 @@
 package com.project.controller.restcontroller;
 
+import com.project.model.Book;
 import com.project.model.Category;
 import com.project.service.CategoryService;
+import com.project.service.abstraction.BookService;
 import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -15,6 +17,7 @@ import java.util.List;
 public class AdminRestController {
 
     CategoryService categoryService;
+    BookService bookService;
 
     /* Categories */
     @PostMapping("/categories/addcategory")
@@ -31,7 +34,16 @@ public class AdminRestController {
     @PostMapping("/categories/delete")
     @CacheEvict("categoryTree")
     public void delete(@RequestBody Category category) {
-        categoryService.delete(category);
+        if (category.getId() != 1) {
+            for (Object id : categoryService.getChildWithCTE(category.getId())) {
+                Long categoryId = Long.parseLong(String.valueOf(id));
+                for (Book book : bookService.getAllBooksByCategoryId(categoryId)) {
+                    book.setCategory(categoryService.getCategoryById(1L));
+                    bookService.updateBook(book);
+                }
+                categoryService.delete(categoryId);
+            }
+        }
     }
 
     @PutMapping("/categories/update")

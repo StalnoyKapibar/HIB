@@ -114,6 +114,7 @@ async function setLocaleFields() {
             $('.old-pass-loc').text(localeFields['oldPass']);   //Enter old password
             $('.new-pass-loc').text(localeFields['newPass']);     //Enter new password
             $('.again-pass-loc').text(localeFields['againPass']);     //Enter new password again
+            $('#orders-user-on-page-loc').text(localeFields['OrdersOnPage']);
 
             //Text and placeholders for email/phone/comment
             $('.email').attr('placeholder', localeFields['email']);
@@ -192,6 +193,24 @@ async function setLocaleFields() {
             $('.feedback-request-loc').text(localeFields['feedbackRequest']);
             $('.user-loc-lang').text(localeFields['user']);
             $('.edit-footer-loc').text(localeFields['editFooter']);
+
+            //AdminCategoryTree.js
+            $('#editCategoryModal').text(localeFields['editCategory']);
+            $('#categoryName').text(localeFields['nameCategory']);
+            $('#editCategoryView').text(localeFields['view']);
+            $('#addChildCategory').text(localeFields['addChild']);
+            //$('#alert').text(localeFields['hiddenAlertCategory']);
+            $('#deleteAlert').text(localeFields['delete']);
+            $('#updateCategory').text(localeFields['changesSaved']);
+            $('#deleteSubmit').text(localeFields['deleteAny']);
+            $('#allChild').text(localeFields['hiddenAlertCategory']);
+            $('#addCategoryModal').text(localeFields['addCategory']);
+            $('#close').text(localeFields['close']);
+            $('#addNewCategory').text(localeFields['add']);
+            $('#editPlaceholder').attr('placeholder', localeFields['placeholderCategory']);
+
+
+
             //addBooks.js
             $('.years-of-edition-loc').text(localeFields['yearsOfEdition']);
             $('.pages-loc').text(localeFields['pages']);
@@ -304,8 +323,10 @@ async function setLocaleFields() {
             $('#modalClose').text(localeFields['close']);
             $('#book-on-page-loc').text(localeFields['bookOnPage']);
             $('.page-of-book-localize').text(localeFields['pageofBook']);
+            $('.welcome-reader-loc').text(localeFields['welcomeReader']);
             $('.hello-dear-reader-loc').text(localeFields['helloDearReader']);
             $('.confirm-account-loc').text(localeFields['confirmAccount']);
+            $('.confirm-letter-text-loc').text(localeFields['confirmLetterText']);
             $('.total-number-of-books-loc').text(localeFields['totalNumberOfBooks']);
             $('#dropdownclose').text(localeFields['dropdownclose']);
             $('#toshoppingcart').text(localeFields['toshoppingcart']);

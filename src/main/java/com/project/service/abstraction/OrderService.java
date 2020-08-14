@@ -37,6 +37,8 @@ public interface OrderService {
 
     OrderPageAdminDTO getPageOfOrdersByPageable(Pageable pageable, Status status);
 
+    List<Order> getPageOfOrdersUserByPageable(Pageable pageable, Long id);
+
     List<Order> findOrderByBookId(Long bookId);
 
     ResponseEntity createFileAllOrders();

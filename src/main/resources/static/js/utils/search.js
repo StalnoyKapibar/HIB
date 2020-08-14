@@ -8,6 +8,10 @@ let ddmAmountBook = $("#ddmAmountBook");
 let isAdmin = false;
 
 $(document).ready(async function () {
+    await buildSearchPage();
+});
+
+async function buildSearchPage(){
     getLanguage();
     getCategoryTree();
     setListeners();
@@ -23,7 +27,7 @@ $(document).ready(async function () {
         }, 1700)
     });
     getAUTH();
-});
+}
 
 async function getQuantityPage() {
         if (amountBooksInDb < amountBooksInPage) {
@@ -269,7 +273,7 @@ async function setTreeView(categories) {
                     <label class="custom-control-label" for="check-${category.id}"></label>
                     <label class="collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#collapse-${category.id}" aria-expanded="false" aria-controls="collapse-${category.id}">
                        <label id="${category.categoryName.toLowerCase()}-rightbar">${category.categoryName}</label>(${await getCountBooksByCat(category.path, $('#check-available').is(':checked') ? true : false)})
-                       <i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                       ${category.childrens !== undefined ? '<i class="fa fa-plus-square-o" aria-hidden="true"></i>' : ''}
                     </label>
                 </div>`;
         if (category.childrens != undefined) {
@@ -324,9 +328,7 @@ async function setChilds(categories) {
                 `</div>`;
         }
     }
-
     setLocaleFields();
-
     return row;
 }
 //проверяем чек категорий и запускаем поиск по ним
@@ -367,8 +369,7 @@ async function advancedSearch(amount, page) {
         .then(function (data) {
             setLocaleFields();
             amountBooksInDb = data.amountOfBooksInDb;
-            addFindeBooks(data.books);
-            checkboxes = categories;
+            addFoundBooks(data.books);
         });
 }
 
@@ -394,7 +395,7 @@ function getPageWithBooks(amount, page) {
 
 }
 
-async function addFindeBooks(data) {
+async function addFoundBooks(data) {
     $('#search-table-result').empty();
     let table = [];
     table.push(`<thead>
@@ -428,7 +429,12 @@ async function addFindeBooks(data) {
             }
         }
 
-        let urlImage = prePathUrl + `../images/book${data[i].id}/${data[i].coverImage}`;
+        let urlImage;
+        if (data[i].coverImage == "") {
+            urlImage = "/images/service/noimage.png";
+        } else {
+            urlImage = prePathUrl + `../images/book${data[i].id}/${data[i].coverImage}`;
+        }
         if (data[i].yearOfEdition == null) {
             data[i].yearOfEdition = "-";
         } if(data[i].category.name[currentLang] == null) {
@@ -456,8 +462,8 @@ async function addFindeBooks(data) {
                                 ${isAdmin && (window.location.pathname === '/admin/panel/books') ? 
                                     `
                                     <div id="search-admin">
-                                        <button class="btn btn-info edit-loc" onclick="openEdit(${data[i].id})"><i class="material-icons">edit</i></button>
-                                        <button class="btn btn-danger delete-loc" onclick="preDeleteBook(${data[i].id})"><i class="material-icons">delete</i></button>
+                                        <button class="btn btn-info edit-loc mb-1" style="height: 2.5rem" onclick="openEdit(${data[i].id})"><i class="material-icons">edit</i></button>
+                                        <button class="btn btn-danger delete-loc" style="height: 2.5rem" onclick="preDeleteBook(${data[i].id})"><i class="material-icons">delete</i></button>
                                     </div>
                                     ` : 
                                     `

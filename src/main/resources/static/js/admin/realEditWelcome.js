@@ -1,4 +1,3 @@
-
 let welcomeText = [];
 let tmp;
 let nameVarOfLocaleString;

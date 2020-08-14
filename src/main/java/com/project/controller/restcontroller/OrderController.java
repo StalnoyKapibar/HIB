@@ -169,7 +169,18 @@ public class OrderController {
         }
         return orderDTOS;
     }
-
+    @GetMapping("/order/pageable/{page}/{size}")
+    private List<OrderDTO> getOrderUser(HttpSession session, @PathVariable int page, @PathVariable int size) {
+        Long userId = (Long) session.getAttribute("userId");
+        Pageable pageable = PageRequest.of(page, size, Sort.by(
+                Sort.Order.by("id")));
+        List<Order> orderList = orderService.getPageOfOrdersUserByPageable(pageable, userId);
+        List<OrderDTO> orderDTOS = new ArrayList<>();
+        for (Order order : orderList) {
+            orderDTOS.add(order.getOrderDTO());
+        }
+        return orderDTOS;
+    }
     @GetMapping("/order/size")
     private int getOrderSize(HttpSession httpSession) {
         Long userId = (Long) httpSession.getAttribute("userId");

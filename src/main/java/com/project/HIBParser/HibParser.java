@@ -57,7 +57,7 @@ public class HibParser {
             e.printStackTrace();
         }
         List<Image> listImage = new ArrayList<>();
-        listImage.add(new Image(0, AVATAR));
+        listImage.add(new Image(0L, AVATAR));
         String avatarPath = PATH_TO_TMP + AVATAR;
         byte[] decodedBytes = Base64.getDecoder().decode(jsonNode.get("avatar").asText());
         writeImgToFile(avatarPath, decodedBytes);
@@ -67,7 +67,7 @@ public class HibParser {
             String additionalPhoto = PATH_TO_TMP + i + ".jpg";
             byte[] tmpDecodedBytes = Base64.getDecoder().decode(listBytes.get(i).asText());
             writeImgToFile(additionalPhoto, tmpDecodedBytes);
-            listImage.add(new Image(0, i + ".jpg"));
+            listImage.add(new Image(0L, i + ".jpg"));
         }
 
         Category category = new Category();

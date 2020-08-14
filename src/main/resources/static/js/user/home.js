@@ -58,34 +58,38 @@ async function addBooksToPage(books) {
     $.each(books, function (index) {
         let textOfBtn = listOrdersOfCart.includes(books[index].id) ? addedToshoppingCart : addToshoppingCart;
         let cssOfBtn = listOrdersOfCart.includes(books[index].id) ? "disabled" : "addToCartBtn";
+        let coverImageLink;
+        //Функция, подменяющая пустую обложку картинкой "noimage"
+        if (books[index].coverImage == "") {
+            coverImageLink = "/images/service/noimage.png";
+        } else {
+            coverImageLink = 'images/book' + books[index].id + '/' + books[index].coverImage;
+        }
         let card = `<div class="col mb-4">
-                                    <a class="card border-0" href="/page/${books[index].id}" style="color: black">
-                                        
-                                        <img class="card-img-top mb-1" src="images/book${books[index].id}/${books[index].coverImage}" style="object-fit: contain; height: 400px; ${books[index].show === true ? '' : 'opacity: 0.3;'}" alt="Card image cap">
-                                        
-                                        <div class="card-body" style="padding-bottom: 30px">
-                                            <h6 class="card-title">${convertOriginalLanguageRows(books[index].nameBookDTOLocale, books[index].nameTranslit)}</h6>
-                                            <h7 class="card-text text-muted">${convertOriginalLanguageRows(books[index].nameAuthorDTOLocale, books[index].authorTranslit)}</h7>
-                                            <h6 class="card-footer bg-transparent text-left pl-0">${covertPrice(books[index].price) + currencyIcon}</h6>
-                                            
-                                        </div>
-                                    </a>
-                                    ${isAdmin ? `<div style="position: absolute; bottom: 5px; left: 15px; right: 15px" id="bottomEditBook" type="button" 
-                                                    class="btn btn-info"
-                                                    onclick="openEdit(${books[index].id})">                        
-                                                    ${editBook}
-                                                  </div>`
+        <a class="card border-0" href="/page/${books[index].id}" style="color: black">
+            <img class="card-img-top mb-1" src=${coverImageLink} style="object-fit: contain; height: 400px; ${books[index].show === true ? '' : 'opacity: 0.3;'}" alt="Card image cap">
+            <div class="card-body" style="padding-bottom: 30px">
+                <h6 class="card-title">${convertOriginalLanguageRows(books[index].nameBookDTOLocale, books[index].nameTranslit)}</h6>
+                <h7 class="card-text text-muted">${convertOriginalLanguageRows(books[index].nameAuthorDTOLocale, books[index].authorTranslit)}</h7>
+                <h6 class="card-footer bg-transparent text-left pl-0">${covertPrice(books[index].price) + currencyIcon}</h6>
+            </div>
+        </a>
+        ${isAdmin ? `<div style="position: absolute; bottom: 5px; left: 15px; right: 15px" id="bottomEditBook" type="button" 
+        class="btn btn-info"
+        onclick="openEdit(${books[index].id})">                        
+        ${editBook}
+        </div>`
             : books[index].show === true
                 ? `<button style="position: absolute; bottom: 5px; left: 15px; right: 15px" id="bottomInCart width: -moz-available"
-                                                      class="btn btn-success ${cssOfBtn} btn-metro"  data-id="${books[index].id}">                        
-                                                    ${textOfBtn}
-                                                </button>`
+                       class="btn btn-success ${cssOfBtn} btn-metro"  data-id="${books[index].id}">                        
+                       ${textOfBtn}
+                   </button>`
                 : `<button style="position: absolute; bottom: 5px; left: 15px; right: 15px" id="bottomInCart" 
-                                                      class="btn btn-light btn-metro bought-btn-loc"  data-id="${books[index].id}">                        
-                                                    Out of stock
-                                                </button>`
+                       class="btn btn-light btn-metro bought-btn-loc"  data-id="${books[index].id}">                        
+                       Out of stock
+                   </button>`
         }
-                                 </div>`;
+        </div>`;
         $('#cardcolumns').append(card);
     });
     addPagination();
@@ -116,6 +120,7 @@ function showAlertCookie() {
 
 function openEdit(id) {
     window.open('/admin/edit/' + id, '_blank');
+    //window.location.replace('/admin/edit/' + id);
 }
 
 async function getAUTH() {

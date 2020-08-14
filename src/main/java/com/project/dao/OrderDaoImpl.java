@@ -91,6 +91,19 @@ public class OrderDaoImpl extends AbstractDao<Long, Order> implements OrderDao {
     }
 
     @Override
+    public List<Order> getPageOfOrdersUserByPageable(Pageable pageable, Long userId) {
+        int pageSize = pageable.getPageSize();
+        int minNumberId = pageSize * pageable.getPageNumber();
+        List<Order> orderList;
+        orderList = entityManager.createQuery("SELECT o FROM orders o WHERE useraccount_id=:id ORDER BY o.id DESC", Order.class)
+                .setParameter("id", userId)
+                .setFirstResult(minNumberId)
+                .setMaxResults(pageSize)
+                .getResultList();
+        return orderList;
+    }
+
+    @Override
     public List<Order> findOrderByBookId(Long bookId) {
         Session session = entityManager.unwrap(Session.class);
         return session.createQuery("select distinct o from orders o " +
