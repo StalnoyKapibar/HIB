@@ -62,10 +62,10 @@ insert into local_string (cs, de, en, fr, gr, it, ru) values ('Časopisy', 'Zeit
 insert into category (parent_id, view_order, name_id) values (null, 0, 22);
 insert into local_string (cs, de, en, fr, gr, it, ru) values ('Kultura', 'Kultur', 'Culture', 'Culture', 'Πολιτισμός', 'Cultura','Культура');
 insert into category (parent_id, view_order, name_id) values (null, 0, 23);
-insert into local_string (cs, de, en, fr, gr, it, ru) values ('Řecký', 'Griechisch', 'Greek', 'Grec', 'Ελληνική', 'Greco','Греческий');
-insert into category (parent_id, view_order, name_id) values (2, 0, 24);
 insert into local_string (cs, de, en, fr, gr, it, ru) values ('Válka', 'Krieg', 'War', 'Guerre', 'Πόλεμος', 'Guerra','Война');
-insert into category (parent_id, view_order, name_id) values (null, 0, 25);
+insert into category (parent_id, view_order, name_id) values (null, 0, 24);
+insert into local_string (cs, de, en, fr, gr, it, ru) values ('Řecký', 'Griechisch', 'Greek', 'Grec', 'Ελληνική', 'Greco','Греческий');
+insert into category (parent_id, view_order, name_id) values (2, 0, 25);
 insert into local_string (cs, de, en, fr, gr, it, ru) values ('Zahraniční', 'Ausländisch', 'Foreign', 'Étranger', 'Ξένο', 'Straniero','Зарубежный');
 insert into category (parent_id, view_order, name_id) values (2, 0, 26);
 insert into local_string (cs, de, en, fr, gr, it, ru) values ('Ruský', 'Russisch', 'Russian', 'Russe', 'Ρωσική', 'Russo','Русский');

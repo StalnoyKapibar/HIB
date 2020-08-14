@@ -27,6 +27,13 @@ public class FeedbackRequestDaoImpl extends AbstractDao<Long, FeedbackRequest> i
     }
 
     @Override
+    public List<FeedbackRequest> getByViewed(Boolean viewed) {
+        return entityManager
+                .createQuery("FROM FeedbackRequest f WHERE viewed = :viewed", FeedbackRequest.class)
+                .setParameter("viewed", viewed).getResultList();
+    }
+
+    @Override
     public List<FeedbackRequest> getBySenderByReplied(String senderEmail, boolean replied) {
         return entityManager
                 .createQuery("FROM FeedbackRequest f WHERE senderEmail = :senderEmail AND replied = :replied", FeedbackRequest.class)
@@ -38,7 +45,7 @@ public class FeedbackRequestDaoImpl extends AbstractDao<Long, FeedbackRequest> i
     @Override
     public int getCountOfFeedBack() {
         return entityManager
-                .createQuery("FROM FeedbackRequest where replied = false", FeedbackRequest.class)
+                .createQuery("FROM FeedbackRequest where viewed = false", FeedbackRequest.class)
                 .getResultList()
                 .size();
     }

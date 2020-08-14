@@ -12,7 +12,7 @@ let interestedBookImage = $("#interested-image");
 let interestedBookTitle = $("#interested-title");
 let toggleReplied = $("#toggle-replied");
 const localStorageToggleKey = "request-toggle";
-let allFeedBack;
+let allFeedbacksByViewed;
 let scrollOn = true;
 let messagePackIndex;
 let emails = [];
@@ -33,7 +33,8 @@ $(document).ready(function () {
             });
         }
     }
-    getFeedbackAll(false);
+    getFeedbacksByViewed(false);
+    checkGmailFeedbacks();
     message.val($(this).attr("data-message"));
     window.addEventListener(`resize`, event => {
         filterUl.width(filterInput.width() + 25);
@@ -48,24 +49,23 @@ $('#feedback-request-modal')
         getFeedbackRequestTable(false);
     })
 
-async function markAsRead(id, replied) {
+async function markAsRead(id, viewed) {
     let message = "Mark this message as ";
-    message += replied ? "unread?" : "read?";
+    message += viewed ? "read?" : "unread?";
     if (confirm(message)) {
-        fetch("/api/admin/feedback-request/" + id + "/" + replied, {
+        fetch("/api/admin/feedback-request/" + id + "/" + viewed, {
             method: 'POST'
-        }).then(r => startCountOfFeedback())
-          .then(r => getFeedbackRequestTable(replied));
+        }).then(r => getFeedbackRequestTable(!viewed));
     }
 }
 
-async function getFeedbackRequestTable(replied) {
+async function getFeedbackRequestTable(viewed) {
     $('#preloader').html(`
         <div class="progress">
             <div class="indeterminate"></div>
         </div>
     `)
-    await fetch("/api/admin/feedback-request?replied=" + replied)
+    await fetch("/api/admin/feedback-request?viewed=" + viewed)
         .then(json)
         .then(async data => {
             let tmp = data;
@@ -109,10 +109,7 @@ async function getFeedbackRequestTable(replied) {
                     bookCoverImage = data[i].book.coverImage;
                 }
 
-                let replied;
-                let mark;
-                if (data[i].replied === false) {
-                    replied = `<button type="button"
+                let replied = `<button type="button"
                                class="btn btn-info btn-reply reply-loc"
                                id="replyBtn"
                                data-id="${id}"
@@ -122,21 +119,18 @@ async function getFeedbackRequestTable(replied) {
                                data-bookId="${bookId}"
                                data-bookName="${bookName}"
                                data-bookCoverImage="${bookCoverImage}"
-                               onclick="showModalOfFeedBack(${id})">Reply</button>
-         `;
+                               onclick="showModalOfFeedBack(${id})">Reply</button>`;
+                let mark;
+                if (data[i].viewed === false) {
                     mark = `<button type="button"
                             class="btn btn-info read-loc"           
-                            onclick="markAsRead(${id},${data[i].replied})">Read</button>`;
-                } else if (data[i].replied === true && data[i].viewed === true) {
-                    replied = `<input type="checkbox" disabled checked>`;
+                            onclick="markAsRead(${id},true)">Read</button>`;
+                } else {
+                    replied = data[i].replied ? `<input type="checkbox" disabled checked>` :
+                                                `<input type="checkbox" disabled unchecked>`;
                     mark = `<button type="button"
                             class="btn btn-info unread-loc"           
-                            onclick="markAsRead(${id},${data[i].replied})">Unread</button>`;
-                } else if (data[i].replied === true && data[i].viewed === false) {
-                    replied = `<input type="checkbox" disabled unchecked>`;
-                    mark = `<button type="button"
-                            class="btn btn-info unread-loc"           
-                            onclick="markAsRead(${id},${data[i].replied})">Unread</button>`;
+                            onclick="markAsRead(${id},false)">Unread</button>`;
                 }
 
                 let tr = $("<tr/>");
@@ -164,6 +158,7 @@ async function getFeedbackRequestTable(replied) {
                 }
             }
         })
+    startCountOfFeedback();
     setLocaleFields();
 }
 
@@ -228,9 +223,9 @@ async function showAlert(message, clazz) {
 }
 
 toggleReplied.change(() => {
-    let repliedOn = toggleReplied.prop('checked');
-    localStorage.setItem(localStorageToggleKey, repliedOn.toString());
-    getFeedbackRequestTable(repliedOn).catch();
+    let viewedOn = toggleReplied.prop('checked');
+    localStorage.setItem(localStorageToggleKey, viewedOn.toString());
+    getFeedbackRequestTable(viewedOn).catch();
 });
 
 async function showModalOfFeedBack(index) {
@@ -298,8 +293,8 @@ async function showModalOfFeedBack(index) {
                 } else if (data[0].text === "noGmailAccess") {
                     htmlChat += `<div>
                                 <span class="h3 col-10 confirm-gmail-longphrase-loc">Confirm gmail access to open chat:</span>
-                                <button class="col-2 btn btn-primary float-right confirm-loc" href="${gmailAccessUrl.fullUrl}">
-                                Confirm</button>
+                                <a type="button" class="col-2 btn btn-primary float-right confirm-loc" href="${gmailAccessUrl.fullUrl}">
+                                Confirm</abutton>
                             </div>`
                 } else {
                     htmlChat += `<div id="chat-wrapper">`;
@@ -451,7 +446,7 @@ async function scrolling(feedback) {
 }
 
 async function scrolling() {
-    let order = allFeedBack[orderIndex];
+    let order = allFeedbacksByViewed[orderIndex];
     if ($('#chat').scrollTop() < 2) {
         messagePackIndex++;
         await fetch("/gmail/" + order.contacts.email + "/messages/" + messagePackIndex)
@@ -470,13 +465,67 @@ async function scrolling() {
     }
 }
 
-
-async function getFeedbackAll(replied) {
-    await fetch("/api/admin/feedback-request?replied=" + replied)
+async function getFeedbacksByViewed(viewed) {
+    await GET("/api/admin/feedback-request?replied=" + viewed)
         .then(json)
         .then((data) => {
-            allFeedBack = data;
+            allFeedbacksByViewed = data;
         })
+}
+
+// get all feedbacks instead of viewed and replied
+async function getAllFeedbacks() {
+    return await GET("/api/admin/feedback-request")
+        .then(json)
+        .then((data) => {
+            return data;
+        });
+}
+
+// get all unread emails
+async function getGmailUnreadEmails() {
+    return await POST ("/admin/unreadgmail/", JSON.stringify(emails), JSON_HEADER)
+        .then(json)
+        .then((data) => {
+            return data;
+    });
+}
+
+// consolidate unread feedbacks
+async function consolidateEmails() {
+    return await getAllFeedbacks()
+        .then(async (data) => {
+            let tmp = data;
+            let feedbacks = [];
+            for (let key in data) {
+                emails.push(data[key].senderEmail)
+            }
+            await getGmailUnreadEmails()
+                .then((data) => {
+                    feedbacks = tmp.map((item) => {
+                        if (data.hasOwnProperty(item.senderEmail)) {
+                            item.unreadgmail = data[item.senderEmail];
+                            return item;
+                        } else {
+                            item.unreadgmail = false;
+                            return item;
+                        }
+                    });
+                });
+            return feedbacks;
+        });
+}
+
+// check gmail answers and mark feedbacks
+async function checkGmailFeedbacks() {
+    await consolidateEmails()
+        .then((data) => {
+            for (let i = 0; i < data.length; i++) {
+                if (data[i].unreadgmail) {
+                    markFeedback(data[i].id, false);
+                }
+            }
+        });
 }
 
 function sendGmailMessage(userId, feedbackId) {
@@ -505,6 +554,18 @@ function sendGmailMessage(userId, feedbackId) {
         }).then(() => {
         fetch("/admin/markasread?email=" + userId)
             .then(json)
+    })
+        .then(r => {
+            markFeedback(feedbackId, true);
+    });
+}
+
+// mark feedback replied and viewed fields
+async function markFeedback(feedbackId, mark) {
+    await fetch("/api/admin/feedback-request/replied/" + feedbackId + "/" + mark, {
+        method: "POST"
+    }).then(() => {
+        startCountOfFeedback();
     });
 }
 
