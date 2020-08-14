@@ -128,6 +128,10 @@ function hideError() {
     $('#collapseExample').attr('class', 'collapse');
 }
 
+function hideError1ClickReg() {
+    $('#collapseExample1ClickReg').attr('class', 'collapse');
+}
+
 function showSuccess(message, className) {
     $('#idMessagesSuccess').addClass(className).text(message);
     $('#staticBackdrop').modal();

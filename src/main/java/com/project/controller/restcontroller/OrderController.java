@@ -69,10 +69,14 @@ public class OrderController {
         return contacts;
     }
 
+    @PostMapping("/checkEmail1ClickReg")
+    public String savePersonalInformation(@RequestBody ContactsOfOrderDTO contacts) {
+        return userAccountService.emailExistForShowError(contacts);
+    }
+
     @PostMapping("/reg1Click")
     private ModelAndView regOneClick(@Valid RegistrationUserDTO user, @RequestBody ContactsOfOrderDTO contacts, BindingResult result,
-                                     HttpServletRequest request, HttpServletResponse response,
-                                     HttpSession session) {
+                                     HttpServletRequest request, HttpSession session) {
         ModelAndView view = new ModelAndView("user/user-page");
         StringBuilder url = new StringBuilder();
         url.append(request.getScheme())
@@ -81,10 +85,7 @@ public class OrderController {
                 .append(':')
                 .append(request.getServerPort());
         view.getModelMap().addAttribute("user", user);
-        user.setEmail(contacts.getEmail());
-        user.setFirstName(contacts.getFirstName());
-        user.setLastName(contacts.getLastName());
-        user.setPhone(contacts.getPhone());
+        user = userService.converterContactsToRegistrationUser(contacts);
         user.setPassword(generateString(new Random(), SOURCES, 10));
         user.setConfirmPassword(user.getPassword());
         user.setAutoReg(true);

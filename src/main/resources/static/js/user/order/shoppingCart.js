@@ -9,13 +9,13 @@ let currentPage = 1;
 
 $(document).ready(function () {
     getShoppingCart();
-    ordersCount =  getOrdersCount();
+    ordersCount = getOrdersCount();
     showListOrders().then(r => {
     });
 
     if (document.referrer.toString() === "" && userData.oauth2Acc === false) {
         confirmAddressAutoReg();
-      
+
         confirmContactsFor1Click2();
     }
 
@@ -59,13 +59,12 @@ async function getShoppingCart() {
 
                     cell = first + second + third + forth + fifth;
 
-               
-                  
+
                     row.append(cell);
                     row.appendTo('#newTab');
-                    $('#sum').text(totalPrice + currencyIcon);   
-                  
-                  
+                    $('#sum').text(totalPrice + currencyIcon);
+
+
                 });
                 if (data.length === 0) {
                     isOrderEnable = false;
@@ -91,7 +90,7 @@ async function getShoppingCart() {
                                                Buy without sign up</button>`);
                 }
 
-          setLocaleFields();
+                setLocaleFields();
 
 
                 setLocaleFields();
@@ -214,7 +213,7 @@ async function confirmPurchase() {
 }
 
 async function btnBuy() {
-    $("#butToBuy").one('click',function() {
+    $("#butToBuy").one('click', function () {
         // show preloader before action
         $(".preloader").show();
         // add message to preloader
@@ -234,9 +233,9 @@ async function btnBuy() {
 
 
 async function btnBuy1clickReg() {
-        $(".preloader").show();
-        // add message to preloader
-        $(".lds-ellipsis").html(`
+    $(".preloader").show();
+    // add message to preloader
+    $(".lds-ellipsis").html(`
         <span></span>
         <span></span>
         <span></span>
@@ -245,14 +244,33 @@ async function btnBuy1clickReg() {
         Please wait a few seconds.<br>
         You will now be redirected to the home page.</div>
     `);
-        // confirmPurchase();
     await POST("/reg1Click", JSON.stringify(contacts), JSON_HEADER)
         .then(function () {
-            // getUserData();
-            // confirmAddressAutoReg();
             window.location.href = "/shopping-cart";
         });
+}
 
+function checkEmail1ClickReg(contacts) {
+    let tmpSend2 = JSON.stringify(contacts)
+    POST("/checkEmail1ClickReg", tmpSend2, JSON_HEADER)
+        .then(status)
+        .then(text)
+        .then(function (resp) {
+            if (resp === "error") {
+                showError1ClickReg(' This email address is used by another user!', 'email-used-by-user-loc');
+                setTimeout(hideError1ClickReg, 5000);
+            } else {
+                if (resp === "synError") {
+                    showError1ClickReg('Invalid email format!', 'invalid-email-format-loc');
+                    setTimeout(hideError1ClickReg, 5000);
+                }
+            }
+        });
+}
+
+function showError1ClickReg(message, className) {
+    $('#errorMessageEmail1ClickReg').addClass(className).text(message);
+    $('#collapseExample1ClickReg').attr('class', 'collapse show');
 }
 
 function enterData() {
@@ -359,13 +377,6 @@ function showOrderSum() {
                         </div>
                     </div>`;
     }
-
-    // html += `  <div class="row px-4">
-    //                             <h5 class="col-12 p-3 rounded text-center alert-danger" th:if="${errorMessage.isHasError()}"
-    //                                 th:text="${errorMessage.getMessage()}" id="errorMessage"></h5>
-    //                         </div>`;
-
-  
     html += `</div></div>`;
     //присоеденяем введенные пользователем контакты для подтвержения.
     $('#shippingaddress').html(html);
@@ -440,6 +451,7 @@ async function getOrdersUserData(page, size) {
     const data = await res.json();
     return data;
 }
+
 async function setOrdersAmountInPageForUser(amount) {
     let ordersAmountPerPage = document.querySelector('#ordersAmountPerPageUser');
     ordersAmountPerPage.textContent = amount;
@@ -448,7 +460,7 @@ async function setOrdersAmountInPageForUser(amount) {
     await showListOrders();
 }
 
-async function getOrdersCount(){
+async function getOrdersCount() {
     fetch("/order/getorders")
         .then(status)
         .then(json)
@@ -471,12 +483,11 @@ async function showListOrders() {
 
     let testData = await getOrdersUserData(currentPage - 1, size);
 
-    let totalPages = Math.floor(ordersCount / size)  + 1;
+    let totalPages = Math.floor(ordersCount / size) + 1;
     addPaginationOrdersForUser(totalPages);
     // const pageData = testData.listOrderDTO;
     await renderPageOrdersForUser(testData);
 }
-
 
 
 // CANCEL order before PROCESSING
@@ -490,17 +501,17 @@ function orderCancel(id) {
             },
             body: JSON.stringify(id),
         })
-        .then(json)
-        .then(function (data) {
-            $("#successAction").html(data.response);
-            $("#successActionModal").modal('show');
-        })
-        .then(function() {
-            showOrderSize();
-        })
-        .then(function () {
-            showListOrders()
-        });
+            .then(json)
+            .then(function (data) {
+                $("#successAction").html(data.response);
+                $("#successActionModal").modal('show');
+            })
+            .then(function () {
+                showOrderSize();
+            })
+            .then(function () {
+                showListOrders()
+            });
     } catch (error) {
         // catch error, show modal not OK
         $("#successAction").html("Failed to cancel order");
