@@ -15,17 +15,15 @@ $(document).ready(function () {
 
     if (document.referrer.toString() === "" && userData.oauth2Acc === false) {
         confirmAddressAutoReg();
-
+      
         confirmContactsFor1Click2();
     }
 
     if (currentLang == '') {
         currentLang = $('#dd_menu_link').data('currentLang');
     }
-
     getLanguage();
     setLocaleFields();
-
 });
 
 function convertPrice(price) {
@@ -61,11 +59,13 @@ async function getShoppingCart() {
 
                     cell = first + second + third + forth + fifth;
 
+               
+                  
                     row.append(cell);
                     row.appendTo('#newTab');
-                    $('#sum').text(totalPrice + currencyIcon);
-
-
+                    $('#sum').text(totalPrice + currencyIcon);   
+                  
+                  
                 });
                 if (data.length === 0) {
                     isOrderEnable = false;
@@ -90,6 +90,9 @@ async function getShoppingCart() {
                                                onclick="showContacts1ClickReg()" type="button">
                                                Buy without sign up</button>`);
                 }
+
+          setLocaleFields();
+
 
                 setLocaleFields();
 
@@ -362,9 +365,11 @@ function showOrderSum() {
     //                                 th:text="${errorMessage.getMessage()}" id="errorMessage"></h5>
     //                         </div>`;
 
+  
     html += `</div></div>`;
     //присоеденяем введенные пользователем контакты для подтвержения.
     $('#shippingaddress').html(html);
+
     $('#for_btnBuy').html(`<button class="btn bt-lg btn-block btn-success buynow-btn" id="butToBuy"
                                                onclick="btnBuy()" type="button">
                                                Buy Now</button>`);
@@ -372,8 +377,8 @@ function showOrderSum() {
                                                onclick="btnBuy1clickReg()" type="button">
                                                Reg and Buy Now</button>`);
 
-    setLocaleFields();
 
+    setLocaleFields();
 }
 
 // Вкладка заказы

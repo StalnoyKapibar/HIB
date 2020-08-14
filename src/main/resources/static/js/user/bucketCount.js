@@ -8,7 +8,6 @@ $(document).ready(function () {
             currentLang = 'en';
         }
     }
-
     getLanguage();
     setLocaleFields();
 })

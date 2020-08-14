@@ -743,7 +743,6 @@ async function showModalOfFeedBack(index) {
     $('#feedbacks-chat').html(htmlChat);
     $('#feedbacks-chat').scrollTop(2000);
     document.getElementById("feedbacks-chat").setAttribute('onscroll', 'scrollingFeedback(' + JSON.stringify(feedback) + ')');
-
     setLocaleFields();
 }
 
