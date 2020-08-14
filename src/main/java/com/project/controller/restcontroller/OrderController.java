@@ -69,65 +69,65 @@ public class OrderController {
         return contacts;
     }
 
-    @PostMapping("/reg1Click")
-    private ModelAndView regOneClick(@Valid RegistrationUserDTO user, @RequestBody ContactsOfOrderDTO contacts, BindingResult result,
-                                     HttpServletRequest request, HttpServletResponse response,
-                                     HttpSession session) {
-        ModelAndView view = new ModelAndView("cabinet");
-        StringBuilder url = new StringBuilder();
-        url.append(request.getScheme())
-                .append("://")
-                .append(request.getServerName())
-                .append(':')
-                .append(request.getServerPort());
-        view.getModelMap().addAttribute("user", user);
-        user.setEmail(contacts.getEmail());
-        user.setFirstName(contacts.getFirstName());
-        user.setLastName(contacts.getLastName());
-        user.setPhone(contacts.getPhone());
-        user.setPassword(generateString(new Random(), SOURCES, 10));
-        user.setConfirmPassword(user.getPassword());
-        user.setAutoReg(true);
-
-        ShoppingCartDTO shoppingCart = (ShoppingCartDTO) session.getAttribute("shoppingcart");
-        if (result.hasErrors()) {
-            view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessage(result));
-            return view;
-        }
-        if (userAccountService.emailExist(user.getEmail())) {
-            view.getModelMap().addAttribute("errorMessage",
-                    messageService.getErrorMessageOnEmailUIndex());
-            return view;
-        }
-
-        if (!user.getPassword().equals(user.getConfirmPassword())) {
-            view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessageOnPasswordsDoesNotMatch());
-            return view;
-        }
-        try {
-            userAccountService.save1Clickreg(user, url.toString());
-            shoppingCart.setId(userAccountService.getCartIdByUserEmail(user.getEmail()));
-
-            OrderDTO orderDTO = orderService.addOrderReg1Click(shoppingCart, user, contacts);
-            UserDTO userDTO = userService.getUserDTOByEmail(user.getEmail(), false);
-
-            cartService.updateCart(shoppingCart);
-            orderDTO.setUserAccount(userAccountService.getUserById(userDTO.getUserId()));
-            orderService.addOrder(orderDTO.getOder(), url.toString());
-            session.removeAttribute("shoppingcart");
-
-        } catch (DataIntegrityViolationException e) {
-            if (e.getCause().getCause().getMessage().contains("login")) {
-                view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessageOnLoginUIndex());
-            } else {
-                view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessageOnEmailUIndex());
-            }
-            return view;
-        } catch (MailSendException e) {
-            view.setViewName("redirect:/err/not_found");
-        }
-        return view;
-    }
+//    @PostMapping("/reg1Click")
+//    private ModelAndView regOneClick(@Valid RegistrationUserDTO user, @RequestBody ContactsOfOrderDTO contacts, BindingResult result,
+//                                     HttpServletRequest request, HttpServletResponse response,
+//                                     HttpSession session) {
+//        ModelAndView view = new ModelAndView("cabinet");
+//        StringBuilder url = new StringBuilder();
+//        url.append(request.getScheme())
+//                .append("://")
+//                .append(request.getServerName())
+//                .append(':')
+//                .append(request.getServerPort());
+//        view.getModelMap().addAttribute("user", user);
+//        user.setEmail(contacts.getEmail());
+//        user.setFirstName(contacts.getFirstName());
+//        user.setLastName(contacts.getLastName());
+//        user.setPhone(contacts.getPhone());
+//        user.setPassword(generateString(new Random(), SOURCES, 10));
+//        user.setConfirmPassword(user.getPassword());
+//        user.setAutoReg(true);
+//
+//        ShoppingCartDTO shoppingCart = (ShoppingCartDTO) session.getAttribute("shoppingcart");
+//        if (result.hasErrors()) {
+//            view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessage(result));
+//            return view;
+//        }
+//        if (userAccountService.emailExist(user.getEmail())) {
+//            view.getModelMap().addAttribute("errorMessage",
+//                    messageService.getErrorMessageOnEmailUIndex());
+//            return view;
+//        }
+//
+//        if (!user.getPassword().equals(user.getConfirmPassword())) {
+//            view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessageOnPasswordsDoesNotMatch());
+//            return view;
+//        }
+//        try {
+//            userAccountService.save1Clickreg(user, url.toString());
+//            shoppingCart.setId(userAccountService.getCartIdByUserEmail(user.getEmail()));
+//
+//            OrderDTO orderDTO = orderService.addOrderReg1Click(shoppingCart, user, contacts);
+//            UserDTO userDTO = userService.getUserDTOByEmail(user.getEmail(), false);
+//
+//            cartService.updateCart(shoppingCart);
+//            orderDTO.setUserAccount(userAccountService.getUserById(userDTO.getUserId()));
+//            orderService.addOrder(orderDTO.getOder(), url.toString());
+//            session.removeAttribute("shoppingcart");
+//
+//        } catch (DataIntegrityViolationException e) {
+//            if (e.getCause().getCause().getMessage().contains("login")) {
+//                view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessageOnLoginUIndex());
+//            } else {
+//                view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessageOnEmailUIndex());
+//            }
+//            return view;
+//        } catch (MailSendException e) {
+//            view.setViewName("redirect:/err/not_found");
+//        }
+//        return view;
+//    }
 
 
     @PostMapping("/order")

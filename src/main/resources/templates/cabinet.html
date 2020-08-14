@@ -393,11 +393,11 @@
                                 <tr style="height: 15px">
                                     <th width="10"></th>
                                     <th>
-<!--                                        <div class="row px-3" th:if="${errorMessage}!=null">-->
-<!--                                            &lt;!&ndash;/*@thymesVar id="getMessage" type="com.project.model.FormLoginErrorMessageDTO"*/&ndash;&gt;-->
-<!--                                            <h5 class="col-12 p-3 rounded text-center alert-danger" id="errorMessage"-->
-<!--                                                th:if="${errorMessage.isHasError()}" th:text="${errorMessage.getMessage()}"></h5>-->
-<!--                                        </div>-->
+                                        <div class="row px-3" th:if="${errorMessage}!=null">
+                                            <!--/*@thymesVar id="getMessage" type="com.project.model.FormLoginErrorMessageDTO"*/-->
+                                            <h5 class="col-12 p-3 rounded text-center alert-danger" id="errorMessage"
+                                                th:if="${errorMessage.isHasError()}" th:text="${errorMessage.getMessage()}"></h5>
+                                        </div>
                                     </th>
                                     <th id="shoppingCardOrderDisabledMessage"></th>
                                     <th id="for-1click-reg" sec:authorize="!isAuthenticated()"></th>

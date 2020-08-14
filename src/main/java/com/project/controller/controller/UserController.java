@@ -1,12 +1,7 @@
 package com.project.controller.controller;
 
-import com.project.model.FormLoginErrorMessageDTO;
-import com.project.model.RegistrationUserDTO;
-import com.project.model.ShoppingCartDTO;
-import com.project.service.abstraction.FormLoginErrorMessageService;
-import com.project.service.abstraction.ResetPasswordService;
-import com.project.service.abstraction.ShoppingCartService;
-import com.project.service.abstraction.UserAccountService;
+import com.project.model.*;
+import com.project.service.abstraction.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
@@ -17,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -42,6 +38,13 @@ public class UserController {
 
     @Autowired
     private ShoppingCartService cartService;
+
+    @Autowired
+    private OrderService orderService;
+
+    @Autowired
+    private UserService userService;
+
 
     @GetMapping("/resetPassword")
     public String getResetPasswordPage() {
@@ -105,20 +108,19 @@ public class UserController {
         return view;
     }
 
-    @GetMapping("/1clickreg")
+    @GetMapping("/reg1Click")
     public ModelAndView get1ClickRegistrationPage(RegistrationUserDTO user) {
         ModelAndView view = new ModelAndView("cabinet");
-        view.getModelMap().addAttribute("user", new RegistrationUserDTO());
+        view.getModelMap().addAttribute("user", user);
         view.getModelMap().addAttribute("errorMessage", new FormLoginErrorMessageDTO(false, ""));
         return view;
     }
 
-    @PostMapping(value = "/1clickreg", consumes =
-            {MediaType.APPLICATION_FORM_URLENCODED_VALUE, MediaType.APPLICATION_JSON_VALUE})
-    public ModelAndView createNewUserAccount1Click(@Valid RegistrationUserDTO user, BindingResult result,
-                                                   HttpServletRequest request, HttpServletResponse response,
-                                                   HttpSession session) {
-        ModelAndView view = new ModelAndView("user/user-page");
+    @PostMapping("/reg1Click")
+    private ModelAndView regOneClick(@Valid RegistrationUserDTO user, @RequestBody ContactsOfOrderDTO contacts, BindingResult result,
+                                     HttpServletRequest request, HttpServletResponse response,
+                                     HttpSession session) {
+        ModelAndView view = new ModelAndView("cabinet");
         StringBuilder url = new StringBuilder();
         url.append(request.getScheme())
                 .append("://")
@@ -126,6 +128,10 @@ public class UserController {
                 .append(':')
                 .append(request.getServerPort());
         view.getModelMap().addAttribute("user", user);
+        user.setEmail(contacts.getEmail());
+        user.setFirstName(contacts.getFirstName());
+        user.setLastName(contacts.getLastName());
+        user.setPhone(contacts.getPhone());
         user.setPassword(generateString(new Random(), SOURCES, 10));
         user.setConfirmPassword(user.getPassword());
         user.setAutoReg(true);
@@ -148,7 +154,15 @@ public class UserController {
         try {
             userAccountService.save1Clickreg(user, url.toString());
             shoppingCart.setId(userAccountService.getCartIdByUserEmail(user.getEmail()));
+
+            OrderDTO orderDTO = orderService.addOrderReg1Click(shoppingCart, user, contacts);
+            UserDTO userDTO = userService.getUserDTOByEmail(user.getEmail(), false);
+
             cartService.updateCart(shoppingCart);
+            orderDTO.setUserAccount(userAccountService.getUserById(userDTO.getUserId()));
+            orderService.addOrder(orderDTO.getOder(), url.toString());
+            session.removeAttribute("shoppingcart");
+
         } catch (DataIntegrityViolationException e) {
             if (e.getCause().getCause().getMessage().contains("login")) {
                 view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessageOnLoginUIndex());
@@ -159,7 +173,6 @@ public class UserController {
         } catch (MailSendException e) {
             view.setViewName("redirect:/err/not_found");
         }
-//        view.setViewName("redirect:/reqapprove");
         return view;
     }
 

@@ -350,12 +350,6 @@ function showOrderSum() {
                         </div>
                     </div>`;
     }
-
-    // html += `  <div class="row px-4">
-    //                             <h5 class="col-12 p-3 rounded text-center alert-danger" th:if="${errorMessage.isHasError()}"
-    //                                 th:text="${errorMessage.getMessage()}" id="errorMessage"></h5>
-    //                         </div>`;
-
     html += `</div></div>`;
     //присоеденяем введенные пользователем контакты для подтвержения.
     $('#shippingaddress').html(html);

@@ -129,7 +129,7 @@ function showContacts() {
 
 function showContacts1ClickReg() {
     $('#cartTab a[href="#contacts"]').tab('show');
-    // GET('/1clickreg');
+    // fetch('/reg1Click');
 
 }
 
@@ -170,6 +170,7 @@ async function confirmContactsFor1Click2() {
     };
     showSummary();
     showOrderSum();
+    await GET('/reg1Click');
     showError();
 }
 
