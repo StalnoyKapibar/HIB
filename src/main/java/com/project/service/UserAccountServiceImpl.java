@@ -2,10 +2,7 @@ package com.project.service;
 
 import com.project.dao.UserAccountDao;
 import com.project.dao.abstraction.UserRoleDao;
-import com.project.model.RegistrationUserDTO;
-import com.project.model.Role;
-import com.project.model.ShoppingCart;
-import com.project.model.UserAccount;
+import com.project.model.*;
 import com.project.service.abstraction.SendEmailService;
 import com.project.service.abstraction.UserAccountService;
 import lombok.AllArgsConstructor;
@@ -23,6 +20,7 @@ import javax.servlet.http.HttpSession;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 @Service
 @Transactional
@@ -51,6 +49,20 @@ public class UserAccountServiceImpl implements UserAccountService {
     @Override
     public boolean emailExist(String email) {
         return userAccountDao.findByEmail(email).isPresent();
+    }
+
+    @Override
+    public String emailExistForShowError(ContactsOfOrderDTO contacts) {
+        String reg = "^(.+)@([a-zA-Z]+)\\.([a-zA-Z]+)$";
+        if (userAccountDao.findByEmail(contacts.getEmail()).isPresent()) {
+            return "error";
+        } else {
+            if (Pattern.matches(reg, contacts.getEmail())) {
+                return "ok";
+            } else {
+                return "synError";
+            }
+        }
     }
 
     @Override

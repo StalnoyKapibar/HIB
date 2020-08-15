@@ -1,6 +1,8 @@
 package com.project.service;
 
 import com.project.dao.abstraction.UserDao;
+import com.project.model.ContactsOfOrderDTO;
+import com.project.model.RegistrationUserDTO;
 import com.project.model.UserDTO;
 import com.project.model.UserDTONewPassword;
 import com.project.service.abstraction.UserService;
@@ -41,6 +43,16 @@ public class UserServiceImpl implements UserService {
                 return "synError";
             }
         }
+    }
+
+    @Override
+    public RegistrationUserDTO converterContactsToRegistrationUser(ContactsOfOrderDTO contacts) {
+        RegistrationUserDTO user = new RegistrationUserDTO();
+        user.setEmail(contacts.getEmail());
+        user.setFirstName(contacts.getFirstName());
+        user.setLastName(contacts.getLastName());
+        user.setPhone(contacts.getPhone());
+        return user;
     }
 
     @Override
