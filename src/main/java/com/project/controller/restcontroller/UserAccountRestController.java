@@ -19,9 +19,9 @@ public class UserAccountRestController {
     private final OrderService orderService;
 
     @GetMapping("/api/admin/userAccount")
-    public List<UserDTOFeedbacksOrders> getUsersEmails() {
+    public List<UserDTOFeedbacksOrders> getUsersEmailsByStatus(@RequestParam Boolean status) {
         List<UserDTOFeedbacksOrders> userDTOFeedbacksOrdersArrayList = new ArrayList<>();
-        List<String> users = userAccountService.getUsersEmails();
+        List<String> users = userAccountService.getUsersEmailsByStatus(status);
         for (String email : users) {
             Long[] feedbacks = feedbackRequestService.getAmountOfFeedback(email);
             Long[] orders = orderService.getAmountOfOrders(email);
@@ -45,10 +45,5 @@ public class UserAccountRestController {
             userAccount.setEnabled(true);
         }
         return userAccountService.update(userAccount);
-    }
-
-    @DeleteMapping("/api/admin/user/{email}")
-    public boolean deleteUserAccount(@PathVariable("email") String email) {
-        return userAccountService.deleteUser(email);
     }
 }

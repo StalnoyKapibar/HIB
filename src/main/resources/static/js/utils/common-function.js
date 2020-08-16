@@ -307,6 +307,7 @@ async function setLocaleFields() {
             $('#header-settings-loc').text(localeFields['settings']);
             $('#link_search_page_header').text(localeFields['searchPage']);
             $('.orders-on-page-loc').text(localeFields['OrdersOnPage']);
+            $('.show-disabled-users-loc').text(localeFields['showDisabledUsers']);
 
             $('#link_main_header').text(localeFields['main']);
             $('.main-header-loc').text(localeFields['main']);
