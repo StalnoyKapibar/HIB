@@ -14,4 +14,14 @@ public class AdminController {
     public String getEditPage() {
         return "editPageBook";
     }
+
+    @GetMapping("/admin/addHibFile")
+    public String getHibFileAddPage(){
+        return "admin/addHibFile";
+    }
+
+    @GetMapping("/admin/addBookPage")
+    public String getAddBookPage(){
+        return "admin/addBook";
+    }
 }
