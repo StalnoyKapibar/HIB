@@ -64,12 +64,6 @@
                 <div th:replace="admin/users :: users"></div>
                 <div th:replace="admin/users :: users-modal"></div>
             </th:block>
-            <th:block th:case="'/admin/panel/addBook'">
-                <div th:replace="/admin/bookAddEdit :: editingBooks('Add')"></div>
-            </th:block>
-            <th:block th:case="'/admin/panel/addHibFile'">
-                <div th:replace="/admin/addHibFile :: addHibFile"></div>
-            </th:block>
             <th:block th:case="*">
                 <div th:replace="error :: not-found"></div>
             </th:block>

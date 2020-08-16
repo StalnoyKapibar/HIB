@@ -392,7 +392,7 @@ function sendAddBook() {
 
 //Проверка наличия временной папки, не удалять!
 function doesFolderTmpExist() {
-    fetch ("admin/doesFolderTmpExist");
+    fetch("admin/doesFolderTmpExist");
 }
 
 //Далее отрисовка дерева категорий
