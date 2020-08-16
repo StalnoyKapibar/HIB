@@ -1,18 +1,32 @@
-let users;
-let htmlUsers = ``;
 let scrollOn = true;
 let messagePackIndex;
 let orders;
 let orderIndex;
 let iconOfPrice = " €";
 let emails = [];
+let toggleUsersDisabled = $("#toggle-users-disabled");
+const localStorageUsersToggleKey = "toggle-users";
 
-$(document).ready(async function () {
+$(document).ready(function () {
+    sessionStorage.getItem("toggle-users") === "true" ? toggleUsersDisabled.bootstrapToggle('on') : toggleUsersDisabled.bootstrapToggle('off');
+    window.addEventListener(`resize`, event => {
+        filterUl.width(filterInput.width() + 25);
+    }, false);
+});
 
-    await fetch("/api/admin/userAccount")
+toggleUsersDisabled.change(() => {
+    let disabled = toggleUsersDisabled.prop('checked');
+    sessionStorage.setItem(localStorageUsersToggleKey, disabled.toString());
+    showUsers(!disabled);
+});
+
+async function showUsers(status) {
+    await GET("/api/admin/userAccount?status=" + status)
         .then(json)
         .then((data) => {
-           users = data;
+            $('#users-body').empty();
+            let users = data;
+            let htmlUsers = ``;
             $.each(users, function (index) {
                 emails[index] = users[index].email;
                 htmlUsers += `<tr id="${users[index].email}-mark">
@@ -28,11 +42,7 @@ $(document).ready(async function () {
                 $('#users-body').html(htmlUsers);
             });
         });
-
-    window.addEventListener(`resize`, event => {
-        filterUl.width(filterInput.width() + 25);
-    }, false);
-});
+}
 
 async function showFullchat() {
     $('#fullchatModalLabel').html(`Chat with ${document.getElementById("email-chat").value}`);
@@ -587,7 +597,7 @@ async function showEditUser(details, email) {
             let user = data;
             let enableDisable;
             if (user.enabled) {
-                enableDisable = `<button class="btn btn-secondary btn-block" type="button" onclick="enableDisableUser('${user.email}', 'disable')">Disable</button>`
+                enableDisable = `<button class="btn btn-danger btn-block" type="button" onclick="enableDisableUser('${user.email}', 'disable')">Disable</button>`
             } else {
                 enableDisable = `<button class="btn btn-success btn-block" type="button" onclick="enableDisableUser('${user.email}', 'enable')">Enable</button>`
             }
@@ -598,9 +608,6 @@ async function showEditUser(details, email) {
                                     <div class="col-2">` +
                                         enableDisable +
                                     `</div>
-                                    <div class="col-2">
-                                        <button class="btn btn-danger btn-block" type="button" onclick="deleteUser('${user.email}')">Delete</button>
-                                    </div>
                                 </div>`
             });
             htmlDetails += `    </td>
@@ -615,14 +622,8 @@ async function enableDisableUser(email, status) {
         }).then((data) => {
             document.getElementById(`${email}-editUser`).remove();
             showDetails('editUser', `${email}`);
+            location.reload();
         });
-}
-
-async function deleteUser(email) {
-    await fetch(`/api/admin/user/${email}/`, {
-        method: 'DELETE'
-        });
-        location.reload();
 }
 
 function downArrow(arrowId, details, email) {

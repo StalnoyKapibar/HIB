@@ -31,11 +31,9 @@ public interface UserAccountService {
 
     UserAccount findByLogin(String login);
 
-    List<String> getUsersEmails();
+    List<String> getUsersEmailsByStatus(Boolean isEnabled);
 
     String emailExistForShowError(ContactsOfOrderDTO contacts);
 
     Long getCartIdByUserEmail(String email);
-
-    boolean deleteUser(String email);
 }
