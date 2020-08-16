@@ -54,11 +54,14 @@ public class MailController {
             List<Order> orderList = orderService.getOrdersByUserId(user.getId());
             for (Order order : orderList) {
                 orderService.confirmOrder(order.getId());
+                modelAndView.setViewName("redirect:/shopping-cart");
             }
-            modelAndView.setViewName("redirect:/shopping-cart");
         } else {
-            modelAndView.setViewName("redirect:/");
+            authenticateUserAndSetSession(user, request);
+            modelAndView.setViewName("redirect:/home");
         }
+
+
         return modelAndView;
     }
 

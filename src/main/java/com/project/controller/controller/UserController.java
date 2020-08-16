@@ -113,56 +113,6 @@ public class UserController {
         return view;
     }
 
-    @PostMapping(value = "/1clickreg", consumes =
-            {MediaType.APPLICATION_FORM_URLENCODED_VALUE, MediaType.APPLICATION_JSON_VALUE})
-    public ModelAndView createNewUserAccount1Click(@Valid RegistrationUserDTO user, BindingResult result,
-                                                   HttpServletRequest request, HttpServletResponse response,
-                                                   HttpSession session) {
-        ModelAndView view = new ModelAndView("user/user-page");
-        StringBuilder url = new StringBuilder();
-        url.append(request.getScheme())
-                .append("://")
-                .append(request.getServerName())
-                .append(':')
-                .append(request.getServerPort());
-        view.getModelMap().addAttribute("user", user);
-        user.setPassword(generateString(new Random(), SOURCES, 10));
-        user.setConfirmPassword(user.getPassword());
-        user.setAutoReg(true);
-
-        ShoppingCartDTO shoppingCart = (ShoppingCartDTO) session.getAttribute("shoppingcart");
-        if (result.hasErrors()) {
-            view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessage(result));
-            return view;
-        }
-        if (userAccountService.emailExist(user.getEmail())) {
-            view.getModelMap().addAttribute("errorMessage",
-                    messageService.getErrorMessageOnEmailUIndex());
-            return view;
-        }
-
-        if (!user.getPassword().equals(user.getConfirmPassword())) {
-            view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessageOnPasswordsDoesNotMatch());
-            return view;
-        }
-        try {
-            userAccountService.save1Clickreg(user, url.toString());
-            shoppingCart.setId(userAccountService.getCartIdByUserEmail(user.getEmail()));
-            cartService.updateCart(shoppingCart);
-        } catch (DataIntegrityViolationException e) {
-            if (e.getCause().getCause().getMessage().contains("login")) {
-                view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessageOnLoginUIndex());
-            } else {
-                view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessageOnEmailUIndex());
-            }
-            return view;
-        } catch (MailSendException e) {
-            view.setViewName("redirect:/err/not_found");
-        }
-//        view.setViewName("redirect:/reqapprove");
-        return view;
-    }
-
     public String generateString(Random random, String characters, int length) {
         char[] text = new char[length];
         for (int i = 0; i < length; i++) {
