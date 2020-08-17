@@ -399,23 +399,30 @@ async function loadMore(pageNumber) {
 
 
 async function renderPageOrdersForUser(listOdersPage) {
-    let html = ``;
-    listOdersPage.forEach(function (order, index) {
+    await fetch("/order/getorders")
+        .then(status)
+        .then(json)
+        .then(function (data) {
+            listOders = data;
+        let html = ``;
+        listOdersPage.forEach(function (order, index) {
 
-        html += `<tr><td></td>
-                         <td>${index + 1}</td> 
-                         <td>${order.data}</td> 
-                         <td>${order.status}</td>
-                         <td>${convertPrice(order.itemsCost)} ${currencyIcon}</td>
-
-                         <td><button type="button" class="btn btn-info show-btn" data-toggle="modal" data-target="#ordermodal"  onclick="showCarrentOrder(${index})">Show</button>`;
-        if (order.status === "UNPROCESSED") {
-            html += `<button type="button" class="btn btn-danger show-btn" onclick="orderCancel(${order.id})">Cancel</button></td></tr>`;
-        } else {
-            html += `<button type="button" class="btn btn-danger show-btn" onclick="orderCancel(${order.id})" disabled="disabled">Cancel</button></td></tr>`;
-        }
-    });
-    $('#listorders').html(html);
+            html += `<tr><td></td>
+                             <td>${index + 1}</td> 
+                             <td>${order.data}</td> 
+                             <td>${order.status}</td>
+                             <td>${convertPrice(order.itemsCost)} ${currencyIcon}</td>
+    
+                             <td><button type="button" class="btn btn-info show-btn" data-toggle="modal" data-target="#ordermodal"  onclick="showCarrentOrder(${index})">Show</button>`;
+            if (order.status === "UNPROCESSED") {
+                html += `<button type="button" class="btn btn-danger close-order" onclick="orderCancel(${order.id})">Cancel</button></td></tr>`;
+            } else {
+                html += `<button type="button" class="btn btn-danger close-order" onclick="orderCancel(${order.id})" disabled="disabled">Cancel</button></td></tr>`;
+            }
+        });
+        $('#listorders').html(html);
+        });
+    setLocaleFields();
 }
 
 async function addPaginationOrdersForUser(totalPages) {

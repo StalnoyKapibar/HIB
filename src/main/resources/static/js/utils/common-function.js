@@ -158,6 +158,7 @@ async function setLocaleFields() {
             $(".dateOfOrder-loc").text(localeFields['dateOfOrder']);
             $(".orderStatus-loc").text(localeFields['orderStatus']);
             $(".show-btn").text(localeFields['show']);
+            $(".close-order").text(localeFields['cancel']);
 
             //Регистрация
             $('.signin-loc').text(localeFields['signin']);
