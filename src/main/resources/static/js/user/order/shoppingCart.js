@@ -384,7 +384,7 @@ function showOrderSum() {
                                                Buy Now</button>`);
     $('#for_btn1clickRegAndBuy').html(`<button class="btn bt-lg btn-block btn-success buynow-btn" id="butToBuy"
                                                onclick="btnBuy1clickReg()" type="button">
-                                               Reg and Buy Now</button>`);
+                                               Buy Now</button>`);
 
 
     setLocaleFields();
