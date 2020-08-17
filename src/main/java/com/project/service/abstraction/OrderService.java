@@ -9,6 +9,8 @@ import java.util.List;
 public interface OrderService {
     void addOrder(Order order, String url);
 
+    void addOrder1ClickReg(Order order);
+
     void updateOrder(Order order);
 
     Order getOrderById(Long id);
