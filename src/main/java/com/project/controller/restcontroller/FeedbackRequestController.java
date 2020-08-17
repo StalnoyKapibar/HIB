@@ -61,6 +61,7 @@ public class FeedbackRequestController {
     public void markFeedbackAsRead(@PathVariable Long id, @PathVariable Boolean viewed) {
         FeedbackRequest feedbackRequest = feedbackRequestService.getById(id);
         feedbackRequest.setViewed(viewed);
+        feedbackRequest.setReplied(true);
         feedbackRequestService.save(feedbackRequest);
     }
 
