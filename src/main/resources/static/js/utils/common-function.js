@@ -431,7 +431,7 @@ function getLanguage() {
                 }
                 currentLangFull = getFullNameOfLanguage(listOfLanguage[language]);
                 html += `<li>
-                             <a onclick="chooseLanguage('${listOfLanguage[language]}')">${currentLangFull}</a>
+                             <a href="#" onclick="chooseLanguage('${listOfLanguage[language]}')">${currentLangFull}</a>
                         </li>`
                 // html += `<a class="dropdown-item lang" onclick="chooseLanguage('${listOfLanguage[language]}')" id="${listOfLanguage[language]}">
                 //             <img src="../static/icons/${listOfLanguage[language]}.png"
