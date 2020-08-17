@@ -213,7 +213,6 @@ async function confirmPurchase() {
 }
 
 async function btnBuy() {
-    $("#butToBuy").one('click', function () {
         // show preloader before action
         $(".preloader").show();
         // add message to preloader
@@ -228,7 +227,6 @@ async function btnBuy() {
         PlEASE CONFIRM YOUR EMAIL! </div>
     `);
         confirmPurchase();
-    });
 }
 
 
