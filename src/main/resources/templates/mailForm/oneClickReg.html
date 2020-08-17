@@ -131,22 +131,26 @@
                 </tr>
                 <tr>
                     <td>
-                        <table id="content-1" cellpadding="0" cellspacing="0" align="left">
+                        <table id="header" cellpadding="10" cellspacing="0" style="text-align: center; justify-content: center" align="center">
                             <tr>
-                                <td width="55"></td>
-                                <td valign="top" colspan="3">
-                                    <h4><strong> Your login:</strong> <span th:text="${login}"> Login</span> <br></h4>
-                                    <h4><strong> Your password:</strong> <span th:text="${password}">Password</span>
-                                        <br></h4>
-                                    <a th:href="@{${url} + '/confirmEmail'(token=${id})}" class="confirm-account-loc button" target="_blank">
-                                        <img height="170" width="170" src="https://a.radikal.ru/a08/2008/bf/deecc653844a.png" />
-                                    </a>
-                                </td>
-                                <td width="15"></td>
+                                <td width="570"><h1><span class="welcome-reader-loc">Welcome reader!</span></h1></td>
                             </tr>
                             <tr>
-                                <td width="15"></td>
-                                <td></td>
+                                <td><h4><strong> Your login:</strong> <span th:text="${login}"> Login</span> <br></h4>
+                                    <h4><strong> Your password:</strong> <span th:text="${password}">Password</span></h4>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="570"><h5><span class="confirm-letter-text-loc">Please, confirm your account, so you may continue shopping.</span></h5></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="row justify-content-md-center">
+                                        <a th:href="@{${url} + '/confirmEmail'(token=${id})}" target="_blank">
+                                            <img height="170" width="170" src="https://a.radikal.ru/a08/2008/bf/deecc653844a.png" />
+                                        </a>
+                                    </div>
+                                </td>
                             </tr>
                         </table><!-- content 1 -->
                     </td>
