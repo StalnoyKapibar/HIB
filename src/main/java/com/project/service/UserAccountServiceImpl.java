@@ -146,17 +146,7 @@ public class UserAccountServiceImpl implements UserAccountService {
     }
 
     @Override
-    public List<String> getUsersEmails() {
-        return userAccountDao.getUsersEmails();
-    }
-
-    @Override
-    public boolean deleteUser(String email) {
-        UserAccount userAccount = findByLogin(email);
-        if (userAccount != null) {
-            userAccountDao.deleteUserAccount(userAccount);
-            return true;
-        }
-        return false;
+    public List<String> getUsersEmailsByStatus(Boolean isEnabled) {
+        return userAccountDao.getUsersEmailsByStatus(isEnabled);
     }
 }

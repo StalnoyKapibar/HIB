@@ -3,17 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script src="/static/js/main.js"></script>
-    <script src="/static/js/admin/addBook.js"></script>
-    <script src="/static/js/admin/editWelcome.js"></script>
-    <script src="/static/js/admin/buildEditPage.js"></script>
-    <script src="/static/js/utils/translate.js"></script>
 </head>
 <body>
 <!-- На место fragment вставлять параметр требуемой операции: 'Add' или 'Edit', тогда будут работать build****Page() (напр. buildAddPage()), send****Book(), book****Form
      и подставляться нужные значения в названия вкладок -->
 <div th:fragment="editingBooks (method)">
-    <!-- Функция loadButton загружает страницу через JS, нужно добавлять onclick="loadButton()" с места вызова фрагмента editingBooks -->
+    <!-- Функция loadButton загружает страницу через JS, нужно добавлять onclick="loadAddEditButton()" с места вызова фрагмента editingBooks -->
     <script type="text/javascript">
         function loadAddEditButton() {
             $('#buttonAddEditBuild').trigger("click");
