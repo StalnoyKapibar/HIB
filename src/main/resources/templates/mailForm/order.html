@@ -184,7 +184,7 @@
                             <tr>
                                 <td>
                                     <span>	Total price: </span>
-                                    <span th:text="${orders.getItemsCost()}"></span>
+                                    <span th:text="${orders.getItemsCost()/100}"></span>
                                     <span>€</span>
                                 </td>
                             </tr>
@@ -214,7 +214,6 @@
     </tr>
 </table><!-- wrapper -->
 
-</div>
 </body>
 
 </html>
