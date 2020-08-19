@@ -9,6 +9,7 @@ import com.google.api.services.gmail.Gmail;
 import com.project.controller.restcontroller.GmailRestController;
 import com.project.controller.restcontroller.ParseGmailController;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.io.IOException;
 
 @Controller
+@Lazy
 @PropertySource("classpath:gmail.properties")
 public class GmailController {
 
@@ -24,14 +26,16 @@ public class GmailController {
     private String clientId;
     @Value("${clientSecret}")
     private String clientSecret;
-    @Value("${redirectUri}")
-    private String redirectUri;
+    @Value("${server.port}")
+    private int port;
+    @Value("${server.host}")
+    private String adress;
 
     @GetMapping(value = "/gmail/admin", params = "code")
     public String handleGoogleAccess(@RequestParam("code") String response) throws IOException {
         GmailRestController.code = response;
         GoogleTokenResponse googleTokenResponse = new GoogleAuthorizationCodeTokenRequest(new NetHttpTransport(),
-                new JacksonFactory(), clientId, clientSecret, response, redirectUri).execute();
+                new JacksonFactory(), clientId, clientSecret, response, adress+port+"/gmail/admin").execute();
 
         GoogleCredential googleCredential = new GoogleCredential.Builder()
                 .setTransport(new NetHttpTransport())
