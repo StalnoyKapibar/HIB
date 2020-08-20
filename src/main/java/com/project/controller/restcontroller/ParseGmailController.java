@@ -3,6 +3,7 @@ package com.project.controller.restcontroller;
 import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.model.ListMessagesResponse;
 import com.google.api.services.gmail.model.Message;
+import com.google.api.services.gmail.model.MessagePartHeader;
 import com.google.api.services.gmail.model.ModifyMessageRequest;
 import com.nimbusds.jose.util.Base64URL;
 import lombok.NoArgsConstructor;
@@ -57,11 +58,14 @@ public class ParseGmailController {
                         }
                     });
             messagesResponse.forEach(message -> {
-                            String email = message.getPayload().getHeaders().stream()
+                String email = message.getPayload().getHeaders().stream()
                                     .filter(headers -> headers.getName().equals("From")).findFirst().get().getValue().split("<")[1].replace(">", "");
-                            String subject = message.getPayload().getHeaders().stream()
-                                    .filter(headers -> headers.getName().equals("Subject")).findFirst().get().getValue();
-                            String snippet = message.getSnippet();
+                String subject = message.getPayload().getHeaders().stream()
+                        .filter(headers -> headers.getName().equals("Subject"))
+                        .findFirst()
+                        .orElse(new MessagePartHeader().setValue("(no subject)"))
+                        .getValue();
+                String snippet = message.getSnippet();
                 List<String> content = Arrays.asList(subject, snippet);
                 unreadcontent.put(email, content);
             });

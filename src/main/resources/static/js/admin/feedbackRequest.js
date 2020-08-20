@@ -81,7 +81,7 @@ async function getFeedbackRequestTable(viewed) {
                 body: JSON.stringify(emails)
             }).then(json).then(data => {
                 feedbacks = tmp.map((item) => {
-                    if (data.hasOwnProperty(item.senderEmail)) {
+                    if (data.hasOwnProperty(item.senderEmail) && data[item.senderEmail][0].includes('Feedback №'+item.id)) {
                         item.unreadgmail = data[item.senderEmail];
                         return item;
                     } else {
@@ -503,7 +503,7 @@ async function consolidateEmails() {
             await getGmailUnreadEmails()
                 .then((data) => {
                     feedbacks = tmp.map((item) => {
-                        if (data.hasOwnProperty(item.senderEmail)) {
+                        if (data.hasOwnProperty(item.senderEmail) && data[item.senderEmail][0].includes('Feedback №'+item.id)) {
                             item.unreadgmail = data[item.senderEmail];
                             return item;
                         } else {
