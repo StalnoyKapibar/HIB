@@ -94,7 +94,7 @@ public class UserAccountServiceImpl implements UserAccountService {
     }
 
     @Override
-    public UserAccount save1Clickreg(RegistrationUserDTO user, String url) throws ConstraintViolationException {
+    public UserAccount save1Clickreg(RegistrationUserDTO user) throws ConstraintViolationException {
         UserAccount userAccount = UserAccount.builder()
                 .email(user.getEmail())
                 .password(encoder.encode(user.getPassword()))
@@ -110,14 +110,18 @@ public class UserAccountServiceImpl implements UserAccountService {
                 .lastName(user.getLastName())
                 .build();
 
+        return userAccountDao.save(userAccount);
+    }
+
+    @Override
+    public void sendMessageOneClickReg(UserAccount userAccount, String url, OrderDTO orderDTO, RegistrationUserDTO user) {
         try {
             if (userAccount != null) {
-                sendEmailService.confirmAccount1ClickReg(userAccount, user.getPassword(), user.getEmail(), url);
+                sendEmailService.confirmAccount1ClickReg(userAccount, user.getPassword(), userAccount.getEmail(), url, orderDTO);
             }
         } catch (MessagingException e) {
             e.printStackTrace();
         }
-        return userAccountDao.save(userAccount);
     }
 
     @Override
