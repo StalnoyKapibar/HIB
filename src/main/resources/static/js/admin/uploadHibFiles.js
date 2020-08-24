@@ -238,7 +238,7 @@ async function appendTableElement(book, i){
                                 <br/><br/>
                                 <div class="custom-control custom-switch align-items-center">
                                     <!-- Переключатель деактиватора книги -->
-                                    <input class="custom-control-input" type="checkbox" id="disabled${i}" checked>
+                                    <input class="custom-control-input" type="checkbox" id="disabled${i}">
                                     <label class="custom-control-label" for="disabled${i}"><b>Disabled</b></label>
                                 </div>
                            </td>
