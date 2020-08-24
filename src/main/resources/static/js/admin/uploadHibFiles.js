@@ -7,9 +7,6 @@ $(document).ready(function () {
 //Общий список книг
 let bookListLocal = [];
 
-//Список всех созданных временных папок с картинками для последующей очистки
-let picsFoldersNames = [];
-
 //Подготовка и отрисовка таблицы
 async function prepareTable(){
     if (bookListLocal.length === 0) {
@@ -49,7 +46,6 @@ async function fillBookList(){
             .then(async function (book) {
                 console.log("Success! HIB-file added");
                 bookListLocal[i + constant] = book;
-                picsFoldersNames.push(book.originalLanguage.name);
                 appendTableElement(book, i + constant);
             });
     }
