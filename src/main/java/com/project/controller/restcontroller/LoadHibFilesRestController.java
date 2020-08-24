@@ -7,11 +7,16 @@ import com.project.service.abstraction.HibFileService;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -21,38 +26,29 @@ import java.util.List;
 public class LoadHibFilesRestController {
     private static final Logger LOGGER = LoggerFactory.getLogger(LoadHibFilesRestController.class.getName());
     private final HibParser hibParser;
-    private final HibFileService hibFileService;
 
-    @PostMapping("/api/admin/upload-file")
-    public Book uploadFile(@RequestBody String book) {
-        LOGGER.info("POST request '/api/upload-file' with {}", book);
+    @PostMapping("/api/admin/get-book-from-json")
+    public Book getBookFromJSON(@RequestBody String book) {
+        //LOGGER.info("POST request '/api/admin/get-book-from-json' with {}", book);
         return hibParser.getBookFromJSON(book);
     }
 
-    @GetMapping("/api/admin/hib-dto")
-    public List<HibFileDto> getAllHibFileDto() {
-        return hibFileService.getAllDto();
+    @PostMapping("/api/admin/upload-book")
+    public void uploadBook(@RequestBody Book book) {
+        //LOGGER.info("POST request '/api/admin/upload-book' with {}", book);
+        hibParser.saveBook(book);
     }
 
-    @GetMapping(value = "/api/admin/hib", params = "name")
-    public Book getBookDtoFromHibFileByName(@RequestParam String name) {
-        return hibFileService.getBookFromHibFileByName(name);
-    }
-
-    @PostMapping("/api/admin/upload-multiply-files")
-    public void loadFile(@RequestParam("files") MultipartFile[] books, HttpServletResponse response) {
-        LOGGER.info("POST request '/api/load-multiply-files' with {}", Arrays.toString(books));
-        hibFileService.bulkLoading(books);
-        try {
-            response.sendRedirect("/admin/panel/books");
-        } catch (IOException e) {
-            e.printStackTrace();
+    @PostMapping("/api/admin/upload-all-books")
+    public void uploadAllBooks(@RequestBody List<Book> books) {
+        //LOGGER.info("POST request '/api/admin/upload-all-books' with {}", book);
+        for (Book book : books) {
+            hibParser.saveBook(book);
         }
     }
 
-    @DeleteMapping(value = "/api/admin/hib/{name}")
-    public void deleteHibFileByName(@PathVariable String name) {
-        hibFileService.deleteByName(name);
+    @PostMapping("/api/admin/clear-temp-pics")
+    public void clearTempPics(@RequestBody String folderList) {
+        hibParser.clearTemp(folderList);
     }
-
 }

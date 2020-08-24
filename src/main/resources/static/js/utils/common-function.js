@@ -177,6 +177,7 @@ async function setLocaleFields() {
             $('.name-and-author-loc').text(localeFields['titleAndAuthor']);
             $('.search-input-dots-loc').attr('placeholder', localeFields['searchDots']);
             $('.year-of-edition-loc').text(localeFields['yearOfEdition']);
+            $('#edition-loc').text(localeFields['edition']);
             $('.number-of-pages-loc').text(localeFields['numberOfpages']);
             $('.search-submit-loc').text(localeFields['search']);
             $('.available-loc').text(localeFields['check-available']);

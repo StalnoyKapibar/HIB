@@ -12,6 +12,7 @@ let nameImageCover = '';
 let pathImageDefault = '/images/book';
 let categoryName, categoryIdSrc;
 let isShow = false;
+let picsFolderName;
 
 $(document).ready(getVarBookDTO());
 
@@ -594,14 +595,14 @@ function sendEditBook() {
         } // Здесь заканчивается наполнение списка изображений книги новыми картинками
 
         sendUpdateBookReq(book).then(r => {
+            opener.location.reload();
             window.close();
-            //window.location.href = document.referrer;
         });
     } else {}
 }
 
 async function sendUpdateBookReq(x) {
-    await fetch("/admin/edit", {
+    await fetch("/admin/edit?pics=" + picsFolderName, {
         method: 'POST',
         body: JSON.stringify(x),
         headers: {
@@ -620,6 +621,7 @@ function changeCover(x){
             success: (book) => {
                 book["coverImage"] = tmpArr.listImage[x].nameImage;
                 sendUpdateBookReq(book).then(r => {
+                    opener.location.reload();
                     window.close();
                 });
             }
@@ -691,14 +693,33 @@ function deleteCoverImage() {
                     success: (book) => {
                         book["listImage"] = tmpArr.listImage;
                         book["coverImage"] = "";
-                        sendUpdateBookReq(book).then(r => {
-
-                        });
+                        sendUpdateBookReq(book).then(r => {});
                     }
                 }),
         });
     }
 }
+
+//
+function getTempFolderName() {
+    let picsFolderName;
+
+    $.ajax({
+        type: "GET",
+        async: false,
+        url: '/getPicsFolderName',
+        success: (name) => {
+            picsFolderName = name;
+        },
+        error: (e) => {
+            console.log("ERROR: ", e);
+        }
+    });
+
+    console.log("Временная папка хранения изображений: " + picsFolderName);
+    return picsFolderName;
+}
+
 
 //Функция подгрузки картинок во временную папку
 function loadTmpImage(nameId, div) {
@@ -708,19 +729,19 @@ function loadTmpImage(nameId, div) {
     formData.append('file', fileImg, fileName);
     $.ajax({
         type: 'POST',
-        url: '/admin/upload',
+        url: '/admin/upload?pics=' + picsFolderName,
         data: formData,
         cache:false,
         contentType: false,
         processData: false
     }).then(function () {
-        addImageInDiv(fileName, div);
+        addImageInDiv(fileName, picsFolderName, div);
     });
 }
 
 //Функция распределения картинок по "Обложка" или "Остальное"
-function addImageInDiv(fileName, divId) {
-    let path = "/images/tmp/" + fileName;
+function addImageInDiv(fileName, picsFolderName, divId) {
+    let path = "/images/tmp/" + picsFolderName + "/" + fileName;
     if (divId === 'divAvatar') {
         divAvatar.empty();
         addImgAvatarAndBtn(fileName, path);
@@ -755,7 +776,7 @@ function deleteTmpImage(id) {
     }
 }
 
-//Наполнение временной книги данными из базы (насколько я понял)
+//Получение полей книги (name, author, description, edition)
 function getVarBookDTO() {
     fetch("/getVarBookDTO")
         .then(status)
@@ -763,9 +784,11 @@ function getVarBookDTO() {
         .then(function (resp) {
             nameObjectOfLocaleString = Object.values(resp).filter(t => t !== "id");
             getAllLocales();
+            picsFolderName = getTempFolderName();
         });
 }
 
+//Получение языковых полей (ru, en, fr, it, de, cs, gr)
 function getAllLocales() {
     var full_url = document.URL; // Get current url
     var url_array = full_url.split('/')
@@ -781,6 +804,7 @@ function getAllLocales() {
         });
 }
 
+//Получение данных книги из базы и дальнейшее построение страницы с наполнением полей данными книги
 function getBookDTOById(id) {
     fetch("/api/book/" + id)
         .then(status)

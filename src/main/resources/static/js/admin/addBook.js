@@ -4,12 +4,9 @@ let yearOfEdition;
 let pages;
 let price;
 let originalLanguage;
+let picsFolderName;
 
 $(document).ready(getVarBookDTO());
-
-function buildByButton(){
-    getVarBookDTO();
-}
 
 //Проверка на заполненность требуемых полей
 function checkRequired() {
@@ -133,6 +130,7 @@ function getCategoryName(event) {
 
 }
 
+//Отрисовка основы для вывода категорий
 function addCategory() {
     let row =
         `<div class="shadow p-4 mb-4 bg-white text-center">
@@ -145,6 +143,8 @@ function addCategory() {
     getTree();
 }
 
+
+//Загрузка дерева категорий
 function getTree() {
     fetch('/admin/categories/getadmintree')
         .then(function (response) {
@@ -175,8 +175,6 @@ function getTree() {
 //Функция, выводящая визуальное наполнение вкладок
 function buildAddPage() {
 
-    //getVarBookDTO();
-    //getAllLocales();
     doesFolderTmpExist();
 
     $('#bookAddForm').html(`<div class="tab-content" id="myTabContent">
@@ -250,6 +248,26 @@ function buildAddPage() {
     setLocaleFields().then(r => setTimeout(function(){}, 200)); //need
 }
 
+//
+function getTempFolderName() {
+    let picsFolderName;
+
+    $.ajax({
+        type: "GET",
+        async: false,
+        url: '/getPicsFolderName',
+        success: (name) => {
+            picsFolderName = name;
+        },
+        error: (e) => {
+            console.log("ERROR: ", e);
+        }
+    });
+
+    console.log("Временная папка хранения изображений: " + picsFolderName);
+    return picsFolderName;
+}
+
 //Функция подгрузки картинок во временную папку
 function loadImage(nameId, div) {
     const formData = new FormData();
@@ -258,19 +276,19 @@ function loadImage(nameId, div) {
     formData.append('file', fileImg, fileName);
     $.ajax({
         type: 'POST',
-        url: '/admin/upload',
+        url: '/admin/upload?pics=' + picsFolderName,
         data: formData,
         cache:false,
         contentType: false,
         processData: false
     }).then(function () {
-        addImageInDiv(fileName, div);
+        addImageInDiv(fileName, picsFolderName, div);
     });
 }
 
 //Функция распределения картинок по "Обложка" или "Остальное"
-function addImageInDiv(fileName, divId) {
-    let path = "/images/tmp/" + fileName;
+function addImageInDiv(fileName, picsFolderName, divId) {
+    let path = "/images/tmp/" + picsFolderName + "/" + fileName;
     if (divId === 'divAvatar') {
         divAvatar.empty();
         addImgAvatarAndBtn(fileName, path);
@@ -306,22 +324,6 @@ function deleteImage(id) {
     }
 }
 
-//Функция загрузки файла с книгами, не трогал его
-function loadBookFile() {
-    let file = $("#add-hib-file-input").prop('files')[0];
-    fetch('/api/admin/upload-file', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json;charset=utf-8'
-        },
-        body: file
-    })
-        .then(json)
-        .then(function (resp) {
-            addValueToFields(resp);
-        });
-}
-
 //Функция отрисовки полей
 function addValueToFields(book) {
     divAvatar.empty();
@@ -347,7 +349,7 @@ function sendAddBook() {
         for (let tmpNameObject of nameObjectOfLocaleString) {
             let bookFields = {};
             for (let tmpNameVar of nameVarOfLocaleString) {
-                bookFields[tmpNameVar] = $("#inp" + tmpNameObject + tmpNameVar).val()
+                bookFields[tmpNameVar] = $("#inp" + tmpNameObject + tmpNameVar).val();
             }
             book[tmpNameObject] = bookFields;
             if (tmpNameObject !== "description") {
@@ -373,13 +375,14 @@ function sendAddBook() {
             imageList.push(image);
         }
         book["listImage"] = imageList;
-        fetch('/admin/add', {
+        fetch('/admin/add?pics=' + picsFolderName, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
             },
             body: JSON.stringify(book)
         }).then(r =>{
+            opener.location.reload();
             window.close();
         });
 
@@ -410,6 +413,8 @@ function getUnflattens (arr, parentId) {
     return output;
 }
 
+
+//Отрисовка дерева категорий
 function setTreeViews(category) {
     let treeRow = '';
     for (let i in category) {
@@ -429,7 +434,6 @@ function setTreeViews(category) {
         categoryTreeDiv.append(treeRow);
     }
 }
-
 
 function setChildren(category) {
     let row = '';
@@ -452,6 +456,7 @@ function setChildren(category) {
     return row;
 }
 
+//Получение полей книги (name, author, description, edition)
 function getVarBookDTO() {
     fetch("/getVarBookDTO")
         .then(status)
@@ -459,9 +464,11 @@ function getVarBookDTO() {
         .then(function (resp) {
             nameObjectOfLocaleString = Object.values(resp).filter(t => t !== "id");
             getAllLocales();
+            picsFolderName = getTempFolderName();
         });
 }
 
+//Получение языковых полей (ru, en, fr, it, de, cs, gr)
 function getAllLocales() {
     var full_url = document.URL; // Get current url
     var url_array = full_url.split('/')

@@ -60,6 +60,12 @@ public class BookController {
         return HttpStatus.OK;
     }
 
+    @PostMapping("admin/deleteCover")
+    public void deleteCover(@RequestBody String path) {
+        File cover = new File("img/tmp/" + path);
+        cover.delete();
+    }
+
     @PutMapping("/loadFile")
     public Book loadFile(@RequestBody String bookAsJson) {
         return hibParser.getBookFromJSON(bookAsJson);
@@ -112,19 +118,19 @@ public class BookController {
     }
 
     @PostMapping("/admin/add")
-    public void addBook(@RequestBody Book book) {
+    public void addBook(@RequestBody Book book, @RequestParam("pics") String picsFolderName) {
         if (book.getCoverImage() == null) {
             book.setCoverImage("book.jpg");
             bookService.addBook(book);
             String lastId = bookService.getLastIdOfBook();
             storageService.createNewPaperForImages(lastId);
             storageService.copyDefaultPhotoToFolder(lastId);
-            storageService.cutImagesFromTmpPaperToNewPaperByLastIdBook(lastId, book.getListImage());
+            storageService.cutImagesFromTmpPaperToNewPaperByLastIdBook(lastId, picsFolderName, book.getListImage());
         } else {
             bookService.addBook(book);
             String lastId = bookService.getLastIdOfBook();
             storageService.createNewPaperForImages(lastId);
-            storageService.cutImagesFromTmpPaperToNewPaperByLastIdBook(lastId, book.getListImage());
+            storageService.cutImagesFromTmpPaperToNewPaperByLastIdBook(lastId, picsFolderName, book.getListImage());
         }
     }
 
@@ -146,9 +152,9 @@ public class BookController {
     }
 
     @PostMapping("/admin/edit")
-    public void editBook(@RequestBody Book book) {
+    public void editBook(@RequestBody Book book, @RequestParam("pics") String picsFolderName) {
         bookService.updateBook(book);
-        storageService.cutImagesFromTmpPaperToNewPaperByLastIdBook(String.valueOf(book.getId()), book.getListImage());
+        storageService.cutImagesFromTmpPaperToNewPaperByLastIdBook(String.valueOf(book.getId()), picsFolderName, book.getListImage());
     }
 
     @GetMapping("/user/get20BookDTO/{locale}")
@@ -162,9 +168,14 @@ public class BookController {
         return bookService.getNewBookDTOByIdAndLang(id, lang);
     }
 
+    @GetMapping("/getPicsFolderName")
+    public String getPicsFolderName() {
+        return hibParser.getTmpFolderName();
+    }
+
     @PostMapping("/admin/upload")
-    public String fileUpload(@RequestBody MultipartFile file) {
-        return storageService.saveImage(file);
+    public String fileUpload(@RequestBody MultipartFile file,  @RequestParam("pics") String picsFolderName) {
+        return storageService.saveImage(file, picsFolderName);
     }
 
     @PostMapping("/admin/download")
