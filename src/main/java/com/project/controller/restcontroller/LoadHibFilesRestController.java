@@ -41,7 +41,7 @@ public class LoadHibFilesRestController {
 
     @PostMapping("/api/admin/upload-all-books")
     public void uploadAllBooks(@RequestBody List<Book> books) {
-        //LOGGER.info("POST request '/api/admin/upload-all-books' with {}", book);
+        //LOGGER.info("POST request '/api/admin/upload-all-books' with {}", books);
         for (Book book : books) {
             hibParser.saveBook(book);
         }
@@ -54,8 +54,8 @@ public class LoadHibFilesRestController {
 
     @PostMapping("/api/admin/clear-left-temp-pics")
     public void testHibCont(@RequestBody String[] folders) {
+        //LOGGER.info("POST request '/api/admin/upload-all-books' with {}", folders);
         for (String folder : folders){
-            System.out.println(folder);
             hibParser.clearTemp(folder);
         }
     }

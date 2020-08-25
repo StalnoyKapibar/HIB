@@ -187,7 +187,7 @@ function buildEditPage() {
                                                 <div id="divLoadAvatar">
                                                     <h4>Cover</h4>
                                                     <Label>Load cover</Label>
-                                                    <input type="file" class="form-control-file" id="avatar" accept="image/jpeg,image/png,image/gif" onchange="loadTmpImage('avatar','divAvatar')">
+                                                    <input type="file" class="form-control-file" id="avatar" accept="image/jpeg" onchange="loadTmpImage('avatar','divAvatar')">
                                                 </div>
                                                 <div class='car' id='divAvatar'></div>
                                             </div>
@@ -687,12 +687,12 @@ function deleteCoverImage() {
             contentType: false,
             processData: false,
             success:
-                $.ajax({    //Присвоение книге обложки с пустым названием "" для корректного отображение картинки "noimage" на главной странице
+                $.ajax({
                     type: "GET",
                     url: "/api/book/" + tmpArr.id,
                     success: (book) => {
                         book["listImage"] = tmpArr.listImage;
-                        book["coverImage"] = "";
+                        book["coverImage"] = "";    //Присвоение книге обложки с пустым названием "" для корректного отображение картинки "noimage" на главной странице
                         sendUpdateBookReq(book).then(r => {});
                     }
                 }),
