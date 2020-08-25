@@ -389,7 +389,7 @@ function sendAddBook() {
         }
         book["listImage"] = imageList;
         let url;
-        if (imageList.length === 0) {
+        if ($("#divAvatar").html() === "" && $("#imageList").html() === "") {
             url = '/admin/addNoPics';
         } else {
             url = '/admin/add?pics=' + picsFolderName;
