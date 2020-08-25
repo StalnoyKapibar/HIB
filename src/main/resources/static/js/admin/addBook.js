@@ -391,10 +391,10 @@ function sendAddBook() {
         }
         book["listImage"] = imageList;
         let url;
-        if ($("#divAvatar").html() === "" & $("#imageList").html() === "") {
-            url = '/admin/addNoPics';
-        } else {
+        if (tempPicsFolderCheck === 1 || $("#divAvatar").html() !== "" || $("#imageList").html() !== "") {
             url = '/admin/add?pics=' + picsFolderName;
+        } else {
+            url = '/admin/addNoPics';
         }
         fetch(url, {
             method: 'POST',

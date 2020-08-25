@@ -605,10 +605,10 @@ function sendEditBook() {
 
 async function sendUpdateBookReq(x) {
     let url;
-    if ($("#divAvatar").html() === "" & $("#imageList").html() === "") {
-        url = '/admin/editNoPics';
-    } else {
+    if (tempPicsFolderCheck === 1 || $("#divAvatar").html() !== "" || $("#imageList").html() !== "") {
         url = '/admin/edit?pics=' + picsFolderName;
+    } else {
+        url = '/admin/editNoPics';
     }
     await fetch(url, {
         method: 'POST',
