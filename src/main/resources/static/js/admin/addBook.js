@@ -5,6 +5,7 @@ let pages;
 let price;
 let originalLanguage;
 let picsFolderName;
+let tempPicsFolderCheck;
 
 $(document).ready(getVarBookDTO());
 
@@ -269,6 +270,7 @@ function getTempFolderName() {
 
 //Функция подгрузки картинок во временную папку
 function loadImage(nameId, div) {
+    tempPicsFolderCheck = 1;
     const formData = new FormData();
     let fileImg = $("#" + nameId).prop('files')[0];
     let fileName;
@@ -389,7 +391,7 @@ function sendAddBook() {
         }
         book["listImage"] = imageList;
         let url;
-        if ($("#divAvatar").html() === "" && $("#imageList").html() === "") {
+        if ($("#divAvatar").html() === "" & $("#imageList").html() === "") {
             url = '/admin/addNoPics';
         } else {
             url = '/admin/add?pics=' + picsFolderName;
@@ -401,6 +403,7 @@ function sendAddBook() {
             },
             body: JSON.stringify(book)
         }).then(r =>{
+            tempPicsFolderCheck = undefined;
             opener.location.reload();
             window.close();
         });

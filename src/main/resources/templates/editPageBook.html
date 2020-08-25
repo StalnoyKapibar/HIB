@@ -69,7 +69,7 @@
 <script>
     //Функция удаления оставшихся временных папок изображений
     window.onbeforeunload = function(e) {
-        if ($("#divAvatar").html() !== "" || $("#imageList").html() !== "") {
+        if (tempPicsFolderCheck === 1 || $("#divAvatar").html() !== "" || $("#imageList").html() !== "") {
             fetch('/api/admin/clear-temp-pics', {
                 method: 'POST',
                 headers: {
@@ -78,6 +78,7 @@
                 body: picsFolderName
             })
             picsFolderName = undefined;
+            tempPicsFolderCheck = undefined;
             opener.location.reload();
         }
     };

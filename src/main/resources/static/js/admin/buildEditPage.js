@@ -13,6 +13,7 @@ let pathImageDefault = '/images/book';
 let categoryName, categoryIdSrc;
 let isShow = false;
 let picsFolderName;
+let tempPicsFolderCheck;
 
 $(document).ready(getVarBookDTO());
 
@@ -595,6 +596,7 @@ function sendEditBook() {
         } // Здесь заканчивается наполнение списка изображений книги новыми картинками
 
         sendUpdateBookReq(book).then(r => {
+            tempPicsFolderCheck = undefined;
             opener.location.reload();
             window.close();
         });
@@ -603,7 +605,7 @@ function sendEditBook() {
 
 async function sendUpdateBookReq(x) {
     let url;
-    if ($("#divAvatar").html() === "" && $("#imageList").html() === "") {
+    if ($("#divAvatar").html() === "" & $("#imageList").html() === "") {
         url = '/admin/editNoPics';
     } else {
         url = '/admin/edit?pics=' + picsFolderName;
@@ -739,6 +741,7 @@ function getTempFolderName() {
 
 //Функция подгрузки картинок во временную папку
 function loadTmpImage(nameId, div) {
+    tempPicsFolderCheck = 1;
     const formData = new FormData();
     let fileImg = $("#" + nameId).prop('files')[0];
     let fileName;
