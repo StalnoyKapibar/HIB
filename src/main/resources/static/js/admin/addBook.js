@@ -213,10 +213,9 @@ function buildAddPage() {
                                                 <div id="divLoadAvatar">
                                                     <h4>Cover</h4>
                                                     <Label>Load cover</Label>
-                                                    <input type="file" class="form-control-file" id="avatar" accept="image/jpeg,image/png,image/gif" onchange="loadImage('avatar','divAvatar')">
+                                                    <input type="file" class="form-control-file" id="avatar" accept="image/jpeg" onchange="loadImage('avatar','divAvatar')">
                                                 </div>
-                                                <div class='car' id='divAvatar'>
-                                                </div>
+                                                <div class='car' id='divAvatar'></div>
                                             </div>
                                             <div class="card p-4 mb-4 bg-light">
                                                 <h4>Another image</h4>
@@ -272,7 +271,21 @@ function getTempFolderName() {
 function loadImage(nameId, div) {
     const formData = new FormData();
     let fileImg = $("#" + nameId).prop('files')[0];
-    let fileName = fileImg.name.replace(/([^A-Za-zА-Яа-я0-9.]+)/gi, '-');
+    let fileName;
+    if (nameId === "avatar") {
+        fileName = "avatar.jpg";
+        if( $("#divAvatar").html() !== "" ) {
+            fetch('admin/deleteCover', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: picsFolderName + "/avatar.jpg"
+            })
+        }
+    } else {
+        fileName = fileImg.name.replace(/([^A-Za-zА-Яа-я0-9.]+)/gi, '-');
+    }
     formData.append('file', fileImg, fileName);
     $.ajax({
         type: 'POST',

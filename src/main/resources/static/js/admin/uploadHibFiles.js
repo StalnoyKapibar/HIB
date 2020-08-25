@@ -1,3 +1,5 @@
+//Список всех созданных временных папок изображений
+let picsTempFoldersList = undefined;
 
 //Установка языковых параметров страницы
 $(document).ready(function () {
@@ -21,6 +23,10 @@ async function fillBookList(){
     let booksLength = books.length;
     let constant = bookListLocal.length
     let nextId;
+
+    if (picsTempFoldersList === undefined) {
+        picsTempFoldersList = [];
+    }
 
     $.ajax({
         type: "GET",
@@ -46,6 +52,7 @@ async function fillBookList(){
             .then(async function (book) {
                 console.log("Success! HIB-file added");
                 bookListLocal[i + constant] = book;
+                picsTempFoldersList[i + constant] = book.originalLanguage.name;
                 appendTableElement(book, i + constant);
             });
     }
@@ -96,6 +103,7 @@ async function listUpload() {
         },
         body: JSON.stringify(listForUpload)
     }).then(r => {
+        picsTempFoldersList = undefined;
         opener.location.reload();
         window.close();
     });
@@ -133,6 +141,7 @@ async function uploadBook(id){
         body: assembleBook(book, 0, id)
     }).then(r => {
         if (bookListLocal.length < 1) {
+            picsTempFoldersList = undefined;
             opener.location.reload();
             window.close();
         }
@@ -147,12 +156,14 @@ function deleteFromBookList(id, tempPicsDelete) {
         if (tempPicsDelete === 1) {
             clearTempPics(bookListLocal[id].originalLanguage.name);
         }
+        picsTempFoldersList.splice(id, 1);
         bookListLocal.splice(id, 1);
         $('#uploaded-HIB-Files').empty();
     } else {
         if (tempPicsDelete === 1) {
             clearTempPics(bookListLocal[id].originalLanguage.name);
         }
+        picsTempFoldersList.splice(id, 1);
         bookListLocal.splice(id, 1);
         $('#tableBody').empty();
         for (let i = 0; i < bookListLocal.length; i++) {

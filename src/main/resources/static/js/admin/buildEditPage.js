@@ -725,7 +725,21 @@ function getTempFolderName() {
 function loadTmpImage(nameId, div) {
     const formData = new FormData();
     let fileImg = $("#" + nameId).prop('files')[0];
-    let fileName = fileImg.name.replace(/([^A-Za-zА-Яа-я0-9.]+)/gi, '-');
+    let fileName;
+    if (nameId === "avatar") {
+        fileName = "avatar.jpg";
+        if( $("#divAvatar").html() !== "" ) {
+            fetch('admin/deleteCover', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: picsFolderName + "/avatar.jpg"
+            })
+        }
+    } else {
+        fileName = fileImg.name.replace(/([^A-Za-zА-Яа-я0-9.]+)/gi, '-');
+    }
     formData.append('file', fileImg, fileName);
     $.ajax({
         type: 'POST',

@@ -48,7 +48,15 @@ public class LoadHibFilesRestController {
     }
 
     @PostMapping("/api/admin/clear-temp-pics")
-    public void clearTempPics(@RequestBody String folderList) {
-        hibParser.clearTemp(folderList);
+    public void clearTempPics(@RequestBody String folder) {
+        hibParser.clearTemp(folder);
+    }
+
+    @PostMapping("/api/admin/clear-left-temp-pics")
+    public void testHibCont(@RequestBody String[] folders) {
+        for (String folder : folders){
+            System.out.println(folder);
+            hibParser.clearTemp(folder);
+        }
     }
 }
