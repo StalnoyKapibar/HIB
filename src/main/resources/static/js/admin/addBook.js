@@ -388,7 +388,13 @@ function sendAddBook() {
             imageList.push(image);
         }
         book["listImage"] = imageList;
-        fetch('/admin/add?pics=' + picsFolderName, {
+        let url;
+        if (imageList.length === 0) {
+            url = '/admin/addNoPics';
+        } else {
+            url = '/admin/add?pics=' + picsFolderName;
+        }
+        fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'

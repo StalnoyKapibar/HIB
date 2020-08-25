@@ -49,12 +49,13 @@ public class LoadHibFilesRestController {
 
     @PostMapping("/api/admin/clear-temp-pics")
     public void clearTempPics(@RequestBody String folder) {
+        //LOGGER.info("POST request '/api/admin/clear-temp-pics' with {}", folder);
         hibParser.clearTemp(folder);
     }
 
     @PostMapping("/api/admin/clear-left-temp-pics")
     public void testHibCont(@RequestBody String[] folders) {
-        //LOGGER.info("POST request '/api/admin/upload-all-books' with {}", folders);
+        //LOGGER.info("POST request '/api/admin/clear-left-temp-pics' with {}", folders);
         for (String folder : folders){
             hibParser.clearTemp(folder);
         }

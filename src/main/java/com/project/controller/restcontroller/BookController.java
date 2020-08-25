@@ -134,6 +134,15 @@ public class BookController {
         }
     }
 
+    @PostMapping("admin/addNoPics")
+    public void addBookNoPics(@RequestBody Book book) {
+        book.setCoverImage("book.jpg");
+        bookService.addBook(book);
+        String lastId = bookService.getLastIdOfBook();
+        storageService.createNewPaperForImages(lastId);
+        storageService.copyDefaultPhotoToFolder(lastId);
+    }
+
     @GetMapping("/getVarBookDTO")
     @Autowired
     public List<String> getVarBookDTOForBuildTableInAdminPanel(BookDTOWithFieldsForTable bookDTOWithFieldsForTable) {
@@ -155,6 +164,11 @@ public class BookController {
     public void editBook(@RequestBody Book book, @RequestParam("pics") String picsFolderName) {
         bookService.updateBook(book);
         storageService.cutImagesFromTmpPaperToNewPaperByLastIdBook(String.valueOf(book.getId()), picsFolderName, book.getListImage());
+    }
+
+    @PostMapping("/admin/editNoPics")
+    public void editBookNoPics(@RequestBody Book book) {
+        bookService.updateBook(book);
     }
 
     @GetMapping("/user/get20BookDTO/{locale}")

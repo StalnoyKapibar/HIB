@@ -602,7 +602,13 @@ function sendEditBook() {
 }
 
 async function sendUpdateBookReq(x) {
-    await fetch("/admin/edit?pics=" + picsFolderName, {
+    let url;
+    if ($("#divAvatar").html() === "" && $("#imageList").html() === "") {
+        url = '/admin/editNoPics';
+    } else {
+        url = '/admin/edit?pics=' + picsFolderName;
+    }
+    await fetch(url, {
         method: 'POST',
         body: JSON.stringify(x),
         headers: {
@@ -693,7 +699,17 @@ function deleteCoverImage() {
                     success: (book) => {
                         book["listImage"] = tmpArr.listImage;
                         book["coverImage"] = "";    //Присвоение книге обложки с пустым названием "" для корректного отображение картинки "noimage" на главной странице
-                        sendUpdateBookReq(book).then(r => {});
+                        fetch("/admin/editNoPics", {
+                            method: 'POST',
+                            body: JSON.stringify(book),
+                            headers: {
+                                'Content-Type': 'application/json;charset=utf-8',
+                                'Accept': 'application/json'
+                            }
+                        }).then(r => {
+                            opener.location.reload();
+                            window.close();
+                        });
                     }
                 }),
         });
