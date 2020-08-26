@@ -3,12 +3,11 @@ package com.project.HIBParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.project.model.Book;
-import com.project.model.Category;
-import com.project.model.Image;
-import com.project.model.LocaleString;
+import com.project.model.*;
+import com.project.service.CategoryService;
 import com.project.service.abstraction.BookService;
 import com.project.service.abstraction.StorageService;
+import com.project.util.TransliterateUtil;
 import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Component;
 
@@ -24,14 +23,16 @@ public class HibParser {
     private final BookService bookService;
     private final ObjectMapper objectMapper;
     private final StorageService storageService;
+    private final CategoryService categoryService;
 
     private static final String AVATAR = "avatar.jpg";
-    private static final String PATH_TO_TMP = "img/tmp/";
+    private static final String PATH_TO_TMP = "./img/tmp/";
 
-    public HibParser(BookService bookService, ObjectMapper objectMapper, StorageService storageService) {
+    public HibParser(BookService bookService, ObjectMapper objectMapper, StorageService storageService, CategoryService categoryService) {
         this.bookService = bookService;
         this.objectMapper = objectMapper;
         this.storageService = storageService;
+        this.categoryService = categoryService;
     }
 
     private LocaleString initLocaleString(JsonNode node) {
@@ -48,33 +49,47 @@ public class HibParser {
         }
     }
 
+    public String getTmpFolderName(){
+        String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                + "0123456789"
+                + "abcdefghijklmnopqrstuvxyz";
+        StringBuilder sb = new StringBuilder(8);
+        for (int i = 0; i < 8; i++) {
+            int index = (int)(AlphaNumericString.length() * Math.random());
+            sb.append(AlphaNumericString.charAt(index));
+        }
+        return sb.toString();
+    }
+
     public Book getBookFromJSON(String json) {
+        String bookTmpFolder = getTmpFolderName();
         JsonNode jsonNode = null;
-        long id = Long.parseLong(bookService.getLastIdOfBook()) + 1;
         try {
             jsonNode = objectMapper.readTree(json);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
         List<Image> listImage = new ArrayList<>();
-        listImage.add(new Image(0L, AVATAR));
-        String avatarPath = PATH_TO_TMP + AVATAR;
+        listImage.add(new Image(AVATAR));
+        String avatarPath = PATH_TO_TMP + bookTmpFolder + "/" + AVATAR;
         byte[] decodedBytes = Base64.getDecoder().decode(jsonNode.get("avatar").asText());
         writeImgToFile(avatarPath, decodedBytes);
 
-        JsonNode listBytes = jsonNode.get("additionalPhotos");
-        for (int i = 0; i < listBytes.size(); i++) {
-            String additionalPhoto = PATH_TO_TMP + i + ".jpg";
-            byte[] tmpDecodedBytes = Base64.getDecoder().decode(listBytes.get(i).asText());
+        JsonNode listPicsBytes = jsonNode.get("additionalPhotos");
+        for (int i = 0; i < listPicsBytes.size(); i++) {
+            String additionalPhoto = PATH_TO_TMP + bookTmpFolder + "/" + i + ".jpg";
+            byte[] tmpDecodedBytes = Base64.getDecoder().decode(listPicsBytes.get(i).asText());
             writeImgToFile(additionalPhoto, tmpDecodedBytes);
-            listImage.add(new Image(0L, i + ".jpg"));
+            listImage.add(new Image(i + ".jpg"));
         }
 
-        Category category = new Category();
-        category.setName(new LocaleString(jsonNode.get("category").asText(), jsonNode.get("category").asText(), jsonNode.get("category").asText(), jsonNode.get("category").asText(), jsonNode.get("category").asText(), jsonNode.get("category").asText(), jsonNode.get("category").asText()));
+        //Категория под id-номеру "1" - "Uncategorized" (без категории). При смене идентификатора данной категории в базе необходимо сменить его и в строке ниже
+        Category category  = categoryService.getCategoryById(1L);
+
+        OriginalLanguage courier = new OriginalLanguage();
+        courier.setName(bookTmpFolder);
 
         return Book.builder()
-                .id(id)
                 .name(initLocaleString(jsonNode.get("name")))
                 .author(initLocaleString(jsonNode.get("author")))
                 .description(initLocaleString(jsonNode.get("desc")))
@@ -83,19 +98,22 @@ public class HibParser {
                 .pages(jsonNode.get("pages").asLong())
                 .price(jsonNode.get("price").asLong())
                 .originalLanguageName(jsonNode.get("originalLanguage").asText())
+                .originalLanguage(courier)  //Данная строка записывает в объект OriginalLanguage книги имя временной папки для картинок.
+                                            //Объект носит временный характер и будет перезаписан на нужное значение при добавлении книги в базу.
                 .coverImage(AVATAR)
                 .listImage(listImage)
                 .category(category).build();
     }
 
-    public void saveBooks(List<String> booksAsJson) {
-        for (String json : booksAsJson) {
-            Book book = getBookFromJSON(json);
-            book.setShow(false);
-            bookService.addBook(book);
-            String lastId = bookService.getLastIdOfBook();
-            storageService.createNewPaperForImages(lastId);
-            storageService.cutImagesFromTmpPaperToNewPaperByLastIdBook(lastId, book.getListImage());
-        }
+    public void saveBook(Book book) {
+        String picsFolder = book.getOriginalLanguage().getName();
+        bookService.addBook(book);
+        String lastId = bookService.getLastIdOfBook();
+        storageService.createNewPaperForImages(lastId);
+        storageService.cutImagesFromTmpPaperToNewPaperByLastIdBook(lastId, picsFolder, book.getListImage());
+    }
+
+    public void clearTemp(String folderName) {
+        storageService.clearPaperTmp(folderName);
     }
 }

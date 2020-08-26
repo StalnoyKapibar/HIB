@@ -193,7 +193,11 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
     @Override
     public String getLastIdOfBook() {
         String hql = "SELECT max(b.id) FROM Book b";
-        return entityManager.createQuery(hql).getSingleResult().toString();
+        String lastId = null;
+        if (entityManager.createQuery(hql).getSingleResult() != null) {
+            lastId = entityManager.createQuery(hql).getSingleResult().toString();
+        }
+        return lastId;
     }
 
     @Override
