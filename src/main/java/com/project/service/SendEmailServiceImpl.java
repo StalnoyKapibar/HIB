@@ -66,7 +66,7 @@ public class SendEmailServiceImpl implements SendEmailService {
         MimeMessage message = mailService.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, "utf-8");
         helper.setTo(order.getUserAccount().getEmail());
-        helper.setSubject("Заказ");
+        helper.setSubject("Order №" + order.getId());
         helper.setFrom(senderFromProperty);
         helper.setText(mailService.getTemplate("mailForm/order.html", context), true);
         mailService.sendEmail(message, order.getUserAccount().getEmail());
