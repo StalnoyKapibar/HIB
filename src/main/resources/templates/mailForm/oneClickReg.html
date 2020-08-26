@@ -2,23 +2,21 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
-
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
     <title>Ruseller Email Newsletter</title>
 
     <style type="text/css">
 
-        .button {
-            background-color: #007bff;
-            padding: 10px 15px;
-            border-radius: 5px;
-            box-shadow: 1px 1px 5px #666666;
+        td {
+            text-align: center;
+            vertical-align: middle;
         }
 
         .hib {
             color: #090909;
-            text-decoration: none; font-weight: normal;
+            text-decoration: none;
+            font-weight: normal;
         }
 
         a {
@@ -37,6 +35,7 @@
 
         img {
             display: block;
+            margin: auto;
         }
 
         #top-message p, #bottom-message p {
@@ -45,7 +44,7 @@
             font-family: Arial, Helvetica, sans-serif;
         }
 
-        #header h1 {
+        #header h1, #header2 h1 {
             color: #246771 !important;
             font-family: "Lucida Grande", "Lucida Sans", "Lucida Sans Unicode", sans-serif;
             font-size: 24px;
@@ -53,7 +52,7 @@
             padding-bottom: 0;
         }
 
-        #header h2 {
+        #header h2, #header2 h2 {
             color: #246771 !important;
             font-family: Arial, Helvetica, sans-serif;
             font-size: 24px;
@@ -61,7 +60,7 @@
             padding-bottom: 0;
         }
 
-        #header p {
+        #header p, #header2 p {
             color: #ffffff !important;
             font-family: "Lucida Grande", "Lucida Sans", "Lucida Sans Unicode", sans-serif;
             font-size: 12px;
@@ -96,58 +95,83 @@
         }
 
     </style>
-
+    <script src="/static/js/lib/jquery.min.js"></script>
+    <script src="/static/js/lib/popper.min.js"></script>
+    <script src="/static/js/lib/bootstrap.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="/static/js/utils/common-function.js"></script>
+    <script src="/static/js/main.js"></script>
 </head>
 
 <body>
-
 <table width="100%" cellpadding="0" cellspacing="0" bgcolor="FFFFFF">
     <tr>
         <td>
-            <table id="top-message" cellpadding="20" cellspacing="0" width="600" align="center">
-                <tr>
-                    <!--          Надпись над формой         -->
-                    <td align="center">
-                    </td>
-                </tr>
-            </table><!-- top message -->
-
             <table id="main" width="600" align="center" cellpadding="0" cellspacing="15" bgcolor="F9F8F8">
                 <tr>
                     <td>
-                        <table id="header" cellpadding="10" cellspacing="0" align="center">
+                        <div class="container">
+                            <table id="header2" cellpadding="10" cellspacing="0"
+                                   style="text-align: center; justify-content: center" align="center">
+                                <tr>
+                                    <td width="570"><h1><span class="welcome-reader-loc">Welcome reader!</span></h1>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><h4><strong> Your login:</strong> <span th:text="${login}"> Login</span> <br></h4>
+                                        <h4><strong> Your password:</strong> <span th:text="${password}">Password</span></h4>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="570">
+                                        <h5><span class="confirm-letter-text-loc">Please, confirm your account, so you may continue shopping.</span></h5>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="row justify-content-md-center">
+                                            <a th:href="@{${url} + '/confirmEmail'(token=${id})}" target="_blank">
+                                                <img height="170" width="170"
+                                                     src="https://a.radikal.ru/a08/2008/bf/deecc653844a.png"/>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div><!-- content 1 -->
+                        <table id="content-2-2" cellpadding="0" cellspacing="0" align="center">
                             <tr>
-                                <td width="570" bgcolor="D1ECF1"><h1>Hello dear reader</h1></td>
+                                <td>
+                                    <span>	Total price: </span>
+                                    <span th:text="${orders.getItemsCost()}"></span>
+                                    <span>€</span>
+                                </td>
                             </tr>
-
-                            <tr>
-                                <td width="570" height="50" bgcolor="D1ECF1"></td>
-                            </tr>
-                        </table><!-- header -->
-                    </td>
-                </tr><!-- header -->
-                <tr>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>
+                        </table><!-- content-2 -->
                         <table id="content-1" cellpadding="0" cellspacing="0" align="left">
                             <tr>
-                                <td width="55"></td>
-                                <td valign="top" colspan="3">
-                                    <h4><strong> Your login:</strong> <span th:text="${login}"> Login</span> <br></h4>
-                                    <h4><strong> Your password:</strong> <span th:text="${password}">Password</span>
-                                        <br></h4>
-                                    <a th:href="@{${url}+'/confirmEmail'(token=${id})}"
-                                    class="confirm-account-loc button">Confirm account</a>
+                                <td width="100" valign="top" th:each="item : ${orders.getItems()}">
+                                    <table cellpadding="5" cellspacing="0">
+                                        <tr>
+                                            <td bgcolor="F9F8F8"><img
+                                                    th:src="@{${url}+'/images/book'+${item.book.id}+'/'+${item.book.coverImage}}"
+                                                    width="100" alt=""/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td th:text="${item.book.name.en}"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <button>
+                                                    <a th:href="@{${url}+'/page/'+${item.book.id}}">HIB</a>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </table>
                                 </td>
-                                <td width="15"></td>
                             </tr>
-                            <tr>
-                                <td width="15"></td>
-                                <td></td>
-                            </tr>
-                        </table><!-- content 1 -->
+                        </table>
                     </td>
                 </tr><!-- content 1 -->
 
@@ -163,11 +187,9 @@
 
             <table id="bottom-message" cellpadding="20" cellspacing="0" width="600" align="center">
                 <tr>
-                    <td align="center">
-                    <td>HIB: <a class="hib" th:href='${url}' th:text="${url}">History in book</a></td>
-                    </td>
+                    <td><h5>HIB: <a class="hib" th:href='${url}'>«History in books»</a></h5></td>
                 </tr>
-            </table><!-- top message -->
+            </table>
 
         </td>
     </tr>

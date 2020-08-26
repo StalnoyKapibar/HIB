@@ -5,6 +5,12 @@ let pages;
 let price;
 let originalLanguage;
 
+$(document).ready(getVarBookDTO());
+
+function buildByButton(){
+    getVarBookDTO();
+}
+
 //Проверка на заполненность требуемых полей
 function checkRequired() {
     if (category === undefined ){
@@ -168,8 +174,9 @@ function getTree() {
 
 //Функция, выводящая визуальное наполнение вкладок
 function buildAddPage() {
-    getVarBookDTO();
-    getAllLocales();
+
+    //getVarBookDTO();
+    //getAllLocales();
     doesFolderTmpExist();
 
     $('#bookAddForm').html(`<div class="tab-content" id="myTabContent">
@@ -366,14 +373,16 @@ function sendAddBook() {
             imageList.push(image);
         }
         book["listImage"] = imageList;
-        fetch ('/admin/add', {
+        fetch('/admin/add', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
             },
             body: JSON.stringify(book)
+        }).then(r =>{
+            window.close();
         });
-        location.reload();
+
     }
     if (uploadedBookName) {
         sendDeleteRequest(uploadedBookName);
@@ -383,7 +392,7 @@ function sendAddBook() {
 
 //Проверка наличия временной папки, не удалять!
 function doesFolderTmpExist() {
-    fetch ("admin/doesFolderTmpExist");
+    fetch("admin/doesFolderTmpExist");
 }
 
 //Далее отрисовка дерева категорий
@@ -441,4 +450,29 @@ function setChildren(category) {
         }
     }
     return row;
+}
+
+function getVarBookDTO() {
+    fetch("/getVarBookDTO")
+        .then(status)
+        .then(json)
+        .then(function (resp) {
+            nameObjectOfLocaleString = Object.values(resp).filter(t => t !== "id");
+            getAllLocales();
+        });
+}
+
+function getAllLocales() {
+    var full_url = document.URL; // Get current url
+    var url_array = full_url.split('/')
+    var last_segment = url_array[url_array.length - 1];
+    fetch("/lang")
+        .then(status)
+        .then(json)
+        .then(function (resp) {
+            nameVarOfLocaleStringWithId = resp;
+            nameVarOfLocaleStringWithId.unshift("id");
+            nameVarOfLocaleString = nameVarOfLocaleStringWithId.filter(t => t !== "id");
+            buildAddPage();
+        });
 }

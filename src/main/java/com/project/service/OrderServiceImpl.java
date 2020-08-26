@@ -46,6 +46,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public void addOrder1ClickReg(Order order) {
+        orderDAO.add(order);
+    }
+
+    @Override
     public void updateOrder(Order order) {
         orderDAO.update(order);
     }

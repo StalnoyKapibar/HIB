@@ -106,7 +106,7 @@ public class OrderController {
             return view;
         }
         try {
-            userAccountService.save1Clickreg(user, url.toString());
+            UserAccount userAccount = userAccountService.save1Clickreg(user);
             shoppingCart.setId(userAccountService.getCartIdByUserEmail(user.getEmail()));
 
             OrderDTO orderDTO = orderService.addOrderReg1Click(shoppingCart, user, contacts);
@@ -114,7 +114,8 @@ public class OrderController {
 
             cartService.updateCart(shoppingCart);
             orderDTO.setUserAccount(userAccountService.getUserById(userDTO.getUserId()));
-            orderService.addOrder(orderDTO.getOder(), url.toString());
+            orderService.addOrder1ClickReg(orderDTO.getOder());
+            userAccountService.sendMessageOneClickReg(userAccount, url.toString(), orderDTO, user);
             session.removeAttribute("shoppingcart");
 
         } catch (DataIntegrityViolationException e) {

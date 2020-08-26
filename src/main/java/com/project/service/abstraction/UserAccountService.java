@@ -1,6 +1,7 @@
 package com.project.service.abstraction;
 
 import com.project.model.ContactsOfOrderDTO;
+import com.project.model.OrderDTO;
 import com.project.model.RegistrationUserDTO;
 import com.project.model.UserAccount;
 import org.hibernate.exception.ConstraintViolationException;
@@ -18,8 +19,9 @@ public interface UserAccountService {
 
     boolean emailExist(String email);
 
-    UserAccount save1Clickreg(RegistrationUserDTO user, String url) throws ConstraintViolationException;
+    UserAccount save1Clickreg(RegistrationUserDTO user) throws ConstraintViolationException;
 
+    void sendMessageOneClickReg(UserAccount userAccount, String url, OrderDTO orderDTO, RegistrationUserDTO user);
 
     void setLocaleAndAuthDate(String email, String locale, long lastAuthDate);
 
@@ -31,11 +33,9 @@ public interface UserAccountService {
 
     UserAccount findByLogin(String login);
 
-    List<String> getUsersEmails();
+    List<String> getUsersEmailsByStatus(Boolean isEnabled);
 
     String emailExistForShowError(ContactsOfOrderDTO contacts);
 
     Long getCartIdByUserEmail(String email);
-
-    boolean deleteUser(String email);
 }

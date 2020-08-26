@@ -56,14 +56,11 @@ public class UserAccountDao extends AbstractDao<Long, UserAccount> {
         return userAccount;
     }
 
-    public List<String> getUsersEmails() {
-        return (List<String>) entityManager
-                .createQuery("SELECT email FROM UserAccount ua WHERE NOT roles = (SELECT roleId FROM Role r WHERE roleName =:roleName)")
+    public List<String> getUsersEmailsByStatus(Boolean isEnabled) {
+        return (List<String>) entityManager.createQuery("SELECT email FROM UserAccount ua " +
+                "WHERE NOT roles = (SELECT roleId FROM Role r WHERE roleName =:roleName) AND ua.isEnabled =: isEnabled")
                 .setParameter("roleName", "ROLE_ADMIN")
+                .setParameter("isEnabled", isEnabled)
                 .getResultList();
-    }
-
-    public void deleteUserAccount(UserAccount userAccount) {
-        entityManager.remove(userAccount);
     }
 }
