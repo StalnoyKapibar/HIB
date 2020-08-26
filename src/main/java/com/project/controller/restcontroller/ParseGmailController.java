@@ -89,7 +89,7 @@ public class ParseGmailController {
         return markAsRead;
     }
 
-    // method I'm working on
+    // отметить сообщение в заказе прочитанным
     @GetMapping(value = "/markmessageasread/{email}/{order}")
     Map<String, Boolean> markAsReadMessage (@PathVariable("email") String userId,
                                             @PathVariable("order") String subject) throws IOException {
@@ -120,16 +120,4 @@ public class ParseGmailController {
         }
         return markAsRead;
     }
-
-    public void modifyMessage(String userId, String messageId) throws IOException {
-        List<String> lblIDRemove=new ArrayList<String>();
-        lblIDRemove.add("UNREAD");
-        ModifyMessageRequest mods = new ModifyMessageRequest()
-                .setAddLabelIds(null)
-                .setRemoveLabelIds(lblIDRemove);
-        Message message = gmail.users().messages().modify(userId, messageId, mods).execute();
-    }
-
-
-
 }
