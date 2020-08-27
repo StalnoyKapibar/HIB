@@ -2,6 +2,7 @@ package com.project.service;
 
 import com.project.mail.MailService;
 import com.project.model.Order;
+import com.project.model.OrderDTO;
 import com.project.model.UserAccount;
 import com.project.service.abstraction.SendEmailService;
 import lombok.AllArgsConstructor;
@@ -40,12 +41,16 @@ public class SendEmailServiceImpl implements SendEmailService {
     }
 
     @Override
-    public void confirmAccount1ClickReg(UserAccount user, String password, String login, String url) throws MessagingException {
+    public void confirmAccount1ClickReg(UserAccount user, String password, String login, String url, OrderDTO orderDTO) throws MessagingException {
         Context context = new Context();
         context.setVariable("id", user.getTokenToConfirmEmail());
         context.setVariable("login", login);
         context.setVariable("password", password);
         context.setVariable("url", url);
+
+        context.setVariable("orders", orderDTO);
+        context.setVariable("url", url);
+
         String senderFromProperty = environment.getProperty("spring.mail.username");
         MimeMessage message = mailService.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, "utf-8");

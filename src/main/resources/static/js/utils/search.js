@@ -406,7 +406,7 @@ async function addFoundBooks(data) {
                             <th id="name_search_page" class="name-loc">Name</th>
                             <th id="pages_search_page" class="pages-loc">Pages</th>
                             <th id="edition_search_page" class="year-of-edition-loc">Year of edition</th>
-                            <th id="price_search_page"><div class="price-loc">Price</div> , €</th>
+                            <th id="price_search_page"><span class="price-loc">Price</span>, €</th>
                             <th id="category_search_page" class="categories-loc">Category</th>
                             <th></th>
                         </tr>
@@ -463,8 +463,8 @@ async function addFoundBooks(data) {
                                 ${isAdmin && (window.location.pathname === '/admin/panel/books') ? 
                                     `
                                     <div id="search-admin">
-                                        <button class="btn btn-info edit-loc mb-1" style="height: 2.5rem" onclick="openEdit(${data[i].id})"><i class="material-icons">edit</i></button>
-                                        <button class="btn btn-danger delete-loc" style="height: 2.5rem" onclick="preDeleteBook(${data[i].id})"><i class="material-icons">delete</i></button>
+                                        <button class="btn btn-info mb-1" style="height: 2.5rem; width: 3.5rem" onclick="openEdit(${data[i].id})"><i class="material-icons">edit</i></button>
+                                        <button class="btn btn-danger" style="height: 2.5rem; width: 3.5rem" onclick="preDeleteBook(${data[i].id})"><i class="material-icons">delete</i></button>
                                     </div>
                                     ` : 
                                     `

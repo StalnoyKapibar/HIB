@@ -114,7 +114,7 @@ async function setLocaleFields() {
             $('.old-pass-loc').text(localeFields['oldPass']);   //Enter old password
             $('.new-pass-loc').text(localeFields['newPass']);     //Enter new password
             $('.again-pass-loc').text(localeFields['againPass']);     //Enter new password again
-            $('#orders-user-on-page-loc').text(localeFields['OrdersOnPage']);
+            $('.orders-user-on-page-loc').text(localeFields['OrdersOnPage']);
 
             //Text and placeholders for email/phone/comment
             $('.email').attr('placeholder', localeFields['email']);
@@ -158,6 +158,7 @@ async function setLocaleFields() {
             $(".dateOfOrder-loc").text(localeFields['dateOfOrder']);
             $(".orderStatus-loc").text(localeFields['orderStatus']);
             $(".show-btn").text(localeFields['show']);
+            $(".close-order").text(localeFields['cancel']);
 
             //Регистрация
             $('.signin-loc').text(localeFields['signin']);
@@ -176,6 +177,7 @@ async function setLocaleFields() {
             $('.name-and-author-loc').text(localeFields['titleAndAuthor']);
             $('.search-input-dots-loc').attr('placeholder', localeFields['searchDots']);
             $('.year-of-edition-loc').text(localeFields['yearOfEdition']);
+            $('#edition-loc').text(localeFields['edition']);
             $('.number-of-pages-loc').text(localeFields['numberOfpages']);
             $('.search-submit-loc').text(localeFields['search']);
             $('.available-loc').text(localeFields['check-available']);
@@ -225,6 +227,7 @@ async function setLocaleFields() {
             //books.html
             $('.all-books-loc').text(localeFields['allBooks']);
             $('.add-books-loc').html(localeFields['addBooks']);
+            $('.add-book-loc').html(localeFields['addBook']);
             $('.add-hib-files-loc').html(localeFields['addHibFiles']);
             $('.show-disabled-book-loc').text(localeFields['showDisabledBook']);
             $('#add-new-book-loc1').html(localeFields['addNewBook'] + '<span style="float: right; text-align: right;"><span class="required">*</span><span id="requiredExample">- required field</span></span>');
@@ -305,6 +308,8 @@ async function setLocaleFields() {
             $('#engText').text(localeFields['engText']);
             $('#header-settings-loc').text(localeFields['settings']);
             $('#link_search_page_header').text(localeFields['searchPage']);
+            $('.orders-on-page-loc').text(localeFields['OrdersOnPage']);
+            $('.show-disabled-users-loc').text(localeFields['showDisabledUsers']);
 
             $('#link_main_header').text(localeFields['main']);
             $('.main-header-loc').text(localeFields['main']);
@@ -323,7 +328,7 @@ async function setLocaleFields() {
             alertFileNotFound = localeFields['alertFileNotFound'];
 
             $('#modalClose').text(localeFields['close']);
-            $('#book-on-page-loc').text(localeFields['bookOnPage']);
+            $('.book-on-page-loc').text(localeFields['bookOnPage']);
             $('.page-of-book-localize').text(localeFields['pageofBook']);
             $('.welcome-reader-loc').text(localeFields['welcomeReader']);
             $('.hello-dear-reader-loc').text(localeFields['helloDearReader']);
@@ -428,7 +433,7 @@ function getLanguage() {
                 }
                 currentLangFull = getFullNameOfLanguage(listOfLanguage[language]);
                 html += `<li>
-                             <a onclick="chooseLanguage('${listOfLanguage[language]}')">${currentLangFull}</a>
+                             <a href="#" onclick="chooseLanguage('${listOfLanguage[language]}')">${currentLangFull}</a>
                         </li>`
                 // html += `<a class="dropdown-item lang" onclick="chooseLanguage('${listOfLanguage[language]}')" id="${listOfLanguage[language]}">
                 //             <img src="../static/icons/${listOfLanguage[language]}.png"

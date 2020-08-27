@@ -10,7 +10,7 @@ import java.util.stream.Stream;
 
 public interface StorageService {
 
-	String saveImage(MultipartFile file);
+	String saveImage(MultipartFile file, String picsFolder);
 
 	Stream<Path> loadAll();
 
@@ -28,11 +28,11 @@ public interface StorageService {
 
 	void copyDefaultPhotoToFolder(String namePaper);
 
-	void cutImagesFromTmpPaperToNewPaperByLastIdBook(String namePaper, List<Image> imageList);
+	void cutImagesFromTmpPaperToNewPaperByLastIdBook(String namePaper, String picsFolder, List<Image> imageList);
 
-	void cutImagesFromTmpPaperToNewPaperByLastIdBook(String namePaper);
+	void cutImagesFromTmpPaperToNewPaperByLastIdBook(String namePaper, String picsFolder);
 
-	void clearPaperTmp();
+	void clearPaperTmp(String bookId);
 
 	void deleteImageByFileNameByEditPage(String fileName);
 

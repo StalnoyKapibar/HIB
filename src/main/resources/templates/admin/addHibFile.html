@@ -2,43 +2,73 @@
 <html xmlns:th="http://www.thymeleaf.org/" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Add HIB-file</title>
+    <script src="/static/js/lib/jquery.min.js"></script>
+    <script src="/static/js/lib/popper.min.js"></script>
+    <script src="/static/js/lib/bootstrap.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css"
+          rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+    <script src="/static/js/main.js"></script>
+    <script src="/static/js/admin/uploadHibFiles.js"></script>
+    <script src="/static/js/utils/common-function.js"></script>
+    <script src="/static/js/admin/editWelcome.js"></script>
+    <script src="/static/js/utils/translate.js"></script>
+    <link href="/static/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/static/css/starter-template.css">
+    <link href="/static/css/page.css" rel="stylesheet">
 </head>
 <body>
-<div th:fragment="addHibFile">
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+    <a class="navbar-brand mt-n1">HIB-file adding page</a>
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" href="/">Home <span class="sr-only"></span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/admin/panel/books">Admin panel</a>
+        </li>
+    </ul>
+</nav>
+<div class="container mt-n2 card bg-white">
     <div class="row">
         <div class="col container m-5">
             <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title upload-several-longphrase-loc">Upload several books for further
-                        processing</h5>
-                    <form action="/api/admin/upload-multiply-files" enctype="multipart/form-data" method="POST">
-                        <input accept=".hib" class="form-control-file" id="add-hib-files-input" multiple
-                               name="files" type="file" data-filename="file">
-                        <button id="uploadMultiplyFilesHidden" style="display: none"></button>
-                    </form>
-                </div>
+                <form id="preloadHIBForm">
+                    <div class="card-body">
+                        <h5 class="card-title upload-several-longphrase-loc">Choose several books for further processing</h5>
+                        <span id="addMore"></span>
+                        <input type="file" accept=".hib" class="form-control-file" id="add-hib-files-input" multiple
+                               onchange="prepareTable()" style="width: 25rem">
+                    </div>
+                </form>
                 <div class="card-footer text-center">
-                    <button class="btn btn-info btn-metro upload-to-server-loc" onclick="uploadMultiplyFiles()">
-                        Upload to server
+                    <button id="uploadAll" class="btn btn-info btn-block upload-to-server-loc" onclick="uploadAll()">
+                        Upload books
                     </button>
                 </div>
             </div>
         </div>
     </div>
-    <br>
-    <table class="table table-sm table-sm bg-white" id="hibFilesTable">
-        <thead>
-        <tr height="50">
-            <th width="10"></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
+    <div id="uploaded-HIB-Files"></div>
 </div>
+<script>
+    //Функция удаления оставшихся временных папок изображений
+    window.onbeforeunload = function(e) {
+        fetch('/api/admin/clear-left-temp-pics', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify(picsTempFoldersList)
+        })
+        picsTempFoldersList = undefined;
+        opener.location.reload();
+    };
+</script>
 </body>
 </html>

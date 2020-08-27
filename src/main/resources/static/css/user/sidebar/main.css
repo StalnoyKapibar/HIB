@@ -316,6 +316,11 @@
     text-overflow: ellipsis;
 }
 
+.sidebar-wrapper .sidebar-dropdown .sidebar-submenu li a:hover:before {
+    color: #16c7ff;
+    text-shadow:0px 0px 10px rgba(22, 199, 255, 0.5);
+}
+
 .sidebar-wrapper .sidebar-menu .sidebar-dropdown .sidebar-submenu li a:before {
     content: "\f111";
     font-family: "Font Awesome 5 Free";

@@ -45,7 +45,7 @@ public class HibTranslatorImp implements HibTranslator {
                 String transText = jarr.get(0).getAsString();
                 return transText;
             } else {
-                return "Error. Site response non 200";
+                return "Error. Response сode: " + connection.getResponseCode();
             }
         } catch (IOException e) {
             e.printStackTrace();

@@ -16,6 +16,7 @@ import com.project.dao.BookDaoImpl;
 import com.project.exceptions.StorageException;
 import com.project.exceptions.StorageFileNotFoundException;
 import com.project.model.Image;
+import com.project.service.abstraction.BookService;
 import com.project.service.abstraction.StorageService;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,17 +36,21 @@ public class StorageServiceImpl implements StorageService {
     @Autowired
     private BookDaoImpl bookDao;
 
+    @Autowired
+    private BookService bookService;
+
     @Override
-    public String saveImage(MultipartFile file) {
+    public String saveImage(MultipartFile file, String picsFolder) {
+        String bookImgPath = "img/tmp/" + picsFolder + "/";
         String filename = StringUtils.cleanPath(file.getOriginalFilename());
-        File tmpPackage = new File(String.valueOf(path));
+        File tmpPackage = new File(bookImgPath);
         if (!tmpPackage.exists()) {
             tmpPackage.mkdirs();
         }
-        File fileImg = new File(String.valueOf(path.resolve(file.getOriginalFilename())));
+        File fileImg = new File(bookImgPath + file.getOriginalFilename());
         try (InputStream inputStream = file.getInputStream()) {
             fileImg.createNewFile();
-            Files.copy(inputStream, this.path.resolve(file.getOriginalFilename()),
+            Files.copy(inputStream, Paths.get(bookImgPath).resolve(file.getOriginalFilename()),
                     StandardCopyOption.REPLACE_EXISTING);
             return file.getOriginalFilename();
         } catch (IOException e) {
@@ -115,9 +120,9 @@ public class StorageServiceImpl implements StorageService {
     }
 
     @Override
-    public void cutImagesFromTmpPaperToNewPaperByLastIdBook(String namePaper, List<Image> imageList) {
+    public void cutImagesFromTmpPaperToNewPaperByLastIdBook(String namePaper, String picsFolder, List<Image> imageList) {
         try {
-            File folder = new File(String.valueOf(path));
+            File folder = new File("img/tmp/" + picsFolder + "/");
             File[] listOfFiles = folder.listFiles();
             Path destDir = Paths.get("img/book" + namePaper);
             if (listOfFiles != null)
@@ -131,13 +136,13 @@ public class StorageServiceImpl implements StorageService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        clearPaperTmp();
+        clearPaperTmp(picsFolder);
     }
 
     @Override
-    public void cutImagesFromTmpPaperToNewPaperByLastIdBook(String namePaper) {
+    public void cutImagesFromTmpPaperToNewPaperByLastIdBook(String namePaper, String picsFolder) {
         try {
-            File folder = new File("img/tmp");
+            File folder = new File("img/tmp/" + picsFolder + "/");
             File[] listOfFiles = folder.listFiles();
             Path destDir = Paths.get("img/book" + namePaper);
             if (listOfFiles != null)
@@ -147,7 +152,7 @@ public class StorageServiceImpl implements StorageService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        clearPaperTmp();
+        clearPaperTmp(picsFolder);
     }
 
     @Override
@@ -162,20 +167,20 @@ public class StorageServiceImpl implements StorageService {
     }
 
     @Override
-    public void clearPaperTmp() {
-        for (File myFile : new File(String.valueOf(path)).listFiles()) {
+    public void clearPaperTmp(String picsFolder) {
+        File folder = new File("img/tmp/" + picsFolder + "/");
+        for (File myFile : folder.listFiles()) {
             if (myFile.isFile()) {
                 myFile.delete();
             }
         }
+        folder.delete();
     }
 
     @Override
     public void saveImageByEditBook(MultipartFile file, String numberPaper) {
         String filename = StringUtils.cleanPath(file.getOriginalFilename());
-        System.out.println(filename);
         try (InputStream inputStream = file.getInputStream()) {
-            System.out.println(Paths.get(".img/book" + numberPaper + "/").resolve(file.getOriginalFilename()));
             Files.copy(inputStream, Paths.get("img/book" + numberPaper + "/").resolve(file.getOriginalFilename()),
                     StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {

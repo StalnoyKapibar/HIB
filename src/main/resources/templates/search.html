@@ -8,11 +8,11 @@
 <body>
 <div class="d-flex" th:fragment="search-page">
     <!--    Page container    -->
-    <div class="container-fluid page-content offset-1 col-10">
+    <div class="container-fluid page-content">
         <div class="row">
             <!--    Main    -->
             <div class="col-xl-9 col-md-12 main">
-                <div class="shadow p-4 mb-4 bg-white">
+                <div class="card p-4 mb-4 bg-white">
                     <div class="input-group mb-1">
                         <input class="form-control search-input-dots-loc" id="search-input" placeholder="Search..." type="text">
                         <div class="input-group-append">
@@ -30,7 +30,7 @@
                             <div class="col d-flex justify-content-center" id="rowForPagination" style="margin: auto"></div>
                             <div class="col d-flex justify-content-end">
                                 <div class="dropdown dropdown-header">
-                                    Books on page
+                                    <span class="book-on-page-loc">Books on page</span>
                                     <button class="btn btn-primary dropdown-toggle" type="button" id="ddmAmountBook"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">10</button>
                                     <div class="dropdown-menu" aria-labelledby="ddmAmountBook">
@@ -57,21 +57,21 @@
                                         <input class="custom-control-input" type="radio" name="searchBy"
                                                id="search-by-name-author" value="name-author" checked>
                                         <label class="custom-control-label name-and-author-loc" for="search-by-name-author" id="name_author_search_by">
-                                            name and author
+                                            Name and author
                                         </label>
                                     </div>
                                     <div class="custom-control custom-radio">
                                         <input class="custom-control-input " type="radio" name="searchBy" id="search-by-name"
                                                value="name">
                                         <label class="custom-control-label name-loc" for="search-by-name" id="name_search_by">
-                                            name
+                                            Name
                                         </label>
                                     </div>
                                     <div class="custom-control custom-radio">
                                         <input class="custom-control-input" type="radio" name="searchBy"
                                                id="search-by-author" value="author">
                                         <label class="custom-control-label author-loc" for="search-by-author" id="author_search_by">
-                                            author
+                                            Author
                                         </label>
                                     </div>
                                 </div>
