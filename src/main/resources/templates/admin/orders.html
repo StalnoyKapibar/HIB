@@ -72,6 +72,27 @@
                     </div>
                 </div>
             </div>
+            <div class="modal fade" tabindex="-1" id="edit-tracking-number" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5>Edit tracking number</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form th:method="PUT" id="orderTrackNum">
+                        <div class="modal-body">
+                            <span>Tracking number: <input id="trackingNum" th:name="trackingNumber"></span>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Edit</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="container">
