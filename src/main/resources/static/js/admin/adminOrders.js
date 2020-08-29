@@ -420,7 +420,7 @@ function orderProcess(id) {
             },
             body: JSON.stringify(id),
         }).then(r => startCountOfOrder())
-          .then(r => showListOrders())
+            .then(r => showListOrders())
     }
 }
 
@@ -445,7 +445,7 @@ function orderDelete(id) {
             },
             body: JSON.stringify(id),
         }).then(r => startCountOfOrder())
-          .then(r => showListOrders())
+            .then(r => showListOrders())
     }
 }
 
@@ -474,8 +474,7 @@ function sendGmailMessage(userId, orderId) {
             sendButton.disabled = false;
         })
         .then(() => {
-            fetch("/admin/markasread?email=" + userId)
-                .then(json)
+            markGmailMessageRead(userId, orderId);
         });
 }
 
@@ -483,7 +482,22 @@ function markGmailMessageRead(userId, orderId){
     let urlToMarkMessage = "/admin/markmessageasread/" + userId + "/" + orderId;
     fetch(urlToMarkMessage,{
         method: "GET"
-    }).then(json);
+    }).then(
+        function(response) {
+            if (response.status === 200) {
+                response.json().then(function (data) {
+                    if (data.markasread){
+                        alert("Message was marked as read.");
+                    }
+                });
+            } else {
+                alert("Something went wrong.");
+            }
+            response.json().then(function (data) {
+                console.log(data);
+            });
+        }
+    );
 }
 
 async function getLastOrderedBooks() {

@@ -129,7 +129,4 @@ public class ParseGmailController {
                 .setRemoveLabelIds(lblIDRemove);
         Message message = gmail.users().messages().modify(userId, messageId, mods).execute();
     }
-
-
-
 }
