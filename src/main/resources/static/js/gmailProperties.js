@@ -1,5 +1,4 @@
 // if you change it, double properties to resources/gmail.properties
-
 properties = {
     authURL: "https://accounts.google.com/o/oauth2/v2/auth",
     //client_id: "183482457610-9bp9qfkp3ao3de2cv09sqqfv5mt72vjk.apps.googleusercontent.com",
@@ -10,6 +9,7 @@ properties = {
     //redirect_uri: "http://localhost:8080/gmail/admin",
     response_type: "code",
     scope: "https://mail.google.com/",
+
 }
 
 gmailAccessUrl = {
@@ -21,3 +21,4 @@ gmailAccessUrl = {
         + 'response_type=' + properties.response_type + '&'
         + 'scope=' + properties.scope
 }
+

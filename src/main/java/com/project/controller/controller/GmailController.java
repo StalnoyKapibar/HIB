@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.io.IOException;
 
 @Controller
-@PropertySource("classpath:gmail.properties")
+@PropertySource("${googleConfigFile}")
 public class GmailController {
 
     @Value("${clientId}")
