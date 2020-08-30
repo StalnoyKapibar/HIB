@@ -173,10 +173,8 @@ async function renderPageData(data) {
                 }
             }
             html += `<td class=${order.userDTO.isUnread ? 'unread' : ''}> ${order.userDTO.firstName} ${order.userDTO.lastName}</td>`;
-
             html += `<td class=${order.userDTO.isUnread ? 'unread' : ''}>${order.data}</td>
-                         <td class=${order.userDTO.isUnread ? 'unread' : ''}>${order.status} </td>`;
-
+                     <td class=${order.userDTO.isUnread ? 'unread' : ''}>${order.status} </td>`;
             html += `<td>
                                 <div class="show-details-container">
                                     <div class="show-details-text">
@@ -241,7 +239,8 @@ async function showListOrders() {
     const pageData = testData.listOrderDTO;
     renderPageData(pageData);
 }
-function editTrackNum(order){
+
+function editTrackNum(order) {
     document.getElementById('trackingNum').setAttribute('value', order.trackingNumber)
     $('#edit-tracking-number').modal('show')
 }
@@ -253,11 +252,11 @@ async function showModalOfOrder(index) {
     scrollOn = true;
     orderIndex = index;
     let order = allOrders[index];
-    orderWithTrackingNumber =order;
+    orderWithTrackingNumber = order;
     console.log(orderWithTrackingNumber.data)
     let items = order.items;
     let htmltrack = `Order № ${order.id}`;
-    htmltrack+=`</br> Tracking number: ${order.trackingNumber}` + '<button id="edit-track" class="btn-primary" onclick="editTrackNum(orderWithTrackingNumber)">Edit</button>'
+    htmltrack += `</br> Tracking number: ${order.trackingNumber}` + '<button id="edit-track" class="btn-primary" onclick="editTrackNum(orderWithTrackingNumber)">Edit</button>'
     $('#modalTitle').html(htmltrack);
     messagePackIndex = 0;
 
@@ -542,30 +541,33 @@ function editTable(inputValue) {
         }
     });
 }
+
 $('#orderTrackNum').submit(function (event) {
     event.preventDefault();
     editTrackingNumber();
     $('#editModal').modal('hide');
 })
-function editTrackingNumber(){
+
+function editTrackingNumber() {
     orderWithTrackingNumber.trackingNumber = $('#trackingNum').val()
     let dateLong = orderWithTrackingNumber.data
-    let dateL='';
-         for (let i = 0; i < dateLong.length; i++) {
-             if (dateLong.charAt(i) === '.' || dateLong.charAt(i) === ' ' || dateLong.charAt(i) === ':'){
+    let dateL = '';
+    for (let i = 0; i < dateLong.length; i++) {
+        if (dateLong.charAt(i) === '.' || dateLong.charAt(i) === ' ' || dateLong.charAt(i) === ':') {
 
-             } else {
-                 dateL+=dateLong.charAt(i)
-             }
-         }
-     orderWithTrackingNumber.data = dateL
+        } else {
+            dateL += dateLong.charAt(i)
+        }
+    }
+    orderWithTrackingNumber.data = dateL
     console.log(orderWithTrackingNumber.data)
     $.ajax({
         type: 'PUT',
         url: '/api/admin/editTrackingNumber/',
-        data : JSON.stringify(orderWithTrackingNumber),
-        contentType : "application/json",
-        dataType: 'json',})
+        data: JSON.stringify(orderWithTrackingNumber),
+        contentType: "application/json",
+        dataType: 'json',
+    })
 }
 
 
