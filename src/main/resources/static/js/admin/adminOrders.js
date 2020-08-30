@@ -10,6 +10,7 @@ let orderIndex;
 let scrollOn = true;
 let emails = [];
 let currentPage = 1;
+let orderWithTrackingNumber;
 
 
 $(window).on("load", function () {
@@ -136,8 +137,7 @@ async function renderPageData(data) {
     let order;
     let html = `<thead ><tr><th>№</th>
                              <th class="email-label">Email</th>
-                             <th class="first-name-loc">First name</th>
-                             <th class="last-name-loc">Last Name</th>
+                             <th class="first-name-loc">Name</th>
                              <th class="date-of-order-loc">Date of Order</th>
                              <th class="status-loc">Status</th>
                              <th class="details-of-order-loc">Details of Order</th>
@@ -168,13 +168,13 @@ async function renderPageData(data) {
 
             html += `> <td> ${order.id}</td>`;
             for (let key in order.userDTO) {
-                if (key === "email" || key === "firstName" || key === "lastName") {
+                if (key === "email") {
                     html += `<td class=${order.userDTO.isUnread ? 'unread' : ''}> ${order.userDTO[key]}</td>`;
                 }
             }
+            html += `<td class=${order.userDTO.isUnread ? 'unread' : ''}> ${order.userDTO.firstName} ${order.userDTO.lastName}</td>`;
             html += `<td class=${order.userDTO.isUnread ? 'unread' : ''}>${order.data}</td>
-                         <td class=${order.userDTO.isUnread ? 'unread' : ''}>${order.status} </td>`;
-
+                     <td class=${order.userDTO.isUnread ? 'unread' : ''}>${order.status} </td>`;
             html += `<td>
                                 <div class="show-details-container">
                                     <div class="show-details-text">
@@ -240,6 +240,11 @@ async function showListOrders() {
     renderPageData(pageData);
 }
 
+function editTrackNum(order) {
+    document.getElementById('trackingNum').setAttribute('value', order.trackingNumber)
+    $('#edit-tracking-number').modal('show')
+}
+
 async function showModalOfOrder(index) {
     $('#chat').empty();
     $('#modalBody').empty();
@@ -247,8 +252,12 @@ async function showModalOfOrder(index) {
     scrollOn = true;
     orderIndex = index;
     let order = allOrders[index];
+    orderWithTrackingNumber = order;
+    console.log(orderWithTrackingNumber.data)
     let items = order.items;
-    $('#modalTitle').html(`Order № ${order.id}`);
+    let htmltrack = `Order № ${order.id}`;
+    htmltrack += `</br> Tracking number: ${order.trackingNumber}` + '<button id="edit-track" class="btn-primary" onclick="editTrackNum(orderWithTrackingNumber)">Edit</button>'
+    $('#modalTitle').html(htmltrack);
     messagePackIndex = 0;
 
     if (order.contacts.email == "") {
@@ -532,3 +541,34 @@ function editTable(inputValue) {
         }
     });
 }
+
+$('#orderTrackNum').submit(function (event) {
+    event.preventDefault();
+    editTrackingNumber();
+    $('#editModal').modal('hide');
+})
+
+function editTrackingNumber() {
+    orderWithTrackingNumber.trackingNumber = $('#trackingNum').val()
+    let dateLong = orderWithTrackingNumber.data
+    let dateL = '';
+    for (let i = 0; i < dateLong.length; i++) {
+        if (dateLong.charAt(i) === '.' || dateLong.charAt(i) === ' ' || dateLong.charAt(i) === ':') {
+
+        } else {
+            dateL += dateLong.charAt(i)
+        }
+    }
+    orderWithTrackingNumber.data = dateL
+    console.log(orderWithTrackingNumber.data)
+    $.ajax({
+        type: 'PUT',
+        url: '/api/admin/editTrackingNumber/',
+        data: JSON.stringify(orderWithTrackingNumber),
+        contentType: "application/json",
+        dataType: 'json',
+    })
+}
+
+
+
