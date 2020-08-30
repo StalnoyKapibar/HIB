@@ -207,7 +207,7 @@ async function renderPageData(data) {
             if (!isOrderEnable) {
                 html += `<tr style = "background-color: #FFB3B3; color: red; font-weight: 900"><td colspan="9">This order contains book that is already included in order with status PROCESSING. </td></tr>`;
             } else if (!isBookAvailable) {
-                html += `<tr style = "background-color: #FFB3B3; color: red; font-weight: 900"><td colspan="9">This order contains books that are not available on the web-site. </td></tr>`;
+                html += `<tr style = "background-color: #FFB3B3; color: #ff0000; font-weight: 900"><td colspan="9">This order contains books that are not available on the web-site. </td></tr>`;
             }
 
             $('#adminListOrders').html(html);
@@ -298,7 +298,8 @@ async function showModalOfOrder(index) {
                     htmlChat += `</div>`;
                     htmlChat += `<textarea id="sent-message" class="form-control"></textarea>
 
-                        </div><button class="float-right col-2 btn btn-primary send-loc" type="button" id="send-button" onclick="sendGmailMessage('${order.contacts.email}', ${allOrders[orderIndex].id})">Send</button>`
+                        </div><button class="float-right col-2 btn btn-primary send-loc" type="button" id="send-button" onclick="sendGmailMessage('${order.contacts.email}', ${allOrders[orderIndex].id})">Send</button>
+                              <button class="float-right col-2 btn btn-primary send-loc" type="button" id="mark-button" onclick="markGmailMessageRead('${order.contacts.email}', ${allOrders[orderIndex].id})">Mark as read</button>`
 
                     scrollOn = false;
                 } else if (data[0].text === "noGmailAccess") {
@@ -321,7 +322,8 @@ async function showModalOfOrder(index) {
                     htmlChat += `</div>`;
                     htmlChat += `<textarea id="sent-message" class="form-control"></textarea>
 
-                        </div><button class="float-right col-2 btn btn-primary send-loc" type="button" id="send-button" onclick="sendGmailMessage('${order.contacts.email}', ${allOrders[orderIndex].id})">Send</button>`
+                        </div><button class="float-right col-2 btn btn-primary send-loc" type="button" id="send-button" onclick="sendGmailMessage('${order.contacts.email}', ${allOrders[orderIndex].id})">Send</button>
+                                <button class="float-right col-2 btn btn-primary send-loc" type="button" id="mark-button" onclick="markGmailMessageRead('${order.contacts.email}', ${allOrders[orderIndex].id})">Mark as read</button>`
 
                 }
             }
@@ -427,7 +429,7 @@ function orderProcess(id) {
             },
             body: JSON.stringify(id),
         }).then(r => startCountOfOrder())
-          .then(r => showListOrders())
+            .then(r => showListOrders())
     }
 }
 
@@ -452,7 +454,7 @@ function orderDelete(id) {
             },
             body: JSON.stringify(id),
         }).then(r => startCountOfOrder())
-          .then(r => showListOrders())
+            .then(r => showListOrders())
     }
 }
 
@@ -481,9 +483,30 @@ function sendGmailMessage(userId, orderId) {
             sendButton.disabled = false;
         })
         .then(() => {
-            fetch("/admin/markasread?email=" + userId)
-                .then(json)
+            markGmailMessageRead(userId, orderId);
         });
+}
+
+function markGmailMessageRead(userId, orderId){
+    let urlToMarkMessage = "/admin/markmessageasread/" + userId + "/" + orderId;
+    fetch(urlToMarkMessage,{
+        method: "GET"
+    }).then(
+        function(response) {
+            if (response.status === 200) {
+                response.json().then(function (data) {
+                    if (data.markasread){
+                        alert("Message was marked as read.");
+                    }
+                });
+            } else {
+                alert("Something went wrong.");
+            }
+            response.json().then(function (data) {
+                console.log(data);
+            });
+        }
+    );
 }
 
 async function getLastOrderedBooks() {

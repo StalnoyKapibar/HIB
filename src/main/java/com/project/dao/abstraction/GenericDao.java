@@ -9,7 +9,7 @@ public interface GenericDao<I extends Serializable, E> {
 
     List<E> findAll();
 
-    void add(E entity);
+    E add(E entity);
 
     E update(E entity);
 
