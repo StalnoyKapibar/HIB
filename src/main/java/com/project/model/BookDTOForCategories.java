@@ -12,7 +12,7 @@ public class BookDTOForCategories {
     private String name;
     private String author;
     private String edition;
-    private String yearOfEdition;
+    private Long yearOfEdition;
     private Long price;
     private Long pages;
     private String coverImage;

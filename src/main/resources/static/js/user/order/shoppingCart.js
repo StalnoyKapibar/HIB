@@ -89,13 +89,7 @@ async function getShoppingCart() {
                                                onclick="showContacts1ClickReg()" type="button">
                                                Buy without sign up</button>`);
                 }
-
                 setLocaleFields();
-
-
-                setLocaleFields();
-
-
             });
     }, 10);
 }
