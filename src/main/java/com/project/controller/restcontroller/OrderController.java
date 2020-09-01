@@ -112,6 +112,7 @@ public class OrderController {
             OrderDTO orderDTO = orderService.addOrderReg1Click(shoppingCart, user, contacts);
             UserDTO userDTO = userService.getUserDTOByEmail(user.getEmail(), false);
 
+            orderDTO.setItemsCost((int) shoppingCart.getTotalCostItems());
             cartService.updateCart(shoppingCart);
             orderDTO.setUserAccount(userAccountService.getUserById(userDTO.getUserId()));
             orderService.addOrder(orderDTO.getOder(), url.toString());
