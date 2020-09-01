@@ -205,20 +205,21 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="container col-2 offset-5">
-                        <div class="row orders-pageable">
-                            <div class="dropdown dropdown-header"><label id="orders-user-on-page-loc">Orders on page</label>
-                                <button class="btn btn-primary dropdown-toggle" type="button"
-                                        id="ordersAmountPerPageUser"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">10</button>
-                                <div class="dropdown-menu" aria-labelledby="ordersAmountPerPageUser">
-                                    <a class="dropdown-item" href="#" onclick="setOrdersAmountInPageForUser(10)">10</a>
-                                    <a class="dropdown-item" href="#" onclick="setOrdersAmountInPageForUser(50)">50</a>
-                                    <a class="dropdown-item" href="#" onclick="setOrdersAmountInPageForUser(100)">100</a>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col"></div>
+                            <div class="col d-flex justify-content-center mb-n2" id="rowForPaginationOrders" style="margin: auto"></div>
+                            <div class="col d-flex justify-content-end">
+                                <div class="dropdown dropdown-header">
+                                    <span class="orders-user-on-page-loc">Orders on page</span>
+                                    <button class="btn btn-primary dropdown-toggle" type="button" id="ordersAmountPerPageUser"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">10</button>
+                                    <div class="dropdown-menu" aria-labelledby="ordersAmountPerPageUser">
+                                        <a class="dropdown-item" href="#" onclick="setOrdersAmountInPageForUser(10)">10</a>
+                                        <a class="dropdown-item" href="#" onclick="setOrdersAmountInPageForUser(50)">50</a>
+                                        <a class="dropdown-item" href="#" onclick="setOrdersAmountInPageForUser(100)">100</a>
+                                    </div>
                                 </div>
-                            </div>
-                            <div id="rowForPaginationOrders">
-
                             </div>
                         </div>
                     </div>
@@ -487,7 +488,7 @@
                                                 <button sec:authorize="!isAuthenticated()" class="btn btn-primary next-btn"
                                                         onclick="confirmContactsFor1Click2()"
                                                         type="button">
-                                                    Next for 1Click
+                                                    Next
                                                 </button>
                                             </div>
                                         </div>

@@ -72,19 +72,48 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="row orders-pageable">
-        <div class="dropdown dropdown-header"><label id="orders-on-page-loc">Заказов на странице</label>
-            <button class="btn btn-primary dropdown-toggle" type="button" id="ordersAmountPerPage" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">10</button>
-            <div class="dropdown-menu" aria-labelledby="ordersAmountPerPage">
-                <a class="dropdown-item" href="#" onclick="setOrdersAmountInPage(10)">10</a>
-                <a class="dropdown-item" href="#" onclick="setOrdersAmountInPage(50)">50</a>
-                <a class="dropdown-item" href="#" onclick="setOrdersAmountInPage(100)">100</a>
+            <div class="modal fade" tabindex="-1" id="edit-tracking-number" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5>Edit tracking number</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form th:method="PUT" id="orderTrackNum">
+                        <div class="modal-body">
+                            <span>Tracking number: <input id="trackingNum" th:name="trackingNumber"></span>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Edit</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
-        <div id="rowForPagination"></div>
     </div>
+    <div class="container">
+        <div class="row">
+            <div class="col"></div>
+            <div class="col d-flex justify-content-center mb-n2" id="rowForPagination" style="margin: auto"></div>
+            <div class="col d-flex justify-content-end">
+                <div class="dropdown dropdown-header">
+                    <span class="orders-on-page-loc">Orders on page</span>
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="ordersAmountPerPage"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">10</button>
+                    <div class="dropdown-menu" aria-labelledby="ordersAmountPerPage">
+                        <a class="dropdown-item" href="#" onclick="setOrdersAmountInPage(10)">10</a>
+                        <a class="dropdown-item" href="#" onclick="setOrdersAmountInPage(50)">50</a>
+                        <a class="dropdown-item" href="#" onclick="setOrdersAmountInPage(100)">100</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="/static/js/admin/adminOrders.js"></script>
     <script src="/static/js/main.js"></script>
     <script src="/static/js/gmailProperties.js"></script>

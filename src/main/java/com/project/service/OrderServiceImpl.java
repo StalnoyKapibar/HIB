@@ -37,12 +37,17 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void addOrder(Order order, String  url) {
-        orderDAO.add(order);
+        Order addedOrder= orderDAO.add(order);
         try {
-            sendEmailService.orderPresent(order, url);
+            sendEmailService.orderPresent(addedOrder, url);
         } catch (MessagingException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void addOrder1ClickReg(Order order) {
+        orderDAO.add(order);
     }
 
     @Override

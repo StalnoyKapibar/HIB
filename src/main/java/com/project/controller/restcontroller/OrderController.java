@@ -106,7 +106,7 @@ public class OrderController {
             return view;
         }
         try {
-            userAccountService.save1Clickreg(user, url.toString());
+            UserAccount userAccount = userAccountService.save1Clickreg(user);
             shoppingCart.setId(userAccountService.getCartIdByUserEmail(user.getEmail()));
 
             OrderDTO orderDTO = orderService.addOrderReg1Click(shoppingCart, user, contacts);
@@ -115,7 +115,8 @@ public class OrderController {
             orderDTO.setItemsCost((int) shoppingCart.getTotalCostItems());
             cartService.updateCart(shoppingCart);
             orderDTO.setUserAccount(userAccountService.getUserById(userDTO.getUserId()));
-            orderService.addOrder(orderDTO.getOder(), url.toString());
+            orderService.addOrder1ClickReg(orderDTO.getOder());
+            userAccountService.sendMessageOneClickReg(userAccount, url.toString(), orderDTO, user);
             session.removeAttribute("shoppingcart");
 
         } catch (DataIntegrityViolationException e) {
@@ -306,6 +307,13 @@ public class OrderController {
     @PostMapping("/api/user/orderCancel/{id}")
     private String orderCancel(@PathVariable Long id) {
         return orderService.cancelOrder(id);
+    }
+
+    @PutMapping("/api/admin/editTrackingNumber/")
+    private void orderCancel(@RequestBody Order order) {
+        Order order1 = orderService.getOrderById(order.getId());
+        order1.setTrackingNumber(order.getTrackingNumber());
+        orderService.updateOrder(order1);
     }
 
     public String generateString(Random random, String characters, int length) {

@@ -21,7 +21,7 @@
             </li>
         </ul>
         <div>
-            <a type="button" class="btn btn-primary" id="gmail-access" href="#">
+            <a type="button" class="btn btn-primary" id="gmail-access" th:href="${gmailRedirectUrl}">
                 Gmail access</a>
         </div>
         <form action="/logout" class="form-inline my-2 my-lg-0" method="post">
@@ -39,6 +39,12 @@
     <a class="nav-link books-loc"
        href="/admin/panel/books"
        th:classappend="${#httpServletRequest.getRequestURI() == '/admin/panel/books' ? 'active' : ''}">Books</a>
+    <a class="nav-link add-book-loc"
+       href="/admin/addBookPage"
+       target="_blank">Add book</a>
+    <a class="nav-link add-hib-files-loc"
+       href="/admin/addHibFile"
+       target="_blank">Add HIB-file</a>
     <a class="nav-link categories-loc"
        href="/admin/panel/categories"
        th:classappend="${#httpServletRequest.getRequestURI() == '/admin/panel/categories' ? 'active' : ''}">Category</a>
@@ -64,6 +70,8 @@
        th:classappend="${#httpServletRequest.getRequestURI() == '/admin/panel/users' ? 'active' : ''}">
         <span class="users-loc">Users</span>
     </a>
+
+
     <script src="/static/js/admin/count.js" ></script>
     <script src="/static/js/admin/admin-nav.js" ></script>
     <script src="/static/js/gmailProperties.js"></script>

@@ -45,23 +45,23 @@ public class ParseGmailController {
         Map<String, List<String>> unreadcontent = new HashMap<>();
         List<Message> messagesResponse = new ArrayList<>();
         if (gmail != null) {
-                    emails.forEach(email -> {
-                        ListMessagesResponse listMessagesResponse = new ListMessagesResponse();
-                        try {
-                            listMessagesResponse = gmail.users().messages().list("me").setQ("from:" + email + " is:unread").execute();
-                            if (listMessagesResponse.getResultSizeEstimate() != 0){
-                                messagesResponse.add(gmail.users().messages().get("me", listMessagesResponse.getMessages().get(0).getId()).execute());
-                            }
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    });
+            emails.forEach(email -> {
+                ListMessagesResponse listMessagesResponse = new ListMessagesResponse();
+                try {
+                    listMessagesResponse = gmail.users().messages().list("me").setQ("from:" + email + " is:unread").execute();
+                    if (listMessagesResponse.getResultSizeEstimate() != 0){
+                        messagesResponse.add(gmail.users().messages().get("me", listMessagesResponse.getMessages().get(0).getId()).execute());
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
             messagesResponse.forEach(message -> {
-                            String email = message.getPayload().getHeaders().stream()
-                                    .filter(headers -> headers.getName().equals("From")).findFirst().get().getValue().split("<")[1].replace(">", "");
-                            String subject = message.getPayload().getHeaders().stream()
-                                    .filter(headers -> headers.getName().equals("Subject")).findFirst().get().getValue();
-                            String snippet = message.getSnippet();
+                String email = message.getPayload().getHeaders().stream()
+                        .filter(headers -> headers.getName().equals("From")).findFirst().get().getValue().split("<")[1].replace(">", "");
+                String subject = message.getPayload().getHeaders().stream()
+                        .filter(headers -> headers.getName().equals("Subject")).findFirst().get().getValue();
+                String snippet = message.getSnippet();
                 List<String> content = Arrays.asList(subject, snippet);
                 unreadcontent.put(email, content);
             });
@@ -75,7 +75,7 @@ public class ParseGmailController {
         if (gmail != null){
             ModifyMessageRequest mods = new ModifyMessageRequest().setRemoveLabelIds(new ArrayList<String>(Arrays.asList("UNREAD")));
             gmail.users().messages().list("me").setQ("from:" + email + " is:unread").execute()
-            .getMessages().stream().forEach(message -> {
+                    .getMessages().stream().forEach(message -> {
                 try {
                     gmail.users().messages().modify("me", message.getId(), mods).execute();
                 } catch (IOException e) {
@@ -89,4 +89,35 @@ public class ParseGmailController {
         return markAsRead;
     }
 
+    // отметить сообщение в заказе прочитанным
+    @GetMapping(value = "/markmessageasread/{email}/{order}")
+    Map<String, Boolean> markAsReadMessage (@PathVariable("email") String userId,
+                                            @PathVariable("order") String subject) throws IOException {
+        Map<String, Boolean> markAsRead = new HashMap<>();
+        if (gmail != null){
+            ModifyMessageRequest mods = new ModifyMessageRequest().setRemoveLabelIds(new ArrayList<>(Arrays.asList("UNREAD")));
+            List<Message> messagesFromUser = gmail.users()
+                    .messages()
+                    .list("me")
+                    .setQ("(" + "subject:" + "\"Order №" + subject + "\"" + "from:" + userId + " is:unread" + ")")
+                    .execute()
+                    .getMessages();
+            if (messagesFromUser != null){
+                messagesFromUser.stream()
+                                .forEach(message -> {
+                                        try {
+                                            gmail.users().messages().modify("me", message.getId(), mods).execute();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+                                    });
+                markAsRead.put("markasread", true);
+            } else {
+                markAsRead.put("markasread", false);
+            }
+        } else {
+            markAsRead.put("gmailAccess", false);
+        }
+        return markAsRead;
+    }
 }
