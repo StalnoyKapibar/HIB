@@ -25,15 +25,15 @@ public class ViewController {
     FormLoginErrorMessageService messageService;
     BookService bookService;
 
-    @GetMapping({"/home", "/profile/**", "/category/**", "/shopping-cart", "/search", "/err/**"})
+    @GetMapping({ "/", "/home", "/profile/**", "/category/**", "/shopping-cart", "/search", "/err/**"})
     public String getHomePage() {
         return "user/user-page";
     }
 
-    @GetMapping("/")
-    public String redirectToHome() {
-        return "redirect:/home";
-    }
+    //@GetMapping("/")
+    //public String redirectToHome() {
+        //return "redirect:/home";
+    //}
 
     @GetMapping("/search/{categoryId}")
     public ModelAndView getSearchPage(@PathVariable("categoryId") long categoryId, ModelAndView modelAndView) {
