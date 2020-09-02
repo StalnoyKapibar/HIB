@@ -322,8 +322,8 @@ function loadImage(nameId, div) {
 }
 
 //Функция распределения картинок по "Обложка" или "Остальное"
-function addImageInDiv(fileName, picsFolderName, divId) {
-    let path = "/images/tmp/" + picsFolderName + "/" + fileName;
+function addImageInDiv(fileName, picsFolder, divId) {
+    let path = "/images/tmp/" + picsFolder + "/" + fileName;
     if (divId === 'divAvatar') {
         divAvatar.empty();
         addImgAvatarAndBtn(fileName, path);

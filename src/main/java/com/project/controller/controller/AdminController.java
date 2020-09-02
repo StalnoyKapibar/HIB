@@ -45,7 +45,6 @@ public class AdminController {
 
     @GetMapping("/admin/book/{hibName}")
     public String editHIBAndSave() {
-        //return hibFileService.getBookFromHibFileByName(hibName);
         return "editPageBook";
     }
 

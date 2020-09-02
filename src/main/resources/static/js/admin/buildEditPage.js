@@ -569,6 +569,7 @@ function showImage(x) {
         document.getElementById('myImageLink').href = x;
     } else {
         document.getElementById('myImage').src = '/images/service/noimage.png';
+        document.getElementById('myImageLink').href = '/images/service/noimage.png';
         document.getElementById('deleteImage-button').setAttribute('disabled', 'disabled');
     }
 }
@@ -595,11 +596,7 @@ function sendEditBook() {
         }
         category = {id: $('#categoryInput').attr('categoryid')};
         book["originalLanguage"] = otherLangFields;
-        if(divAvatar.find("img")[0] != null) {
-            book["coverImage"] = divAvatar.find("img")[0].id;
-        } else {
-            book['coverImage'] = nameImageCover;
-        }
+
         book['show'] = (!$("#disabled").is(':checked'));
         book['yearOfEdition'] = $('#yearOfEdition').val();
         book['pages'] = $('#pages').val();
@@ -612,37 +609,55 @@ function sendEditBook() {
         let allImages = $("#allImage").find("img");
         let imageList = [];
 
-        for (let img of allImages) {
-            let image = {};
-            let x = 0;
-            for (let i = 0; i < tmpArr.listImage.length; i++) {
-                if (img.id == tmpArr.listImage[i].nameImage){
-                    x++
+        if (isNumber(idd)) { //Наполнение списка изображений новыми файлами при редактировании книги
+            for (let img of allImages) {
+                let image = {};
+                let x = 0;
+                for (let i = 0; i < tmpArr.listImage.length; i++) {
+                    if (img.id == tmpArr.listImage[i].nameImage){
+                        x++
+                    }
+                }
+                if (x === 0){
+                    image["nameImage"] = img.id;
+                    imageList.push(image);
                 }
             }
-            if (x === 0){
+            let imageListTmpPattern = [];
+            for (let index = 0; index < imageList.length; index++) {
+                imageListTmpPattern[index] = imageList[index];
+            }
+            for (let index = 0; index < imageListTmpPattern.length; index++) {
+                imageListTmpPattern[index].id = imageList[index].id;
+                imageListTmpPattern[index].nameImage = imageList[index].nameImage;
+            }
+
+            if (imageListTmpPattern.length === 1 && imageListTmpPattern[0].nameImage.localeCompare("") === 0) {
+                book["listImage"] = tmpArr.listImage;
+            } else {
+                let indexListImage = tmpArr.listImage.length;
+                for (let index = tmpArr.listImage.length + 1; index <= imageListTmpPattern.length + indexListImage; index++) {
+                    tmpArr.listImage.push(imageListTmpPattern[index - indexListImage - 1]);
+                }
+                book["listImage"] = tmpArr.listImage;
+            }
+            if(divAvatar.find("img")[0] != null) {
+                book["coverImage"] = divAvatar.find("img")[0].id;
+            } else {
+                book['coverImage'] = nameImageCover;
+            }
+        } else { //Создание нового списка изображений и наполнение его со страницы создания книги при сохранении HIB-файла
+            if(divAvatar.find("img")[0] != null) {
+                book["coverImage"] = divAvatar.find("img")[0].id;
+            }
+            for (let img of allImages) {
+                let image = {};
                 image["nameImage"] = img.id;
                 imageList.push(image);
             }
-        }
-        let imageListTmpPattern = [];
-        for (let index = 0; index < imageList.length; index++) {
-            imageListTmpPattern[index] = imageList[index];
-        }
-        for (let index = 0; index < imageListTmpPattern.length; index++) {
-            imageListTmpPattern[index].id = imageList[index].id;
-            imageListTmpPattern[index].nameImage = imageList[index].nameImage;
+            book["listImage"] = imageList;
         }
 
-        if (imageListTmpPattern.length === 1 && imageListTmpPattern[0].nameImage.localeCompare("") === 0) {
-            book["listImage"] = tmpArr.listImage;
-        } else {
-            let indexListImage = tmpArr.listImage.length;
-            for (let index = tmpArr.listImage.length + 1; index <= imageListTmpPattern.length + indexListImage; index++) {
-                tmpArr.listImage.push(imageListTmpPattern[index - indexListImage - 1]);
-            }
-            book["listImage"] = tmpArr.listImage;
-        } // Здесь заканчивается наполнение списка изображений книги новыми картинками
 
         sendUpdateBookReq(book).then(r => {
             tempPicsFolderCheck = undefined;
@@ -799,7 +814,6 @@ function getTempFolderName() {
         }
     });
 
-    //console.log("Временная папка хранения изображений: " + picsFolderName);
     return picsFolderName;
 }
 
@@ -858,6 +872,7 @@ function loadTmpImage(nameId, div) {
 
 //Функция отрисовки всех картинок из HIB-файла
 function renderHIBPics() {
+    tempPicsFolderCheck = 1;
     let path = "/images/tmp/" + picsFolderName + "/";
     if (tmpArr.coverImage !== "") {
         addImgAvatarAndBtn(tmpArr.coverImage, path + tmpArr.coverImage);
@@ -881,7 +896,6 @@ function addImageInDiv(fileName, picsFolder, divId) {
 }
 //Обложка
 function addImgAvatarAndBtn(divId, path) {
-    tempPicsFolderCheck = 1;
     divAvatar.append(
         `<div class="row align-items-center w-50 my-3" id=${divId}>
             <img src=${path} id=${divId} class='card-img-top col-8' alt='...'>
@@ -891,7 +905,6 @@ function addImgAvatarAndBtn(divId, path) {
 }
 //Остальное
 function addImgToListAndBtn(divId, path) {
-    tempPicsFolderCheck = 1;
     listImages.append(
         `<div class="row align-items-center w-50 my-3" id=${divId}>
             <img src=${path} id=${divId} class='card-img-top col-8' alt='...'>
