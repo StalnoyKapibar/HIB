@@ -308,6 +308,13 @@ public class OrderController {
         return orderService.cancelOrder(id);
     }
 
+    @PutMapping("/api/admin/editTrackingNumber/")
+    private void orderCancel(@RequestBody Order order) {
+        Order order1 = orderService.getOrderById(order.getId());
+        order1.setTrackingNumber(order.getTrackingNumber());
+        orderService.updateOrder(order1);
+    }
+
     public String generateString(Random random, String characters, int length) {
         char[] text = new char[length];
         for (int i = 0; i < length; i++) {

@@ -10,6 +10,7 @@ let orderIndex;
 let scrollOn = true;
 let emails = [];
 let currentPage = 1;
+let orderWithTrackingNumber;
 
 
 $(window).on("load", function () {
@@ -136,8 +137,7 @@ async function renderPageData(data) {
     let order;
     let html = `<thead ><tr><th>№</th>
                              <th class="email-label">Email</th>
-                             <th class="first-name-loc">First name</th>
-                             <th class="last-name-loc">Last Name</th>
+                             <th class="first-name-loc">Name</th>
                              <th class="date-of-order-loc">Date of Order</th>
                              <th class="status-loc">Status</th>
                              <th class="details-of-order-loc">Details of Order</th>
@@ -168,13 +168,13 @@ async function renderPageData(data) {
 
             html += `> <td> ${order.id}</td>`;
             for (let key in order.userDTO) {
-                if (key === "email" || key === "firstName" || key === "lastName") {
+                if (key === "email") {
                     html += `<td class=${order.userDTO.isUnread ? 'unread' : ''}> ${order.userDTO[key]}</td>`;
                 }
             }
+            html += `<td class=${order.userDTO.isUnread ? 'unread' : ''}> ${order.userDTO.firstName} ${order.userDTO.lastName}</td>`;
             html += `<td class=${order.userDTO.isUnread ? 'unread' : ''}>${order.data}</td>
-                         <td class=${order.userDTO.isUnread ? 'unread' : ''}>${order.status} </td>`;
-
+                     <td class=${order.userDTO.isUnread ? 'unread' : ''}>${order.status} </td>`;
             html += `<td>
                                 <div class="show-details-container">
                                     <div class="show-details-text">
@@ -207,7 +207,7 @@ async function renderPageData(data) {
             if (!isOrderEnable) {
                 html += `<tr style = "background-color: #FFB3B3; color: red; font-weight: 900"><td colspan="9">This order contains book that is already included in order with status PROCESSING. </td></tr>`;
             } else if (!isBookAvailable) {
-                html += `<tr style = "background-color: #FFB3B3; color: red; font-weight: 900"><td colspan="9">This order contains books that are not available on the web-site. </td></tr>`;
+                html += `<tr style = "background-color: #FFB3B3; color: #ff0000; font-weight: 900"><td colspan="9">This order contains books that are not available on the web-site. </td></tr>`;
             }
 
             $('#adminListOrders').html(html);
@@ -240,6 +240,11 @@ async function showListOrders() {
     renderPageData(pageData);
 }
 
+function editTrackNum(order) {
+    document.getElementById('trackingNum').setAttribute('value', order.trackingNumber)
+    $('#edit-tracking-number').modal('show')
+}
+
 async function showModalOfOrder(index) {
     $('#chat').empty();
     $('#modalBody').empty();
@@ -247,8 +252,12 @@ async function showModalOfOrder(index) {
     scrollOn = true;
     orderIndex = index;
     let order = allOrders[index];
+    orderWithTrackingNumber = order;
+    console.log(orderWithTrackingNumber.data)
     let items = order.items;
-    $('#modalTitle').html(`Order № ${order.id}`);
+    let htmltrack = `Order № ${order.id}`;
+    htmltrack += `</br> Tracking number: ${order.trackingNumber}` + '<button id="edit-track" class="btn-primary" onclick="editTrackNum(orderWithTrackingNumber)">Edit</button>'
+    $('#modalTitle').html(htmltrack);
     messagePackIndex = 0;
 
     if (order.contacts.email == "") {
@@ -289,7 +298,8 @@ async function showModalOfOrder(index) {
                     htmlChat += `</div>`;
                     htmlChat += `<textarea id="sent-message" class="form-control"></textarea>
 
-                        </div><button class="float-right col-2 btn btn-primary send-loc" type="button" id="send-button" onclick="sendGmailMessage('${order.contacts.email}', ${allOrders[orderIndex].id})">Send</button>`
+                        </div><button class="float-right col-2 btn btn-primary send-loc" type="button" id="send-button" onclick="sendGmailMessage('${order.contacts.email}', ${allOrders[orderIndex].id})">Send</button>
+                              <button class="float-right col-2 btn btn-primary send-loc" type="button" id="mark-button" onclick="markGmailMessageRead('${order.contacts.email}', ${allOrders[orderIndex].id})">Mark as read</button>`
 
                     scrollOn = false;
                 } else if (data[0].text === "noGmailAccess") {
@@ -312,7 +322,8 @@ async function showModalOfOrder(index) {
                     htmlChat += `</div>`;
                     htmlChat += `<textarea id="sent-message" class="form-control"></textarea>
 
-                        </div><button class="float-right col-2 btn btn-primary send-loc" type="button" id="send-button" onclick="sendGmailMessage('${order.contacts.email}', ${allOrders[orderIndex].id})">Send</button>`
+                        </div><button class="float-right col-2 btn btn-primary send-loc" type="button" id="send-button" onclick="sendGmailMessage('${order.contacts.email}', ${allOrders[orderIndex].id})">Send</button>
+                                <button class="float-right col-2 btn btn-primary send-loc" type="button" id="mark-button" onclick="markGmailMessageRead('${order.contacts.email}', ${allOrders[orderIndex].id})">Mark as read</button>`
 
                 }
             }
@@ -418,7 +429,7 @@ function orderProcess(id) {
             },
             body: JSON.stringify(id),
         }).then(r => startCountOfOrder())
-          .then(r => showListOrders())
+            .then(r => showListOrders())
     }
 }
 
@@ -443,7 +454,7 @@ function orderDelete(id) {
             },
             body: JSON.stringify(id),
         }).then(r => startCountOfOrder())
-          .then(r => showListOrders())
+            .then(r => showListOrders())
     }
 }
 
@@ -472,9 +483,30 @@ function sendGmailMessage(userId, orderId) {
             sendButton.disabled = false;
         })
         .then(() => {
-            fetch("/admin/markasread?email=" + userId)
-                .then(json)
+            markGmailMessageRead(userId, orderId);
         });
+}
+
+function markGmailMessageRead(userId, orderId){
+    let urlToMarkMessage = "/admin/markmessageasread/" + userId + "/" + orderId;
+    fetch(urlToMarkMessage,{
+        method: "GET"
+    }).then(
+        function(response) {
+            if (response.status === 200) {
+                response.json().then(function (data) {
+                    if (data.markasread){
+                        alert("Message was marked as read.");
+                    }
+                });
+            } else {
+                alert("Something went wrong.");
+            }
+            response.json().then(function (data) {
+                console.log(data);
+            });
+        }
+    );
 }
 
 async function getLastOrderedBooks() {
@@ -532,3 +564,34 @@ function editTable(inputValue) {
         }
     });
 }
+
+$('#orderTrackNum').submit(function (event) {
+    event.preventDefault();
+    editTrackingNumber();
+    $('#editModal').modal('hide');
+})
+
+function editTrackingNumber() {
+    orderWithTrackingNumber.trackingNumber = $('#trackingNum').val()
+    let dateLong = orderWithTrackingNumber.data
+    let dateL = '';
+    for (let i = 0; i < dateLong.length; i++) {
+        if (dateLong.charAt(i) === '.' || dateLong.charAt(i) === ' ' || dateLong.charAt(i) === ':') {
+
+        } else {
+            dateL += dateLong.charAt(i)
+        }
+    }
+    orderWithTrackingNumber.data = dateL
+    console.log(orderWithTrackingNumber.data)
+    $.ajax({
+        type: 'PUT',
+        url: '/api/admin/editTrackingNumber/',
+        data: JSON.stringify(orderWithTrackingNumber),
+        contentType: "application/json",
+        dataType: 'json',
+    })
+}
+
+
+

@@ -26,8 +26,8 @@ public abstract class AbstractDao<I extends Serializable, E> implements GenericD
         return entityManager.createQuery("FROM " + persistentClass.getName(), persistentClass).getResultList();
     }
 
-    public void add(E entity) {
-        entityManager.merge(entity);
+    public E add(E entity) {
+        return entityManager.merge(entity);
     }
 
     public E update(E entity) {

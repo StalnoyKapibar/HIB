@@ -541,7 +541,7 @@ function showCarrentOrder(index) {
         row.appendTo('#ordermodalbody');
     });
     $('#modalHeader').html('<label class="orderNo-loc">Order No.</label>' + order.id);
-    $('#ordertrack').text(order.trackingNumber);
+    $('#ordertrack').text('Tracking number: ' + order.trackingNumber);
     $('#subtotalordermodal').text(convertPrice(order.itemsCost) + currencyIcon);
     $('#pricetotalordermodal').text(convertPrice(order.itemsCost) + currencyIcon);
 
