@@ -61,7 +61,7 @@ public class HibParser {
         return sb.toString();
     }
 
-    public Book getBookFromJSON(String json) {
+    public Book getBookFromJSON(String json, String HIBFileName) {
         String bookTmpFolder = getTmpFolderName();
         JsonNode jsonNode = null;
         try {
@@ -88,6 +88,7 @@ public class HibParser {
 
         OriginalLanguage courier = new OriginalLanguage();
         courier.setName(bookTmpFolder);
+        courier.setAuthor(HIBFileName);
 
         return Book.builder()
                 .name(initLocaleString(jsonNode.get("name")))
@@ -98,10 +99,12 @@ public class HibParser {
                 .pages(jsonNode.get("pages").asLong())
                 .price(jsonNode.get("price").asLong())
                 .originalLanguageName(jsonNode.get("originalLanguage").asText())
-                .originalLanguage(courier)  //Данная строка записывает в объект OriginalLanguage книги имя временной папки для картинок.
+                .originalLanguage(courier)  //Данная строка записывает в объект OriginalLanguage книги имя временной папки для картинок и название
+                                            //HIB-файла, из которого извлечена книга.
                                             //Объект носит временный характер и будет перезаписан на нужное значение при добавлении книги в базу.
                 .coverImage(AVATAR)
                 .listImage(listImage)
+                .isShow(true)
                 .category(category).build();
     }
 

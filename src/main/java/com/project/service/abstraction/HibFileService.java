@@ -7,11 +7,13 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface HibFileService {
-    List<HibFileDto> getAllDto();
+    List<Book> getAllBooks();
 
     Book getBookFromHibFileByName(String name);
 
     void deleteByName(String name);
 
     void bulkLoading(MultipartFile[] files);
+
+    void deleteAllHIBs();
 }

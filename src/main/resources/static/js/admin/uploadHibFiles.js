@@ -1,65 +1,60 @@
 //Список всех созданных временных папок изображений
-let picsTempFoldersList = undefined;
+let picsTempFoldersList;
 
 //Установка языковых параметров страницы
 $(document).ready(function () {
     setLocaleFields();
+    loadAllHIBs();
 });
 
 //Общий список книг
 let bookListLocal = [];
 
-//Подготовка и отрисовка таблицы
-async function prepareTable(){
-    if (bookListLocal.length === 0) {
-        renderTableHead();
-    }
-    fillBookList();
-}
-
-//Функция наполнения списка книг из загруженных в форму HIB-файлов
-async function fillBookList(){
-    let books = document.getElementById('add-hib-files-input').files;
-    let booksLength = books.length;
-    let constant = bookListLocal.length
-    let nextId;
-
-    if (picsTempFoldersList === undefined) {
-        picsTempFoldersList = [];
-    }
+//Функция загрузки таблицы предпоказа всех HIB-файлов, хранящихся на сервере в папке "./HIB/"
+async function loadAllHIBs() {
 
     $.ajax({
         type: "GET",
-        async: false,
-        url: '/getNextIdOfBooks',
-        success: (id) => {
-            nextId = id;
-        },
-        error: (e) => {
-            console.log("ERROR: ", e);
+        url: "/api/admin/get-all-existing-hibs",
+        success: (books) => {
+            if (picsTempFoldersList === undefined || picsTempFoldersList.length !== 0) {
+                picsTempFoldersList = [];
+            }
+            if (books.length !== 0) {
+                renderTableHead();
+            }
+            for (let i = 0; i < books.length; i++) {
+                bookListLocal[i] = books[i];
+                picsTempFoldersList[i] = books[i].originalLanguage.name;
+                appendTableElement(books[i], i);
+            }
         }
-    });
+    })
+}
 
-    for (let i = 0; i < booksLength; i++) {
-        fetch('/api/admin/get-book-from-json', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8'
-            },
-            body: books[i]
-        })
-            .then(json)
-            .then(async function (book) {
-                console.log("Success! HIB-file added");
-                bookListLocal[i + constant] = book;
-                picsTempFoldersList[i + constant] = book.originalLanguage.name;
-                appendTableElement(book, i + constant);
-            });
+
+//Функция загрузки новых HIB-файлов на сервер
+async function uploadNewHIBs(){
+    let inputHIBs = document.getElementById('add-hib-files-input').files;
+
+    let data = new FormData();
+    for (let i = 0; i < inputHIBs.length; i++) {
+        data.append("hib", inputHIBs[i]);
     }
+
+    $.ajax({
+        type: "POST",
+        url: '/api/admin/upload-new-hibs',
+        data: data,
+        processData: false,
+        contentType: false,
+    }).then(r => {
+        location.reload();
+    });
 }
 
 //Функция сборки сущности Book для передачи в контроллер
-function assembleBook(book, str, id) {
+function assembleBook(book, str) {
     let json = {};
 
     json["name"] = book.name;
@@ -73,28 +68,22 @@ function assembleBook(book, str, id) {
     json["description"] = book.description;
     json["coverImage"] = book.coverImage;
     json["category"] = book.category;
-
-    //Установка доступности книги к покупке
-    if (id !== undefined) {
-        json["show"] = (!$("#disabled" + id).is(':checked'));
-    }
+    json["show"] = true;
 
     if (str === 1) {
         json["originalLanguage"] = book.originalLanguage;
         return json;
-    } else if (str === 2) {
-        return JSON.stringify(json); //Необходимо для сравнения двух книг при добавлении в bookListLocal
     } else if (str === 0) {
         json["originalLanguage"] = book.originalLanguage;
         return JSON.stringify(json);
     }
 }
 
-//Функция всех книг из списка "bookListLocal" на сервер (для функции uploadAll ниже)
+//Функция отправки всех книг из списка "bookListLocal" на сервер (для функции uploadAll ниже)
 async function listUpload() {
     let listForUpload = [];
     for (let i = 0; i < bookListLocal.length; i++) {
-        listForUpload[i] = (assembleBook(bookListLocal[i], 1, i));
+        listForUpload[i] = (assembleBook(bookListLocal[i], 1));
     }
     fetch('/api/admin/upload-all-books', {
         method: 'POST',
@@ -103,79 +92,46 @@ async function listUpload() {
         },
         body: JSON.stringify(listForUpload)
     }).then(r => {
-        picsTempFoldersList = undefined;
-        opener.location.reload();
+        if (window.opener !== null) {
+            opener.location.reload();
+        }
         window.close();
     });
 }
 
-//Функция загрузки всех книг из списка "bookListLocal"
+//Функция сохранения на сервер всех книг из соотв. HIB-файлов, удаление HIB-файлов
 async function uploadAll() {
     if (bookListLocal.length === 0) {
         alert("There are no books to upload!")
     } else {
-        listUpload();
+        if (confirm("Upload all books unedited? \n" +
+            "This operation will delete all local HIB-files!")) {
+            listUpload();
+        }
     }
 }
 
-//Функция удаления временных папок хранения изображений
-async function clearTempPics(picsFolder){
-    fetch('/api/admin/clear-temp-pics', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json;charset=utf-8'
-        },
-        body: picsFolder
-    }).then();
-}
-
-//Функция загрузки одной книги
-async function uploadBook(id){
+//Переход на страницу редактирования книги из HIB-файла и ее дальнейшее сохранение
+async function uploadToEdit(id){
     let book = bookListLocal[id];
+    window.open('/admin/book/' + book.originalLanguage.author, '_blank');
+}
 
-    fetch('/api/admin/upload-book', {
-        method: 'POST',
+//Функция удаления HIB-файла с хранилища сервера
+function deleteHIBFile(id) {
+    fetch('/api/admin/delete-HIB-file?name=' + bookListLocal[id].originalLanguage.author, {
+        method: 'GET',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
         },
-        body: assembleBook(book, 0, id)
     }).then(r => {
-        if (bookListLocal.length < 1) {
-            picsTempFoldersList = undefined;
-            opener.location.reload();
-            window.close();
-        }
-    });
-
-    deleteFromBookList(id);
-}
-
-//Функция удаления книги из списка и таблицы
-function deleteFromBookList(id, tempPicsDelete) {
-    if (bookListLocal.length === 1) {
-        if (tempPicsDelete === 1) {
-            clearTempPics(bookListLocal[id].originalLanguage.name);
-        }
-        picsTempFoldersList.splice(id, 1);
-        bookListLocal.splice(id, 1);
-        $('#uploaded-HIB-Files').empty();
-    } else {
-        if (tempPicsDelete === 1) {
-            clearTempPics(bookListLocal[id].originalLanguage.name);
-        }
-        picsTempFoldersList.splice(id, 1);
-        bookListLocal.splice(id, 1);
-        $('#tableBody').empty();
-        for (let i = 0; i < bookListLocal.length; i++) {
-            appendTableElement(bookListLocal[i], i);
-        }
-    }
+        location.reload();
+    })
 }
 
 //Функция отрисовки шапки таблицы
 function renderTableHead(){
-    $('#uploaded-HIB-Files').append(`<h6 class="text-center">Add more HIB-files if needed</h6>
-                            <table class="table table-sm table-striped text-center bg-white" id="hibFilesTable">
+    $('#uploaded-HIB-Files').append(`<table class="table table-sm table-striped text-center bg-white" id="hibFilesTable">
                             <thead>
                                 <tr height="50">
                                     <th width="10"></th>
@@ -242,12 +198,6 @@ async function appendTableElement(book, i){
                                     <option value="gr">GR</option>
                                     <option value="cs">CS</option>
                                 </select>
-                                <br/><br/>
-                                <div class="custom-control custom-switch align-items-center">
-                                    <!-- Переключатель деактиватора книги -->
-                                    <input class="custom-control-input" type="checkbox" id="disabled${i}">
-                                    <label class="custom-control-label" for="disabled${i}"><b>Disabled</b></label>
-                                </div>
                            </td>
                            <td id="bookName${i}" class="align-middle"></td>
                            <td id="bookAuthor${i}" class="align-middle"></td>
@@ -256,9 +206,9 @@ async function appendTableElement(book, i){
                            <td class="align-middle">${JSON.stringify(book.price)}</td>
                            <td id="bookCategory${i}" class="align-middle"></td>
                            <td class="align-middle">
-                                <button class="btn btn-danger delete-loc" onclick="deleteFromBookList(${i}, 1)">Delete</button>
+                                <button class="btn btn-info delete-loc" onclick="uploadToEdit(${i})">Edit and save</button>
                                 <br/><br/>
-                                <button class="btn btn-info delete-loc" onclick="uploadBook(${i})">Upload</button>
+                                <button class="btn btn-danger delete-loc" onclick="deleteHIBFile(${i})">Delete</button>
                            </td></tr>`);
     //Установка языка для отображения полей книги по-умолчанию в соответствии с выбранным языком на сайте
     let currentHomeLang = $("#selectLang" + i + " > option:contains(" + currentLang.toUpperCase() + ")");
@@ -267,7 +217,7 @@ async function appendTableElement(book, i){
     showField(i);
 }
 
-//Функция преобразования объекта книги, полученной из контроллера, в объект для работы в JS
+//Функция преобразования объекта, полученной из контроллера, в объект для работы в JS
 function json(response) {
     return response.json()
 }

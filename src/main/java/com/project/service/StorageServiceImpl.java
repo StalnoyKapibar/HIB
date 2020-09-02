@@ -10,13 +10,13 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.project.dao.BookDaoImpl;
 import com.project.exceptions.StorageException;
 import com.project.exceptions.StorageFileNotFoundException;
 import com.project.model.Image;
-import com.project.service.abstraction.BookService;
 import com.project.service.abstraction.StorageService;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,14 +30,10 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class StorageServiceImpl implements StorageService {
 
-    //private final Path path = Paths.get("/img/");
     private final Path path = Paths.get("./img/tmp/");
 
     @Autowired
     private BookDaoImpl bookDao;
-
-    @Autowired
-    private BookService bookService;
 
     @Override
     public String saveImage(MultipartFile file, String picsFolder) {
@@ -175,6 +171,32 @@ public class StorageServiceImpl implements StorageService {
             }
         }
         folder.delete();
+    }
+
+    // Удаляет все подпапки с файлами в папке img/tmp. Рекомендуется применять только
+    // для тестирования, или в случае сбоя системы временных папок, так как это может помешать
+    // операциям создания и редактирования книг!
+    public void clearAllTempPics() {
+        List<File> tmpFolders = null;
+        try {
+            tmpFolders = Files.walk(Paths.get("./img/tmp/"))
+                    .filter(Files::isDirectory)
+                    .map(Path::toFile)
+                    .collect(Collectors.toList());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        for (int i = 1; i < tmpFolders.size(); i++) {
+
+            File folder = new File(String.valueOf(tmpFolders.get(i)));
+            for (File myFile : folder.listFiles()) {
+                if (myFile.isFile()) {
+                    myFile.delete();
+                }
+            }
+            folder.delete();
+        }
     }
 
     @Override

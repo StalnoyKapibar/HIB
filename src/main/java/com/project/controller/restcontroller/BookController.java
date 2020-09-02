@@ -60,16 +60,16 @@ public class BookController {
         return HttpStatus.OK;
     }
 
-    @PostMapping("admin/deleteCover")
+    @PostMapping("admin/deleteTmpCover")
     public void deleteCover(@RequestBody String path) {
         File cover = new File("img/tmp/" + path);
         cover.delete();
     }
 
-    @PutMapping("/loadFile")
+    /*@PutMapping("/loadFile")
     public Book loadFile(@RequestBody String bookAsJson) {
         return hibParser.getBookFromJSON(bookAsJson);
-    }
+    }*/
 
     @PostMapping("/admin/loadImg/{name}")
     public String addNewImage(@PathVariable("name") String name, @RequestBody byte[] file) {
@@ -188,6 +188,13 @@ public class BookController {
     @PostMapping("/admin/upload")
     public String fileUpload(@RequestBody MultipartFile file,  @RequestParam("pics") String picsFolderName) {
         return storageService.saveImage(file, picsFolderName);
+    }
+
+    @PostMapping("/admin/uploadMulti")
+    public void fileUpload(@RequestPart("files") MultipartFile[] files,  @RequestParam("pics") String picsFolderName) {
+        for (MultipartFile file : files) {
+            storageService.saveImage(file, picsFolderName);
+        }
     }
 
     @PostMapping("/admin/download")

@@ -1,12 +1,12 @@
 package com.project.dao.abstraction;
 
-import com.project.model.HibFileDto;
+import com.project.model.Book;
 
 import java.io.File;
 import java.util.List;
 
 public interface HibFileDao {
-    List<HibFileDto> getAllDto();
+    List<Book> getAllBooks();
 
     void deleteByName(String name);
 

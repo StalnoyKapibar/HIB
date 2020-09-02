@@ -79,7 +79,9 @@
             })
             picsFolderName = undefined;
             tempPicsFolderCheck = undefined;
-            opener.location.reload();
+            if (window.opener !== null) {
+                opener.location.reload();
+            }
         }
     };
 </script>

@@ -2,7 +2,9 @@ package com.project.dao;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.project.HIBParser.HibParser;
 import com.project.dao.abstraction.HibFileDao;
+import com.project.model.Book;
 import com.project.model.HibFileDto;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -17,19 +19,21 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Repository
 @AllArgsConstructor
 public class HibFileDaoImpl implements HibFileDao {
     private final ObjectMapper objectMapper;
+    private final HibParser hibParser;
 
-    @Override
-    public List<HibFileDto> getAllDto() {
+    public List<Book> getAllBooks() {
         List<File> hibFiles = null;
-        List<HibFileDto> hibFileDtoList = new ArrayList<>();
+        List<Book> booksFromHIBs = new ArrayList<>();
+
         try {
             //TODO: Pay attention when deploying
-            hibFiles = Files.walk(Paths.get("hib"))
+            hibFiles = Files.walk(Paths.get("./HIB/"))
                     .filter(Files::isRegularFile)
                     .map(Path::toFile)
                     .collect(Collectors.toList());
@@ -38,43 +42,26 @@ public class HibFileDaoImpl implements HibFileDao {
         }
         if (hibFiles != null) {
             for (File file : hibFiles) {
-                hibFileDtoList.add(convertFileToDto(file));
+                JsonNode hibFileTree = null;
+                try {
+                    hibFileTree = objectMapper.readTree(file);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if (hibFileTree != null) {
+                    booksFromHIBs.add(hibParser.getBookFromJSON(hibFileTree.toString(), file.getName().replaceAll(" ", "_")));
+                }
             }
         }
-        return hibFileDtoList;
+        return booksFromHIBs;
     }
 
-    private HibFileDto convertFileToDto(File file) {
-        JsonNode hibFileTree = null;
-        HibFileDto hibFileDto;
-        try {
-            hibFileTree = objectMapper.readTree(file);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (hibFileTree == null) {
-            throw new RuntimeException("An error occurred while parsing the hib file");
-        }
-        hibFileDto = HibFileDto
-                .builder()
-                .nameOfBook(hibFileTree
-                        .get("name")
-                        .get("en")
-                        .asText() + " - " +
-                        hibFileTree
-                                .get("author")
-                                .get("en")
-                                .asText())
-                .name(file.getName().substring(0, file.getName().indexOf(".hib")))
-                .imageAsBase64(hibFileTree.get("avatar").asText())
-                .build();
-        return hibFileDto;
-    }
+
 
     @Override
     public void deleteByName(String name) {
         try {
-            Files.delete(Paths.get("hib/" + name));
+            Files.delete(Paths.get("./HIB/" + name));
         } catch (IOException e) {
             e.printStackTrace();
         }
