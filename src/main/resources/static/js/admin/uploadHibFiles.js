@@ -119,14 +119,16 @@ async function uploadToEdit(id){
 
 //Функция удаления HIB-файла с хранилища сервера
 function deleteHIBFile(id) {
-    fetch('/api/admin/delete-HIB-file?name=' + bookListLocal[id].originalLanguage.author, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json;charset=utf-8'
-        },
-    }).then(r => {
-        location.reload();
-    })
+    if (confirm("Delete HIB-file: \"" + bookListLocal[id].originalLanguage.author + "\"?")) {
+        fetch('/api/admin/delete-HIB-file?name=' + bookListLocal[id].originalLanguage.author, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+        }).then(r => {
+            location.reload();
+        })
+    }
 }
 
 //Функция отрисовки шапки таблицы
