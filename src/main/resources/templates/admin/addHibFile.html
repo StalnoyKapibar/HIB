@@ -40,15 +40,16 @@
             <div class="card">
                 <form id="preloadHIBForm">
                     <div class="card-body">
-                        <h5 class="card-title upload-several-longphrase-loc">Choose several books for further processing</h5>
+                        <h5 class="card-title upload-several-longphrase-loc">Upload several HIB-files for further processing</h5>
+                        <h6 class="text-info">Files must have unique names!</h6>
                         <span id="addMore"></span>
                         <input type="file" accept=".hib" class="form-control-file" id="add-hib-files-input" multiple
-                               onchange="prepareTable()" style="width: 25rem">
+                               onchange="uploadNewHIBs()" style="width: 25rem">
                     </div>
                 </form>
                 <div class="card-footer text-center">
-                    <button id="uploadAll" class="btn btn-info btn-block upload-to-server-loc" onclick="uploadAll()">
-                        Upload books
+                    <button id="uploadAll" class="btn btn-secondary btn-block upload-to-server-loc" onclick="uploadAll()">
+                        Save all books without editing
                     </button>
                 </div>
             </div>
@@ -66,8 +67,10 @@
             },
             body: JSON.stringify(picsTempFoldersList)
         })
-        picsTempFoldersList = undefined;
-        opener.location.reload();
+        picsTempFoldersList = [];
+        if (window.opener !== null) {
+            opener.location.reload();
+        }
     };
 </script>
 </body>
