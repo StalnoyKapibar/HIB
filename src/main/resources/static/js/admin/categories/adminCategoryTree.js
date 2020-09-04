@@ -218,12 +218,13 @@ $(document).on('click', '#addNewCategory', function () {
 });
 
 $(document).on('click', '#addChildCategory', function () {
-    categoryName = $('input[name="newCategoryName"]').val();
-    parentId = $('form input[name="categoryId"]').val();
-    if (categoryName === '') {
-        message("!!!!");
+    let nameCategory = $('input[name="newCategoryName"]').val();
+    if (nameCategory === '') {
+        alert("enter new child category")
     } //Вывести что-то на экран
     else {
+        categoryName = $('input[name="newCategoryName"]').val();
+        parentId = $('form input[name="categoryId"]').val();
         let map = {};
         let translateFrom = 'en';
         let translateTo = [];
