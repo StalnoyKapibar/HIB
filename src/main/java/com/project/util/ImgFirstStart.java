@@ -1,5 +1,6 @@
 package com.project.util;
 
+import com.project.service.abstraction.StorageService;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.core.env.Environment;
@@ -15,13 +16,17 @@ public class ImgFirstStart extends FileSystemUtils implements ApplicationRunner 
 
     private final Environment environment;
 
-    public ImgFirstStart(Environment environment) {
+    private final StorageService storageService;
+
+    public ImgFirstStart(Environment environment, StorageService storageService) {
         this.environment = environment;
+        this.storageService = storageService;
     }
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
         flagCheck();
+        clearTempPicsOnStart();
     }
 
     public void copyCatalog() throws IOException {
@@ -31,9 +36,18 @@ public class ImgFirstStart extends FileSystemUtils implements ApplicationRunner 
     public void flagCheck() throws IOException {
         if (environment.getProperty("spring.application.imagemode").equals("copy")) {
             copyCatalog();
-            System.out.println("Каталог с изображениями скопирован в соответствии с application.properties imagemode");
+            System.out.println("Каталог с изображениями скопирован в соответствии с application.properties: imagemode");
         } else {
-            System.out.println("Каталог изображений не скопирован в соответствии с application.properties imagemode");
+            System.out.println("Каталог изображений не скопирован в соответствии с application.properties: imagemode");
+        }
+    }
+
+    public void clearTempPicsOnStart() {
+        if (environment.getProperty("spring.application.tempPicsMode").equals("clear")) {
+            storageService.clearAllTempPics();
+            System.out.println("Папка временных изображений очищена в соответствии с application.properties: tempPicsMode");
+        } else {
+            System.out.println("Папка временных изображений не очищалась в соответствии с application.properties: tempPicsMode");
         }
     }
 
