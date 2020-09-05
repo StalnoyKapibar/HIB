@@ -31,6 +31,7 @@ public class FeedbackRequestController {
     private final BookService bookService;
     private DataEnterInAdminPanelService dataEnterInAdminPanelService;
 
+    //добавление запроса в базу данных, отправка ответа на почту
     @PostMapping(value = "/api/feedback-request", params = "book_id")
     public FeedbackRequest sendNewFeedBackRequest(@RequestBody FeedbackRequest feedbackRequest,
                                                   @RequestParam("book_id") String bookId) {
@@ -42,19 +43,20 @@ public class FeedbackRequestController {
         feedbackRequest.setSenderName(HtmlUtils.htmlEscape(feedbackRequest.getSenderName()));
         feedbackRequest.setContent(HtmlUtils.htmlEscape(feedbackRequest.getContent()));
         feedbackRequest.setSenderEmail(HtmlUtils.htmlEscape(feedbackRequest.getSenderEmail()));
+        FeedbackRequest savedFeedbackRequest = feedbackRequestService.save(feedbackRequest);
         if (!bookId.equals("null")) {
             feedbackRequest.setBook(bookService.getBookById(Long.parseLong(bookId)));
         }
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setFrom(env.getProperty("spring.mail.username"));
         mailMessage.setTo(feedbackRequest.getSenderEmail());
-        mailMessage.setSubject(env.getProperty("spring.mail.subject"));
+        mailMessage.setSubject("Feedback №" + savedFeedbackRequest.getId());
         mailMessage.setText("Dear " + feedbackRequest.getSenderName() +
                 ".\n" + env.getProperty("spring.mail.request") +
                 "\n" + feedbackRequest.getContent() +
                 "\n" + env.getProperty("spring.mail.answer"));
         mailService.sendEmail(mailMessage, feedbackRequest.getSenderEmail());
-        return feedbackRequestService.save(feedbackRequest);
+        return savedFeedbackRequest;
     }
 
     @PostMapping("/api/admin/feedback-request/{id}/{viewed}")
