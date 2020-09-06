@@ -196,7 +196,7 @@
                             <span class="contact-us">Contact us</span>
                         </li>
                         <li>
-                            <a data-target="#feedback-modal" data-toggle="modal" href="">
+                            <a id="askQuestionModal"  href="#">
                                 <i class="far fa-comment-dots"></i>
                                 <span class="ask-question-loc">Ask a question</span>
                             </a>
@@ -338,16 +338,16 @@
             </div>
         </div>
     </div>
-    
+
     <script src="/static/js/utils/common-function.js"></script>
     <script src="/static/js/utils/liveSearch.js"></script>
-    
-        <!--    Page-content    -->
-        <th:block
-                th:if="${#httpServletRequest.getRequestURI() == '/home' && !#httpServletRequest.getRequestURI().contains('err')}">
-            <th:block th:include="home :: page-content">
-            </th:block>
+
+    <!--    Page-content    -->
+    <th:block
+            th:if="${#httpServletRequest.getRequestURI() == '/home' && !#httpServletRequest.getRequestURI().contains('err')}">
+        <th:block th:include="home :: page-content">
         </th:block>
+    </th:block>
     <!--    Page-content    -->
     <th:block
             th:if="${#httpServletRequest.getRequestURI() == '/registration'}">

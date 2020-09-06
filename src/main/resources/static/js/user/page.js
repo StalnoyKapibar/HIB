@@ -75,7 +75,7 @@ function buildCarousel() {
     tmpHtmlForCarousel +=
         `<div id="qw${idCoverImage}" class='carousel-item active'>` +
         `<a href="${coverImageLink}" target="_blank">` +
-        `<img src=${coverImageLink} class='d-block w-100' alt='...'></a>` +
+        `<img id="bookcover" src=${coverImageLink} class='d-block w-100' alt='...'></a>` +
         `<div class='carousel-caption d-none d-md-block'>` +
         `</div>` +
         `</div>`;
