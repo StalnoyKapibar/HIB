@@ -62,7 +62,7 @@ $('#feedback-form').submit(async () => {
     bookCoverImage = null;
 });
 
-$(document).on('click', '.ask-question-loc', async () => {
+$(document).on('click', '#askQuestionModal', () => {
     let location = window.location + '';
     bookId = null;
     if (location.includes("/page/")) {
