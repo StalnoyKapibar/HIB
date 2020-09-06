@@ -60,7 +60,7 @@ function buildCarousel() {
     if (objectBook.imageList.length === 0) {
         $('#picsParse').append(`<div class="carousel-item active">
                                             <a href="/images/service/noimage.png" target="_blank">
-                                                <img class="d-block w-100" src="/images/service/noimage.png" alt="No Image">
+                                                <img class="d-block w-100" style="object-fit: contain; height: 500px" src="/images/service/noimage.png" alt="No Image">
                                             </a>
                                         </div>`);
     }
@@ -76,32 +76,43 @@ function buildCarousel() {
             if (i === 0) {
                 $('#picsParse').append(`<div class="carousel-item active">
                                             <a href="/images/service/noimage.png" target="_blank">
-                                                <img class="d-block w-100" src="/images/service/noimage.png" alt="No Image">
+                                                <img class="d-block w-100" style="object-fit: contain; height: 500px" src="/images/service/noimage.png" alt="No Image">
                                             </a>
                                         </div>
                                         <div class="carousel-item">
                                             <a href="${pathImageDefault}${objectBook.id}/${objectBook.imageList[i].nameImage}" target="_blank">
-                                                <img class="d-block w-100" src="${pathImageDefault}${objectBook.id}/${objectBook.imageList[i].nameImage}" alt="...">
+                                                <img class="d-block w-100" style="object-fit: contain; height: 500px" src="${pathImageDefault}${objectBook.id}/${objectBook.imageList[i].nameImage}" alt="...">
                                             </a>
                                         </div>`);
             } else {
                 $('#picsParse').append(`<div class="carousel-item">
                                             <a href="${pathImageDefault}${objectBook.id}/${objectBook.imageList[i].nameImage}" target="_blank">
-                                                <img class="d-block w-100" src="${pathImageDefault}${objectBook.id}/${objectBook.imageList[i].nameImage}" alt="...">
+                                                <img class="d-block w-100" style="object-fit: contain; height: 500px" src="${pathImageDefault}${objectBook.id}/${objectBook.imageList[i].nameImage}" alt="...">
                                             </a>
                                         </div>`);
             }
         } else {
-            if (i === 0) {
+            if (i === 0 & idCoverImage === i) {
                 $('#picsParse').append(`<div class="carousel-item active">
                                             <a href="${pathImageDefault}${objectBook.id}/${objectBook.imageList[i].nameImage}" target="_blank">
-                                                <img class="d-block w-100" src="${pathImageDefault}${objectBook.id}/${objectBook.imageList[i].nameImage}" alt="...">
+                                                <img class="d-block w-100" style="object-fit: contain; height: 500px" src="${pathImageDefault}${objectBook.id}/${objectBook.imageList[i].nameImage}" alt="...">
                                             </a>
                                         </div>`);
-            } else {
+            } else if (i === 0 & idCoverImage !== i){
+                $('#picsParse').append(`<div class="carousel-item active">
+                                            <a href="${pathImageDefault}${objectBook.id}/${objectBook.imageList[idCoverImage].nameImage}" target="_blank">
+                                                <img class="d-block w-100" style="object-fit: contain; height: 500px" src="${pathImageDefault}${objectBook.id}/${objectBook.imageList[idCoverImage].nameImage}" alt="...">
+                                            </a>
+                                        </div>
+                                        <div class="carousel-item ">
+                                            <a href="${pathImageDefault}${objectBook.id}/${objectBook.imageList[0].nameImage}" target="_blank">
+                                                <img class="d-block w-100" style="object-fit: contain; height: 500px" src="${pathImageDefault}${objectBook.id}/${objectBook.imageList[0].nameImage}" alt="...">
+                                            </a>
+                                        </div>`);
+            } else if (i !== 0 & idCoverImage !== i) {
                 $('#picsParse').append(`<div class="carousel-item">
                                             <a href="${pathImageDefault}${objectBook.id}/${objectBook.imageList[i].nameImage}" target="_blank">
-                                                <img class="d-block w-100" src="${pathImageDefault}${objectBook.id}/${objectBook.imageList[i].nameImage}" alt="...">
+                                                <img class="d-block w-100" style="object-fit: contain; height: 500px" src="${pathImageDefault}${objectBook.id}/${objectBook.imageList[i].nameImage}" alt="...">
                                             </a>
                                         </div>`);
             }
