@@ -43,10 +43,10 @@ public class FeedbackRequestController {
         feedbackRequest.setSenderName(HtmlUtils.htmlEscape(feedbackRequest.getSenderName()));
         feedbackRequest.setContent(HtmlUtils.htmlEscape(feedbackRequest.getContent()));
         feedbackRequest.setSenderEmail(HtmlUtils.htmlEscape(feedbackRequest.getSenderEmail()));
-        FeedbackRequest savedFeedbackRequest = feedbackRequestService.save(feedbackRequest);
         if (!bookId.equals("null")) {
             feedbackRequest.setBook(bookService.getBookById(Long.parseLong(bookId)));
         }
+        FeedbackRequest savedFeedbackRequest = feedbackRequestService.save(feedbackRequest);
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setFrom(env.getProperty("spring.mail.username"));
         mailMessage.setTo(feedbackRequest.getSenderEmail());
