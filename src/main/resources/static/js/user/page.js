@@ -39,9 +39,9 @@ function setPageFields() {
                     $('#addToCart').removeClass("addToCartBtn").removeClass("btn-warning").addClass("bought-btn-loc").addClass("btn-light").text(outOfStock).attr("disabled", "true");
                 }
         $('title').text(data.name);
-        $('#book-name').text(convertOriginalLanguageRows(data.name, data.nameTranslit));
-        $('#book-author').text(convertOriginalLanguageRows(data.author, data.authorTranslit));
-        $('#book-edition').text(convertOriginalLanguageRows(data.edition, data.editionTranslit));
+        $('#book-name').text(data.name);
+        $('#book-author').text(data.author);
+        $('#book-edition').text(data.edition);
         $('#addToCart').attr('data-id', data.id);
         $("#book-desc").text(data.desc);
         $("#book-original-language").text(data.originalLanguage);

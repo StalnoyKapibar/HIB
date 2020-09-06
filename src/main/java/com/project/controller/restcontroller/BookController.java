@@ -222,11 +222,11 @@ public class BookController {
         }
     }
 
-    @GetMapping(value = "/api/book", params = {"limit", "start"})
+    @GetMapping(value = "/api/book", params = {"limit", "start", "locale"})
     public BookPageDto getBookDtoByLimitAndAmountAndStart(@RequestParam Map<String, String> params) {
         Pageable pageable = PageRequest.of(Integer.parseInt(params.get("start")),
                 Integer.parseInt(params.get("limit")), Sort.by(Sort.Order.desc("id")));
-        return bookService.getBookPageByPageable(pageable);
+        return bookService.getBookPageByPageable(pageable, params.get("locale"));
     }
 
     @GetMapping("/api/book/lastOrderedBooks")

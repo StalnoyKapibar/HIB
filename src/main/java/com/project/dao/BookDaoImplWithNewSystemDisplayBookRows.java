@@ -12,8 +12,8 @@ public class BookDaoImplWithNewSystemDisplayBookRows extends BookDaoImpl {
     @Override
     @SuppressWarnings("all")
     public BookNewDTO getNewBookDTObyIdAndLang(Long id, String lang) {
-        String hql = ("SELECT new com.project.model.BookNewDTO(b.id, b.originalLanguage.name, " +
-                "b.originalLanguage.nameTranslit, b.originalLanguage.author, b.originalLanguage.authorTranslit, " +
+        String hql = ("SELECT new com.project.model.BookNewDTO(b.id, b.name.LOC, " +
+                "b.originalLanguage.nameTranslit, b.author.LOC, b.originalLanguage.authorTranslit, " +
                 "CASE WHEN b.description.LOC <> '' " +
                 "THEN b.description.LOC " +
                 "ELSE " +
@@ -22,7 +22,7 @@ public class BookDaoImplWithNewSystemDisplayBookRows extends BookDaoImpl {
                 "ELSE b.description.fr " +
                 "END " +
                 "END, " +
-                "b.originalLanguage.edition, b.originalLanguage.editionTranslit, b.yearOfEdition, " +
+                "b.edition.LOC, b.originalLanguage.editionTranslit, b.yearOfEdition, " +
                 "b.pages, b.price, b.originalLanguageName, b.coverImage, b.isShow) FROM Book b WHERE id = :id").replaceAll("LOC", lang);
         BookNewDTO bookNewDTO = entityManager.createQuery(hql, BookNewDTO.class).setParameter("id", id).getSingleResult();
         bookNewDTO.setImageList(getBookImageListById(id));

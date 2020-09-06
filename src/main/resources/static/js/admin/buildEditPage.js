@@ -139,14 +139,6 @@ async function getOriginalLangForHIB() {
     book["edition"] = tmpArr.edition;
     book["originalLanguageName"] = tmpArr.originalLanguageName;
 
-    /*let list = [];
-
-    list[0] = tmpArr.originalLanguageName;
-    list[1] = tmpArr.name;
-    list[2] = tmpArr.author;
-    list[3] = tmpArr.edition;*/
-
-
     fetch('/api/admin/get-original-lang-for-hib', {
         method: 'POST',
         headers: {

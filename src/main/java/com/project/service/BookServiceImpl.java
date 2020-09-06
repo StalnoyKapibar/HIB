@@ -49,8 +49,8 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookPageDto getBookPageByPageable(Pageable pageable) {
-        return bookDAO.getBookPageByPageable(pageable);
+    public BookPageDto getBookPageByPageable(Pageable pageable, String lang) {
+        return bookDAO.getBookPageByPageable(pageable, lang);
     }
 
     @Override
