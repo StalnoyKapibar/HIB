@@ -298,7 +298,7 @@ function loadImage(nameId, div) {
     tempPicsFolderCheck = 1;
     const formData = new FormData();
     let fileImg = $("#avatar").prop('files')[0];
-    let fileName = "avatar.jpg";
+    let fileName = picsFolderName + ".jpg";
     if( $("#divAvatar").html() !== "" ) {
         fetch('admin/deleteTmpCover', {
             method: 'POST',

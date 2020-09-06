@@ -33,11 +33,10 @@ public class FeedbackRequestServiceImpl implements FeedbackRequestService {
     @Override
     public FeedbackRequest save(FeedbackRequest feedbackRequest) {
         if (feedbackRequest.getId() == null) {
-            feedbackRequestDAO.add(feedbackRequest);
+            return feedbackRequestDAO.add(feedbackRequest);
         } else {
-            feedbackRequestDAO.update(feedbackRequest);
+            return feedbackRequestDAO.update(feedbackRequest);
         }
-        return feedbackRequest;
     }
 
     @Override

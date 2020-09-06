@@ -176,6 +176,7 @@ public class StorageServiceImpl implements StorageService {
     // Удаляет все подпапки с файлами в папке img/tmp. Рекомендуется применять только
     // для тестирования, или в случае сбоя системы временных папок, так как это может помешать
     // операциям создания и редактирования книг!
+    @Override
     public void clearAllTempPics() {
         List<File> tmpFolders = null;
         try {
