@@ -72,15 +72,7 @@ $(document).on('click', '.ask-question-loc', async () => {
             bookId += location[index];
             index++;
         }
-    }
-    //senderMessageInput.val(messageTemplate + '' + location.substr(0, location.indexOf("?")));
-    if (bookId !== null) {
-        await fetch(`/api/book/${bookId}`)
-            .then(json)
-            .then((data) => {
-                bookCoverImage = data.coverImage;
-            })
-        interestedBookImage.attr('src', `/images/book${bookId}/${bookCoverImage}`);
+        interestedBookImage.attr('src', $('#bookcover').attr('src'));
     } else {
         interestedBookImage.attr('style', 'display: none');
         interestedBookClose.attr('style', 'display: none');
