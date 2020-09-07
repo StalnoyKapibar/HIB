@@ -289,7 +289,7 @@ async function showModalOfOrder(index) {
                 htmlChat += `</div>`;
                 htmlChat += `<textarea id="sent-message" class="form-control"></textarea>
 
-                        </div><button class="float-right col-2 btn btn-primary send-loc" type="button" id="send-button" onclick="sendGmailMessage('${order.contacts.email}', ${allOrders[orderIndex].id})">Send</button>`
+                        </div><button class="float-right col-2 btn btn-primary send-loc m-1" type="button" id="send-button" onclick="sendGmailMessage('${order.contacts.email}', ${allOrders[orderIndex].id})">Send</button>`
 
             } else {
                 if (data[0].text === "chat end") {
@@ -297,8 +297,8 @@ async function showModalOfOrder(index) {
                     htmlChat += `</div>`;
                     htmlChat += `<textarea id="sent-message" class="form-control"></textarea>
 
-                        </div><button class="float-right col-2 btn btn-primary send-loc" type="button" id="send-button" onclick="sendGmailMessage('${order.contacts.email}', ${allOrders[orderIndex].id})">Send</button>
-                              <button class="float-right col-2 btn btn-primary mark-loc" type="button" id="mark-button" onclick="markGmailMessageRead('${order.contacts.email}', ${allOrders[orderIndex].id})">Mark as read</button>`
+                        </div><button class="float-right col-2 btn btn-primary send-loc m-1" type="button" id="send-button" onclick="sendGmailMessage('${order.contacts.email}', ${allOrders[orderIndex].id})">Send</button>
+                              <button class="float-right col-2 btn btn-success mark-loc m-1" type="button" id="mark-button" onclick="markGmailMessageRead('${order.contacts.email}', ${allOrders[orderIndex].id})">Mark as read</button>`
 
                     scrollOn = false;
                 } else if (data[0].text === "noGmailAccess") {
@@ -321,8 +321,8 @@ async function showModalOfOrder(index) {
                     htmlChat += `</div>`;
                     htmlChat += `<textarea id="sent-message" class="form-control"></textarea>
 
-                        </div><button class="float-right col-2 btn btn-primary send-loc" type="button" id="send-button" onclick="sendGmailMessage('${order.contacts.email}', ${allOrders[orderIndex].id})">Send</button>
-                                <button class="float-right col-2 btn btn-primary mark-loc" type="button" id="mark-button" onclick="markGmailMessageRead('${order.contacts.email}', ${allOrders[orderIndex].id})">Mark as read</button>`
+                        </div><button class="float-right col-2 btn btn-primary send-loc m-1" type="button" id="send-button" onclick="sendGmailMessage('${order.contacts.email}', ${allOrders[orderIndex].id})">Send</button>
+                                <button class="float-right col-2 btn btn-success mark-loc m-1" type="button" id="mark-button" onclick="markGmailMessageRead('${order.contacts.email}', ${allOrders[orderIndex].id})">Mark as read</button>`
 
                 }
             }

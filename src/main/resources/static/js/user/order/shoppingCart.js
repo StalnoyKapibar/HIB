@@ -414,11 +414,11 @@ async function renderPageOrdersForUser(listOdersPage) {
                              <td>${order.status}</td>
                              <td>${convertPrice(order.itemsCost)} ${currencyIcon}</td>
     
-                             <td><button type="button" class="btn btn-info show-btn" data-toggle="modal" data-target="#ordermodal"  onclick="showCarrentOrder(${index})">Show</button>`;
+                             <td><button type="button" class="btn btn-info show-btn mx-1" data-toggle="modal" data-target="#ordermodal"  onclick="showCarrentOrder(${index})">Show</button>`;
             if (order.status === "UNPROCESSED") {
-                html += `<button type="button" class="btn btn-danger close-order" onclick="orderCancel(${order.id})">Cancel</button></td></tr>`;
+                html += `<button type="button" class="btn btn-danger close-order mx-1" onclick="orderCancel(${order.id})">Cancel</button></td></tr>`;
             } else {
-                html += `<button type="button" class="btn btn-danger close-order" onclick="orderCancel(${order.id})" disabled="disabled">Cancel</button></td></tr>`;
+                html += `<button type="button" class="btn btn-danger close-order mx-1" onclick="orderCancel(${order.id})" disabled="disabled">Cancel</button></td></tr>`;
             }
         });
         $('#listorders').html(html);
