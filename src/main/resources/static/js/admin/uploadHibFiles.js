@@ -138,7 +138,7 @@ function renderTableHead(){
                                 <tr height="50">
                                     <th width="10"></th>
                                     <th></th>
-                                    <th>For all: 
+                                    <th width="130"><span class="for-all-loc">For all</span>: 
                                     <select id="selectLangForAll" onchange="showAllFields()">
                                         <option value="ru">RU</option>
                                         <option value="en">EN</option>
@@ -208,7 +208,7 @@ async function appendTableElement(book, i){
                            <td class="align-middle">${JSON.stringify(book.price)}</td>
                            <td id="bookCategory${i}" class="align-middle"></td>
                            <td class="align-middle">
-                                <button class="btn btn-info delete-loc" onclick="uploadToEdit(${i})">Edit and save</button>
+                                <button class="btn btn-info edit-hib-loc" onclick="uploadToEdit(${i})">Edit and save</button>
                                 <br/><br/>
                                 <button class="btn btn-danger delete-loc" onclick="deleteHIBFile(${i})">Delete</button>
                            </td></tr>`);
