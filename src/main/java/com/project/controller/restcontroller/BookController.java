@@ -56,7 +56,7 @@ public class BookController {
         return HttpStatus.OK;
     }
 
-    @PostMapping("admin/deleteTmpCover")
+    @PostMapping("/admin/deleteTmpCover")
     public void deleteCover(@RequestBody String path) {
         File cover = new File("img/tmp/" + path);
         cover.delete();
