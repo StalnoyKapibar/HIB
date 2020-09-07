@@ -40,13 +40,12 @@ public class OrderController {
     @Autowired
     FormLoginErrorMessageService messageService;
 
-
     @PostMapping("/api/user/order/confirmaddress")
     private OrderDTO addOder(HttpSession httpSession) {
         ShoppingCartDTO shoppingCartDTO = null;
         OrderDTO order = new OrderDTO();
         if (httpSession.getAttribute("cartId") == null) {
-//            shoppingCartDTO = cartService.getCartById((Long) httpSession.getAttribute("cartId1click"));
+//          shoppingCartDTO = cartService.getCartById((Long) httpSession.getAttribute("cartId1click"));
             order.setItems(((ShoppingCartDTO) httpSession.getAttribute("shoppingcart")).getCartItems());
             order.setItemsCost((int) ((ShoppingCartDTO) httpSession.getAttribute("shoppingcart")).getTotalCostItems());
         } else {
@@ -130,7 +129,6 @@ public class OrderController {
         }
         return view;
     }
-
 
     @PostMapping("/order")
     private void confirmOrder(HttpSession httpSession, HttpServletRequest request) {

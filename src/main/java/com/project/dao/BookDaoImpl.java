@@ -52,7 +52,7 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
     }
 
     @Override
-    public BookSearchPageDTO getBookBySearchRequest(String request, Long priceFrom, Long priceTo, String yearOfEditionFrom, String yearOfEditionTo,
+    public BookSearchPageDTO getBookBySearchRequest(String request, Long priceFrom, Long priceTo, Long yearOfEditionFrom, Long yearOfEditionTo,
                                                     Long pagesFrom, Long pagesTo, String searchBy, List<Long> categories, Pageable pageable, boolean isShow) {
         int limitBookDTOOnPage = pageable.getPageSize();
         int minNumberId = limitBookDTOOnPage * pageable.getPageNumber();
@@ -69,8 +69,8 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
                 "((b.pages >= :pagesFrom and b.pages <= :pagesTo) OR (b.pages >= :pagesFrom and :pagesTo is null) OR " +
                 "(:pagesFrom is null and b.pages <= :pagesTo) OR (:pagesFrom is null and :pagesTo is null)) AND " +
                 "((b.yearOfEdition >= :yearOfEditionFrom and b.yearOfEdition <= :yearOfEditionTo) OR (b.yearOfEdition >= :yearOfEditionFrom and :yearOfEditionTo = 'null') OR " +
-                "(:yearOfEditionFrom = 'null' and b.yearOfEdition <= :yearOfEditionTo) OR (:yearOfEditionFrom = 'null' and :yearOfEditionTo = 'null')) AND " +
-                "(b.category.id in :categories) AND" +
+                "((b.yearOfEdition >= :yearOfEditionFrom and b.yearOfEdition <= :yearOfEditionTo) OR (b.yearOfEdition >= :yearOfEditionFrom and :yearOfEditionTo = 0) OR " +
+                "(:yearOfEditionFrom = 0 and b.yearOfEdition <= :yearOfEditionTo) OR (:yearOfEditionFrom = 0 and :yearOfEditionTo = 0)) AND " +
                 "((b.price >= :priceFrom and b.price <= :priceTo) OR (b.price >= :priceFrom and :priceTo = 0) OR " +
                 "(:priceFrom = 0 and b.price <= :priceTo) OR (:priceFrom = 0 and :priceTo = 0)) ORDER BY b.id DESC");
         //b.isShow = true AND
@@ -101,7 +101,7 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
 
     @Override
     public long getQuantityBooksBySearchRequest(String request, Long priceFrom, Long priceTo,
-                                                String yearOfEditionFrom, String yearOfEditionTo,
+                                                Long yearOfEditionFrom, Long yearOfEditionTo,
                                                 Long pagesFrom, Long pagesTo, String searchBy, List<Long> categories, boolean isShow) {
         String name = ("%" + request + "%");
         //todo число книг диз энд эвэл
@@ -113,8 +113,8 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
                 "((LOWER(b.originalLanguage.author) LIKE :name or LOWER(b.originalLanguage.authorTranslit) LIKE :name) and :searchBy = 'author')) AND" +
                 "((b.pages >= :pagesFrom and b.pages <= :pagesTo) OR (b.pages >= :pagesFrom and :pagesTo is null) OR " +
                 "(:pagesFrom is null and b.pages <= :pagesTo) OR (:pagesFrom is null and :pagesTo is null)) AND " +
-                "((b.yearOfEdition >= :yearOfEditionFrom and b.yearOfEdition <= :yearOfEditionTo) OR (b.yearOfEdition >= :yearOfEditionFrom and :yearOfEditionTo = 'null') OR " +
-                "(:yearOfEditionFrom = 'null' and b.yearOfEdition <= :yearOfEditionTo) OR (:yearOfEditionFrom = 'null' and :yearOfEditionTo = 'null')) AND " +
+                "((b.yearOfEdition >= :yearOfEditionFrom and b.yearOfEdition <= :yearOfEditionTo) OR (b.yearOfEdition >= :yearOfEditionFrom and :yearOfEditionTo = 0) OR " +
+                "(:yearOfEditionFrom = 0 and b.yearOfEdition <= :yearOfEditionTo) OR (:yearOfEditionFrom = 0 and :yearOfEditionTo = 0)) AND " +
                 "(b.category.id in :categories) AND" +
                 "((b.price >= :priceFrom and b.price <= :priceTo) OR (b.price >= :priceFrom and :priceTo = 0) OR " +
                 "(:priceFrom = 0 and b.price <= :priceTo) OR (:priceFrom = 0 and :priceTo = 0))");

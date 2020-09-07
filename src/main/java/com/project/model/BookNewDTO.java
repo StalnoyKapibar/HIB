@@ -18,7 +18,7 @@ public class BookNewDTO {
     private String desc;
     private String edition;
     private String editionTranslit;
-    private String yearOfEdition;
+    private Long yearOfEdition;
     private Long pages;
     private Long price;
     private String originalLanguage;
@@ -28,8 +28,7 @@ public class BookNewDTO {
     private boolean isShow;
 
     public BookNewDTO(long id, String name, String author, String desc, String edition,
-                      String yearOfEdition, Long pages, Long price, String originalLanguage, String coverImage, boolean isShow) {
-        this.id = id;
+                      Long yearOfEdition, Long pages, Long price, String originalLanguage, String coverImage, boolean isShow) {        this.id = id;
         this.name = name;
         this.author = author;
         this.desc = desc;
@@ -43,7 +42,7 @@ public class BookNewDTO {
     }
 
     public BookNewDTO(long id, String name, String nameTranslit, String author, String authorTranslit,
-                      String desc, String edition, String editionTranslit, String yearOfEdition, Long pages,
+                      String desc, String edition, String editionTranslit, Long yearOfEdition, Long pages,
                       Long price, String originalLanguage, String coverImage, boolean isShow) {
         this.id = id;
         this.name = name;
@@ -72,7 +71,7 @@ public class BookNewDTO {
     }
 
     public BookNewDTO(long id, String name, String nameTranslit, String author, String authorTranslit,
-                      String desc, String edition, String editionTranslit, String yearOfEdition, Long pages,
+                      String desc, String edition, String editionTranslit, Long yearOfEdition, Long pages,
                       Long price, String originalLanguage, String coverImage, Category category, boolean isShow) {
         this.id = id;
         this.name = name;
