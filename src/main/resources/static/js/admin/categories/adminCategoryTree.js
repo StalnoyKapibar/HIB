@@ -100,6 +100,67 @@ function setChilds(category) {
     return row;
 }
 
+$(document).on('click', '#addChildModal', function (element) {
+    $('#addChildMod').empty();
+    let catName = $('input[name="newCategoryName"]').val();
+    if (catName === '') {
+        alert("enter category name")
+    } else {
+        categoryName = catName;
+        //getAllLocales();
+        row =
+            `<div class="modal-header">
+                <h5 class="modal-title bold" id="addChildCategoryModal">Add child category: <b>${categoryName}</b></h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+        </div>
+        <div id ="childCategoryRow" class="modal-body modal-category" >
+            <form id="addCategoryForm" action="/categories/add" method="POST">
+                  <div class="form-group"> 
+                    <label id="categoryName" for="formGroupExampleInput">Category name:</label>
+                    <input type="text" class="form-control" id="formGroupExampleInput" name="categoryName" value="${categoryName}">
+                    <br>
+                  </div>
+            </form>
+        </div>
+        <div id="modal-row">
+        </div>
+        <div class="modal-footer">
+            <button type="button" id="close" data-dismiss="modal" class="btn btn-block btn-danger">Close</button>
+             <button class="btn btn-block btn-primary" id="addChildCategory" type="button">Add new child category</button>
+        </div>`;
+
+        $('#addChildMod').append(row);
+        let childModRow = ``;
+        let nameObject = "name"
+        for (let tmpNameVar of nameVarOfLocaleString) {
+            childModRow +=
+                `<div class='form-group mx-5'>
+                <div class="row">
+                    <div class="col-0" for=${nameObject}${tmpNameVar}>${nameObject} ${tmpNameVar}</div>
+                        <div class="col-2 mr-1">
+                            <input type="radio" class="transl-from-this-lang-loc" name="rb${nameObject}" id="rb${nameObject}${tmpNameVar}" value="${tmpNameVar}" autocomplete="off"> From this
+                        </div>
+                        <div class="col"> 
+                            <input type='text' class='form-control' id='inp${nameObject}${tmpNameVar}' value='${categoryName}'>
+                        </div>
+                        <div class="col">
+                            <input type="checkbox" class="into-this-lang-loc" checked name="cb${nameObject}" value="${tmpNameVar}" autocomplete="off"> Into this language
+                        </div>
+                    </div>
+                </div>
+            `;
+            if (tmpNameVar === "gr") {
+                childModRow += `<button type="button" onclick="translateCategory('${nameObject}')" class="btn btn-primary mx-3 translate-loc">Translate</button></div>`
+            }
+        }
+        $('#childCategoryRow').append(childModRow);
+        setLocaleFields();
+        $('#add-child-mod').modal('show');
+    }
+})
+
 $(document).on('click', '#categoryEdit', function (element) {
     $('#categoryModal').empty();
     categoryId = element.target.dataset.id;
@@ -130,7 +191,7 @@ $(document).on('click', '#categoryEdit', function (element) {
                 <div class="input-group mb-3">
                   <input type="text" id="editPlaceholder" class="form-control" name="newCategoryName" placeholder="Name of new category" aria-describedby="basic-addon2">
                   <div class="input-group-append">
-                    <button class="btn btn-success" id="addChildCategory" type="button">Add new child category</button>
+                    <button class="btn btn-success" id="addChildModal" type="button">Add new child category</button>
                   </div>
                   </div>
                   <div class="col alert alert-danger text-center" id="alert" hidden role="alert">
@@ -218,51 +279,30 @@ $(document).on('click', '#addNewCategory', function () {
 });
 
 $(document).on('click', '#addChildCategory', function () {
-    let nameCategory = $('input[name="newCategoryName"]').val();
-    if (nameCategory === '') {
-        alert("enter new child category")
-    } //Вывести что-то на экран
-    else {
-        categoryName = $('input[name="newCategoryName"]').val();
-        parentId = $('form input[name="categoryId"]').val();
-        let map = {};
-        let translateFrom = 'en';
-        let translateTo = [];
-        for (let lang of nameVarOfLocaleString) {
-            if (lang != translateFrom) {
-                translateTo.push(lang);
-            }
-        }
-        let i = {
-            langFrom: translateFrom,
-            arrLangTo: translateTo,
-            text: categoryName
-        };
+    categoryName = $('input[name="newCategoryName"]').val();
+    parentId = $('form input[name="categoryId"]').val();
+    let map = {};
+    let translateFrom = 'en';
+    let translateTo = [];
+    for (let lang of nameVarOfLocaleString) {
+        let inp = $("#inpname" + lang);
+        map[lang] = inp.val();
+    }
+    newCategory(map, parentId);
+    location.reload()
 
-        let prop = JSON.stringify(i);
-        $.ajax({
-            type: "POST",
-            url: "/translate/list",
-            data: prop,
-            contentType: 'application/json',
-            success: function (data) {
-                for (let lang of nameVarOfLocaleString) {
-                    map[lang] = data[lang];
-                }
-                map['en'] = categoryName;
-                newCategory(map, parentId);
-                location.reload()
-            }
-        });
-    };
 });
 
 $(document).on('click', '#addPrimary', function (element) {
     $('#categoryModal').empty();
-    categoryName = $('input[name="primaryCategoryName"]').val();
-    //getAllLocales();
-    row =
-        `<div class="modal-header">
+    let catName = $('input[name="primaryCategoryName"]').val();
+    if (catName === '') {
+        alert("enter category name")
+    } else {
+        categoryName = catName;
+        //getAllLocales();
+        row =
+            `<div class="modal-header">
                 <h5 class="modal-title bold" id="addCategoryModal">Add category: <b>${categoryName}</b></h5>
                 <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                     <span aria-hidden="true">&times;</span>
@@ -284,9 +324,11 @@ $(document).on('click', '#addPrimary', function (element) {
             <button id="addNewCategory" data-dismiss="modal" class="btn btn-block btn-primary">Add</button>
         </div>`;
 
-    $('#categoryModal').append(row);
-    setTableRow(nameVarOfLocaleString);
-    setLocaleFields();
+        $('#categoryModal').append(row);
+        setTableRow(nameVarOfLocaleString);
+        setLocaleFields();
+        $('#category-modal').modal('show');
+    }
 });
 
 
