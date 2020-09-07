@@ -34,6 +34,8 @@ public interface StorageService {
 
 	void clearPaperTmp(String bookId);
 
+	void clearAllTempPics();
+
 	void deleteImageByFileNameByEditPage(String fileName);
 
 	void saveImageByEditBook(MultipartFile file, String numberPaper);

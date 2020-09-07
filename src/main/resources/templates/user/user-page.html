@@ -204,7 +204,7 @@
                             <span class="contact-us">Contact us</span>
                         </li>
                         <li>
-                            <a data-target="#feedback-modal" data-toggle="modal" href="">
+                            <a id="askQuestionModal"  href="#">
                                 <i class="far fa-comment-dots"></i>
                                 <span class="ask-question-loc">Ask a question</span>
                             </a>
@@ -236,7 +236,7 @@
          tabindex="-1">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header bg-light">
                     <h5 class="modal-title contact-us">Contact us</h5>
                     <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                         <span aria-hidden="true">&times;</span>
@@ -261,6 +261,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
+                <div class="modal-footer align-content-center bg-light" style="height: 95px">
                     <button class="btn btn-secondary closeModalBtn" data-dismiss="modal" type="button">Close
                     </button>
                     <button class="btn btn-primary" id="send-feedback-request" type="button">Send message</button>

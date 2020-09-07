@@ -43,6 +43,11 @@ public class AdminController {
         return "admin/admin-page";
     }
 
+    @GetMapping("/admin/book/{hibName}")
+    public String editHIBAndSave() {
+        return "editPageBook";
+    }
+
     @GetMapping("/admin/edit/{id}")
     public String getEditPage() {
 

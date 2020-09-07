@@ -30,7 +30,6 @@ $(window).on("load", function () {
 });
 
 $(document).ready(function () {
-    document.getElementById("gmail-access").href = gmailAccessUrl.fullUrl;
     $('#preloader').empty();
     let url = window.location.href;
     if (url.search("code=") !== -1 || url.search("error=") !== -1) {
@@ -290,7 +289,7 @@ async function showModalOfOrder(index) {
                 htmlChat += `</div>`;
                 htmlChat += `<textarea id="sent-message" class="form-control"></textarea>
 
-                        </div><button class="float-right col-2 btn btn-primary send-loc" type="button" id="send-button" onclick="sendGmailMessage('${order.contacts.email}', ${allOrders[orderIndex].id})">Send</button>`
+                        </div><button class="float-right col-2 btn btn-primary send-loc m-1" type="button" id="send-button" onclick="sendGmailMessage('${order.contacts.email}', ${allOrders[orderIndex].id})">Send</button>`
 
             } else {
                 if (data[0].text === "chat end") {
@@ -298,16 +297,16 @@ async function showModalOfOrder(index) {
                     htmlChat += `</div>`;
                     htmlChat += `<textarea id="sent-message" class="form-control"></textarea>
 
-                        </div><button class="float-right col-2 btn btn-primary send-loc" type="button" id="send-button" onclick="sendGmailMessage('${order.contacts.email}', ${allOrders[orderIndex].id})">Send</button>
-                              <button class="float-right col-2 btn btn-primary send-loc" type="button" id="mark-button" onclick="markGmailMessageRead('${order.contacts.email}', ${allOrders[orderIndex].id})">Mark as read</button>`
+                        </div><button class="float-right col-2 btn btn-primary send-loc m-1" type="button" id="send-button" onclick="sendGmailMessage('${order.contacts.email}', ${allOrders[orderIndex].id})">Send</button>
+                              <button class="float-right col-2 btn btn-success mark-loc m-1" type="button" id="mark-button" onclick="markGmailMessageRead('${order.contacts.email}', ${allOrders[orderIndex].id})">Mark as read</button>`
 
                     scrollOn = false;
                 } else if (data[0].text === "noGmailAccess") {
                     htmlChat += `<div>
                                 <span class="h3 col-10 confirm-gmail-longphrase-loc">Confirm gmail access to open chat:</span>
-                                <a type="button" class="col-2 btn btn-primary float-right confirm-loc" href="${gmailAccessUrl.fullUrl}">
+                                <a type="button" class="col-2 btn btn-primary float-right confirm-loc" href="${$('#gmail-access').attr("href")}">
                                 Confirm</button>
-                            </div>`
+                            </div>`;
                 } else {
                     htmlChat += `<div id="chat-wrapper">`;
                     for (let i = data.length - 1; i > -1; i--) {
@@ -322,8 +321,8 @@ async function showModalOfOrder(index) {
                     htmlChat += `</div>`;
                     htmlChat += `<textarea id="sent-message" class="form-control"></textarea>
 
-                        </div><button class="float-right col-2 btn btn-primary send-loc" type="button" id="send-button" onclick="sendGmailMessage('${order.contacts.email}', ${allOrders[orderIndex].id})">Send</button>
-                                <button class="float-right col-2 btn btn-primary send-loc" type="button" id="mark-button" onclick="markGmailMessageRead('${order.contacts.email}', ${allOrders[orderIndex].id})">Mark as read</button>`
+                        </div><button class="float-right col-2 btn btn-primary send-loc m-1" type="button" id="send-button" onclick="sendGmailMessage('${order.contacts.email}', ${allOrders[orderIndex].id})">Send</button>
+                                <button class="float-right col-2 btn btn-success mark-loc m-1" type="button" id="mark-button" onclick="markGmailMessageRead('${order.contacts.email}', ${allOrders[orderIndex].id})">Mark as read</button>`
 
                 }
             }

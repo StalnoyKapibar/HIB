@@ -14,6 +14,7 @@ let categoryName, categoryIdSrc;
 let isShow = false;
 let picsFolderName;
 let tempPicsFolderCheck;
+let HIBFileName;
 
 $(document).ready(getVarBookDTO());
 
@@ -129,6 +130,34 @@ function addPartsOfBook(partsOfBook) {
     }
 }
 
+//Функция получения объекта OriginalLanguage для книги из HIB-файла
+async function getOriginalLangForHIB() {
+    let book = {};
+
+    book["name"] = tmpArr.name;
+    book["author"] = tmpArr.author;
+    book["edition"] = tmpArr.edition;
+    book["originalLanguageName"] = tmpArr.originalLanguageName;
+
+    fetch('/api/admin/get-original-lang-for-hib', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify(book)
+    })
+        .then(json)
+        .then(function (origLang) {
+            tmpArr.originalLanguage = origLang;
+            $('#inptname').attr("value", tmpArr.originalLanguage.name);
+            $('#inptauthor').attr("value", tmpArr.originalLanguage.author);
+            $('#inptedition').attr("value", tmpArr.originalLanguage.edition);
+            $('#inname').attr("value", transliterationText("name"));
+            $('#inauthor').attr("value", transliterationText("author"));
+            $('#inedition').attr("value", transliterationText("edition"));
+        });
+}
+
 //Функция, заполняющая поля данными из книги, полученной из базы
 function buildEditPage() {
     $('#disabled').prop('checked', !tmpArr.show);
@@ -188,14 +217,14 @@ function buildEditPage() {
                                                 <div id="divLoadAvatar">
                                                     <h4>Cover</h4>
                                                     <Label>Load cover</Label>
-                                                    <input type="file" class="form-control-file" id="avatar" accept="image/jpeg" onchange="loadTmpImage('avatar','divAvatar')">
+                                                    <input type="file" class="form-control-file" id="avatar" accept="image/jpeg,image/png,image/gif" onchange="uploadTmpCover('avatar','divAvatar')">
                                                 </div>
                                                 <div class='car' id='divAvatar'></div>
                                             </div>
                                             <div class="card p-4 mb-4 bg-light">
                                                 <h4>Another images</h4>
                                                 <Label>Load another image</Label>
-                                                <input type="file" class="form-control-file" id="loadAnotherImage" accept="image/jpeg,image/png,image/gif" onchange="loadTmpImage('loadAnotherImage','imageList')">
+                                                <input type="file" multiple class="form-control-file" id="loadAnotherImage" accept="image/jpeg,image/png,image/gif" onchange="uploadMultTmpImages('loadAnotherImage','imageList')">
                                                 <div class='car' id='imageList'></div>
                                             </div>
                                         </div>
@@ -250,7 +279,7 @@ function buildEditPage() {
         )
     }
 
-    $('#inptname').attr("value", tmpArr.originalLanguage.name);
+    if (isNumber(idd)) $('#inptname').attr("value", tmpArr.originalLanguage.name);
     $('#inpnameru').attr("value", tmpArr.name.ru);
     $('#inpnameen').attr("value", tmpArr.name.en);
     $('#inpnamefr').attr("value", tmpArr.name.fr);
@@ -259,7 +288,7 @@ function buildEditPage() {
     $('#inpnamecs').attr("value", tmpArr.name.cs);
     $('#inpnamegr').attr("value", tmpArr.name.gr);
 
-    $('#inptauthor').attr("value", tmpArr.originalLanguage.author);
+    if (isNumber(idd)) $('#inptauthor').attr("value", tmpArr.originalLanguage.author);
     $('#inpauthorru').attr("value", tmpArr.author.ru);
     $('#inpauthoren').attr("value", tmpArr.author.en);
     $('#inpauthorfr').attr("value", tmpArr.author.fr);
@@ -276,7 +305,7 @@ function buildEditPage() {
     document.getElementById("inpdescriptioncs").value = tmpArr.description.cs;
     document.getElementById("inpdescriptiongr").value = tmpArr.description.gr;
 
-    $('#inptedition').attr("value", tmpArr.originalLanguage.edition);
+    if (isNumber(idd)) $('#inptedition').attr("value", tmpArr.originalLanguage.edition);
     $('#inpeditionru').attr("value", tmpArr.edition.ru);
     $('#inpeditionen').attr("value", tmpArr.edition.en);
     $('#inpeditionfr').attr("value", tmpArr.edition.fr);
@@ -288,9 +317,13 @@ function buildEditPage() {
     $('#yearOfEdition').attr("value", tmpArr.yearOfEdition);
     $('#pages').attr("value", tmpArr.pages);
     $('#price').attr("value", tmpArr.price);
-    $('#inname').attr("value", transliterationText("name"));
-    $('#inauthor').attr("value", transliterationText("author"));
-    $('#inedition').attr("value", transliterationText("edition"));
+
+    if (isNumber(idd)){
+        $('#inname').attr("value", transliterationText("name"));
+        $('#inauthor').attr("value", transliterationText("author"));
+        $('#inedition').attr("value", transliterationText("edition"));
+    }
+
     document.getElementById('originalLanguage').value = tmpArr.originalLanguageName;
 
     //Модальное окно со всеми изображениями книги, кроме обложки
@@ -335,7 +368,8 @@ function buildEditPage() {
     });
 
     //Карточка с обложкой книги, с кнопкой на модалку с остальными изображениями
-    $('#bookEditPageForImg').html(`
+    if (isNumber(idd)) {
+        $('#bookEditPageForImg').html(`
                 <div class="row">
                     <div class="col-3"></div>
                     
@@ -359,6 +393,11 @@ function buildEditPage() {
                     
                     <div class="col-3"></div>
                 </div>`);
+    }
+
+    if (!isNumber(idd)) {
+        renderHIBPics();
+    }
 
     //20 строчек наполнения оперативки картинками из книги
     for (let key in tmpArr) {
@@ -522,6 +561,7 @@ function showImage(x) {
         document.getElementById('myImageLink').href = x;
     } else {
         document.getElementById('myImage').src = '/images/service/noimage.png';
+        document.getElementById('myImageLink').href = '/images/service/noimage.png';
         document.getElementById('deleteImage-button').setAttribute('disabled', 'disabled');
     }
 }
@@ -531,7 +571,9 @@ function sendEditBook() {
 
     if(checkEditRequired() && confirm("Edit this book?")){
         let book = {};
-        book['id'] = idd;
+        if (isNumber(idd)) {
+            book['id'] = idd;
+        }
         let otherLangFields = {};
         for (let tmpNameObject of nameObjectOfLocaleString) {
             let bookFields = {};
@@ -546,11 +588,7 @@ function sendEditBook() {
         }
         category = {id: $('#categoryInput').attr('categoryid')};
         book["originalLanguage"] = otherLangFields;
-        if(divAvatar.find("img")[0] != null) {
-            book["coverImage"] = divAvatar.find("img")[0].id;
-        } else {
-            book['coverImage'] = nameImageCover;
-        }
+
         book['show'] = (!$("#disabled").is(':checked'));
         book['yearOfEdition'] = $('#yearOfEdition').val();
         book['pages'] = $('#pages').val();
@@ -563,41 +601,61 @@ function sendEditBook() {
         let allImages = $("#allImage").find("img");
         let imageList = [];
 
-        for (let img of allImages) {
-            let image = {};
-            let x = 0;
-            for (let i = 0; i < tmpArr.listImage.length; i++) {
-                if (img.id == tmpArr.listImage[i].nameImage){
-                    x++
+        if (isNumber(idd)) { //Наполнение списка изображений новыми файлами при редактировании книги
+            for (let img of allImages) {
+                let image = {};
+                let x = 0;
+                for (let i = 0; i < tmpArr.listImage.length; i++) {
+                    if (img.id == tmpArr.listImage[i].nameImage){
+                        x++
+                    }
+                }
+                if (x === 0){
+                    image["nameImage"] = img.id;
+                    imageList.push(image);
                 }
             }
-            if (x === 0){
+            let imageListTmpPattern = [];
+            for (let index = 0; index < imageList.length; index++) {
+                imageListTmpPattern[index] = imageList[index];
+            }
+            for (let index = 0; index < imageListTmpPattern.length; index++) {
+                imageListTmpPattern[index].id = imageList[index].id;
+                imageListTmpPattern[index].nameImage = imageList[index].nameImage;
+            }
+
+            if (imageListTmpPattern.length === 1 && imageListTmpPattern[0].nameImage.localeCompare("") === 0) {
+                book["listImage"] = tmpArr.listImage;
+            } else {
+                let indexListImage = tmpArr.listImage.length;
+                for (let index = tmpArr.listImage.length + 1; index <= imageListTmpPattern.length + indexListImage; index++) {
+                    tmpArr.listImage.push(imageListTmpPattern[index - indexListImage - 1]);
+                }
+                book["listImage"] = tmpArr.listImage;
+            }
+            if(divAvatar.find("img")[0] != null) {
+                book["coverImage"] = divAvatar.find("img")[0].id;
+            } else {
+                book['coverImage'] = nameImageCover;
+            }
+        } else { //Создание нового списка изображений и наполнение его со страницы создания книги при сохранении HIB-файла
+            if(divAvatar.find("img")[0] != null) {
+                book["coverImage"] = divAvatar.find("img")[0].id;
+            }
+            for (let img of allImages) {
+                let image = {};
                 image["nameImage"] = img.id;
                 imageList.push(image);
             }
-        }
-        let imageListTmpPattern = [];
-        for (let index = 0; index < imageList.length; index++) {
-            imageListTmpPattern[index] = imageList[index];
-        }
-        for (let index = 0; index < imageListTmpPattern.length; index++) {
-            imageListTmpPattern[index].id = imageList[index].id;
-            imageListTmpPattern[index].nameImage = imageList[index].nameImage;
+            book["listImage"] = imageList;
         }
 
-        if (imageListTmpPattern.length === 1 && imageListTmpPattern[0].nameImage.localeCompare("") === 0) {
-            book["listImage"] = tmpArr.listImage;
-        } else {
-            let indexListImage = tmpArr.listImage.length;
-            for (let index = tmpArr.listImage.length + 1; index <= imageListTmpPattern.length + indexListImage; index++) {
-                tmpArr.listImage.push(imageListTmpPattern[index - indexListImage - 1]);
-            }
-            book["listImage"] = tmpArr.listImage;
-        } // Здесь заканчивается наполнение списка изображений книги новыми картинками
 
         sendUpdateBookReq(book).then(r => {
             tempPicsFolderCheck = undefined;
-            opener.location.reload();
+            if (window.opener !== null) {
+                opener.location.reload();
+            }
             window.close();
         });
     } else {}
@@ -605,10 +663,16 @@ function sendEditBook() {
 
 async function sendUpdateBookReq(x) {
     let url;
-    if (tempPicsFolderCheck === 1 || $("#divAvatar").html() !== "" || $("#imageList").html() !== "") {
-        url = '/admin/edit?pics=' + picsFolderName;
+    let part;
+    if (isNumber(idd)) {
+        part = '/admin/edit';
     } else {
-        url = '/admin/editNoPics';
+        part = '/admin/add';
+    }
+    if (tempPicsFolderCheck === 1 || $("#divAvatar").html() !== "" || $("#imageList").html() !== "") {
+        url = part + '?pics=' + picsFolderName;
+    } else {
+        url = part + 'NoPics';
     }
     await fetch(url, {
         method: 'POST',
@@ -618,6 +682,14 @@ async function sendUpdateBookReq(x) {
             'Accept': 'application/json'
         }
     });
+    if (!isNumber(idd)) {
+        await fetch('/api/admin/delete-HIB-file?name=' + HIBFileName, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+        });
+    }
 }
 
 //Функция смены обложки, кнопка в модалке
@@ -734,30 +806,54 @@ function getTempFolderName() {
         }
     });
 
-    console.log("Временная папка хранения изображений: " + picsFolderName);
     return picsFolderName;
 }
 
+//Функция подгрузки нескольких изображений во временную папку
+function uploadMultTmpImages(nameId, div) {
+    tempPicsFolderCheck = 1;
+    let fileImg = document.getElementById(nameId).files;
+    let fileNames = [];
+    let data = new FormData();
+    for (let i = 0; i < fileImg.length; i++) {
+        let fileName = fileImg[i].name.replace(/([^A-Za-zА-Яа-я0-9.]+)/gi, '-');
+        fileNames.push(fileName)
+        data.append("files", fileImg[i], fileName);
+    }
+    $.ajax({
+        type: 'POST',
+        url: '/admin/uploadMulti?pics=' + picsFolderName,
+        data: data,
+        cache:false,
+        contentType: false,
+        processData: false
+    }).then(function () {
+        for (let i = 0; i < fileNames.length; i++) {
+            addImageInDiv(fileNames[i], picsFolderName, div);
+        }
+    });
+}
 
-//Функция подгрузки картинок во временную папку
-function loadTmpImage(nameId, div) {
+//Предыдущая временная обложка книги для функции ниже
+let prevCover;
+
+//Функция подгрузки обложки во временную папку
+function uploadTmpCover(nameId, div) {
     tempPicsFolderCheck = 1;
     const formData = new FormData();
-    let fileImg = $("#" + nameId).prop('files')[0];
-    let fileName;
-    if (nameId === "avatar") {
-        fileName = "avatar.jpg";
-        if( $("#divAvatar").html() !== "" ) {
-            fetch('admin/deleteCover', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json;charset=utf-8'
-                },
-                body: picsFolderName + "/avatar.jpg"
-            })
-        }
-    } else {
-        fileName = fileImg.name.replace(/([^A-Za-zА-Яа-я0-9.]+)/gi, '-');
+    let fileImg = $("#avatar").prop('files')[0];
+    let name = fileImg.name;
+    let index = name.lastIndexOf(".");
+    let extension = name.slice(index);
+    let fileName = picsFolderName + extension;
+    if( $("#divAvatar").html() !== "" ) {
+        fetch('/admin/deleteTmpCover', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: picsFolderName + "/" + prevCover
+        })
     }
     formData.append('file', fileImg, fileName);
     $.ajax({
@@ -768,13 +864,28 @@ function loadTmpImage(nameId, div) {
         contentType: false,
         processData: false
     }).then(function () {
+        prevCover = fileName;
         addImageInDiv(fileName, picsFolderName, div);
     });
 }
 
+//Функция отрисовки всех картинок из HIB-файла
+function renderHIBPics() {
+    tempPicsFolderCheck = 1;
+    let path = "/images/tmp/" + picsFolderName + "/";
+    if (tmpArr.coverImage !== "") {
+        addImgAvatarAndBtn(tmpArr.coverImage, path + tmpArr.coverImage);
+    }
+    for (let key in tmpArr.listImage) {
+        if (tmpArr.listImage[key].nameImage !== tmpArr.coverImage) {
+            addImgToListAndBtn(tmpArr.listImage[key].nameImage, path + tmpArr.listImage[key].nameImage);
+        }
+    }
+}
+
 //Функция распределения картинок по "Обложка" или "Остальное"
-function addImageInDiv(fileName, picsFolderName, divId) {
-    let path = "/images/tmp/" + picsFolderName + "/" + fileName;
+function addImageInDiv(fileName, picsFolder, divId) {
+    let path = "/images/tmp/" + picsFolder + "/" + fileName;
     if (divId === 'divAvatar') {
         divAvatar.empty();
         addImgAvatarAndBtn(fileName, path);
@@ -837,14 +948,32 @@ function getAllLocales() {
         });
 }
 
+//Проверка строки на числовое значение (возвращает true, если строка является числом)
+function isNumber(n) { return !isNaN(parseFloat(n)) && !isNaN(n - 0) }
+
 //Получение данных книги из базы и дальнейшее построение страницы с наполнением полей данными книги
-function getBookDTOById(id) {
-    fetch("/api/book/" + id)
+async function getBookDTOById(id) {
+    let url;
+
+    if (isNumber(idd)) {
+        url = "/api/book/";
+    } else {
+        url = "/api/bookFromHib?name=";
+    }
+
+    fetch(url + id)
         .then(status)
         .then(json)
         .then(function (resp) {
             tmpArr = resp;
             console.log(tmpArr);
+            if (!isNumber(idd)) {
+                picsFolderName = tmpArr.originalLanguage.name;  // Книга, полученная из HIB-файла, приходит с полем Name из OriginalLanguage,
+                                                                // заполненным названием временной папки с изображениями HIB-файла
+                HIBFileName = tmpArr.originalLanguage.author;   // Это имя HIB-файла для его удаления после загрузки распакованной книги
+                console.log(HIBFileName);
+                getOriginalLangForHIB();
+            }
             buildEditPage();
         });
 }

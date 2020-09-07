@@ -402,8 +402,8 @@ async function addFoundBooks(data) {
     table.push(`<thead>
                         <tr>
                             <th></th>
-                            <th id="author_search_page" class="author-loc">Author</th>
                             <th id="name_search_page" class="name-loc">Name</th>
+                            <th id="author_search_page" class="author-loc">Author</th>
                             <th id="pages_search_page" class="pages-loc">Pages</th>
                             <th id="edition_search_page" class="year-of-edition-loc">Year of edition</th>
                             <th id="price_search_page"><span class="price-loc">Price</span>, €</th>
@@ -449,12 +449,11 @@ async function addFoundBooks(data) {
                                 <td class="align-middle">
                                     <img src=${urlImage} style="max-width: 60px; ${data[i].show === true ? '' : 'opacity: 0.3'}">
                                 </td>
+                                <td class="align-middle">${convertOriginalLanguageRows(data[i].name, data[i].nameTranslit)}</td>
                                 <td class="align-middle">
-                                    ${data[i].show === true ? '' : '<img src="../../static/images/outOfStock.png" style="max-width: 35px;">'}
-                                    <br>
+                                    ${data[i].show === true ? '' : '<img src="../../static/images/outOfStock.png" style="max-width: 35px;"><br>'}
                                     ${convertOriginalLanguageRows(data[i].author, data[i].authorTranslit)}
                                 </td>
-                                <td class="align-middle">${convertOriginalLanguageRows(data[i].name, data[i].nameTranslit)}</td>
                                 <td class="align-middle">${data[i].pages}</td>
                                 <td class="align-middle">${data[i].yearOfEdition}</td>
                                 <td class="align-middle">${data[i].price / 100}</td>

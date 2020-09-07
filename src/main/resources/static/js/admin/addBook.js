@@ -214,14 +214,14 @@ function buildAddPage() {
                                                 <div id="divLoadAvatar">
                                                     <h4>Cover</h4>
                                                     <Label>Load cover</Label>
-                                                    <input type="file" class="form-control-file" id="avatar" accept="image/jpeg" onchange="loadImage('avatar','divAvatar')">
+                                                    <input type="file" class="form-control-file" id="avatar" accept="image/jpeg,image/png,image/gif" onchange="uploadTmpCover('avatar','divAvatar')">
                                                 </div>
                                                 <div class='car' id='divAvatar'></div>
                                             </div>
                                             <div class="card p-4 mb-4 bg-light">
                                                 <h4>Another image</h4>
                                                 <Label>Load another image</Label>
-                                                <input type="file" class="form-control-file" id="loadAnotherImage" accept="image/jpeg,image/png,image/gif" onchange="loadImage('loadAnotherImage','imageList')">
+                                                <input type="file" multiple class="form-control-file" id="loadAnotherImage" accept="image/jpeg,image/png,image/gif" onchange="uploadMultTmpImages('loadAnotherImage','imageList')">
                                                 <div class='car' id='imageList'></div>
                                             </div>
                                         </div>
@@ -268,25 +268,51 @@ function getTempFolderName() {
     return picsFolderName;
 }
 
-//Функция подгрузки картинок во временную папку
-function loadImage(nameId, div) {
+//Функция подгрузки нескольких изображений во временную папку
+function uploadMultTmpImages(nameId, div) {
+    tempPicsFolderCheck = 1;
+    let fileImg = document.getElementById(nameId).files;
+    let fileNames = [];
+    let data = new FormData();
+    for (let i = 0; i < fileImg.length; i++) {
+        let fileName = fileImg[i].name.replace(/([^A-Za-zА-Яа-я0-9.]+)/gi, '-');
+        fileNames.push(fileName)
+        data.append("files", fileImg[i], fileName);
+    }
+    $.ajax({
+        type: 'POST',
+        url: '/admin/uploadMulti?pics=' + picsFolderName,
+        data: data,
+        cache:false,
+        contentType: false,
+        processData: false
+    }).then(function () {
+        for (let i = 0; i < fileNames.length; i++) {
+            addImageInDiv(fileNames[i], picsFolderName, div);
+        }
+    });
+}
+
+//Предыдущая временная обложка книги для функции ниже
+let prevCover;
+
+//Функция подгрузки обложки во временную папку
+function uploadTmpCover(nameId, div) {
     tempPicsFolderCheck = 1;
     const formData = new FormData();
-    let fileImg = $("#" + nameId).prop('files')[0];
-    let fileName;
-    if (nameId === "avatar") {
-        fileName = "avatar.jpg";
-        if( $("#divAvatar").html() !== "" ) {
-            fetch('admin/deleteCover', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json;charset=utf-8'
-                },
-                body: picsFolderName + "/avatar.jpg"
-            })
-        }
-    } else {
-        fileName = fileImg.name.replace(/([^A-Za-zА-Яа-я0-9.]+)/gi, '-');
+    let fileImg = $("#avatar").prop('files')[0];
+    let name = fileImg.name;
+    let index = name.lastIndexOf(".");
+    let extension = name.slice(index);
+    let fileName = picsFolderName + extension;
+    if( $("#divAvatar").html() !== "" ) {
+        fetch('/admin/deleteTmpCover', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: picsFolderName + "/" + prevCover
+        })
     }
     formData.append('file', fileImg, fileName);
     $.ajax({
@@ -297,13 +323,14 @@ function loadImage(nameId, div) {
         contentType: false,
         processData: false
     }).then(function () {
+        prevCover = fileName;
         addImageInDiv(fileName, picsFolderName, div);
     });
 }
 
 //Функция распределения картинок по "Обложка" или "Остальное"
-function addImageInDiv(fileName, picsFolderName, divId) {
-    let path = "/images/tmp/" + picsFolderName + "/" + fileName;
+function addImageInDiv(fileName, picsFolder, divId) {
+    let path = "/images/tmp/" + picsFolder + "/" + fileName;
     if (divId === 'divAvatar') {
         divAvatar.empty();
         addImgAvatarAndBtn(fileName, path);
@@ -404,7 +431,9 @@ function sendAddBook() {
             body: JSON.stringify(book)
         }).then(r =>{
             tempPicsFolderCheck = undefined;
-            opener.location.reload();
+            if (window.opener !== null) {
+                opener.location.reload();
+            }
             window.close();
         });
 

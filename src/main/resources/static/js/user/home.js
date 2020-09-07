@@ -65,12 +65,12 @@ async function addBooksToPage(books) {
         } else {
             coverImageLink = 'images/book' + books[index].id + '/' + books[index].coverImage;
         }
-        let card = `<div class="col mb-4">
+        let card = `<div class="col mb-5">
         <a class="card border-0" href="/page/${books[index].id}" style="color: black">
             <img class="card-img-top mb-1" src=${coverImageLink} style="object-fit: contain; height: 400px; ${books[index].show === true ? '' : 'opacity: 0.3;'}" alt="Card image cap">
             <div class="card-body" style="padding-bottom: 30px">
-                <h6 class="card-title">${convertOriginalLanguageRows(books[index].nameBookDTOLocale, books[index].nameTranslit)}</h6>
-                <h7 class="card-text text-muted">${convertOriginalLanguageRows(books[index].nameAuthorDTOLocale, books[index].authorTranslit)}</h7>
+                <h7 class="card-title text-muted">${books[index].nameAuthorDTOLocale}</h7>
+                <h6>${books[index].nameBookDTOLocale}</h6>
                 <h6 class="card-footer bg-transparent text-left pl-0">${covertPrice(books[index].price) + currencyIcon}</h6>
             </div>
         </a>
@@ -179,7 +179,7 @@ function loadMore(pageNumber) {
 }
 
 function getPageWithBooks(amount, page) {
-    GET(`/api/book?limit=${amount}&start=${page}`)
+    GET(`/api/book?limit=${amount}&start=${page}&locale=` + currentLang)
         .then(json)
         .then((data) => {
             amountBooksInDb = data.amountOfBooksInDb;

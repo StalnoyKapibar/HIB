@@ -23,12 +23,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
+import java.nio.file.*;
+import java.util.*;
 
 @RestController
 public class BookController {
@@ -60,15 +56,10 @@ public class BookController {
         return HttpStatus.OK;
     }
 
-    @PostMapping("admin/deleteCover")
+    @PostMapping("/admin/deleteTmpCover")
     public void deleteCover(@RequestBody String path) {
         File cover = new File("img/tmp/" + path);
         cover.delete();
-    }
-
-    @PutMapping("/loadFile")
-    public Book loadFile(@RequestBody String bookAsJson) {
-        return hibParser.getBookFromJSON(bookAsJson);
     }
 
     @PostMapping("/admin/loadImg/{name}")
@@ -190,6 +181,13 @@ public class BookController {
         return storageService.saveImage(file, picsFolderName);
     }
 
+    @PostMapping("/admin/uploadMulti")
+    public void fileUpload(@RequestPart("files") MultipartFile[] files,  @RequestParam("pics") String picsFolderName) {
+        for (MultipartFile file : files) {
+            storageService.saveImage(file, picsFolderName);
+        }
+    }
+
     @PostMapping("/admin/download")
     public ResponseEntity<Resource> downloadFile(@RequestBody String nameImageDownloaded) {
         Resource file = storageService.loadAsResource(nameImageDownloaded);
@@ -224,11 +222,11 @@ public class BookController {
         }
     }
 
-    @GetMapping(value = "/api/book", params = {"limit", "start"})
+    @GetMapping(value = "/api/book", params = {"limit", "start", "locale"})
     public BookPageDto getBookDtoByLimitAndAmountAndStart(@RequestParam Map<String, String> params) {
         Pageable pageable = PageRequest.of(Integer.parseInt(params.get("start")),
                 Integer.parseInt(params.get("limit")), Sort.by(Sort.Order.desc("id")));
-        return bookService.getBookPageByPageable(pageable);
+        return bookService.getBookPageByPageable(pageable, params.get("locale"));
     }
 
     @GetMapping("/api/book/lastOrderedBooks")

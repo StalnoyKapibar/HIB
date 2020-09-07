@@ -25,13 +25,16 @@ public class ShoppingCartDTO {
     }
 
     public Long deleteCartItem(Long id) {
-        for (CartItemDTO cartItemDTO : cartItems) {
-            if (cartItemDTO.getBook().getId() == id) {
-                cartItems.remove(cartItemDTO);
-                return cartItemDTO.getId();
+        Long deletedID = null;
+        if (cartItems.size() != 0) {
+            for (int i = 0; i < cartItems.size(); i++) {
+                if (cartItems.get(i).getBook().getId() == id) {
+                    deletedID = cartItems.get(i).getId();
+                    cartItems.remove(cartItems.get(i));
+                }
             }
         }
-        return null;
+        return deletedID;
     }
 
     public void mergeCarts(ShoppingCartDTO shoppingCartDTO) {

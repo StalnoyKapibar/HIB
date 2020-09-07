@@ -34,7 +34,18 @@
             <div class="col-sm-8 col-md-9 ml-auto col-xl-10">
                 <div class="row">
                     <div class="col-3 h-100">
-                        <div id="CardImageOrCarousel">
+                        <div class="card bg-light">
+                            <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                                <div id="picsParse" class="carousel-inner"></div>
+                                <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                                <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </div>
                         </div>
                     </div>
                     <div class="col-9 container-fluid">
@@ -93,14 +104,11 @@
                                                 <div class="row">
                                                     <th:block sec:authorize="!hasRole('ADMIN')">
                                                         <button class="btn btn-info col-5 btn-metro btn-info-inverse ask-question-loc"
-                                                                id="ask-question"
-                                                                type="button">Ask a question
-                                                        </button>
+                                                                id="askQuestionModal"
+                                                                type="button">Ask a question</button>
                                                         <button class="btn btn-info col-5 offset-1 btn-metro addToCartBtn addToCart"
                                                                 id="addToCart"
-                                                                type="button">
-                                                            Add to cart
-                                                        </button>
+                                                                type="button">Add to cart</button>
                                                     </th:block>
                                                     <th:block sec:authorize="hasRole('ADMIN')">
                                                         <button id="editBtn" class="btn btn-warning btn-metro col-8 offset-4"
