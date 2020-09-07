@@ -69,8 +69,8 @@ async function addBooksToPage(books) {
         <a class="card border-0" href="/page/${books[index].id}" style="color: black">
             <img class="card-img-top mb-1" src=${coverImageLink} style="object-fit: contain; height: 400px; ${books[index].show === true ? '' : 'opacity: 0.3;'}" alt="Card image cap">
             <div class="card-body" style="padding-bottom: 30px">
-                <h6 class="card-title">${books[index].nameBookDTOLocale}</h6>
-                <h7 class="text-muted">${books[index].nameAuthorDTOLocale}</h7>
+                <h7 class="card-title text-muted">${books[index].nameAuthorDTOLocale}</h7>
+                <h6>${books[index].nameBookDTOLocale}</h6>
                 <h6 class="card-footer bg-transparent text-left pl-0">${covertPrice(books[index].price) + currencyIcon}</h6>
             </div>
         </a>
