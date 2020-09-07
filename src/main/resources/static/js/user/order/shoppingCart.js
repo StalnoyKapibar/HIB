@@ -52,10 +52,10 @@ async function getShoppingCart() {
                     row.append(cell);
 
                     let first = `<td class="align-middle"><img src="/images/book${book.id}/${book.coverImage}" style="max-width: 60px"></td>`;
-                    let second = `<td class="align-middle">${convertOriginalLanguageRows(book.originalLanguage.name, book.originalLanguage.nameTranslit)} | ${convertOriginalLanguageRows(book.originalLanguage.author, book.originalLanguage.authorTranslit)}</td>`;
+                    let second = `<td class="align-middle">${book.name[currentLang]}  |  ${book.author[currentLang]}</td>`;
                     let third = `<td class="align-middle">${price + currencyIcon}</td>`;
                     let forth = `<td hidden id="book${book.id}">${price}</td>`;
-                    let fifth = `<td class="align-middle"><button class="btn btn-info delete"  style="background-color: #ff4500" data-id="${book.id}">${deleteBottom}</button></td>`;
+                    let fifth = `<td class="align-middle"><button class="btn btn-danger delete" data-id="${book.id}">${deleteBottom}</button></td>`;
 
                     cell = first + second + third + forth + fifth;
 
@@ -115,21 +115,22 @@ async function updateQuantity(quatity, id) {
     })
 }
 
+$("body").on('click', '.delete', function () {
+    let id = $(this).attr("data-id");
+    fetch('/cart/' + id, {
+        method: 'DELETE',
+    }).then(function () {
+        getShoppingCart();
+        showSizeCart();
+    })
+});
+$("body").on('change', '.product-quantity input', function () {
+    let id = $(this).attr("data-id");
+    let quantity = $(this).val();
+    updateQuantity(quantity, id)
+});
 $(document).ready(function () {
-    $("body").on('click', '.delete', function () {
-        let id = $(this).attr("data-id");
-        fetch('/cart/' + id, {
-            method: 'DELETE',
-        }).then(function () {
-            getShoppingCart();
-            showSizeCart();
-        })
-    });
-    $("body").on('change', '.product-quantity input', function () {
-        let id = $(this).attr("data-id");
-        let quantity = $(this).val();
-        updateQuantity(quantity, id)
-    });
+
 });
 
 function status(response) {
