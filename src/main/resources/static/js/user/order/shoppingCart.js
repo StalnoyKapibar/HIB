@@ -52,10 +52,10 @@ async function getShoppingCart() {
                     row.append(cell);
 
                     let first = `<td class="align-middle"><img src="/images/book${book.id}/${book.coverImage}" style="max-width: 60px"></td>`;
-                    let second = `<td class="align-middle">${convertOriginalLanguageRows(book.originalLanguage.name, book.originalLanguage.nameTranslit)} | ${convertOriginalLanguageRows(book.originalLanguage.author, book.originalLanguage.authorTranslit)}</td>`;
+                    let second = `<td class="align-middle">${book.name[currentLang]}  |  ${book.author[currentLang]}</td>`;
                     let third = `<td class="align-middle">${price + currencyIcon}</td>`;
                     let forth = `<td hidden id="book${book.id}">${price}</td>`;
-                    let fifth = `<td class="align-middle"><button class="btn btn-info delete"  style="background-color: #ff4500" data-id="${book.id}">${deleteBottom}</button></td>`;
+                    let fifth = `<td class="align-middle"><button class="btn btn-danger delete" data-id="${book.id}">${deleteBottom}</button></td>`;
 
                     cell = first + second + third + forth + fifth;
 
@@ -71,21 +71,21 @@ async function getShoppingCart() {
                 }
                 if (!isOrderEnable) {
                     $('#shoppingCardOrderDisabledMessage').addClass('resolveShopCart').text('Please resolve shopping cart warnings before proceeding');
-                    $('#forButtonCheckout').html(`<div><button class="btn btn-primary checkout-btn" id="chechout" onclick="confirmAddress()" type="button" disabled="disabled">
+                    $('#forButtonCheckout').html(`<div><button class="btn btn-primary checkout-btn mt-3" onclick="confirmAddress()" type="button" disabled="disabled">
                                     Checkout
                                 </button></div>`);
-                    $('#for-1click-reg').html(`<button class="btn btn-primary" id="1click-reg-btn"
+                    $('#for-1click-reg').html(`<button class="btn btn-secondary mt-3" id="1click-reg-btn"
                                                onclick="location.href='/1clickreg'" type="button" disabled="disabled">
                                                Buy without sign up</button>`);
                 } else {
                     $('#shoppingCardOrderDisabledMessage').text('');
-                    $('#forButtonCheckout').html(`<div><button class="btn btn-primary checkout-btn" id="chechout" onclick="confirmAddress()" type="button">
+                    $('#forButtonCheckout').html(`<div><button class="btn btn-primary checkout-btn mt-3" onclick="confirmAddress()" type="button">
                                     Checkout
                                 </button></div>`);
                     // $('#for-1click-reg').html(`<button class="btn btn-primary" id="1click-reg-btn"
                     //                            onclick="location.href='/1clickreg'" type="button">
                     //                            Buy without sign up</button>`);
-                    $('#for-1click-reg').html(`<button class="btn btn-primary" id="1click-reg-btn"
+                    $('#for-1click-reg').html(`<button class="btn btn-secondary mt-3" id="1click-reg-btn"
                                                onclick="showContacts1ClickReg()" type="button">
                                                Buy without sign up</button>`);
                 }
@@ -115,21 +115,22 @@ async function updateQuantity(quatity, id) {
     })
 }
 
+$("body").on('click', '.delete', function () {
+    let id = $(this).attr("data-id");
+    fetch('/cart/' + id, {
+        method: 'DELETE',
+    }).then(function () {
+        getShoppingCart();
+        showSizeCart();
+    })
+});
+$("body").on('change', '.product-quantity input', function () {
+    let id = $(this).attr("data-id");
+    let quantity = $(this).val();
+    updateQuantity(quantity, id)
+});
 $(document).ready(function () {
-    $("body").on('click', '.delete', function () {
-        let id = $(this).attr("data-id");
-        fetch('/cart/' + id, {
-            method: 'DELETE',
-        }).then(function () {
-            getShoppingCart();
-            showSizeCart();
-        })
-    });
-    $("body").on('change', '.product-quantity input', function () {
-        let id = $(this).attr("data-id");
-        let quantity = $(this).val();
-        updateQuantity(quantity, id)
-    });
+
 });
 
 function status(response) {
@@ -224,7 +225,7 @@ async function btnBuy() {
         <div class="text-danger">We are processing your transaction.<br>
         Please wait a few seconds.<br>
         You will now be redirected to the order page.
-        PlEASE CONFIRM YOUR EMAIL! </div>
+        PLEASE CONFIRM YOUR EMAIL! </div>
     `);
         confirmPurchase();
 }
@@ -413,11 +414,11 @@ async function renderPageOrdersForUser(listOdersPage) {
                              <td>${order.status}</td>
                              <td>${convertPrice(order.itemsCost)} ${currencyIcon}</td>
     
-                             <td><button type="button" class="btn btn-info show-btn" data-toggle="modal" data-target="#ordermodal"  onclick="showCarrentOrder(${index})">Show</button>`;
+                             <td><button type="button" class="btn btn-info show-btn mx-1" data-toggle="modal" data-target="#ordermodal"  onclick="showCarrentOrder(${index})">Show</button>`;
             if (order.status === "UNPROCESSED") {
-                html += `<button type="button" class="btn btn-danger close-order" onclick="orderCancel(${order.id})">Cancel</button></td></tr>`;
+                html += `<button type="button" class="btn btn-danger close-order mx-1" onclick="orderCancel(${order.id})">Cancel</button></td></tr>`;
             } else {
-                html += `<button type="button" class="btn btn-danger close-order" onclick="orderCancel(${order.id})" disabled="disabled">Cancel</button></td></tr>`;
+                html += `<button type="button" class="btn btn-danger close-order mx-1" onclick="orderCancel(${order.id})" disabled="disabled">Cancel</button></td></tr>`;
             }
         });
         $('#listorders').html(html);

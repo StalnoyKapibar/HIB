@@ -104,14 +104,11 @@
                                                 <div class="row">
                                                     <th:block sec:authorize="!hasRole('ADMIN')">
                                                         <button class="btn btn-info col-5 btn-metro btn-info-inverse ask-question-loc"
-                                                                id="ask-question"
-                                                                type="button">Ask a question
-                                                        </button>
+                                                                id="askQuestionModal"
+                                                                type="button">Ask a question</button>
                                                         <button class="btn btn-info col-5 offset-1 btn-metro addToCartBtn addToCart"
                                                                 id="addToCart"
-                                                                type="button">
-                                                            Add to cart
-                                                        </button>
+                                                                type="button">Add to cart</button>
                                                     </th:block>
                                                     <th:block sec:authorize="hasRole('ADMIN')">
                                                         <button id="editBtn" class="btn btn-warning btn-metro col-8 offset-4"
