@@ -330,14 +330,18 @@ function buildEditPage() {
     function buildEditImageModal(){
         let x = 0;
         for (let key in tmpArr.listImage) {
+            let displayName = tmpArr.listImage[key].nameImage;
+            if (tmpArr.listImage[key].nameImage.length > 30) {
+                displayName = (tmpArr.listImage[key].nameImage).slice(0,30) + "...";
+            }
             if (tmpArr.listImage[key].nameImage !== tmpArr.coverImage){
                 $('#editModalImages').append(`
                 <div class="col w-50">
                     <div class="card mb-4" id="bookImage${key}">
-                        <div class="card-header"><span class="font-weight-bold">Image:</span></br>${tmpArr.listImage[key].nameImage}</div>
+                        <div class="card-header"><span class="font-weight-bold">Image:</span></br>${displayName}</div>
                         <div class="card-body">
                             <a href="${pathImageDefault + idd + '/'}${tmpArr.listImage[key].nameImage}" target="_blank">
-                                <img src ='${pathImageDefault + idd + '/'}${tmpArr.listImage[key].nameImage}' class="card-img" alt='...'>
+                                <img src ='${pathImageDefault + idd + '/'}${tmpArr.listImage[key].nameImage}' style="object-fit: contain; height: 350px" class="card-img" alt='...'>
                             </a>
                         </div>
                         <div class="card-footer">

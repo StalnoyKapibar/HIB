@@ -5,6 +5,7 @@ import com.google.api.services.gmail.model.ListMessagesResponse;
 import com.google.api.services.gmail.model.Message;
 import com.google.api.services.gmail.model.ModifyMessageRequest;
 import com.nimbusds.jose.util.Base64URL;
+import com.project.model.ContactsOfOrderDTO;
 import lombok.NoArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,16 +23,17 @@ public class ParseGmailController {
     public static Gmail gmail;
 
     @PostMapping (value = "/unreademails")
-    Map<String, Boolean> getUnreadEmails(@RequestBody List<String> emails) throws IOException {
+    Map<String, Boolean> getUnreadEmails(@RequestBody ContactsOfOrderDTO[] contactsOfOrderDTO) throws IOException {
         Map<String, Boolean> unreadEmails = new HashMap<>();
         if (gmail != null) {
             unreadEmails.put("gmailAccess", true);
-            for (String email: emails) {
-                if (gmail.users().messages().list("me").setQ("from:" + email + " is:unread").execute()
-                        .getResultSizeEstimate() != 0) {
-                    unreadEmails.put(email, true);
+            for (ContactsOfOrderDTO order: contactsOfOrderDTO) {
+                if (gmail.users().messages().list("me")
+                        .setQ("(" + "subject:" + "\"Order №" + order.getId() + "\"" + "from:" + order.getEmail() + " is:unread" + ")")
+                        .execute().getResultSizeEstimate() != 0) {
+                    unreadEmails.put(Long.toString(order.getId()), true);
                 } else {
-                    unreadEmails.put(email, false);
+                    unreadEmails.put(Long.toString(order.getId()), false);
                 }
             }
         } else {

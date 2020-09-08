@@ -8,7 +8,6 @@ let unreadCheckbox = '';
 let messagePackIndex;
 let orderIndex;
 let scrollOn = true;
-let emails = [];
 let currentPage = 1;
 let orderWithTrackingNumber;
 
@@ -92,12 +91,12 @@ async function getOrdersData(page, size, status) {
 }
 
 async function renderPageData(data) {
-
+    let emails = [];
     const lastOrderedBooks = await getLastOrderedBooks();
     const booksAvailable = await getBooksAvailability();
     let orders = data;
     for (let key in data) {
-        emails.push(data[key].userDTO.email)
+        emails[key] = {id : data[key].contacts.id,  email: data[key].contacts.email }
     }
     await fetch("/admin/unreademails/", {
         method: 'POST',
@@ -105,18 +104,18 @@ async function renderPageData(data) {
             'Content-Type': 'application/json;charset=utf-8'
         },
         body: JSON.stringify(emails)
-    }).then(json).then(emails => {
-        if (emails['gmailAccess']) {
+    }).then(json).then(emailsResponce => {
+        if (emailsResponce['gmailAccess']) {
             if (!onlyUnread) {
                 for (let key in orders) {
-                    orders[key].userDTO.isUnread = emails[orders[key].userDTO.email]
+                    orders[key].userDTO.isUnread = emailsResponce[data[key].contacts.id]
                 }
             } else {
                 orders = {}
                 for (let key in data) {
                     if (emails[data[key].userDTO.email]) {
                         orders[key] = data[key];
-                        orders[key].userDTO.isUnread = emails[data[key].userDTO.email];
+                        orders[key].userDTO.isUnread = emailsResponce[data[key].contacts.id];
                     }
                 }
             }
