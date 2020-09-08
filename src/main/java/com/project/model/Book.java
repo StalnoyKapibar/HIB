@@ -43,7 +43,7 @@ public class Book {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private LocaleString edition;
 
-    private String yearOfEdition;
+    private Long yearOfEdition;
 
     private Long pages;
 
