@@ -95,7 +95,7 @@ public class HibParser {
                 .author(initLocaleString(jsonNode.get("author")))
                 .description(initLocaleString(jsonNode.get("desc")))
                 .edition(initLocaleString(jsonNode.get("edition")))
-                .yearOfEdition(jsonNode.get("yearOfEdition").asLong())
+                .yearOfEdition(jsonNode.get("yearOfEdition").asText())
                 .pages(jsonNode.get("pages").asLong())
                 .price(jsonNode.get("price").asLong())
                 .originalLanguageName(jsonNode.get("originalLanguage").asText())

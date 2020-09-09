@@ -335,8 +335,8 @@ async function advancedSearch(amount, page) {
     let request = $('#search-input').val();
     let priceFrom = $('#input-price-from').val() * 100;
     let priceTo = $('#input-price-to').val() * 100;
-    let yearOfEditionFrom = $('#input-year-of-edition-from').val() * 1;
-    let yearOfEditionTo = $('#input-year-of-edition-to').val() * 1;
+    let yearOfEditionFrom = $('#input-year-of-edition-from').val();
+    let yearOfEditionTo = $('#input-year-of-edition-to').val();
     let pagesFrom = $('#input-pages-from').val();
     let pagesTo = $('#input-pages-to').val();
     let searchBy = $('#search-by input:checked').val();
