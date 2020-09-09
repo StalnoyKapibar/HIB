@@ -723,15 +723,15 @@ insert into footer (update_date) values (1592913395088);
 /*insert into local_string (cs, de, en, fr, gr, it, ru) values (?, ?, ?, ?, ?, ?, ?);*/
 insert into link (link, text_id) values ('/home', 82);
 /*insert into local_string (cs, de, en, fr, gr, it, ru) values (?, ?, ?, ?, ?, ?, ?);*/
-insert into link (link, text_id) values ('#', 83);
+insert into link (link, text_id) values ('/manual', 83);
 /*insert into local_string (cs, de, en, fr, gr, it, ru) values (?, ?, ?, ?, ?, ?, ?);*/
-insert into link (link, text_id) values ('#', 84);
+insert into link (link, text_id) values ('/guide', 84);
 /*insert into local_string (cs, de, en, fr, gr, it, ru) values (?, ?, ?, ?, ?, ?, ?);*/
-insert into link (link, text_id) values ('#', 85);
+insert into link (link, text_id) values ('/authors', 85);
 /*insert into local_string (cs, de, en, fr, gr, it, ru) values (?, ?, ?, ?, ?, ?, ?);*/
-insert into link (link, text_id) values ('#', 86);
+insert into link (link, text_id) values ('/links', 86);
 /*insert into local_string (cs, de, en, fr, gr, it, ru) values (?, ?, ?, ?, ?, ?, ?);*/
-insert into link (link, text_id) values ('#', 87);
+insert into link (link, text_id) values ('/contacts', 87);
 insert into footer_links (footer_id, links_id) values (1, 1);
 insert into footer_links (footer_id, links_id) values (1, 2);
 insert into footer_links (footer_id, links_id) values (1, 3);
