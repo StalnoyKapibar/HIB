@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Contacts</title>
 </head>
 <body>
-Hello world
+<p>Email: <span th:text="${email}"></span></p>
+<p>Phone number: <span th:text="${phoneNumber}"></span></p>
 </body>
 </html>
