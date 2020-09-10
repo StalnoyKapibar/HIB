@@ -264,8 +264,8 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
         String sortTypeTmp = String.valueOf(pageable.getSort());
         String sortingObject = sortTypeTmp.split(":")[0];
         String typeOfSorting = sortTypeTmp.split(" ")[1];
-        String hql = ("SELECT new com.project.model.BookDTO(b.id, b.name.LOC, " +
-                "b.originalLanguage.nameTranslit, b.author.LOC, b.originalLanguage.authorTranslit, " +
+        String hql = ("SELECT new com.project.model.BookDTO(b.id, b.originalLanguage.name, " +
+                "b.originalLanguage.nameTranslit, b.originalLanguage.author, b.originalLanguage.authorTranslit, " +
                 "b.price, b.coverImage, b.isShow) FROM Book b ORDER BY sortingObject typeOfSorting")
                 .replaceAll("LOC", lang)
                 .replaceAll("sortingObject", sortingObject)
