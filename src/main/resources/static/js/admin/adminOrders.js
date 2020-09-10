@@ -213,8 +213,7 @@ async function renderPageData(data) {
             $('#adminListOrders').html(html);
             $('#unread-checkbox').html(unreadCheckbox);
             $('#toggleOnlyUnread').on('change', () => {
-                //onlyUnread = $('#toggleOnlyUnread').is(":checked");
-                if(document.getElementById('toggleOnlyUnread').checked) {
+                if (document.getElementById('toggleOnlyUnread').checked) {
                     onlyUnread = true;
                 } else {
                     onlyUnread = false;
