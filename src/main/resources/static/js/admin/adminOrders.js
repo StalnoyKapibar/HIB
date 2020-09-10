@@ -96,7 +96,7 @@ async function renderPageData(data) {
     const booksAvailable = await getBooksAvailability();
     let orders = data;
     for (let key in data) {
-        emails[key] = {id : data[key].contacts.id,  email: data[key].contacts.email }
+        emails[key] = {id : data[key].id,  email: data[key].contacts.email }
     }
     await fetch("/admin/unreademails/", {
         method: 'POST',
@@ -104,20 +104,22 @@ async function renderPageData(data) {
             'Content-Type': 'application/json;charset=utf-8'
         },
         body: JSON.stringify(emails)
-    }).then(json).then(emailsResponce => {
-        if (emailsResponce['gmailAccess']) {
+    }).then(json).then(emailsResponse => {
+        if (emailsResponse['gmailAccess']) {
             if (!onlyUnread) {
                 for (let key in orders) {
-                    orders[key].userDTO.isUnread = emailsResponce[data[key].contacts.id]
+                    orders[key].userDTO.isUnread = emailsResponse[data[key].id];
                 }
             } else {
                 orders = {}
                 for (let key in data) {
-                    if (emails[data[key].userDTO.email]) {
+                    if (emailsResponse[data[key].id]) {
+                        console.log("test key " + key);
                         orders[key] = data[key];
-                        orders[key].userDTO.isUnread = emailsResponce[data[key].contacts.id];
+                        orders[key].userDTO.isUnread = emailsResponse[data[key].id];
                     }
                 }
+                data = orders;
             }
             unreadCheckbox = `
                 <div>
@@ -211,7 +213,11 @@ async function renderPageData(data) {
             $('#adminListOrders').html(html);
             $('#unread-checkbox').html(unreadCheckbox);
             $('#toggleOnlyUnread').on('change', () => {
-                onlyUnread = $('#toggleOnlyUnread').is(":checked");
+                if (document.getElementById('toggleOnlyUnread').checked) {
+                    onlyUnread = true;
+                } else {
+                    onlyUnread = false;
+                }
                 showListOrders();
             });
         }
@@ -500,9 +506,6 @@ function markGmailMessageRead(userId, orderId){
             } else {
                 alert("Something went wrong.");
             }
-            response.json().then(function (data) {
-                console.log(data);
-            });
         }
     );
 }
@@ -590,6 +593,3 @@ function editTrackingNumber() {
         dataType: 'json',
     })
 }
-
-
-
