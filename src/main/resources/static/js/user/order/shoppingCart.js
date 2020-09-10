@@ -3,6 +3,8 @@ let listOders = '';
 let totalPrice = 0;
 let currencyIcon = ' €';
 let order = '';
+let items;
+let carta;
 var htmlForModalBody = ``;
 let ordersCount;
 let currentPage = 1;
@@ -39,6 +41,7 @@ async function getShoppingCart() {
             .then(status)
             .then(json)
             .then(function (data) {
+                carta = data;
                 $('#newTab').empty();
                 totalPrice = 0;
                 $('#sum').text(totalPrice);
@@ -302,7 +305,11 @@ function enterData() {
 }
 
 function showOrderSum() {
-    let items = order.items;
+    if (order === ''){
+        items = carta;
+    } else {
+        items = order.items;
+    }
     $('#orderTab').empty();
     $.each(items, function (index) {
         let book = items[index].book;
