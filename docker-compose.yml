@@ -28,7 +28,7 @@ services:
       POSTGRES_PASSWORD: root
       POSTGRES_DB: hib
     volumes:
-      - ./dbScripts/createTableAfterDropFresh.sql:/docker-entrypoint-initdb.d/createTableAfterDropFresh.sql
+      - ./dbScripts/createTableAfterDrop.sql:/docker-entrypoint-initdb.d/createTableAfterDrop.sql
       - ./dbScripts/onInsertData.sql:/docker-entrypoint-initdb.d/onInsertData.sql
       - postgresql-database-data-volume:/var/lib/postgresql
     networks:
