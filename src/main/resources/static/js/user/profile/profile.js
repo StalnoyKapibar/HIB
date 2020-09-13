@@ -129,7 +129,8 @@ function hideError() {
 }
 
 function hideError1ClickReg() {
-    $('#collapseExample1ClickReg').attr('class', 'collapse');
+    $('#collapseExampleEmail1ClickReg').attr('class', 'collapse');
+    $('#collapseExamplePass1ClickReg').attr('class', 'collapse');
 }
 
 function showSuccess(message, className) {
