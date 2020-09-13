@@ -57,68 +57,71 @@ function convertPrice(price) {
 }
 
 function buildCarousel() {
-    for (var i = 0; i < objectBook.imageList.length; i++) {
+    if (objectBook.imageList.length === 0) {
+        $('#picsParse').append(`<div class="carousel-item active">
+                                            <a href="/images/service/noimage.png" target="_blank">
+                                                <img id="bookcover" class="d-block w-100" style="object-fit: contain; height: 500px" src="/images/service/noimage.png" alt="No Image">
+                                            </a>
+                                        </div>`);
+    }
+
+    for (let i = 0; i < objectBook.imageList.length; i++) {
         if (objectBook.imageList[i].nameImage === objectBook.coverImage) {
             idCoverImage = i;
         }
     }
-    let coverImageLink;
-    if (objectBook.coverImage == "") {
-        coverImageLink = "/images/service/noimage.png";
-    } else {
-        coverImageLink = pathImageDefault + objectBook.id + '/' + objectBook.coverImage;
-    }
-    var tmpHtmlForCarouselIndicators = '';
-    var tmpHtmlForCarousel = '';
-    tmpHtmlForCarouselIndicators +=
-        `<li id="qw${idCoverImage}" data-target='#carouselImagePage' data-slide-to=${idCoverImage} class='active'>` + `</li>`;
-    tmpHtmlForCarousel +=
-        `<div id="qw${idCoverImage}" class='carousel-item active'>` +
-        `<a href="${coverImageLink}" target="_blank">` +
-        `<img id="bookcover" src=${coverImageLink} class='d-block w-100' alt='...'></a>` +
-        `<div class='carousel-caption d-none d-md-block'>` +
-        `</div>` +
-        `</div>`;
-    for (var i = 0; i < objectBook.imageList.length; i++) {
-        if (i !== idCoverImage) {
-            tmpHtmlForCarouselIndicators +=
-                `<li id="qw${i}" data-target='#carouselImagePage' data-slide-to=${i}></li>`;
-            tmpHtmlForCarousel +=
-                `<div id="qw${i}" class="carousel-item">` +
-                `<a href="${pathImageDefault}${objectBook.id}/${objectBook.imageList[i].nameImage}" target="_blank">` +
-                `<img src=${pathImageDefault}${objectBook.id}/${objectBook.imageList[i].nameImage} class='d-block w-100' alt="..."></a>` +
-                `<div class='carousel-caption d-none d-md-block'>` +
-                `</div>` +
-                `</div>`;
+
+    for (let i = 0; i < objectBook.imageList.length; i++) {
+        if (idCoverImage === undefined) {
+            if (i === 0) {
+                $('#picsParse').append(`<div class="carousel-item active">
+                                            <a href="/images/service/noimage.png" target="_blank">
+                                                <img id="bookcover" class="d-block w-100" style="object-fit: contain; height: 500px" src="/images/service/noimage.png" alt="No Image">
+                                            </a>
+                                        </div>
+                                        <div class="carousel-item">
+                                            <a href="${pathImageDefault}${objectBook.id}/${objectBook.imageList[i].nameImage}" target="_blank">
+                                                <img class="d-block w-100" style="object-fit: contain; height: 500px" src="${pathImageDefault}${objectBook.id}/${objectBook.imageList[i].nameImage}" alt="...">
+                                            </a>
+                                        </div>`);
+            } else {
+                $('#picsParse').append(`<div class="carousel-item">
+                                            <a href="${pathImageDefault}${objectBook.id}/${objectBook.imageList[i].nameImage}" target="_blank">
+                                                <img class="d-block w-100" style="object-fit: contain; height: 500px" src="${pathImageDefault}${objectBook.id}/${objectBook.imageList[i].nameImage}" alt="...">
+                                            </a>
+                                        </div>`);
+            }
+        } else {
+            if (i === 0 & idCoverImage === i) {
+                $('#picsParse').append(`<div class="carousel-item active">
+                                            <a href="${pathImageDefault}${objectBook.id}/${objectBook.imageList[i].nameImage}" target="_blank">
+                                                <img id="bookcover" class="d-block w-100" style="object-fit: contain; height: 500px" src="${pathImageDefault}${objectBook.id}/${objectBook.imageList[i].nameImage}" alt="...">
+                                            </a>
+                                        </div>`);
+            } else if (i === 0 & idCoverImage !== i){
+                $('#picsParse').append(`<div class="carousel-item active">
+                                            <a href="${pathImageDefault}${objectBook.id}/${objectBook.imageList[idCoverImage].nameImage}" target="_blank">
+                                                <img id="bookcover" class="d-block w-100" style="object-fit: contain; height: 500px" src="${pathImageDefault}${objectBook.id}/${objectBook.imageList[idCoverImage].nameImage}" alt="...">
+                                            </a>
+                                        </div>
+                                        <div class="carousel-item ">
+                                            <a href="${pathImageDefault}${objectBook.id}/${objectBook.imageList[0].nameImage}" target="_blank">
+                                                <img class="d-block w-100" style="object-fit: contain; height: 500px" src="${pathImageDefault}${objectBook.id}/${objectBook.imageList[0].nameImage}" alt="...">
+                                            </a>
+                                        </div>`);
+            } else if (i !== 0 & idCoverImage !== i) {
+                $('#picsParse').append(`<div class="carousel-item">
+                                            <a href="${pathImageDefault}${objectBook.id}/${objectBook.imageList[i].nameImage}" target="_blank">
+                                                <img class="d-block w-100" style="object-fit: contain; height: 500px" src="${pathImageDefault}${objectBook.id}/${objectBook.imageList[i].nameImage}" alt="...">
+                                            </a>
+                                        </div>`);
+            }
         }
     }
-
-    var htmlBodyCarousel =
-        `<div class="card">
-       <div id="carouselImagePage" class="carousel slide 100 card-header" data-ride="carousel">
-
-                    <ol class="carousel-indicators" id='testActive'>
-                    </ol>
-                    <div class="carousel-inner" id='testBody'>
-                    </div></div> 
-   
-       <div class="buttonCarousel card-footer">
-       <buttonCarousel class="left" href="#carouselImagePage"  data-slide="prev" > 
-         <</buttonCarousel>     
-       <buttonCarousel class="right "  href="#carouselImagePage" data-slide="next" > ></buttonCarousel></div>`;
-
-    $('#CardImageOrCarousel').html(htmlBodyCarousel);
-    $('#testActive').html(tmpHtmlForCarouselIndicators);
-    $('#testBody').html(tmpHtmlForCarousel);
-
 }
 
 function buildCardImageOrCarousel() {
     buildCarousel();
-}
-
-function buildCardImage() {
-    $('#CardImageOrCarousel').html(`<img id='bookImg' src=${pathImageDefault}${objectBook.id}/${objectBook.coverImage} alt='Card image cap'>`);
 }
 
 async function getCart() {
@@ -143,24 +146,6 @@ async function getCart() {
             })
         })
 }
-
-$(document).ready(function () {
-    $("#showCart").on('show.bs.dropdown', function () {
-        getCart();
-    });
-    $("body").on('click', '.delete', function () {
-        let id = $(this).attr("data-id");
-        fetch('/cart/' + id, {
-            method: 'DELETE',
-        }).then(function () {
-            showSizeCart();
-        })
-    });
-});
-
-/*function openEdit() {
-    window.open('/admin/edit/' + objectBook.id, '_blank');
-}*/
 
 function checkParams() {
     if ($('#loginInput').val().length !== 0 && $('#passwordInput').val().length !== 0) {

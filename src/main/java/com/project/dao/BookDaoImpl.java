@@ -257,7 +257,7 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
     }
 
     @Override
-    public BookPageDto getBookPageByPageable(Pageable pageable) {
+    public BookPageDto getBookPageByPageable(Pageable pageable, String lang) {
         int limitBookDTOOnPage = pageable.getPageSize();
         int minNumberId = limitBookDTOOnPage * pageable.getPageNumber();
         String amountOfBooks = getQuantityOfBooksByIsShow(true).toString();
@@ -267,6 +267,7 @@ public class BookDaoImpl extends AbstractDao<Long, Book> implements BookDao {
         String hql = ("SELECT new com.project.model.BookDTO(b.id, b.originalLanguage.name, " +
                 "b.originalLanguage.nameTranslit, b.originalLanguage.author, b.originalLanguage.authorTranslit, " +
                 "b.price, b.coverImage, b.isShow) FROM Book b ORDER BY sortingObject typeOfSorting")
+                .replaceAll("LOC", lang)
                 .replaceAll("sortingObject", sortingObject)
                 .replaceAll("typeOfSorting", typeOfSorting);
         //WHERE b.isShow = :show

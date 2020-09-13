@@ -139,14 +139,6 @@ async function getOriginalLangForHIB() {
     book["edition"] = tmpArr.edition;
     book["originalLanguageName"] = tmpArr.originalLanguageName;
 
-    /*let list = [];
-
-    list[0] = tmpArr.originalLanguageName;
-    list[1] = tmpArr.name;
-    list[2] = tmpArr.author;
-    list[3] = tmpArr.edition;*/
-
-
     fetch('/api/admin/get-original-lang-for-hib', {
         method: 'POST',
         headers: {
@@ -225,14 +217,14 @@ function buildEditPage() {
                                                 <div id="divLoadAvatar">
                                                     <h4>Cover</h4>
                                                     <Label>Load cover</Label>
-                                                    <input type="file" class="form-control-file" id="avatar" accept="image/jpeg" onchange="loadTmpImage('avatar','divAvatar')">
+                                                    <input type="file" class="form-control-file" id="avatar" accept="image/jpeg,image/png,image/gif" onchange="uploadTmpCover('avatar','divAvatar')">
                                                 </div>
                                                 <div class='car' id='divAvatar'></div>
                                             </div>
                                             <div class="card p-4 mb-4 bg-light">
                                                 <h4>Another images</h4>
                                                 <Label>Load another image</Label>
-                                                <input type="file" multiple class="form-control-file" id="loadAnotherImage" accept="image/jpeg,image/png,image/gif" onchange="loadMultTmpImages('loadAnotherImage','imageList')">
+                                                <input type="file" multiple class="form-control-file" id="loadAnotherImage" accept="image/jpeg,image/png,image/gif" onchange="uploadMultTmpImages('loadAnotherImage','imageList')">
                                                 <div class='car' id='imageList'></div>
                                             </div>
                                         </div>
@@ -338,14 +330,18 @@ function buildEditPage() {
     function buildEditImageModal(){
         let x = 0;
         for (let key in tmpArr.listImage) {
+            let displayName = tmpArr.listImage[key].nameImage;
+            if (tmpArr.listImage[key].nameImage.length > 30) {
+                displayName = (tmpArr.listImage[key].nameImage).slice(0,30) + "...";
+            }
             if (tmpArr.listImage[key].nameImage !== tmpArr.coverImage){
                 $('#editModalImages').append(`
                 <div class="col w-50">
                     <div class="card mb-4" id="bookImage${key}">
-                        <div class="card-header"><span class="font-weight-bold">Image:</span></br>${tmpArr.listImage[key].nameImage}</div>
+                        <div class="card-header"><span class="font-weight-bold">Image:</span></br>${displayName}</div>
                         <div class="card-body">
                             <a href="${pathImageDefault + idd + '/'}${tmpArr.listImage[key].nameImage}" target="_blank">
-                                <img src ='${pathImageDefault + idd + '/'}${tmpArr.listImage[key].nameImage}' class="card-img" alt='...'>
+                                <img src ='${pathImageDefault + idd + '/'}${tmpArr.listImage[key].nameImage}' style="object-fit: contain; height: 350px" class="card-img" alt='...'>
                             </a>
                         </div>
                         <div class="card-footer">
@@ -818,7 +814,7 @@ function getTempFolderName() {
 }
 
 //Функция подгрузки нескольких изображений во временную папку
-function loadMultTmpImages(nameId, div) {
+function uploadMultTmpImages(nameId, div) {
     tempPicsFolderCheck = 1;
     let fileImg = document.getElementById(nameId).files;
     let fileNames = [];
@@ -842,19 +838,25 @@ function loadMultTmpImages(nameId, div) {
     });
 }
 
+//Предыдущая временная обложка книги для функции ниже
+let prevCover;
+
 //Функция подгрузки обложки во временную папку
-function loadTmpImage(nameId, div) {
+function uploadTmpCover(nameId, div) {
     tempPicsFolderCheck = 1;
     const formData = new FormData();
     let fileImg = $("#avatar").prop('files')[0];
-    let fileName = "avatar.jpg";
+    let name = fileImg.name;
+    let index = name.lastIndexOf(".");
+    let extension = name.slice(index);
+    let fileName = picsFolderName + extension;
     if( $("#divAvatar").html() !== "" ) {
-        fetch('admin/deleteTmpCover', {
+        fetch('/admin/deleteTmpCover', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
             },
-            body: picsFolderName + "/avatar.jpg"
+            body: picsFolderName + "/" + prevCover
         })
     }
     formData.append('file', fileImg, fileName);
@@ -866,6 +868,7 @@ function loadTmpImage(nameId, div) {
         contentType: false,
         processData: false
     }).then(function () {
+        prevCover = fileName;
         addImageInDiv(fileName, picsFolderName, div);
     });
 }

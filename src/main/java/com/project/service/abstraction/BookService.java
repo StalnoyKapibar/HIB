@@ -33,7 +33,7 @@ public interface BookService {
 
     BookNewDTO getNewBookDTOByIdAndLang(Long id, String lang);
 
-    BookPageDto getBookPageByPageable(Pageable pageable);
+    BookPageDto getBookPageByPageable(Pageable pageable, String lang);
 
     List<BookNewDTO> getAllBooksSearchPage();
 

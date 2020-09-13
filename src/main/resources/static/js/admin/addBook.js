@@ -214,14 +214,14 @@ function buildAddPage() {
                                                 <div id="divLoadAvatar">
                                                     <h4>Cover</h4>
                                                     <Label>Load cover</Label>
-                                                    <input type="file" class="form-control-file" id="avatar" accept="image/jpeg" onchange="loadImage('avatar','divAvatar')">
+                                                    <input type="file" class="form-control-file" id="avatar" accept="image/jpeg,image/png,image/gif" onchange="uploadTmpCover('avatar','divAvatar')">
                                                 </div>
                                                 <div class='car' id='divAvatar'></div>
                                             </div>
                                             <div class="card p-4 mb-4 bg-light">
                                                 <h4>Another image</h4>
                                                 <Label>Load another image</Label>
-                                                <input type="file" multiple class="form-control-file" id="loadAnotherImage" accept="image/jpeg,image/png,image/gif" onchange="loadMultTmpImages('loadAnotherImage','imageList')">
+                                                <input type="file" multiple class="form-control-file" id="loadAnotherImage" accept="image/jpeg,image/png,image/gif" onchange="uploadMultTmpImages('loadAnotherImage','imageList')">
                                                 <div class='car' id='imageList'></div>
                                             </div>
                                         </div>
@@ -269,7 +269,7 @@ function getTempFolderName() {
 }
 
 //Функция подгрузки нескольких изображений во временную папку
-function loadMultTmpImages(nameId, div) {
+function uploadMultTmpImages(nameId, div) {
     tempPicsFolderCheck = 1;
     let fileImg = document.getElementById(nameId).files;
     let fileNames = [];
@@ -293,19 +293,25 @@ function loadMultTmpImages(nameId, div) {
     });
 }
 
+//Предыдущая временная обложка книги для функции ниже
+let prevCover;
+
 //Функция подгрузки обложки во временную папку
-function loadImage(nameId, div) {
+function uploadTmpCover(nameId, div) {
     tempPicsFolderCheck = 1;
     const formData = new FormData();
     let fileImg = $("#avatar").prop('files')[0];
-    let fileName = "avatar.jpg";
+    let name = fileImg.name;
+    let index = name.lastIndexOf(".");
+    let extension = name.slice(index);
+    let fileName = picsFolderName + extension;
     if( $("#divAvatar").html() !== "" ) {
-        fetch('admin/deleteTmpCover', {
+        fetch('/admin/deleteTmpCover', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
             },
-            body: picsFolderName + "/avatar.jpg"
+            body: picsFolderName + "/" + prevCover
         })
     }
     formData.append('file', fileImg, fileName);
@@ -317,6 +323,7 @@ function loadImage(nameId, div) {
         contentType: false,
         processData: false
     }).then(function () {
+        prevCover = fileName;
         addImageInDiv(fileName, picsFolderName, div);
     });
 }

@@ -177,7 +177,7 @@ async function setLocaleFields() {
             $('.name-and-author-loc').text(localeFields['titleAndAuthor']);
             $('.search-input-dots-loc').attr('placeholder', localeFields['searchDots']);
             $('.year-of-edition-loc').text(localeFields['yearOfEdition']);
-            $('#edition-loc').text(localeFields['edition']);
+            $('.edition-loc').text(localeFields['edition']);
             $('.number-of-pages-loc').text(localeFields['numberOfpages']);
             $('.search-submit-loc').text(localeFields['search']);
             $('.available-loc').text(localeFields['check-available']);
@@ -188,6 +188,9 @@ async function setLocaleFields() {
             //Admin Panel
             $('.edit-loc').text(localeFields['edit']);
             $('.delete-loc').text(localeFields['delete']);
+            $('.edit-hib-loc').text(localeFields['editHib']);
+            $('.unique-files-loc').text(localeFields['uniqueFiles']);
+            $('.for-all-loc').text(localeFields['forAllHibLangs']);
             $('.home-loc').text(localeFields['home']);
             $('.orders-loc').text(localeFields['orders']);
             $('.edit-welcome-loc').text(localeFields['editWelcome']);

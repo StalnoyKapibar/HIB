@@ -8,7 +8,6 @@ let unreadCheckbox = '';
 let messagePackIndex;
 let orderIndex;
 let scrollOn = true;
-let emails = [];
 let currentPage = 1;
 let orderWithTrackingNumber;
 
@@ -92,12 +91,12 @@ async function getOrdersData(page, size, status) {
 }
 
 async function renderPageData(data) {
-
+    let emails = [];
     const lastOrderedBooks = await getLastOrderedBooks();
     const booksAvailable = await getBooksAvailability();
     let orders = data;
     for (let key in data) {
-        emails.push(data[key].userDTO.email)
+        emails[key] = {id : data[key].id,  email: data[key].contacts.email }
     }
     await fetch("/admin/unreademails/", {
         method: 'POST',
@@ -105,20 +104,22 @@ async function renderPageData(data) {
             'Content-Type': 'application/json;charset=utf-8'
         },
         body: JSON.stringify(emails)
-    }).then(json).then(emails => {
-        if (emails['gmailAccess']) {
+    }).then(json).then(emailsResponse => {
+        if (emailsResponse['gmailAccess']) {
             if (!onlyUnread) {
                 for (let key in orders) {
-                    orders[key].userDTO.isUnread = emails[orders[key].userDTO.email]
+                    orders[key].userDTO.isUnread = emailsResponse[data[key].id];
                 }
             } else {
                 orders = {}
                 for (let key in data) {
-                    if (emails[data[key].userDTO.email]) {
+                    if (emailsResponse[data[key].id]) {
+                        console.log("test key " + key);
                         orders[key] = data[key];
-                        orders[key].userDTO.isUnread = emails[data[key].userDTO.email];
+                        orders[key].userDTO.isUnread = emailsResponse[data[key].id];
                     }
                 }
+                data = orders;
             }
             unreadCheckbox = `
                 <div>
@@ -212,7 +213,11 @@ async function renderPageData(data) {
             $('#adminListOrders').html(html);
             $('#unread-checkbox').html(unreadCheckbox);
             $('#toggleOnlyUnread').on('change', () => {
-                onlyUnread = $('#toggleOnlyUnread').is(":checked");
+                if (document.getElementById('toggleOnlyUnread').checked) {
+                    onlyUnread = true;
+                } else {
+                    onlyUnread = false;
+                }
                 showListOrders();
             });
         }
@@ -289,7 +294,7 @@ async function showModalOfOrder(index) {
                 htmlChat += `</div>`;
                 htmlChat += `<textarea id="sent-message" class="form-control"></textarea>
 
-                        </div><button class="float-right col-2 btn btn-primary send-loc" type="button" id="send-button" onclick="sendGmailMessage('${order.contacts.email}', ${allOrders[orderIndex].id})">Send</button>`
+                        </div><button class="float-right col-2 btn btn-primary send-loc m-1" type="button" id="send-button" onclick="sendGmailMessage('${order.contacts.email}', ${allOrders[orderIndex].id})">Send</button>`
 
             } else {
                 if (data[0].text === "chat end") {
@@ -297,8 +302,8 @@ async function showModalOfOrder(index) {
                     htmlChat += `</div>`;
                     htmlChat += `<textarea id="sent-message" class="form-control"></textarea>
 
-                        </div><button class="float-right col-2 btn btn-primary send-loc" type="button" id="send-button" onclick="sendGmailMessage('${order.contacts.email}', ${allOrders[orderIndex].id})">Send</button>
-                              <button class="float-right col-2 btn btn-primary mark-loc" type="button" id="mark-button" onclick="markGmailMessageRead('${order.contacts.email}', ${allOrders[orderIndex].id})">Mark as read</button>`
+                        </div><button class="float-right col-2 btn btn-primary send-loc m-1" type="button" id="send-button" onclick="sendGmailMessage('${order.contacts.email}', ${allOrders[orderIndex].id})">Send</button>
+                              <button class="float-right col-2 btn btn-success mark-loc m-1" type="button" id="mark-button" onclick="markGmailMessageRead('${order.contacts.email}', ${allOrders[orderIndex].id})">Mark as read</button>`
 
                     scrollOn = false;
                 } else if (data[0].text === "noGmailAccess") {
@@ -321,8 +326,8 @@ async function showModalOfOrder(index) {
                     htmlChat += `</div>`;
                     htmlChat += `<textarea id="sent-message" class="form-control"></textarea>
 
-                        </div><button class="float-right col-2 btn btn-primary send-loc" type="button" id="send-button" onclick="sendGmailMessage('${order.contacts.email}', ${allOrders[orderIndex].id})">Send</button>
-                                <button class="float-right col-2 btn btn-primary mark-loc" type="button" id="mark-button" onclick="markGmailMessageRead('${order.contacts.email}', ${allOrders[orderIndex].id})">Mark as read</button>`
+                        </div><button class="float-right col-2 btn btn-primary send-loc m-1" type="button" id="send-button" onclick="sendGmailMessage('${order.contacts.email}', ${allOrders[orderIndex].id})">Send</button>
+                                <button class="float-right col-2 btn btn-success mark-loc m-1" type="button" id="mark-button" onclick="markGmailMessageRead('${order.contacts.email}', ${allOrders[orderIndex].id})">Mark as read</button>`
 
                 }
             }
@@ -501,9 +506,6 @@ function markGmailMessageRead(userId, orderId){
             } else {
                 alert("Something went wrong.");
             }
-            response.json().then(function (data) {
-                console.log(data);
-            });
         }
     );
 }
@@ -591,6 +593,3 @@ function editTrackingNumber() {
         dataType: 'json',
     })
 }
-
-
-
