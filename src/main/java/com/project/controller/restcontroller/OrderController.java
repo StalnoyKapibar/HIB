@@ -1,5 +1,6 @@
 package com.project.controller.restcontroller;
 
+import com.google.api.services.gmail.Gmail;
 import com.project.model.*;
 import com.project.service.DataEnterInAdminPanelService;
 import com.project.service.abstraction.*;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -201,7 +203,6 @@ public class OrderController {
         for (Order order : orderList) {
             orderDTOS.add(order.getOrderDTOForAdmin());
         }
-
         DataEnterInAdminPanel data = (DataEnterInAdminPanel) session.getAttribute("data");
         data.setDataEnterInOrders(Instant.now().getEpochSecond());
         dataEnterInAdminPanelService.update(data);
@@ -209,10 +210,12 @@ public class OrderController {
         return orderDTOS;
     }
 
-    @GetMapping("/api/admin/pageable/{page}/{size}/{status}")
-    public OrderPageAdminDTO getPageOfOrdersByStatus(HttpSession session, @PathVariable int page, @PathVariable int size, @PathVariable("status") String statusString) {
+    @GetMapping("/api/admin/pageable/{page}/{size}/{status}/{messagesStatus}")
+    public OrderPageAdminDTO getPageOfOrdersByStatus(HttpSession session, @PathVariable int page, @PathVariable int size,
+                                                     @PathVariable("status") String statusString,
+                                                     @PathVariable("messagesStatus") String messageStatus) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(
-                Sort.Order.asc("id")));
+                Sort.Order.desc("id")));
         Status status;
         try {
             status = Status.valueOf(statusString);
@@ -223,7 +226,47 @@ public class OrderController {
         data.setDataEnterInOrders(Instant.now().getEpochSecond());
         dataEnterInAdminPanelService.update(data);
         session.setAttribute("data", data);
-        return orderService.getPageOfOrdersByPageable(pageable, status);
+        OrderPageAdminDTO orderPageAdminDTO = new OrderPageAdminDTO();
+        if (messageStatus.equals("newMessages")){ // проверка всех ордеров на новые сообщения на почте
+            Gmail gmail = ParseGmailController.gmail;
+            List<Order> allOrdersList = orderService.getOrdersByStatus(status);
+            List<OrderDTO> ordersWithNewMessages = new ArrayList<>();
+            List<OrderDTO> ordersToSend = new ArrayList<>();
+            int pages;
+            long newMessage;
+            for (Order order: allOrdersList) {
+                try{
+                    newMessage = gmail.users().messages().list("me")
+                            .setQ("(" + "subject:" + "\"Order №" + order.getId() + "\"" + "from:" + order.getContacts().getEmail() + " is:unread" + ")")
+                            .execute().getResultSizeEstimate();
+                    if ( newMessage != 0 ) {
+                        ordersWithNewMessages.add(order.getOrderDTOForAdmin()); //
+                    }
+                } catch (IOException e){
+                    e.printStackTrace();
+                }
+            }
+            int ordersFrom = page * size;
+            int ordersTo = (page + 1) * size;
+            if (ordersTo > ordersWithNewMessages.size()){
+                ordersTo = ordersWithNewMessages.size();
+            }
+            for (int i = ordersFrom; i < ordersTo; i++){
+                ordersToSend.add(ordersWithNewMessages.get(i));
+            }
+            pages = ordersWithNewMessages.size()/size;
+            if ((ordersWithNewMessages.size() % size) != 0){
+                pages++;
+            }
+            orderPageAdminDTO.setPageNumber(page);
+            orderPageAdminDTO.setPageableSize(size);
+            orderPageAdminDTO.setTotalPages(pages);
+            orderPageAdminDTO.setListOrderDTO(ordersToSend);
+            return orderPageAdminDTO;
+        } else {
+            orderPageAdminDTO = orderService.getPageOfOrdersByPageable(pageable, status);
+            return orderPageAdminDTO;
+        }
     }
 
     @GetMapping("/api/admin/order-count")

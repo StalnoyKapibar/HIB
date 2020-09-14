@@ -1,4 +1,5 @@
 let allOrders;
+let odrersNewMessages;
 let iconOfPrice = " €";
 let statusOfOrder = "Unprocessed";
 let gmailAccess = false;
@@ -9,6 +10,8 @@ let messagePackIndex;
 let orderIndex;
 let scrollOn = true;
 let currentPage = 1;
+let currentPageUnread = 1;
+
 let orderWithTrackingNumber;
 
 
@@ -84,7 +87,12 @@ async function addPagination(totalPages) {
 
 
 async function getOrdersData(page, size, status) {
-    const url = `/api/admin/pageable/${page}/${size}/${status}`;
+    let url;
+    if (onlyUnread){
+        url = `/api/admin/pageable/${page}/${size}/${status}/newMessages`;
+    } else {
+        url = `/api/admin/pageable/${page}/${size}/${status}/anyMessages`;
+    }
     const res = await fetch(url);
     const data = await res.json();
     return data;
@@ -209,18 +217,18 @@ async function renderPageData(data) {
             } else if (!isBookAvailable) {
                 html += `<tr style = "background-color: #FFB3B3; color: #ff0000; font-weight: 900"><td colspan="9">This order contains books that are not available on the web-site. </td></tr>`;
             }
-
             $('#adminListOrders').html(html);
             $('#unread-checkbox').html(unreadCheckbox);
-            $('#toggleOnlyUnread').on('change', () => {
-                if (document.getElementById('toggleOnlyUnread').checked) {
-                    onlyUnread = true;
-                } else {
-                    onlyUnread = false;
-                }
-                showListOrders();
-            });
         }
+        $('#toggleOnlyUnread').on('change', () => {
+            if (document.getElementById('toggleOnlyUnread').checked) {
+                onlyUnread = true;
+                currentPage = 1;
+            } else {
+                onlyUnread = false;
+            }
+            showListOrders();
+        });
     });
     setLocaleFields();
 }
@@ -238,10 +246,15 @@ async function showListOrders() {
     `)
     let size = document.querySelector('#ordersAmountPerPage').textContent;
     const testData = await getOrdersData(currentPage - 1, size, statusOfOrder.toUpperCase());
-    const totalPages = testData.totalPages
-    await addPagination(totalPages);
-    const pageData = testData.listOrderDTO;
-    renderPageData(pageData);
+    if (currentPage > testData.totalPages){
+        currentPage = testData.totalPages;
+        showListOrders();
+    } else {
+        const totalPages = testData.totalPages
+        await addPagination(totalPages);
+        const pageData = testData.listOrderDTO;
+        renderPageData(pageData);
+    }
 }
 
 function editTrackNum(order) {
@@ -335,7 +348,7 @@ async function showModalOfOrder(index) {
     $('#chat').html(htmlChat);
     $('#chat').scrollTop(2000);
 
-    const allOrdersforModal = await getAllOrders();
+    const allOrdersForModal = await getAllOrders();
 
     let html = ``;
     html += `<thead><tr><th class="image-loc">Image</th>
@@ -346,10 +359,10 @@ async function showModalOfOrder(index) {
         let book = items[index].book;
         let countUsers = 0;
         let isLastOrder = `<td width="350">${convertOriginalLanguageRows(book.originalLanguage.name, book.originalLanguage.nameTranslit)} | ${convertOriginalLanguageRows(book.originalLanguage.author, book.originalLanguage.authorTranslit)}</td>`;
-        for (let i = 0; i < allOrdersforModal.length; i++) {
-            if (allOrdersforModal[i].status === "UNPROCESSED" || allOrdersforModal[i].status === "PROCESSING") {
-                for (let j = 0; j < allOrdersforModal[i].items.length; j++) {
-                    let numberOfBook = allOrdersforModal[i].items[j].book.originalLanguage;
+        for (let i = 0; i < allOrdersForModal.length; i++) {
+            if (allOrdersForModal[i].status === "UNPROCESSED" || allOrdersForModal[i].status === "PROCESSING") {
+                for (let j = 0; j < allOrdersForModal[i].items.length; j++) {
+                    let numberOfBook = allOrdersForModal[i].items[j].book.originalLanguage;
                     if (book.originalLanguage.id == numberOfBook.id) {
                         countUsers++;
                         if (countUsers >= 2) {
@@ -373,11 +386,12 @@ async function showModalOfOrder(index) {
 }
 
 async function getAllOrders() {
-    const url = '/api/admin/getAllOrders';
+    let url = '/api/admin/getAllOrders';
     const res = await fetch(url);
     const data = await res.json();
     return data;
 }
+
 
 async function scrolling() {
     document.getElementById("chat").removeAttribute('onscroll');
