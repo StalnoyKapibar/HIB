@@ -50,4 +50,6 @@ public interface OrderService {
     OrderDTO addOrderReg1Click(ShoppingCartDTO shoppingCart, RegistrationUserDTO user, ContactsOfOrderDTO contacts);
 
     List<Order> findAllUncompletedOrdersByBookId(Long bookId);
+
+    OrderPageAdminDTO getOrdersNewMessages(int page, int size, Status status);
 }

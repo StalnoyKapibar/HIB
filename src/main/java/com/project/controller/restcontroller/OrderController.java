@@ -226,46 +226,10 @@ public class OrderController {
         data.setDataEnterInOrders(Instant.now().getEpochSecond());
         dataEnterInAdminPanelService.update(data);
         session.setAttribute("data", data);
-        OrderPageAdminDTO orderPageAdminDTO = new OrderPageAdminDTO();
-        if (messageStatus.equals("newMessages")){ // проверка всех ордеров на новые сообщения на почте
-            Gmail gmail = ParseGmailController.gmail;
-            List<Order> allOrdersList = orderService.getOrdersByStatus(status);
-            List<OrderDTO> ordersWithNewMessages = new ArrayList<>();
-            List<OrderDTO> ordersToSend = new ArrayList<>();
-            int pages;
-            long newMessage;
-            for (Order order: allOrdersList) {
-                try{
-                    newMessage = gmail.users().messages().list("me")
-                            .setQ("(" + "subject:" + "\"Order №" + order.getId() + "\"" + "from:" + order.getContacts().getEmail() + " is:unread" + ")")
-                            .execute().getResultSizeEstimate();
-                    if ( newMessage != 0 ) {
-                        ordersWithNewMessages.add(order.getOrderDTOForAdmin()); //
-                    }
-                } catch (IOException e){
-                    e.printStackTrace();
-                }
-            }
-            int ordersFrom = page * size;
-            int ordersTo = (page + 1) * size;
-            if (ordersTo > ordersWithNewMessages.size()){
-                ordersTo = ordersWithNewMessages.size();
-            }
-            for (int i = ordersFrom; i < ordersTo; i++){
-                ordersToSend.add(ordersWithNewMessages.get(i));
-            }
-            pages = ordersWithNewMessages.size()/size;
-            if ((ordersWithNewMessages.size() % size) != 0){
-                pages++;
-            }
-            orderPageAdminDTO.setPageNumber(page);
-            orderPageAdminDTO.setPageableSize(size);
-            orderPageAdminDTO.setTotalPages(pages);
-            orderPageAdminDTO.setListOrderDTO(ordersToSend);
-            return orderPageAdminDTO;
+        if (messageStatus.equals("newMessages")){
+            return orderService.getOrdersNewMessages(page, size, status);
         } else {
-            orderPageAdminDTO = orderService.getPageOfOrdersByPageable(pageable, status);
-            return orderPageAdminDTO;
+            return orderService.getPageOfOrdersByPageable(pageable, status);
         }
     }
 
