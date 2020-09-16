@@ -29,6 +29,8 @@ public interface OrderService {
 
     List<Order> getOrderByEmailByStatus(Status status, String email);
 
+    List<Order> getOrdersByStatus(Status status);
+
     int getCountOfOrders();
 
     void unCompleteOrder(Long id);
@@ -48,4 +50,6 @@ public interface OrderService {
     OrderDTO addOrderReg1Click(ShoppingCartDTO shoppingCart, RegistrationUserDTO user, ContactsOfOrderDTO contacts);
 
     List<Order> findAllUncompletedOrdersByBookId(Long bookId);
+
+    OrderPageAdminDTO getOrdersNewMessages(int page, int size, Status status);
 }

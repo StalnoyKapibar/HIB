@@ -1,5 +1,7 @@
 package com.project.service;
 
+import com.google.api.services.gmail.Gmail;
+import com.project.controller.restcontroller.ParseGmailController;
 import com.project.dao.abstraction.OrderDao;
 import com.project.model.*;
 import com.project.service.abstraction.OrderService;
@@ -18,10 +20,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.mail.MessagingException;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -58,6 +62,11 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order getOrderById(Long id) {
         return orderDAO.findById(id);
+    }
+
+    @Override
+    public List<Order> getOrdersByStatus(Status status) {
+        return orderDAO.getOrdersByStatus(status);
     }
 
     @Override
@@ -221,5 +230,46 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> findAllUncompletedOrdersByBookId(Long bookId) {
         return orderDAO.findAllUncompletedOrdersByBookId(bookId);
+    }
+
+    // проверка всех ордеров на новые сообщения, в соответствии со статусом, размером страницы, и номером страницы
+    @Override
+    public OrderPageAdminDTO getOrdersNewMessages(int page, int size, Status status) {
+        OrderPageAdminDTO orderPageAdminDTO = new OrderPageAdminDTO();
+        Gmail gmail = ParseGmailController.gmail;
+        List<Order> allOrdersList = orderDAO.getOrdersByStatus(status);
+        List<OrderDTO> ordersWithNewMessages = new ArrayList<>();
+        List<OrderDTO> ordersToSend = new ArrayList<>();
+        int pages;
+        long newMessage;
+        for (Order order: allOrdersList) {
+            try{
+                newMessage = gmail.users().messages().list("me")
+                        .setQ("(" + "subject:" + "\"Order №" + order.getId() + "\"" + "from:" + order.getContacts().getEmail() + " is:unread" + ")")
+                        .execute().getResultSizeEstimate();
+                if ( newMessage != 0 ) {
+                    ordersWithNewMessages.add(order.getOrderDTOForAdmin()); //
+                }
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+        int ordersFrom = page * size;
+        int ordersTo = (page + 1) * size;
+        if (ordersTo > ordersWithNewMessages.size()){
+            ordersTo = ordersWithNewMessages.size();
+        }
+        for (int i = ordersFrom; i < ordersTo; i++){
+            ordersToSend.add(ordersWithNewMessages.get(i));
+        }
+        pages = ordersWithNewMessages.size()/size;
+        if ((ordersWithNewMessages.size() % size) != 0){
+            pages++;
+        }
+        orderPageAdminDTO.setPageNumber(page);
+        orderPageAdminDTO.setPageableSize(size);
+        orderPageAdminDTO.setTotalPages(pages);
+        orderPageAdminDTO.setListOrderDTO(ordersToSend);
+        return orderPageAdminDTO;
     }
 }
