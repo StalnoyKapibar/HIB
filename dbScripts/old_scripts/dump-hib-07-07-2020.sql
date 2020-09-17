@@ -88,7 +88,7 @@ CREATE TABLE public.book (
     pages bigint,
     price bigint,
     views bigint,
-    year_of_edition character varying(255),
+    year_of_edition character bigint,
     author_id bigint,
     category_id bigint,
     description_id bigint,
@@ -934,25 +934,25 @@ COPY public.address (id, city, country, first_name, flat, house, last_name, post
 
 COPY public.book (id, cover_image, is_show, last_book_ordered, original_language_name, pages, price, views, year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id) FROM stdin;
 1	1.jpg	t	f	RU	200	950	\N	2004	1	15	2	3	4	1
-2	4.jpg	t	f	GR	\N	448	\N	\N	5	16	6	7	8	2
-3	4.jpg	t	f	CS	\N	762	\N	\N	9	15	10	11	12	3
-4	4.jpg	t	f	RU	\N	37	\N	\N	13	15	14	15	16	4
-5	1.jpg	t	f	EN	\N	444	\N	\N	17	15	18	19	20	5
-6	1.jpg	t	f	RU	\N	664	\N	\N	21	15	22	23	24	6
-7	1.jpg	t	f	RU	\N	615	\N	\N	25	15	26	27	28	7
-8	1.jpg	t	f	RU	\N	156	\N	\N	29	15	30	31	32	8
-9	1.jpg	t	f	RU	\N	465	\N	\N	33	15	34	35	36	9
-10	50172485-elizaveta-vladimirovna-sobolyanskaya-zanuda-v-akademii-drakonov.jpg	t	f	RU	\N	931	\N	\N	37	15	38	39	40	10
+2	4.jpg	t	f	GR	\N	448	\N	2003	5	16	6	7	8	2
+3	4.jpg	t	f	CS	\N	762	\N	2002	9	15	10	11	12	3
+4	4.jpg	t	f	RU	\N	37	\N	1996	13	15	14	15	16	4
+5	1.jpg	t	f	EN	\N	444	\N	1985	17	15	18	19	20	5
+6	1.jpg	t	f	RU	\N	664	\N	1973	21	15	22	23	24	6
+7	1.jpg	t	f	RU	\N	615	\N	1986	25	15	26	27	28	7
+8	1.jpg	t	f	RU	\N	156	\N	1934	29	15	30	31	32	8
+9	1.jpg	t	f	RU	\N	465	\N	1987	33	15	34	35	36	9
+10	50172485-elizaveta-vladimirovna-sobolyanskaya-zanuda-v-akademii-drakonov.jpg	t	f	RU	\N	931	2003	37	15	38	39	40	10
 11	50387903-dzhon-marrs-the-one-edinstvennyy.jpg	f	f	RU	\N	498	\N	\N	41	15	42	43	44	11
-12	1.jpg	f	f	RU	\N	177	\N	\N	45	15	46	47	48	12
-13	51566259-nadezhda-volgina-strast-v-iskuplenie.jpg	f	f	RU	\N	794	\N	\N	49	15	50	51	52	13
-14	1.jpg	f	f	RU	\N	693	\N	\N	53	15	54	55	56	14
-15	51559272-albina-uralskaya-18710396-chemodan-portal-zemlya-ekaterinburg-51559272.jpg	f	f	RU	\N	589	\N	\N	57	15	58	59	60	15
-16	51424035-roman-zlotnikov-psevdonim-boga-51424035.jpg	f	f	RU	\N	95	\N	\N	61	15	62	63	64	16
-17	51402044-vladimir-kolychev-vechnost-i-esche-dva-dnya.jpg	f	f	RU	\N	662	\N	\N	65	15	66	67	68	17
-18	50405688-elena-lapysheva-ya-hochu-tebya-idealnoe-telo-sekrety-kremlevskogo-trenera.jpg	f	f	RU	\N	699	\N	\N	69	15	70	71	72	18
-19	51247780-gennadiy-kibardin-bystraya-hodba-lechit.jpg	f	f	RU	\N	443	\N	\N	73	15	74	75	76	19
-20	4387365-stiven-king-protivostoyanie.jpg	t	f	OTHER	\N	807	\N	\N	77	15	78	79	80	20
+12	1.jpg	f	f	RU	\N	177	\N	2001	45	15	46	47	48	12
+13	51566259-nadezhda-volgina-strast-v-iskuplenie.jpg	f	f	RU	\N	794	\N	2005	49	15	50	51	52	13
+14	1.jpg	f	f	RU	\N	693	\N	2001	53	15	54	55	56	14
+15	51559272-albina-uralskaya-18710396-chemodan-portal-zemlya-ekaterinburg-51559272.jpg	f	f	RU	\N	589	\N	2003	57	15	58	59	60	15
+16	51424035-roman-zlotnikov-psevdonim-boga-51424035.jpg	f	f	RU	\N	95	\N	2003	61	15	62	63	64	16
+17	51402044-vladimir-kolychev-vechnost-i-esche-dva-dnya.jpg	f	f	RU	\N	662	\N	2005	65	15	66	67	68	17
+18	50405688-elena-lapysheva-ya-hochu-tebya-idealnoe-telo-sekrety-kremlevskogo-trenera.jpg	f	f	RU	\N	699	\N	2001	69	15	70	71	72	18
+19	51247780-gennadiy-kibardin-bystraya-hodba-lechit.jpg	f	f	RU	\N	443	\N	2003	73	15	74	75	76	19
+20	4387365-stiven-king-protivostoyanie.jpg	t	f	OTHER	\N	807	\N	2005	77	15	78	79	80	20
 \.
 
 
