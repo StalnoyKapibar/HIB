@@ -10,15 +10,13 @@ import org.springframework.util.FileSystemUtils;
 import java.io.File;
 import java.io.IOException;
 
-
 @Component
-public class ImgFirstStart extends FileSystemUtils implements ApplicationRunner {
+public class FirstStartUtils extends FileSystemUtils implements ApplicationRunner {
 
     private final Environment environment;
-
     private final StorageService storageService;
 
-    public ImgFirstStart(Environment environment, StorageService storageService) {
+    public FirstStartUtils(Environment environment, StorageService storageService) {
         this.environment = environment;
         this.storageService = storageService;
     }
@@ -39,6 +37,13 @@ public class ImgFirstStart extends FileSystemUtils implements ApplicationRunner 
             System.out.println("Каталог с изображениями скопирован в соответствии с application.properties: imagemode");
         } else {
             System.out.println("Каталог изображений не скопирован в соответствии с application.properties: imagemode");
+        }
+
+        if (environment.getProperty("spring.application.excelmode").equals("create")) {
+            new File("export/orders/").mkdirs();
+            System.out.println("Каталог для отчётов создан в соответствии с application.properties: excelmode");
+        } else {
+            System.out.println("Каталог для отчётов не создан в соответствии с application.properties: excelmode");
         }
     }
 

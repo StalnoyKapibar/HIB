@@ -1,4 +1,5 @@
 package com.project.util;
+
 import com.project.dao.abstraction.OrderDao;
 import com.project.model.CartItem;
 import com.project.model.Order;
@@ -20,6 +21,7 @@ public class UtilExcelReports {
     private XSSFWorkbook fileExcel;
     private XSSFSheet sheet;
     private List<Order> listData;
+    private String[] cellName = new String[]{"№ Order", "Date Order", "Status Order", "Cost", "Comment", "First Name", "Last Name", "Telephone", "E-mail", "Book"};
 
 
     public void createFileExcel(OrderDao orderDao) {
@@ -27,43 +29,61 @@ public class UtilExcelReports {
         this.sheet = fileExcel.createSheet("Orders");
         listData = orderDao.findAll();
         Row row = sheet.createRow(0);
-        row.createCell(0).setCellValue("Number Order");
-        row.createCell(1).setCellValue("Date Order");
-        row.createCell(2).setCellValue("Status Order");
-        row.createCell(3).setCellValue("Cost");
-        row.createCell(4).setCellValue("Comment");
-        row.createCell(5).setCellValue("First Name");
-        row.createCell(6).setCellValue("Last Name");
-        row.createCell(7).setCellValue("Telephone");
-        row.createCell(8).setCellValue("E-mail");
-        row.createCell(9).setCellValue("Book");
+        for (int i = 0; i < cellName.length; i++) {
+            row.createCell(i).setCellValue(cellName[i]);
+        }
     }
 
     public void setSheetData() {
-
         int indexRow = 1;
         for (Order order : listData) {
-
-            Date date = new Date(order.getData() * 1000);
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-            String bookName = "";
-            for(CartItem items: order.getItems()){
-                bookName += items.getBook().getName().getEn() + "//";
+            Row row = sheet.createRow(indexRow);
+            for (int i = 0; i <= 9; i++) {
+                row.createCell(i);
             }
 
-            Row row = sheet.createRow(indexRow);
-            row.createCell(0).setCellValue(order.getId());
-            row.createCell(1).setCellValue(simpleDateFormat.format(date));
-            row.createCell(2).setCellValue(order.getStatus().name());
-            row.createCell(3).setCellValue(order.getItemsCost());
-            row.createCell(4).setCellValue(order.getComment());
-            row.createCell(5).setCellValue(order.getUserAccount().getFirstName());
-            row.createCell(6).setCellValue(order.getUserAccount().getLastName());
-            row.createCell(7).setCellValue(order.getUserAccount().getPhone());
-            row.createCell(8).setCellValue(order.getUserAccount().getEmail());
-            row.createCell(9).setCellValue(bookName);
+            if (order.getId() != null) {
+                row.getCell(0).setCellValue(order.getId());
+            }
+
+            if (order.getData() != 0L) {
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date date = new Date(order.getData() * 1000);
+                String dateOrder = simpleDateFormat.format(date);
+                row.getCell(1).setCellValue(dateOrder);
+            }
+            if (order.getStatus().name() != null) {
+                row.getCell(2).setCellValue(order.getStatus().name());
+            }
+            if (order.getItemsCost() != null) {
+                row.getCell(3).setCellValue(order.getItemsCost());
+            }
+            if (order.getComment() != null) {
+                row.getCell(4).setCellValue(order.getComment());
+            }
+            if (order.getUserAccount().getFirstName() != null) {
+                row.getCell(5).setCellValue(order.getUserAccount().getFirstName());
+            }
+            if (order.getUserAccount().getLastName() != null) {
+                row.getCell(6).setCellValue(order.getUserAccount().getLastName());
+            }
+            if (order.getUserAccount().getPhone() != null) {
+                row.getCell(7).setCellValue(order.getUserAccount().getPhone());
+            }
+            if (order.getUserAccount().getEmail() != null) {
+                row.getCell(8).setCellValue(order.getUserAccount().getEmail());
+            }
+            if (order.getItems() != null) {
+                String bookName = "// ";
+                for (CartItem items : order.getItems()) {
+                    bookName += items.getBook().getName().getEn() + "// ";
+                }
+                row.getCell(9).setCellValue(bookName);
+            }
             indexRow++;
+        }
+        for (int i = 0; i <= cellName.length; i++) {
+            sheet.autoSizeColumn(i);
         }
     }
 
@@ -75,7 +95,7 @@ public class UtilExcelReports {
         }
     }
 
-    public void createFileToServer(OrderDao orderDao){
+    public void createFileToServer(OrderDao orderDao) {
         createFileExcel(orderDao);
         setSheetData();
         saveExcelProject();
