@@ -145,6 +145,7 @@ async function confirmContacts() {
         showOrderSum();
     } else {
         showErrorPass1ClickReg('Phone incorrect', 'password-used-by-user-loc');
+        setTimeout(hideError1ClickReg, 5000);
     }
 }
 
@@ -164,18 +165,19 @@ function validateEmailAndPhone(contacts) {
             if (data === "ok" && isNumber(phone)) {
                 confirmContactsFor1Click2();
             } else if (data === "error" && !isNumber(phone)) {
-                showErrorPass1ClickReg('Phone incorrect', 'password-used-by-user-loc');
+                showErrorPass1ClickReg('Phone incorrect!', 'password-used-by-user-loc');
                 showError1ClickReg(' This email address is used by another user!', 'email-used-by-user-loc');
             } else if (data === "synError" && !isNumber(phone)) {
-                showErrorPass1ClickReg('Phone incorrect', 'password-used-by-user-loc');
+                showErrorPass1ClickReg('Phone incorrect!', 'password-used-by-user-loc');
                 showError1ClickReg('Invalid email format!', 'email-used-by-user-loc');
             } else if (data === "ok" && !isNumber(phone)) {
-                showErrorPass1ClickReg('Phone incorrect', 'password-used-by-user-loc');
+                showErrorPass1ClickReg('Phone incorrect!', 'password-used-by-user-loc');
             } else if (data === "synError" && isNumber(phone)) {
                 showError1ClickReg('Invalid email format!', 'email-used-by-user-loc');
             } else if (data === "error" && isNumber(phone)) {
                 showError1ClickReg(' This email address is used by another user!', 'email-used-by-user-loc');
             }
+            setTimeout(hideError1ClickReg, 5000);
         }
     });
 }
@@ -192,7 +194,7 @@ function validateContacts() {
 }
 
 async function confirmContactsFor1Click2() {
-    showSummary();
+    $('#cartTab a[href="#Summary"]').tab('show');
     showOrderSum();
 }
 
