@@ -65,6 +65,4 @@ public class AdminController {
 
         return "admin/addBook";
     }
-
-
 }

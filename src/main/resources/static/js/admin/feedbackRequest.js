@@ -293,7 +293,7 @@ async function showModalOfFeedBack(index) {
                 } else if (data[0].text === "noGmailAccess") {
                     htmlChat += `<div>
                                 <span class="h3 col-10 confirm-gmail-longphrase-loc">Confirm gmail access to open chat:</span>
-                                <a type="button" class="col-2 btn btn-primary float-right confirm-loc" href="${gmailAccessUrl.fullUrl}">
+                                <a type="button" class="col-2 btn btn-primary float-right confirm-loc" href="${$('#gmail-access').attr("href")}">
                                 Confirm</abutton>
                             </div>`
                 } else {
