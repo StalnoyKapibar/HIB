@@ -439,6 +439,11 @@
                                                        placeholder="Email">
                                             </div>
                                         </div>
+                                        <!-- вывод ошибок, неправильновведеных даных и пр. -->
+                                        <div class="collapse" id="collapseExampleEmail1ClickReg">
+                                            <div class="alert alert-danger" id="errorMessageEmail1ClickReg">
+                                            </div>
+                                        </div>
                                         <!--        Добавил в форму контактов при заказе имя и фамилию                        -->
                                         <div class="form-group row">
                                             <label class="control-label col-sm-2 col-form-label firstName-label"
@@ -463,7 +468,11 @@
                                                 <input class="form-control field phone" type="tel" id="phone"
                                                        placeholder="Phone">
                                             </div>
-
+                                        </div>
+                                        <!-- вывод ошибок, неправильновведеных даных и пр. -->
+                                        <div class="collapse" id="collapseExamplePass1ClickReg">
+                                            <div class="alert alert-danger" id="errorMessagePass1ClickReg">
+                                            </div>
                                         </div>
                                         <div class="form-group row">
                                             <label class="control-label col-sm-2 col-form-label comment-label"
@@ -486,7 +495,7 @@
                                                     Next
                                                 </button>
                                                 <button sec:authorize="!isAuthenticated()" class="btn btn-primary next-btn"
-                                                        onclick="confirmContactsFor1Click2()"
+                                                        onclick="validateContacts()"
                                                         type="button">
                                                     Next
                                                 </button>
@@ -540,11 +549,6 @@
                                         </tr>
                                         </tbody>
                                     </table>
-                                </div>
-                                <!-- вывод ошибок, неправильновведеных даных и пр. -->
-                                <div class="collapse" id="collapseExample1ClickReg">
-                                    <div class="alert alert-danger" id="errorMessageEmail1ClickReg">
-                                    </div>
                                 </div>
                                 <!--подставляем введеные котактные данные shippingaddress из shoppingCart.js-->
                                 <div class="card card-body" id="shippingaddress"

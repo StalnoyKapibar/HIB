@@ -252,27 +252,14 @@ async function btnBuy1clickReg() {
         });
 }
 
-function checkEmail1ClickReg(contacts) {
-    let tmpSend2 = JSON.stringify(contacts)
-    POST("/checkEmail1ClickReg", tmpSend2, JSON_HEADER)
-        .then(status)
-        .then(text)
-        .then(function (resp) {
-            if (resp === "error") {
-                showError1ClickReg(' This email address is used by another user!', 'email-used-by-user-loc');
-                setTimeout(hideError1ClickReg, 5000);
-            } else {
-                if (resp === "synError") {
-                    showError1ClickReg('Invalid email format!', 'invalid-email-format-loc');
-                    setTimeout(hideError1ClickReg, 5000);
-                }
-            }
-        });
-}
-
 function showError1ClickReg(message, className) {
     $('#errorMessageEmail1ClickReg').addClass(className).text(message);
-    $('#collapseExample1ClickReg').attr('class', 'collapse show');
+    $('#collapseExampleEmail1ClickReg').attr('class', 'collapse show');
+}
+
+function  showErrorPass1ClickReg(message, className) {
+    $('#errorMessagePass1ClickReg').addClass(className).text(message);
+    $('#collapseExamplePass1ClickReg').attr('class', 'collapse show');
 }
 
 function enterData() {
