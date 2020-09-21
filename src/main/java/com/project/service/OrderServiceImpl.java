@@ -10,10 +10,7 @@ import com.project.service.abstraction.ShoppingCartService;
 import com.project.service.abstraction.UserService;
 import com.project.util.UtilExcelReports;
 import lombok.AllArgsConstructor;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -21,9 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.mail.MessagingException;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,8 +34,8 @@ public class OrderServiceImpl implements OrderService {
     private UtilExcelReports excelReports;
 
     @Override
-    public void addOrder(Order order, String  url) {
-        Order addedOrder= orderDAO.add(order);
+    public void addOrder(Order order, String url) {
+        Order addedOrder = orderDAO.add(order);
         try {
             sendEmailService.orderPresent(addedOrder, url);
         } catch (MessagingException e) {
@@ -172,7 +166,7 @@ public class OrderServiceImpl implements OrderService {
         Long completedOrders = orderDAO.getAmountByStatus(Status.COMPLETED, email);
         Long deletedOrders = orderDAO.getAmountByStatus(Status.DELETED, email);
         Long canceledOrders = orderDAO.getAmountByStatus(Status.CANCELED, email);
-        return new Long[] {uprocessedOrders, processingOrders, completedOrders, deletedOrders, canceledOrders};
+        return new Long[]{uprocessedOrders, processingOrders, completedOrders, deletedOrders, canceledOrders};
     }
 
     @Override
@@ -182,18 +176,10 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public ResponseEntity createFileAllOrders() {
-        excelReports.createFileToServer(orderDAO);
-        Path path = Paths.get("export/orders/exportsSales.xlsx");
-        Resource resource = null;
-        try {
-            resource = new UrlResource(path.toUri());
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(MediaType.APPLICATION_OCTET_STREAM_VALUE))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + "export_orders_sales.xlsx" + "\"")
-                .body(resource);
+                .header("Content-Disposition", "attachment; filename=export_orders_sales.xlsx")
+                .body(excelReports.returnExcelProject(orderDAO));
     }
 
     @Override
@@ -242,28 +228,28 @@ public class OrderServiceImpl implements OrderService {
         List<OrderDTO> ordersToSend = new ArrayList<>();
         int pages;
         long newMessage;
-        for (Order order: allOrdersList) {
-            try{
+        for (Order order : allOrdersList) {
+            try {
                 newMessage = gmail.users().messages().list("me")
                         .setQ("(" + "subject:" + "\"Order №" + order.getId() + "\"" + "from:" + order.getContacts().getEmail() + " is:unread" + ")")
                         .execute().getResultSizeEstimate();
-                if ( newMessage != 0 ) {
+                if (newMessage != 0) {
                     ordersWithNewMessages.add(order.getOrderDTOForAdmin()); //
                 }
-            } catch (IOException e){
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
         int ordersFrom = page * size;
         int ordersTo = (page + 1) * size;
-        if (ordersTo > ordersWithNewMessages.size()){
+        if (ordersTo > ordersWithNewMessages.size()) {
             ordersTo = ordersWithNewMessages.size();
         }
-        for (int i = ordersFrom; i < ordersTo; i++){
+        for (int i = ordersFrom; i < ordersTo; i++) {
             ordersToSend.add(ordersWithNewMessages.get(i));
         }
-        pages = ordersWithNewMessages.size()/size;
-        if ((ordersWithNewMessages.size() % size) != 0){
+        pages = ordersWithNewMessages.size() / size;
+        if ((ordersWithNewMessages.size() % size) != 0) {
             pages++;
         }
         orderPageAdminDTO.setPageNumber(page);

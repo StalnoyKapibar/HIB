@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Contacts</title>
+</head>
+<body>
+<p>You can contact us by phone or email.</p>
+<p th:if="${email}!=''">Email: <span th:text="${email}"></span></p>
+<p th:if="${phoneNumber}!=''">Phone number: <span th:text="${phoneNumber}"></span></p>
+<p>Also, you can contact us by clicking on the "Ask a question" button in the main menu.</p>
+<img src="../static/images/askaquestion.png" height="490" width="264"/>
+<p>To ask a question about a specific book, you need to click on the book of interest and click on the "Ask a question" button.</p>
+</body>
+</html>
