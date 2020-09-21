@@ -631,115 +631,115 @@ insert into book
 (
     cover_image, is_show, last_book_ordered, original_language_name, pages, price, views,
     year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id
-) values ('4.jpg', true, false, 'GR', null, 448, null, null, 5, 16, 6, 7, 8, 2);
+) values ('4.jpg', true, false, 'GR', null, 448, null, 2009, 5, 16, 6, 7, 8, 2);
 
 insert into book
 (
     cover_image, is_show, last_book_ordered, original_language_name, pages, price, views,
     year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id
-) values ('4.jpg', true, false, 'CS', null, 762, null, null, 9, 15, 10, 11, 12, 3);
+) values ('4.jpg', true, false, 'CS', null, 762, null, 1896, 9, 15, 10, 11, 12, 3);
 
 insert into book
 (
     cover_image, is_show, last_book_ordered, original_language_name, pages, price, views,
     year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id
-) values ('4.jpg', true, false, 'RU', null, 37, null, null, 13, 15, 14, 15, 16, 4);
+) values ('4.jpg', true, false, 'RU', null, 37, null, 2001, 13, 15, 14, 15, 16, 4);
 
 insert into book
 (
     cover_image, is_show, last_book_ordered, original_language_name, pages, price, views,
     year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id
-) values ('1.jpg', true, false, 'EN', null, 444, null, null, 17, 15, 18, 19, 20, 5);
+) values ('1.jpg', true, false, 'EN', null, 444, null, 1945, 17, 15, 18, 19, 20, 5);
 
 insert into book
 (
     cover_image, is_show, last_book_ordered, original_language_name, pages, price, views,
     year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id
-) values ('1.jpg', true, false, 'RU', null, 664, null, null, 21, 15, 22, 23, 24, 6);
+) values ('1.jpg', true, false, 'RU', null, 664, null, 1987, 21, 15, 22, 23, 24, 6);
 
 insert into book
 (
     cover_image, is_show, last_book_ordered, original_language_name, pages, price, views,
     year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id
-) values ('1.jpg', true, false, 'RU', null, 615, null, null, 25, 15, 26, 27, 28, 7);
+) values ('1.jpg', true, false, 'RU', null, 615, null, 1986, 25, 15, 26, 27, 28, 7);
 
 insert into book
 (
     cover_image, is_show, last_book_ordered, original_language_name, pages, price, views,
     year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id
-) values ('1.jpg', true, false, 'RU', null, 156, null, null, 29, 15, 30, 31, 32, 8);
+) values ('1.jpg', true, false, 'RU', null, 156, null, 1998, 29, 15, 30, 31, 32, 8);
 
 insert into book
 (
     cover_image, is_show, last_book_ordered, original_language_name, pages, price, views,
     year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id
-) values ('1.jpg', true, false, 'RU', null, 465, null, null, 33, 15, 34, 35, 36, 9);
+) values ('1.jpg', true, false, 'RU', null, 465, null, 1956, 33, 15, 34, 35, 36, 9);
 
 insert into book
 (
     cover_image, is_show, last_book_ordered, original_language_name, pages, price, views,
     year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id
-) values ('50172485-elizaveta-vladimirovna-sobolyanskaya-zanuda-v-akademii-drakonov.jpg', true, false, 'RU', null, 931, null, null, 37, 15, 38, 39, 40, 10);
+) values ('50172485-elizaveta-vladimirovna-sobolyanskaya-zanuda-v-akademii-drakonov.jpg', true, false, 'RU', null, 931, null, 1999, 37, 15, 38, 39, 40, 10);
 
 insert into book
 (
     cover_image, is_show, last_book_ordered, original_language_name, pages, price, views,
     year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id
-) values ('50387903-dzhon-marrs-the-one-edinstvennyy.jpg', false, false, 'RU', null, 498, null, null, 41, 15, 42, 43, 44, 11);
+) values ('50387903-dzhon-marrs-the-one-edinstvennyy.jpg', false, false, 'RU', null, 498, null, 2001, 41, 15, 42, 43, 44, 11);
 
 insert into book
 (
     cover_image, is_show, last_book_ordered, original_language_name, pages, price, views,
     year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id
-) values ('1.jpg', false, false, 'RU', null, 177, null, null, 45, 15, 46, 47, 48, 12);
+) values ('1.jpg', false, false, 'RU', null, 177, null, 1987, 45, 15, 46, 47, 48, 12);
 
 insert into book
 (
     cover_image, is_show, last_book_ordered, original_language_name, pages, price, views,
     year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id
-) values ('51566259-nadezhda-volgina-strast-v-iskuplenie.jpg', false, false, 'RU', null, 794, null, null, 49, 15, 50, 51, 52, 13);
+) values ('51566259-nadezhda-volgina-strast-v-iskuplenie.jpg', false, false, 'RU', null, 794, null, 1994, 49, 15, 50, 51, 52, 13);
 
 insert into book
 (
     cover_image, is_show, last_book_ordered, original_language_name, pages, price, views,
     year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id
-) values ('1.jpg', false, false, 'RU', null, 693, null, null, 53, 15, 54, 55, 56, 14);
+) values ('1.jpg', false, false, 'RU', null, 693, null, 1946, 53, 15, 54, 55, 56, 14);
 
 insert into book
 (
     cover_image, is_show, last_book_ordered, original_language_name, pages, price, views,
     year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id
-) values ('51559272-albina-uralskaya-18710396-chemodan-portal-zemlya-ekaterinburg-51559272.jpg', false, false, 'RU', null, 589, null, null, 57, 15, 58, 59, 60, 15);
+) values ('51559272-albina-uralskaya-18710396-chemodan-portal-zemlya-ekaterinburg-51559272.jpg', false, false, 'RU', null, 589, null, 1998, 57, 15, 58, 59, 60, 15);
 
 insert into book
 (
     cover_image, is_show, last_book_ordered, original_language_name, pages, price, views,
     year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id
-) values ('51424035-roman-zlotnikov-psevdonim-boga-51424035.jpg', false, false, 'RU', null, 95, null, null, 61, 15, 62, 63, 64, 16);
+) values ('51424035-roman-zlotnikov-psevdonim-boga-51424035.jpg', false, false, 'RU', null, 95, null, 1973, 61, 15, 62, 63, 64, 16);
 
 insert into book
 (
     cover_image, is_show, last_book_ordered, original_language_name, pages, price, views,
     year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id
-) values ('51402044-vladimir-kolychev-vechnost-i-esche-dva-dnya.jpg', false, false, 'RU', null, 662, null, null, 65, 15, 66, 67, 68, 17);
+) values ('51402044-vladimir-kolychev-vechnost-i-esche-dva-dnya.jpg', false, false, 'RU', null, 662, null, 1949, 65, 15, 66, 67, 68, 17);
 
 insert into book
 (
     cover_image, is_show, last_book_ordered, original_language_name, pages, price, views,
     year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id
-) values ('50405688-elena-lapysheva-ya-hochu-tebya-idealnoe-telo-sekrety-kremlevskogo-trenera.jpg', false, false, 'RU', null, 699, null, null, 69, 15, 70, 71, 72, 18);
+) values ('50405688-elena-lapysheva-ya-hochu-tebya-idealnoe-telo-sekrety-kremlevskogo-trenera.jpg', false, false, 'RU', null, 699, null, 1962, 69, 15, 70, 71, 72, 18);
 
 insert into book
 (
     cover_image, is_show, last_book_ordered, original_language_name, pages, price, views,
     year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id
-) values ('51247780-gennadiy-kibardin-bystraya-hodba-lechit.jpg', false, false, 'RU', null, 443, null, null, 73, 15, 74, 75, 76, 19);
+) values ('51247780-gennadiy-kibardin-bystraya-hodba-lechit.jpg', false, false, 'RU', null, 443, null, 1954, 73, 15, 74, 75, 76, 19);
 
 insert into book
 (
     cover_image, is_show, last_book_ordered, original_language_name, pages, price, views,
     year_of_edition, author_id, category_id, description_id, edition_id, name_id, original_language_id
-) values ('4387365-stiven-king-protivostoyanie.jpg', true, false, 'OTHER', null, 807, null, null, 77, 15, 78, 79, 80, 20);
+) values ('4387365-stiven-king-protivostoyanie.jpg', true, false, 'OTHER', null, 807, null, 1976, 77, 15, 78, 79, 80, 20);
 
 insert into  book_list_image (book_id, list_image_id) values (1, 1);
 insert into  book_list_image (book_id, list_image_id) values (1, 2);

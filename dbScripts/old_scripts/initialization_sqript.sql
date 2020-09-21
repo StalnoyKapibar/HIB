@@ -27,7 +27,7 @@ create table book
     pages bigint null,
     price bigint null,
     views bigint null,
-    year_of_edition varchar(255) null,
+    year_of_edition bigint null,
     author_id bigint null,
     category_id bigint null,
     description_id bigint null,

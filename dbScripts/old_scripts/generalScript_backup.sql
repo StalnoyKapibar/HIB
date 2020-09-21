@@ -134,7 +134,7 @@ create table book
     pages int8,
     price int8,
     views int8,
-    year_of_edition varchar(255),
+    year_of_edition int8,
 
     author_id int8 references local_string,
     category_id int8 references local_string,
