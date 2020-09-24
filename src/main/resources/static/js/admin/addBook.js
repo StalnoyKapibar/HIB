@@ -1,5 +1,9 @@
 let divAvatar, categoryName, selectedCategoryName, category, categoryTab, categoryTreeDiv, categoryHelperDiv;
 let listImages;
+let name;
+let author;
+let description;
+let edition;
 let yearOfEdition;
 let pages;
 let price;
@@ -16,17 +20,10 @@ function checkRequired() {
         return false;
     }
     for (let tmpNameObject of nameObjectOfLocaleString) {
-        let test = $("#inpt" + tmpNameObject).val();
+        let test = $("#inp" + tmpNameObject).val();
         if (test === ''){
             alert(noRequiredField + ': ' + tmpNameObject + '!');
             return false;
-        }
-        for (let tmpNameVar of nameVarOfLocaleString) {
-            let varTest = $("#inp" + tmpNameObject + tmpNameVar).val();
-            if (varTest === '') {
-                alert(noRequiredField + ': ' + tmpNameObject + ' ' + tmpNameVar + '!')
-                return false;
-            }
         }
     }
 
@@ -40,81 +37,33 @@ function checkRequired() {
 //Функция, выводящая поля для транслитерации и перевода
 function addPartsOfBook(partsOfBook) {
     let html = ``;
-    for (let tmpNameObject of nameObjectOfLocaleString) {
-
-        if (tmpNameObject === partsOfBook) {
-
-            html += `<div class="shadow p-4 mb-4 bg-white">`;
-
-            if (partsOfBook === "description") {
-
-                for (let tmpNameVar of nameVarOfLocaleString) {
-                    html += `<div class="card p-4 mb-4 bg-light">
-                                <div class='form-group mx-5'>
-                                    <div class="row">
-                                        <div class="col-0" for=${tmpNameObject}${tmpNameVar}>${tmpNameObject} ${tmpNameVar}</div>
-                                        <div class="col-2 mr-1">
-                                            <input type="radio" name="rb${tmpNameObject}" id="rb${tmpNameObject}${tmpNameVar}" 
-                                                value="${tmpNameVar}" autocomplete="off"> Translate from this language</div>
-                                        <div class="col-6">
-                                            <textarea type='text' class='form-control' rows="10"  id='inp${tmpNameObject}${tmpNameVar}'
-                                                placeholder='${tmpNameObject} ${tmpNameVar}'> </textarea>
-                                        </div>
-                                        <div class="col">
-                                            <input type="checkbox" checked name="cb${tmpNameObject}" value="${tmpNameVar}" 
-                                                autocomplete="off">Into this language
-                                        </div>
-                                    </div>
-                                </div>
-                             </div>`;
-                    if (tmpNameVar === "gr") {
-                        html += `<button type="button" onclick="translateText('${tmpNameObject}')" class="btn btn-primary mx-3 w-25">Translate</button></div>`
-                    }
-                }
-            } else {
-
-                html +=
-                    `<div class="card p-4 mb-4 bg-light">
+    if (partsOfBook === "description") {
+        html += `<div class="card p-4 mb-4 bg-light">
+                <div class='form-group mx-5'>
+                    <div class="row">
+                        <div class="col-0" for=${partsOfBook}gr>${partsOfBook} gr</div>
+                        
+                        <div class="col">
+                            <textarea type='text' class='form-control' id='inpdescription' placeholder='Description'></textarea>
+                        </div>
+                        </div></div></div>`;
+        return html;
+    } else {
+        html +=
+            `<div class="card p-4 mb-4 bg-light">
                         <div class='form-group mx-5 my-3'>
                             <div class="row">
-                                <div class="col-0" for=${tmpNameObject}>${tmpNameObject}<span class="required">*</span> of other lang </div>
-                                <div class="col-5 pl-5 ml-5  "><input type='text'  class='form-control '  id='inpt${tmpNameObject}'></div>
+                                <div class="col-0" for=${partsOfBook}>${partsOfBook}<span class="required">*</span></div>
+                                <div class="col-5 pl-5 ml-5  "><input type='text'  class='form-control '  id='inp${partsOfBook}'></div>
                             </div>
                             <div class="row my-2">
-                                <div class="col-0" for=${tmpNameObject}>${tmpNameObject} transliterate&nbsp;&nbsp; </div>
-                                <div class="col-5 pl-5 ml-5  mr-1 "><input type='text' class='form-control ' id='in${tmpNameObject}'></div>
+                                <div class="col-0" for=${partsOfBook}>${partsOfBook} transliterate&nbsp;&nbsp; </div>
+                                <div class="col-5 pl-5 ml-5  mr-1 "><input type='text' class='form-control ' id='in${partsOfBook}'></div>
                             </div>
                         </div>
-                        <button type="button" onclick="transliterationText('${tmpNameObject}')" class="btn btn-primary mx-3 w-25">Transliterate</button>
+                        <button type="button" onclick="transliterationText('${partsOfBook}')" class="btn btn-primary mx-3 w-25">Transliterate</button>
                     </div>`;
-
-                for (let tmpNameVar of nameVarOfLocaleString) {
-                    html += `<div class="card p-4 mb-4 bg-light">
-                                <div class='form-group mx-5'>
-                                    <div class="row">
-                                        <div class="col-0" for=${tmpNameObject}${tmpNameVar}>${tmpNameObject} ${tmpNameVar}<span class="required">*</span></div>
-                                        <div class="col-2 mr-1">
-                                            <input type="radio" name="rb${tmpNameObject}" id="rb${tmpNameObject}${tmpNameVar}" 
-                                                value="${tmpNameVar}" autocomplete="off"> Translate from this language
-                                        </div>
-                                        <div class="col">
-                                            <input type='text' class='form-control'  id='inp${tmpNameObject}${tmpNameVar}'
-                                                placeholder='${tmpNameObject} ${tmpNameVar}'> 
-                                        </div>
-                                        <div class="col">
-                                            <input type="checkbox" checked name="cb${tmpNameObject}" value="${tmpNameVar}" 
-                                                autocomplete="off"> Into this language
-                                        </div>
-                                    </div>
-                                </div>
-                             </div>`;
-                    if (tmpNameVar === "gr") {
-                        html += `<button type="button" onclick="translateText('${tmpNameObject}')" class="btn btn-primary mx-3 w-25">Translate</button></div>`
-                    }
-                }
-            }
-            return html;
-        }
+        return html;
     }
 }
 
@@ -391,11 +340,11 @@ function sendAddBook() {
         for (let tmpNameObject of nameObjectOfLocaleString) {
             let bookFields = {};
             for (let tmpNameVar of nameVarOfLocaleString) {
-                bookFields[tmpNameVar] = $("#inp" + tmpNameObject + tmpNameVar).val();
+                bookFields[tmpNameVar] = $("#inp" + tmpNameObject).val();
             }
             book[tmpNameObject] = bookFields;
             if (tmpNameObject !== "description") {
-                otherLangFields[tmpNameObject] = $("#inpt" + tmpNameObject).val();
+                otherLangFields[tmpNameObject] = $("#inp" + tmpNameObject).val();
                 otherLangFields[tmpNameObject + "Translit"] = $("#in" + tmpNameObject).val();
             }
         }

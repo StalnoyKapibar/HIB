@@ -64,7 +64,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(filterSession, BasicAuthenticationFilter.class);
 
         //Страницы доступные для админа
-        http.authorizeRequests().antMatchers("/admin/**", "/admin", "/api/admin/**")
+        http.authorizeRequests().antMatchers("/admin/**", "/admin", "/api/admin/**", "/admin/add")
                 .hasRole("ADMIN");
         //Страницы не доступные для админа
         http.authorizeRequests().antMatchers("/shopping-cart").not().hasRole("ADMIN");
