@@ -25,7 +25,7 @@ function checkEditRequired() {
         return false;
     }
     for (let tmpNameObject of nameObjectOfLocaleString) {
-        let test = $("#inpt" + tmpNameObject).val();
+        let test = $("#inp" + tmpNameObject).val();
         if (test === ''){
             alert('Required field is not filled in: ' + tmpNameObject + '!');
             return false;
@@ -66,38 +66,27 @@ function text(response) {
 function addPartsOfBook(partsOfBook) {
     let html = ``;
     for (let tmpNameObject of nameObjectOfLocaleString) {
-
         if (tmpNameObject === partsOfBook) {
 
             html += `<div class="shadow p-4 mb-4 bg-white">`;
 
             if (partsOfBook === "description") {
-
-                for (let tmpNameVar of nameVarOfLocaleString) {
-                    html += `<div class="card p-4 mb-4 bg-light">
+                html += `<div class="card p-4 mb-4 bg-light">
                 <div class='form-group mx-5'>
                     <div class="row">
-                        <div class="col-0" for=${tmpNameObject}${tmpNameVar}>${tmpNameObject} ${tmpNameVar}</div>
-                        <div class="col-2 mr-1">
-                            <input type="radio" name="rb${tmpNameObject}" id="rb${tmpNameObject}${tmpNameVar}" 
-                            value="${tmpNameVar}" autocomplete="off"> Translate from this language</div>
+                        <div class="col-0" for=${tmpNameObject}>${tmpNameObject}</div>
                         <div class="col">
-                            <textarea type='text' class='form-control' id='inp${tmpNameObject}${tmpNameVar}'
-                            placeholder='${tmpNameObject} ${tmpNameVar}'></textarea>
+                            <textarea type='text' class='form-control' id='inp${tmpNameObject}'
+                            placeholder='${tmpNameObject}'></textarea>
                         </div>
-                        <div class="col">
-                            <input type="checkbox" checked name="cb${tmpNameObject}" value="${tmpNameVar}" autocomplete="off"> Into this language</div></div></div></div>`;
-                                if (tmpNameVar === "gr") {
-                                    html += `<button type="button" onclick="translateText('${tmpNameObject}')" class="btn btn-primary mx-3 w-25">Translate</button></div>`
-                                }
-                            }
-                        } else {
-                            html +=
-                                `<div class="card p-4 mb-4 bg-light">
+                        </div></div></div></div>`;
+            } else {
+                html +=
+                    `<div class="card p-4 mb-4 bg-light">
                                     <div class='form-group mx-5 my-3'>
                                         <div class="row">
-                                            <div class="col-0" for=${tmpNameObject}>${tmpNameObject}<span class="required">*</span> of other lang </div>
-                                            <div class="col-5 pl-5 ml-5  "><input type='text'  class='form-control '  id='inpt${tmpNameObject}'></div> 
+                                            <div class="col-0" for=${tmpNameObject}>${tmpNameObject}<span class="required">*</span></div>
+                                            <div class="col-5 pl-5 ml-5  "><input type='text'  class='form-control '  id='inp${tmpNameObject}'></div> 
                                         </div>
                                         <div class="row my-2">
                                             <div class="col-0" for=${tmpNameObject}>${tmpNameObject} transliterate&nbsp;&nbsp; </div>
@@ -106,24 +95,7 @@ function addPartsOfBook(partsOfBook) {
                                     </div>
                                     <button id="yourDivId" type="button" onclick="transliterationText('${tmpNameObject}')" class="btn btn-primary mx-3 w-25">Transliterate</button>
                                 </div>`;
-                for (let tmpNameVar of nameVarOfLocaleString) {
-                    html += `<div class="card p-4 mb-4 bg-light">
-                                <div class='form-group mx-5'>
-                                    <div class="row">
-                                        <div class="col-0" for=${tmpNameObject}${tmpNameVar}>${tmpNameObject} ${tmpNameVar}<span class="required">*</span></div>
-                                        <div class="col-2 mr-1">
-                                            <input type="radio" name="rb${tmpNameObject}" id="rb${tmpNameObject}${tmpNameVar}" 
-                                            value="${tmpNameVar}" autocomplete="off"> Translate from this language</div>
-                                        <div class="col">
-                                            <input type='text' class='form-control' id='inp${tmpNameObject}${tmpNameVar}'
-                                            placeholder='${tmpNameObject} ${tmpNameVar}'>
-                                        </div>
-                                        <div class="col">
-                                            <input type="checkbox" checked name="cb${tmpNameObject}" value="${tmpNameVar}" autocomplete="off"> Into this language</div></div></div></div>`;
-                    if (tmpNameVar === "gr") {
-                        html += `<button type="button" onclick="translateText('${tmpNameObject}')" class="btn btn-primary mx-3 w-25">Translate</button></div>`
-                    }
-                }
+                html += `</div>`;
             }
             return html;
         }
@@ -149,9 +121,9 @@ async function getOriginalLangForHIB() {
         .then(json)
         .then(function (origLang) {
             tmpArr.originalLanguage = origLang;
-            $('#inptname').attr("value", tmpArr.originalLanguage.name);
-            $('#inptauthor').attr("value", tmpArr.originalLanguage.author);
-            $('#inptedition').attr("value", tmpArr.originalLanguage.edition);
+            $('#inpname').attr("value", tmpArr.originalLanguage.name);
+            $('#inpauthor').attr("value", tmpArr.originalLanguage.author);
+            $('#inpedition').attr("value", tmpArr.originalLanguage.edition);
             $('#inname').attr("value", transliterationText("name"));
             $('#inauthor').attr("value", transliterationText("author"));
             $('#inedition').attr("value", transliterationText("edition"));
@@ -173,7 +145,7 @@ function buildEditPage() {
             '                       <div class="col-4" style="margin: 0 auto">\n' +
             '                           <div class="input-group mb-3">\n' +
             '                               <input type="text" class="form-control" categoryid="' + tmpArr.category.id +
-                                            '" id="categoryInput" readonly value="' + tmpArr.category.name['en'] + '">\n' +
+            '" id="categoryInput" readonly value="' + tmpArr.category.name['en'] + '">\n' +
             '                           <div class="input-group-append">\n' +
             '                               <button class="btn btn-outline-secondary" id="selectCategory" data-toggle="modal" data-target=".bd-example-modal-lg" type="button">Change category</button>\n' +
             '                           </div>\n' +
@@ -246,28 +218,6 @@ function buildEditPage() {
     divAvatar = $("#divAvatar");
     listImages = $("#imageList");
 
-    for (let tmpNameObject of nameObjectOfLocaleString) {
-
-        html1 += `<div class="col card card-body my-2"><h5 class='bg-secondary p-2 text-white text-center'>${tmpNameObject}</h5>
-                      <div class="row row-cols-2">`;
-        for (let tmpNameVar of nameVarOfLocaleStringWithId) {
-            if (tmpNameVar === "id") {
-                html1 += `<div class='col'><div class='form-group'>` +
-                    `<label for='${tmpNameObject}${tmpNameVar}'>${tmpNameObject} ${tmpNameVar}</label>` +
-                    `<input type='text' class='form-control' id='${tmpNameObject}${tmpNameVar}' ` +
-                    `placeholder='${tmpNameObject} ${tmpNameVar}' readonly>` +
-                    `</div></div>`;
-            } else {
-
-                html1 += `<div class='col'><div class='form-group'>` +
-                    `<label for='${tmpNameObject}${tmpNameVar}'>${tmpNameObject} ${tmpNameVar}</label>` +
-                    `<input type='text' class='form-control' id='${tmpNameObject}${tmpNameVar}' ` +
-                    `placeholder='${tmpNameObject} ${tmpNameVar}'>` +
-                    `</div></div>`;
-            }
-        }
-        html1 += '</div></div>';
-    }
 
     let originalLang = ``;
     for (let key in nameVarOfLocaleStringWithId) {
@@ -279,40 +229,19 @@ function buildEditPage() {
         )
     }
 
-    if (isNumber(idd)) $('#inptname').attr("value", tmpArr.originalLanguage.name);
-    $('#inpnameru').attr("value", tmpArr.name.ru);
-    $('#inpnameen').attr("value", tmpArr.name.en);
-    $('#inpnamefr').attr("value", tmpArr.name.fr);
-    $('#inpnameit').attr("value", tmpArr.name.it);
-    $('#inpnamede').attr("value", tmpArr.name.de);
-    $('#inpnamecs').attr("value", tmpArr.name.cs);
-    $('#inpnamegr').attr("value", tmpArr.name.gr);
+    if (isNumber(idd)) {
+        $('#inpname').attr("value", tmpArr.originalLanguage.name);
+    }
 
-    if (isNumber(idd)) $('#inptauthor').attr("value", tmpArr.originalLanguage.author);
-    $('#inpauthorru').attr("value", tmpArr.author.ru);
-    $('#inpauthoren').attr("value", tmpArr.author.en);
-    $('#inpauthorfr').attr("value", tmpArr.author.fr);
-    $('#inpauthorit').attr("value", tmpArr.author.it);
-    $('#inpauthorde').attr("value", tmpArr.author.de);
-    $('#inpauthorcs').attr("value", tmpArr.author.cs);
-    $('#inpauthorgr').attr("value", tmpArr.author.gr);
+    if (isNumber(idd)) {
+        $('#inpauthor').attr("value", tmpArr.originalLanguage.author);
+    }
 
-    document.getElementById("inpdescriptionru").value = tmpArr.description.ru;
-    document.getElementById("inpdescriptionen").value = tmpArr.description.en;
-    document.getElementById("inpdescriptionfr").value = tmpArr.description.fr;
-    document.getElementById("inpdescriptionit").value = tmpArr.description.it;
-    document.getElementById("inpdescriptionde").value = tmpArr.description.de;
-    document.getElementById("inpdescriptioncs").value = tmpArr.description.cs;
-    document.getElementById("inpdescriptiongr").value = tmpArr.description.gr;
+    $('#inpdescription').append(tmpArr.description.gr);
 
-    if (isNumber(idd)) $('#inptedition').attr("value", tmpArr.originalLanguage.edition);
-    $('#inpeditionru').attr("value", tmpArr.edition.ru);
-    $('#inpeditionen').attr("value", tmpArr.edition.en);
-    $('#inpeditionfr').attr("value", tmpArr.edition.fr);
-    $('#inpeditionit').attr("value", tmpArr.edition.it);
-    $('#inpeditionde').attr("value", tmpArr.edition.de);
-    $('#inpeditioncs').attr("value", tmpArr.edition.cs);
-    $('#inpeditiongr').attr("value", tmpArr.edition.gr);
+    if (isNumber(idd)) {
+        $('#inpedition').attr("value", tmpArr.originalLanguage.edition);
+    }
 
     $('#yearOfEdition').attr("value", tmpArr.yearOfEdition);
     $('#pages').attr("value", tmpArr.pages);
@@ -323,6 +252,10 @@ function buildEditPage() {
         $('#inauthor').attr("value", transliterationText("author"));
         $('#inedition').attr("value", transliterationText("edition"));
     }
+
+    // $('#inname').attr("value", transliterationText("name"));
+    // $('#inauthor').attr("value", transliterationText("author"));
+    // $('#inedition').attr("value", transliterationText("edition"));
 
     document.getElementById('originalLanguage').value = tmpArr.originalLanguageName;
 
@@ -407,7 +340,9 @@ function buildEditPage() {
     for (let key in tmpArr) {
         if (key !== "id" && key !== "imageList" && key !== "coverImage") {
             for (let key0 of nameVarOfLocaleStringWithId) {
-                document.getElementById(key + key0).value = tmpArr[key][key0];
+                if (key !== null && key0 !== null && tmpArr[key][key0] !== null) {
+                    document.getElementById(key + key0).value = tmpArr[key][key0];
+                }
             }
         }
 
@@ -582,11 +517,11 @@ function sendEditBook() {
         for (let tmpNameObject of nameObjectOfLocaleString) {
             let bookFields = {};
             for (let tmpNameVar of nameVarOfLocaleString) {
-                bookFields[tmpNameVar] = $("#inp" + tmpNameObject + tmpNameVar).val()
+                bookFields[tmpNameVar] = $("#inp" + tmpNameObject).val()
             }
             book[tmpNameObject] = bookFields;
             if (tmpNameObject !== "description") {
-                otherLangFields[tmpNameObject] = $("#inpt" + tmpNameObject).val();
+                otherLangFields[tmpNameObject] = $("#inp" + tmpNameObject).val();
                 otherLangFields[tmpNameObject + "Translit"] = $("#in" + tmpNameObject).val();
             }
         }

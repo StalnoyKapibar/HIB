@@ -8,6 +8,7 @@ import com.project.service.abstraction.OrderService;
 import com.project.service.abstraction.StorageService;
 import com.project.util.BookDTOWithFieldsForTable;
 import org.apache.commons.io.FileUtils;
+import org.infinispan.partitionhandling.impl.LostDataCheck;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -109,7 +110,7 @@ public class BookController {
     }
 
     @PostMapping("/admin/add")
-    public void addBook(@RequestBody Book book, @RequestParam("pics") String picsFolderName) {
+    public void addBook(@RequestBody Book book, @RequestParam(name = "pics") String picsFolderName) {
         if (book.getCoverImage() == null) {
             book.setCoverImage("");
             bookService.addBook(book);

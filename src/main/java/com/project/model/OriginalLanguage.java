@@ -32,4 +32,14 @@ public class OriginalLanguage {
     private String authorTranslit;
     @Field
     private String editionTranslit;
+
+    public OriginalLanguage(String name, String author, String edition,
+                            String nameTranslit, String authorTranslit, String editionTranslit){
+        this.name = name;
+        this.author = author;
+        this.edition = edition;
+        this.nameTranslit = nameTranslit;
+        this.authorTranslit = authorTranslit;
+        this.editionTranslit = editionTranslit;
+    }
 }
