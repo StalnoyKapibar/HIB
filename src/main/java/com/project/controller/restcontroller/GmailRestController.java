@@ -3,8 +3,10 @@ package com.project.controller.restcontroller;
 import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.model.ListMessagesResponse;
 import com.google.api.services.gmail.model.Message;
+import com.google.api.services.gmail.model.ModifyMessageRequest;
 import com.nimbusds.jose.util.Base64URL;
 import com.project.controller.restcontroller.emailUtil.emailParser.EmailParser;
+import com.project.model.ContactsOfOrderDTO;
 import com.project.model.MessageDTO;
 import lombok.NoArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +15,7 @@ import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.websocket.server.PathParam;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.*;
@@ -40,7 +43,6 @@ public class GmailRestController {
             List<Message> messagesFromUser = new ArrayList<>();
             List<Message> messagesFromAdmin = new ArrayList<>();
             Map<String, MessageDTO> messages = new TreeMap<>(Collections.reverseOrder());
-
             fillMessageMap(responseFromUser, messagesFromUser, messages, userId);
             fillMessageMap(responseFromAdmin, messagesFromAdmin, messages, gmail.users().getProfile("me").getUserId());
             fullchat = new ArrayList<>(messages.values());
@@ -134,33 +136,13 @@ public class GmailRestController {
         int startId = Integer.parseInt(part) * 10;
         int endIdExclude = startId + 10;
         List<MessageDTO> chat = new ArrayList<>();
-
+       // fullchat.stream().forEach((e) -> System.out.print(", " + e));
         for (int i = startId; i < endIdExclude; i++) {
             if (i < fullchat.size()) {
                 MessageDTO messageDTO = fullchat.get(i);
                 Message fullMessage = gmail.users().messages().get("me", messageDTO.getMessageId()).execute();
-                Base64URL base64URL;
-                if (fullMessage.getPayload().getParts() != null) {
-                    if (fullMessage.getPayload().getParts().get(0).getBody().getData() == null) {
-                        break;
-                    }
-                    if (fullMessage.getPayload().getParts().get(1).getBody().getData() == null) {
-                        base64URL = new Base64URL(fullMessage.getPayload().getParts().get(0).getBody().getData());
-                    } else {
-                        base64URL = new Base64URL(fullMessage.getPayload().getParts().get(1).getBody().getData());
-                    }
-                    text = base64URL.decodeToString();
-                } else {
-                    if (fullMessage.getPayload().getBody().getData() == null) {
-                        break;
-                    }
-                    base64URL = new Base64URL(fullMessage.getPayload().getBody().getData());
-                    text = base64URL.decodeToString();
-                }
-                if (text.startsWith("\"") && text.startsWith("\"", text.length()-1)) {
-                    text = text.substring(1, text.length()-1);
-                }
-                text = messageDTO.getEmailParser().getMessageTextWithoutRe(text);
+                text = getTextBodyofMailWhithoutQuote(fullMessage, messageDTO.getSender());
+             //   System.out.println("0//"+text);
                 messageDTO.setText(text);
                 messageDTO.setSubject(getSubject(fullMessage));
                 chat.add(messageDTO);
@@ -193,5 +175,162 @@ public class GmailRestController {
             }
         }
         return "";
+    }
+
+
+    //
+    //
+    //используется на странице с ордерами
+    @PostMapping(value = "/admin/unreademails")
+    Map<String, Boolean> getUnreadEmails(@RequestBody ContactsOfOrderDTO[] contactsOfOrderDTO) throws IOException {
+        Map<String, Boolean> unreadEmails = new HashMap<>();
+        if (gmail != null) {
+            unreadEmails.put("gmailAccess", true);
+            for (ContactsOfOrderDTO order : contactsOfOrderDTO) {
+                if (gmail.users().messages().list("me")
+                        .setQ("(" + "subject:" + "\"Order №" + order.getId() + "\"" + "from:" + order.getEmail() + " is:unread" + ")")
+                        .execute().getResultSizeEstimate() != 0) {
+                    unreadEmails.put(Long.toString(order.getId()), true);
+                } else {
+                    unreadEmails.put(Long.toString(order.getId()), false);
+                }
+            }
+        } else {
+            unreadEmails.put("gmailAccess", false);
+        }
+        return unreadEmails;
+    }
+
+    //используется для генерации списка с непрочитанными сообщениями в фидбэках
+    @PostMapping(value = "/admin/unreadgmail")
+    Map<String, List<String>> getUnreadContent(@RequestBody List<String> emails) {
+        Map<String, List<String>> unreadcontent = new HashMap<>();
+        List<Message> messagesResponse = new ArrayList<>();
+        if (gmail != null) {
+            emails.forEach(email -> {
+                ListMessagesResponse listMessagesResponse = new ListMessagesResponse();
+                try {
+                    listMessagesResponse = gmail.users().messages().list("me").setQ("from:" + email + " is:unread").execute();
+                  //  System.out.println(listMessagesResponse.toString());
+                    if (listMessagesResponse.getResultSizeEstimate() != 0) {
+                         //   System.out.println("  "+listMessagesResponse.getMessages().size()+"  "+Arrays.toString(listMessagesResponse.getMessages().toArray()));
+                       //костыль направленный, на то, что бы  в список сообщений добавлялись, непрочитанные сообщение в теме которого содержиться "Feedback"
+                        for (Message message : listMessagesResponse.getMessages()) {
+                            Message msg = gmail.users().messages().get("me",message.getId()).execute();
+                            String subject=getSubject(msg);
+                         //  System.out.println(subject);
+                            if(subject.contains("Feedback")){
+                                messagesResponse.add(msg);
+                            }
+                        }
+                       // Message m1 =  gmail.users().messages().get("me", listMessagesResponse.getMessages().get(0).getId()).execute();
+
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+            messagesResponse.forEach(message -> {
+                String email = message.getPayload().getHeaders().stream()
+                        .filter(headers -> headers.getName().equals("From")).findFirst().get().getValue().split("<")[1].replace(">", "");
+                String subject = message.getPayload().getHeaders().stream()
+                        .filter(headers -> headers.getName().equals("Subject")).findFirst().get().getValue();
+                String snippet = getTextBodyofMailWhithoutQuote(message, email);
+                String strRegEx = "<[^>]*>";
+                snippet = snippet.replaceAll(strRegEx, "");
+                //replace &nbsp; with space
+                snippet = snippet.replace("&nbsp;", "");
+                //replace &amp; with &
+                snippet = snippet.replace("&amp;", "&");
+              //  System.out.println(" 9// "+snippet);
+                List<String> content = Arrays.asList(subject, snippet);
+                unreadcontent.put(email, content);
+               // System.out.println("unread:"+email+"  "+content);
+            });
+        }
+        return unreadcontent;
+    }
+
+    @GetMapping(value = "/admin/markasread")
+    Map<String, Boolean> markAsRead(@PathParam("email") String email) throws IOException {
+        Map<String, Boolean> markAsRead = new HashMap<>();
+        if (gmail != null) {
+            ModifyMessageRequest mods = new ModifyMessageRequest().setRemoveLabelIds(new ArrayList<String>(Arrays.asList("UNREAD")));
+            gmail.users().messages().list("me").setQ("from:" + email + " is:unread").execute()
+                    .getMessages().stream().forEach(message -> {
+                try {
+                    gmail.users().messages().modify("me", message.getId(), mods).execute();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+            markAsRead.put("markasread", true);
+        } else {
+            markAsRead.put("gmailAccess", false);
+        }
+        return markAsRead;
+    }
+
+    // отметить сообщение в заказе прочитанным
+    @GetMapping(value = "/admin/markmessageasread/{email}/{order}")
+    Map<String, Boolean> markAsReadMessage(@PathVariable("email") String userId,
+                                           @PathVariable("order") String subject) throws IOException {
+        Map<String, Boolean> markAsRead = new HashMap<>();
+        if (gmail != null) {
+            ModifyMessageRequest mods = new ModifyMessageRequest().setRemoveLabelIds(new ArrayList<>(Arrays.asList("UNREAD")));
+            List<Message> messagesFromUser = gmail.users()
+                    .messages()
+                    .list("me")
+                    .setQ("(" + "subject:" + "\"Order №" + subject + "\"" + "from:" + userId + " is:unread" + ")")
+                    .execute()
+                    .getMessages();
+            if (messagesFromUser != null) {
+                messagesFromUser.stream()
+                        .forEach(message -> {
+                            try {
+                                gmail.users().messages().modify("me", message.getId(), mods).execute();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        });
+                markAsRead.put("markasread", true);
+            } else {
+                markAsRead.put("markasread", false);
+            }
+        } else {
+            markAsRead.put("gmailAccess", false);
+        }
+        return markAsRead;
+    }
+
+    private String getTextBodyofMailWhithoutQuote(Message fullMessage, String email) {
+        Base64URL base64URL;
+        String text = fullMessage.getSnippet();
+        //System.out.println("----" + fullMessage.getSnippet() + "??" + fullMessage);
+        if (fullMessage.getPayload().getParts() != null) {
+         //   System.out.println("1) Прошло if (fullMessage.getPayload().getParts() != null) {");
+            if (fullMessage.getPayload().getParts().get(0).getBody().getData() != null) {
+             //   System.out.println("2) fullMessage.getPayload().getParts().get(0).getBody().getData() != null");
+                if (fullMessage.getPayload().getParts().get(1).getBody().getData() == null) {
+              //      System.out.println("3) fullMessage.getPayload().getParts().get(1).getBody().getData() == null");
+                    base64URL = new Base64URL(fullMessage.getPayload().getParts().get(0).getBody().getData());
+                } else {
+              //      System.out.println("3) альт -----   fullMessage.getPayload().getParts().get(1).getBody().getData() == null");
+                    base64URL = new Base64URL(fullMessage.getPayload().getParts().get(1).getBody().getData());
+                }
+                text = base64URL.decodeToString();
+            }
+        } else if (fullMessage.getPayload().getBody().getData() != null) {
+          //  System.out.println("4) else if (fullMessage.getPayload().getBody().getData() != null) {");
+            base64URL = new Base64URL(fullMessage.getPayload().getBody().getData());
+            text = base64URL.decodeToString();
+          //  System.out.println("2//" + text);
+            if (text.startsWith("\"") && text.startsWith("\"", text.length() - 1)) {
+                text = text.substring(1, text.length() - 1);
+            }
+        }
+        text = EmailParser.getInstance(email).getMessageTextWithoutRe(text);
+       // System.out.println("3//" + text);
+        return text;
     }
 }

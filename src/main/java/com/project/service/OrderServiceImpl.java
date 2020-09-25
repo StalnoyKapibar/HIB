@@ -1,7 +1,7 @@
 package com.project.service;
 
 import com.google.api.services.gmail.Gmail;
-import com.project.controller.restcontroller.ParseGmailController;
+import com.project.controller.restcontroller.GmailRestController;
 import com.project.dao.abstraction.OrderDao;
 import com.project.model.*;
 import com.project.service.abstraction.OrderService;
@@ -222,7 +222,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderPageAdminDTO getOrdersNewMessages(int page, int size, Status status) {
         OrderPageAdminDTO orderPageAdminDTO = new OrderPageAdminDTO();
-        Gmail gmail = ParseGmailController.gmail;
+        Gmail gmail = GmailRestController.gmail;
         List<Order> allOrdersList = orderDAO.getOrdersByStatus(status);
         List<OrderDTO> ordersWithNewMessages = new ArrayList<>();
         List<OrderDTO> ordersToSend = new ArrayList<>();
