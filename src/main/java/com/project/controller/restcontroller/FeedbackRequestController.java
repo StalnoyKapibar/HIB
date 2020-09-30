@@ -17,7 +17,6 @@ import org.springframework.web.util.HtmlUtils;
 import javax.servlet.http.HttpSession;
 import java.time.Instant;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @RestController
 @AllArgsConstructor
@@ -88,34 +87,16 @@ public class FeedbackRequestController {
         feedbackRequestService.save(feedbackRequest);
         mailService.sendEmail(simpleMailMessage, feedbackRequest.getSenderEmail());
     }
-    @GetMapping(value = "/api/admin/feedback-request-with-numbers", params = "!viewed")
-    public Map<Long,String> getByRepliedWithNumbers(HttpSession session, @RequestParam Boolean viewed) {
-//перенести на уровеньниже
-        DataEnterInAdminPanel data = (DataEnterInAdminPanel) session.getAttribute("data");
-        data.setDataEnterInFeedback(Instant.now().getEpochSecond());
-        dataEnterInAdminPanelService.update(data);
-        session.setAttribute("data", data);
-        List<FeedbackRequest> feedbackRequestList = feedbackRequestService.getByViewed(viewed);
-        Map<Long,String> mapWithEmail = feedbackRequestList.stream().collect(Collectors.toMap(p->p.getId(), t->t.getSenderEmail()));
-        return mapWithEmail;
-    }
 
     @GetMapping(value = "/api/admin/feedback-request", params = "!viewed")
     public List<FeedbackRequest> getAll() {
-       List<FeedbackRequest>  ff = feedbackRequestService.findAll();
-        for (int i = 0; i < ff.size(); i++) {
-            System.out.println(i+") "+ff.get(i));
-        }
-        Collections.sort(ff, new Comparator<FeedbackRequest>() {
+       List<FeedbackRequest>  fr = feedbackRequestService.findAll();
+        Collections.sort(fr, new Comparator<FeedbackRequest>() {
             public int compare(FeedbackRequest o1, FeedbackRequest o2) {
                 return o1.getId().compareTo(o2.getId());
             }
         });
-        System.out.println("Отсортированно");
-        for (int i = 0; i < ff.size(); i++) {
-            System.out.println(i+")_ "+ff.get(i));
-        }
-        return ff;
+        return fr;
     }
 
     @GetMapping(value = "/api/admin/feedback-request/{senderEmail}/replied")

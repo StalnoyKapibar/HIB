@@ -32,10 +32,6 @@ $(document).ready(function () {
             });
         }
     }
-   // getFeedbacksByViewed(false);
-  //  checkGmailFeedbacks();
-   // getFeedbackRequestTableAndCheckGmailFeedbacks(true);
-  //  getFeedbackRequestTableAndCheckGmailFeedbacks(false);
     message.val($(this).attr("data-message"));
     window.addEventListener(`resize`, event => {
         filterUl.width(filterInput.width() + 25);
@@ -60,7 +56,7 @@ async function markAsRead(id, viewed) {
     }
 }
 
-
+//Получение фидбеков, проверка новых сообщений и формирование таблицы
 async function getFeedbackRequestTableAndCheckGmailFeedbacks(viewed) {
     $('#preloader').html(`
         <div class="progress">
@@ -68,41 +64,14 @@ async function getFeedbackRequestTableAndCheckGmailFeedbacks(viewed) {
         </div>
     `)
     await consolidateEmails()
-//         .then( (data) => {
-//             let feedlist = data;
-//             let feedbacks = [];
-//             for (let key in data) {
-//                 emails.push(data[key].senderEmail)
-//             }
-//              getGmailUnreadEmailsNew(feedlist)
-//                 .then(json).then( async data => {
-//                     feedbacks = feedlist.map((item) => {
-//                             console.log("item.id" + item.id.toString());
-//                             if (data.hasOwnProperty(item.id) && data[item.id][0].includes(item.senderEmail)) {
-//                                 item.unreadgmail = data[item.id];
-//                                 return item;
-//                             } else {
-//                                 item.unreadgmail = false;
-//                                 return item;
-//                             }
-//                         }
-//                     )
-//
-//                 })
-// return feedbacks;
-
-              // .then(data.map((item) => {
-              //     if (item.viewed === viewed) {
-              //            return item;
-              //     }
-              // }))
-
-         .then((data) => {
+        .then((data) => {
             $('#preloader').empty();
             tableBody.empty();
-            console.log('длинна конечного массива '+data.length)
+            console.log('длинна конечного массива ' + data.length)
             for (let i = 0; i < data.length; i++) {
-                if (data[i].viewed != viewed) {continue;}
+                if (data[i].viewed != viewed) {
+                    continue;
+                }
                 let id = data[i].id;
                 let senderName = data[i].senderName;
                 let senderEmail = data[i].senderEmail;
@@ -170,124 +139,6 @@ async function getFeedbackRequestTableAndCheckGmailFeedbacks(viewed) {
     setLocaleFields();
 }
 
-async function getGmailUnreadEmailsNew(feedlist) {
-    await fetch("/admin/unreadgmail/", {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json;charset=utf-8'
-        },
-        body: JSON.stringify(feedlist)
-    }).then(json)
-        .then((data) => {
-            return data;
-        });
-}
-
-// async function getFeedbackRequestTable(viewed) {
-//     $('#preloader').html(`
-//         <div class="progress">
-//             <div class="indeterminate"></div>
-//         </div>
-//     `)
-//     await fetch("/api/admin/feedback-request?viewed=" + viewed)
-//         .then(json)
-//
-//         .then(async data => {
-//             let tmp = data;
-//             let feedbacks = [];
-//             for (let key in data) {
-//                 emails.push(data[key].senderEmail)
-//             }
-//                 await fetch ("/admin/unreadgmail/", {
-//                     method: 'POST',
-//                     headers: {
-//                         'Content-Type': 'application/json;charset=utf-8'
-//                     },
-//                     body: JSON.stringify(tmp)
-//                 }).then(json).then(data => {
-//                     feedbacks = tmp.map((item) => {
-//                         console.log("item.id"+item.id.toString());
-//                         if  (data.hasOwnProperty(item.id) && data[item.id][0].includes(item.senderEmail)) {
-//                                 item.unreadgmail = data[item.id];
-//                                 return item;
-//                         } else {
-//                             item.unreadgmail = false;
-//                             return item;
-//                         }
-//                     })
-//                 })
-//             return feedbacks;
-//         })
-//         .then((data) => {
-//             $('#preloader').empty();
-//             tableBody.empty();
-//             for (let i = 0; i < data.length; i++) {
-//                 let id = data[i].id;
-//                 let senderName = data[i].senderName;
-//                 let senderEmail = data[i].senderEmail;
-//                 let content = data[i].unreadgmail ? data[i].unreadgmail[1] : data[i].content;
-//                 let bookId = null;
-//                 let bookName = null;
-//                 let bookCoverImage = null;
-//                 if (data[i].book !== null) {
-//                     bookId = data[i].book.id;
-//                     bookName = data[i].book.name.en;
-//                     bookCoverImage = data[i].book.coverImage;
-//                 }
-//
-//                 let replied = `<button type="button"
-//                                class="btn btn-info btn-reply reply-loc"
-//                                id="replyBtn"
-//                                data-id="${id}"
-//                                data-sender="${senderName}"
-//                                data-email="${senderEmail}"
-//                                data-message="${content}"
-//                                data-bookId="${bookId}"
-//                                data-bookName="${bookName}"
-//                                data-bookCoverImage="${bookCoverImage}"
-//                                onclick="showModalOfFeedBack(${id})">Reply</button>`;
-//                 let mark;
-//                 if (data[i].viewed === false) {
-//                     mark = `<button type="button"
-//                             class="btn btn-info read-loc"
-//                             onclick="markAsRead(${id},true)">Read</button>`;
-//                 } else {
-//                     replied = data[i].replied ? `<input type="checkbox" disabled checked>` :
-//                         `<input type="checkbox" disabled unchecked>`;
-//                     mark = `<button type="button"
-//                             class="btn btn-info unread-loc"
-//                             onclick="markAsRead(${id},false)">Unread</button>`;
-//                 }
-//
-//                 let tr = $("<tr/>");
-//                 if (id == sessionStorage.getItem("feedbackId")) {
-//                     tr.append(`
-//                             <td class="selected">${id}</td>
-//                             <td class="selected">${senderName}</td>
-//                             <td class="selected">${senderEmail}</td>
-//                             <td class="selected" ${data[i].unreadgmail ? 'class="unread"' : ''}>${content}</td>
-//                             <td class="selected">${replied}</td>
-//                             <td class="selected">${mark}</td>
-//                            `);
-//                     tableBody.append(tr);
-//                     sessionStorage.removeItem("feedbackId");
-//                 } else {
-//                     tr.append(`
-//                             <td>${id}</td>
-//                             <td>${senderName}</td>
-//                             <td>${senderEmail}</td>
-//                             <td ${data[i].unreadgmail ? 'class="unread"' : ''}>${content}</td>
-//                             <td>${replied}</td>
-//                             <td>${mark}</td>
-//                            `);
-//                     tableBody.append(tr);
-//                 }
-//             }
-//         })
-//     startCountOfFeedback();
-//     setLocaleFields();
-// }
-
 $(document).on('click', '.btn-reply', function () {
     replySubject.val('');
     replyMessage.val('');
@@ -354,7 +205,7 @@ toggleReplied.change(() => {
     getFeedbackRequestTableAndCheckGmailFeedbacks(viewedOn).catch();
 });
 
-//ПОказывает окно с фитбэками
+// окно с фитбэками
 async function showModalOfFeedBack(index) {
     $('#chat').empty();
     $('#modalBody').empty();
@@ -405,9 +256,7 @@ async function showModalOfFeedBack(index) {
                 htmlChat += `<div id="chat-wrapper">`;
                 htmlChat += `</div>`;
                 htmlChat += `<textarea id="sent-message" class="form-control"></textarea>
-
                         </div><button class="float-right col-2 btn btn-primary send-loc" type="button" id="send-button" onclick="sendGmailMessage('${feedback.senderEmail}', ${feedback.id})">Send</button>`
-
             } else {
                 if (data[0].text === "chat end") {
                     htmlChat += `<div id="chat-wrapper">`;
@@ -444,99 +293,7 @@ async function showModalOfFeedBack(index) {
         });
     $('#chat').html(htmlChat);
     $('#chat').scrollTop(2000);
-
-    // let htmlChat = ``;
-    // $('#chat').empty();
-    // $('#modalBody').empty();
-    // $('#contactsOfUser').empty();
-    // let senderNameTemp;
-    // // let feedBack = allFeedBack[index];
-    // document.getElementById("chat").setAttribute('onscroll', 'scrolling()');
-    // await fetch("/api/admin/feedback-request/" + index)
-    //     .then(json)
-    //     .then((data) => {
-    //         /*senderNameTemp = data.senderEmail;*/
-    //         senderNameTemp = "orlov.leo12@gmail.com";
-    //         console.log(data.content);
-    //         htmlChat += data.content;
-    //     });
-    // await fetch("/gmail/" + senderNameTemp + "/messages/" + "0")
-    //     .then(json)
-    //     .then((data) => {
-    //         if (data[0] === undefined) {
-    //             htmlChat += `<div id="chat-wrapper">`;
-    //             htmlChat += `</div>`;
-    //             htmlChat += `<textarea id="sent-message" class="form-control"></textarea>
-    //                     </div><button class="float-right col-2 button btn-primary" type="button" id="send-button" onclick="sendGmailMessage('${senderNameTemp}', ${index})">Send</button>`
-    //         } else {
-    //             if (data[0].text === "noGmailAccess") {
-    //                 htmlChat += `<div>
-    //                             <span class="h3 col-10">Confirm gmail access to open chat:</span>
-    //                             <a type="button" class="col-2 btn btn-primary float-right" href="${gmailAccessUrl.fullUrl}">
-    //                             confirm</a>
-    //                         </div>`
-    //             } else {
-    //                 htmlChat += `<div id="chat-wrapper">`;
-    //                 for (let i = data.length - 1; i > -1; i--) {
-    //                     htmlChat += `<p><b>${data[i].sender}</b></p>
-    //                 <p>${data[i].text}</p>`
-    //                 }
-    //                 htmlChat += `</div>`;
-    //                 htmlChat += `<textarea id="sent-message" class="form-control"></textarea>
-    //                     </div><button class="float-right col-2 button btn-primary" type="button" id="send-button" onclick="sendGmailMessage('${senderNameTemp}', ${index})">Send</button>`
-    //             }
-    //         }
-    //     });
-    // $('#chat').html(htmlChat);
-    // $('#chat').scrollTop(1000);
-
-    // let html = ``;
-    // html += `<thead><tr><th>Image</th>
-    //                          <th>Name | Author</th>
-    //                          <th></th>
-    //                          <th>Price</th></tr></thead>`;
-    // $.each(items, function (index) {
-    //     let book = items[index].book;
-    //     html += `<tr><td class="align-middle"><img src="/images/book${book.id}/${book.coverImage}" style="max-width: 80px"></td>
-    //                          <td width="350">${convertOriginalLanguageRows(book.originalLanguage.name, book.originalLanguage.nameTranslit)} | ${convertOriginalLanguageRows(book.originalLanguage.author, book.originalLanguage.authorTranslit)}</td>
-    //                          <td></td>
-    //                          <td>${convertPrice(book.price)}${iconOfPrice}</td></tr>`;
-    // });
-    // html += `<tr><td></td><td></td><td>Subtotal :</td><td> ${convertPrice(order.itemsCost)}${iconOfPrice}</td></tr>
-    //              <tr><td></td><td></td><td>Total :</td><td>${convertPrice(order.itemsCost + order.shippingCost)}${iconOfPrice}</td></tr>`;
-    // $('#modalBody').html(html);
-
-    // let htmlContact = ``;
-    // htmlContact += `<div class="panel panel-primary">
-    //                     <div class="panel-body">
-    //                         <div class="container mt-2">
-    //                             <div class="col-8 p-4 mb-4  alert alert-info" role="alert">
-    //                                 <h6>User <strong>contacts </strong></h6>
-    //                             </div>`;
-    // for (let key in order.contacts) {
-    //     if (order.contacts[key] !== "" && key !== "id" && key !== "comment") {
-    //         htmlContact += `<div class="form-group row">
-    //                     <label class="control-label col-sm-2 col-form-label">${key}</label>
-    //                     <div class="col-md-5 pl-0 pr-1">
-    //                         <input class="form-control" readonly  placeholder=${order.contacts[key]}>
-    //                     </div>
-    //                 </div>`;
-    //     }
-    // }
-    // if (order.comment !== " ") {
-    //     htmlContact += `<div class="form-group row">
-    //                     <label class="control-label col-sm-2 col-form-label">Comment</label>
-    //                     <div class="col-md-6 pl-0">
-    //                         <textarea class="form-control" readonly  rows="5" placeholder="${order.comment}" ></textarea>
-    //                     </div>
-    //                 </div>`;
-    // }
-    //
-    // htmlContact += `</div></div>`;
-    //
-    // $('#contactsOfUser').html(htmlContact);
     document.getElementById("chat").setAttribute('onscroll', 'scrolling(' + JSON.stringify(feedback) + ')');
-
     setLocaleFields();
 }
 
@@ -610,9 +367,15 @@ async function getAllFeedbacks() {
 }
 
 // get all unread emails
-async function getGmailUnreadEmails(feedbacklist) {
-    return await POST("/admin/unreadgmail/", JSON.stringify(feedbacklist), JSON_HEADER)
-        .then(json)
+async function getGmailUnreadEmails(feedlist) {
+
+    return await fetch("/admin/unreadgmail/", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify(feedlist)
+    }).then(json)
         .then((data) => {
             return data;
         });
@@ -644,16 +407,16 @@ async function consolidateEmails() {
 }
 
 // check gmail answers and mark feedbacks
-async function checkGmailFeedbacks() {
-    await consolidateEmails()
-        .then((data) => {
-            for (let i = 0; i < data.length; i++) {
-                if (data[i].unreadgmail) {
-                    markFeedback(data[i].id, false);
-                }
-            }
-        });
-}
+// async function checkGmailFeedbacks() {
+//     await consolidateEmails()
+//         .then((data) => {
+//             for (let i = 0; i < data.length; i++) {
+//                 if (data[i].unreadgmail) {
+//                     markFeedback(data[i].id, false);
+//                 }
+//             }
+//         });
+// }
 
 function sendGmailMessage(userId, feedbackId) {
     let sendButton = document.getElementById("send-button");
@@ -695,31 +458,6 @@ async function markFeedback(feedbackId, mark) {
         startCountOfFeedback();
     });
 }
-
-// function sendGmailMessage(userId, index) {
-//     let sendButton = document.getElementById("send-button");
-//     sendButton.disabled = true;
-//     let subject = "Feedback #" + index + "&nbsp";
-//     let message = document.getElementById("sent-message").value;
-//     let messageComplite = subject+message;
-//
-//     fetch("/gmailFeedBack/" + userId + "/messages", {
-//         method: "POST",
-//         headers: {
-//             "Content-Type": "application/json;charset=utf-8"
-//         },
-//         body: JSON.stringify(messageComplite),
-//     })
-//         .then(json)
-//         .then((data) => {
-//             let html = `<p><b>${data.sender}</b></p>
-//                         <p>${data.text}</p>`
-//             let wrapper = document.getElementById("chat-wrapper");
-//             wrapper.insertAdjacentHTML("beforeend", html);
-//             document.getElementById("sent-message").value = "";
-//             sendButton.disabled = false;
-//         });
-// }
 
 // liveSearch
 
