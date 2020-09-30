@@ -16,25 +16,26 @@ let allFeedbacksByViewed;
 let scrollOn = true;
 let messagePackIndex;
 let emails = [];
-
 $(document).ready(function () {
     if (sessionStorage.getItem("details") !== null) {
         if (sessionStorage.getItem("details") === "Replied") {
             toggleReplied.bootstrapToggle('on');
         } else {
-            getFeedbackRequestTable(false).then(r => {
+            getFeedbackRequestTableAndCheckGmailFeedbacks(false).then(r => {
             });
         }
     } else {
         if (sessionStorage.getItem("details") === null && localStorage.getItem(localStorageToggleKey) === "true") {
             toggleReplied.bootstrapToggle('on');
         } else {
-            getFeedbackRequestTable(false).then(r => {
+            getFeedbackRequestTableAndCheckGmailFeedbacks(false).then(r => {
             });
         }
     }
-    getFeedbacksByViewed(false);
-    checkGmailFeedbacks();
+   // getFeedbacksByViewed(false);
+  //  checkGmailFeedbacks();
+   // getFeedbackRequestTableAndCheckGmailFeedbacks(true);
+  //  getFeedbackRequestTableAndCheckGmailFeedbacks(false);
     message.val($(this).attr("data-message"));
     window.addEventListener(`resize`, event => {
         filterUl.width(filterInput.width() + 25);
@@ -45,8 +46,8 @@ $(document).ready(function () {
 });
 
 $('#feedback-request-modal')
-    .on('hide.bs.modal', function() {
-        getFeedbackRequestTable(false);
+    .on('hide.bs.modal', function () {
+        getFeedbackRequestTableAndCheckGmailFeedbacks(false);
     })
 
 async function markAsRead(id, viewed) {
@@ -55,47 +56,53 @@ async function markAsRead(id, viewed) {
     if (confirm(message)) {
         fetch("/api/admin/feedback-request/" + id + "/" + viewed, {
             method: 'POST'
-        }).then(r => getFeedbackRequestTable(!viewed));
+        }).then(r => getFeedbackRequestTableAndCheckGmailFeedbacks(!viewed));
     }
 }
 
-async function getFeedbackRequestTable(viewed) {
+
+async function getFeedbackRequestTableAndCheckGmailFeedbacks(viewed) {
     $('#preloader').html(`
         <div class="progress">
             <div class="indeterminate"></div>
         </div>
     `)
-    await fetch("/api/admin/feedback-request?viewed=" + viewed)
-        .then(json)
-        .then(async data => {
-            let tmp = data;
-            let feedbacks = [];
-            for (let key in data) {
-                emails.push(data[key].senderEmail)
-            }
-            await fetch ("/admin/unreadgmail/", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json;charset=utf-8'
-                },
-                body: JSON.stringify(emails)
-            }).then(json).then(data => {
-                feedbacks = tmp.map((item) => {
-                    if (data.hasOwnProperty(item.senderEmail) && data[item.senderEmail][0].includes('Feedback №'+item.id)) {
-                        item.unreadgmail = data[item.senderEmail];
-                        return item;
-                    } else {
-                        item.unreadgmail = false;
-                        return item;
-                    }
-                })
-            })
-            return feedbacks;
-        })
-        .then((data) => {
+    await consolidateEmails()
+//         .then( (data) => {
+//             let feedlist = data;
+//             let feedbacks = [];
+//             for (let key in data) {
+//                 emails.push(data[key].senderEmail)
+//             }
+//              getGmailUnreadEmailsNew(feedlist)
+//                 .then(json).then( async data => {
+//                     feedbacks = feedlist.map((item) => {
+//                             console.log("item.id" + item.id.toString());
+//                             if (data.hasOwnProperty(item.id) && data[item.id][0].includes(item.senderEmail)) {
+//                                 item.unreadgmail = data[item.id];
+//                                 return item;
+//                             } else {
+//                                 item.unreadgmail = false;
+//                                 return item;
+//                             }
+//                         }
+//                     )
+//
+//                 })
+// return feedbacks;
+
+              // .then(data.map((item) => {
+              //     if (item.viewed === viewed) {
+              //            return item;
+              //     }
+              // }))
+
+         .then((data) => {
             $('#preloader').empty();
             tableBody.empty();
+            console.log('длинна конечного массива '+data.length)
             for (let i = 0; i < data.length; i++) {
+                if (data[i].viewed != viewed) {continue;}
                 let id = data[i].id;
                 let senderName = data[i].senderName;
                 let senderEmail = data[i].senderEmail;
@@ -127,7 +134,7 @@ async function getFeedbackRequestTable(viewed) {
                             onclick="markAsRead(${id},true)">Read</button>`;
                 } else {
                     replied = data[i].replied ? `<input type="checkbox" disabled checked>` :
-                                                `<input type="checkbox" disabled unchecked>`;
+                        `<input type="checkbox" disabled unchecked>`;
                     mark = `<button type="button"
                             class="btn btn-info unread-loc"           
                             onclick="markAsRead(${id},false)">Unread</button>`;
@@ -158,9 +165,128 @@ async function getFeedbackRequestTable(viewed) {
                 }
             }
         })
+
     startCountOfFeedback();
     setLocaleFields();
 }
+
+async function getGmailUnreadEmailsNew(feedlist) {
+    await fetch("/admin/unreadgmail/", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify(feedlist)
+    }).then(json)
+        .then((data) => {
+            return data;
+        });
+}
+
+// async function getFeedbackRequestTable(viewed) {
+//     $('#preloader').html(`
+//         <div class="progress">
+//             <div class="indeterminate"></div>
+//         </div>
+//     `)
+//     await fetch("/api/admin/feedback-request?viewed=" + viewed)
+//         .then(json)
+//
+//         .then(async data => {
+//             let tmp = data;
+//             let feedbacks = [];
+//             for (let key in data) {
+//                 emails.push(data[key].senderEmail)
+//             }
+//                 await fetch ("/admin/unreadgmail/", {
+//                     method: 'POST',
+//                     headers: {
+//                         'Content-Type': 'application/json;charset=utf-8'
+//                     },
+//                     body: JSON.stringify(tmp)
+//                 }).then(json).then(data => {
+//                     feedbacks = tmp.map((item) => {
+//                         console.log("item.id"+item.id.toString());
+//                         if  (data.hasOwnProperty(item.id) && data[item.id][0].includes(item.senderEmail)) {
+//                                 item.unreadgmail = data[item.id];
+//                                 return item;
+//                         } else {
+//                             item.unreadgmail = false;
+//                             return item;
+//                         }
+//                     })
+//                 })
+//             return feedbacks;
+//         })
+//         .then((data) => {
+//             $('#preloader').empty();
+//             tableBody.empty();
+//             for (let i = 0; i < data.length; i++) {
+//                 let id = data[i].id;
+//                 let senderName = data[i].senderName;
+//                 let senderEmail = data[i].senderEmail;
+//                 let content = data[i].unreadgmail ? data[i].unreadgmail[1] : data[i].content;
+//                 let bookId = null;
+//                 let bookName = null;
+//                 let bookCoverImage = null;
+//                 if (data[i].book !== null) {
+//                     bookId = data[i].book.id;
+//                     bookName = data[i].book.name.en;
+//                     bookCoverImage = data[i].book.coverImage;
+//                 }
+//
+//                 let replied = `<button type="button"
+//                                class="btn btn-info btn-reply reply-loc"
+//                                id="replyBtn"
+//                                data-id="${id}"
+//                                data-sender="${senderName}"
+//                                data-email="${senderEmail}"
+//                                data-message="${content}"
+//                                data-bookId="${bookId}"
+//                                data-bookName="${bookName}"
+//                                data-bookCoverImage="${bookCoverImage}"
+//                                onclick="showModalOfFeedBack(${id})">Reply</button>`;
+//                 let mark;
+//                 if (data[i].viewed === false) {
+//                     mark = `<button type="button"
+//                             class="btn btn-info read-loc"
+//                             onclick="markAsRead(${id},true)">Read</button>`;
+//                 } else {
+//                     replied = data[i].replied ? `<input type="checkbox" disabled checked>` :
+//                         `<input type="checkbox" disabled unchecked>`;
+//                     mark = `<button type="button"
+//                             class="btn btn-info unread-loc"
+//                             onclick="markAsRead(${id},false)">Unread</button>`;
+//                 }
+//
+//                 let tr = $("<tr/>");
+//                 if (id == sessionStorage.getItem("feedbackId")) {
+//                     tr.append(`
+//                             <td class="selected">${id}</td>
+//                             <td class="selected">${senderName}</td>
+//                             <td class="selected">${senderEmail}</td>
+//                             <td class="selected" ${data[i].unreadgmail ? 'class="unread"' : ''}>${content}</td>
+//                             <td class="selected">${replied}</td>
+//                             <td class="selected">${mark}</td>
+//                            `);
+//                     tableBody.append(tr);
+//                     sessionStorage.removeItem("feedbackId");
+//                 } else {
+//                     tr.append(`
+//                             <td>${id}</td>
+//                             <td>${senderName}</td>
+//                             <td>${senderEmail}</td>
+//                             <td ${data[i].unreadgmail ? 'class="unread"' : ''}>${content}</td>
+//                             <td>${replied}</td>
+//                             <td>${mark}</td>
+//                            `);
+//                     tableBody.append(tr);
+//                 }
+//             }
+//         })
+//     startCountOfFeedback();
+//     setLocaleFields();
+// }
 
 $(document).on('click', '.btn-reply', function () {
     replySubject.val('');
@@ -193,7 +319,7 @@ $(document).on('click', '#submit-btn', async () => {
         }
     });
     theModal.modal('hide');
-    getFeedbackRequestTable(false).then(r => {
+    getFeedbackRequestTableAndCheckGmailFeedbacks(false).then(r => {
     });
 });
 
@@ -225,9 +351,10 @@ async function showAlert(message, clazz) {
 toggleReplied.change(() => {
     let viewedOn = toggleReplied.prop('checked');
     localStorage.setItem(localStorageToggleKey, viewedOn.toString());
-    getFeedbackRequestTable(viewedOn).catch();
+    getFeedbackRequestTableAndCheckGmailFeedbacks(viewedOn).catch();
 });
 
+//ПОказывает окно с фитбэками
 async function showModalOfFeedBack(index) {
     $('#chat').empty();
     $('#modalBody').empty();
@@ -483,12 +610,12 @@ async function getAllFeedbacks() {
 }
 
 // get all unread emails
-async function getGmailUnreadEmails() {
-    return await POST ("/admin/unreadgmail/", JSON.stringify(emails), JSON_HEADER)
+async function getGmailUnreadEmails(feedbacklist) {
+    return await POST("/admin/unreadgmail/", JSON.stringify(feedbacklist), JSON_HEADER)
         .then(json)
         .then((data) => {
             return data;
-    });
+        });
 }
 
 // consolidate unread feedbacks
@@ -500,11 +627,11 @@ async function consolidateEmails() {
             for (let key in data) {
                 emails.push(data[key].senderEmail)
             }
-            await getGmailUnreadEmails()
+            await getGmailUnreadEmails(tmp)
                 .then((data) => {
                     feedbacks = tmp.map((item) => {
-                        if (data.hasOwnProperty(item.senderEmail) && data[item.senderEmail][0].includes('Feedback №'+item.id)) {
-                            item.unreadgmail = data[item.senderEmail];
+                        if (data.hasOwnProperty(item.id) && data[item.id][0].includes(item.senderEmail)) {
+                            item.unreadgmail = data[item.id];
                             return item;
                         } else {
                             item.unreadgmail = false;
@@ -557,7 +684,7 @@ function sendGmailMessage(userId, feedbackId) {
     })
         .then(r => {
             markFeedback(feedbackId, true);
-    });
+        });
 }
 
 // mark feedback replied and viewed fields
