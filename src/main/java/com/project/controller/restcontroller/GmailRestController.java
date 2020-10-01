@@ -100,7 +100,7 @@ public class GmailRestController {
     @PostMapping(value = "/gmailFeedBack/{userId}/messages")
     public MessageDTO sendMessageFeedBack(@PathVariable("userId") String userId, @RequestBody String messageText) throws IOException, MessagingException {
         String subjectTextResult = messageText.split("&nbsp")[0].substring(1);
-        String messageTextResult = messageText.split("&nbsp")[1].substring(0,messageText.split("&nbsp")[1].length()-1);
+        String messageTextResult = messageText.split("&nbsp")[1].substring(0, messageText.split("&nbsp")[1].length() - 1);
         MimeMessage mimeMessage = getMessage(gmail.users().getProfile("me").getUserId(), userId, "", messageTextResult);
         mimeMessage.setSubject(subjectTextResult, "UTF-8");
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -136,13 +136,11 @@ public class GmailRestController {
         int startId = Integer.parseInt(part) * 10;
         int endIdExclude = startId + 10;
         List<MessageDTO> chat = new ArrayList<>();
-       // fullchat.stream().forEach((e) -> System.out.print(", " + e));
         for (int i = startId; i < endIdExclude; i++) {
             if (i < fullchat.size()) {
                 MessageDTO messageDTO = fullchat.get(i);
                 Message fullMessage = gmail.users().messages().get("me", messageDTO.getMessageId()).execute();
                 text = getTextBodyofMailWhithoutQuote(fullMessage, messageDTO.getSender());
-             //   System.out.println("0//"+text);
                 messageDTO.setText(text);
                 messageDTO.setSubject(getSubject(fullMessage));
                 chat.add(messageDTO);
@@ -202,121 +200,37 @@ public class GmailRestController {
     @PostMapping(value = "/admin/unreadgmail")
     Map<Long, List<String>> getUnreadContent(@RequestBody List<FeedbackRequest> tmp) {
         Map<Long, List<String>> unreadcontent = new HashMap<>();
-       // List<Message> messagesResponse = new ArrayList<>();
         if (gmail != null) {
-           for(FeedbackRequest item :tmp){
-               ListMessagesResponse listMessagesResponse = new ListMessagesResponse();
-               try {
-                   listMessagesResponse = gmail.users().messages().list("me").setQ("from:" + item.getSenderEmail() + " is:unread").execute();
-                   //  System.out.println(listMessagesResponse.toString());
-                   //находит список все писем определенного имейла
-                   if (listMessagesResponse.getResultSizeEstimate() != 0) {
-                     //  System.out.println("  "+listMessagesResponse.getMessages().size()+"  "+Arrays.toString(listMessagesResponse.getMessages().toArray()));
-                       //костыль направленный, на то, что бы  в список сообщений добавлялись, непрочитанные сообщение с опред темой
-                       for (Message message : listMessagesResponse.getMessages()) {
-                           Message msg = gmail.users().messages().get("me", message.getId()).execute();
-                           String subject = getSubject(msg);
-                         System.out.println("Тема сообщения// "+subject);
-                           if (subject.contains("Feedback №"+item.getId())) {
-
-                              // messagesResponse.add(msg);
-                               String email = msg.getPayload().getHeaders().stream()
-                                       .filter(headers -> headers.getName().equals("From")).findFirst().get().getValue().split("<")[1].replace(">", "");
-                              // String subject = message.getPayload().getHeaders().stream().filter(headers -> headers.getName().equals("Subject")).findFirst().get().getValue();
-                               String snippet = getTextBodyofMailWhithoutQuote(msg, email);
-                               String strRegEx = "<[^>]*>";
-                               snippet = snippet.replaceAll(strRegEx, "");
-                               //replace &nbsp; with space
-                               snippet = snippet.replace("&nbsp;", "");
-                               //replace &amp; with &
-                               snippet = snippet.replace("&amp;", "&");
-                               //  System.out.println(" 9// "+snippet);
-                               List<String> content = Arrays.asList(email, snippet, subject);
-                               // unreadcontent.put(email, content);
-                               unreadcontent.put(item.getId(), content);
-                               System.out.println("unread:"+subject+"  "+content);
-                           }
-                       }
-                   }
-               } catch (IOException e) {
-                   e.printStackTrace();
-               }
+            for (FeedbackRequest item : tmp) {
+                ListMessagesResponse listMessagesResponse = new ListMessagesResponse();
+                try {
+                    listMessagesResponse = gmail.users().messages().list("me").setQ("from:" + item.getSenderEmail() + " is:unread").execute();
+                    //находит список все писем определенного имейла
+                    if (listMessagesResponse.getResultSizeEstimate() != 0) {
+                        //костыль направленный, на то, что бы  в список сообщений добавлялись, непрочитанные сообщение с опред темой
+                        for (Message message : listMessagesResponse.getMessages()) {
+                            Message msg = gmail.users().messages().get("me", message.getId()).execute();
+                            String subject = getSubject(msg);
+                            if (subject.contains("Feedback №" + item.getId())) {
+                                String email = msg.getPayload().getHeaders().stream()
+                                        .filter(headers -> headers.getName().equals("From")).findFirst().get().getValue().split("<")[1].replace(">", "");
+                                String snippet = getTextBodyofMailWhithoutQuote(msg, email);
+                                String strRegEx = "<[^>]*>";
+                                snippet = snippet.replaceAll(strRegEx, "");
+                                snippet = snippet.replace("&nbsp;", "");
+                                snippet = snippet.replace("&amp;", "&");
+                                List<String> content = Arrays.asList(email, snippet, subject);
+                                unreadcontent.put(item.getId(), content);
+                            }
+                        }
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
-//            messagesResponse.forEach(message -> {
-//                String email = message.getPayload().getHeaders().stream()
-//                        .filter(headers -> headers.getName().equals("From")).findFirst().get().getValue().split("<")[1].replace(">", "");
-//                String subject = message.getPayload().getHeaders().stream()
-//                        .filter(headers -> headers.getName().equals("Subject")).findFirst().get().getValue();
-//                String snippet = getTextBodyofMailWhithoutQuote(message, email);
-//                String strRegEx = "<[^>]*>";
-//                snippet = snippet.replaceAll(strRegEx, "");
-//                //replace &nbsp; with space
-//                snippet = snippet.replace("&nbsp;", "");
-//                //replace &amp; with &
-//                snippet = snippet.replace("&amp;", "&");
-//                //  System.out.println(" 9// "+snippet);
-//                List<String> content = Arrays.asList(email, snippet);
-//               // unreadcontent.put(email, content);
-//                unreadcontent.put(subject, content);
-//              System.out.println("unread:"+subject+"  "+content);
-//            });
-        System.out.println("Итоговый лист");
-                for(Map.Entry<Long, List<String>> entry :unreadcontent.entrySet()){
-                    System.out.println(entry.getKey()+" "+entry.getValue().get(0)+" "+entry.getValue().get(1));
-                }
         return unreadcontent;
     }
-
-//    //используется для генерации списка с непрочитанными сообщениями в фидбэках
-//    @PostMapping(value = "/admin/unreadgmail")
-//    Map<String, List<String>> getUnreadContent(@RequestBody List<String> emails) {
-//        Map<String, List<String>> unreadcontent = new HashMap<>();
-//        List<Message> messagesResponse = new ArrayList<>();
-//        if (gmail != null) {
-//            emails.forEach(email -> {
-//                ListMessagesResponse listMessagesResponse = new ListMessagesResponse();
-//                try {
-//                    listMessagesResponse = gmail.users().messages().list("me").setQ("from:" + email + " is:unread").execute();
-//                  //  System.out.println(listMessagesResponse.toString());
-//                    if (listMessagesResponse.getResultSizeEstimate() != 0) {
-//                         //   System.out.println("  "+listMessagesResponse.getMessages().size()+"  "+Arrays.toString(listMessagesResponse.getMessages().toArray()));
-//                       //костыль направленный, на то, что бы  в список сообщений добавлялись, непрочитанные сообщение в теме которого содержиться "Feedback"
-//                        for (Message message : listMessagesResponse.getMessages()) {
-//                            Message msg = gmail.users().messages().get("me",message.getId()).execute();
-//                            String subject=getSubject(msg);
-//                         //  System.out.println(subject);
-//                            if(subject.contains("Feedback")){
-//                                messagesResponse.add(msg);
-//                            }
-//                        }
-//                       // Message m1 =  gmail.users().messages().get("me", listMessagesResponse.getMessages().get(0).getId()).execute();
-//
-//                    }
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            });
-//            messagesResponse.forEach(message -> {
-//                String email = message.getPayload().getHeaders().stream()
-//                        .filter(headers -> headers.getName().equals("From")).findFirst().get().getValue().split("<")[1].replace(">", "");
-//                String subject = message.getPayload().getHeaders().stream()
-//                        .filter(headers -> headers.getName().equals("Subject")).findFirst().get().getValue();
-//                String snippet = getTextBodyofMailWhithoutQuote(message, email);
-//                String strRegEx = "<[^>]*>";
-//                snippet = snippet.replaceAll(strRegEx, "");
-//                //replace &nbsp; with space
-//                snippet = snippet.replace("&nbsp;", "");
-//                //replace &amp; with &
-//                snippet = snippet.replace("&amp;", "&");
-//              //  System.out.println(" 9// "+snippet);
-//                List<String> content = Arrays.asList(subject, snippet);
-//                unreadcontent.put(email, content);
-//               // System.out.println("unread:"+email+"  "+content);
-//            });
-//        }
-//        return unreadcontent;
-//    }
 
     @GetMapping(value = "/admin/markasread")
     Map<String, Boolean> markAsRead(@PathParam("email") String email) throws IOException {
@@ -373,31 +287,23 @@ public class GmailRestController {
     private String getTextBodyofMailWhithoutQuote(Message fullMessage, String email) {
         Base64URL base64URL;
         String text = fullMessage.getSnippet();
-        //System.out.println("----" + fullMessage.getSnippet() + "??" + fullMessage);
         if (fullMessage.getPayload().getParts() != null) {
-         //   System.out.println("1) Прошло if (fullMessage.getPayload().getParts() != null) {");
             if (fullMessage.getPayload().getParts().get(0).getBody().getData() != null) {
-             //   System.out.println("2) fullMessage.getPayload().getParts().get(0).getBody().getData() != null");
                 if (fullMessage.getPayload().getParts().get(1).getBody().getData() == null) {
-              //      System.out.println("3) fullMessage.getPayload().getParts().get(1).getBody().getData() == null");
                     base64URL = new Base64URL(fullMessage.getPayload().getParts().get(0).getBody().getData());
                 } else {
-              //      System.out.println("3) альт -----   fullMessage.getPayload().getParts().get(1).getBody().getData() == null");
                     base64URL = new Base64URL(fullMessage.getPayload().getParts().get(1).getBody().getData());
                 }
                 text = base64URL.decodeToString();
             }
         } else if (fullMessage.getPayload().getBody().getData() != null) {
-          //  System.out.println("4) else if (fullMessage.getPayload().getBody().getData() != null) {");
             base64URL = new Base64URL(fullMessage.getPayload().getBody().getData());
             text = base64URL.decodeToString();
-          //  System.out.println("2//" + text);
             if (text.startsWith("\"") && text.startsWith("\"", text.length() - 1)) {
                 text = text.substring(1, text.length() - 1);
             }
         }
         text = EmailParser.getInstance(email).getMessageTextWithoutRe(text);
-       // System.out.println("3//" + text);
         return text;
     }
 }
