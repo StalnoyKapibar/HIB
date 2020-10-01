@@ -15,7 +15,7 @@ public class BookNewDTO {
     private String nameTranslit;
     private String author;
     private String authorTranslit;
-    private String desc;
+    private String description;
     private String edition;
     private String editionTranslit;
     private String yearOfEdition;
@@ -27,12 +27,12 @@ public class BookNewDTO {
     private Category category;
     private boolean isShow;
 
-    public BookNewDTO(long id, String name, String author, String desc, String edition,
+    public BookNewDTO(long id, String name, String author, String description, String edition,
                       String yearOfEdition, Long pages, Long price, String originalLanguage, String coverImage, boolean isShow) {
         this.id = id;
         this.name = name;
         this.author = author;
-        this.desc = desc;
+        this.description = description;
         this.edition = edition;
         this.yearOfEdition = yearOfEdition;
         this.pages = pages;
@@ -43,14 +43,14 @@ public class BookNewDTO {
     }
 
     public BookNewDTO(long id, String name, String nameTranslit, String author, String authorTranslit,
-                      String desc, String edition, String editionTranslit, String yearOfEdition, Long pages,
+                      String description, String edition, String editionTranslit, String yearOfEdition, Long pages,
                       Long price, String originalLanguage, String coverImage, boolean isShow) {
         this.id = id;
         this.name = name;
         this.nameTranslit = nameTranslit;
         this.author = author;
         this.authorTranslit = authorTranslit;
-        this.desc = desc;
+        this.description = description;
         this.edition = edition;
         this.editionTranslit = editionTranslit;
         this.yearOfEdition = yearOfEdition;
@@ -72,14 +72,14 @@ public class BookNewDTO {
     }
 
     public BookNewDTO(long id, String name, String nameTranslit, String author, String authorTranslit,
-                      String desc, String edition, String editionTranslit, String yearOfEdition, Long pages,
+                      String description, String edition, String editionTranslit, String yearOfEdition, Long pages,
                       Long price, String originalLanguage, String coverImage, Category category, boolean isShow) {
         this.id = id;
         this.name = name;
         this.nameTranslit = nameTranslit;
         this.author = author;
         this.authorTranslit = authorTranslit;
-        this.desc = desc;
+        this.description = description;
         this.edition = edition;
         this.editionTranslit = editionTranslit;
         this.yearOfEdition = yearOfEdition;

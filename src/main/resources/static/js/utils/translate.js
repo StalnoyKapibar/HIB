@@ -66,7 +66,7 @@ function translateText(label) {
 
 // for Transliterate
 function transliterationText(label) {
-    let text = $("#inpt" + label).val();
+    let text = $("#inp" + label).val();
     fetch('/api/transliteration', {
         method: 'POST',
         headers: {
