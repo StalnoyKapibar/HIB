@@ -67,7 +67,6 @@ async function getFeedbackRequestTableAndCheckGmailFeedbacks(viewed) {
         .then((data) => {
             $('#preloader').empty();
             tableBody.empty();
-            console.log('длинна конечного массива ' + data.length)
             for (let i = 0; i < data.length; i++) {
                 if (data[i].viewed != viewed) {
                     continue;
@@ -110,18 +109,18 @@ async function getFeedbackRequestTableAndCheckGmailFeedbacks(viewed) {
                 }
 
                 let tr = $("<tr/>");
-                if (id == sessionStorage.getItem("feedbackId")) {
-                    tr.append(`
-                            <td class="selected">${id}</td>
-                            <td class="selected">${senderName}</td>
-                            <td class="selected">${senderEmail}</td>
-                            <td class="selected" ${data[i].unreadgmail ? 'class="unread"' : ''}>${content}</td>
-                            <td class="selected">${replied}</td>
-                            <td class="selected">${mark}</td>
-                           `);
-                    tableBody.append(tr);
-                    sessionStorage.removeItem("feedbackId");
-                } else {
+                // if (id == sessionStorage.getItem("feedbackId")) {
+                //     tr.append(`
+                //             <td class="selected">${id}</td>
+                //             <td class="selected">${senderName}</td>
+                //             <td class="selected">${senderEmail}</td>
+                //             <td class="selected" ${data[i].unreadgmail ? 'class="unread"' : ''}>${content}</td>
+                //             <td class="selected">${replied}</td>
+                //             <td class="selected">${mark}</td>
+                //            `);
+                //     tableBody.append(tr);
+                //     sessionStorage.removeItem("feedbackId");
+                // } else {
                     tr.append(`
                             <td>${id}</td>
                             <td>${senderName}</td>
@@ -132,7 +131,7 @@ async function getFeedbackRequestTableAndCheckGmailFeedbacks(viewed) {
                            `);
                     tableBody.append(tr);
                 }
-            }
+           // }
         })
 
     startCountOfFeedback();
