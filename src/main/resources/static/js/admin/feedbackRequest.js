@@ -46,10 +46,15 @@ $('#feedback-request-modal')
         getFeedbackRequestTableAndCheckGmailFeedbacks(false);
     })
 
-async function markAsRead(id, viewed) {
+async function markAsReadWithGmail(id, email, viewed) {
     let message = "Mark this message as ";
     message += viewed ? "read?" : "unread?";
     if (confirm(message)) {
+        if(viewed === true){
+        //пометить все письма прочитанными на почтовом ящике
+         fetch("/admin/markasread?email=" + email + "&feedbackId=" + id).then();
+    }
+        //бд
         fetch("/api/admin/feedback-request/" + id + "/" + viewed, {
             method: 'POST'
         }).then(r => getFeedbackRequestTableAndCheckGmailFeedbacks(!viewed));
@@ -99,13 +104,13 @@ async function getFeedbackRequestTableAndCheckGmailFeedbacks(viewed) {
                 if (data[i].viewed === false) {
                     mark = `<button type="button"
                             class="btn btn-info read-loc"           
-                            onclick="markAsRead(${id},true)">Read</button>`;
+                            onclick="markAsReadWithGmail(${id}, '${senderEmail}', true)">Read</button>`;
                 } else {
                     replied = data[i].replied ? `<input type="checkbox" disabled checked>` :
                         `<input type="checkbox" disabled unchecked>`;
                     mark = `<button type="button"
                             class="btn btn-info unread-loc"           
-                            onclick="markAsRead(${id},false)">Unread</button>`;
+                            onclick="markAsReadWithGmail(${id}, '${senderEmail}', false)">Unread</button>`;
                 }
 
                 let tr = $("<tr/>");
@@ -121,7 +126,7 @@ async function getFeedbackRequestTableAndCheckGmailFeedbacks(viewed) {
                 //     tableBody.append(tr);
                 //     sessionStorage.removeItem("feedbackId");
                 // } else {
-                    tr.append(`
+                tr.append(`
                             <td>${id}</td>
                             <td>${senderName}</td>
                             <td>${senderEmail}</td>
@@ -129,9 +134,8 @@ async function getFeedbackRequestTableAndCheckGmailFeedbacks(viewed) {
                             <td>${replied}</td>
                             <td>${mark}</td>
                            `);
-                    tableBody.append(tr);
-                }
-           // }
+                tableBody.append(tr);
+            }
         })
 
     startCountOfFeedback();
@@ -394,6 +398,7 @@ async function consolidateEmails() {
                     feedbacks = tmp.map((item) => {
                         if (data.hasOwnProperty(item.id) && data[item.id][0].includes(item.senderEmail)) {
                             item.unreadgmail = data[item.id];
+                            item.viewed = false;
                             return item;
                         } else {
                             item.unreadgmail = false;
@@ -404,18 +409,6 @@ async function consolidateEmails() {
             return feedbacks;
         });
 }
-
-// check gmail answers and mark feedbacks
-// async function checkGmailFeedbacks() {
-//     await consolidateEmails()
-//         .then((data) => {
-//             for (let i = 0; i < data.length; i++) {
-//                 if (data[i].unreadgmail) {
-//                     markFeedback(data[i].id, false);
-//                 }
-//             }
-//         });
-// }
 
 function sendGmailMessage(userId, feedbackId) {
     let sendButton = document.getElementById("send-button");
@@ -441,7 +434,7 @@ function sendGmailMessage(userId, feedbackId) {
             document.getElementById("sent-message").value = "";
             sendButton.disabled = false;
         }).then(() => {
-        fetch("/admin/markasread?email=" + userId)
+        fetch("/admin/markasread?email=" + userId + "&feedbackId=" + feedbackId)
             .then(json)
     })
         .then(r => {

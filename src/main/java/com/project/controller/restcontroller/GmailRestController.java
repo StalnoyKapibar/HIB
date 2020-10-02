@@ -11,6 +11,7 @@ import com.project.model.FeedbackRequest;
 import com.project.model.MessageDTO;
 import lombok.NoArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.internet.InternetAddress;
@@ -233,19 +234,23 @@ public class GmailRestController {
     }
 
     @GetMapping(value = "/admin/markasread")
-    Map<String, Boolean> markAsRead(@PathParam("email") String email) throws IOException {
+    Map<String, Boolean> markAsRead(@PathParam("email") String email, @PathParam("feedbackId") String feedbackId) throws IOException {
         Map<String, Boolean> markAsRead = new HashMap<>();
         if (gmail != null) {
             ModifyMessageRequest mods = new ModifyMessageRequest().setRemoveLabelIds(new ArrayList<String>(Arrays.asList("UNREAD")));
-            gmail.users().messages().list("me").setQ("from:" + email + " is:unread").execute()
-                    .getMessages().stream().forEach(message -> {
-                try {
-                    gmail.users().messages().modify("me", message.getId(), mods).execute();
-                } catch (IOException e) {
-                    e.printStackTrace();
+            ListMessagesResponse lmr = gmail.users().messages().list("me").setQ("from:" + email + " is:unread").execute();
+            if (lmr.getResultSizeEstimate() > 0) {
+                for (Message message : lmr.getMessages()) {
+                    Message msg = gmail.users().messages().get("me", message.getId()).execute();
+                    String subject = getSubject(msg);
+                    if (subject.contains("Feedback №" + feedbackId)) {
+                        gmail.users().messages().modify("me", message.getId(), mods).execute();
+                        markAsRead.put("markasread", true);
+                    }
                 }
-            });
-            markAsRead.put("markasread", true);
+            } else {
+                markAsRead.put("markasread", false);
+            }
         } else {
             markAsRead.put("gmailAccess", false);
         }
