@@ -14,10 +14,9 @@ import org.springframework.core.env.Environment;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.HtmlUtils;
-
 import javax.servlet.http.HttpSession;
 import java.time.Instant;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @AllArgsConstructor
@@ -91,7 +90,13 @@ public class FeedbackRequestController {
 
     @GetMapping(value = "/api/admin/feedback-request", params = "!viewed")
     public List<FeedbackRequest> getAll() {
-        return feedbackRequestService.findAll();
+       List<FeedbackRequest>  fr = feedbackRequestService.findAll();
+        Collections.sort(fr, new Comparator<FeedbackRequest>() {
+            public int compare(FeedbackRequest o1, FeedbackRequest o2) {
+                return o1.getId().compareTo(o2.getId());
+            }
+        });
+        return fr;
     }
 
     @GetMapping(value = "/api/admin/feedback-request/{senderEmail}/replied")
