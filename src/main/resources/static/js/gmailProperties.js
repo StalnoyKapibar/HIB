@@ -6,7 +6,7 @@ properties = {
     access_type: "offline",
     prompt: "consent",
     redirect_uri: "http://77.222.63.141.xip.io:8080/gmail/admin",
-    //redirect_uri: "http://localhost:8080/gmail/admin",
+    //redirect_uri: "http://localhost:9090/gmail/admin",
     response_type: "code",
     scope: "https://mail.google.com/",
 
