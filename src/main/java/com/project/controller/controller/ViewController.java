@@ -41,19 +41,19 @@ public class ViewController {
         return modelAndView;
     }
 
-    @GetMapping("/page/{id}")
-    public ModelAndView getPage(@PathVariable("id") long id, ModelAndView modelAndView) {
-        Book book = bookService.getBookById(id);
-        if (book == null) {
-            modelAndView.setViewName("redirect:/err/not-found");
-            return modelAndView;
-        }
-            modelAndView.addObject("isPage", true);
-            modelAndView.addObject("book", id);
-            modelAndView.addObject("pageBook", book);
-            modelAndView.setViewName("user/user-page");
-        return modelAndView;
-    }
+//    @GetMapping("/page/{id}")
+//    public ModelAndView getPage(@PathVariable("id") long id, ModelAndView modelAndView) {
+//        Book book = bookService.getBookById(id);
+//        if (book == null) {
+//            modelAndView.setViewName("redirect:/err/not-found");
+//            return modelAndView;
+//        }
+//            modelAndView.addObject("isPage", true);
+//            modelAndView.addObject("book", id);
+//            modelAndView.addObject("pageBook", book);
+//            modelAndView.setViewName("user/user-page");
+//        return modelAndView;
+//    }
 
     @GetMapping("/translate")
     public String getTranslatePage() {
