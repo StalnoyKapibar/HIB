@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Api(value = "Swagger2GetBookForPageBook")
+@Api(tags = "This is the REST-API documentation for the book page")
 @RestController
 @AllArgsConstructor
 @RequestMapping("/page/{id}")
