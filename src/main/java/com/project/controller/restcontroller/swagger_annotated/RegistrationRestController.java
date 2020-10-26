@@ -28,13 +28,18 @@ public class RegistrationRestController {
     UserAccountService userAccountService;
     FormLoginErrorMessageService messageService;
 
-    @ApiOperation(value = "Get RegistrationDTO, which is an object template, containing RegistrationUserDTO and FormLoginErrorMessageDTO"
-            , response = RegistrationDTO.class, tags = "getRegistrationDTO")
+    @ApiOperation(value = "Get RegistrationDTO"
+            , notes = "Get RegistrationDTO, which is an object template, containing RegistrationUserDTO and FormLoginErrorMessageDTO."
+            , response = RegistrationDTO.class
+            , tags = "getRegistrationDTO")
     @GetMapping()
     public ResponseEntity<RegistrationDTO> getRegistrationDTO(){
         return new ResponseEntity<>(new RegistrationDTO(), HttpStatus.OK);
     }
-
+    @ApiOperation(value = "Create new UserAccount"
+            , notes = "When receiving invalid data in an object RegistrationUserDTO, the method returns error message object."
+            , response = RegistrationDTO.class
+            , tags = "createNewUserAccount")
     @PostMapping()
     public ResponseEntity<RegistrationDTO> createNewUserAccount(@ApiParam(value = " RegistrationUserDTO Model", required = true)@RequestBody@Valid RegistrationUserDTO user, BindingResult result, HttpServletRequest request){
 
