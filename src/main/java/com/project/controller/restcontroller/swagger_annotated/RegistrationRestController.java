@@ -30,7 +30,7 @@ public class RegistrationRestController {
 
     @ApiOperation(value = "Get RegistrationDTO"
             , notes = "Get RegistrationDTO, which is an object template, containing RegistrationUserDTO and FormLoginErrorMessageDTO." +
-            "You need to go to the 'user/user-page.html' page."
+            " You need to go to the 'user/user-page.html' page."
             , response = RegistrationDTO.class
             , tags = "getRegistrationDTO")
     @GetMapping()

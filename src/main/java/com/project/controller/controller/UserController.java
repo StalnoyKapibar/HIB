@@ -105,13 +105,13 @@ public class UserController {
 //        return view;
 //    }
 
-    @GetMapping("/1clickreg")
-    public ModelAndView get1ClickRegistrationPage(RegistrationUserDTO user) {
-        ModelAndView view = new ModelAndView("cabinet");
-        view.getModelMap().addAttribute("user", new RegistrationUserDTO());
-        view.getModelMap().addAttribute("errorMessage", new FormLoginErrorMessageDTO(false, ""));
-        return view;
-    }
+//    @GetMapping("/1clickreg")
+//    public ModelAndView get1ClickRegistrationPage(RegistrationUserDTO user) {
+//        ModelAndView view = new ModelAndView("cabinet");
+//        view.getModelMap().addAttribute("user", new RegistrationUserDTO());
+//        view.getModelMap().addAttribute("errorMessage", new FormLoginErrorMessageDTO(false, ""));
+//        return view;
+//    }
 
     public String generateString(Random random, String characters, int length) {
         char[] text = new char[length];
