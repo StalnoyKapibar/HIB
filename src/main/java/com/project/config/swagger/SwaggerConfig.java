@@ -21,6 +21,7 @@ public class SwaggerConfig {
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.project.controller.restcontroller.swagger_annotated"))
 //                .paths(PathSelectors.ant("/page/{id}")).build();
-                .paths(PathSelectors.ant("/registration")).build();
+//                .paths(PathSelectors.ant("/registration")).build();
+                .paths(PathSelectors.ant("/registration/**")).build();
     }
 }

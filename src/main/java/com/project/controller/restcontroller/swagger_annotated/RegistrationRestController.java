@@ -29,15 +29,19 @@ public class RegistrationRestController {
     FormLoginErrorMessageService messageService;
 
     @ApiOperation(value = "Get RegistrationDTO"
-            , notes = "Get RegistrationDTO, which is an object template, containing RegistrationUserDTO and FormLoginErrorMessageDTO."
+            , notes = "Get RegistrationDTO, which is an object template, containing RegistrationUserDTO and FormLoginErrorMessageDTO." +
+            "You need to go to the user/user-page.html page."
             , response = RegistrationDTO.class
             , tags = "getRegistrationDTO")
     @GetMapping()
     public ResponseEntity<RegistrationDTO> getRegistrationDTO(){
-        return new ResponseEntity<>(new RegistrationDTO(), HttpStatus.OK);
+        return new ResponseEntity<>(
+                new RegistrationDTO(new RegistrationUserDTO(),new FormLoginErrorMessageDTO(false, ""))
+                , HttpStatus.OK);
     }
     @ApiOperation(value = "Create new UserAccount"
-            , notes = "When receiving invalid data in an object RegistrationUserDTO, the method returns error message object."
+            , notes = "When receiving invalid data in an object RegistrationUserDTO, the method returns error message object."+
+            " If the server response code is 201, you need to go to the requestApproveAuth.html page"
             , response = RegistrationDTO.class
             , tags = "createNewUserAccount")
     @PostMapping()
@@ -79,5 +83,17 @@ public class RegistrationRestController {
         return new ResponseEntity<>(registrationDTO, HttpStatus.CREATED);
 
 
+    }
+
+    @ApiOperation(value = "Get registration in one click"
+            , notes = "Get RegistrationDTO, which is a template object containing RegistrationUserDTO and FormLoginErrorMessageDTO." +
+            " This is one click registration, you need to go to the cabinet.html page."
+            , response = RegistrationDTO.class
+            , tags = "getOneClickRegistration")
+    @GetMapping("/1clickreg")
+    public ResponseEntity<RegistrationDTO> get1ClickRegistrationPage(){
+        return new ResponseEntity<>(
+                new RegistrationDTO(new RegistrationUserDTO(),new FormLoginErrorMessageDTO(false, ""))
+                , HttpStatus.OK);
     }
 }
