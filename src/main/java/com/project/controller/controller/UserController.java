@@ -113,16 +113,16 @@ public class UserController {
 //        return view;
 //    }
 
-    public String generateString(Random random, String characters, int length) {
-        char[] text = new char[length];
-        for (int i = 0; i < length; i++) {
-            text[i] = characters.charAt(random.nextInt(characters.length()));
-        }
-        return new String(text);
-    }
+//    public String generateString(Random random, String characters, int length) {
+//        char[] text = new char[length];
+//        for (int i = 0; i < length; i++) {
+//            text[i] = characters.charAt(random.nextInt(characters.length()));
+//        }
+//        return new String(text);
+//    }
 
-    @GetMapping("/reqapprove")
-    public ModelAndView requestApproveAuth(RegistrationUserDTO user) {
-        return new ModelAndView("requestApproveAuth");
-    }
+//    @GetMapping("/reqapprove")
+//    public ModelAndView requestApproveAuth(RegistrationUserDTO user) {
+//        return new ModelAndView("requestApproveAuth");
+//    }
 }

@@ -1,12 +1,10 @@
 package com.project.controller.restcontroller.swagger_annotated;
 
-import com.project.model.RegistrationDTO;
 import com.project.service.abstraction.ResetPasswordService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -24,15 +22,17 @@ public class ResetPasswordRestController {
     ResetPasswordService resetPasswordService;
 
     @ApiOperation(value = "Reset the password"
-            , notes = "If the password is successfully reset, a 200 response code will be returned. Otherwise, an AccessDeniedException (\"403\") will be thrown."
+            , notes = "If the password is successfully reset, a 200 response code will be returned." +
+            " Otherwise, a 403 response code will be returned."
             , response = Void.class
             , tags = "getResetPassword")
     @GetMapping()
-    public ResponseEntity<Void> resetPassword(@ApiParam(value = "token", required = true)@RequestParam("token") String token) {
+    public ResponseEntity<Void> resetPassword(
+            @ApiParam(value = "token", required = true) @RequestParam("token") String token) {
         if (resetPasswordService.checkTokenResetPassword(token)) {
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
-            throw new AccessDeniedException("403");
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
     }
 }
