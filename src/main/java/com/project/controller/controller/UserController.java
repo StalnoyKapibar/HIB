@@ -43,19 +43,19 @@ public class UserController {
     @Autowired
     private ShoppingCartService cartService;
 
-    @GetMapping("/resetPassword")
-    public String getResetPasswordPage() {
-        return "user/user-page";
-    }
-
-    @GetMapping("/resPass")
-    public String getPageResPass(@RequestParam(required = false, name = "token") String token) {
-        if (resetPasswordService.checkTokenResetPassword(token)) {
-            return "pageResPass";
-        } else {
-            throw new AccessDeniedException("403");
-        }
-    }
+//    @GetMapping("/resetPassword")
+//    public String getResetPasswordPage() {
+//        return "user/user-page";
+//    }
+//
+//    @GetMapping("/resPass")
+//    public String getPageResPass(@RequestParam(required = false, name = "token") String token) {
+//        if (resetPasswordService.checkTokenResetPassword(token)) {
+//            return "pageResPass";
+//        } else {
+//            throw new AccessDeniedException("403");
+//        }
+//    }
 
 //    @GetMapping("/registration")
 //    public ModelAndView getRegistrationPage(RegistrationUserDTO user) {
