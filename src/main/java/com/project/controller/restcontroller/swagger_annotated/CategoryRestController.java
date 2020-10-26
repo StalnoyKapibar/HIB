@@ -1,4 +1,4 @@
-package com.project.controller.restcontroller;
+package com.project.controller.restcontroller.swagger_annotated;
 
 import com.project.model.*;
 import com.project.service.CategoryService;

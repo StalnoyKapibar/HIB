@@ -1,4 +1,4 @@
-package com.project.controller.restcontroller;
+package com.project.controller.restcontroller.swagger_annotated;
 
 import com.project.model.Book;
 import com.project.service.abstraction.BookService;
@@ -6,6 +6,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +24,7 @@ public class PageBookRestController {
     BookService bookService;
 
     @ApiOperation(value = "Get book for book-page", response = Book.class, tags = "getBookById")
+//    @ApiResponse(responseCode = "200", description = "OK")
     @GetMapping()
     public ResponseEntity<Book> getBook(@ApiParam(value = " ID of the required book", required = true)@PathVariable("id") long id){
         Book book = bookService.getBookById(id);

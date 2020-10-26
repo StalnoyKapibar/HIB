@@ -57,53 +57,53 @@ public class UserController {
         }
     }
 
-    @GetMapping("/registration")
-    public ModelAndView getRegistrationPage(RegistrationUserDTO user) {
-        ModelAndView view = new ModelAndView("user/user-page");
-        view.getModelMap().addAttribute("user", new RegistrationUserDTO());
-        view.getModelMap().addAttribute("errorMessage", new FormLoginErrorMessageDTO(false, ""));
-        return view;
-    }
+//    @GetMapping("/registration")
+//    public ModelAndView getRegistrationPage(RegistrationUserDTO user) {
+//        ModelAndView view = new ModelAndView("user/user-page");
+//        view.getModelMap().addAttribute("user", new RegistrationUserDTO());
+//        view.getModelMap().addAttribute("errorMessage", new FormLoginErrorMessageDTO(false, ""));
+//        return view;
+//    }
 
-    @PostMapping(value = "/registration", consumes =
-            {MediaType.APPLICATION_FORM_URLENCODED_VALUE, MediaType.APPLICATION_JSON_VALUE})
-    public ModelAndView createNewUserAccount(@Valid RegistrationUserDTO user, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
-        ModelAndView view = new ModelAndView("user/user-page");
-        view.getModelMap().addAttribute("user", user);
-        StringBuilder url = new StringBuilder();
-        url.append(request.getScheme())
-                .append("://")
-                .append(request.getServerName())
-                .append(':')
-                .append(request.getServerPort());
-        if (result.hasErrors()) {
-            view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessage(result));
-            return view;
-        }
-        if (!user.getPassword().equals(user.getConfirmPassword())) {
-            view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessageOnPasswordsDoesNotMatch());
-            return view;
-        }
-        if (userAccountService.emailExist(user.getEmail())) {
-            view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessageOnEmailUIndex());
-            return view;
-        }
-        try {
-            userAccountService.save(user, url.toString());
-        } catch (DataIntegrityViolationException e) {
-            if (e.getCause().getCause().getMessage().contains("login")) {
-                view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessageOnLoginUIndex());
-            } else {
-                view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessageOnEmailUIndex());
-            }
-            return view;
-        }
-        //After successfully Creating user
-
-        view.setViewName("redirect:/reqapprove");
-
-        return view;
-    }
+//    @PostMapping(value = "/registration", consumes =
+//            {MediaType.APPLICATION_FORM_URLENCODED_VALUE, MediaType.APPLICATION_JSON_VALUE})
+//    public ModelAndView createNewUserAccount(@Valid RegistrationUserDTO user, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
+//        ModelAndView view = new ModelAndView("user/user-page");
+//        view.getModelMap().addAttribute("user", user);
+//        StringBuilder url = new StringBuilder();
+//        url.append(request.getScheme())
+//                .append("://")
+//                .append(request.getServerName())
+//                .append(':')
+//                .append(request.getServerPort());
+//        if (result.hasErrors()) {
+//            view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessage(result));
+//            return view;
+//        }
+//        if (!user.getPassword().equals(user.getConfirmPassword())) {
+//            view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessageOnPasswordsDoesNotMatch());
+//            return view;
+//        }
+//        if (userAccountService.emailExist(user.getEmail())) {
+//            view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessageOnEmailUIndex());
+//            return view;
+//        }
+//        try {
+//            userAccountService.save(user, url.toString());
+//        } catch (DataIntegrityViolationException e) {
+//            if (e.getCause().getCause().getMessage().contains("login")) {
+//                view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessageOnLoginUIndex());
+//            } else {
+//                view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessageOnEmailUIndex());
+//            }
+//            return view;
+//        }
+//        //After successfully Creating user
+//
+//        view.setViewName("redirect:/reqapprove");
+//
+//        return view;
+//    }
 
     @GetMapping("/1clickreg")
     public ModelAndView get1ClickRegistrationPage(RegistrationUserDTO user) {
