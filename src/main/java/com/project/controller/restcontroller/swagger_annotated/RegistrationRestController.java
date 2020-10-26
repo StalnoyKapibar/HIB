@@ -30,7 +30,7 @@ public class RegistrationRestController {
 
     @ApiOperation(value = "Get RegistrationDTO"
             , notes = "Get RegistrationDTO, which is an object template, containing RegistrationUserDTO and FormLoginErrorMessageDTO." +
-            "You need to go to the user/user-page.html page."
+            "You need to go to the 'user/user-page.html' page."
             , response = RegistrationDTO.class
             , tags = "getRegistrationDTO")
     @GetMapping()
@@ -40,8 +40,9 @@ public class RegistrationRestController {
                 , HttpStatus.OK);
     }
     @ApiOperation(value = "Create new UserAccount"
-            , notes = "When receiving invalid data in an object RegistrationUserDTO, the method returns error message object."+
-            " If the server response code is 201, you need to go to the requestApproveAuth.html page"
+            , notes = "When receiving invalid data in an object RegistrationUserDTO, the method returns error message object." +
+            "If there are errors, stay on the 'user/user-page.html' page"+
+            " If the server response code is 201, you need to go to the 'requestApproveAuth.html' page"
             , response = RegistrationDTO.class
             , tags = "createNewUserAccount")
     @PostMapping()
@@ -87,7 +88,7 @@ public class RegistrationRestController {
 
     @ApiOperation(value = "Get registration in one click"
             , notes = "Get RegistrationDTO, which is a template object containing RegistrationUserDTO and FormLoginErrorMessageDTO." +
-            " This is one click registration, you need to go to the cabinet.html page."
+            " This is one click registration, you need to go to the 'cabinet.html' page."
             , response = RegistrationDTO.class
             , tags = "getOneClickRegistration")
     @GetMapping("/1clickreg")
