@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
-@Api(tags = "REST-API documentation for Shopping Cart.")
+@Api(tags = "REST-API документация для Корзины.")
 @RestController
 @AllArgsConstructor
 public class ShoppingCartController {
@@ -21,8 +21,8 @@ public class ShoppingCartController {
     private BookService bookService;
     private ShoppingCartService cartService;
 
-    @ApiOperation(value = "Get Cart Size"
-            , notes = "This endpoint returns the quantity  of items in the Shopping Cart"
+    @ApiOperation(value = "Получить размер корзины"
+            , notes = "Этот ендпойнт возвращает количество товаров в корзине."
             ,response = int.class, tags = "getCartSize")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "cartId", value = "id корзины", required = true, dataType = "Long", paramType = "query"),
