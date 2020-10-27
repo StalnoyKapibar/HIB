@@ -1,4 +1,4 @@
-package com.project.controller.restcontroller;
+package com.project.controller.restcontroller.swagger_annotated;
 
 import com.project.HIBParser.HibParser;
 import com.project.model.*;
@@ -7,8 +7,10 @@ import com.project.service.abstraction.FeedbackRequestService;
 import com.project.service.abstraction.OrderService;
 import com.project.service.abstraction.StorageService;
 import com.project.util.BookDTOWithFieldsForTable;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.apache.commons.io.FileUtils;
-import org.infinispan.partitionhandling.impl.LostDataCheck;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,7 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.util.*;
 
+@Api(tags = "This is the REST-API documentation for book(home page:/getPageBooks, /api/book)")
 @RestController
 public class BookController {
 
@@ -104,7 +107,9 @@ public class BookController {
         return pageableBookDTO;
     }
 
+    @ApiOperation(value = "Get books for total quantity book", response = Book.class, responseContainer = "List", tags = "getBooks")
     @GetMapping("/getPageBooks")
+    //todo фронт использует только количество книг, оптимизировать, возвращая только число
     public List<Book> getPageBooks() {
         return bookService.getAllBookDTO();
     }
@@ -223,8 +228,9 @@ public class BookController {
         }
     }
 
+    @ApiOperation(value = "Get bookPage", response = BookPageDto.class, tags = "getBookPage")
     @GetMapping(value = "/api/book", params = {"limit", "start", "locale"})
-    public BookPageDto getBookDtoByLimitAndAmountAndStart(@RequestParam Map<String, String> params) {
+    public BookPageDto getBookDtoByLimitAndAmountAndStart(@ApiParam(value = "map: limit-кол-во книг на стрнице, start-номер страницы, locale-язык клиента", required = true)@RequestParam Map<String, String> params) {
         Pageable pageable = PageRequest.of(Integer.parseInt(params.get("start")),
                 Integer.parseInt(params.get("limit")), Sort.by(Sort.Order.desc("id")));
         return bookService.getBookPageByPageable(pageable, params.get("locale"));
