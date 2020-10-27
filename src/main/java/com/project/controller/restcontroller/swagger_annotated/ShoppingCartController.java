@@ -1,13 +1,11 @@
-package com.project.controller.restcontroller;
+package com.project.controller.restcontroller.swagger_annotated;
 
 import com.project.model.Book;
 import com.project.model.CartItemDTO;
 import com.project.model.ShoppingCartDTO;
 import com.project.service.abstraction.BookService;
 import com.project.service.abstraction.ShoppingCartService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
-@Api(tags = "This is the REST-API documentation for Shopping Cart.")
+@Api(tags = "REST-API documentation for Shopping Cart.")
 @RestController
 @AllArgsConstructor
 public class ShoppingCartController {
@@ -24,12 +22,14 @@ public class ShoppingCartController {
     private ShoppingCartService cartService;
 
     @ApiOperation(value = "Get Cart Size"
-            , notes = "Get the quantity  of items in the Shopping Cart"
+            , notes = "This endpoint returns the quantity  of items in the Shopping Cart"
             ,response = int.class, tags = "getCartSize")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "cartId", value = "id корзины", required = true, dataType = "Long", paramType = "query"),
+            @ApiImplicitParam(name = "shoppingcart", value = "ShoppingCartDTO: объект корзины, доавленный атрибутом в HttpSession", required = true, dataType = "Object", paramType = "query"),
+    })
     @GetMapping("/cart/size")
-    public int getCartSize(@ApiParam(value = "HttpSession must contain the \"cartId\" attribute with a value of type Long." +
-            "And also it must contain the attribute \"shoppingcart\", with a value containing an object of type ShoppingCartDTO."
-            , required = true)HttpSession session) {
+    public int getCartSize(HttpSession session) {
         Long cartId = (Long) session.getAttribute("cartId");
         if (cartId != null) {
             session.setAttribute("cartId", cartId);
@@ -46,6 +46,13 @@ public class ShoppingCartController {
         }
     }
 
+    @ApiOperation(value = "Get list CartItemDTO"
+            , notes = "This endpoint returns all items for this Shopping Cart"
+            ,response = CartItemDTO.class, responseContainer  =  "List", tags = "getListCartItemDTO")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "cartId", value = "id корзины", required = true, dataType = "Long", paramType = "query"),
+            @ApiImplicitParam(name = "shoppingcart", value = "ShoppingCartDTO: объект корзины, доавленный атрибутом в HttpSession", required = true, dataType = "ShoppingCartDTO", paramType = "query"),
+    })
     @PostMapping(value = "/cart")
     public List<CartItemDTO> getShoppingCart(HttpSession session) {
         Long cartId = (Long) session.getAttribute("cartId");
@@ -60,6 +67,14 @@ public class ShoppingCartController {
         return shoppingCart.getCartItems();
     }
 
+    @ApiOperation(value = "Add Book to Cart"
+            , notes = "This endpoint add book to this Shopping Cart"
+            ,response = Void.class, tags = "addToCart")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "cartId", value = "id корзины", required = true, dataType = "Long", paramType = "query"),
+            @ApiImplicitParam(name = "shoppingcart", value = "ShoppingCartDTO: объект корзины, доавленный атрибутом в HttpSession", required = true, dataType = "ShoppingCartDTO", paramType = "query"),
+            @ApiImplicitParam(name = "id", value = "параметр в адресе запроса: '/cart/{id}'", required = true, dataType = "string", paramType = "query")
+    })
     @PostMapping("/cart/{id}")
     public void addToCart(@PathVariable Long id, HttpSession session) {
         Book book = bookService.getBookById(id);
@@ -79,6 +94,14 @@ public class ShoppingCartController {
         }
     }
 
+    @ApiOperation(value = "Delete Book from Cart"
+            , notes = "This endpoint remove book from this Shopping Cart"
+            ,response = Void.class, tags = "deleteFromCart")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "cartId", value = "id корзины", required = true, dataType = "Long", paramType = "query"),
+            @ApiImplicitParam(name = "shoppingcart", value = "ShoppingCartDTO: объект корзины, доавленный атрибутом в HttpSession", required = true, dataType = "ShoppingCartDTO", paramType = "query"),
+            @ApiImplicitParam(name = "id", value = "id книги", required = true, dataType = "string", paramType = "query")
+    })
     @DeleteMapping("/cart/{id}")
     public void deleteFromCart(@PathVariable Long id, HttpSession session) {
         Long cartId = (Long) session.getAttribute("cartId");
