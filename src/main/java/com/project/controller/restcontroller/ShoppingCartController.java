@@ -5,6 +5,9 @@ import com.project.model.CartItemDTO;
 import com.project.model.ShoppingCartDTO;
 import com.project.service.abstraction.BookService;
 import com.project.service.abstraction.ShoppingCartService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
+@Api(tags = "This is the REST-API documentation for Shopping Cart.")
 @RestController
 @AllArgsConstructor
 public class ShoppingCartController {
@@ -19,8 +23,13 @@ public class ShoppingCartController {
     private BookService bookService;
     private ShoppingCartService cartService;
 
+    @ApiOperation(value = "Get Cart Size"
+            , notes = "Get the quantity  of items in the Shopping Cart"
+            ,response = int.class, tags = "getCartSize")
     @GetMapping("/cart/size")
-    public int getCartSize(HttpSession session, Authentication authentication) {
+    public int getCartSize(@ApiParam(value = "HttpSession must contain the \"cartId\" attribute with a value of type Long." +
+            "And also it must contain the attribute \"shoppingcart\", with a value containing an object of type ShoppingCartDTO."
+            , required = true)HttpSession session) {
         Long cartId = (Long) session.getAttribute("cartId");
         if (cartId != null) {
             session.setAttribute("cartId", cartId);

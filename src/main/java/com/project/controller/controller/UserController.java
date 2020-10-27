@@ -43,19 +43,19 @@ public class UserController {
     @Autowired
     private ShoppingCartService cartService;
 
-    @GetMapping("/resetPassword")
-    public String getResetPasswordPage() {
-        return "user/user-page";
-    }
-
-    @GetMapping("/resPass")
-    public String getPageResPass(@RequestParam(required = false, name = "token") String token) {
-        if (resetPasswordService.checkTokenResetPassword(token)) {
-            return "pageResPass";
-        } else {
-            throw new AccessDeniedException("403");
-        }
-    }
+//    @GetMapping("/resetPassword")
+//    public String getResetPasswordPage() {
+//        return "user/user-page";
+//    }
+//
+//    @GetMapping("/resPass")
+//    public String getPageResPass(@RequestParam(required = false, name = "token") String token) {
+//        if (resetPasswordService.checkTokenResetPassword(token)) {
+//            return "pageResPass";
+//        } else {
+//            throw new AccessDeniedException("403");
+//        }
+//    }
 
 //    @GetMapping("/registration")
 //    public ModelAndView getRegistrationPage(RegistrationUserDTO user) {
@@ -105,24 +105,24 @@ public class UserController {
 //        return view;
 //    }
 
-    @GetMapping("/1clickreg")
-    public ModelAndView get1ClickRegistrationPage(RegistrationUserDTO user) {
-        ModelAndView view = new ModelAndView("cabinet");
-        view.getModelMap().addAttribute("user", new RegistrationUserDTO());
-        view.getModelMap().addAttribute("errorMessage", new FormLoginErrorMessageDTO(false, ""));
-        return view;
-    }
+//    @GetMapping("/1clickreg")
+//    public ModelAndView get1ClickRegistrationPage(RegistrationUserDTO user) {
+//        ModelAndView view = new ModelAndView("cabinet");
+//        view.getModelMap().addAttribute("user", new RegistrationUserDTO());
+//        view.getModelMap().addAttribute("errorMessage", new FormLoginErrorMessageDTO(false, ""));
+//        return view;
+//    }
 
-    public String generateString(Random random, String characters, int length) {
-        char[] text = new char[length];
-        for (int i = 0; i < length; i++) {
-            text[i] = characters.charAt(random.nextInt(characters.length()));
-        }
-        return new String(text);
-    }
+//    public String generateString(Random random, String characters, int length) {
+//        char[] text = new char[length];
+//        for (int i = 0; i < length; i++) {
+//            text[i] = characters.charAt(random.nextInt(characters.length()));
+//        }
+//        return new String(text);
+//    }
 
-    @GetMapping("/reqapprove")
-    public ModelAndView requestApproveAuth(RegistrationUserDTO user) {
-        return new ModelAndView("requestApproveAuth");
-    }
+//    @GetMapping("/reqapprove")
+//    public ModelAndView requestApproveAuth(RegistrationUserDTO user) {
+//        return new ModelAndView("requestApproveAuth");
+//    }
 }
