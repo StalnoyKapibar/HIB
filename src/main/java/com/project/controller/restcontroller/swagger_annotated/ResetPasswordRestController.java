@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-@Api(tags = "This is the REST-API documentation for the Reset Password for user-page")
+@Api(tags = "REST-API документ описывающий сброс пароля на странице 'user-page'")
 @RestController
 @AllArgsConstructor
 @RequestMapping("/resetPassword")
@@ -21,9 +21,8 @@ public class ResetPasswordRestController {
 
     ResetPasswordService resetPasswordService;
 
-    @ApiOperation(value = "Reset the password"
-            , notes = "If the password is successfully reset, a 200 response code will be returned." +
-            " Otherwise, a 403 response code will be returned."
+    @ApiOperation(value = "Сброс пароля"
+            , notes = "Если пароль успешно сброшен, будет возвращен код ответа 200 . В противном случае будет возвращен код ответа 403."
             , response = Void.class
             , tags = "getResetPassword")
     @GetMapping()

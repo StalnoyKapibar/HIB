@@ -14,16 +14,18 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.*;
 
-@Api(tags = "This is the REST-API documentation for Footer contacts.")
+@Api(tags = "REST-API документ для Footer contacts.")
 @RestController
 @RequestMapping("/contacts")
 public class FooterContactsRestController {
 
-    @ApiOperation(value = "Get contacts for Footer:"
-            , notes = "This endpoint returns the contacts list for footer"
-            , response = List.class, tags = "getFooterContacts")
+    @ApiOperation(value = "Получить контакты для футера"
+            , notes = "Этот ендпойнт возвращает список контактов для футера из файла 'footer.properties'"
+            , response = FooterContactsDTO.class
+            , responseContainer = "List"
+            , tags = "getFooterContacts")
     @GetMapping()
-    public ResponseEntity<List<FooterContactsDTO>> getFooterContacts(Model model) throws IOException {
+    public ResponseEntity<List<FooterContactsDTO>> getFooterContacts() throws IOException {
         List<FooterContactsDTO> contacts = new ArrayList<>();
         Properties properties = new Properties();
         properties.load(new FileInputStream("src/main/resources/footer.properties"));

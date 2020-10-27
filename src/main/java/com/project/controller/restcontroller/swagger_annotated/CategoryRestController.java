@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Api(tags = "This is the REST-API documentation for book categories.")
+@Api(tags = "REST-API документ для раздела: категории.")
 @RestController
 @RequestMapping("/categories")
 @AllArgsConstructor
@@ -23,19 +23,31 @@ public class CategoryRestController {
 
     BookService bookService;
 
-    @ApiOperation(value = "Get list categories for name:", response = Iterable.class, tags = "getPanelCategories")
+    @ApiOperation(value = "Заполучить list с категориями книг по параметру 'name'"
+            , notes = "Этот ендпойнт вернёт list с категориями книг по параметру 'name'"
+            , response = Category.class
+            , responseContainer = "List"
+            , tags = "getPanelCategories")
     @GetMapping("/getpanelcategories/{name}")
     public List<Category> getPanelCategories(@ApiParam(value = "name", required = true)@PathVariable("name") String name) {
         return categoryService.getListCategoriesById(name);
     }
 
-    @ApiOperation(value = "Get category tree by locale", response = Iterable.class, tags = "getCategoryTreeByLocale")
+    @ApiOperation(value = "Получить дерево категорий для региональной локали",
+            notes = "Этот ендпойнт вернёт list с категориями по параметру 'loc'"
+            , response = Category.class
+            , responseContainer = "List"
+            , tags = "getCategoryTreeByLocale")
     @GetMapping("/gettree/{loc}")
-    public List getCategoryTree(@ApiParam(value = "locale", required = true)@PathVariable("loc") String loc) {
+    public List<Category> getCategoryTree(@ApiParam(value = "locale", required = true)@PathVariable("loc") String loc) {
         return categoryService.getCategoryTree(loc);
     }
 
-    @ApiOperation(value = "Get list books by path", response = Iterable.class, tags = "getBooksByPath")
+    @ApiOperation(value = "Получить все книги по категориям по параметру 'path'",
+            notes = "Этот ендпойнт вернёт list с BookDTOForCategories по параметру 'path'"
+            , response = BookDTOForCategories.class
+            , responseContainer = "List"
+            , tags = "getBooksByPath")
     @GetMapping("/getbooks")
     public List<BookDTOForCategories> getBooksByPath(@ApiParam(value = "path", required = true)@RequestParam("path") String path) {
         List<BookDTOForCategories> books = new ArrayList<>();
@@ -45,7 +57,9 @@ public class CategoryRestController {
         return books;
     }
 
-    @ApiOperation(value = "Get count books", response = Long.class, tags = "getCountBooksByPath")
+    @ApiOperation(value = "Получить число книг по параметру 'path' и параметру 'show'"
+            , notes = "Ендпойнт вернёт число книг по параметру 'path' и параметру 'show'"
+            , response = Long.class, tags = "getCountBooksByPath")
     @GetMapping("/getcount")
     public Long getCountBooksByPath(@ApiParam(value = "path", required = true)@RequestParam("path") String path, @ApiParam(value = "show", required = true)@RequestParam("show") boolean isShow) {
         long i = 0;
