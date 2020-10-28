@@ -20,7 +20,9 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.project.controller.restcontroller.swagger_annotated"))
-                .paths(PathSelectors.any()).build();
-
+//                .paths(PathSelectors.ant("/page/{id}")).build();
+//                .paths(PathSelectors.ant("/registration")).build();
+//                .paths(PathSelectors.ant("/registration/**")).build();
+                .paths(PathSelectors.ant("/**")).build();
     }
 }

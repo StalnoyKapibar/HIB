@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-@Api(tags = "This is the REST-API documentation for the Registration page")
+@Api(tags = "REST-API документ регистрации пользователя")
 @RestController
 @AllArgsConstructor
 @RequestMapping("/registration")
@@ -28,9 +28,9 @@ public class RegistrationRestController {
     UserAccountService userAccountService;
     FormLoginErrorMessageService messageService;
 
-    @ApiOperation(value = "Get RegistrationDTO"
-            , notes = "Get RegistrationDTO, which is an object template, containing RegistrationUserDTO and FormLoginErrorMessageDTO." +
-            " You need to go to the 'user/user-page.html' page."
+    @ApiOperation(value = "Получить шаблон объекта RegistrationDTO"
+            , notes = "Ендпойнт вернёт RegistrationDTO, который является шаблоном объекта" +
+            ", содержащим RegistrationUserDTO и FormLoginErrorMessageDTO."
             , response = RegistrationDTO.class
             , tags = "getRegistrationDTO")
     @GetMapping()
@@ -39,14 +39,17 @@ public class RegistrationRestController {
                 new RegistrationDTO(new RegistrationUserDTO(),new FormLoginErrorMessageDTO(false, ""))
                 , HttpStatus.OK);
     }
-    @ApiOperation(value = "Create new UserAccount"
-            , notes = "When receiving invalid data in an object RegistrationUserDTO, the method returns error message object." +
-            "If there are errors, stay on the 'user/user-page.html' page"+
-            " If the server response code is 201, you need to go to the 'requestApproveAuth.html' page"
+    @ApiOperation(value = "Создать новый аккаунт пользователя"
+            , notes = "Ендпойнт возвращает объект RegistrationDTO" +
+            ", содержащий объекты RegistrationUserDTO и FormLoginErrorMessageDTO. " +
+            "При получении невалидных данных в объекте RegistrationUserDTO" +
+            ", объект  FormLoginErrorMessageDTO получит соответственное сообщение об ошибке."
             , response = RegistrationDTO.class
             , tags = "createNewUserAccount")
     @PostMapping()
-    public ResponseEntity<RegistrationDTO> createNewUserAccount(@ApiParam(value = " RegistrationUserDTO Model", required = true)@RequestBody@Valid RegistrationUserDTO user, BindingResult result, HttpServletRequest request){
+    public ResponseEntity<RegistrationDTO> createNewUserAccount(
+            @ApiParam(value = " RegistrationUserDTO Model", required = true)
+            @RequestBody@Valid RegistrationUserDTO user, BindingResult result, HttpServletRequest request){
 
         RegistrationDTO registrationDTO = new RegistrationDTO();
         registrationDTO.setUser(user);
@@ -86,9 +89,9 @@ public class RegistrationRestController {
 
     }
 
-    @ApiOperation(value = "Get registration in one click"
-            , notes = "Get RegistrationDTO, which is a template object containing RegistrationUserDTO and FormLoginErrorMessageDTO." +
-            " This is one click registration, you need to go to the 'cabinet.html' page."
+    @ApiOperation(value = "Регистрация в один клик"
+            , notes = "Ендпойнт вернёт RegistrationDTO, который представляет собой объект шаблона" +
+            ", содержащий RegistrationUserDTO и FormLoginErrorMessageDTO."
             , response = RegistrationDTO.class
             , tags = "getOneClickRegistration")
     @GetMapping("/1clickreg")
