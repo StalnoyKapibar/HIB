@@ -108,7 +108,7 @@ public class BookController {
     }
 
     @Deprecated
-    @ApiOperation(value = "Get books for total quantity book", response = Book.class, responseContainer = "List", tags = "getBooks")
+    @ApiOperation(value = "Get books for total quantity book", notes = "вернет все книги", response = Book.class, responseContainer = "List", tags = "getBooks")
     @GetMapping("/getPageBooks")
     public List<Book> getPageBooks() {
         return bookService.getAllBookDTO();
@@ -234,7 +234,7 @@ public class BookController {
         }
     }
 
-    @ApiOperation(value = "Get bookPage", response = BookPageDto.class, tags = "getBookPage")
+    @ApiOperation(value = "Get bookPage", notes = "возвращает объект BookPageDto содержащий книги для одной страницы", response = BookPageDto.class, tags = "getBookPage")
     @GetMapping(value = "/api/book", params = {"limit", "start", "locale"})
     public BookPageDto getBookDtoByLimitAndAmountAndStart(@ApiParam(value = "map: limit-кол-во книг на стрнице, start-номер страницы, locale-язык клиента", required = true)@RequestParam Map<String, String> params) {
         Pageable pageable = PageRequest.of(Integer.parseInt(params.get("start")),
