@@ -107,11 +107,17 @@ public class BookController {
         return pageableBookDTO;
     }
 
+    @Deprecated
     @ApiOperation(value = "Get books for total quantity book", response = Book.class, responseContainer = "List", tags = "getBooks")
     @GetMapping("/getPageBooks")
-    //todo фронт использует только количество книг, оптимизировать, возвращая только число
     public List<Book> getPageBooks() {
         return bookService.getAllBookDTO();
+    }
+
+    @ApiOperation(value = "Get size of total books", notes = "общее кол-во книг", response = Long.class, tags = "getQuantityBooks")
+    @GetMapping("/getQuantityBooks")
+    public Long getQuantityBooks() {
+        return bookService.getSizeOfTotalBooks();
     }
 
     @PostMapping("/admin/add")
