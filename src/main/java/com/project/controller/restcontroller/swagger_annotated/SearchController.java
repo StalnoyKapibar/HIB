@@ -1,10 +1,11 @@
-package com.project.controller.restcontroller;
+package com.project.controller.restcontroller.swagger_annotated;
 
 import com.project.dao.CategoryDAO;
 import com.project.model.BookNewDTO;
 import com.project.model.BookSearchPageDTO;
 import com.project.search.BookSearch;
 import com.project.service.abstraction.BookService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Api(tags = "REST-API документ, описывающий взаимодействие с сервисом: поиска книг")
 @RestController
 public class SearchController {
 
@@ -27,6 +29,7 @@ public class SearchController {
         this.bookService = bookService;
         this.categoryDAO = categoryDAO;
     }
+
 
     @PostMapping("/api/admin/searchResult")
     public List<BookNewDTO> BooksSearchAdmin(@RequestParam(value = "request") String req, @RequestParam(value = "Show") boolean isShow) {

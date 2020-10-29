@@ -90,7 +90,7 @@ public class RegistrationRestController {
     }
 
     @ApiOperation(value = "Регистрация в один клик"
-            , notes = "Ендпойнт вернёт RegistrationDTO, который представляет собой объект шаблона" +
+            , notes = "Ендпойнт вернёт RegistrationDTO, объект шаблона" +
             ", содержащий RegistrationUserDTO и FormLoginErrorMessageDTO."
             , response = RegistrationDTO.class
             , tags = "getOneClickRegistration")

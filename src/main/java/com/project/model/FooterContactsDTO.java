@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class FooterContactsDTO {
-    String email;
-    String phoneNumber;
+    private String email;
+    private String phoneNumber;
 }

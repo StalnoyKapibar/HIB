@@ -47,7 +47,7 @@ public class ShoppingCartController {
         }
     }
 
-    @ApiOperation(value = "Заполучить все товары в корзине"
+    @ApiOperation(value = "Получить все товары в корзине"
             , notes = "Эта конечная точка возвращает list с CartItemDTO для этой корзины покупок"
             ,response = CartItemDTO.class
             , responseContainer  =  "List"
