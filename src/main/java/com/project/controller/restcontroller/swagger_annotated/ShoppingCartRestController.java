@@ -16,7 +16,7 @@ import java.util.List;
 @Api(tags = "REST-API документация для Корзины.")
 @RestController
 @AllArgsConstructor
-public class ShoppingCartController {
+public class ShoppingCartRestController {
 
     private BookService bookService;
     private ShoppingCartService cartService;

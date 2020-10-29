@@ -17,14 +17,14 @@ import java.util.List;
 
 @Api(tags = "REST-API документ, описывающий взаимодействие с сервисом: поиска книг")
 @RestController
-public class SearchController {
+public class SearchRestController {
 
     private final BookSearch bookSearch;
     private final BookService bookService;
     private final CategoryDAO categoryDAO;
 
     @Autowired
-    public SearchController(BookSearch bookSearch, BookService bookService, CategoryDAO categoryDAO) {
+    public SearchRestController(BookSearch bookSearch, BookService bookService, CategoryDAO categoryDAO) {
         this.bookSearch = bookSearch;
         this.bookService = bookService;
         this.categoryDAO = categoryDAO;

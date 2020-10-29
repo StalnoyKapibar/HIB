@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @Api(tags = "REST-API документ, описывающий сброс пароля пользователя")
 @RestController
-public class ResetPasswordController {
+public class ResetPasswordRestController {
 
     @Autowired
     private ResetPasswordService resetPasswordService;
