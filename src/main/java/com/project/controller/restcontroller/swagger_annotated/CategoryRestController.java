@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Api(tags = "REST-API документ для раздела: категории.")
+@Api(tags = "REST-API документ для раздела: категории книг.")
 @RestController
 @RequestMapping("/categories")
 @AllArgsConstructor
@@ -23,7 +23,7 @@ public class CategoryRestController {
 
     BookService bookService;
 
-    @ApiOperation(value = "Заполучить list с категориями книг по параметру 'name'"
+    @ApiOperation(value = "Получить list с категориями книг по параметру 'name'"
             , notes = "Этот ендпойнт вернёт list с категориями книг по параметру 'name'"
             , response = Category.class
             , responseContainer = "List"

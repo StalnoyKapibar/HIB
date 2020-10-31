@@ -23,6 +23,7 @@ public class SwaggerConfig {
 //                .paths(PathSelectors.ant("/page/{id}")).build();
 //                .paths(PathSelectors.ant("/registration")).build();
 //                .paths(PathSelectors.ant("/registration/**")).build();
-                .paths(PathSelectors.ant("/**")).build();
+//                .paths(PathSelectors.ant("/**")).build();
+                .paths(PathSelectors.any()).build();
     }
 }

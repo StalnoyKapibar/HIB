@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class RegistrationDTO {
-    RegistrationUserDTO user;
-    FormLoginErrorMessageDTO errorMessage;
+    private RegistrationUserDTO user;
+    private FormLoginErrorMessageDTO errorMessage;
 }

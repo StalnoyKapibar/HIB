@@ -29,11 +29,11 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.util.*;
 
-@Api(tags = "This is the REST-API documentation for book(home page:/getPageBooks, /api/book)")
+@Api(tags = "REST-API документ, описывающий взаимодействие со страницей home")
 @RestController
-public class BookController {
+public class BookRestController {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(BookController.class.getName());
+    private final static Logger LOGGER = LoggerFactory.getLogger(BookRestController.class.getName());
     private final BookService bookService;
     private final HibParser hibParser;
     private final StorageService storageService;
@@ -41,7 +41,7 @@ public class BookController {
     private final OrderService orderService;
 
     @Autowired
-    public BookController(BookService bookService, HibParser hibParser, StorageService storageService, FeedbackRequestService feedbackRequestService, OrderService orderService) {
+    public BookRestController(BookService bookService, HibParser hibParser, StorageService storageService, FeedbackRequestService feedbackRequestService, OrderService orderService) {
         this.bookService = bookService;
         this.hibParser = hibParser;
         this.storageService = storageService;
