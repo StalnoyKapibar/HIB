@@ -33,7 +33,7 @@ public class ShoppingCartRestController {
 
     @ApiOperation(value = "Получить размер корзины"
             , notes = "Этот ендпойнт возвращает количество товаров в корзине."
-            ,response = int.class
+            ,response = Number.class
             , tags = "getCartSize")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "cartId", value = "id корзины", required = true, dataType = "Long", paramType = "query"),
@@ -61,7 +61,7 @@ public class ShoppingCartRestController {
             , notes = "Эта конечная точка возвращает list с CartItemDTO для этой корзины покупок"
             ,response = CartItemDTO.class
             , responseContainer  =  "List"
-            , tags = "getListCartItemDTO")
+            , tags = "getShoppingCart")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "cartId", value = "id корзины", required = true, dataType = "Long", paramType = "query"),
             @ApiImplicitParam(name = "shoppingcart", value = "ShoppingCartDTO: объект корзины, добавленный атрибутом в HttpSession", required = true, dataType = "ShoppingCartDTO", paramType = "query"),

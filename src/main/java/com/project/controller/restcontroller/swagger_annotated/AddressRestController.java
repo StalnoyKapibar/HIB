@@ -10,7 +10,9 @@ import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
@@ -44,6 +46,13 @@ public class AddressRestController {
     public Set<Address> getUserAddresses(@AuthenticationPrincipal UserAccount user) {
         return addressService.getAddressByUserId(user.getId());
     }
+//    @GetMapping
+//    public Set<Address> getUserAddresses() {
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        UserAccount userAccount = (UserAccount) authentication.getPrincipal();
+//
+//        return addressService.getAddressByUserId(userAccount.getId());
+//    }
 
     /**
      * Set new address for user
