@@ -47,9 +47,11 @@ public class RegistrationRestController {
             , response = RegistrationDTO.class
             , tags = "createNewUserAccount")
     @PostMapping()
+    @CrossOrigin(origins = "*")
     public ResponseEntity<RegistrationDTO> createNewUserAccount(
             @ApiParam(value = " RegistrationUserDTO Model", required = true)
             @RequestBody@Valid RegistrationUserDTO user, BindingResult result, HttpServletRequest request){
+
 
         RegistrationDTO registrationDTO = new RegistrationDTO();
         registrationDTO.setUser(user);
