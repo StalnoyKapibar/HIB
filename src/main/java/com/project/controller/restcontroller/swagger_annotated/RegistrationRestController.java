@@ -46,6 +46,7 @@ public class RegistrationRestController {
             ", объект  FormLoginErrorMessageDTO получит соответственное сообщение об ошибке."
             , response = RegistrationDTO.class
             , tags = "createNewUserAccount")
+    @CrossOrigin(origins = "http://localhost:8080")
     @PostMapping()
     public ResponseEntity<RegistrationDTO> createNewUserAccount(
             @ApiParam(value = " RegistrationUserDTO Model", required = true)
