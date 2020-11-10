@@ -22,6 +22,7 @@ import javax.validation.Valid;
 @Api(tags = "REST-API документ, описывающий сервис регистрации пользователя")
 @RestController
 @AllArgsConstructor
+@CrossOrigin(origins = "*")
 @RequestMapping("/registration")
 public class RegistrationRestController {
 
@@ -46,8 +47,8 @@ public class RegistrationRestController {
             ", объект  FormLoginErrorMessageDTO получит соответственное сообщение об ошибке."
             , response = RegistrationDTO.class
             , tags = "createNewUserAccount")
+
     @PostMapping()
-//    @CrossOrigin()
     public ResponseEntity<RegistrationDTO> createNewUserAccount(
             @ApiParam(value = " RegistrationUserDTO Model", required = true)
             @RequestBody@Valid RegistrationUserDTO user, BindingResult result, HttpServletRequest request){
