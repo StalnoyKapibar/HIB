@@ -19,10 +19,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-@Api(tags = "REST-API документ, описывающий сервис регистрации пользователя")
+@Api(tags = "REST-API документ, описывающий сервис регистрации пользователя.")
 @RestController
 @AllArgsConstructor
-//@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*")
 @RequestMapping("/registration")
 public class RegistrationRestController {
 
