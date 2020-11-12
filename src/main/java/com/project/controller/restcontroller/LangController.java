@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.util.Properties;
 
+@CrossOrigin(origins = "*")
 @RestController
 public class LangController {
 

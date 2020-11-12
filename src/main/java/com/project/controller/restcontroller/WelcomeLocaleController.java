@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "*")
 @AllArgsConstructor
 @RestController
 public class WelcomeLocaleController {

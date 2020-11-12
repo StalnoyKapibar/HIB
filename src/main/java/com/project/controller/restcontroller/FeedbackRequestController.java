@@ -18,6 +18,7 @@ import javax.servlet.http.HttpSession;
 import java.time.Instant;
 import java.util.*;
 
+@CrossOrigin(origins = "*")
 @RestController
 @AllArgsConstructor
 @PropertySource("classpath:application.properties")

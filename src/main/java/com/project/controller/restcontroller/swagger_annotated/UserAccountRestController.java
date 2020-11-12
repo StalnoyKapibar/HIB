@@ -19,6 +19,7 @@ import java.util.List;
         "(получение статуса заказов и feedback-ов пользователей, " +
         "получение аккаунта пользователя по логину, " +
         "включение, выключение аккаунта пользователя)")
+@CrossOrigin(origins = "*")
 @RestController
 @AllArgsConstructor
 public class UserAccountRestController {

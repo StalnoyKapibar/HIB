@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.apache.tomcat.util.json.JSONParser;
 import org.apache.tomcat.util.json.ParseException;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 @Api(tags = "REST-API документ, описывающий взаимодействие с сервисом перевода: HibTranslator, использующим API 'translate.yandex.net'")
+@CrossOrigin(origins = "*")
 @AllArgsConstructor
 @RestController
 public class TranslateRestController {

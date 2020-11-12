@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Api(tags = "REST-API документация для Корзины.")
+@CrossOrigin(origins = "*")
 @RestController
 @AllArgsConstructor
 public class ShoppingCartRestController {

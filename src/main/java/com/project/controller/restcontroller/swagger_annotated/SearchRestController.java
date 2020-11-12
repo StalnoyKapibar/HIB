@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 @Api(value = "REST-API документ, описывающий взаимодействие с сервисом: поиска книг")
+@CrossOrigin(origins = "*")
 @RestController
 public class SearchRestController {
 

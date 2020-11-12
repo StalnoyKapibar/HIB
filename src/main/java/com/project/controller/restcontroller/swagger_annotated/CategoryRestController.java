@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Api(tags = "REST-API документ для раздела: категории книг.")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/categories")
 @AllArgsConstructor

@@ -23,6 +23,7 @@ import java.util.Set;
  */
 
 @Api(tags = "REST-API документ, описывающий взаимодействие с сервисом: адрес пользователя")
+@CrossOrigin(origins = "*")
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/user/address")

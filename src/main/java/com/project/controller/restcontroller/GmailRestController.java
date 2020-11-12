@@ -21,6 +21,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.*;
 
+@CrossOrigin(origins = "*")
 @RestController
 @NoArgsConstructor
 public class GmailRestController {

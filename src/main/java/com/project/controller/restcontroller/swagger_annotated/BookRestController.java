@@ -30,6 +30,7 @@ import java.nio.file.*;
 import java.util.*;
 
 @Api(tags = "REST-API документ, описывающий взаимодействие со страницей home")
+@CrossOrigin(origins = "*")
 @RestController
 public class BookRestController {
 
