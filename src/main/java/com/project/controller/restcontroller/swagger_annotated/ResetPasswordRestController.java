@@ -1,5 +1,6 @@
 package com.project.controller.restcontroller.swagger_annotated;
 
+import com.project.model.EmailDTO;
 import com.project.model.UserDTOResetPassword;
 import com.project.service.abstraction.ResetPasswordService;
 import io.swagger.annotations.Api;
@@ -23,30 +24,31 @@ public class ResetPasswordRestController {
     private ResetPasswordService resetPasswordService;
 
     @ApiOperation(value = "Проверка email на валидность и брос пароля"
-            , notes = "Ендпойнт возвращает json с результатом ответа(\"ok\", \"noEmail\", \"invalid format email\")"
-            , response = Map.class
+            , notes = "Ендпойнт параметром принимает email пользователя. " +
+                      "Ендпойнт возвращает json с результатом ответа(\"ok\", \"noEmail\", \"invalid format email\")"
+            , response = EmailDTO.class
             , tags = "sendResetPassword")
     @PostMapping("/sendResetPassword")
-    public ResponseEntity<Map<String, String>> getEmail(@ApiParam(value = "email", required = true)@RequestBody Map<String, String> email, HttpServletRequest request) {
+    public ResponseEntity<EmailDTO> getEmail(@ApiParam(value = "email", required = true)
+                                             @RequestBody EmailDTO email, HttpServletRequest request) {
         StringBuilder url = new StringBuilder();
         url.append(request.getScheme())
                 .append("://")
                 .append(request.getServerName())
                 .append(':')
                 .append(request.getServerPort());
-        Map<String,String> map = new HashMap<>();
-        map.put("email", resetPasswordService.sendEmailResetPassword(email.get("email"), url.toString()));
-        return new ResponseEntity<>(map, HttpStatus.OK);
+        return new ResponseEntity<>(
+                new EmailDTO(resetPasswordService.sendEmailResetPassword(email.getEmail(), url.toString())), HttpStatus.OK);
     }
 
     @ApiOperation(value = "Сохранение аккаунта пользователя с новым паролем"
-            , notes = "Ендпойнт возвращает json с результатом ответа(\"ok\", \"noValid\", \"passError\")"
-            , response = Map.class
+            , notes = "Ендпойнт параметром принимает объект: UserDTOResetPassword. " +
+                      "Ендпойнт возвращает json с результатом ответа(\"ok\", \"noValid\", \"passError\")"
+            , response = EmailDTO.class
             , tags = "createNewPassword")
     @PostMapping("/newPassword")
-    public ResponseEntity<Map<String, String>> getNewPassword(@ApiParam(value = " параметр типа: UserDTOResetPassword", required = true)@RequestBody UserDTOResetPassword userDTOResetPassword) {
-        Map<String,String> map = new HashMap<>();
-        map.put("email", resetPasswordService.saveNewPasswordReset(userDTOResetPassword));
-      return new ResponseEntity<>(map, HttpStatus.OK);
+    public ResponseEntity<EmailDTO> getNewPassword(@ApiParam(value = " параметр типа: UserDTOResetPassword", required = true)
+                                                   @RequestBody UserDTOResetPassword userDTOResetPassword) {
+        return new ResponseEntity<>(new EmailDTO(resetPasswordService.saveNewPasswordReset(userDTOResetPassword)), HttpStatus.OK);
     }
 }
