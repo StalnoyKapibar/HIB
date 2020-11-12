@@ -27,7 +27,7 @@ public class ResetPasswordRestController {
             , response = Map.class
             , tags = "sendResetPassword")
     @PostMapping("/sendResetPassword")
-    public ResponseEntity<Map<String, String>> getEmail(@ApiParam(value = "email", required = true)@RequestBody String email, HttpServletRequest request) {
+    public ResponseEntity<Map<String, String>> getEmail(@ApiParam(value = "email", required = true)@RequestBody Map<String, String> email, HttpServletRequest request) {
         StringBuilder url = new StringBuilder();
         url.append(request.getScheme())
                 .append("://")
@@ -35,7 +35,7 @@ public class ResetPasswordRestController {
                 .append(':')
                 .append(request.getServerPort());
         Map<String,String> map = new HashMap<>();
-        map.put("email", resetPasswordService.sendEmailResetPassword(email, url.toString()));
+        map.put("email", resetPasswordService.sendEmailResetPassword(email.get("email"), url.toString()));
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
