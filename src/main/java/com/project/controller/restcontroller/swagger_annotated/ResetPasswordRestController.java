@@ -6,9 +6,13 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
 
 @Api(tags = "REST-API документ, описывающий сброс пароля пользователя")
 @CrossOrigin(origins = "*")
@@ -20,25 +24,29 @@ public class ResetPasswordRestController {
 
     @ApiOperation(value = "Проверка email на валидность и брос пароля"
             , notes = "Ендпойнт возвращает строку с результатом ответа(\"ok\", \"noEmail\", \"invalid format email\")"
-            , response = String.class
+            , response = Map.class
             , tags = "sendResetPassword")
     @PostMapping("/sendResetPassword")
-    public String getEmail(@ApiParam(value = "email", required = true)@RequestBody String email, HttpServletRequest request) {
+    public ResponseEntity<Map<String, String>> getEmail(@ApiParam(value = "email", required = true)@RequestBody String email, HttpServletRequest request) {
         StringBuilder url = new StringBuilder();
         url.append(request.getScheme())
                 .append("://")
                 .append(request.getServerName())
                 .append(':')
                 .append(request.getServerPort());
-        return resetPasswordService.sendEmailResetPassword(email, url.toString());
+        Map<String,String> map = new HashMap<>();
+        map.put("email", resetPasswordService.sendEmailResetPassword(email, url.toString()));
+        return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
     @ApiOperation(value = "Сохранение аккаунта пользователя с новым паролем"
             , notes = "Ендпойнт возвращает строку с результатом ответа(\"ok\", \"noValid\", \"passError\")"
-            , response = String.class
+            , response = Map.class
             , tags = "createNewPassword")
     @PostMapping("/newPassword")
-    public String getNewPassword(@ApiParam(value = " параметр типа: UserDTOResetPassword", required = true)@RequestBody UserDTOResetPassword userDTOResetPassword) {
-      return resetPasswordService.saveNewPasswordReset(userDTOResetPassword);
+    public ResponseEntity<Map<String, String>> getNewPassword(@ApiParam(value = " параметр типа: UserDTOResetPassword", required = true)@RequestBody UserDTOResetPassword userDTOResetPassword) {
+        Map<String,String> map = new HashMap<>();
+        map.put("email", resetPasswordService.saveNewPasswordReset(userDTOResetPassword));
+      return new ResponseEntity<>(map, HttpStatus.OK);
     }
 }
