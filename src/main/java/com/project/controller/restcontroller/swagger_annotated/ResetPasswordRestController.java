@@ -23,7 +23,7 @@ public class ResetPasswordRestController {
     private ResetPasswordService resetPasswordService;
 
     @ApiOperation(value = "Проверка email на валидность и брос пароля"
-            , notes = "Ендпойнт возвращает строку с результатом ответа(\"ok\", \"noEmail\", \"invalid format email\")"
+            , notes = "Ендпойнт возвращает json с результатом ответа(\"ok\", \"noEmail\", \"invalid format email\")"
             , response = Map.class
             , tags = "sendResetPassword")
     @PostMapping("/sendResetPassword")
@@ -40,7 +40,7 @@ public class ResetPasswordRestController {
     }
 
     @ApiOperation(value = "Сохранение аккаунта пользователя с новым паролем"
-            , notes = "Ендпойнт возвращает строку с результатом ответа(\"ok\", \"noValid\", \"passError\")"
+            , notes = "Ендпойнт возвращает json с результатом ответа(\"ok\", \"noValid\", \"passError\")"
             , response = Map.class
             , tags = "createNewPassword")
     @PostMapping("/newPassword")
