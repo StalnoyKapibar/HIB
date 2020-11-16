@@ -1,9 +1,11 @@
-package com.project.controller.restcontroller;
+package com.project.controller.restcontroller.swagger_annotated;
 
-import com.google.api.services.gmail.Gmail;
 import com.project.model.*;
 import com.project.service.DataEnterInAdminPanelService;
 import com.project.service.abstraction.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -17,19 +19,18 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.io.IOException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 @CrossOrigin(origins = "*")
+@Api(tags = "REST-API документ, описывающий взаимодействие с сервисом: заказы")
 @RestController
 @AllArgsConstructor
-public class OrderController {
+public class OrderRestController {
 
     private ShoppingCartService cartService;
     private OrderService orderService;
@@ -42,43 +43,68 @@ public class OrderController {
     @Autowired
     FormLoginErrorMessageService messageService;
 
-
+    /**
+     * click  button 'checkout' (оформить заказ) при оформлении заказа если пользователь авторизован
+     */
+    @ApiOperation(value = "получить заказ"
+            , notes = "Эндпоинт получает параметр request типа HttpServletRequest. " +
+            "Достает из запроса данные, обрабатывает их и " +
+            "возращает заказ текущего пользователя который лежит в корзине"
+            , response = Order.class
+            , tags = "confirmAddress")
     @PostMapping("/api/user/order/confirmaddress")
-    private OrderDTO addOder(HttpSession httpSession) {
+    private OrderDTO confirmAddress(HttpServletRequest request) {
         ShoppingCartDTO shoppingCartDTO = null;
         OrderDTO order = new OrderDTO();
-        if (httpSession.getAttribute("cartId") == null) {
+        if (request.getSession().getAttribute("cartId") == null) {
 //            shoppingCartDTO = cartService.getCartById((Long) httpSession.getAttribute("cartId1click"));
-            order.setItems(((ShoppingCartDTO) httpSession.getAttribute("shoppingcart")).getCartItems());
-            order.setItemsCost((int) ((ShoppingCartDTO) httpSession.getAttribute("shoppingcart")).getTotalCostItems());
+            order.setItems(((ShoppingCartDTO) request.getSession().getAttribute("shoppingcart")).getCartItems());
+            order.setItemsCost((int) ((ShoppingCartDTO) request.getSession().getAttribute("shoppingcart")).getTotalCostItems());
         } else {
-            shoppingCartDTO = cartService.getCartById((Long) httpSession.getAttribute("cartId"));
+            shoppingCartDTO = cartService.getCartById((Long) request.getSession().getAttribute("cartId"));
             order.setItems(shoppingCartDTO.getCartItems());
             order.setItemsCost((int) shoppingCartDTO.getTotalCostItems());
         }
         order.setDate(Instant.now().getEpochSecond());
         order.setShippingCost(350);
         order.setStatus(Status.UNPROCESSED);
-        Long userId = (Long) httpSession.getAttribute("userId");
-        order.setUserAccount(userAccountService.getUserById(userId));
-        httpSession.setAttribute("order", order);
+        order.setUserAccount(userAccountService.getUserById((Long) request.getSession().getAttribute("userId")));
+        request.getSession().setAttribute("order", order);
         return order;
     }
 
+    /**
+     * click button 'next' (далее) при оформлении заказа
+     */
+    @ApiOperation(value = "подтверждение данных пользователя"
+            , notes = "Эндпоинт получает параметр contacts типа ContactsOfOrderDTO. " +
+            "Эндпоинт возращает обьект типа ContactsOfOrderDTO"
+            , response = ContactsOfOrder.class
+            , tags = "addContacts")
     @PostMapping("/api/user/order/confirmContacts")
-    private ContactsOfOrderDTO addContacts(HttpSession httpSession, @RequestBody ContactsOfOrderDTO contacts) {
-        httpSession.setAttribute("contacts", contacts);
+    private ContactsOfOrderDTO addContacts(HttpServletRequest request, @RequestBody ContactsOfOrderDTO contacts) {
+        request.getSession().setAttribute("contacts", contacts);
         return contacts;
     }
 
+    @ApiOperation(value = "проверка email на валидность"
+            , notes = "Эндпоинт получает параметр contacts типа ContactsOfOrderDTO. " +
+            "Эндпоинт возращает обьект типа String"
+            , response = String.class
+            , tags = "savePersonalInformation")
     @PostMapping("/checkEmail1ClickReg")
     public String savePersonalInformation(@RequestBody ContactsOfOrderDTO contacts) {
         return userAccountService.emailExistForShowError(contacts);
     }
 
+    @ApiOperation(value = "регистрация в один клик"
+            , notes = "Эндпоинт получает параметр contacts типа ContactsOfOrderDTO. " +
+            "Эндпоинт возращает обьект типа ModelAndView"
+            , response = ModelAndView.class
+            , tags = "regOneClick")
     @PostMapping("/reg1Click")
     private ModelAndView regOneClick(@Valid RegistrationUserDTO user, @RequestBody ContactsOfOrderDTO contacts, BindingResult result,
-                                     HttpServletRequest request, HttpSession session) {
+                                     HttpServletRequest request) {
         ModelAndView view = new ModelAndView("user/user-page");
         StringBuilder url = new StringBuilder();
         url.append(request.getScheme())
@@ -92,7 +118,7 @@ public class OrderController {
         user.setConfirmPassword(user.getPassword());
         user.setAutoReg(true);
 
-        ShoppingCartDTO shoppingCart = (ShoppingCartDTO) session.getAttribute("shoppingcart");
+        ShoppingCartDTO shoppingCart = (ShoppingCartDTO) request.getSession().getAttribute("shoppingcart");
         if (result.hasErrors()) {
             view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessage(result));
             return view;
@@ -119,7 +145,7 @@ public class OrderController {
             orderDTO.setUserAccount(userAccountService.getUserById(userDTO.getUserId()));
             orderService.addOrder1ClickReg(orderDTO.getOder());
             userAccountService.sendMessageOneClickReg(userAccount, url.toString(), orderDTO, user);
-            session.removeAttribute("shoppingcart");
+            request.getSession().removeAttribute("shoppingcart");
 
         } catch (DataIntegrityViolationException e) {
             if (e.getCause().getCause().getMessage().contains("login")) {
@@ -135,6 +161,14 @@ public class OrderController {
     }
 
 
+    /**
+     * click button 'Buy Now' (купить сейчас) при оформлении заказа
+     */
+    @ApiOperation(value = "подтверждение заказа"
+            , notes = "Эндпоинт получает параметр httpSession типа HttpSession. " +
+            "Эндпоинт ничего не возращает"
+            , response = Void.class
+            , tags = "regOneClick")
     @PostMapping("/order")
     private void confirmOrder(HttpSession httpSession, HttpServletRequest request) {
         ShoppingCartDTO shoppingCartDTO = new ShoppingCartDTO();
@@ -164,6 +198,12 @@ public class OrderController {
         httpSession.removeAttribute("shoppingcart");
     }
 
+    @ApiOperation(value = "получить список заказов текщего пользователя"
+            , notes = "Эндпоинт получает параметр httpSession типа HttpSession. " +
+            "Эндпоинт возращает список заказов"
+            , response = OrderDTO.class
+            , responseContainer = "List"
+            , tags = "getOrder")
     @GetMapping("/order/getorders")
     private List<OrderDTO> getOrder(HttpSession httpSession) {
         Long userId = (Long) httpSession.getAttribute("userId");
@@ -174,6 +214,13 @@ public class OrderController {
         }
         return orderDTOS;
     }
+
+    @ApiOperation(value = "получить список заказов текщего пользователя"
+            , notes = "Эндпоинт получает параметр httpSession типа HttpSession. " +
+            "Эндпоинт возращает список заказов"
+            , response = OrderDTO.class
+            , responseContainer = "List"
+            , tags = "getOrder")
     @GetMapping("/order/pageable/{page}/{size}")
     private List<OrderDTO> getOrderUser(HttpSession session, @PathVariable int page, @PathVariable int size) {
         Long userId = (Long) session.getAttribute("userId");
@@ -186,6 +233,12 @@ public class OrderController {
         }
         return orderDTOS;
     }
+
+    @ApiOperation(value = "получить колличество заказов"
+            , notes = "Эндпоинт возращает колличество необработанных заказов"
+            , response = OrderDTO.class
+            , responseContainer = "List"
+            , tags = "getOrderSize")
     @GetMapping("/order/size")
     private int getOrderSize(HttpSession httpSession) {
         Long userId = (Long) httpSession.getAttribute("userId");
@@ -196,6 +249,11 @@ public class OrderController {
                 .count();
     }
 
+    @ApiOperation(value = "получить все заказы"
+            , notes = "Эндпоинт возращает список OrderDTO"
+            , response = OrderDTO.class
+            , responseContainer = "List"
+            , tags = "getPageOfgetAllOrdersOrdersByStatus")
     @GetMapping("/api/admin/getAllOrders")
     private List<OrderDTO> getAllOrders(HttpSession session) {
         List<Order> orderList = orderService.getAllOrders();
@@ -210,10 +268,16 @@ public class OrderController {
         return orderDTOS;
     }
 
+    @ApiOperation(value = "получить страницу заказов по статусу"
+            , notes = "Эндпоинт возращает список OrderPageAdminDTO"
+            , response = OrderPageAdminDTO.class
+            , tags = "getPageOfOrdersByStatus")
     @GetMapping("/api/admin/pageable/{page}/{size}/{status}/{messagesStatus}")
-    public OrderPageAdminDTO getPageOfOrdersByStatus(HttpSession session, @PathVariable int page, @PathVariable int size,
-                                                     @PathVariable("status") String statusString,
-                                                     @PathVariable("messagesStatus") String messageStatus) {
+    public OrderPageAdminDTO getPageOfOrdersByStatus(HttpSession session,
+                                                     @ApiParam(value = "page", required = true) @PathVariable int page,
+                                                     @ApiParam(value = "size", required = true) @PathVariable int size,
+                                                     @ApiParam(value = "status", required = true) @PathVariable("status") String statusString,
+                                                     @ApiParam(value = "messagesStatus", required = true) @PathVariable("messagesStatus") String messageStatus) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(
                 Sort.Order.desc("id")));
         Status status;
@@ -226,13 +290,17 @@ public class OrderController {
         data.setDataEnterInOrders(Instant.now().getEpochSecond());
         dataEnterInAdminPanelService.update(data);
         session.setAttribute("data", data);
-        if (messageStatus.equals("newMessages")){
+        if (messageStatus.equals("newMessages")) {
             return orderService.getOrdersNewMessages(page, size, status);
         } else {
             return orderService.getPageOfOrdersByPageable(pageable, status);
         }
     }
 
+    @ApiOperation(value = "получить колличество заказов"
+            , notes = "Эндпоинт возращает колличество необработанных заказов"
+            , response = int.class
+            , tags = "getOrdersCount")
     @GetMapping("/api/admin/order-count")
     private int getOrdersCount(HttpSession session) {
         if (session.getAttribute("data") == null) {
@@ -241,11 +309,17 @@ public class OrderController {
         return orderService.getCountOfOrders();
     }
 
+    @ApiOperation(value = "получить заказы по email и по статусу заказа"
+            , notes = "Эндпоинт получает параметр email и details типа String, в адресе запроса. " +
+            "Эндпоинт возращает список заказов по емейлу и статусу заказа"
+            , response = OrderDTO.class
+            , responseContainer = "List"
+            , tags = "getOrderByEmailByStatus")
     @GetMapping("/api/admin/order/{email}/{details}")
     private List<OrderDTO> getOrderByEmailByStatus(@PathVariable("email") String email, @PathVariable("details") String details) {
         Status status;
         switch (details) {
-            case ("uprocessedOrders"):
+            case ("unprocessedOrders"):
                 status = Status.UNPROCESSED;
                 break;
             case ("processingOrders"):
@@ -271,53 +345,107 @@ public class OrderController {
         return orderDTOS;
     }
 
+    @ApiOperation(value = "получить колличество заказов"
+            , notes = "Эндпоинт получает параметр email типа String, в адресе запроса. " +
+            "Эндпоинт возращает массив типа Long в котором будет колличество  всех " +
+            "заказов(завершенные, незавершенные, удаленные...)"
+            , response = Long.class
+            , responseContainer = "Array"
+            , tags = "getAmountOfFeedback")
     @GetMapping("/api/admin/order/{email}/amount")
     private Long[] getAmountOfFeedback(@PathVariable("email") String email) {
         return orderService.getAmountOfOrders(email);
     }
 
+    @ApiOperation(value = "изменить статус заказа"
+            , notes = "Эндпоинт получает параметр id типа Long, в адресе запроса. " +
+            "Эндпоинт ничего не возращает"
+            , response = Void.class
+            , tags = "orderComplete")
     @PatchMapping("/api/admin/completeOrder/{id}")
     private void orderComplete(@PathVariable Long id) {
         orderService.completeOrder(id);
     }
 
+    @ApiOperation(value = "изменить статус заказа"
+            , notes = "Эндпоинт получает параметр id типа Long, в адресе запроса. " +
+            "Эндпоинт ничего не возращает"
+            , response = Void.class
+            , tags = "orderUnComplete")
     @PatchMapping("/api/admin/unCompleteOrder/{id}")
     private void orderUnComplete(@PathVariable Long id) {
         orderService.unCompleteOrder(id);
     }
 
+    @ApiOperation(value = "изменить статус заказа"
+            , notes = "Эндпоинт получает параметр id типа Long, в адресе запроса. " +
+            "Эндпоинт ничего не возращает"
+            , response = Void.class
+            , tags = "orderProcess")
     @PatchMapping("/api/admin/processOrder/{id}")
     private void orderProcess(@PathVariable Long id) {
         orderService.processOrder(id);
     }
 
+    @ApiOperation(value = "удалить заказ"
+            , notes = "Эндпоинт получает параметр id типа Long, в адресе запроса. " +
+            "Эндпоинт ничего не возращает"
+            , response = Void.class
+            , tags = "orderDelete")
     @PostMapping("/api/admin/deleteOrder/{id}")
     private void orderDelete(@PathVariable Long id) {
         orderService.deleteOrder(id);
     }
 
+    @ApiOperation(value = "получить заказы по идентификатору книги"
+            , notes = "Эндпоинт получает параметр id типа Long, в адресе запроса. " +
+            "Эндпоинт возращает заказы по идентификатору книги"
+            , response = Order.class
+            , responseContainer = "List"
+            , tags = "getOrders")
     @GetMapping("/api/admin/allorders/{id}")
     public List<Order> getOrders(@PathVariable Long id) {
         return orderService.findOrderByBookId(id);
     }
 
+    @ApiOperation(value = "получить незавершенные заказы по идентификатору книги"
+            , notes = "Эндпоинт получает параметр id типа Long, в адресе запроса. " +
+            "Эндпоинт возращает незавершенные заказы по идентификатору книги"
+            , response = Order.class
+            , responseContainer = "List"
+            , tags = "getUncompletedOrdersByBookId")
     @GetMapping("/api/admin/orders/uncompleted/{id}")
     public List<Order> getUncompletedOrdersByBookId(@PathVariable Long id) {
         return orderService.findAllUncompletedOrdersByBookId(id);
     }
 
+    @ApiOperation(value = "получить файл всех заказов"
+            , notes = "Эндпоинт возращает все заказы"
+            , response = ResponseEntity.class
+            , tags = "getOrders")
     @GetMapping("/api/admin/sales/")
     public ResponseEntity getOrders() {
         return orderService.createFileAllOrders();
     }
 
+    @ApiOperation(value = "отменить заказ"
+            , notes = "Эндпоинт получает параметр id типа Long, в адресе запроса. " +
+            "Эндпоинт возращает строку"
+            , response = String.class
+            , tags = "orderCancel")
     @PostMapping("/api/user/orderCancel/{id}")
     private String orderCancel(@PathVariable Long id) {
         return orderService.cancelOrder(id);
     }
 
+    @ApiOperation(value = "изменить заказ"
+            , notes = "Эндпоинт получает параметр order типа Order. " +
+            "Эндпоинт ничего не возращает"
+            , response = Void.class
+            , tags = "updateOrder"
+    )
     @PutMapping("/api/admin/editTrackingNumber/")
-    private void orderCancel(@RequestBody Order order) {
+    private void updateOrder(@RequestBody Order order) {
         Order order1 = orderService.getOrderById(order.getId());
         order1.setTrackingNumber(order.getTrackingNumber());
         orderService.updateOrder(order1);
