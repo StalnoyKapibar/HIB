@@ -23,8 +23,8 @@ public class WelcomeLocaleRestController {
 
 
     @ApiOperation(value = "получить WelcomeLocaleDTO"
-            , notes = "Ендпойнт получает параметр locale типа String, в адресе запроса. " +
-            "Ендпойнт возрщает WelcomeLocaleDTO"
+            , notes = "Эндпоинт получает параметр locale типа String, в адресе запроса. " +
+            "Эндпоинт возрщает WelcomeLocaleDTO"
             , response = WelcomeLocaleDTO.class
             , tags = "getWelcomeLocaleDTOByLocale")
     @GetMapping("/api/welcome/locale/{locale}")
@@ -33,8 +33,8 @@ public class WelcomeLocaleRestController {
     }
 
     @ApiOperation(value = "добавить Welcome"
-            , notes = "Ендпойнт получает параметр welcome типа Welcome. " +
-            "Ендпойнт добавляет в БД Welcome"
+            , notes = "Эндпоинт получает параметр welcome типа Welcome. " +
+            "Эндпоинт добавляет в БД Welcome"
             , response = Void.class
             , tags = "editWelcome")
     @PostMapping("/api/admin/welcome/edit")
@@ -44,8 +44,8 @@ public class WelcomeLocaleRestController {
     }
 
     @ApiOperation(value = "получить Welcome"
-            , notes = "Ендпойнт получает параметр id типа Long, в адресе запроса. " +
-            "Ендпойнт возращает Welcome"
+            , notes = "Эндпоинт получает параметр id типа Long, в адресе запроса. " +
+            "Эндпоинт возращает Welcome"
             , response = Welcome.class
             , tags = "getWelcome")
     @GetMapping("/api/welcome/{id}")
@@ -54,7 +54,7 @@ public class WelcomeLocaleRestController {
     }
 
     @ApiOperation(value = "Получить все книги"
-            , notes = "Ендпойнт возвращает список с книгами"
+            , notes = "Эндпоинт возвращает список с книгами"
             , response = Book.class
             , responseContainer = "List"
             , tags = "getAllAd")
