@@ -407,6 +407,14 @@
         <th:block th:include="guide :: order">
         </th:block>
     </th:block>
+    <th:block th:if="${#httpServletRequest.getRequestURI()=='/authors'}">
+        <th:block th:include="authors :: authors">
+        </th:block>
+    </th:block>
+    <th:block th:if="${#httpServletRequest.getRequestURI()=='/links'}">
+        <th:block th:include="links :: links">
+        </th:block>
+    </th:block>
 </div>
 
 
