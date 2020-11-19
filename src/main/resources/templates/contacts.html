@@ -5,11 +5,19 @@
     <title>Contacts</title>
 </head>
 <body>
-<p>You can contact us by phone or email.</p>
-<p th:if="${email}!=''">Email: <span th:text="${email}"></span></p>
-<p th:if="${phoneNumber}!=''">Phone number: <span th:text="${phoneNumber}"></span></p>
-<p>Also, you can contact us by clicking on the "Ask a question" button in the main menu.</p>
-<img src="../static/images/askaquestion.png" height="490" width="264"/>
-<p>To ask a question about a specific book, you need to click on the book of interest and click on the "Ask a question" button.</p>
+<div class="d-flex" th:fragment="contacts">
+    <div class="container-fluid page-content">
+        <p>You can contact us by phone or email.</p>
+        <div class="email-contacts"></div>
+        <p th:if="${email}!=''">Email: <span th:text="${email}"></span></p>
+        <p th:if="${phoneNumber}!=''">Phone number: <span th:text="${phoneNumber}"></span></p>
+        <p>Also, you can contact us by clicking on the "Ask a question" button in the main menu.</p>
+        <img src="../static/images/askaquestion.png" height="490" width="264"/>
+        <p>To ask a question about a specific book, you need to click on the book of interest and click on the "Ask a question" button.</p>
+    </div>
+    <!--    Footer    -->
+    <div class="footer pt-3 p-0 container-fluid text-center" th:replace="home-old :: footer">
+    </div>
+</div>
 </body>
 </html>

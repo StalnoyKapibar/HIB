@@ -415,6 +415,10 @@
         <th:block th:include="links :: links">
         </th:block>
     </th:block>
+    <th:block th:if="${#httpServletRequest.getRequestURI()=='/contacts'}">
+        <th:block th:include="contacts :: contacts">
+        </th:block>
+    </th:block>
 </div>
 
 

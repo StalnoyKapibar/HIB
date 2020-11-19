@@ -26,7 +26,7 @@ public class ViewController {
     BookService bookService;
 
     @GetMapping({"/home", "/profile/**", "/category/**", "/shopping-cart", "/search",
-            "/err/**", "/manual", "/guide", "/authors", "/links"})
+            "/err/**", "/manual", "/guide", "/authors", "/links", "/contacts", "/page/**"})
     public String getHomePage() {
         return "user/user-page";
     }

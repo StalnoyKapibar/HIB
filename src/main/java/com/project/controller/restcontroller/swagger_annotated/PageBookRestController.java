@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "*")
 @RestController
 @AllArgsConstructor
-@RequestMapping("/page/{id}")
+@RequestMapping("api/page/{id}")
 public class PageBookRestController {
     BookService bookService;
 
