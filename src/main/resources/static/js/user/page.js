@@ -95,6 +95,7 @@ function buildCarousel() {
                                             </a>
                                         </div>`);
             }
+
         } else {
             if (i === 0 & idCoverImage === i) {
                 $('#picsParse').append(`<div class="carousel-item active">
