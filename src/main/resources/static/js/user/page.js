@@ -13,7 +13,7 @@ $(document).ready(function () {
     }
     getLanguage();
     setLocaleFields();
-    setPageFields();
+    // setPageFields();
 
 })
 
@@ -23,8 +23,12 @@ function getCookie(name) {
     if (parts.length === 2) return parts.pop().split(";").shift();
 }
 
-function setPageFields() {
-    fetch("/api/book/" + $("#bookid").attr("value") + "?locale=" + currentLang)
+function setPageFields(event) {
+
+    $('#page-content').css('display', 'none')
+    $('#book-page').css('display', '')
+
+    fetch($(event).attr('id') + "?locale=" + currentLang)
         .then(status)
         .then(json)
         .then(async function (data) {
@@ -43,7 +47,7 @@ function setPageFields() {
         $('#book-author').text(convertOriginalLanguageRows(data.author, data.authorTranslit));
         $('#book-edition').text(convertOriginalLanguageRows(data.edition, data.editionTranslit));
         $('#addToCart').attr('data-id', data.id);
-        $("#book-desc").text(data.desc);
+        $("#book-desc").html(data.description.ru);
         $("#book-original-language").text(data.originalLanguage);
         $("#book-amount-of-pages").text(data.pages);
         $("#book-year-of-edition").text(data.yearOfEdition);

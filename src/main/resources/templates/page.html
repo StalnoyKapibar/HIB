@@ -16,105 +16,116 @@
 
     <!--    Page container    -->
     <div class="container page-content" th:fragment="book-page">
-        <link href="/static/css/style.css" rel="stylesheet">
-        <link href="/static/css/bootstrap.min.css" rel="stylesheet">
-        <link href="/static/css/bootstrap-social.css" rel="stylesheet" />
-        <link href="/static/fonts/font-awesome.css" rel="stylesheet">
-        <link href="/static/fonts/font.css" rel="stylesheet">
-        <link href="/static/css/style.css" rel="stylesheet">
-        <link href="/static/css/page.css" rel="stylesheet">
-        <link href="/static/css/themify-icons.css" rel="stylesheet">
-        <script src="/static/js/lib/jquery.min.js"></script>
-        <script src="/static/js/lib/popper.min.js"></script>
-        <script src="/static/js/lib/bootstrap.min.js"></script>
-        <div id="fb-root"></div>
-        <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_EN/sdk.js#xfbml=1&version=v7.0" nonce="TBg77oxR"></script>
-        <script crossorigin="anonymous" src="https://kit.fontawesome.com/db08edad0b.js"></script>
-        <div class="book-background w-auto p-3">
-            <div class="col-sm-8 col-md-9 ml-auto col-xl-10">
-                <div class="row">
-                    <div class="col-3 h-100">
-                        <div class="card bg-light">
-                            <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-                                <div id="picsParse" class="carousel-inner"></div>
-                                <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                    <span class="sr-only">Previous</span>
-                                </a>
-                                <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                    <span class="sr-only">Next</span>
-                                </a>
+        <div id="fragmentBook-page">
+            <link href="/static/css/style.css" rel="stylesheet">
+            <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+            <link href="/static/css/bootstrap-social.css" rel="stylesheet"/>
+            <link href="/static/fonts/font-awesome.css" rel="stylesheet">
+            <link href="/static/fonts/font.css" rel="stylesheet">
+            <link href="/static/css/style.css" rel="stylesheet">
+            <link href="/static/css/page.css" rel="stylesheet">
+            <link href="/static/css/themify-icons.css" rel="stylesheet">
+            <script src="/static/js/lib/jquery.min.js"></script>
+            <script src="/static/js/lib/popper.min.js"></script>
+            <script src="/static/js/lib/bootstrap.min.js"></script>
+            <div id="fb-root"></div>
+            <script async defer crossorigin="anonymous"
+                    src="https://connect.facebook.net/en_EN/sdk.js#xfbml=1&version=v7.0" nonce="TBg77oxR"></script>
+            <script crossorigin="anonymous" src="https://kit.fontawesome.com/db08edad0b.js"></script>
+            <div class="book-background w-auto p-3">
+                <div class="col-sm-8 col-md-9 ml-auto col-xl-10">
+                    <div class="row">
+                        <div class="col-3 h-100">
+                            <div class="card bg-light">
+                                <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                                    <div id="picsParse" class="carousel-inner"></div>
+                                    <a class="carousel-control-prev" href="#carouselExampleControls" role="button"
+                                       data-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                    <a class="carousel-control-next" href="#carouselExampleControls" role="button"
+                                       data-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-9 container-fluid">
-                        <div class="row">
-                            <div class="col-6">
-                                <h4 class="font-weight-light title">Title: <span class="font-weight-normal"
-                                                                                 id="book-name">Book title</span>
-                                </h4>
-                                <h4 class="font-weight-light author">Author: <span class="font-weight-normal"
-                                                                                   id="book-author">Book author</span>
-                                </h4>
-                                <h4 class="font-weight-light edition">Edition: <span class="font-weight-normal"
-                                                                                     id="book-edition">Book edition</span>
-                                </h4>
-                            </div>
-                            <div class="col-6">
-                                <h4 class="font-weight-light original-language">Original language: <span
-                                        class="font-weight-normal"
-                                        id="book-original-language">Original language</span>
-                                </h4>
-                                <h4 class="font-weight-light amount-of-pages">Amount of pages: <span
-                                        class="font-weight-normal"
-                                        id="book-amount-of-pages">Amount of pages</span>
-                                </h4>
-                                <h4 class="font-weight-light year-of-edition">Year of edition: <span
-                                        class="font-weight-normal"
-                                        id="book-year-of-edition">Year of edition</span>
-                                </h4>
-                            </div>
-                            <div class="col-12">
-                                <br>
-                                <span class="font-weight-light" id="book-desc">
+                        <div class="col-9 container-fluid">
+                            <div class="row">
+                                <div class="col-6">
+                                    <h4 class="font-weight-light title">Title: <span class="font-weight-normal"
+                                                                                     id="book-name">Book title</span>
+                                    </h4>
+                                    <h4 class="font-weight-light author">Author: <span class="font-weight-normal"
+                                                                                       id="book-author">Book author</span>
+                                    </h4>
+                                    <h4 class="font-weight-light edition">Edition: <span class="font-weight-normal"
+                                                                                         id="book-edition">Book edition</span>
+                                    </h4>
+                                </div>
+                                <div class="col-6">
+                                    <h4 class="font-weight-light original-language">Original language: <span
+                                            class="font-weight-normal"
+                                            id="book-original-language">Original language</span>
+                                    </h4>
+                                    <h4 class="font-weight-light amount-of-pages">Amount of pages: <span
+                                            class="font-weight-normal"
+                                            id="book-amount-of-pages">Amount of pages</span>
+                                    </h4>
+                                    <h4 class="font-weight-light year-of-edition">Year of edition: <span
+                                            class="font-weight-normal"
+                                            id="book-year-of-edition">Year of edition</span>
+                                    </h4>
+                                </div>
+                                <div class="col-12">
+                                    <br>
+                                    <span class="font-weight-light" id="book-desc">
                                     Description Lorem ipsum dolor sit amet, consectetur adipisicing elit. At
                                     blanditiis corporis dolorem eveniet fugiat harum iste iusto, laborum maxime
                                     minima mollitia placeat provident quia quos recusandae reiciendis, saepe unde
                                     voluptatem? Animi corporis explicabo ipsam iure non? Blanditiis eveniet fuga
                                     illum provident quaerat quo tempora! Cupiditate dicta dolore eum optio sunt.
                                 </span>
-                            </div>
-                            <br><br><br><br><br><br>
-                            <div class="col-12">
-                                <div class="container-fluid">
-                                    <div class="row">
-                                        <div class="col-2">
-                                            <h4 class="font-weight-light price">Price:</h4>
-                                            <span class="font-weight-normal" id="book-price">15.00$</span>
-                                            <br>
-                                            <div class="fb-share-button" th:data-href="${#httpServletRequest.requestURI}" data-layout="button" data-size="small">
-                                                <a target="_blank" th:href="'https://www.facebook.com/sharer/sharer.php?u=' + '${#httpServletRequest.requestURI}' + '&amp;src=sdkpreparse'"
-                                                   class="fb-xfbml-parse-ignore">Share</a>
+                                </div>
+                                <br><br><br><br><br><br>
+                                <div class="col-12">
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            <div class="col-2">
+                                                <h4 class="font-weight-light price">Price:</h4>
+                                                <span class="font-weight-normal" id="book-price">15.00$</span>
+                                                <br>
+                                                <div class="fb-share-button"
+                                                     th:data-href="${#httpServletRequest.requestURI}"
+                                                     data-layout="button" data-size="small">
+                                                    <a target="_blank"
+                                                       th:href="'https://www.facebook.com/sharer/sharer.php?u=' + '${#httpServletRequest.requestURI}' + '&amp;src=sdkpreparse'"
+                                                       class="fb-xfbml-parse-ignore">Share</a>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-8 offset-2">
-                                            <br>
-                                            <div class="container">
-                                                <div class="row">
-                                                    <th:block sec:authorize="!hasRole('ADMIN')">
-                                                        <button class="btn btn-info col-5 btn-metro btn-info-inverse ask-question-loc"
-                                                                id="askQuestionModal"
-                                                                type="button">Ask a question</button>
-                                                        <button class="btn btn-info col-5 offset-1 btn-metro addToCartBtn addToCart"
-                                                                id="addToCart"
-                                                                type="button">Add to cart</button>
-                                                    </th:block>
-                                                    <th:block sec:authorize="hasRole('ADMIN')">
-                                                        <button id="editBtn" class="btn btn-warning btn-metro col-8 offset-4"
-                                                                th:attr="onclick=|openEdit(${book})|">Edit book
-                                                        </button>
-                                                    </th:block>
+                                            <div class="col-8 offset-2">
+                                                <br>
+                                                <div class="container">
+                                                    <div class="row">
+                                                        <th:block sec:authorize="!hasRole('ADMIN')">
+                                                            <button class="btn btn-info col-5 btn-metro btn-info-inverse ask-question-loc"
+                                                                    id="askQuestionModal"
+                                                                    type="button">Ask a question
+                                                            </button>
+                                                            <button class="btn btn-info col-5 offset-1 btn-metro addToCartBtn addToCart"
+                                                                    id="addToCart"
+                                                                    type="button">Add to cart
+                                                            </button>
+                                                        </th:block>
+                                                        <th:block sec:authorize="hasRole('ADMIN')">
+                                                            <button id="editBtn"
+                                                                    class="btn btn-warning btn-metro col-8 offset-4"
+                                                                    th:attr="onclick=|openEdit(${book})|">Edit book
+                                                            </button>
+                                                        </th:block>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -124,17 +135,19 @@
                         </div>
                     </div>
                 </div>
+                <a hidden id="bookid" th:value="${book}"></a>
             </div>
-            <a hidden id="bookid" th:value="${book}"></a>
+            <!--    Footer    -->
+<!--            <div th:replace="home-old :: contact-button"></div>-->
+
+            <div class="footer pt-3 p-0 container-fluid text-center" th:replace="home-old :: footer">
+            </div>
+            <script src="/static/js/utils/common-function.js"></script>
+            <script src="/static/js/user/home.js"></script>
+            <script src="/static/js/user/page.js"></script>
+            <script src="/static/js/footerBuilder.js"></script>
+            <script src="/static/js/utils/liveSearch.js"></script>
         </div>
-        <!--    Footer    -->
-        <div class="footer pt-3 p-0 container-fluid text-center" th:replace="home-old :: footer">
-        </div>
-        <script src="/static/js/utils/common-function.js"></script>
-        <script src="/static/js/user/home.js"></script>
-        <script src="/static/js/user/page.js"></script>
-        <script src="/static/js/footerBuilder.js"></script>
-        <script src="/static/js/utils/liveSearch.js"></script>
     </div>
 </div>
 
@@ -143,6 +156,7 @@
 </div>
 
 <div th:replace="home-old :: contact-button"></div>
+<script src="/static/js/user/page.js"></script>
 
 </body>
 <!--page.html-->

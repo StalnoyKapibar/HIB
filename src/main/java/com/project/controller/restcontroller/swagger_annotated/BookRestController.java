@@ -181,6 +181,7 @@ public class BookRestController {
 
     @GetMapping(value = "/api/book/{id}", params = "locale")
     public BookNewDTO getNewBookDTOByIdAndLang(@PathVariable Long id, @RequestParam("locale") String lang) {
+        System.err.println(id);
         return bookService.getNewBookDTOByIdAndLang(id, lang);
     }
 

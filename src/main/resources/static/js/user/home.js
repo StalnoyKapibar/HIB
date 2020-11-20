@@ -50,6 +50,15 @@ async function getQuantityPage() {
 }
 
 async function addBooksToPage(books) {
+    $('#page-content').css('display', '')
+    $('[id^=e]').each(function (x, y) {
+        console.log(y.id);
+    })
+
+    let i = $('[id^=e]')[0].id
+    let ht = $(i).html()
+    console.log(ht)
+
     let listOrdersOfCart = [];
     listOrdersOfCart = await getListOrdersOfCart();
     $('#cardcolumns').empty();
@@ -66,14 +75,14 @@ async function addBooksToPage(books) {
             coverImageLink = 'images/book' + books[index].id + '/' + books[index].coverImage;
         }
         let card = `<div class="col mb-5">
-        <a class="card border-0" href="/page/${books[index].id}" style="color: black">
+        <button type="button" class="card border-0" id="/api/book/${books[index].id}" style="color: black" onclick="setPageFields(this) ">
             <img class="card-img-top mb-1" src=${coverImageLink} style="object-fit: contain; height: 400px; ${books[index].show === true ? '' : 'opacity: 0.3;'}" alt="Card image cap">
             <div class="card-body" style="padding-bottom: 30px">
                 <h7 class="card-title text-muted">${convertOriginalLanguageRows(books[index].nameAuthorDTOLocale, books[index].authorTranslit)}</h7>
                 <h6>${convertOriginalLanguageRows(books[index].nameBookDTOLocale, books[index].nameTranslit)}</h6>
                 <h6 class="card-footer bg-transparent text-left pl-0">${covertPrice(books[index].price) + currencyIcon}</h6>
             </div>
-        </a>
+        </button>
         ${isAdmin ? `<div style="position: absolute; bottom: 5px; left: 15px; right: 15px" id="bottomEditBook" type="button" 
         class="btn btn-info"
         onclick="openEdit(${books[index].id})">                        
