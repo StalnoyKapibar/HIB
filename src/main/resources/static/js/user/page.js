@@ -2,6 +2,8 @@ let pathImageDefault = '../images/book';
 let objectBook;
 let idCoverImage;
 let tmpEditBookId;
+let thisLocation;
+
 
 $(document).ready(function () {
     if (currentLang === '') {
@@ -24,7 +26,9 @@ function getCookie(name) {
 }
 
 function setPageFields() {
-    fetch("/api/book/" + $("#bookid").attr("value") + "?locale=" + currentLang)
+    //получить текущий id
+    thisLocation = location.pathname.split("/")[2]
+    fetch("/api/book/" + thisLocation + "?locale=" + currentLang)
         .then(status)
         .then(json)
         .then(async function (data) {
