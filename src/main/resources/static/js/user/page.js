@@ -43,11 +43,12 @@ function setPageFields() {
                     $('#addToCart').removeClass("addToCartBtn").removeClass("btn-warning").addClass("bought-btn-loc").addClass("btn-light").text(outOfStock).attr("disabled", "true");
                 }
         $('title').text(data.name);
+        $('#book-id').text(thisLocation);
         $('#book-name').text(convertOriginalLanguageRows(data.name, data.nameTranslit));
         $('#book-author').text(convertOriginalLanguageRows(data.author, data.authorTranslit));
         $('#book-edition').text(convertOriginalLanguageRows(data.edition, data.editionTranslit));
         $('#addToCart').attr('data-id', data.id);
-        $("#book-desc").text(data.desc);
+        $("#book-desc").text(data.description);
         $("#book-original-language").text(data.originalLanguage);
         $("#book-amount-of-pages").text(data.pages);
         $("#book-year-of-edition").text(data.yearOfEdition);

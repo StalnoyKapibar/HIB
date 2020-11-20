@@ -112,7 +112,7 @@
                                                     </th:block>
                                                     <th:block sec:authorize="hasRole('ADMIN')">
                                                         <button id="editBtn" class="btn btn-warning btn-metro col-8 offset-4"
-                                                                th:attr="onclick=|openEdit(${book})|">Edit book
+                                                                onclick="openEditInPage()">Edit book
                                                         </button>
                                                     </th:block>
                                                 </div>
@@ -125,8 +125,7 @@
                     </div>
                 </div>
             </div>
-<!--            <a hidden id="bookid" th:value="${book}"></a>-->
-<!--            <a hidden id="bookid"></a>-->
+            <a hidden id="book-id"></a>
         </div>
         <!--    Footer    -->
         <div class="footer pt-3 p-0 container-fluid text-center" th:replace="home-old :: footer">
