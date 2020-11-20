@@ -47,7 +47,7 @@ function setPageFields(event) {
         $('#book-author').text(convertOriginalLanguageRows(data.author, data.authorTranslit));
         $('#book-edition').text(convertOriginalLanguageRows(data.edition, data.editionTranslit));
         $('#addToCart').attr('data-id', data.id);
-        $("#book-desc").html(data.description.ru);
+        $("#book-desc").html(data.description);
         $("#book-original-language").text(data.originalLanguage);
         $("#book-amount-of-pages").text(data.pages);
         $("#book-year-of-edition").text(data.yearOfEdition);
