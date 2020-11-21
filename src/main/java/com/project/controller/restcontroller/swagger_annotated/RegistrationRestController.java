@@ -56,14 +56,13 @@ public class RegistrationRestController {
 
         RegistrationDTO registrationDTO = new RegistrationDTO();
         registrationDTO.setUser(user);
-
-        StringBuilder url = new StringBuilder();
-        url.append(request.getScheme())
-                .append("://")
-                .append(request.getServerName())
-                .append(':')
-                .append(request.getServerPort());
-        System.err.println(url);
+        String url = "http://77.222.55.3.xip.io:8085";
+//        StringBuilder url = new StringBuilder();
+//        url.append(request.getScheme())
+//                .append("://")
+//                .append(request.getServerName())
+//                .append(':')
+//                .append(request.getServerPort());
         if (result.hasErrors()) {
             registrationDTO.setErrorMessage(messageService.getErrorMessage(result));
             return new ResponseEntity<>(registrationDTO, HttpStatus.BAD_REQUEST);
