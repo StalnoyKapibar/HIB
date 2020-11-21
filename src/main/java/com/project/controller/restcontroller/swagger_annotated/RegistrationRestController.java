@@ -63,6 +63,7 @@ public class RegistrationRestController {
                 .append(request.getServerName())
                 .append(':')
                 .append(request.getServerPort());
+        System.err.println(url);
         if (result.hasErrors()) {
             registrationDTO.setErrorMessage(messageService.getErrorMessage(result));
             return new ResponseEntity<>(registrationDTO, HttpStatus.BAD_REQUEST);
