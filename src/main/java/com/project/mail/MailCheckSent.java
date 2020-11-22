@@ -42,7 +42,7 @@ public class MailCheckSent {
             store.connect(IMAP_Server, IMAP_AUTH_EMAIL, IMAP_AUTH_PWD);
 
             // Checkout outbox folder
-            Folder inbox = store.getFolder("[Gmail]").getFolder("Sent Mail");
+            Folder inbox = store.getFolder("[Gmail]/Отправленные");
             inbox.open(Folder.READ_ONLY);
 
             Message message = inbox.getMessage(inbox.getMessageCount());
