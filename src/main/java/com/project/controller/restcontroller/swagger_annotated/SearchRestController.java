@@ -52,29 +52,29 @@ public class SearchRestController {
             tags = "GetBooksSearchByParameters")
     @GetMapping("/searchAdvanced")
     public BookSearchPageDTO BooksSearchByParameters(
-            @ApiParam(value = "Значение строки поиска", required = true)
+//            @ApiParam(value = "Значение строки поиска", required = true)
                 @RequestParam(value = "request") String request,
-            @ApiParam(value = "Значение поиска по наименованию и/или автору", required = true)
+//            @ApiParam(value = "Значение поиска по наименованию и/или автору", required = true)
                 @RequestParam(value = "searchBy") String searchBy,
-            @ApiParam(value = "List ID категорий", required = true)
+//            @ApiParam(value = "List ID категорий", required = true)
                 @RequestParam List<Long> categories,
-            @ApiParam(value = "Нижняя граница цены", required = true)
+//            @ApiParam(value = "Нижняя граница цены", required = true)
                 @RequestParam(value = "priceFrom") Long priceFrom,
-            @ApiParam(value = "Верхняя граница цены", required = true)
+//            @ApiParam(value = "Верхняя граница цены", required = true)
                 @RequestParam(value = "priceTo") Long priceTo,
-            @ApiParam(value = "Год редакции от", required = true)
+//            @ApiParam(value = "Год редакции от", required = true)
                 @RequestParam(value = "yearOfEditionFrom") Long yearOfEditionFrom,
-            @ApiParam(value = "Год редакции до", required = true)
+//            @ApiParam(value = "Год редакции до", required = true)
                 @RequestParam(value = "yearOfEditionTo") Long yearOfEditionTo,
-            @ApiParam(value = "Нижняя граница кол-ва страниц", required = true)
+//            @ApiParam(value = "Нижняя граница кол-ва страниц", required = true)
                 @RequestParam(value = "pagesFrom") Long pagesFrom,
-            @ApiParam(value = "Верхняя граница количества страниц", required = true)
+//            @ApiParam(value = "Верхняя граница количества страниц", required = true)
                 @RequestParam(value = "pagesTo") Long pagesTo,
-            @ApiParam(value = "Номер страницы", required = true)
+//            @ApiParam(value = "Номер страницы", required = true)
                 @RequestParam(value = "page") int page,
-            @ApiParam(value = "Количество книг на странице", required = true)
+//            @ApiParam(value = "Количество книг на странице", required = true)
                 @RequestParam(value = "size") int size,
-            @ApiParam(value = "Статус наличия книги", required = true)
+//            @ApiParam(value = "Статус наличия книги", required = true)
                 @RequestParam(value = "show") boolean isShow) {
         Pageable pageable = PageRequest.of(page, size);
         BookSearchPageDTO books = bookSearch.searchByParameters(request.toLowerCase(), priceFrom, priceTo, String.valueOf(yearOfEditionFrom), String.valueOf(yearOfEditionTo),
