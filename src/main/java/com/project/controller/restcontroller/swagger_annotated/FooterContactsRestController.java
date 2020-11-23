@@ -18,7 +18,7 @@ import java.util.*;
 @Api(tags = "REST-API документ для Footer contacts.")
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/contacts")
+@RequestMapping("api/contacts")
 public class FooterContactsRestController {
 
     @ApiOperation(value = "Получить контакты для футера"

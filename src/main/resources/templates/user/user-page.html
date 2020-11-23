@@ -399,6 +399,26 @@
         <th:block th:include="search :: search-page">
         </th:block>
     </th:block>
+    <th:block th:if="${#httpServletRequest.getRequestURI()=='/manual'}">
+        <th:block th:include="manual :: manual-page">
+        </th:block>
+    </th:block>
+    <th:block th:if="${#httpServletRequest.getRequestURI()=='/guide'}">
+        <th:block th:include="guide :: order">
+        </th:block>
+    </th:block>
+    <th:block th:if="${#httpServletRequest.getRequestURI()=='/authors'}">
+        <th:block th:include="authors :: authors">
+        </th:block>
+    </th:block>
+    <th:block th:if="${#httpServletRequest.getRequestURI()=='/links'}">
+        <th:block th:include="links :: links">
+        </th:block>
+    </th:block>
+    <th:block th:if="${#httpServletRequest.getRequestURI()=='/contacts'}">
+        <th:block th:include="contacts :: contacts">
+        </th:block>
+    </th:block>
 </div>
 
 

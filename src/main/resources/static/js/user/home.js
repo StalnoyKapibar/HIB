@@ -123,6 +123,10 @@ function openEdit(id) {
     //window.location.replace('/admin/edit/' + id);
 }
 
+function openEditInPage() {
+    window.open('/admin/edit/'+location.pathname.split("/")[2])
+}
+
 async function getAUTH() {
     await GET("/api/current-user")
         .then(status)

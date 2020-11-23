@@ -1,27 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>User's manual</title>
 </head>
 <body>
-<p>Dear customer!
-    We are glad to welcome you to our store. "
-    You can buy rare books from us.
-    The assortment of our store is constantly expanding and it is very important for us to replenish it with rare books.</p>
-<p>To make purchases, you need to register in the online store. To register, you must click on the "Sign in" link. An authorization window will open, in which you should click on the "Register new profile" link.</p>
-<img src="../static/images/register.JPG" height="200" width="200"/></body>
-<p>Next, you will be taken to the page for entering registration data. After entering the registration data, click on the "Sign up" button. Check the email address that was provided during registration. A letter with your registration data has been sent to the specified address.</p>
-<img src="../static/images/registerForm.JPG" height="200" width="300"/>
-<p>The choice can be made in the following ways: </p>
-<p> - by clicking on the "categories" tab and selecting the contents of the category section of interest. Categories are on the left side of the screen.</p>
-<img src="../static/images/bycategory.png" height="483" width="264"/>
-<p> - by entering a request into the search box located on each page of the online store.</p>
-<img src="../static/images/bysearch.png" height="404" width="265"/>
-<p> - using advanced search by clicking on the "search page" link and entering the parameters of interest</p>
-<img src="../static/images/bysearchpage.png" height="404" width="265"/>
-<p>The language can be changed by clicking "Settings" and choosing the required language.</p>
-<img src="../static/images/changelanguage.png" height="340" width="261"/>
-<p>Information on how to order a book is in the "how to order" tab</p>
-<img src="../static/images/howtoorder.png" height="67" width="833"/>
+<div class="d-flex" th:fragment="manual-page">
+    <div class="container-fluid page-content">
+        <p>Dear customer!
+            We are glad to welcome you to our store. "
+            You can buy rare books from us.
+            The assortment of our store is constantly expanding and it is very important for us to replenish it with rare books.</p>
+        <p>To make purchases, you need to register in the online store. To register, you must click on the "Sign in" link. An authorization window will open, in which you should click on the "Register new profile" link.</p>
+        <img src="../static/images/register.JPG" height="200" width="200"/>
+        <p>Next, you will be taken to the page for entering registration data. After entering the registration data, click on the "Sign up" button. Check the email address that was provided during registration. A letter with your registration data has been sent to the specified address.</p>
+        <img src="../static/images/registerForm.JPG" height="200" width="300"/>
+        <p>The choice can be made in the following ways: </p>
+        <p> - by clicking on the "categories" tab and selecting the contents of the category section of interest. Categories are on the left side of the screen.</p>
+        <img src="../static/images/bycategory.png" height="483" width="264"/>
+        <p> - by entering a request into the search box located on each page of the online store.</p>
+        <img src="../static/images/bysearch.png" height="404" width="265"/>
+        <p> - using advanced search by clicking on the "search page" link and entering the parameters of interest</p>
+        <img src="../static/images/bysearchpage.png" height="404" width="265"/>
+        <p>The language can be changed by clicking "Settings" and choosing the required language.</p>
+        <img src="../static/images/changelanguage.png" height="340" width="261"/>
+        <p>Information on how to order a book is in the "how to order" tab</p>
+        <img src="../static/images/howtoorder.png" height="67" width="833"/>
+    </div>
+    <!--    Footer    -->
+    <div class="footer pt-3 p-0 container-fluid text-center" th:replace="home-old :: footer">
+    </div>
+</div>
+</body>
 </html>

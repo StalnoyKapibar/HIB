@@ -1,10 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
+<div class="d-flex" th:fragment="links">
+    <div class="container-fluid page-content" style="height: 60vh">
+        <a href="#">Полезная ссылка 1</a><br>
+        <a href="#">Полезная ссылка 2</a><br>
+        <a href="#">Полезная ссылка 3</a>
+    </div>
+    <!--    Footer    -->
+    <div class="footer pt-3 p-0 container-fluid text-center" th:replace="home-old :: footer">
+    </div>
+</div>
 
 </body>
 </html>
