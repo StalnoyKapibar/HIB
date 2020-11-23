@@ -327,9 +327,9 @@
                         </div>
                     </div>
                     <div class="modal-footer mt-3">
-                        <a class="btn col-12 border mt-3 register-new-btn" href="/registration" role="button"
-                           style="background-color: #AEC5EB">Register new
-                            profile</a>
+                        <button id="registerNewProfile" type="button" class="btn col-12 border mt-3 register-new-btn"
+                                style="background-color: #AEC5EB">Register new
+                            profile</button>
 
                         <a class="btn btn-warning col-12 border mt-3 forgot-pass-btn" href="/resetPassword"
 
@@ -420,6 +420,7 @@
         </th:block>
     </th:block>
 </div>
+<div th:replace="registration :: modalRegister"></div>
 
 
 <script crossorigin="anonymous"
@@ -446,7 +447,7 @@
         }, 300)
     });
 </script>
-
+<script src="/static/js/user/auth/registration.js"></script>
 <script src="/static/js/user/profile/profile.js"></script>
 <script src="/static/js/user/page.js"></script>
 
