@@ -7,19 +7,22 @@
 </head>
 <body>
 <div class="d-flex" th:fragment="authors" >
-    <div class="container-fluid page-content offset-1 col-10" style="height: 60vh">
+    <div class="container-fluid page-content offset-1 col-10">
         <div class="row">
             <div class="col-lg-10 col-md-12 main">
-                <h4 id="authors"> Authors list</h4>
-                <div th:each="author : ${authors}">
-                    <h6 th:text="${author}"></h6>
-                </div>
+                <br>
+                <h4> Список авторов</h4>
+                <br>
+                <ul class="list-group col-3">
+                    <li class="list-group-item"></li>
+                </ul>
             </div>
         </div>
     </div>
     <!--    Footer    -->
     <div class="footer pt-3 p-0 container-fluid text-center" th:replace="home-old :: footer">
     </div>
+    <script src="/static/js/user/Authors.js"></script>
 </div>
 </div>
 </body>
