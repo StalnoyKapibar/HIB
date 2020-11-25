@@ -58,7 +58,7 @@ async function setLocaleFields() {
         .then(json)
         .then(function (localeFields) {
             //footer
-            $('.main-footer').text(localeFields['mainFooter']);
+            $('.main-footer').text(localeFields['main']);
             $('.users-manual-footer').text(localeFields['instruction']);
             $('.how-to-order-footer').text(localeFields['order']);
             $('.authors-list-footer').text(localeFields['authors']);

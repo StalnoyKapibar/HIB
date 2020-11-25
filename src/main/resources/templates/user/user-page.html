@@ -11,7 +11,8 @@
     <meta property="og:type" content="website"/>
     <meta property="og:title" th:content="${isPage} ? ${pageBook.name.getEn()} : 'History in books'"/>
     <meta property="og:description" th:content="${isPage} ? ${pageBook.description.getEn()} : ''"/>
-    <meta property="og:image" th:content="${isPage} ? 'http://77.222.63.141.xip.io:8080/images/book' + ${book} + '/' + ${pageBook.coverImage} : ''"/>
+    <meta property="og:image"
+          th:content="${isPage} ? 'http://77.222.63.141.xip.io:8080/images/book' + ${book} + '/' + ${pageBook.coverImage} : ''"/>
 
     <title>History in books</title>
 
@@ -204,7 +205,7 @@
                             <span class="contact-us">Contact us</span>
                         </li>
                         <li>
-                            <a id="askQuestionModal"  href="#">
+                            <a id="askQuestionModal" href="#">
                                 <i class="far fa-comment-dots"></i>
                                 <span class="ask-question-loc">Ask a question</span>
                             </a>
@@ -329,7 +330,8 @@
                     <div class="modal-footer mt-3">
                         <button id="registerNewProfile" type="button" class="btn col-12 border mt-3 register-new-btn"
                                 style="background-color: #AEC5EB">Register new
-                            profile</button>
+                            profile
+                        </button>
 
                         <a class="btn btn-warning col-12 border mt-3 forgot-pass-btn" href="/resetPassword"
 
@@ -419,6 +421,15 @@
         <th:block th:include="contacts :: contacts">
         </th:block>
     </th:block>
+    <div class="container-fluid text-center footer pt-3 p-0 ">
+        <div class="footer_menu" id="footer-menu">
+            <a th:href="@{/home}" class="footer_link p-2 main-footer">Главная</a>
+            <a th:href="@{/manual}" class="footer_link p-2 users-manual-footer">Руководство пользователя</a>
+            <a th:href="@{/guide}" class="footer_link p-2 how-to-order-footer">Как заказать</a>
+            <a th:href="@{/authors}" class="footer_link p-2 authors-list-footer">Список авторов</a>
+            <a th:href="@{/links}" class="footer_link p-2 theme-links-footer">Тематические ссылки</a>
+            <a th:href="@{/contacts}" class="footer_link p-2 contact-locations-footer">Как нас найти</a></div>
+    </div>
 </div>
 <div th:replace="registration :: modalRegister"></div>
 
