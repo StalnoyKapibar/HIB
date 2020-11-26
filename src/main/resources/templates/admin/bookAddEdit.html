@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!-- На место fragment вставлять параметр требуемой операции: 'Add' или 'Edit', тогда будут работать build****Page() (напр. buildAddPage()), send****Book(), book****Form
+     и подставляться нужные значения в названия вкладок -->
+<div th:fragment="editingBooks (method)">
+    <!-- Функция loadButton загружает страницу через JS, нужно добавлять onclick="loadAddEditButton()" с места вызова фрагмента editingBooks -->
+    <script type="text/javascript">
+        function loadAddEditButton() {
+            $('#buttonAddEditBuild').trigger("click");
+        }
+    </script>
+    <ul class="list-group">
+        <!-- Скрытая кнопка загрузки страницы, можно триггернуть с помощью loadAddEditButton() -->
+        <button hidden id="buttonAddEditBuild" th:attr="onclick=|build${method}Page()|">СКРЫТАЯ КНОПКА ЗАГРУЗКИ СТРАНИЦЫ</button>
+        <li class="list-group-item list-group-item-light"><span th:text="${method}"/> Book<span style="float: right; text-align: right;"><span class="required">*</span>- required field</span></li>
+    </ul>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="container-fluid col-6">
+                <div class="pt-2 mt-1 custom-control custom-switch align-items-center">
+                    <!-- Переключатель деактиватора книги -->
+                    <input class="custom-control-input" type="checkbox" id="disabled">
+                    <label class="custom-control-label" for="disabled"><h4>Disable book</h4></label>
+                </div>
+            </div>
+            <button class='btn btn-primary col-4 btn-metro offset-2' th:attr="onclick=|send${method}Book()|"
+                    type='submit'>Save book</button>
+        </div>
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="name-tab" data-toggle="tab" href="#name" role="tab"
+                   aria-controls="home" aria-selected="true"><span th:text="${method}"/> name<span class="required">*</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="author-tab" data-toggle="tab" href="#author" role="tab"
+                   aria-controls="profile" aria-selected="false"><span th:text="${method}"/> author<span class="required">*</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="description-tab" data-toggle="tab"
+                   href="#description" role="tab" aria-controls="contact" aria-selected="false"><span th:text="${method}"/> description</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="edition-tab" data-toggle="tab" href="#edition"
+                   role="tab" aria-controls="contact" aria-selected="false"><span th:text="${method}"/> edition<span class="required">*</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="other-tab" data-toggle="tab" href="#other" role="tab"
+                   aria-controls="contact" aria-selected="false"><span th:text="${method}"/> other</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="category-tab " data-toggle="tab" href="#category"
+                   role="tab" aria-controls="contact" aria-selected="false">Category<span class="required">*</span></a>
+            </li>
+        </ul>
+    </div>
+    <!-- Форма ниже необходима для подстановки данных с помощью JS -->
+    <form role="form" th:id="'book' + ${method} + 'Form'">
+    </form>
+</div>
+</body>
+</html>

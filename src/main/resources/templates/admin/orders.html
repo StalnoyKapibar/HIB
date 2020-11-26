@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Orders</title>
+</head>
+<body>
+<div aria-labelledby="v-pills-orders-tab"
+     class="tab-pane fade mt-3 show active" id="v-pills-orders" role="tabpanel"
+     th:fragment="orders">
+    <div class="card">
+        <div class="card-header">
+            <div class="row ">
+                <div class="col-3">
+                    <h2 class="order-with-status-loc">Orders with status</h2>
+                </div>
+                <div class="col my-2">
+                    <div class="form-group pre-button">
+                        <select class="form-control" id="statusSelector">
+                            <option selected value="Unprocessed">Unprocessed</option>
+                            <option value="Processing">Processing</option>
+                            <option value="Completed">Completed</option>
+                            <option value="Deleted">Deleted</option>
+                            <option value="Canceled">Canceled</option>
+                            <option value="All">All</option>
+                        </select>
+                        <form action="/api/admin/sales/">
+                        <button class="btn btn-success uncomplete-loc col-12 button-all-orders"
+                        >Download All Orders</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 pr-0">
+                <div class="input-group">
+                    <div class="input-group-append">
+                            <span class="input-group-text" id="searchIcon">
+                                <i aria-hidden="true" class="fa fa-search"></i>
+                            </span>
+                    </div>
+                    <input class="form-control dropdown-toggle" id="order-chat" autocomplete="off" data-toggle="dropdown" placeholder="Search by email" aria-expanded="true"/>
+                    <div class="ul-orders dropdown-menu" style="color: #000000;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div id="unread-checkbox">
+
+            </div>
+            <div id="preloader">
+            </div>
+            <table class="table h6" id="adminListOrders"></table>
+            <div class="modal fade bd-lg" id="adminOrderModal" tabindex="-1" role="dialog"
+                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" id="modal-chat" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalTitle"></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true" onclick="showListOrders()">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div id="contactsOfUser"></div>
+                            <div class="container" id="chat"></div>
+                            <table class="table h6" id="modalBody"></table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary close-btn" data-dismiss="modal">Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" tabindex="-1" id="edit-tracking-number" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5>Edit tracking number</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form th:method="PUT" id="orderTrackNum">
+                        <div class="modal-body">
+                            <span>Tracking number: <input id="trackingNum" th:name="trackingNumber"></span>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Edit</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col"></div>
+            <div class="col d-flex justify-content-center mb-n2" id="rowForPagination" style="margin: auto"></div>
+            <div class="col d-flex justify-content-end">
+                <div class="dropdown dropdown-header">
+                    <span class="orders-on-page-loc">Orders on page</span>
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="ordersAmountPerPage"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">10</button>
+                    <div class="dropdown-menu" aria-labelledby="ordersAmountPerPage">
+                        <a class="dropdown-item" href="#" onclick="setOrdersAmountInPage(10)">10</a>
+                        <a class="dropdown-item" href="#" onclick="setOrdersAmountInPage(50)">50</a>
+                        <a class="dropdown-item" href="#" onclick="setOrdersAmountInPage(100)">100</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/admin/adminOrders.js"></script>
+    <script src="/static/js/main.js"></script>
+    <script src="/static/js/gmailProperties.js"></script>
+    <script src="/static/js/utils/common-function.js"></script>
+</div>
+</body>
+</html>

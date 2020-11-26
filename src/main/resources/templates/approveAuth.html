@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Home fragments</title>
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+<div class="d-flex" th:fragment="page-content">
+    <p id="text" class="req-approve-loc"></p>
+    <div class="container-fluid page-content offset-1 col-10 text-sm-center">
+        <div class="row">
+            <div class="col-6 container">
+                <h4 class="font-weight-light" id="oneClickRegGuide1"></h4>
+                <img class="guideImg1" src="../static/images/oneClickExample.jpg" alt="One click registration example"/>
+            </div>
+            <div class="col-6 container">
+                <h4 class="font-weight-light" id="oneClickRegGuide2"></h4>
+                <img class="guideImg2" src="../static/images/logPass.jpg" alt="logAndPass"/>
+                <h4 class="font-weight-light" id="oneClickRegGuide3"></h4>
+                <img class="guideImg3" src="../static/images/oCBc-E1RajI.jpg" alt="confirmAcc"/>
+            </div>
+        </div>
+    </div>
+    <div class="footer pt-3 p-0 container-fluid text-center" th:replace="home-old :: footer">
+    </div>
+</div>
+</body>
+</html>

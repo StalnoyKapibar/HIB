@@ -1,0 +1,42 @@
+version: '3.7'
+services:
+  hib-web-application:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    restart: "no"
+    depends_on:
+      - psql
+    environment:
+      RDS_HOSTNAME: psql
+      RDS_PORT: 5432
+      RDS_DB_NAME: hib
+      RDS_USERNAME: root
+      RDS_PASSWORD: root
+    networks:
+      - hib-web-application-network
+
+  psql:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    restart: "no"
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: hib
+    volumes:
+      - ./dbScripts/createTableAfterDrop.sql:/docker-entrypoint-initdb.d/createTableAfterDrop.sql
+      - ./dbScripts/onInsertData.sql:/docker-entrypoint-initdb.d/onInsertData.sql
+      - postgresql-database-data-volume:/var/lib/postgresql
+    networks:
+      - hib-web-application-network
+
+# Volumes
+volumes:
+  postgresql-database-data-volume:
+
+networks:
+  hib-web-application-network:

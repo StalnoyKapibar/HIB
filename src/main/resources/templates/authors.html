@@ -1,0 +1,29 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <title>Authors</title>
+</head>
+<body>
+<div class="d-flex" th:fragment="authors" >
+    <div class="container-fluid page-content offset-1 col-10">
+        <div class="row">
+            <div class="col-lg-10 col-md-12 main">
+                <br>
+                <h4> Список авторов</h4>
+                <br>
+                <ul class="list-group col-3">
+                    <li class="list-group-item"></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--    Footer    -->
+    <div class="footer pt-3 p-0 container-fluid text-center" th:replace="home-old :: footer">
+    </div>
+    <script src="/static/js/user/Authors.js"></script>
+</div>
+</div>
+</body>
+</html>

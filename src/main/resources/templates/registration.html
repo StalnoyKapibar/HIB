@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:fragment="modalRegister">
+    <div class="myModal">
+        <div class="modal fade" id="newAndEditUserModal" tabindex="-1" role="dialog"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 id="labelAddnewUserOrEditPage">Regisster new profile</h3>
+                        <button type="button" class="close text-danger" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input id="email" type="email" class="form-control"
+                                   placeholder="Email" required >
+                        </div>
+
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input id="passwordModalWindow" type="password" class="form-control"
+                                   placeholder="Password" required >
+                        </div>
+
+                        <div class="form-group" id="formPasswordRepeat">
+                            <label>Confirm password</label>
+                            <input id="confirmPassword" type="password" class="form-control"
+                                   placeholder="Confirm password" required >
+                        </div>
+
+                        <div class="form-group">
+                            <label>Firstname</label>
+                            <input type="text" id="firstname" class="form-control"
+                                   placeholder="Firstname" required >
+                        </div>
+
+                        <div class="form-group">
+                            <label>Lastname</label>
+                            <input id="lastname" type="text" class="form-control"
+                                   placeholder="Lastname" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <input id="phone" type="text" class="form-control"
+                                   placeholder="Phone" required >
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" id="closeModal" data-dismiss="modal">
+                                Close
+                            </button>
+                            <button type="button" class="btn btn-primary" id="buttonCreatNewUser">Register
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

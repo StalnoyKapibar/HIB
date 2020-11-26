@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Categories fragment</title>
+</head>
+<body>
+<div id="adminTree" th:fragment="categories">
+    <script src="/static/js/main.js"></script>
+    <script src="/static/js/utils/common-function.js"></script>
+    <link href="/static/css/admin/adminTree.css" rel="stylesheet">
+    <script src="/static/js/admin/categories/adminCategoryTree.js"></script>
+
+
+    <div class="row">
+        <div class="col-8"><h4 class="category-tree-loc">Category tree</h4></div>
+    <div class="input-group pull-right col-4">
+        <input type="text" class="form-control create-new-primary-category-loc" name="primaryCategoryName" placeholder="Create new primary category" aria-label="Create new primary category" aria-describedby="basic-addon2">
+        <div class="input-group-append">
+            <button class="btn btn-success create-loc" id="addPrimary"  type="button">Create</button>
+        </div>
+    </div>
+    </div><hr>
+
+    <!--Modal-->
+    <div class="modal fade" tabindex="-1" id="category-modal" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div id="categoryModal" class="modal-content">
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" tabindex="-1" id="add-child-mod" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div id="addChildMod" class="modal-content">
+            </div>
+        </div>
+    </div>
+
+    <!--
+        <div aria-hidden="true" class="modal fade" id="category-modal-add" role="dialog"
+             tabindex="-1">
+    -->
+        <div class="modal-dialog" role="document">
+            <div id="categoryModalAdd" class="modal-content">
+            </div>
+        </div>
+<!--
+    </div>
+-->
+</div>
+
+</body>
+</html>

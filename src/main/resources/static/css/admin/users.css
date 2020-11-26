@@ -1,0 +1,39 @@
+#user-info {
+    height: 500px;
+}
+
+#first-last-names {
+    text-align: center;
+}
+
+#email-chat {
+    text-align: left;
+}
+
+#fields {
+    text-align: center;
+}
+
+#subject-mes {
+    color: grey;
+}
+
+#orders-feedbacks ul li, #users-table  {
+    text-align: center;
+}
+
+#btn-swing {
+    padding: 0;
+}
+
+.active-cell, .active-cell-details {
+    background-color: #dee2e6;
+    padding: 5px 5px;
+}
+
+.container#feedbacks-chat, .container#orderChat {
+    height: 500px;
+    overflow: auto;
+    border-top: 1px solid #dee2e6;
+    margin-top: 0px;
+}

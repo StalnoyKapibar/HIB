@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Internal Server Error</title>
+</head>
+<body>
+<div class="row" th:fragment="server-error">
+    <div class="col-4"></div>
+    <div class="col-4 container">
+        <img src="/images/service/server-error.png" class="mt-5" alt="servererror">
+    </div>
+    <div class="col-4"></div>
+</div>
+<div class="row" th:fragment="not-found">
+    <div class="col-4"></div>
+    <div class="col-4 container">
+        <img src="/images/service/not-found.png" class="mt-5" alt="not-found">
+    </div>
+    <div class="col-4"></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,140 @@
+
+
+@keyframes display {
+    0% {
+        transform: translateX(200px);
+        opacity: 0;
+    }
+    10% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    20% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    30% {
+        transform: translateX(-200px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(-200px);
+        opacity: 0;
+    }
+}
+.pic{
+    padding-top: 20px;
+    width: 200px;
+    height: 350px;
+}
+
+.pic-ctn {
+    width: 100vw;
+    height: 350px;
+
+}
+
+.pic-ctn > img {
+    position: absolute;
+    top: 0;
+    left: calc(50% - 100px);
+    opacity: 0;
+    animation: display 4s infinite;
+}
+
+img:nth-child(2) {
+    animation-delay: 2s;
+}
+img:nth-child(3) {
+    animation-delay: 4s;
+}
+img:nth-child(4) {
+    animation-delay: 6s;
+}
+img:nth-child(5) {
+    animation-delay: 8s;
+}
+
+h4.font-weight-light {
+    margin-top: 15px;
+}
+
+span.font-weight-light {
+    font-size: 15pt;
+}
+
+div.col-12 span.font-weight-normal {
+    font-size: 17pt;
+}
+
+
+/*For CarouselButtons on page of Book */
+body .buttonCarousel {
+    text-align: center;
+    padding-top: 2vh;
+
+}
+
+buttonCarousel {
+    width: 35%;
+    display: block;
+    margin: 2px auto;
+    font-size: 25pt;
+    background: whitesmoke;
+    border-radius: 10px;
+    font-family: arial;
+    padding: 0px 0px;
+    cursor: pointer;
+    -webkit-transition: box-shadow 1s ease, color 1s ease;
+    transition: box-shadow 1s ease, color 1s ease;
+}
+
+
+.left, .center, .right {
+    display: inline-block;
+}
+
+.left {
+    color: #000;
+    border: solid 2px #0a5ca8;
+}
+
+.left:hover {
+    box-shadow: inset -6em 0 #0a5ca8;
+    color: whitesmoke;
+}
+
+.center {
+    font-size: 15pt;
+    width: 70%;
+    color: #000;
+    border: solid 2px #7f8c8d;
+}
+
+.center:hover {
+    box-shadow: inset 0 0 0 2em #7f8c8d;
+    color: whitesmoke;
+}
+.editButton {
+    width: 40%;
+    font-size: 20pt;
+    color: #000;
+    border: solid 2px #000000;
+}
+
+.editButton:hover {
+    box-shadow: inset 0 0 0 2em #06218c;
+    color: whitesmoke;
+    border: solid 2px #06218c;
+}
+
+.right {
+    color: #000;
+    border: solid 2px #0f5404;
+}
+
+.right:hover {
+    box-shadow: inset 6em 0 #0f5404;
+    color: whitesmoke;
+}
+

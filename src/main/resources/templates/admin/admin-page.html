@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <script src="/static/js/lib/jquery.min.js"></script>
+    <script src="/static/js/lib/popper.min.js"></script>
+    <script src="/static/js/lib/bootstrap.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css"
+          rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+    <link href="/static/css/style.css" rel="stylesheet">
+    <link href="/static/css/sig.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/admin/books.css" rel="stylesheet">
+    <link href="/static/css/admin/orders.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/admin/feedback.css" rel="stylesheet">
+    <link href="/static/css/error.css" rel="stylesheet">
+    <link href="/static/css/admin/users.css" rel="stylesheet">
+    <!-- <link rel="stylesheet" type="text/css" href="/static/css/starter-template.css"> -->
+    <link href="/static/css/page.css" rel="stylesheet">
+    <!--<script src="/static/js/lib/popper.min.js"></script>
+    <script src="/static/js/lib/bootstrap.min.js"></script>-->
+
+    <title>HIB Admin panel</title>
+</head>
+<body>
+
+<div th:replace="admin/admin-nav :: nav-bar"></div>
+
+<br>
+
+<div class="row">
+    <div class="col-2">
+        <div th:replace="admin/admin-nav :: side-bar"></div>
+    </div>
+    <div class="col-9">
+        <div class="tab-content" id="v-pills-tabContent" th:switch="${#httpServletRequest.getRequestURI()}">
+            <th:block th:case="'/admin/panel/edit-welcome'">
+                <div th:replace="admin/edit-welcome :: edit-welcome"></div>
+            </th:block>
+            <th:block th:case="'/admin/panel/books'">
+                <div th:replace="search :: search-page"></div>
+            </th:block>
+            <th:block th:case="'/admin/panel/categories'">
+                <div th:replace="admin/categories :: categories"></div>
+            </th:block>
+            <th:block th:case="'/admin/panel/feedback'">
+                <div th:replace="admin/feedback :: feedback"></div>
+                <div th:replace="admin/feedback :: modal-reply"></div>
+            </th:block>
+<!--            <th:block th:case="'/admin/panel/edit-footer'">-->
+<!--                <div th:replace="admin/edit-footer :: edit-footer"></div>-->
+<!--            </th:block>-->
+            <th:block th:case="'/admin/panel/orders'">
+                <div th:replace="admin/orders :: orders"></div>
+            </th:block>
+            <th:block th:case="'/gmail/admin'">
+                <div th:replace="admin/orders :: orders"></div>
+            </th:block>
+            <th:block th:case="'/admin/panel/users'">
+                <div th:replace="admin/users :: users"></div>
+                <div th:replace="admin/users :: users-modal"></div>
+            </th:block>
+            <th:block th:case="*">
+                <div th:replace="error :: not-found"></div>
+            </th:block>
+        </div>
+    </div>
+</div>
+
+<!-- Modal ADMIN BOOK REMOVE -->
+<div class="modal fade" id="adminBookRemove" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title modal-delete-title" id="exampleModalLabel">Delete book</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body delete-modal-admin">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary delete-book-admin">Delete book</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/static/js/utils/common-function.js"></script>
+<script src="../static/js/main.js"></script>
+
+<script crossorigin="anonymous" src="https://kit.fontawesome.com/db08edad0b.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+        integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+        crossorigin="anonymous"></script>
+<script src="/static/js/main.js"></script>
+<script src="/static/js/admin/addBook.js"></script>
+<script src="/static/js/admin/editWelcome.js"></script>
+<script src="/static/js/utils/translate.js"></script>
+</body>
+</html>

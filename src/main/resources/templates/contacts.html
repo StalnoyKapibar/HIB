@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Contacts</title>
+</head>
+<body>
+<div class="d-flex" th:fragment="contacts">
+    <div class="container-fluid page-content">
+        <p>You can contact us by phone or email.</p>
+        <p class="email-contacts"></p>
+        <p class="phone-contacts"></p>
+        <p>Also, you can contact us by clicking on the "Ask a question" button in the main menu.</p>
+        <img src="../static/images/askaquestion.png" height="490" width="264"/>
+        <p>To ask a question about a specific book, you need to click on the book of interest and click on the "Ask a question" button.</p>
+    </div>
+    <!--    Footer    -->
+    <div class="footer pt-3 p-0 container-fluid text-center" th:replace="home-old :: footer">
+        <div class="footer_menu" id="footer-menu"></div>
+        <div class="footer_made_by pt-2"><a id="made_by">Created by JavaMentor® Team</a></div>
+    </div>
+    <script src="/static/js/footerBuilder.js"></script>
+    <script src="/static/js/user/contacts.js"></script>
+</div>
+</body>
+</html>

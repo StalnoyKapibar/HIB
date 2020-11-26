@@ -1,0 +1,18 @@
+.pagination-container{
+    display: flex;
+    justify-content: center;
+}
+.currentLink {
+    color: currentColor;
+    opacity: 0.5;
+    text-decoration: none;
+}
+
+.currentItem{
+    pointer-events: none;
+}
+
+#search-admin{
+    display: flex;
+    flex-direction: column;
+}

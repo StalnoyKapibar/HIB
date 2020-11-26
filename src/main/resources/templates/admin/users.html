@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Users fragment</title>
+    <link href="/static/css/admin/users.css" rel="stylesheet">
+</head>
+<body>
+<div aria-labelledby="v-pills-users-tab"
+     class="tab-pane fade mt-3 show active" id="v-pills-users" role="tabpanel"
+     th:fragment="users">
+    <div class="card">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-1 pr-0">
+                    <h3 class="users-loc">Users</h3>
+                </div>
+                <div class="col-9 pl-0 pr-0">
+                    <div class="input-group">
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="searchIcon">
+                                <i aria-hidden="true" class="fa fa-search"></i>
+                            </span>
+                        </div>
+                        <input class="form-control dropdown-toggle" id="email-chat" autocomplete="off" data-toggle="dropdown" placeholder="Search by email" aria-expanded="true"/>
+                        <div class="ul-emails dropdown-menu" style="color: #000000;"></div>
+                    </div>
+                </div>
+                <div class="col-2 pl-0">
+                    <button type="button" class="btn btn-success btn-block" id="fullchatBtn" data-toggle="modal" data-target="#fullchatModal" onclick="showFullchat()">Open chat</button>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="container-fluid">
+                <div class="row">
+                    <h3 class="lead show-disabled-users-loc">Show disabled users</h3>
+                    <div class="offset-9">
+                        <input data-size="md" data-toggle="toggle" id="toggle-users-disabled" type="checkbox">
+                    </div>
+                </div>
+            </div>
+            <br>
+            <table class="table" id="users-table">
+                <thead>
+                    <tr>
+                        <th>Users</th>
+                        <th>Unreplied feedbacks</th>
+                        <th>Replied feedbacks</th>
+                        <th>Uprocessed orders</th>
+                        <th>Processing orders</th>
+                        <th>Completed orders</th>
+                        <th>Deleted orders</th>
+                        <th>Edit user</th>
+                    </tr>
+                </thead>
+                <tbody id="users-body">
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="/static/js/admin/users.js"></script>
+    <script src="/static/js/main.js"></script>
+    <script src="/static/js/utils/common-function.js"></script>
+    <script src="/static/js/gmailProperties.js"></script>
+</div>
+
+<div class="modal fade" id="fullchatModal" tabindex="-1" role="dialog" aria-labelledby="fullchatModalLabel" aria-hidden="true" th:fragment="users-modal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="fullchatModalLabel">Chat</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container" id="chat"></div>
+                <table class="table h6" id="modalBody"></table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div aria-hidden="true"
+     aria-labelledby="feedbackModalLabel" class="modal fade" id="feedback-request-modal" role="dialog"
+     tabindex="-1" th:fragment="users-modal">
+
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle"></h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="contactsOfRequester"></div>
+                <div class="container" id="feedbacks-chat"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary close-loc" data-dismiss="modal" type="button">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div aria-hidden="true"
+     aria-labelledby="orderModalLabel" class="modal fade" id="order-modal" role="dialog"
+     tabindex="-1" th:fragment="users-modal">
+
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalOrderTitle"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="contactsOfUser"></div>
+                <div class="container" id="orderChat"></div>
+                <table class="table h6" id="orderModalBody"></table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary close-btn" data-dismiss="modal">Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

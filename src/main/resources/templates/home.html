@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Home fragments</title>
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+<div class="d-flex" th:fragment="page-content">
+    <div class="container-fluid page-content offset-1 col-10">
+<!--        <form id="filter-sidebar" action="#" method="post">-->
+<!--            <div class="filter-select-wrap">-->
+<!--                <input id="filter-books" class="filter-select filter-tax" name="library" data-books='["location_1","alabama","alaska","anchorage","arizona","arkansas","birmingham","california","chandler","colorado","connecticut","denver","florida","georgia","gilbert","glendale","hartford","hawaii","hollywood","honolulu","huntsville","idaho","illinois","indiana","indianapolis","iowa","kansas","kentucky","little-rock","los-angeles","louisiana","louisville","massachusetts","mesa","michigan","minnesota","mobile","montgomery","moreno-valley","naperville","nebraska","nevada","new-hampshire","new-jersey","new-orleans","new-york","newark","ohio","olathe","orlando","palmdale","paterson","pennsylvania","peoria","philadelphia","pittsburgh","reno","rhode-island","rochester","rochester-new-york","rockford","sacramento"]' type="text" placeholder="All Books"/>-->
+<!--                <ul class="ul-books"></ul>-->
+<!--            </div>-->
+<!--        </form>-->
+
+        <hr>
+        
+        <!--    For cards    -->
+        <div class="offset-1">
+            <h2 id="headpost">You can read this</h2>
+            <br>
+        </div>
+        <div class="row row-cols-xl-4 row-cols-lg-3 row-cols-md-2 row-cols-sm-2 pt-2" style="margin: auto" id="cardcolumns">
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col"></div>
+                <div class="col d-flex justify-content-center mb-n2" id="rowForPagination" style="margin: auto"></div>
+                <div class="col d-flex justify-content-end">
+                    <div class="dropdown dropdown-header">
+                        <span class="book-on-page-loc">Books on page</span>
+                        <button class="btn btn-primary dropdown-toggle" type="button" id="ddmAmountBook"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">10</button>
+                        <div class="dropdown-menu" aria-labelledby="ddmAmountBook">
+                            <a class="dropdown-item" href="#" onclick="setAmountBooksInPage(10)">10</a>
+                            <a class="dropdown-item" href="#" onclick="setAmountBooksInPage(50)">50</a>
+                            <a class="dropdown-item" href="#" onclick="setAmountBooksInPage(100)">100</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--    Footer    -->
+        <div class="container-fluid text-center footer pt-3 p-0 " th:fragment="footer">
+            <div class="footer_menu" id="footer-menu"></div>
+            <div class="footer_made_by pt-2"><a id="made_by">Created by JavaMentor® Team</a></div>
+        </div>
+    </div>
+
+    <script src="/static/js/utils/common-function.js"></script>
+    <script src="/static/js/user/home.js"></script>
+    <script src="/static/js/utils/liveSearch.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+</div>
+</body>
+</html>
