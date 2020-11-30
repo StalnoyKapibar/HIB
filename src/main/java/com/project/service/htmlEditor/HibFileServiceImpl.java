@@ -7,6 +7,7 @@ import com.project.model.HibFileDto;
 import com.project.service.abstraction.HibFileService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -16,6 +17,7 @@ import java.nio.file.Paths;
 import java.util.List;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class HibFileServiceImpl implements HibFileService {
 

@@ -9,12 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 
 @Primary
+@Transactional
 @Repository("withAutoFillOriginalLanguageNameRows")
 public class BookServiceImplWithAutoFillOriginalLanguageRows extends BookServiceImpl {
     private final static Logger LOGGER = LoggerFactory.getLogger(BookServiceImplWithAutoFillOriginalLanguageRows.class.getName());

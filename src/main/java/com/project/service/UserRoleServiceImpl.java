@@ -5,8 +5,10 @@ import com.project.model.Role;
 import com.project.service.abstraction.UserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class UserRoleServiceImpl implements UserRoleService {
 
     @Autowired
