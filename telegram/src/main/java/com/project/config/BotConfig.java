@@ -11,12 +11,13 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 //@PropertySource({"application-bot"})
 public class BotConfig extends TelegramLongPollingBot {
 
-    @Value("${botUserName")
-    private String userName;
+//    @Value("${botUserName")
+    private String userName = "History_in_books_bot";
 
-    @Value("${botToken")
-    private String token;
+//    @Value("${botToken")
+    private String token = "1443066393:AAFOXPtc7XAHcnyOgYX14gNmvW7wIIlNEWI";
 
+//    private
 
     /**
      * Метод возвращает имя бота, указанное при регистрации.
@@ -43,16 +44,18 @@ public class BotConfig extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         update.getUpdateId();
+        System.out.println(update);
 
         SendMessage sendMessage = new SendMessage().setChatId(update.getMessage().getChatId());
 
         if (update.getMessage()!=null){
-            sendMessage.setText("Приветики-пистолетики");
+            sendMessage.setText("Привет");
             try {
                 execute(sendMessage);
             } catch (TelegramApiException e) {
                 e.printStackTrace();
             }
         }
+
     }
 }

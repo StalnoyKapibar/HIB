@@ -13,7 +13,7 @@
     </parent>
     <groupId>com.java-mentor</groupId>
     <artifactId>hib</artifactId>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
     <version>0.0.1-SNAPSHOT</version>
     <name>hib</name>
     <description>Website for selling books</description>
