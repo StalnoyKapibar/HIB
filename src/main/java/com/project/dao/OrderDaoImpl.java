@@ -26,6 +26,13 @@ public class OrderDaoImpl extends AbstractDao<Long, Order> implements OrderDao {
     }
 
     @Override
+    public List<Order> getOrderByUserPhoneInContacts(String phone) {
+        String id = entityManager.createQuery("SELECT id FROM contacts WHERE phone=:phone", Long.class).setParameter("phone", phone).getResultList().get(0).toString();
+        List<Order>listOrder =entityManager.createQuery("SELECT b FROM orders b where contacts_id=:id", Order.class).setParameter("id", Integer.parseInt(id)).getResultList();
+        return listOrder;
+    }
+
+    @Override
     public List<Order> getOrdersByStatus(Status status) {
         if (status == null) {
             return entityManager.createQuery("SELECT o FROM  orders o", Order.class).getResultList();

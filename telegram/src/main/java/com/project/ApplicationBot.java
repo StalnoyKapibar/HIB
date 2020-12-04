@@ -13,6 +13,8 @@ public class ApplicationBot {
         TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
 
         BotConfig bot = new BotConfig();
+        System.out.println(bot.getBotUsername());
+        System.out.println(bot.getBotToken());
 
         try {
             telegramBotsApi.registerBot(bot);

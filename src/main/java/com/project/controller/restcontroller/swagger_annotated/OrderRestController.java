@@ -458,4 +458,9 @@ public class OrderRestController {
         }
         return new String(text);
     }
+
+    @GetMapping("/api/order/byPhone/{phone}")
+    public List<Order>getOrderByUserPhoneInContacts(@PathVariable String phone) {
+        return orderService.getOrderByUserPhoneInContacts(phone);
+    }
 }

@@ -8,16 +8,19 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+
 //@PropertySource({"application-bot"})
 public class BotConfig extends TelegramLongPollingBot {
 
-//    @Value("${botUserName")
+//    @Value("${botUserName}")
+//    private String userName;
     private String userName = "History_in_books_bot";
 
-//    @Value("${botToken")
+//    @Value("${botToken}")
+//    private String token;
     private String token = "1443066393:AAFOXPtc7XAHcnyOgYX14gNmvW7wIIlNEWI";
 
-//    private
+//    private OrderServiceImpl
 
     /**
      * Метод возвращает имя бота, указанное при регистрации.
@@ -43,8 +46,10 @@ public class BotConfig extends TelegramLongPollingBot {
      */
     @Override
     public void onUpdateReceived(Update update) {
+
+
         update.getUpdateId();
-        System.out.println(update);
+
 
         SendMessage sendMessage = new SendMessage().setChatId(update.getMessage().getChatId());
 
