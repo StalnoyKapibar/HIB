@@ -4,6 +4,7 @@ import com.project.dao.UserAccountDao;
 import com.project.model.UserAccount;
 import com.project.service.abstraction.ShoppingCartService;
 import lombok.AllArgsConstructor;
+import org.apache.http.cookie.CookieSpec;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -41,7 +42,8 @@ public class LoginSuccessHandlerImpl implements AuthenticationSuccessHandler {
                     response.sendRedirect(currentPage);
                 }
             }
-            response.setHeader("Set-Cookie", "SameSite=None; secure");
+            response.setHeader("Set-Cookie", "SameSite=None; Secure");
+            response.addHeader("Set-Cookie", "SameSite=None; Secure");
         }
         shoppingCart.mergeCarts(request, user.getCart().getId());
         request.getSession().setAttribute("userId", user.getId());
