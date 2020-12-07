@@ -395,6 +395,7 @@ public class OrderRestController {
     @PostMapping("/api/admin/deleteOrder/{id}")
     private void orderDelete(@PathVariable Long id) {
         orderService.deleteOrder(id);
+
     }
 
     @ApiOperation(value = "получить заказы по идентификатору книги"
