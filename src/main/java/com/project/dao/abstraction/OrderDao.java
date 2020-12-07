@@ -11,6 +11,8 @@ public interface OrderDao extends GenericDao<Long, Order> {
 
     List<Order> getOrdersByUserId(Long id);
 
+    List<Order> getOrderByUserPhoneInContacts(String phone);
+
     List<Order> getOrdersByStatus(Status status);
 
     List<Order> getOrderByEmailByStatus(Status status, String email);
