@@ -459,8 +459,12 @@ public class OrderRestController {
         return new String(text);
     }
 
+    @ApiOperation(value = "Получить все заказы по номеру телефона",
+            notes = "Эндпоинт получает phone типа String",
+            response = Order.class,
+            responseContainer = "List")
     @GetMapping("/api/order/byPhone/{phone}")
-    public List<Order>getOrderByUserPhoneInContacts(@PathVariable String phone) {
+    public List<Order>getOrderByUserPhoneInContacts(@ApiParam(value = "phone") @PathVariable String phone) {
         return orderService.getOrderByUserPhoneInContacts(phone);
     }
 }
