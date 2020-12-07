@@ -8,9 +8,12 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -55,13 +58,35 @@ public class TelegramBot extends TelegramLongPollingBot {
      */
     @Override
     public void onUpdateReceived(Update update) {
+        SendMessage sendMessage = new SendMessage();
+
+        /**
+         * Создание клавиатуры, для отображения в чате (кнопки)
+         */
+        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
+        sendMessage.setReplyMarkup(replyKeyboardMarkup);
+        replyKeyboardMarkup.setSelective(true);
+        replyKeyboardMarkup.setResizeKeyboard(true);
+        replyKeyboardMarkup.setOneTimeKeyboard(false);
+
+        /**
+         * Список строк для клавиатуры
+         */
+        List<KeyboardRow> keyboard = new ArrayList<>();
+        KeyboardRow keyboardRow1 = new KeyboardRow();
+        KeyboardRow keyboardRow2 = new KeyboardRow();
+
+
+        /**
+         * Поиск в БД заказа, по введенному номеру телефона
+         */
         List<Order> orderList= orderService.getOrderByUserPhoneInContacts(update.getMessage().getText());
 
         update.getUpdateId();
 
         String id = update.getMessage().getChatId().toString();
 
-        SendMessage sendMessage = new SendMessage();
+
 
         sendMessage.setChatId(id);
 
@@ -92,16 +117,5 @@ public class TelegramBot extends TelegramLongPollingBot {
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
-
-
-//        if (update.getMessage()!=null){
-//            sendMessage.setText("Привет");
-//            try {
-//                execute(sendMessage);
-//            } catch (TelegramApiException e) {
-//                e.printStackTrace();
-//            }
-//        }
-
     }
 }
