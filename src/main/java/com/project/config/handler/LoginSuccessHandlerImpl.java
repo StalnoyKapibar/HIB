@@ -45,6 +45,8 @@ public class LoginSuccessHandlerImpl implements AuthenticationSuccessHandler {
         }
         shoppingCart.mergeCarts(request, user.getCart().getId());
         request.getSession().setAttribute("userId", user.getId());
+
+
     }
 
 }
