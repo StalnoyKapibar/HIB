@@ -17,6 +17,12 @@
             <artifactId>telegrambots</artifactId>
             <version>4.9.2</version>
         </dependency>
+        <dependency>
+            <groupId>com.java-mentor</groupId>
+            <artifactId>hib</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
 
