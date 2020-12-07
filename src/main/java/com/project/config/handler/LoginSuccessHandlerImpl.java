@@ -41,6 +41,7 @@ public class LoginSuccessHandlerImpl implements AuthenticationSuccessHandler {
                     response.sendRedirect(currentPage);
                 }
             }
+            response.setHeader("Set-Cookie", "SameSite=None");
         }
         shoppingCart.mergeCarts(request, user.getCart().getId());
         request.getSession().setAttribute("userId", user.getId());
