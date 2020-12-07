@@ -1,29 +1,16 @@
 package com.project.util;
 
-//import com.project.service.OrderServiceImpl;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Component;
-//import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-//import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-//import org.telegram.telegrambots.meta.api.objects.Update;
-//import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-//
-//public class TelegramBot {
-//}
-//package com.project.config;
-//
-//
-        import com.project.model.Order;
-        import com.project.service.OrderServiceImpl;
-        import org.springframework.beans.factory.annotation.Autowired;
-        import org.springframework.beans.factory.annotation.Value;
-        import org.springframework.stereotype.Component;
-        import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-        import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-        import org.telegram.telegrambots.meta.api.objects.Update;
-        import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import com.project.model.Order;
+import com.project.service.OrderServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-        import java.util.List;
+import java.util.List;
 
 @Component
 public class TelegramBot extends TelegramLongPollingBot {
@@ -34,7 +21,6 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     @Value("${botToken}")
     private String token;
-
 
     private OrderServiceImpl orderService;
 
@@ -68,8 +54,6 @@ public class TelegramBot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         List<Order> orderList= orderService.getOrderByUserPhoneInContacts(update.getMessage().getText());
-//        List<Order> orderList= null;
-
 
         update.getUpdateId();
 
@@ -79,28 +63,23 @@ public class TelegramBot extends TelegramLongPollingBot {
 
         sendMessage.setChatId(id);
 
-
-
-
-//        SendMessage sendMessage = new SendMessage().setChatId(update.getMessage().getChatId());
-//        if (orderService==null){
-//            sendMessage.setText("null");
-//        }
+        String responseMessage = "";
 
         if (orderList!=null){
-            sendMessage.setText(orderList.size()+"");
-            try {
-                execute(sendMessage);
-            } catch (TelegramApiException e) {
-                e.printStackTrace();
+            responseMessage += "Колличество заказов: " + orderList.size()+"\n";
+            for (Order order : orderList) {
+                responseMessage+= "id: " + order.getId()+"\n";
+                responseMessage+= "data: " + order.getData()+"\n";
+                responseMessage+= "address: " + order.getAddress()+"\n";
+                responseMessage+= "itemsCost: " + order.getItemsCost()+"\n";
+                responseMessage+= "trackingNumber: " + order.getTrackingNumber()+"\n";
+                responseMessage+= "status: " + order.getStatus()+"\n";
+                responseMessage+= "contacts: " + order.getContacts()+"\n";
+                responseMessage+= "comment: " + order.getComment()+"\n";
             }
+            sendMessage.setText(responseMessage);
         }else {
-            sendMessage.setText("не найдено заказов по указанному номеру: " +update.getMessage());
-            try {
-                execute(sendMessage);
-            } catch (TelegramApiException e) {
-                e.printStackTrace();
-            }
+            sendMessage.setText("не найдено заказов по указанному номеру: " +update.getMessage().getText());
         }
 
         /**
