@@ -32,6 +32,7 @@ import java.util.Random;
 @AllArgsConstructor
 public class OrderRestController {
 
+    private ProducerKafkaService producerKafkaService;
     private ShoppingCartService cartService;
     private OrderService orderService;
     private UserAccountService userAccountService;
@@ -395,6 +396,7 @@ public class OrderRestController {
     @PostMapping("/api/admin/deleteOrder/{id}")
     private void orderDelete(@PathVariable Long id) {
         orderService.deleteOrder(id);
+        producerKafkaService.sendMessage("your order was deleted");
     }
 
     @ApiOperation(value = "получить заказы по идентификатору книги"
