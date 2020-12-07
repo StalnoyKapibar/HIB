@@ -10,7 +10,9 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 @Component
 public class TelegramBot extends TelegramLongPollingBot {
@@ -69,7 +71,7 @@ public class TelegramBot extends TelegramLongPollingBot {
             responseMessage += "Колличество заказов: " + orderList.size()+"\n";
             for (Order order : orderList) {
                 responseMessage+= "id: " + order.getId()+"\n";
-                responseMessage+= "data: " + order.getData()+"\n";
+                responseMessage+= "data: " +new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.US).format(order.getData())+ "\n";
                 responseMessage+= "address: " + order.getAddress()+"\n";
                 responseMessage+= "itemsCost: " + order.getItemsCost()+"\n";
                 responseMessage+= "trackingNumber: " + order.getTrackingNumber()+"\n";
