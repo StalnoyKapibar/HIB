@@ -241,7 +241,7 @@ public class TelegramBot extends TelegramLongPollingBot {
         SendMessage sendMessage = new SendMessage();
         Order order = orderService.getOrderById(id);
         String chatId = order.getContacts().getChatId();
-        String text ="Статус вашего заказа" +order.getId()+"\n";
+        String text ="Статус вашего заказа " +order.getId()+"\n";
         text+="Изменился на "+order.getStatus();
         sendMessage.setChatId(chatId).setText(text);
         try {
