@@ -59,33 +59,40 @@ public class TelegramBot extends TelegramLongPollingBot {
      */
     @Override
     public void onUpdateReceived(Update update) {
+        boolean isAuthorized = false;
+
+//        if (update.getMessage().getChatId()) {
+//
+//        }
+//
+
         SendMessage sendMessage = new SendMessage();
 
-        /**
-         * Создание клавиатуры, для отображения в чате (кнопки)
-         */
-        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
-        sendMessage.setReplyMarkup(replyKeyboardMarkup);
-        replyKeyboardMarkup.setSelective(true);
-        replyKeyboardMarkup.setResizeKeyboard(true);
-        replyKeyboardMarkup.setOneTimeKeyboard(false);
-
-        /**
-         * Список строк для клавиатуры,
-         * Создание строк клавиатуры,
-         * Добавление в них кнопок
-         * Добавление строк в список
-         * Установить список строк клавиатуре
-         */
-        List<KeyboardRow> keyboard = new ArrayList<>();
-        KeyboardRow keyboardRow1 = new KeyboardRow();
-        KeyboardRow keyboardRow2 = new KeyboardRow();
-        keyboardRow1.add(new KeyboardButton("Кнопка 1 строка 1"));
-        keyboardRow1.add(new KeyboardButton("Кнопка 2 строка 1"));
-        keyboardRow2.add(new KeyboardButton("Кнопка 1 строка 2"));
-        keyboard.add(keyboardRow1);
-        keyboard.add(keyboardRow2);
-        replyKeyboardMarkup.setKeyboard(keyboard);
+//        /**
+//         * Создание клавиатуры, для отображения в чате (кнопки)
+//         */
+//        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
+//        sendMessage.setReplyMarkup(replyKeyboardMarkup);
+//        replyKeyboardMarkup.setSelective(true);
+//        replyKeyboardMarkup.setResizeKeyboard(true);
+//        replyKeyboardMarkup.setOneTimeKeyboard(false);
+//
+//        /**
+//         * Список строк для клавиатуры,
+//         * Создание строк клавиатуры,
+//         * Добавление в них кнопок
+//         * Добавление строк в список
+//         * Установить список строк клавиатуре
+//         */
+//        List<KeyboardRow> keyboard = new ArrayList<>();
+//        KeyboardRow keyboardRow1 = new KeyboardRow();
+//        KeyboardRow keyboardRow2 = new KeyboardRow();
+//        keyboardRow1.add(new KeyboardButton("Кнопка 1 строка 1"));
+//        keyboardRow1.add(new KeyboardButton("Кнопка 2 строка 1"));
+//        keyboardRow2.add(new KeyboardButton("Кнопка 1 строка 2"));
+//        keyboard.add(keyboardRow1);
+//        keyboard.add(keyboardRow2);
+//        replyKeyboardMarkup.setKeyboard(keyboard);
 
 
         /**

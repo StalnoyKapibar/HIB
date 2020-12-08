@@ -27,6 +27,9 @@ public class ContactsOfOrder {
     @Column(name = "phone")
     private String phone;
 
+    @Column(name = "chat_id")
+    private String chatId;
+
     public ContactsOfOrder (ContactsOfOrderDTO contacts) {
         this.email = contacts.getEmail();
         this.phone = contacts.getPhone();
