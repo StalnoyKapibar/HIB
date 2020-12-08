@@ -32,6 +32,7 @@ import java.util.Random;
 @AllArgsConstructor
 public class OrderRestController {
 
+    private ProducerKafkaService producerKafkaService;
     private ShoppingCartService cartService;
     private OrderService orderService;
     private UserAccountService userAccountService;
@@ -365,6 +366,7 @@ public class OrderRestController {
     @PatchMapping("/api/admin/completeOrder/{id}")
     private void orderComplete(@PathVariable Long id) {
         orderService.completeOrder(id);
+        producerKafkaService.sendMessage(id.toString());
     }
 
     @ApiOperation(value = "изменить статус заказа"
@@ -375,6 +377,7 @@ public class OrderRestController {
     @PatchMapping("/api/admin/unCompleteOrder/{id}")
     private void orderUnComplete(@PathVariable Long id) {
         orderService.unCompleteOrder(id);
+        producerKafkaService.sendMessage(id.toString());
     }
 
     @ApiOperation(value = "изменить статус заказа"
@@ -385,6 +388,7 @@ public class OrderRestController {
     @PatchMapping("/api/admin/processOrder/{id}")
     private void orderProcess(@PathVariable Long id) {
         orderService.processOrder(id);
+        producerKafkaService.sendMessage(id.toString());
     }
 
     @ApiOperation(value = "удалить заказ"
@@ -395,6 +399,7 @@ public class OrderRestController {
     @PostMapping("/api/admin/deleteOrder/{id}")
     private void orderDelete(@PathVariable Long id) {
         orderService.deleteOrder(id);
+        producerKafkaService.sendMessage(id.toString());
     }
 
     @ApiOperation(value = "получить заказы по идентификатору книги"
@@ -435,7 +440,9 @@ public class OrderRestController {
             , tags = "orderCancel")
     @PostMapping("/api/user/orderCancel/{id}")
     private String orderCancel(@PathVariable Long id) {
-        return orderService.cancelOrder(id);
+        String s = orderService.cancelOrder(id);
+        producerKafkaService.sendMessage(id.toString());
+        return s;
     }
 
     @ApiOperation(value = "изменить заказ"
@@ -457,5 +464,13 @@ public class OrderRestController {
             text[i] = characters.charAt(random.nextInt(characters.length()));
         }
         return new String(text);
+    }
+
+    @ApiOperation(value = "Получить заказ по id",
+            notes = "Эндпоинт получает Order",
+            response = OrderDTO.class)
+    @GetMapping("/api/order/{id}")
+    public OrderDTO getOrderById(@ApiParam(value = "id") @PathVariable Long id) {
+        return orderService.getOrderById(id).getOrderDTO();
     }
 }
