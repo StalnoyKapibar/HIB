@@ -366,7 +366,7 @@ public class OrderRestController {
     @PatchMapping("/api/admin/completeOrder/{id}")
     private void orderComplete(@PathVariable Long id) {
         orderService.completeOrder(id);
-        producerKafkaService.sendMessage("your order complete");
+        producerKafkaService.sendMessage(id.toString());
     }
 
     @ApiOperation(value = "изменить статус заказа"
@@ -377,7 +377,7 @@ public class OrderRestController {
     @PatchMapping("/api/admin/unCompleteOrder/{id}")
     private void orderUnComplete(@PathVariable Long id) {
         orderService.unCompleteOrder(id);
-        producerKafkaService.sendMessage("your order un complete");
+        producerKafkaService.sendMessage(id.toString());
     }
 
     @ApiOperation(value = "изменить статус заказа"
@@ -388,7 +388,7 @@ public class OrderRestController {
     @PatchMapping("/api/admin/processOrder/{id}")
     private void orderProcess(@PathVariable Long id) {
         orderService.processOrder(id);
-        producerKafkaService.sendMessage("Your order in process");
+        producerKafkaService.sendMessage(id.toString());
     }
 
     @ApiOperation(value = "удалить заказ"
@@ -399,7 +399,7 @@ public class OrderRestController {
     @PostMapping("/api/admin/deleteOrder/{id}")
     private void orderDelete(@PathVariable Long id) {
         orderService.deleteOrder(id);
-        producerKafkaService.sendMessage("Your order was deleted");
+        producerKafkaService.sendMessage(id.toString());
     }
 
     @ApiOperation(value = "получить заказы по идентификатору книги"
@@ -440,7 +440,9 @@ public class OrderRestController {
             , tags = "orderCancel")
     @PostMapping("/api/user/orderCancel/{id}")
     private String orderCancel(@PathVariable Long id) {
-        return orderService.cancelOrder(id);
+        String s = orderService.cancelOrder(id);
+        producerKafkaService.sendMessage(id.toString());
+        return s;
     }
 
     @ApiOperation(value = "изменить заказ"
@@ -464,6 +466,13 @@ public class OrderRestController {
         return new String(text);
     }
 
+    @ApiOperation(value = "Получить заказ по id",
+            notes = "Эндпоинт получает Order",
+            response = OrderDTO.class)
+    @GetMapping("/api/order/{id}")
+    public OrderDTO getOrderById(@ApiParam(value = "id") @PathVariable Long id) {
+        return orderService.getOrderById(id).getOrderDTO();
+      
     @ApiOperation(value = "Получить все заказы по номеру телефона",
             notes = "Эндпоинт получает phone типа String",
             response = Order.class,
@@ -471,5 +480,6 @@ public class OrderRestController {
     @GetMapping("/api/order/byPhone/{phone}")
     public List<Order> getOrderByUserPhoneInContacts(@ApiParam(value = "phone") @PathVariable String phone) {
         return orderService.getOrderByUserPhoneInContacts(phone);
+
     }
 }
