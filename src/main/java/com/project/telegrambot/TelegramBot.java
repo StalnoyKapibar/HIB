@@ -8,7 +8,9 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -61,12 +63,28 @@ public class TelegramBot extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
         boolean isAuthorized = false;
 
-//        if (update.getMessage().getChatId()) {
-//
-//        }
-//
+
 
         SendMessage sendMessage = new SendMessage();
+
+
+
+
+//        List<List<InlineKeyboardButton>> buttons = new ArrayList<>();
+//
+//        List<InlineKeyboardButton> buttons1 = new ArrayList<>();
+//        buttons1.add(new InlineKeyboardButton().setText("Авторизация").setCallbackData("/autorize"));
+//        buttons.add(buttons1);
+//
+//        InlineKeyboardMarkup markupKeyboard = new InlineKeyboardMarkup();
+//        markupKeyboard.setKeyboard(buttons);
+
+
+//        if (isAuthorized==false) {
+//            sendMessage.setText(buttons)
+//        }
+
+
 
 //        /**
 //         * Создание клавиатуры, для отображения в чате (кнопки)
