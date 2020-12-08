@@ -410,10 +410,13 @@ async function renderPageOrdersForUser(listOdersPage) {
     
                              <td><button type="button" class="btn btn-info show-btn mx-1" data-toggle="modal" data-target="#ordermodal"  onclick="showCarrentOrder(${index})">Show</button>`;
             if (order.status === "UNPROCESSED") {
-                html += `<button type="button" class="btn btn-danger close-order mx-1" onclick="orderCancel(${order.id})">Cancel</button></td></tr>`;
+                html += `<button type="button" class="btn btn-danger close-order mx-1" onclick="orderCancel(${order.id})">Cancel</button>`;
             } else {
-                html += `<button type="button" class="btn btn-danger close-order mx-1" onclick="orderCancel(${order.id})" disabled="disabled">Cancel</button></td></tr>`;
+                html += `<button type="button" class="btn btn-danger close-order mx-1" onclick="orderCancel(${order.id})" disabled="disabled">Cancel</button>`;
             }
+
+            html += `<button type="button" class="btn btn-success getInfoTelegram mx-1">Telegram</button></td></tr>`;
+
         });
         $('#listorders').html(html);
         });

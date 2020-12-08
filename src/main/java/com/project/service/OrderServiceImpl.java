@@ -119,6 +119,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public List<Order> getOrderByUserPhoneInContacts(String phone) {
+        return orderDAO.getOrderByUserPhoneInContacts(phone);
+    }
+
+    @Override
     public void completeOrder(Long id) {
         Order order = getOrderById(id);
         order.setStatus(Status.COMPLETED);

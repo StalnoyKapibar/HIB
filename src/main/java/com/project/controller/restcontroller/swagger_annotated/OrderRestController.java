@@ -472,5 +472,14 @@ public class OrderRestController {
     @GetMapping("/api/order/{id}")
     public OrderDTO getOrderById(@ApiParam(value = "id") @PathVariable Long id) {
         return orderService.getOrderById(id).getOrderDTO();
+      
+    @ApiOperation(value = "Получить все заказы по номеру телефона",
+            notes = "Эндпоинт получает phone типа String",
+            response = Order.class,
+            responseContainer = "List")
+    @GetMapping("/api/order/byPhone/{phone}")
+    public List<Order> getOrderByUserPhoneInContacts(@ApiParam(value = "phone") @PathVariable String phone) {
+        return orderService.getOrderByUserPhoneInContacts(phone);
+
     }
 }
