@@ -66,6 +66,10 @@ public class TelegramBot extends TelegramLongPollingBot {
         if (update.getMessage().getText().equals("/start")){
             sendMessage.setText("приветственное сообщение, предлагает зарегистрироваться");
         }
+        //для тестов
+        if (update.getMessage().getText().equals("/getMyInfo")) {
+            sendMessage.setText(update.toString());
+        }
         /*
         1) Проверка наличия chatId в БД
         2) Если есть, то показать статус всех заказов
