@@ -32,6 +32,7 @@ import java.util.Random;
 @AllArgsConstructor
 public class OrderRestController {
 
+    private ProducerKafkaService producerKafkaService;
     private ShoppingCartService cartService;
     private OrderService orderService;
     private UserAccountService userAccountService;
@@ -365,6 +366,7 @@ public class OrderRestController {
     @PatchMapping("/api/admin/completeOrder/{id}")
     private void orderComplete(@PathVariable Long id) {
         orderService.completeOrder(id);
+        producerKafkaService.sendMessage("your order complete");
     }
 
     @ApiOperation(value = "изменить статус заказа"
@@ -375,6 +377,7 @@ public class OrderRestController {
     @PatchMapping("/api/admin/unCompleteOrder/{id}")
     private void orderUnComplete(@PathVariable Long id) {
         orderService.unCompleteOrder(id);
+        producerKafkaService.sendMessage("your order un complete");
     }
 
     @ApiOperation(value = "изменить статус заказа"
@@ -385,6 +388,7 @@ public class OrderRestController {
     @PatchMapping("/api/admin/processOrder/{id}")
     private void orderProcess(@PathVariable Long id) {
         orderService.processOrder(id);
+        producerKafkaService.sendMessage("Your order in process");
     }
 
     @ApiOperation(value = "удалить заказ"
@@ -395,6 +399,7 @@ public class OrderRestController {
     @PostMapping("/api/admin/deleteOrder/{id}")
     private void orderDelete(@PathVariable Long id) {
         orderService.deleteOrder(id);
+        producerKafkaService.sendMessage("Your order was deleted");
     }
 
     @ApiOperation(value = "получить заказы по идентификатору книги"
@@ -464,7 +469,7 @@ public class OrderRestController {
             response = Order.class,
             responseContainer = "List")
     @GetMapping("/api/order/byPhone/{phone}")
-    public List<Order>getOrderByUserPhoneInContacts(@ApiParam(value = "phone") @PathVariable String phone) {
+    public List<Order> getOrderByUserPhoneInContacts(@ApiParam(value = "phone") @PathVariable String phone) {
         return orderService.getOrderByUserPhoneInContacts(phone);
     }
 }
