@@ -76,12 +76,16 @@ public class TelegramBot extends TelegramLongPollingBot {
         3) Если нет, то авторизоваться по номеру телефона, сохранить chatId в БД, показать все заказы
         4) Если по номеру телефона не найдено - предложить ввести логин/пароль с сайта
          */
-
+        boolean isAuthorized = false;
 
         /*
         1), 2)
          */
-        boolean isAuthorized = false;
+
+        List<Order>orderListForChatId = orderService.getOrderByChatIdInContacts(update.getMessage().getChatId());
+        if (orderListForChatId != null) {
+            isAuthorized = true;
+        }
         /*
         3)
          */
@@ -241,13 +245,15 @@ public class TelegramBot extends TelegramLongPollingBot {
         SendMessage sendMessage = new SendMessage();
         Order order = orderService.getOrderById(id);
         String chatId = order.getContacts().getChatId();
-        String text ="Статус вашего заказа " +order.getId()+"\n";
-        text+="Изменился на "+order.getStatus();
-        sendMessage.setChatId(chatId).setText(text);
-        try {
-            execute(sendMessage);
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
+        if (chatId != null) {
+            String text ="Статус вашего заказа " +order.getId()+"\n";
+            text+="Изменился на "+order.getStatus();
+            sendMessage.setChatId(chatId).setText(text);
+            try {
+                execute(sendMessage);
+            } catch (TelegramApiException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

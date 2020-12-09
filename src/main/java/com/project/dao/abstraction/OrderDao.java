@@ -13,6 +13,8 @@ public interface OrderDao extends GenericDao<Long, Order> {
 
     List<Order> getOrderByUserPhoneInContacts(String phone);
 
+    List<Order> getOrderByChatIdInContacts(Long chatId);
+
     List<Order> getOrdersByStatus(Status status);
 
     List<Order> getOrderByEmailByStatus(Status status, String email);

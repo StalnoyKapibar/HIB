@@ -124,6 +124,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public List<Order> getOrderByChatIdInContacts(Long chatId) {
+        return orderDAO.getOrderByChatIdInContacts(chatId);
+    }
+
+    @Override
     public void completeOrder(Long id) {
         Order order = getOrderById(id);
         order.setStatus(Status.COMPLETED);

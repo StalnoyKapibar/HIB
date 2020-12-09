@@ -27,6 +27,8 @@ public interface OrderService {
 
     List<Order> getOrderByUserPhoneInContacts(String phone);
 
+    List<Order> getOrderByChatIdInContacts(Long chatId);
+
     void completeOrder(Long id);
 
     List<Order> getOrderByEmailByStatus(Status status, String email);
