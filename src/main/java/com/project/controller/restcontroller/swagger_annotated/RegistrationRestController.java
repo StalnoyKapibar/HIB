@@ -97,9 +97,8 @@ public class RegistrationRestController {
             return new ResponseEntity<>(registrationDTO, HttpStatus.BAD_REQUEST);
         }
         registrationDTO.setErrorMessage(new FormLoginErrorMessageDTO(false, "success"));
+        registrationDTO.getUser().setPassword(null);
         return new ResponseEntity<>(registrationDTO, HttpStatus.CREATED);
-
-
     }
 
     @ApiOperation(value = "Регистрация в один клик"
