@@ -83,7 +83,7 @@ public class RegistrationRestController {
         }
         if (userAccountService.emailExist(user.getEmail())) {
             registrationDTO.setErrorMessage(messageService.getErrorMessageOnEmailUIndex());
-            return new ResponseEntity<>(registrationDTO, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         try {
