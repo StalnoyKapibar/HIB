@@ -20,8 +20,6 @@ public class RegistrationUserDTO {
     @Pattern(regexp = "^[a-zA-Z0-9]{5,}$", message = "Пароль может содержать числа, символы в верхнем и нижнем регистрах, без пробела")
     private String password;
 
-    private String confirmPassword;
-
     private String firstName;
 
     private String lastName;
