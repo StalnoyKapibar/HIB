@@ -116,7 +116,7 @@ public class OrderRestController {
         view.getModelMap().addAttribute("user", user);
         user = userService.converterContactsToRegistrationUser(contacts);
         user.setPassword(generateString(new Random(), SOURCES, 10));
-        user.setConfirmPassword(user.getPassword());
+//        user.setConfirmPassword(user.getPassword());
         user.setAutoReg(true);
 
         ShoppingCartDTO shoppingCart = (ShoppingCartDTO) request.getSession().getAttribute("shoppingcart");
@@ -127,11 +127,6 @@ public class OrderRestController {
         if (userAccountService.emailExist(user.getEmail())) {
             view.getModelMap().addAttribute("errorMessage",
                     messageService.getErrorMessageOnEmailUIndex());
-            return view;
-        }
-
-        if (!user.getPassword().equals(user.getConfirmPassword())) {
-            view.getModelMap().addAttribute("errorMessage", messageService.getErrorMessageOnPasswordsDoesNotMatch());
             return view;
         }
         try {

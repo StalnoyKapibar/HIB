@@ -81,13 +81,9 @@ public class RegistrationRestController {
             registrationDTO.setErrorMessage(messageService.getErrorMessage(result));
             return new ResponseEntity<>(registrationDTO, HttpStatus.BAD_REQUEST);
         }
-        if (!user.getPassword().equals(user.getConfirmPassword())) {
-            registrationDTO.setErrorMessage(messageService.getErrorMessageOnPasswordsDoesNotMatch());
-            return new ResponseEntity<>(registrationDTO, HttpStatus.BAD_REQUEST);
-        }
         if (userAccountService.emailExist(user.getEmail())) {
             registrationDTO.setErrorMessage(messageService.getErrorMessageOnEmailUIndex());
-            return new ResponseEntity<>(registrationDTO, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         try {
@@ -101,9 +97,8 @@ public class RegistrationRestController {
             return new ResponseEntity<>(registrationDTO, HttpStatus.BAD_REQUEST);
         }
         registrationDTO.setErrorMessage(new FormLoginErrorMessageDTO(false, "success"));
+        registrationDTO.getUser().setPassword(null);
         return new ResponseEntity<>(registrationDTO, HttpStatus.CREATED);
-
-
     }
 
     @ApiOperation(value = "Регистрация в один клик"
