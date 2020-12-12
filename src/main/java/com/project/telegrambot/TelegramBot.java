@@ -39,6 +39,7 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     /**
      * Метод возвращает имя бота, указанное при регистрации.
+     *
      * @return имя бота
      */
     @Override
@@ -48,6 +49,7 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     /**
      * Метод возвращает token бота для связи с сервером Telegram
+     *
      * @return token для бота
      */
     @Override
@@ -57,13 +59,14 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     /**
      * Метод для приема сообщений.
+     *
      * @param update Содержит сообщение от пользователя.
      */
     @Override
     public void onUpdateReceived(Update update) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(update.getMessage().getChatId());
-        if (update.getMessage().getText().equals("/start")){
+        if (update.getMessage().getText().equals("/start")) {
             sendMessage.setText("приветственное сообщение, предлагает зарегистрироваться");
         }
         //для тестов
@@ -73,7 +76,7 @@ public class TelegramBot extends TelegramLongPollingBot {
         /*
         1) Проверка наличия chatId в БД
         2) Если есть, то показать статус всех заказов
-        3) Если нет, то авторизоваться по номеру телефона, сохранить chatId в БД, показать все заказы
+        3) Если нет, то авторизоваться, сохранить chatId в БД, показать все заказы
          */
         boolean isAuthorized = false;
 
@@ -81,7 +84,7 @@ public class TelegramBot extends TelegramLongPollingBot {
         1), 2)
          */
 
-        List<Order>orderListForChatId = orderService.getOrderByChatIdInContacts(update.getMessage().getChatId());
+        List<Order> orderListForChatId = orderService.getOrderByChatIdInContacts(update.getMessage().getChatId());
         if (orderListForChatId != null) {
             isAuthorized = true;
         }
@@ -94,7 +97,7 @@ public class TelegramBot extends TelegramLongPollingBot {
         /**
          * Поиск в БД заказа, по введенному номеру телефона
          */
-        List<Order> orderList= orderService.getOrderByUserPhoneInContacts(update.getMessage().getText());
+        List<Order> orderList = orderService.getOrderByUserPhoneInContacts(update.getMessage().getText());
         /*
         Нужно добавить сохранение chatId в БД
          */
@@ -114,8 +117,8 @@ public class TelegramBot extends TelegramLongPollingBot {
                 }
                 sendMessage.setText(responseMessage);
             } else {
-                responseMessage+="не найдено заказов по указанному номеру: " + update.getMessage().getText()+"\n";
-                responseMessage+="предлагает ввеси логин пароль с сайта в одном сообщении через пробел";
+                responseMessage += "не найдено заказов по указанному номеру: " + update.getMessage().getText() + "\n";
+                responseMessage += "предлагает ввеси логин пароль с сайта в одном сообщении через пробел";
                 sendMessage.setText(responseMessage);
             }
         }
@@ -130,7 +133,6 @@ public class TelegramBot extends TelegramLongPollingBot {
         }
 
 
-
 //        InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
 //        List < List < InlineKeyboardButton >> rowsInline = new ArrayList < > ();
 //        List < InlineKeyboardButton > rowInline = new ArrayList < > ();
@@ -141,7 +143,6 @@ public class TelegramBot extends TelegramLongPollingBot {
 
 //        update.getUpdateId();
 //        String id = update.getMessage().getChatId().toString();
-
 
 
 //        if (update.getMessage().getText().equals("test")) {
@@ -232,7 +233,6 @@ public class TelegramBot extends TelegramLongPollingBot {
 //        replyKeyboardMarkup.setKeyboard(keyboard);
 
 
-
 //        update.getUpdateId();
 
     }
@@ -245,8 +245,8 @@ public class TelegramBot extends TelegramLongPollingBot {
         Order order = orderService.getOrderById(id);
         String chatId = order.getContacts().getChatId();
         if (chatId != null) {
-            String text ="Статус вашего заказа " +order.getId()+"\n";
-            text+="Изменился на "+order.getStatus();
+            String text = "Статус вашего заказа " + order.getId() + "\n";
+            text += "Изменился на " + order.getStatus();
             sendMessage.setChatId(chatId).setText(text);
             try {
                 execute(sendMessage);
