@@ -72,73 +72,68 @@ public class TelegramBot extends TelegramLongPollingBot {
      */
     @Override
     public void onUpdateReceived(Update update) {
-        boolean isAuthorized = false;
+        /**
+         * Проверка авторизованности
+         */
+        boolean isAuthorized = checkChatId(update.getMessage().getChatId());
+        List<Order> orderList = new ArrayList<>();
         SendMessage sendMessage = new SendMessage();
-        sendMessage.setChatId(update.getMessage().getChatId());
+
+
+        //для тестов
         if (update.getMessage().getText().equals("/start")) {
             sendMessage.setText("приветственное сообщение, предлагает зарегистрироваться");
         }
-
-        //для тестов
         if (update.getMessage().getText().equals("/getMyInfo")) {
             sendMessage.setText(update.toString());
         }
-        /*
-        1) Проверка наличия chatId в БД
-        2) Если есть, то показать статус всех заказов
-        3) Если нет, то авторизоваться, сохранить chatId в БД, показать все заказы
-         */
-
-
-        /*
-        1), 2)
-         */
-
-        List<Order> orderList = orderService.getOrderByChatIdInContacts(update.getMessage().getChatId());
-        if (orderList != null) {
-            isAuthorized = true;
-        }
-        /*
-        3)
-         */
         if (update.getMessage().getText().equals("/registration")) {
             sendMessage.setText("предлагает ввести номер телефона");
         }
+
 
         /**
          * Поиск в БД заказа, по введенному номеру телефона
          * Если найдены - сохранение chatId в БД к строкам с таким номером телефона
          */
         if (isAuthorized = false) {
-            orderList = orderService.getOrderByUserPhoneInContacts(update.getMessage().getText());
-            if (orderList != null) {
-                isAuthorized = true;
-                List<ContactsOfOrder> contactsOfOrderList = contactsOfOrderService.findByPhone(update.getMessage().getText());
-                for (ContactsOfOrder contactsOfOrder : contactsOfOrderList) {
-                    contactsOfOrder.setChatId(update.getMessage().getChatId().toString());
-                    contactsOfOrderService.update(contactsOfOrder);
-                }
-            }
+//            orderList = orderService.getOrderByUserPhoneInContacts(update.getMessage().getText());
+//            if (orderList != null) {
+//                isAuthorized = true;
+//                List<ContactsOfOrder> contactsOfOrderList = contactsOfOrderService.findByPhone(update.getMessage().getText());
+//                for (ContactsOfOrder contactsOfOrder : contactsOfOrderList) {
+//                    contactsOfOrder.setChatId(update.getMessage().getChatId().toString());
+//                    contactsOfOrderService.update(contactsOfOrder);
+//                }
+//            }
+            orderList = getAllOrdersByPhone(update.getMessage().getText());
+            isAuthorized = true;
+        } else {
+            orderList = orderService.getOrderByChatIdInContacts(update.getMessage().getChatId());
         }
 
 
         /**
-         * если пользователь авторизован - показать все заказы
+         * Если пользователь авторизован - показать все заказы
          */
-        String responseMessage = "";
+//        String responseMessage = "";
+//        if (isAuthorized) {
+//            responseMessage += "Колличество заказов: " + orderList.size() + "\n";
+//            for (Order order : orderList) {
+//                responseMessage += "id: " + order.getId() + "\n";
+//                responseMessage += "data: " + new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.US).format(order.getData()) + "\n";
+//                responseMessage += "address: " + order.getAddress() + "\n";
+//                responseMessage += "itemsCost: " + order.getItemsCost() + "\n";
+//                responseMessage += "trackingNumber: " + order.getTrackingNumber() + "\n";
+//                responseMessage += "status: " + order.getStatus() + "\n";
+//                responseMessage += "contacts: " + order.getContacts() + "\n";
+//                responseMessage += "comment: " + order.getComment() + "\n";
+//            }
+//            sendMessage.setText(responseMessage);
+//        }
         if (isAuthorized) {
-            responseMessage += "Колличество заказов: " + orderList.size() + "\n";
-            for (Order order : orderList) {
-                responseMessage += "id: " + order.getId() + "\n";
-                responseMessage += "data: " + new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.US).format(order.getData()) + "\n";
-                responseMessage += "address: " + order.getAddress() + "\n";
-                responseMessage += "itemsCost: " + order.getItemsCost() + "\n";
-                responseMessage += "trackingNumber: " + order.getTrackingNumber() + "\n";
-                responseMessage += "status: " + order.getStatus() + "\n";
-                responseMessage += "contacts: " + order.getContacts() + "\n";
-                responseMessage += "comment: " + order.getComment() + "\n";
-            }
-            sendMessage.setText(responseMessage);
+            sendMessage = createSendMessage(orderList);
+            sendMessage.setChatId(update.getMessage().getChatId());
         }
 
 
@@ -274,5 +269,63 @@ public class TelegramBot extends TelegramLongPollingBot {
                 e.printStackTrace();
             }
         }
+    }
+
+    /**
+     * Метод принимает ChatId и ищет в БД заказы с ним
+     *
+     * @param id
+     * @return
+     */
+    private boolean checkChatId(Long id) {
+        List<Order> orderList = orderService.getOrderByChatIdInContacts(id);
+        if (orderList != null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * метод принимает номер телефона введенный  пользователем и возвращает список заказов,
+     * если список найден - сохраняется chatId в БД
+     *
+     * @param phone
+     * @return
+     */
+    private List<Order> getAllOrdersByPhone(String phone) {
+        List<Order> orderList = orderService.getOrderByUserPhoneInContacts(phone);
+        if (orderList != null) {
+            List<ContactsOfOrder> contactsOfOrderList = contactsOfOrderService.findByPhone(phone);
+            for (ContactsOfOrder contactsOfOrder : contactsOfOrderList) {
+                contactsOfOrder.setChatId(phone);
+                contactsOfOrderService.update(contactsOfOrder);
+            }
+        }
+        return orderList;
+    }
+
+    /**
+     * Метод принимает лист заказов и возвращает отформатированное сообщение
+     *
+     * @param list
+     * @return
+     */
+    private SendMessage createSendMessage(List<Order> list) {
+        SendMessage sendMessage = new SendMessage();
+        String responseMessage = "";
+        responseMessage += "Колличество заказов: " + list.size() + "\n";
+        for (Order order : list) {
+            responseMessage += "id: " + order.getId() + "\n";
+            responseMessage += "data: " + new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.US).format(order.getData()) + "\n";
+            responseMessage += "address: " + order.getAddress() + "\n";
+            responseMessage += "itemsCost: " + order.getItemsCost() + "\n";
+            responseMessage += "trackingNumber: " + order.getTrackingNumber() + "\n";
+            responseMessage += "status: " + order.getStatus() + "\n";
+            responseMessage += "contacts: " + order.getContacts() + "\n";
+            responseMessage += "comment: " + order.getComment() + "\n";
+        }
+        sendMessage.setText(responseMessage);
+        return sendMessage;
     }
 }
