@@ -75,21 +75,13 @@ public class TelegramBot extends TelegramLongPollingBot {
         /**
          * Проверка авторизованности
          */
-        boolean isAuthorized = checkChatId(update.getMessage().getChatId());
+        boolean isAuthorized = checkChatId(update.getMessage().getChatId().toString());
         List<Order> orderList = new ArrayList<>();
         SendMessage sendMessage = new SendMessage();
+        sendMessage.setChatId(update.getMessage().getChatId());
 
 
-        //для тестов
-        if (update.getMessage().getText().equals("/start")) {
-            sendMessage.setText("приветственное сообщение, предлагает зарегистрироваться");
-        }
-        if (update.getMessage().getText().equals("/getMyInfo")) {
-            sendMessage.setText(update.toString());
-        }
-        if (update.getMessage().getText().equals("/registration")) {
-            sendMessage.setText("предлагает ввести номер телефона");
-        }
+
 
 
         /**
@@ -97,43 +89,41 @@ public class TelegramBot extends TelegramLongPollingBot {
          * Если найдены - сохранение chatId в БД к строкам с таким номером телефона
          */
         if (isAuthorized = false) {
-//            orderList = orderService.getOrderByUserPhoneInContacts(update.getMessage().getText());
-//            if (orderList != null) {
-//                isAuthorized = true;
-//                List<ContactsOfOrder> contactsOfOrderList = contactsOfOrderService.findByPhone(update.getMessage().getText());
-//                for (ContactsOfOrder contactsOfOrder : contactsOfOrderList) {
-//                    contactsOfOrder.setChatId(update.getMessage().getChatId().toString());
-//                    contactsOfOrderService.update(contactsOfOrder);
-//                }
-//            }
             orderList = getAllOrdersByPhone(update.getMessage().getText());
-            isAuthorized = true;
         } else {
-            orderList = orderService.getOrderByChatIdInContacts(update.getMessage().getChatId());
+            orderList = orderService.getOrderByChatIdInContacts(update.getMessage().getChatId().toString());
+        }
+
+        /**
+         * Если один из способов вернул лист,
+         * то флаг авторизации меняется
+         */
+        if (orderList!=null) {
+            isAuthorized = true;
         }
 
 
         /**
          * Если пользователь авторизован - показать все заказы
          */
-//        String responseMessage = "";
-//        if (isAuthorized) {
-//            responseMessage += "Колличество заказов: " + orderList.size() + "\n";
-//            for (Order order : orderList) {
-//                responseMessage += "id: " + order.getId() + "\n";
-//                responseMessage += "data: " + new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.US).format(order.getData()) + "\n";
-//                responseMessage += "address: " + order.getAddress() + "\n";
-//                responseMessage += "itemsCost: " + order.getItemsCost() + "\n";
-//                responseMessage += "trackingNumber: " + order.getTrackingNumber() + "\n";
-//                responseMessage += "status: " + order.getStatus() + "\n";
-//                responseMessage += "contacts: " + order.getContacts() + "\n";
-//                responseMessage += "comment: " + order.getComment() + "\n";
-//            }
-//            sendMessage.setText(responseMessage);
-//        }
         if (isAuthorized) {
             sendMessage = createSendMessage(orderList);
             sendMessage.setChatId(update.getMessage().getChatId());
+        }
+
+        /*
+           Для тестов
+         */
+        if (update.getMessage().getText().equals("/test")) {
+            sendMessage.setText("ваш чат ID в базе " + isAuthorized);
+        } else if (update.getMessage().getText().equals("/start")) {
+            sendMessage.setText("приветственное сообщение, предлагает зарегистрироваться");
+        } else if (update.getMessage().getText().equals("/getMyInfo")) {
+            sendMessage.setText(update.toString());
+        } else if (update.getMessage().getText().equals("/registration")) {
+            sendMessage.setText("предлагает ввести номер телефона");
+        } else {
+            sendMessage.setText("ни одна из команд - не введена");
         }
 
 
@@ -145,110 +135,6 @@ public class TelegramBot extends TelegramLongPollingBot {
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
-
-
-//        InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
-//        List < List < InlineKeyboardButton >> rowsInline = new ArrayList < > ();
-//        List < InlineKeyboardButton > rowInline = new ArrayList < > ();
-//        rowInline.add(new InlineKeyboardButton().setText("Open Browser").setCallbackData("1"));
-//        rowsInline.add(rowInline);
-//        markupInline.setKeyboard(rowsInline);
-//        sendMessage.setReplyMarkup(markupInline);
-
-//        update.getUpdateId();
-//        String id = update.getMessage().getChatId().toString();
-
-
-//        if (update.getMessage().getText().equals("test")) {
-//            InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
-//            List < List < InlineKeyboardButton >> rowsInline = new ArrayList < > ();
-//            List < InlineKeyboardButton > rowInline = new ArrayList < > ();
-//            rowInline.add(new InlineKeyboardButton().setText("Open Browser").setUrl("1"));
-//            rowsInline.add(rowInline);
-//            markupInline.setKeyboard(rowsInline);
-//            sendMessage.setReplyMarkup(markupInline);
-//        }
-
-        /*
-        Если пользователь не авторизован
-         */
-//        if (!isAuthorized) {
-//            /*
-//            Объект разметки клавиатуры
-//             */
-//            InlineKeyboardMarkup inlineKeyboardMarkup =new InlineKeyboardMarkup();
-//            /*
-//            Объект кнопки
-//             */
-//            InlineKeyboardButton inlineKeyboardButton = new InlineKeyboardButton();
-//            inlineKeyboardButton.setText("Авторизация");
-//            inlineKeyboardButton.setCallbackData("Введите свой номер телефона");
-//            /*
-//            Добавление кнопки в ряд
-//             */
-//            List<InlineKeyboardButton> keyboardButtonsRow1 = new ArrayList<>();
-//            keyboardButtonsRow1.add(inlineKeyboardButton);
-//            /*
-//            Добавление ряда в список рядов
-//             */
-//            List<List<InlineKeyboardButton>> rowList= new ArrayList<>();
-//            rowList.add(keyboardButtonsRow1);
-//            /*
-//            добавление списка рядов в разметку клавиатуры
-//             */
-//            inlineKeyboardMarkup.setKeyboard(rowList);
-//            /*
-//            Добавление разметки клавиатуры к сообщению
-//             */
-//            sendMessage.setReplyMarkup(inlineKeyboardMarkup);
-//        }
-        /*
-
-         */
-
-//        if (isAuthorized==false) {
-//            sendMessage.setText(buttons)
-//        }
-//
-//
-//
-//        if (update.getMessage().getText().equals("/autorize")) {
-//            sendMessage.setText("auth");
-//        } else {
-//            sendMessage.setText(update.getMessage().getText());
-//        }
-//
-//
-//
-//        /**
-//         * Создание клавиатуры, для отображения в чате (кнопки)
-//         */
-//        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
-//        sendMessage.setReplyMarkup(replyKeyboardMarkup);
-//        replyKeyboardMarkup.setSelective(true);
-//        replyKeyboardMarkup.setResizeKeyboard(true);
-//        replyKeyboardMarkup.setOneTimeKeyboard(false);
-//
-//        /**
-//         * Список строк для клавиатуры,
-//         * Создание строк клавиатуры,
-//         * Добавление в них кнопок
-//         * Добавление строк в список
-//         * Установить список строк клавиатуре
-//         */
-//        List<KeyboardRow> keyboard = new ArrayList<>();
-//        KeyboardRow keyboardRow1 = new KeyboardRow();
-//        KeyboardRow keyboardRow2 = new KeyboardRow();
-//        keyboardRow1.add(new KeyboardButton("Кнопка 1 строка 1"));
-//        keyboardRow1.add(new KeyboardButton("Кнопка 2 строка 1"));
-//        keyboardRow2.add(new KeyboardButton("Кнопка 1 строка 2"));
-//        keyboard.add(keyboardRow1);
-//        keyboard.add(keyboardRow2);
-//        replyKeyboardMarkup.setKeyboard(keyboard);
-
-
-//        update.getUpdateId();
-
     }
 
     /**
@@ -277,13 +163,8 @@ public class TelegramBot extends TelegramLongPollingBot {
      * @param id
      * @return
      */
-    private boolean checkChatId(Long id) {
-        List<Order> orderList = orderService.getOrderByChatIdInContacts(id);
-        if (orderList != null) {
-            return true;
-        } else {
-            return false;
-        }
+    private boolean checkChatId(String id) {
+        return orderService.checkChatIdInContacts(id);
     }
 
     /**

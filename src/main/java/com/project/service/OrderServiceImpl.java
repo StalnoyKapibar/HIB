@@ -124,7 +124,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> getOrderByChatIdInContacts(Long chatId) {
+    public List<Order> getOrderByChatIdInContacts(String chatId) {
         return orderDAO.getOrderByChatIdInContacts(chatId);
     }
 
@@ -267,5 +267,10 @@ public class OrderServiceImpl implements OrderService {
         orderPageAdminDTO.setTotalPages(pages);
         orderPageAdminDTO.setListOrderDTO(ordersToSend);
         return orderPageAdminDTO;
+    }
+
+    @Override
+    public boolean checkChatIdInContacts(String id) {
+        return orderDAO.checkChatIdInContacts(id);
     }
 }

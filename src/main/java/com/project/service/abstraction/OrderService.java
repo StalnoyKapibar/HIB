@@ -27,7 +27,7 @@ public interface OrderService {
 
     List<Order> getOrderByUserPhoneInContacts(String phone);
 
-    List<Order> getOrderByChatIdInContacts(Long chatId);
+    List<Order> getOrderByChatIdInContacts(String chatId);
 
     void completeOrder(Long id);
 
@@ -56,4 +56,6 @@ public interface OrderService {
     List<Order> findAllUncompletedOrdersByBookId(Long bookId);
 
     OrderPageAdminDTO getOrdersNewMessages(int page, int size, Status status);
+
+    boolean checkChatIdInContacts(String id);
 }

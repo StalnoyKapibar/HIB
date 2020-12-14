@@ -1,10 +1,7 @@
 package com.project.dao;
 
 import com.project.dao.abstraction.OrderDao;
-import com.project.model.Order;
-import com.project.model.OrderDTO;
-import com.project.model.OrderPageAdminDTO;
-import com.project.model.Status;
+import com.project.model.*;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.domain.Pageable;
@@ -21,7 +18,7 @@ public class OrderDaoImpl extends AbstractDao<Long, Order> implements OrderDao {
 
     @Override
     public List<Order> getOrdersByUserId(Long id) {
-        System.out.println("*************************"+id);
+        System.out.println("*************************" + id);
         return entityManager.createQuery("SELECT b FROM orders b where useraccount_id=:id", Order.class).setParameter("id", id).getResultList();
     }
 
@@ -30,10 +27,10 @@ public class OrderDaoImpl extends AbstractDao<Long, Order> implements OrderDao {
         String id;
         try {
             id = entityManager.createQuery("SELECT id FROM contacts WHERE phone=:phone", Long.class).setParameter("phone", phone).getResultList().get(0).toString();
-        }catch (IndexOutOfBoundsException e){
+        } catch (IndexOutOfBoundsException e) {
             id = null;
         }
-        if (id!=null) {
+        if (id != null) {
             List<Order> listOrder = entityManager.createQuery("SELECT b FROM orders b where contacts_id=:id", Order.class).setParameter("id", Integer.parseInt(id)).getResultList();
             return listOrder;
         } else {
@@ -42,19 +39,42 @@ public class OrderDaoImpl extends AbstractDao<Long, Order> implements OrderDao {
     }
 
     @Override
-    public List<Order> getOrderByChatIdInContacts(Long chatId) {
+    public List<Order> getOrderByChatIdInContacts(String chatId) {
         String id;
         try {
             id = entityManager.createQuery("SELECT id FROM contacts WHERE chat_id=:chatId", Long.class).setParameter("chatId", chatId).getResultList().get(0).toString();
-        }catch (IndexOutOfBoundsException e){
+        } catch (IndexOutOfBoundsException e) {
             id = null;
         }
-        if (id!=null) {
+        if (id != null) {
             List<Order> listOrder = entityManager.createQuery("SELECT b FROM orders b where contacts_id=:id", Order.class).setParameter("id", Integer.parseInt(id)).getResultList();
             return listOrder;
         } else {
             return null;
         }
+    }
+
+    public boolean checkChatIdInContacts(String id) {
+        List<ContactsOfOrder> list = null;
+        try {
+            list = entityManager.createQuery("FROM contacts", ContactsOfOrder.class).getResultList();
+        } catch (Exception e) {
+
+        }
+
+        if (list != null) {
+            for (int i = 0; i<list.size(); i++) {
+                String chatId = list.get(i).getChatId();
+                if (chatId!=null) {
+                    if (chatId.equals(id)) {
+                        return true;
+                    }
+                }
+            }
+        } else {
+            return false;
+        }
+        return false;
     }
 
 
@@ -62,7 +82,7 @@ public class OrderDaoImpl extends AbstractDao<Long, Order> implements OrderDao {
     public List<Order> getOrdersByStatus(Status status) {
         if (status == null) {
             return entityManager.createQuery("SELECT o FROM  orders o", Order.class).getResultList();
-        } else  {
+        } else {
             return entityManager.createQuery("SELECT b FROM orders b where b.status=:status", Order.class).setParameter("status", status).getResultList();
         }
     }

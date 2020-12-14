@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class ContactsOdOrderDaoImpl extends AbstractDao <Long, ContactsOfOrder> {
+public class ContactsOdOrderDaoImpl extends AbstractDao<Long, ContactsOfOrder> {
 
     public ContactsOdOrderDaoImpl() {
         super(ContactsOfOrder.class);
@@ -14,6 +14,12 @@ public class ContactsOdOrderDaoImpl extends AbstractDao <Long, ContactsOfOrder> 
 
 
     public List<ContactsOfOrder> findByPhone(String phone) {
-        return entityManager.createQuery("SELECT b FROM contacts b where phone=:phone", ContactsOfOrder.class).setParameter("phone" , phone).getResultList();
+        List<ContactsOfOrder> contactsOfOrderList;
+        try {
+            contactsOfOrderList = entityManager.createQuery("SELECT b FROM contacts b where phone=:phone", ContactsOfOrder.class).setParameter("phone", phone).getResultList();
+        } catch (Exception e) {
+            contactsOfOrderList = null;
+        }
+        return contactsOfOrderList;
     }
 }

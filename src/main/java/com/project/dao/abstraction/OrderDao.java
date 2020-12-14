@@ -13,7 +13,7 @@ public interface OrderDao extends GenericDao<Long, Order> {
 
     List<Order> getOrderByUserPhoneInContacts(String phone);
 
-    List<Order> getOrderByChatIdInContacts(Long chatId);
+    List<Order> getOrderByChatIdInContacts(String chatId);
 
     List<Order> getOrdersByStatus(Status status);
 
@@ -30,4 +30,6 @@ public interface OrderDao extends GenericDao<Long, Order> {
     List<Order> findOrderByBookId(Long bookId);
 
     List<Order> findAllUncompletedOrdersByBookId(Long bookId);
+
+    boolean checkChatIdInContacts(String id);
 }
