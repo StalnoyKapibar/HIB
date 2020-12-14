@@ -1,7 +1,9 @@
 package com.project.telegrambot;
 
+import com.project.model.ContactsOfOrder;
 import com.project.model.Order;
 import com.project.service.OrderServiceImpl;
+import com.project.service.abstraction.ContactsOfOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -31,6 +33,12 @@ public class TelegramBot extends TelegramLongPollingBot {
     private String token;
 
     private OrderServiceImpl orderService;
+    private ContactsOfOrderService contactsOfOrderService;
+
+    @Autowired
+    public void setContactsOfOrderService(ContactsOfOrderService contactsOfOrderService) {
+        this.contactsOfOrderService = contactsOfOrderService;
+    }
 
     @Autowired
     public void setOrderService(OrderServiceImpl orderService) {
@@ -64,11 +72,13 @@ public class TelegramBot extends TelegramLongPollingBot {
      */
     @Override
     public void onUpdateReceived(Update update) {
+        boolean isAuthorized = false;
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(update.getMessage().getChatId());
         if (update.getMessage().getText().equals("/start")) {
             sendMessage.setText("приветственное сообщение, предлагает зарегистрироваться");
         }
+
         //для тестов
         if (update.getMessage().getText().equals("/getMyInfo")) {
             sendMessage.setText(update.toString());
@@ -78,7 +88,7 @@ public class TelegramBot extends TelegramLongPollingBot {
         2) Если есть, то показать статус всех заказов
         3) Если нет, то авторизоваться, сохранить chatId в БД, показать все заказы
          */
-        boolean isAuthorized = false;
+
 
         /*
         1), 2)
@@ -91,40 +101,47 @@ public class TelegramBot extends TelegramLongPollingBot {
         /*
         3)
          */
-        if (update.getMessage().getText().equals("registration")) {
+        if (update.getMessage().getText().equals("/registration")) {
             sendMessage.setText("предлагает ввести номер телефона");
-        }
-        /**
-         * Поиск в БД заказа, по введенному номеру телефона
-         */
-        List<Order> orderList = orderService.getOrderByUserPhoneInContacts(update.getMessage().getText());
-        /*
-        Нужно добавить сохранение chatId в БД
-         */
-        String responseMessage = "";
-        if (isAuthorized) {
-            if (orderList != null) {
-                responseMessage += "Колличество заказов: " + orderList.size() + "\n";
-                for (Order order : orderList) {
-                    responseMessage += "id: " + order.getId() + "\n";
-                    responseMessage += "data: " + new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.US).format(order.getData()) + "\n";
-                    responseMessage += "address: " + order.getAddress() + "\n";
-                    responseMessage += "itemsCost: " + order.getItemsCost() + "\n";
-                    responseMessage += "trackingNumber: " + order.getTrackingNumber() + "\n";
-                    responseMessage += "status: " + order.getStatus() + "\n";
-                    responseMessage += "contacts: " + order.getContacts() + "\n";
-                    responseMessage += "comment: " + order.getComment() + "\n";
-                }
-                sendMessage.setText(responseMessage);
-            } else {
-                responseMessage += "не найдено заказов по указанному номеру: " + update.getMessage().getText() + "\n";
-                responseMessage += "предлагает ввеси логин пароль с сайта в одном сообщении через пробел";
-                sendMessage.setText(responseMessage);
-            }
         }
 
         /**
-         Отправка сообщения
+         * Поиск в БД заказа, по введенному номеру телефона
+         * Если найдены - сохранение chatId в БД к строкам с таким номером телефона
+         */
+        List<Order> orderListForPhone = orderService.getOrderByUserPhoneInContacts(update.getMessage().getText());
+        if (orderListForPhone != null) {
+            isAuthorized = true;
+            List<ContactsOfOrder> contactsOfOrderList = contactsOfOrderService.findByPhone(update.getMessage().getText());
+            for (ContactsOfOrder contactsOfOrder : contactsOfOrderList) {
+                contactsOfOrder.setChatId(update.getMessage().getChatId().toString());
+                contactsOfOrderService.update(contactsOfOrder);
+            }
+        }
+
+
+        /**
+         * если пользователь авторизован - показать все номера телеонов
+         */
+        String responseMessage = "";
+        if (isAuthorized) {
+            responseMessage += "Колличество заказов: " + orderListForPhone.size() + "\n";
+            for (Order order : orderListForPhone) {
+                responseMessage += "id: " + order.getId() + "\n";
+                responseMessage += "data: " + new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.US).format(order.getData()) + "\n";
+                responseMessage += "address: " + order.getAddress() + "\n";
+                responseMessage += "itemsCost: " + order.getItemsCost() + "\n";
+                responseMessage += "trackingNumber: " + order.getTrackingNumber() + "\n";
+                responseMessage += "status: " + order.getStatus() + "\n";
+                responseMessage += "contacts: " + order.getContacts() + "\n";
+                responseMessage += "comment: " + order.getComment() + "\n";
+            }
+            sendMessage.setText(responseMessage);
+        }
+
+
+        /**
+         * Отправка сообщения
          */
         try {
             execute(sendMessage);
@@ -237,10 +254,11 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     }
 
+    /**
+     * Принимается заказ (его id) и по chatId отправляется сообщение об изменении статуса заказа
+     */
     public void sendMessageFromKafka(Long id) {
-        /*
-        Принимается заказ и по chatId отправляется сообщение об изменении статуса заказа
-         */
+
         SendMessage sendMessage = new SendMessage();
         Order order = orderService.getOrderById(id);
         String chatId = order.getContacts().getChatId();
