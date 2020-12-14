@@ -94,8 +94,8 @@ public class TelegramBot extends TelegramLongPollingBot {
         1), 2)
          */
 
-        List<Order> orderListForChatId = orderService.getOrderByChatIdInContacts(update.getMessage().getChatId());
-        if (orderListForChatId != null) {
+        List<Order> orderList = orderService.getOrderByChatIdInContacts(update.getMessage().getChatId());
+        if (orderList != null) {
             isAuthorized = true;
         }
         /*
@@ -109,24 +109,26 @@ public class TelegramBot extends TelegramLongPollingBot {
          * Поиск в БД заказа, по введенному номеру телефона
          * Если найдены - сохранение chatId в БД к строкам с таким номером телефона
          */
-        List<Order> orderListForPhone = orderService.getOrderByUserPhoneInContacts(update.getMessage().getText());
-        if (orderListForPhone != null) {
-            isAuthorized = true;
-            List<ContactsOfOrder> contactsOfOrderList = contactsOfOrderService.findByPhone(update.getMessage().getText());
-            for (ContactsOfOrder contactsOfOrder : contactsOfOrderList) {
-                contactsOfOrder.setChatId(update.getMessage().getChatId().toString());
-                contactsOfOrderService.update(contactsOfOrder);
+        if (isAuthorized = false) {
+            orderList = orderService.getOrderByUserPhoneInContacts(update.getMessage().getText());
+            if (orderList != null) {
+                isAuthorized = true;
+                List<ContactsOfOrder> contactsOfOrderList = contactsOfOrderService.findByPhone(update.getMessage().getText());
+                for (ContactsOfOrder contactsOfOrder : contactsOfOrderList) {
+                    contactsOfOrder.setChatId(update.getMessage().getChatId().toString());
+                    contactsOfOrderService.update(contactsOfOrder);
+                }
             }
         }
 
 
         /**
-         * если пользователь авторизован - показать все номера телеонов
+         * если пользователь авторизован - показать все заказы
          */
         String responseMessage = "";
         if (isAuthorized) {
-            responseMessage += "Колличество заказов: " + orderListForPhone.size() + "\n";
-            for (Order order : orderListForPhone) {
+            responseMessage += "Колличество заказов: " + orderList.size() + "\n";
+            for (Order order : orderList) {
                 responseMessage += "id: " + order.getId() + "\n";
                 responseMessage += "data: " + new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.US).format(order.getData()) + "\n";
                 responseMessage += "address: " + order.getAddress() + "\n";
